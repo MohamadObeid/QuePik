@@ -59,7 +59,7 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
             setData({ VALUE, params: { value }, id })
 
             // remove value from data
-            if (value === '') return remove({ VALUE, STATE, id })
+            //if (value === '') return remove({ VALUE, STATE, id })
         }
 
         // resize

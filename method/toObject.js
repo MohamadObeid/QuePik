@@ -3,7 +3,7 @@ const { toArray } = require("./toArray")
 const { merge } = require("./merge")
 const { clone } = require("./clone")
 const { derive } = require("./derive")
-const _asset = require("../assets/_asset")
+const _asset = require("../asset/_asset")
 //import Assets from '../Assets/Assets'
 
 const toObject = ({ VALUE, STATE, string, e, id }) => {
@@ -180,9 +180,9 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                 } else if (path[0] === 'const') {
                     value = value.split('const.')[1]
 
-                } else if (path[0] === 'assets') {
+                } else if (path[0] === 'asset') {
 
-                    value = value.split('assets.')[1]
+                    value = value.split('asset.')[1]
                     var file = value.split('.')[0]
                     value = value.split(`${file}.`)[1]
                     var path = value.split('.')

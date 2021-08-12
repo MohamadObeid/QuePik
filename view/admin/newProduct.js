@@ -107,15 +107,18 @@ const newProduct = {
                             marginTop: '1rem'
                         }
                     }, {
-                        type: 'Input?featured;path=supplier;data=[]',
-                        style: {
-                            height: '4rem',
-                            borderRadius: '0.25rem',
-                            border: '0',
-                            padding: '0.5rem',
-                            width: '100%',
-                            marginBottom: '1rem'
-                        }
+                        type: 'View',
+                        children: [{
+                            type: 'Input?featured;path=supplier;data=[]',
+                            style: {
+                                height: '4rem',
+                                borderRadius: '0.25rem',
+                                border: '0',
+                                padding: '0.5rem',
+                                width: '100%',
+                                marginBottom: '1rem'
+                            }
+                        }]
                     }, {
                         type: 'Label?text=UPC;class=flex-box',
                         style: {

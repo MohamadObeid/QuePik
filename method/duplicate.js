@@ -1,13 +1,17 @@
 const { clearValues } = require('./clearValues')
 const { clone } = require('./clone')
 const { toArray } = require('./toArray')
-const { update } = require('./update')
 const { derive } = require('./derive')
 const { isEqual } = require('./isEqual')
 const { removeDuplicates } = require('./removeDuplicates')
+const { update } = require('./update')
 
 const duplicate = ({ VALUE, STATE, params, id }) => {
+
+    const { createElement } = require('./createElement')
+
     var local = VALUE[id]
+    if (!local) return
 
     if (!params) params = {}
     if (local.DATA) {
@@ -50,7 +54,7 @@ const duplicate = ({ VALUE, STATE, params, id }) => {
 
     }
 
-    update({ VALUE, STATE, params: { parent: true }, id })
+    update({ VALUE, STATE, id: local.parent })
 }
 
 const duplicates = ({ VALUE, params, id }) => {

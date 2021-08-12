@@ -36,10 +36,10 @@ const setData = ({ VALUE, STATE, params = {}, id }) => {
     setContent({ VALUE, params: { value }, id })
 
     var keys = [...derivations, ...path]
-
+console.log(keys);
     keys.reduce((o, k, i) => {
         if (!o) return o
-
+        console.log(o[k], o, k, i);
         if (i === keys.length - 1) {
 
             if (Array.isArray(o[k]) && typeof value !== 'object') {
@@ -58,11 +58,11 @@ const setData = ({ VALUE, STATE, params = {}, id }) => {
             if (!o[k]) return o[k] = {}
 
             if (i === keys.length - 2 && !value) {
-                if (Array.isArray(o[k]) && o[k].length === 1) {
+                /*if (Array.isArray(o[k]) && o[k].length === 1) {
                     delete o[k]
                     local.derivations.pop()
-                    update({ VALUE, STATE, params: { parent: true }, id })
-                }
+                    update({ VALUE, STATE, id: local.parent })
+                }*/
             }
         }
 
@@ -70,8 +70,8 @@ const setData = ({ VALUE, STATE, params = {}, id }) => {
     }, local.DATA)
 }
 
-const clearData = ({ VALUE, id }) => {
-    setData({ VALUE, id })
+const clearData = ({ VALUE, STATE, id }) => {
+    setData({ VALUE, STATE, id })
 }
 
 const removeData = ({ VALUE, id, params = {} }) => {

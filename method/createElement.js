@@ -9,14 +9,14 @@ const { createTags } = require("./createTags")
 
 const _view = require("../view/_view")
 
-const createElement = ({STATE, VALUE, id}) => {
+const createElement = ({STATE, VALUE, id, params = {}}) => {
     
-    var tags = '', innerHTML = '', parent = VALUE[id]
+    var tags = '', innerHTML = '', parent = VALUE[id], children = params.children || parent.children
 
     // childrenSiblings
-    parent.childrenSiblings = []
+    parent.childrenSiblings = params.siblings || []
 
-    parent.children && toArray(parent.children).map(child => {
+    children && toArray(children).map(child => {
         var value = clone(child)
         
         // view value
@@ -93,9 +93,9 @@ const createElement = ({STATE, VALUE, id}) => {
                 keys.push(index, ...path)
                 
                 // data
-                var [data, keys] = derive(value.DATA, keys, false, value.data, true)
+                var [data, derivations] = derive(value.DATA, keys, false, value.data, true)
 
-                return createTags({ VALUE, STATE, value, data, derivations: keys })
+                return createTags({ VALUE, STATE, value, data, derivations })
 
             }).join('')
 

@@ -1526,6 +1526,8 @@ const Input = (component) => {
                     outline: 'none',
                 },
                 controls: [...controls, {
+                    actions: 'resizeInput'
+                }, {
                     event: `keyup??value.data;e.key=Enter;${component.duplicatable};${component.removable}`,
                     actions: `duplicate>>${id}`
                 }, {
@@ -1551,7 +1553,7 @@ const Input = (component) => {
                     padding: '0 0.5rem',
                 },
                 children: [{
-                    type: `Text?path=currency;id=${id}-currency;dropList.items=[assets.currency.symbol]?const.${component.currency}`,
+                    type: `Text?path=currency;id=${id}-currency;dropList.items=[asset.currency.symbol]?const.${component.currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1560,7 +1562,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data=${component.currency}?!value.data`
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;dropList.items=[assets.unit.symbol]?const.${component.unit}`,
+                    type: `Text?path=unit;id=${id}-unit;dropList.items=[asset.unit.symbol]?const.${component.unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1569,7 +1571,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data=${component.unit}?!value.data`
                 }, {
-                    type: `Text?path=lang;id=${id}-language;dropList.items=[assets.language.code]?const.${component.lang}`,
+                    type: `Text?path=lang;id=${id}-language;dropList.items=[asset.language.code]?const.${component.lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -2253,14 +2255,14 @@ const { createTags } = require("./createTags")
 
 const _view = require("../view/_view")
 
-const createElement = ({STATE, VALUE, id}) => {
+const createElement = ({STATE, VALUE, id, params = {}}) => {
     
-    var tags = '', innerHTML = '', parent = VALUE[id]
+    var tags = '', innerHTML = '', parent = VALUE[id], children = params.children || parent.children
 
     // childrenSiblings
-    parent.childrenSiblings = []
+    parent.childrenSiblings = params.siblings || []
 
-    parent.children && toArray(parent.children).map(child => {
+    children && toArray(children).map(child => {
         var value = clone(child)
         
         // view value
@@ -2337,9 +2339,9 @@ const createElement = ({STATE, VALUE, id}) => {
                 keys.push(index, ...path)
                 
                 // data
-                var [data, keys] = derive(value.DATA, keys, false, value.data, true)
+                var [data, derivations] = derive(value.DATA, keys, false, value.data, true)
 
-                return createTags({ VALUE, STATE, value, data, derivations: keys })
+                return createTags({ VALUE, STATE, value, data, derivations })
 
             }).join('')
 
@@ -2606,10 +2608,10 @@ const setData = ({ VALUE, STATE, params = {}, id }) => {
     setContent({ VALUE, params: { value }, id })
 
     var keys = [...derivations, ...path]
-
+console.log(keys);
     keys.reduce((o, k, i) => {
         if (!o) return o
-
+        console.log(o[k], o, k, i);
         if (i === keys.length - 1) {
 
             if (Array.isArray(o[k]) && typeof value !== 'object') {
@@ -2628,11 +2630,11 @@ const setData = ({ VALUE, STATE, params = {}, id }) => {
             if (!o[k]) return o[k] = {}
 
             if (i === keys.length - 2 && !value) {
-                if (Array.isArray(o[k]) && o[k].length === 1) {
+                /*if (Array.isArray(o[k]) && o[k].length === 1) {
                     delete o[k]
                     local.derivations.pop()
-                    update({ VALUE, STATE, params: { parent: true }, id })
-                }
+                    update({ VALUE, STATE, id: local.parent })
+                }*/
             }
         }
 
@@ -2640,8 +2642,8 @@ const setData = ({ VALUE, STATE, params = {}, id }) => {
     }, local.DATA)
 }
 
-const clearData = ({ VALUE, id }) => {
-    setData({ VALUE, id })
+const clearData = ({ VALUE, STATE, id }) => {
+    setData({ VALUE, STATE, id })
 }
 
 const removeData = ({ VALUE, id, params = {} }) => {
@@ -2722,7 +2724,7 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
             setData({ VALUE, params: { value }, id })
 
             // remove value from data
-            if (value === '') return remove({ VALUE, STATE, id })
+            //if (value === '') return remove({ VALUE, STATE, id })
         }
 
         // resize
@@ -2880,13 +2882,17 @@ module.exports = {dropList}
 const { clearValues } = require('./clearValues')
 const { clone } = require('./clone')
 const { toArray } = require('./toArray')
-const { update } = require('./update')
 const { derive } = require('./derive')
 const { isEqual } = require('./isEqual')
 const { removeDuplicates } = require('./removeDuplicates')
+const { update } = require('./update')
 
 const duplicate = ({ VALUE, STATE, params, id }) => {
+
+    const { createElement } = require('./createElement')
+
     var local = VALUE[id]
+    if (!local) return
 
     if (!params) params = {}
     if (local.DATA) {
@@ -2929,7 +2935,7 @@ const duplicate = ({ VALUE, STATE, params, id }) => {
 
     }
 
-    update({ VALUE, STATE, params: { parent: true }, id })
+    update({ VALUE, STATE, id: local.parent })
 }
 
 const duplicates = ({ VALUE, params, id }) => {
@@ -2950,7 +2956,7 @@ const duplicates = ({ VALUE, params, id }) => {
 }
 
 module.exports = {duplicate, duplicates}
-},{"./clearValues":21,"./clone":22,"./derive":32,"./isEqual":42,"./removeDuplicates":46,"./toArray":56,"./update":62}],35:[function(require,module,exports){
+},{"./clearValues":21,"./clone":22,"./createElement":27,"./derive":32,"./isEqual":42,"./removeDuplicates":46,"./toArray":56,"./update":62}],35:[function(require,module,exports){
 
 const { toBoolean } = require('./toBoolean')
 const { toObject } = require('./toObject')
@@ -3410,10 +3416,11 @@ const overflow = ({ VALUE, params, id }) => {
 
 module.exports = {overflow}
 },{}],45:[function(require,module,exports){
-const { update } = require("./update")
+const { removeId } = require("./update")
 const { clone } = require("./clone")
+const { clearIntervals } = require("./clearIntervals")
 
-const remove = ({ VALUE, STATE, params, id }) => {
+const remove = ({ VALUE, params, id }) => {
 
     var local = VALUE[id]
     if (!params) params = {}
@@ -3440,11 +3447,20 @@ const remove = ({ VALUE, STATE, params, id }) => {
     //local.parent.children.splice([keys[keys.length - 1]], 1)
 
     console.log(local.DATA)
-    update({ VALUE, STATE, params: { parent: true }, id })
+    clearIntervals({ VALUE, id })
+    removeId({ VALUE, id })
+    local.element.remove()
+    
+    VALUE[local.parent].childrenSiblings.map((id, i) => {
+        VALUE[id].length -= 1
+        if (id === local.id) VALUE[local.parent].childrenSiblings.splice(i, 1)
+    })
+    delete VALUE[id]
+
 }
 
 module.exports = {remove}
-},{"./clone":22,"./update":62}],46:[function(require,module,exports){
+},{"./clearIntervals":20,"./clone":22,"./update":62}],46:[function(require,module,exports){
 const removeDuplicates = (object) => {
 
     if (typeof object === 'string' || typeof object === 'number' || !object) return object
@@ -4568,7 +4584,7 @@ const { toArray } = require("./toArray")
 const { merge } = require("./merge")
 const { clone } = require("./clone")
 const { derive } = require("./derive")
-const _asset = require("../assets/_asset")
+const _asset = require("../asset/_asset")
 //import Assets from '../Assets/Assets'
 
 const toObject = ({ VALUE, STATE, string, e, id }) => {
@@ -4745,9 +4761,9 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                 } else if (path[0] === 'const') {
                     value = value.split('const.')[1]
 
-                } else if (path[0] === 'assets') {
+                } else if (path[0] === 'asset') {
 
-                    value = value.split('assets.')[1]
+                    value = value.split('asset.')[1]
                     var file = value.split('.')[0]
                     value = value.split(`${file}.`)[1]
                     var path = value.split('.')
@@ -4854,7 +4870,7 @@ function addDays(theDate, days) {
 }
 
 module.exports = {toObject}
-},{"../assets/_asset":1,"./clone":22,"./derive":32,"./generate":39,"./merge":43,"./toArray":56}],61:[function(require,module,exports){
+},{"../asset/_asset":1,"./clone":22,"./derive":32,"./generate":39,"./merge":43,"./toArray":56}],61:[function(require,module,exports){
 const toString = (object) => {
     if (!object) return ''
 
@@ -5548,15 +5564,18 @@ const newProduct = {
                             marginTop: '1rem'
                         }
                     }, {
-                        type: 'Input?featured;path=supplier;data=[]',
-                        style: {
-                            height: '4rem',
-                            borderRadius: '0.25rem',
-                            border: '0',
-                            padding: '0.5rem',
-                            width: '100%',
-                            marginBottom: '1rem'
-                        }
+                        type: 'View',
+                        children: [{
+                            type: 'Input?featured;path=supplier;data=[]',
+                            style: {
+                                height: '4rem',
+                                borderRadius: '0.25rem',
+                                border: '0',
+                                padding: '0.5rem',
+                                width: '100%',
+                                marginBottom: '1rem'
+                            }
+                        }]
                     }, {
                         type: 'Label?text=UPC;class=flex-box',
                         style: {

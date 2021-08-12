@@ -1,7 +1,8 @@
-const { update } = require("./update")
+const { removeId } = require("./update")
 const { clone } = require("./clone")
+const { clearIntervals } = require("./clearIntervals")
 
-const remove = ({ VALUE, STATE, params, id }) => {
+const remove = ({ VALUE, params, id }) => {
 
     var local = VALUE[id]
     if (!params) params = {}
@@ -28,7 +29,16 @@ const remove = ({ VALUE, STATE, params, id }) => {
     //local.parent.children.splice([keys[keys.length - 1]], 1)
 
     console.log(local.DATA)
-    update({ VALUE, STATE, params: { parent: true }, id })
+    clearIntervals({ VALUE, id })
+    removeId({ VALUE, id })
+    local.element.remove()
+    
+    VALUE[local.parent].childrenSiblings.map((id, i) => {
+        VALUE[id].length -= 1
+        if (id === local.id) VALUE[local.parent].childrenSiblings.splice(i, 1)
+    })
+    delete VALUE[id]
+
 }
 
 module.exports = {remove}

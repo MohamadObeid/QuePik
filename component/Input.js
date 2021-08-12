@@ -89,6 +89,8 @@ const Input = (component) => {
                     outline: 'none',
                 },
                 controls: [...controls, {
+                    actions: 'resizeInput'
+                }, {
                     event: `keyup??value.data;e.key=Enter;${component.duplicatable};${component.removable}`,
                     actions: `duplicate>>${id}`
                 }, {
@@ -114,7 +116,7 @@ const Input = (component) => {
                     padding: '0 0.5rem',
                 },
                 children: [{
-                    type: `Text?path=currency;id=${id}-currency;dropList.items=[assets.currency.symbol]?const.${component.currency}`,
+                    type: `Text?path=currency;id=${id}-currency;dropList.items=[asset.currency.symbol]?const.${component.currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -123,7 +125,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data=${component.currency}?!value.data`
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;dropList.items=[assets.unit.symbol]?const.${component.unit}`,
+                    type: `Text?path=unit;id=${id}-unit;dropList.items=[asset.unit.symbol]?const.${component.unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -132,7 +134,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data=${component.unit}?!value.data`
                 }, {
-                    type: `Text?path=lang;id=${id}-language;dropList.items=[assets.language.code]?const.${component.lang}`,
+                    type: `Text?path=lang;id=${id}-language;dropList.items=[asset.language.code]?const.${component.lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
