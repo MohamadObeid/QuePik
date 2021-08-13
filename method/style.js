@@ -4,7 +4,7 @@ const setStyle = ({ VALUE, params, id }) => {
 
     var local = VALUE[id]
     if (!local) return
-
+    
     if (!local.style) local.style = {}
 
     Object.entries(params.style).map(([key, value]) => {

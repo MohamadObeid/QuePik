@@ -36,10 +36,10 @@ const setData = ({ VALUE, STATE, params = {}, id }) => {
     setContent({ VALUE, params: { value }, id })
 
     var keys = [...derivations, ...path]
-console.log(keys);
+
     keys.reduce((o, k, i) => {
         if (!o) return o
-        console.log(o[k], o, k, i);
+        
         if (i === keys.length - 1) {
 
             if (Array.isArray(o[k]) && typeof value !== 'object') {
@@ -48,7 +48,7 @@ console.log(keys);
 
                     local.derivations.push(0)
                     o[k][0] = value
-
+                    
                 } else o[k].push(value)
 
 
@@ -81,12 +81,17 @@ const removeData = ({ VALUE, id, params = {} }) => {
     var path = params.path
     path = path ? path.split('.') : []
     path = [...local.derivations, ...path]
-
+    
     path.reduce((o, k, i) => {
-        if (i === path.length - 1) return delete o[k]
+        if (i === path.length - 1) {
+            if (Array.isArray(o)) return o.splice(k, 1)
+            else return delete o[k]
+        }
         return o[k]
     }, local.DATA)
-    
+
+    setContent({ VALUE, id })
+    console.log(local.DATA);
 }
 
 module.exports = {createData, setData, pushData, clearData, removeData}

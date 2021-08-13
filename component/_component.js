@@ -4,5 +4,6 @@ const {Item} = require('./Item')
 const {List} = require('./List')
 const {Upload} = require('./Upload')
 const {Header} = require('./Header')
+const {Switch} = require('./Switch')
 
-module.exports = {Input, Button, Item, List, Upload, Header}
+module.exports = {Input, Button, Item, List, Upload, Header, Switch}

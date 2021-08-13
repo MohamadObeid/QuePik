@@ -1290,7 +1290,7 @@ VALUE.body = document.body
 VALUE.window = window
 
 starter({VALUE, STATE, id: 'root'})
-},{"../method/starter":53}],6:[function(require,module,exports){
+},{"../method/starter":54}],6:[function(require,module,exports){
 const { toString } = require('../method/toString')
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
@@ -1372,7 +1372,7 @@ const Button = (component) => {
 }
 
 module.exports = {Button}
-},{"../method/generate":39,"../method/toComponent":58,"../method/toString":61}],7:[function(require,module,exports){
+},{"../method/generate":40,"../method/toComponent":59,"../method/toString":62}],7:[function(require,module,exports){
 const { generate } = require("../method/generate")
 const { toComponent } = require("../method/toComponent")
 
@@ -1434,7 +1434,7 @@ const Header = (component) => {
 }
 
 module.exports = {Header}
-},{"../method/generate":39,"../method/toComponent":58}],8:[function(require,module,exports){
+},{"../method/generate":40,"../method/toComponent":59}],8:[function(require,module,exports){
 const { toString } = require('../method/toString')
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
@@ -1461,6 +1461,17 @@ const Input = (component) => {
         return {
             ...component,
             templated: true,
+            style: {
+                width: '100%',
+                border: '0',
+                padding: '0.5rem',
+                color: '#444',
+                backgroundColor: '#fff',
+                height: '4rem',
+                borderRadius: '0.25rem',
+
+                ...style,
+            },
             controls: [...controls,
             /*{
                 watch: 'value.data',
@@ -1491,6 +1502,8 @@ const Input = (component) => {
                 position: 'relative',
                 backgroundColor: '#fff',
                 height: '4rem',
+                borderRadius: '0.25rem',
+                border: '0',
                 flexDirection: lang === 'ar' ? 'row-reverse' : 'row',
                 ...style,
             },
@@ -1592,7 +1605,7 @@ const Input = (component) => {
                         event: 'click',
                         actions: [
                             `remove>>${id}??${component.removable}${component.clearable ? `;value.length>>${id}>1;!value.data>>${id}-input` : ''}`,
-                            `clearData>>${id}-input;focus::50>>${id}-input??${component.clearable}`,
+                            `removeData>>${id}-input;focus::50>>${id}-input??${component.clearable}`,
                         ]
                     }]
                 }]
@@ -1602,7 +1615,7 @@ const Input = (component) => {
 }
 
 module.exports = {Input}
-},{"../method/generate":39,"../method/toComponent":58,"../method/toString":61}],9:[function(require,module,exports){
+},{"../method/generate":40,"../method/toComponent":59,"../method/toString":62}],9:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -1766,7 +1779,7 @@ const Item = (component) => {
 }
 
 module.exports = {Item}
-},{"../method/generate":39,"../method/toComponent":58}],10:[function(require,module,exports){
+},{"../method/generate":40,"../method/toComponent":59}],10:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const List = (component) => {
@@ -1883,13 +1896,42 @@ const List = (component) => {
 }
 
 module.exports = {List}
-},{"../method/toComponent":58}],11:[function(require,module,exports){
+},{"../method/toComponent":59}],11:[function(require,module,exports){
+const { generate } = require('../method/generate')
+const {toComponent} = require('../method/toComponent')
+
+const Switch = (component) => {
+
+    component = toComponent(component)
+    
+    return {
+        ...component,
+        type: 'View',
+        class: 'button-13',
+        id: generate(),
+        controls: {},
+        children: [{
+            type: `Input?input.type=checkbox;class=checkbox;id=${component.id}`,
+            controls: [...component.controls]
+        }, {
+            type: 'View?class=knobs',
+            children: {
+                type: 'Span'
+            }
+        }]
+    }
+}
+
+module.exports = {Switch}
+},{"../method/generate":40,"../method/toComponent":59}],12:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const Upload = (component) => {
 
     component = toComponent(component)
     var { upload } = component
+
+    upload.multiple = upload.multiple !== undefined ? upload.multiple : true
 
     return {
         ...component,
@@ -1905,22 +1947,23 @@ const Upload = (component) => {
         }, {
             type: `Text?class=file-msg;text=or drag and drop ${upload.type}s here`
         }, {
-            type: `Input?class=file-input;upload.type=${upload.type};upload.multiple;upload.accept=${upload.accept}`
+            type: `Input?class=file-input;upload.type=${upload.type};upload.multiple=${upload.multiple};upload.accept=${upload.accept};style.height=100%`
         }]
     }
 }
 
 module.exports = {Upload}
-},{"../method/toComponent":58}],12:[function(require,module,exports){
+},{"../method/toComponent":59}],13:[function(require,module,exports){
 const {Button} = require('./Button')
 const {Input} = require('./Input')
 const {Item} = require('./Item')
 const {List} = require('./List')
 const {Upload} = require('./Upload')
 const {Header} = require('./Header')
+const {Switch} = require('./Switch')
 
-module.exports = {Input, Button, Item, List, Upload, Header}
-},{"./Button":6,"./Header":7,"./Input":8,"./Item":9,"./List":10,"./Upload":11}],13:[function(require,module,exports){
+module.exports = {Input, Button, Item, List, Upload, Header, Switch}
+},{"./Button":6,"./Header":7,"./Input":8,"./Item":9,"./List":10,"./Switch":11,"./Upload":12}],14:[function(require,module,exports){
 const {dropList} = require('./dropList')
 const {item} = require('./item')
 const {list} = require('./list')
@@ -1930,30 +1973,27 @@ const {windowView} = require('./windowView')
 const _controls = {dropList, item, list, windowView, toggleView}
 
 module.exports = _controls
-},{"./dropList":14,"./item":15,"./list":16,"./toggleView":17,"./windowView":18}],14:[function(require,module,exports){
+},{"./dropList":15,"./item":16,"./list":17,"./toggleView":18,"./windowView":19}],15:[function(require,module,exports){
 const dropList = ({id, path, placement, distance}) => (
     [{
         event: `mouseenter`,
         actions: [
             `setState?state.drop-list-mouseenter;state.drop-list=${id || 'value.id'}`,
             `dropList>>drop-list?id=${id || 'value.id'}${path ? `;path=${path}` : ''}`,
-            `setPosition::50?id=drop-list;placement=${placement || 'bottom'};distance=${distance}`,
-            `mountAfterStyles::100>>drop-list`,
+            `setPosition?id=drop-list;placement=${placement || 'bottom'};distance=${distance}`,
+            `mountAfterStyles::10>>drop-list`,
         ]
     }, {
         event: 'Input',
         actions: 'setState?state.drop-list-filter=value.input;state.drop-list-element=value.element'
     }, {
         event: 'mouseleave',
-        actions: [
-            `resetStyles::200>>drop-list??!mouseenter;!mouseenter>>drop-list;!state.drop-list-mouseenter`,
-            `setState?state.drop-list-mouseenter=false`
-        ]
+        actions: `setState?state.drop-list-mouseenter=false`
     }]
 )
 
 module.exports = {dropList}
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 const item = ({id, state}) => ([
     `setData?data=value.text`,
     `setValue;resetStyles?value.mountOnLoad=false??state.${state}`,
@@ -1962,7 +2002,7 @@ const item = ({id, state}) => ([
 ])//;state.admin-view=Inventory;route,
 
 module.exports = {item}
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 const list = ({id, placement, distance}) => (
     [{
         event: `mouseenter`,
@@ -1981,7 +2021,7 @@ const list = ({id, placement, distance}) => (
 )
 
 module.exports = {list}
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 const toggleView = ({id, view}) => ([
     {
         event: `click??global.${id}.view!=${view}`,
@@ -1993,19 +2033,19 @@ const toggleView = ({id, view}) => ([
 ])
 
 module.exports = {toggleView}
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 const windowView = (params) => (
     [{
         event: 'click',
         actions: [
             `setValue;createView?value.DATA=value.DATA;view=${params.view}??window-view`,
-            `setStyle?style.display=flex;style.opacity=1::25??sub-window`
+            `setStyle?style.display=flex;style.opacity=1::25??mini-window`
         ]
     }]
 )
 
 module.exports = {windowView}
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 const {clearIntervals} = require('./clearIntervals')
 const {clearValues} = require('./clearValues')
 const {clone} = require('./clone')
@@ -2060,7 +2100,7 @@ const _method = {
 }
 
 module.exports = _method
-},{"./clearIntervals":20,"./clearValues":21,"./clone":22,"./controls":23,"./createActions":24,"./createControls":25,"./createDocument":26,"./createElement":27,"./createView":29,"./data":30,"./defaultInputHandler":31,"./derive":32,"./dropList":33,"./duplicate":34,"./event":35,"./execute":36,"./filter":37,"./focus":38,"./generate":39,"./getParam":40,"./isArabic":41,"./isEqual":42,"./merge":43,"./overflow":44,"./remove":45,"./resize":47,"./route":48,"./setContent":49,"./setPosition":50,"./setValue":51,"./sort":52,"./starter":53,"./state":54,"./style":55,"./toArray":56,"./toBoolean":57,"./toComponent":58,"./toId":59,"./toObject":60,"./toString":61,"./update":62}],20:[function(require,module,exports){
+},{"./clearIntervals":21,"./clearValues":22,"./clone":23,"./controls":24,"./createActions":25,"./createControls":26,"./createDocument":27,"./createElement":28,"./createView":30,"./data":31,"./defaultInputHandler":32,"./derive":33,"./dropList":34,"./duplicate":35,"./event":36,"./execute":37,"./filter":38,"./focus":39,"./generate":40,"./getParam":41,"./isArabic":42,"./isEqual":43,"./merge":44,"./overflow":45,"./remove":46,"./resize":48,"./route":49,"./setContent":50,"./setPosition":51,"./setValue":52,"./sort":53,"./starter":54,"./state":55,"./style":56,"./toArray":57,"./toBoolean":58,"./toComponent":59,"./toId":60,"./toObject":61,"./toString":62,"./update":63}],21:[function(require,module,exports){
 const clearIntervals = ({ VALUE, id }) => {
     var local = VALUE[id]
 
@@ -2075,7 +2115,7 @@ const clearIntervals = ({ VALUE, id }) => {
 }
 
 module.exports = {clearIntervals}
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 const { clone } = require("./clone")
 
 const clearValues = ({ params }) => {
@@ -2117,12 +2157,12 @@ const clearValues = ({ params }) => {
 }
 
 module.exports = {clearValues}
-},{"./clone":22}],22:[function(require,module,exports){
+},{"./clone":23}],23:[function(require,module,exports){
 const clone = (obj) => {
     var copy
     if (typeof obj !== 'object') return obj
-
-    //if (obj.nodeType === Node.ELEMENT_NODE) return obj
+    
+    if (isElement(obj)) return obj
 
     if (Array.isArray(obj)) {
 
@@ -2145,8 +2185,23 @@ const clone = (obj) => {
     return copy
 }
 
+const isElement = (obj) => {
+    try {
+      //Using W3 DOM2 (works for FF, Opera and Chrome)
+      return obj instanceof HTMLElement;
+    }
+    catch(e){
+      //Browsers not supporting W3 DOM2 don't have HTMLElement and
+      //an exception is thrown and we end up here. Testing some
+      //properties that all elements have (works on IE7)
+      return (typeof obj==="object") &&
+        (obj.nodeType===1) && (typeof obj.style === "object") &&
+        (typeof obj.ownerDocument ==="object");
+    }
+  }
+
 module.exports = {clone}
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 const controls = ({ VALUE, STATE, controls, id }) => {
     
     const { addEventListener } = require("./event")
@@ -2173,7 +2228,7 @@ const controls = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {controls}
-},{"./event":35,"./execute":36,"./toArray":56,"./watch":63}],24:[function(require,module,exports){
+},{"./event":36,"./execute":37,"./toArray":57,"./watch":64}],25:[function(require,module,exports){
 const _controls = require("../controls/_controls")
 
 const createActions = ({ VALUE, STATE, params, id }) => {
@@ -2187,23 +2242,24 @@ const createActions = ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {createActions}
-},{"../controls/_controls":13,"./execute":36}],25:[function(require,module,exports){
+},{"../controls/_controls":14,"./execute":37}],26:[function(require,module,exports){
 const _controls = require("../controls/_controls")
 const {controls} = require("./controls")
 
 const createControls = ({ VALUE, STATE, params, id }) => {
     var local = VALUE[id]
     if (!local) return
-
+    
     var type = params.type
     if (!_controls[type]) return
-    if (type === 'dropList') params = local[type] || {}
+    
+    if (local[type]) params = local[type] || {}
     
     controls({VALUE, STATE, id, controls: _controls[type](params)})
 }
 
 module.exports = {createControls}
-},{"../controls/_controls":13,"./controls":23}],26:[function(require,module,exports){
+},{"../controls/_controls":14,"./controls":24}],27:[function(require,module,exports){
 const { createElement } = require("./createElement")
 const _view = require('../view/_view')
 const _page = require('../page/_page')
@@ -2243,7 +2299,7 @@ const createDocument = (page) => {
 }
 
 module.exports = {createDocument}
-},{"../page/_page":64,"../view/_view":68,"./createElement":27}],27:[function(require,module,exports){
+},{"../page/_page":65,"../view/_view":69,"./createElement":28}],28:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { toObject } = require("./toObject")
@@ -2292,8 +2348,8 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         // pass to children
         if (parent.toChildren) {
 
-            if (typeof params === 'string')
-                params = toObject({ VALUE, STATE, string: parent.toChildren, id })
+            if (typeof parent.toChildren === 'string')
+            parent.toChildren = toObject({ VALUE, STATE, string: parent.toChildren, id })
 
             value = override(value, parent.toChildren)
         }
@@ -2330,7 +2386,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         var data, isArray
         if (parent.turnOff) { data = ''; value.turnOff = true }                     //def value
         else { [data, derivations, isArray] = derive(value.DATA, derivations, false, value.data, true) }
-
+        
         if (isArray) {
             
             tags = data.map((data, index) => {
@@ -2355,7 +2411,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
 }
 
 module.exports = {createElement}
-},{"../view/_view":68,"./clone":22,"./createTags":28,"./derive":32,"./generate":39,"./merge":43,"./toArray":56,"./toBoolean":57,"./toObject":60}],28:[function(require,module,exports){
+},{"../view/_view":69,"./clone":23,"./createTags":29,"./derive":33,"./generate":40,"./merge":44,"./toArray":57,"./toBoolean":58,"./toObject":61}],29:[function(require,module,exports){
 const { clone } = require("./clone")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2399,6 +2455,8 @@ const createTags = ({ VALUE, STATE, value, data, derivations }) => {
                         params = toObject({VALUE, STATE, string: params, id})
                         Object.entries(params).map(([k, v]) => local[k] = v )
                     }
+
+                    id = local.id
                 }
 
                 VALUE[id] = { ...local, id, index, data, derivations: [...derivations, index] }
@@ -2417,10 +2475,10 @@ const createTags = ({ VALUE, STATE, value, data, derivations }) => {
         }
     }
 
-    // template
-
-    var id = value.id || generate()
     
+    var id = value.id || generate()
+    value.id = id
+
     // components
     if (_component[value.type]) {
         
@@ -2443,8 +2501,11 @@ const createTags = ({ VALUE, STATE, value, data, derivations }) => {
             params = toObject({VALUE, STATE, string: params, id})
             Object.entries(params).map(([k, v]) => value[k] = v )
         }
-    }
 
+        id = value.id
+    }
+    
+    
     VALUE[id] = { ...value, id, data, derivations }
     VALUE[value.parent].childrenSiblings.push(id)
 
@@ -2479,11 +2540,14 @@ const oneTag = ({STATE, VALUE, id}) => {
             else if (k === 'marginRight') k = 'margin-right'
             else if (k === 'marginTop') k = 'margin-top'
             else if (k === 'fontSize') k = 'font-size'
+            else if (k === 'fontWeight') k = 'font-weight'
+            else if (k === 'lineHeight') k = 'line-weight'
+            else if (k === 'textOverflow') k = 'text-overflow'
+            else if (k === 'whiteSpace') k = 'white-space'
             else if (k === 'backgroundColor') k = 'background-color'
             else if (k === 'zIndex') k = 'z-index'
             else if (k === 'boxShadow') k = 'box-shadow'
             else if (k === 'borderRadius') k = 'border-radius'
-            else if (k === 'fontWeight') k = 'font-weight'
             else if (k === 'zIndex') k = 'z-index'
             else if (k === 'alignItems') k = 'align-items'
             else if (k === 'justifyContent') k = 'justify-content'
@@ -2523,6 +2587,9 @@ const oneTag = ({STATE, VALUE, id}) => {
     else if (value.type === 'Label')
     tag = `<label class='${value.class}' id='${value.id}' style='${style}'>${text}</label>`
 
+    else if (value.type === 'Span')
+    tag = `<span class='${value.class}' id='${value.id}' style='${style}'>${text}</span>`
+
     else if (value.type === 'Icon')
     tag = `<i class='${value.class} bi-${value.icon.name}' id='${value.id}' style='${style}'></i>`
     
@@ -2547,7 +2614,7 @@ const oneTag = ({STATE, VALUE, id}) => {
 }
 
 module.exports = {createTags}
-},{"../component/_component":12,"./clone":22,"./createElement":27,"./execute":36,"./generate":39,"./toArray":56,"./toBoolean":57,"./toObject":60}],29:[function(require,module,exports){
+},{"../component/_component":13,"./clone":23,"./createElement":28,"./execute":37,"./generate":40,"./toArray":57,"./toBoolean":58,"./toObject":61}],30:[function(require,module,exports){
 const { update } = require("./update")
 const _view = require("../view/_view")
 
@@ -2563,13 +2630,13 @@ const createView = ({ STATE, VALUE, params, id }) => {
     if (!_view[view]) return
 
     local.children = [_view[view]]
-    
+
     // update
     update({ VALUE, STATE, id })
 }
 
 module.exports = {createView}
-},{"../view/_view":68,"./update":62}],30:[function(require,module,exports){
+},{"../view/_view":69,"./update":63}],31:[function(require,module,exports){
 const { clone } = require("./clone")
 const { setContent } = require("./setContent")
 const { update } = require("./update")
@@ -2608,10 +2675,10 @@ const setData = ({ VALUE, STATE, params = {}, id }) => {
     setContent({ VALUE, params: { value }, id })
 
     var keys = [...derivations, ...path]
-console.log(keys);
+
     keys.reduce((o, k, i) => {
         if (!o) return o
-        console.log(o[k], o, k, i);
+        
         if (i === keys.length - 1) {
 
             if (Array.isArray(o[k]) && typeof value !== 'object') {
@@ -2620,7 +2687,7 @@ console.log(keys);
 
                     local.derivations.push(0)
                     o[k][0] = value
-
+                    
                 } else o[k].push(value)
 
 
@@ -2653,25 +2720,33 @@ const removeData = ({ VALUE, id, params = {} }) => {
     var path = params.path
     path = path ? path.split('.') : []
     path = [...local.derivations, ...path]
-
+    
     path.reduce((o, k, i) => {
-        if (i === path.length - 1) return delete o[k]
+        if (i === path.length - 1) {
+            if (Array.isArray(o)) return o.splice(k, 1)
+            else return delete o[k]
+        }
         return o[k]
     }, local.DATA)
-    
+
+    setContent({ VALUE, id })
+    console.log(local.DATA);
 }
 
 module.exports = {createData, setData, pushData, clearData, removeData}
-},{"./clone":22,"./setContent":49,"./update":62}],31:[function(require,module,exports){
+},{"./clone":23,"./setContent":50,"./update":63}],32:[function(require,module,exports){
 const { setData } = require("./data")
 const { resizeInput } = require("./resize")
 const { isArabic } = require("./isArabic")
-const { remove } = require("./remove")
+const { removeData } = require("./data")
 
 const defaultInputHandler = ({STATE, VALUE, id}) => {
 
     var local = VALUE[id]
-    if (!local || local.element.tagName !== 'INPUT') return
+    if (!local) return
+
+    if (local.element.tagName !== 'INPUT' && local.element.tagName !== 'TEXTAREA') return
+    if (local.input && local.input.type === 'checkbox') return
 
     // input
     local.value = local.element.value
@@ -2722,9 +2797,9 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
 
             // reset DATA
             setData({ VALUE, params: { value }, id })
-
+            
             // remove value from data
-            //if (value === '') return remove({ VALUE, STATE, id })
+            if (value === '') return removeData({ VALUE, STATE, id })
         }
 
         // resize
@@ -2740,7 +2815,7 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
 }
 
 module.exports = {defaultInputHandler}
-},{"./data":30,"./isArabic":41,"./remove":45,"./resize":47}],32:[function(require,module,exports){
+},{"./data":31,"./isArabic":42,"./resize":48}],33:[function(require,module,exports){
 const { merge } = require("./merge")
 
 const derive = (data, keys, fullDerivation, defValue, writable) => {
@@ -2763,7 +2838,11 @@ const derive = (data, keys, fullDerivation, defValue, writable) => {
         // path doesnot exist => create path
         if (writable && typeof o[k] !== 'object') {
 
-            if (i < keys.length - 1) o[k] = {}
+            if (i < keys.length - 1) {
+                if (!isNaN(keys[i + 1])) o[k] = []
+                else o[k] = {}
+            }
+
             else if (i === keys.length - 1) {
 
                 if (defValue || defValue === 0) {
@@ -2797,7 +2876,7 @@ const derive = (data, keys, fullDerivation, defValue, writable) => {
 
 
 module.exports = {derive}
-},{"./merge":43}],33:[function(require,module,exports){
+},{"./merge":44}],34:[function(require,module,exports){
 const { generate } = require('./generate')
 const { update } = require('./update')
 const { filter } = require('./filter')
@@ -2878,7 +2957,7 @@ const dropList = ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {dropList}
-},{"./clone":22,"./filter":37,"./generate":39,"./toObject":60,"./update":62}],34:[function(require,module,exports){
+},{"./clone":23,"./filter":38,"./generate":40,"./toObject":61,"./update":63}],35:[function(require,module,exports){
 const { clearValues } = require('./clearValues')
 const { clone } = require('./clone')
 const { toArray } = require('./toArray')
@@ -2887,14 +2966,11 @@ const { isEqual } = require('./isEqual')
 const { removeDuplicates } = require('./removeDuplicates')
 const { update } = require('./update')
 
-const duplicate = ({ VALUE, STATE, params, id }) => {
-
-    const { createElement } = require('./createElement')
+const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 
     var local = VALUE[id]
     if (!local) return
 
-    if (!params) params = {}
     if (local.DATA) {
 
         var keys = clone(local.derivations)
@@ -2956,7 +3032,7 @@ const duplicates = ({ VALUE, params, id }) => {
 }
 
 module.exports = {duplicate, duplicates}
-},{"./clearValues":21,"./clone":22,"./createElement":27,"./derive":32,"./isEqual":42,"./removeDuplicates":46,"./toArray":56,"./update":62}],35:[function(require,module,exports){
+},{"./clearValues":22,"./clone":23,"./derive":33,"./isEqual":43,"./removeDuplicates":47,"./toArray":57,"./update":63}],36:[function(require,module,exports){
 
 const { toBoolean } = require('./toBoolean')
 const { toObject } = require('./toObject')
@@ -3012,7 +3088,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 
                 local[`${controls.actions}-timer`] = setTimeout(
                     () => execute({ VALUE, STATE, controls, e, id }),
-                    timer)
+                    timer);
 
             }
 
@@ -3052,7 +3128,7 @@ const setEvents = ({ VALUE, id }) => {
 }
 
 module.exports = {addEventListener, setEvents}
-},{"./execute":36,"./toBoolean":57,"./toId":59,"./toObject":60}],36:[function(require,module,exports){
+},{"./execute":37,"./toBoolean":58,"./toId":60,"./toObject":61}],37:[function(require,module,exports){
 
 const { toBoolean } = require("./toBoolean")
 const { toArray } = require("./toArray")
@@ -3131,7 +3207,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id }) => {
 }
 
 module.exports = {execute}
-},{"./_method":19,"./generate":39,"./getParam":40,"./toArray":56,"./toBoolean":57,"./toId":59,"./toObject":60}],37:[function(require,module,exports){
+},{"./_method":20,"./generate":40,"./getParam":41,"./toArray":57,"./toBoolean":58,"./toId":60,"./toObject":61}],38:[function(require,module,exports){
 const filter = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
@@ -3149,7 +3225,7 @@ const filter = ({ VALUE, params, id }) => {
 }
 
 module.exports = {filter}
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 const focus = ({ VALUE, id }) => {
     var local = VALUE[id]
 
@@ -3169,7 +3245,7 @@ const focus = ({ VALUE, id }) => {
 }
 
 module.exports = {focus}
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
 const generate = (length) => {
@@ -3183,7 +3259,7 @@ const generate = (length) => {
 }
 
 module.exports = {generate}
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 const getParam = (string, param, defValue) => {
     if (!string) return defValue
     if (!string.includes('?')) return defValue
@@ -3202,7 +3278,7 @@ const getParam = (string, param, defValue) => {
 }
 
 module.exports = {getParam}
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 var arabic = /[\u0600-\u06FF\u0750-\u077F]/
 
 const isArabic = (value) => {
@@ -3229,7 +3305,7 @@ const isArabic = (value) => {
 }
 
 module.exports = {isArabic}
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 const isEqual = function (value, other) {
     //if (value === undefined || other === undefined) return false
 
@@ -3305,7 +3381,7 @@ const isEqual = function (value, other) {
 };
 
 module.exports = {isEqual}
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 
 const { toArray } = require("./toArray")
 const { clone } = require("./clone")
@@ -3365,7 +3441,7 @@ const override = (obj1, obj2) => {
 }
 
 module.exports = {merge, override}
-},{"./clone":22,"./toArray":56}],44:[function(require,module,exports){
+},{"./clone":23,"./toArray":57}],45:[function(require,module,exports){
 const overflow = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
@@ -3415,7 +3491,7 @@ const overflow = ({ VALUE, params, id }) => {
 }
 
 module.exports = {overflow}
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 const { removeId } = require("./update")
 const { clone } = require("./clone")
 const { clearIntervals } = require("./clearIntervals")
@@ -3444,23 +3520,44 @@ const remove = ({ VALUE, params, id }) => {
 
     }, local.DATA)
 
-    //local.parent.children.splice([keys[keys.length - 1]], 1)
-
     console.log(local.DATA)
+
     clearIntervals({ VALUE, id })
     removeId({ VALUE, id })
     local.element.remove()
-    
-    VALUE[local.parent].childrenSiblings.map((id, i) => {
-        VALUE[id].length -= 1
-        if (id === local.id) VALUE[local.parent].childrenSiblings.splice(i, 1)
-    })
-    delete VALUE[id]
 
+    // reset length and derivations
+    var after = false
+    var siblings = clone(VALUE[local.parent].childrenSiblings)
+    
+    siblings.map((id, i) => {
+        VALUE[id].length -= 1
+        
+        if (after) {
+            var index = VALUE[id].derivations.length - 1
+            if (!isNaN(VALUE[id].derivations[index])) resetDerivations({VALUE, id, index})
+        }
+
+        if (id === local.id) {
+            VALUE[local.parent].childrenSiblings.splice(i, 1)
+            after = true
+        }
+    })
+
+    delete VALUE[id]
+}
+
+const resetDerivations = ({VALUE, id, index}) => {
+    
+    VALUE[id].derivations[index] -= 1
+    
+    VALUE[id].childrenSiblings && VALUE[id].childrenSiblings.map(id => {
+        resetDerivations({VALUE, id, index})
+    })
 }
 
 module.exports = {remove}
-},{"./clearIntervals":20,"./clone":22,"./update":62}],46:[function(require,module,exports){
+},{"./clearIntervals":21,"./clone":23,"./update":63}],47:[function(require,module,exports){
 const removeDuplicates = (object) => {
 
     if (typeof object === 'string' || typeof object === 'number' || !object) return object
@@ -3477,7 +3574,7 @@ const removeDuplicates = (object) => {
 }
 
 module.exports = {removeDuplicates}
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 const resizeInput = ({ VALUE, id }) => {
     var local = VALUE[id]
     if (!local) return
@@ -3530,7 +3627,7 @@ const dimensions = ({ VALUE, id, params = {} }) => {
 }
 
 module.exports = {resizeInput, dimensions}
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 const { clearIntervals } = require('./clearIntervals')
 const { starter } = require('./starter')
 //const { search } = require("./search")
@@ -3611,11 +3708,11 @@ export const pushRoute = ({ params }) => {
 }*/
 
 module.exports = {route}
-},{"./clearIntervals":20,"./starter":53}],49:[function(require,module,exports){
+},{"./clearIntervals":21,"./starter":54}],50:[function(require,module,exports){
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
 
-const setContent = ({ VALUE, params, id }) => {
+const setContent = ({ VALUE, params = {}, id }) => {
     var local = VALUE[id]
 
     var value = ''
@@ -3667,7 +3764,7 @@ const setContent = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setContent}
-},{"./isArabic":41,"./isEqual":42}],50:[function(require,module,exports){
+},{"./isArabic":42,"./isEqual":43}],51:[function(require,module,exports){
 const setPosition = ({ VALUE, params, id }) => {
     var element = VALUE[id].element
     
@@ -3760,7 +3857,7 @@ const setPosition = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setPosition}
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 const { setData } = require("./data")
 const { setStyle } = require("./style")
 const { toString } = require("./toString")
@@ -3800,7 +3897,7 @@ const setValue = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setValue}
-},{"./data":30,"./style":55,"./toString":61}],52:[function(require,module,exports){
+},{"./data":31,"./style":56,"./toString":62}],53:[function(require,module,exports){
 const { update } = require("./update")
 
 const sort = ({ VALUE, STATE, params, id }) => {
@@ -3844,7 +3941,8 @@ const sort = ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {sort}
-},{"./update":62}],53:[function(require,module,exports){
+},{"./update":63}],54:[function(require,module,exports){
+
 
 const starter = ({STATE, VALUE, id}) => {
 
@@ -3883,7 +3981,7 @@ const starter = ({STATE, VALUE, id}) => {
 }
 
 module.exports = {starter}
-},{"./controls":23,"./createControls":25,"./defaultInputHandler":31,"./event":35,"./style":55}],54:[function(require,module,exports){
+},{"./controls":24,"./createControls":26,"./defaultInputHandler":32,"./event":36,"./style":56}],55:[function(require,module,exports){
 const setState = ({ STATE, params }) => {
 
     // push states to route
@@ -3896,14 +3994,14 @@ const setState = ({ STATE, params }) => {
 }
 
 module.exports = {setState}
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 const {resizeInput} = require('./resize')
 
 const setStyle = ({ VALUE, params, id }) => {
 
     var local = VALUE[id]
     if (!local) return
-
+    
     if (!local.style) local.style = {}
 
     Object.entries(params.style).map(([key, value]) => {
@@ -3971,13 +4069,13 @@ const mountAfterStyles = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setStyle, resetStyles, toggleStyles, mountAfterStyles}
-},{"./resize":47}],56:[function(require,module,exports){
+},{"./resize":48}],57:[function(require,module,exports){
 const toArray = (data) => {
     return data !== undefined ? (Array.isArray(data) ? data : [data]) : []
 }
 
 module.exports = {toArray}
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 const { derive } = require("./derive")
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
@@ -4262,7 +4360,6 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                                 return o[k]
     
                             }, clone(local[key]))
-
                         }
                     }
 
@@ -4450,7 +4547,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
 }
 
 module.exports = {toBoolean}
-},{"./clone":22,"./derive":32,"./duplicate":34,"./generate":39,"./getParam":40,"./isArabic":41,"./isEqual":42,"./overflow":44,"./toId":59}],58:[function(require,module,exports){
+},{"./clone":23,"./derive":33,"./duplicate":35,"./generate":40,"./getParam":41,"./isArabic":42,"./isEqual":43,"./overflow":45,"./toId":60}],59:[function(require,module,exports){
 const { generate } = require('./generate')
 const {toArray} = require('./toArray')
 
@@ -4522,7 +4619,7 @@ const toComponent = (obj) => {
 }
 
 module.exports = {toComponent}
-},{"./generate":39,"./toArray":56}],59:[function(require,module,exports){
+},{"./generate":40,"./toArray":57}],60:[function(require,module,exports){
 const { generate } = require("./generate");
 const { toArray } = require("./toArray")
 const { toObject } = require("./toObject");
@@ -4578,7 +4675,7 @@ const toId = ({ VALUE, STATE, id, string }) => {
 }
 
 module.exports = {toId}
-},{"./generate":39,"./toArray":56,"./toObject":60}],60:[function(require,module,exports){
+},{"./generate":40,"./toArray":57,"./toObject":61}],61:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { merge } = require("./merge")
@@ -4733,6 +4830,21 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
 
                                 return VALUE[id]
 
+                            } else if (k === 'firstChild') {
+
+                                var firstChild = o.element.children[0]
+                                return VALUE[firstChild.id]
+                                
+                            } else if (k === 'secondChild') {
+
+                                var secondChild = o.element.children[1] ? o.element.children[1] : o.element.children[0]
+                                return VALUE[secondChild.id]
+
+                            } else if (k === 'lastChild') {
+
+                                var lastChild = o.element.children[o.element.children.length - 1]
+                                return VALUE[lastChild.id]
+
                             } else if (k === 'INPUT') {
 
                                 var inputComps = [...o.element.getElementsByTagName(k)]
@@ -4740,7 +4852,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                                 if (inputComps.length === 0) return inputComps[0]
                                 else return inputComps
 
-                            } else if (k === 'findidByData') {
+                            } else if (k === 'findIdByData') {
 
                                 var id = o.find(id => local.data === VALUE[id].text)
                                 if (id) return id
@@ -4750,6 +4862,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                             return o[k]
 
                         }, clone(local))
+                        
                     }
 
                 } else if (path[0] === 'DATA') {
@@ -4870,7 +4983,7 @@ function addDays(theDate, days) {
 }
 
 module.exports = {toObject}
-},{"../asset/_asset":1,"./clone":22,"./derive":32,"./generate":39,"./merge":43,"./toArray":56}],61:[function(require,module,exports){
+},{"../asset/_asset":1,"./clone":23,"./derive":33,"./generate":40,"./merge":44,"./toArray":57}],62:[function(require,module,exports){
 const toString = (object) => {
     if (!object) return ''
 
@@ -4897,44 +5010,44 @@ const toString = (object) => {
 }
 
 module.exports = {toString}
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 const { clearIntervals } = require("./clearIntervals")
 const { starter } = require("./starter")
 
-const update = ({ STATE, VALUE, params = {}, id }) => {
+const update = ({ STATE, VALUE, id }) => {
 
     const { createElement } = require("./createElement")
 
     var local = VALUE[id]
     if (!local) return
 
-    if (params.parent) {
+    clearIntervals({ VALUE, id })
+    removeId({ VALUE, id })
 
-        var id = local.parent
-        var local = VALUE[id]
-        
-        clearIntervals({ VALUE, id })
-        removeId({ VALUE, id })
-
-        var innerHTML = createElement({ STATE, VALUE, id })
-        local.element.innerHTML = innerHTML
-
-        if (local.childrenSiblings) local.childrenSiblings.map(id => starter({ STATE, VALUE, id }))
-
-        console.log('#', Object.entries(VALUE).length)
-
-    } else {
-
-        clearIntervals({ VALUE, id })
-        removeId({ VALUE, id })
-
-        var innerHTML = createElement({ STATE, VALUE, id })
-        local.element.innerHTML = innerHTML
-
-        if (local.childrenSiblings) local.childrenSiblings.map(id => starter({ STATE, VALUE, id }))
-
-        console.log('#', Object.entries(VALUE).length)
+    var innerHTML = createElement({ STATE, VALUE, id })
+    
+    var transition = local.element.style.transition
+    if (transition.includes('; opacity .1s')) {
+        transition = transition.split('; opacity .1s')[0]
+        transition += '; opacity 50ms'
+        local.element.style.transition = transition
     }
+    local.element.style.opacity = '0'
+
+    setTimeout(() => {
+        local.element.innerHTML = innerHTML
+        var transition = local.element.style.transition
+        if (transition.includes('; opacity 50ms')) {
+            transition = transition.split('; opacity 50ms')[0]
+            transition += '; opacity .1s'
+            local.element.style.transition = transition
+        }
+        if (local.childrenSiblings) local.childrenSiblings.map(id => starter({ STATE, VALUE, id }))
+    }, 50)
+    
+    setTimeout(() => local.element.style.opacity = '1', 100)
+
+    console.log('#', Object.entries(VALUE).length)
 
 }
 
@@ -4942,6 +5055,7 @@ const removeId = ({ VALUE, id }) => {
     var local = VALUE[id]
 
     local.childrenSiblings && local.childrenSiblings.map(id => {
+
         if (!VALUE[id]) return
         removeId({ VALUE, id })
         delete VALUE[id]
@@ -4949,9 +5063,8 @@ const removeId = ({ VALUE, id }) => {
 }
 
 module.exports = {update, removeId}
-},{"./clearIntervals":20,"./createElement":27,"./starter":53}],63:[function(require,module,exports){
+},{"./clearIntervals":21,"./createElement":28,"./starter":54}],64:[function(require,module,exports){
 const { generate } = require("./generate")
-const { execute } = require("./execute")
 const { toBoolean } = require("./toBoolean")
 const { isEqual } = require("./isEqual")
 const { clone } = require("./clone")
@@ -4959,7 +5072,11 @@ const { toObject } = require("./toObject")
 const { setData } = require("./data")
 
 const watch = ({ VALUE, STATE, controls, id }) => {
+
+    const { execute } = require("./execute")
+
     var local = VALUE[id]
+    if (!local) return
 
     var key = generate()
     var watch = controls.watch.toString()
@@ -5034,7 +5151,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {watch}
-},{"./clone":22,"./data":30,"./execute":36,"./generate":39,"./isEqual":42,"./toBoolean":57,"./toObject":60}],64:[function(require,module,exports){
+},{"./clone":23,"./data":31,"./execute":37,"./generate":40,"./isEqual":43,"./toBoolean":58,"./toObject":61}],65:[function(require,module,exports){
 const {admin} = require('./admin')
 const {home} = require('./home')
 const {public} = require('./public')
@@ -5042,29 +5159,30 @@ const {public} = require('./public')
 module.exports = {
     admin, home, public
 }
-},{"./admin":65,"./home":66,"./public":67}],65:[function(require,module,exports){
+},{"./admin":66,"./home":67,"./public":68}],66:[function(require,module,exports){
 const admin = { 
     views: ['adminNavbar', 'admin', 'productList']
 }
 
 module.exports = {admin}
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 const home = {
     views: ['navbar']
 }
 
 module.exports = {home}
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 const public = {
-    views: ['dropList']
+    views: ['dropList', 'windowView']
 }
 
 module.exports = {public}
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 const {navbar} = require('./home/navbar')
 
 const {searchBox} = require('./public/searchBox')
 const {dropList} = require('./public/dropList')
+const {windowView} = require('./public/windowView')
 
 const {adminNavbar} = require('./admin/navbar')
 const {adminSidebar} = require('./admin/sidebar')
@@ -5072,11 +5190,13 @@ const {admin} = require('./admin/admin')
 const {productList} = require('./admin/productList')
 const {inventory} = require('./admin/inventory')
 const {newProduct} = require('./admin/newProduct')
+const {offer} = require('./admin/offer')
 
 module.exports = {
-    navbar, searchBox, adminNavbar, admin, adminSidebar, productList, inventory, newProduct, dropList
+    navbar, searchBox, adminNavbar, admin, adminSidebar, productList, inventory, newProduct, dropList,
+    windowView, offer
 }
-},{"./admin/admin":69,"./admin/inventory":70,"./admin/navbar":71,"./admin/newProduct":72,"./admin/productList":73,"./admin/sidebar":74,"./home/navbar":75,"./public/dropList":76,"./public/searchBox":77}],69:[function(require,module,exports){
+},{"./admin/admin":70,"./admin/inventory":71,"./admin/navbar":72,"./admin/newProduct":73,"./admin/offer":74,"./admin/productList":75,"./admin/sidebar":76,"./home/navbar":77,"./public/dropList":78,"./public/searchBox":79,"./public/windowView":80}],70:[function(require,module,exports){
 const admin = {
     type: 'View',
     style: {
@@ -5118,7 +5238,7 @@ const admin = {
 }
 
 module.exports = {admin}
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 const inventory = {
     type: 'View?remove.DATA',
     actions: 'search?state=products-table;query.collection=product;id=products-table',
@@ -5318,7 +5438,7 @@ const inventory = {
 }
 
 module.exports = {inventory}
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 const adminNavbar = {
     type: 'View',
     style: {
@@ -5454,10 +5574,9 @@ const adminNavbar = {
 }
 
 module.exports = {adminNavbar}
-},{}],72:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 const newProduct = {
     type: 'View?DATA={}',
-    actions: 'setValue?value.element.scrollTop=0',
     children: [{
         type: 'View?class=flex-box;style.width=100%;style.marginBottom=2.5rem',
         children: [{
@@ -5547,11 +5666,6 @@ const newProduct = {
                         children: [{
                             type: 'Input?featured;lang=en;path=name;data=[]',
                             style: {
-                                height: '4rem',
-                                borderRadius: '0.25rem',
-                                border: '0',
-                                padding: '0.5rem',
-                                width: '100%',
                                 marginBottom: '1rem'
                             },
                         }]
@@ -5568,11 +5682,6 @@ const newProduct = {
                         children: [{
                             type: 'Input?featured;path=supplier;data=[]',
                             style: {
-                                height: '4rem',
-                                borderRadius: '0.25rem',
-                                border: '0',
-                                padding: '0.5rem',
-                                width: '100%',
                                 marginBottom: '1rem'
                             }
                         }]
@@ -5590,11 +5699,6 @@ const newProduct = {
                     }, {
                         type: 'Input?input.type=number;path=UPC',
                         style: {
-                            height: '4rem',
-                            borderRadius: '0.25rem',
-                            border: '0',
-                            padding: '0.5rem',
-                            width: '100%',
                             marginBottom: '2rem'
                         },
                     }, {
@@ -5610,11 +5714,6 @@ const newProduct = {
                     }, {
                         type: 'Input?path=EAN;input.type=number',
                         style: {
-                            height: '4rem',
-                            borderRadius: '0.25rem',
-                            border: '0',
-                            padding: '0.5rem',
-                            width: '100%',
                             marginBottom: '2rem'
                         },
                     }]
@@ -5783,14 +5882,6 @@ const newProduct = {
                                 actions: 'setState?state.spec-dup=value.id',
                                 children: [{
                                     type: 'Input?featured;lang=en;!removable;!clearable;path=specification',
-                                    style: {
-                                        width: '100%',
-                                        height: '4rem',
-                                        borderRadius: '0.25rem',
-                                        border: '0',
-                                        padding: '0.5rem',
-                                        color: '#444'
-                                    },
                                     actions: 'setState?state.spec-dup-input=value.id',
                                 }, {
                                     type: 'Text?text=:',
@@ -5801,14 +5892,6 @@ const newProduct = {
                                     }
                                 }, {
                                     type: 'Input?featured;lang=en;!removable;!clearable;path=value',
-                                    style: {
-                                        width: '100%',
-                                        height: '4rem',
-                                        borderRadius: '0.25rem',
-                                        border: '0',
-                                        padding: '0.5rem',
-                                        color: '#444'
-                                    }
                                 }, {
                                     type: 'View?style.minWidth=3rem',
                                     children: [{
@@ -5914,15 +5997,6 @@ const newProduct = {
                                 children: [{
                                     type: 'Input?featured;!removable;!clearable;lang=en;path=group',
                                     actions: 'setState?state.options-input=value.id',
-                                    style: {
-                                        width: '100%',
-                                        height: '4rem',
-                                        borderRadius: '0.25rem',
-                                        border: '0',
-                                        padding: '0.5rem',
-                                        color: '#444',
-                                        alignSelf: 'flex-start',
-                                    }
                                 }, {
                                     type: 'Text?text=:',
                                     style: {
@@ -6181,14 +6255,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=text;path=status;readOnly;input.value=In stock;dropList.items=[Status:readOnly,In stock,Out of stock,Pre Order]',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                },
                                 controls: [{
                                     actions: 'createControls?type=dropList'
                                 }]
@@ -6201,14 +6267,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=number;path=SKU',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             type: 'View',
@@ -6218,14 +6276,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?featured;input.type=number;path=count-in-stock;input.value=1;unit=unit;!clearable;!removable',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             type: 'View',
@@ -6235,14 +6285,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=number;path=min-per-order;input.value=1',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             type: 'View',
@@ -6251,14 +6293,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=number;path=max-per-order;input.value=10',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             class: 'flex-box',
@@ -6442,14 +6476,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?model=featured;input.type=number;path=cost;currency=$;!clearable;!removable',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             type: 'View',
@@ -6459,14 +6485,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=number;path=selling;model=featured;currency=$;!clearable;!removable',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             type: 'View',
@@ -6475,14 +6493,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=number;path=exchange-rate.global;model=featured;currency=$;input.value=1;!clearable;!removable',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             class: 'flex-box',
@@ -6501,14 +6511,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?featured;input.type=number;path=exchange-rate.local;currency=L.L;input.value=13000;!clearable;!removable',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             class: 'flex-box',
@@ -6753,7 +6755,7 @@ const newProduct = {
                 children: [{
                     type: 'Item?icon.name=gift;text=Offers;style.fontSize=1.5rem;icon.style.fontSize=1.6rem;style.after.color=#0d6efd',
                     controls: [{
-                        actions: 'createControls?type=windowView;view=Offer'
+                        actions: 'createControls?type=windowView;view=offer'
                     }]
                 }]
             }]
@@ -6762,7 +6764,211 @@ const newProduct = {
 }
 
 module.exports = {newProduct}
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
+const offer = {
+    type: 'View?style.padding=2rem;style.width=100%',
+    children: [{
+        type: 'View?class=flex-start',
+        children: [{
+            type: 'Text?text=New Offer;style.fontSize=2rem;style.color=#444',
+        }, {
+            type: 'Text?class=divider'
+        }, {
+            type: 'View?style.display=flex;style.width=100%',
+            toChildren: 'path=offers.0.type;state=offer-item;icon.style.fontSize=1.6rem;style.height=10rem;style.color=#fff;icon.style.margin=0;icon.style.marginBottom=.2rem;style.flexDirection=column;style.justifyContent=center;chevron.style.display=none;style.flex=1;style.fontSize=1.2rem;style.after.backgroundColor=#fff;style.marginRight=.6rem;style.after.marginRight=.5rem',
+            children: [{
+                type: 'Item?featured;text=Discount;icon.name=cash-coin;featured;style.after.color=HotPink;style.backgroundColor=HotPink;style.after.border=1px solid HotPink'
+            }, {
+                type: 'Item?featured;text=Sale Price;icon.name=tag;featured;style.after.color=#ff4d4d;style.backgroundColor=#ff4d4d;style.after.border=1px solid #ff4d4d'
+            }, {
+                type: 'Item?featured;text=Free Shipping;icon.name=truck;featured;style.after.color=#FF9933;style.backgroundColor=#FF9933;style.after.border=1px solid #FF9933'
+            }, {
+                type: 'Item?featured;text=Buy X Get Y Free;icon.name=tags;featured;style.after.color=MediumSeaGreen;style.backgroundColor=MediumSeaGreen;style.after.border=1px solid MediumSeaGreen'
+            }, {
+                type: 'Item?featured;text=Cash Back;icon.name=currency-dollar;featured;style.after.color=#3399FF;style.backgroundColor=#3399FF;style.after.border=1px solid #3399FF'
+            }, {
+                type: 'Item?featured;text=Earn Points;icon.name=piggy-bank;featured;style.after.color=#CC66FF;style.backgroundColor=#CC66FF;style.after.border=1px solid #CC66FF'
+            }]
+        }, {
+            type: 'Text?class=divider'
+        }, {
+            type: 'View?style.width=100%;style.display=flex;style.flexDirection=column',
+            children: [{
+                type: 'View?class=flex-start;style.border=1px solid #f0f0f0;style.borderRadius=.5rem;style.padding=2rem;style.position=relative;style.marginBottom=2rem;path=offers',
+                children: [{
+                    type: 'View?style.display=flex;style.alignItems=center;style.position=absolute;style.top=1rem;style.right=2rem',
+                    children: [{
+                        type: 'Text?text=remove;style.fontSize=1.2rem'
+                    }, {
+                        type: 'Icon?icon.name=x;style.fontSize=2.2rem;style.cursor=pointer',
+                        controls: {
+                            event: 'click',
+                            actions: 'remove>>value.parent.parent.id??value.length>>value.parent.parent.id>1'
+                        }
+                    }]
+                }, {
+                    type: 'View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%',
+                    children: [{
+                        // type
+                        type: 'View?class=flex-start',
+                        children: [{
+                            type: 'Label?text=Type;style.fontSize=1.4rem;style.marginBottom=.5rem'
+                        }, {
+                            type: 'Input?featured;!clearable;!removable;style.backgroundColor=#f0f0f0;path=type;data=Discount;dropList.items=[Offers:readOnly,Discount,Sale Price,Free Shipping,Buy X Get Y Free,Cash Back,Earn Points]',
+                            controls: {
+                                watch: 'value.data',
+                                //actions: 'createActions?type=item;state=offer-item;id=value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData??value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData'
+                            }
+                        }]
+                    }, {
+                        // name
+                        type: 'View?class=flex-start',
+                        children: [{
+                            type: 'Label?text=Name;style.fontSize=1.4rem;style.marginBottom=.5rem'
+                        }, {
+                            type: 'Input?featured;!clearable;!removable;style.backgroundColor=#f0f0f0;path=name'
+                        }]
+                    }]
+                }, {
+                    type: 'View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%;style.marginTop=2rem',
+                    children: [{
+                        // offer
+                        type: 'View?class=flex-start',
+                        children: [{
+                            type: 'Label?text=Offer;style.fontSize=1.4rem;style.marginBottom=.5rem'
+                        }, {
+                            type: 'Input?featured;!clearable;!removable;input.type=number;style.backgroundColor=#f0f0f0;path=offer;currency=L.L',
+                        }]
+                    }, {
+                        // minimmum requirements
+                        type: 'View?class=flex-start',
+                        children: [{
+                            type: 'Label?text=Minimum Requirements;style.fontSize=1.4rem;style.marginBottom=.5rem'
+                        }, {
+                            type: 'Input?featured;!clearable;!removable;input.type=number;style.backgroundColor=#f0f0f0;path=minimum-requirements;currency=L.L'
+                        }]
+                    }]
+                }, {
+                    type: 'Text?class=divider',
+                },
+
+                // Validity
+
+                {
+                    type: 'View?style.display=flex;style.justifyContent=space-between;style.alignItems=center;style.width=100%',
+                    children: [{
+                        type: 'Text?text=Validity;style.fontSize=1.4rem',
+                    }, {
+                        type: 'Switch',
+                        controls: [{
+                            actions: 'setValue?value.element.checked=true?value.data.validity.starting-date'
+                        }, {
+                            event: 'change',
+                            actions: [
+                                'setData?data=date.today;path=validity.starting-date?value.element.checked',
+                                'setData?data=date.today.+4;path=validity.ending-date?value.element.checked',
+                                'setStyle;update::50?style.display=grid?value.element.checked?value.parent.next.next.id',
+                                'setStyle>>value.parent.next.next.id;removeData?style.display=none;path=validity?!value.element.checked',
+                            ]
+                        }]
+                    }]
+                }, {
+                    type: 'Text?class=divider',
+                }, {
+                    type: 'View?style.display=none;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%;path=validity',
+                    actions: 'setStyle?style.display=grid?value.data.starting-date',
+                    children: [{
+                        // starting date
+                        type: 'View?class=flex-start',
+                        children: [{
+                            type: 'Label?text=Starting Date;style.fontSize=1.4rem;style.marginBottom=.5rem'
+                        }, {
+                            type: 'Input?featured;input.type=datetime-local;style.backgroundColor=#f0f0f0;path=starting-date'
+                        }]
+                    }, {
+                        // ending date
+                        type: 'View?class=flex-start',
+                        children: [{
+                            type: 'Label?text=Ending Date;style.fontSize=1.4rem;style.marginBottom=.5rem'
+                        }, {
+                            type: 'Input?featured;input.type=datetime-local;style.backgroundColor=#f0f0f0;path=ending-date'
+                        }]
+                    }]
+                },
+
+                // Add a Code
+
+                {
+                    type: 'View?style.display=flex;style.justifyContent=space-between;style.alignItems=center;style.width=100%;style.marginTop=2rem',
+                    children: [{
+                        type: 'Text?text=Add a Code;style.fontSize=1.4rem',
+                    }, {
+                        type: 'Switch',
+                        controls: [{
+                            actions: 'setValue?value.element.checked=true?value.data.code.code'
+                        }, {
+                            event: 'change',
+                            actions: [
+                                'setData?data=generate;path=code.code?value.element.checked',
+                                'setData?data=20;path=code.total-uses?value.element.checked',
+                                'setData?data=1;path=code.allowed-uses-per-user?value.element.checked',
+                                'setStyle;update::50?style.display=grid?value.element.checked?value.parent.next.next.id',
+                                'setStyle>>value.parent.next.next.id;removeData?style.display=none;path=code?!value.element.checked',
+                            ]
+                        }]
+                    }]
+                }, {
+                    type: 'Text?class=divider',
+                }, {
+                    type: 'View?style.display=none;style.gridTemplateColumns=1fr 1fr 1fr;style.gap=1rem;style.width=100%;path=code',
+                    actions: 'setStyle?style.display=grid?value.data.code',
+                    children: [{
+                        // code 
+                        type: 'View?class=flex-start',
+                        children: [{
+                            type: 'Label?text=Code;style.fontSize=1.4rem;style.marginBottom=.5rem'
+                        }, {
+                            type: 'Input?featured;input.type=code;style.backgroundColor=#f0f0f0;path=code'
+                        }]
+                    }, {
+                        // total available
+                        type: 'View?class=flex-start',
+                        children: [{
+                            type: 'Label?text=Total Uses;style.fontSize=1.4rem;style.marginBottom=.5rem'
+                        }, {
+                            type: 'Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=total-uses'
+                        }]
+                    }, {
+                        // allowed uses per user
+                        type: 'View?class=flex-start',
+                        children: [{
+                            type: 'Label?text=Allowed Uses Per User;style.fontSize=1.4rem;style.marginBottom=.5rem'
+                        }, {
+                            type: 'Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=allowed-uses-per-user'
+                        }]
+                    }]
+                }]
+            }]
+        }, {
+
+            // add more offers
+
+            type: 'View?style.display=flex;style.alignItems=center',
+            children: [{
+                type: 'Icon?icon.name=plus-circle-fill;style.fontSize=2rem;style.margin=0 1rem;style.color=#444;style.cursor=pointer',
+                controls: [{
+                    event: 'click',
+                    actions: 'duplicate;focus::100???value.parent.prev.firstChild.id'
+                }]
+            }, {
+                type: 'Text?text=Add More Offers;style.fontSize=1.4rem;style.color=#444'
+            }]
+        }]
+    }]
+}
+
+module.exports = {offer}
+},{}],75:[function(require,module,exports){
 const productList = {
     type: 'List?id=side-bar-products-list',
     children: [{
@@ -6781,7 +6987,7 @@ const productList = {
 }
 
 module.exports = {productList}
-},{}],74:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 const adminSidebar = {
     type: 'View?toChildren.state=side-bar-item;toChildren.featured',
     style: {
@@ -6825,7 +7031,7 @@ const adminSidebar = {
 }
 
 module.exports = {adminSidebar}
-},{}],75:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 const navbar = {
     type: 'View?class=nav-bar',
     style: {
@@ -6876,7 +7082,7 @@ const navbar = {
 }
 
 module.exports={navbar}
-},{}],76:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 const dropList = {
     class: 'box-shadow',
     type: 'View?id=drop-list',
@@ -6909,7 +7115,7 @@ const dropList = {
 }
 
 module.exports = {dropList}
-},{}],77:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 const searchBox = {
     type: 'View',
     style: {
@@ -7006,4 +7212,37 @@ const searchBox = {
 }
 
 module.exports = {searchBox}
+},{}],80:[function(require,module,exports){
+const windowView = {
+    type: 'View?id=mini-window;class=flex-box',
+    style: {
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        display: 'none',
+        height: '100%',
+        width: '100%',
+        backgroundColor: '#00000050',
+        opacity: '0',
+        transition: 'opacity 0.2s',
+        zIndex: '999'
+    },
+    children: [{
+        type: 'View?style.height=70%;style.width=60%;style.overflowY=auto;style.borderRadius=.5rem;style.backgroundColor=#fff',
+        children: { type: 'View?id=window-view' },
+        controls: [{
+            event: 'mouseenter',
+            actions: 'setState?state.hide-window-view'
+        }, {
+            event: 'mouseleave',
+            actions: 'setState?state.hide-window-view=false'
+        }]
+    }],
+    controls: [{
+        event: 'click',
+        actions: 'setStyle?style.display=none::200;style.opacity=0?!state.hide-window-view'
+    }]
+}
+
+module.exports = {windowView}
 },{}]},{},[5]);

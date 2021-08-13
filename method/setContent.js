@@ -1,7 +1,7 @@
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
 
-const setContent = ({ VALUE, params, id }) => {
+const setContent = ({ VALUE, params = {}, id }) => {
     var local = VALUE[id]
 
     var value = ''

@@ -139,7 +139,7 @@ textarea {
   padding: 20px;
   border: 1px dashed #ccc;
   border-radius: 3px;
-  transition: 0.2s;
+  transition: background-color 0.2s;
   height: 10rem;
 }
 
@@ -165,8 +165,9 @@ textarea {
   position: absolute;
   left: 0;
   top: 0;
+  bottom: 0;
+  right: 0;
   height: 100%;
-  width: 100%;
   cursor: pointer;
   opacity: 0;
 }
@@ -205,7 +206,7 @@ textarea {
 
 /* Switch Button */
 
-#button-13 {
+.button-13 {
   position: relative;
   width: 70px;
   height: 34px;
@@ -233,9 +234,9 @@ textarea {
   z-index: 2;
 }
 
-#button-13 .knobs:before,
-#button-13 .knobs:after,
-#button-13 .knobs span {
+.button-13 .knobs:before,
+.button-13 .knobs:after,
+.button-13 .knobs span {
   position: absolute;
   top: 4px;
   bottom: 4px;
@@ -248,30 +249,30 @@ textarea {
   transition: 0.3s ease all;
 }
 
-#button-13 .knobs:before,
-#button-13 .knobs:after {
+.button-13 .knobs:before,
+.button-13 .knobs:after {
   color: #444;
   z-index: 1;
 }
 
-#button-13 .knobs:before {
+.button-13 .knobs:before {
   content: "NO";
   left: 4px;
 }
 
-#button-13 .knobs:after {
+.button-13 .knobs:after {
   content: "YES";
   right: 4px;
 }
 
-#button-13 .knobs span {
+.button-13 .knobs span {
   width: 30px;
   left: 35px;
   background-color: #f44336;
   z-index: 2;
 }
 
-#button-13 .checkbox:checked + .knobs span {
+.button-13 .checkbox:checked + .knobs span {
   left: 4px;
   background-color: #03a9f4;
 }

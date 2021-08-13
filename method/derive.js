@@ -20,7 +20,11 @@ const derive = (data, keys, fullDerivation, defValue, writable) => {
         // path doesnot exist => create path
         if (writable && typeof o[k] !== 'object') {
 
-            if (i < keys.length - 1) o[k] = {}
+            if (i < keys.length - 1) {
+                if (!isNaN(keys[i + 1])) o[k] = []
+                else o[k] = {}
+            }
+
             else if (i === keys.length - 1) {
 
                 if (defValue || defValue === 0) {

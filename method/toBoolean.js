@@ -282,7 +282,6 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                                 return o[k]
     
                             }, clone(local[key]))
-
                         }
                     }
 

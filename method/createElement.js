@@ -46,8 +46,8 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         // pass to children
         if (parent.toChildren) {
 
-            if (typeof params === 'string')
-                params = toObject({ VALUE, STATE, string: parent.toChildren, id })
+            if (typeof parent.toChildren === 'string')
+            parent.toChildren = toObject({ VALUE, STATE, string: parent.toChildren, id })
 
             value = override(value, parent.toChildren)
         }
@@ -84,7 +84,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         var data, isArray
         if (parent.turnOff) { data = ''; value.turnOff = true }                     //def value
         else { [data, derivations, isArray] = derive(value.DATA, derivations, false, value.data, true) }
-
+        
         if (isArray) {
             
             tags = data.map((data, index) => {

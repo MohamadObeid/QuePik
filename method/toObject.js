@@ -152,6 +152,21 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
 
                                 return VALUE[id]
 
+                            } else if (k === 'firstChild') {
+
+                                var firstChild = o.element.children[0]
+                                return VALUE[firstChild.id]
+                                
+                            } else if (k === 'secondChild') {
+
+                                var secondChild = o.element.children[1] ? o.element.children[1] : o.element.children[0]
+                                return VALUE[secondChild.id]
+
+                            } else if (k === 'lastChild') {
+
+                                var lastChild = o.element.children[o.element.children.length - 1]
+                                return VALUE[lastChild.id]
+
                             } else if (k === 'INPUT') {
 
                                 var inputComps = [...o.element.getElementsByTagName(k)]
@@ -159,7 +174,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                                 if (inputComps.length === 0) return inputComps[0]
                                 else return inputComps
 
-                            } else if (k === 'findidByData') {
+                            } else if (k === 'findIdByData') {
 
                                 var id = o.find(id => local.data === VALUE[id].text)
                                 if (id) return id
@@ -169,6 +184,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                             return o[k]
 
                         }, clone(local))
+                        
                     }
 
                 } else if (path[0] === 'DATA') {

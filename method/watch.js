@@ -1,5 +1,4 @@
 const { generate } = require("./generate")
-const { execute } = require("./execute")
 const { toBoolean } = require("./toBoolean")
 const { isEqual } = require("./isEqual")
 const { clone } = require("./clone")
@@ -7,7 +6,11 @@ const { toObject } = require("./toObject")
 const { setData } = require("./data")
 
 const watch = ({ VALUE, STATE, controls, id }) => {
+
+    const { execute } = require("./execute")
+
     var local = VALUE[id]
+    if (!local) return
 
     var key = generate()
     var watch = controls.watch.toString()

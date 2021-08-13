@@ -41,6 +41,8 @@ const createTags = ({ VALUE, STATE, value, data, derivations }) => {
                         params = toObject({VALUE, STATE, string: params, id})
                         Object.entries(params).map(([k, v]) => local[k] = v )
                     }
+
+                    id = local.id
                 }
 
                 VALUE[id] = { ...local, id, index, data, derivations: [...derivations, index] }
@@ -59,10 +61,10 @@ const createTags = ({ VALUE, STATE, value, data, derivations }) => {
         }
     }
 
-    // template
-
-    var id = value.id || generate()
     
+    var id = value.id || generate()
+    value.id = id
+
     // components
     if (_component[value.type]) {
         
@@ -85,8 +87,11 @@ const createTags = ({ VALUE, STATE, value, data, derivations }) => {
             params = toObject({VALUE, STATE, string: params, id})
             Object.entries(params).map(([k, v]) => value[k] = v )
         }
-    }
 
+        id = value.id
+    }
+    
+    
     VALUE[id] = { ...value, id, data, derivations }
     VALUE[value.parent].childrenSiblings.push(id)
 
@@ -121,11 +126,14 @@ const oneTag = ({STATE, VALUE, id}) => {
             else if (k === 'marginRight') k = 'margin-right'
             else if (k === 'marginTop') k = 'margin-top'
             else if (k === 'fontSize') k = 'font-size'
+            else if (k === 'fontWeight') k = 'font-weight'
+            else if (k === 'lineHeight') k = 'line-weight'
+            else if (k === 'textOverflow') k = 'text-overflow'
+            else if (k === 'whiteSpace') k = 'white-space'
             else if (k === 'backgroundColor') k = 'background-color'
             else if (k === 'zIndex') k = 'z-index'
             else if (k === 'boxShadow') k = 'box-shadow'
             else if (k === 'borderRadius') k = 'border-radius'
-            else if (k === 'fontWeight') k = 'font-weight'
             else if (k === 'zIndex') k = 'z-index'
             else if (k === 'alignItems') k = 'align-items'
             else if (k === 'justifyContent') k = 'justify-content'
@@ -164,6 +172,9 @@ const oneTag = ({STATE, VALUE, id}) => {
 
     else if (value.type === 'Label')
     tag = `<label class='${value.class}' id='${value.id}' style='${style}'>${text}</label>`
+
+    else if (value.type === 'Span')
+    tag = `<span class='${value.class}' id='${value.id}' style='${style}'>${text}</span>`
 
     else if (value.type === 'Icon')
     tag = `<i class='${value.class} bi-${value.icon.name}' id='${value.id}' style='${style}'></i>`

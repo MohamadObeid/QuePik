@@ -1,12 +1,15 @@
 const { setData } = require("./data")
 const { resizeInput } = require("./resize")
 const { isArabic } = require("./isArabic")
-const { remove } = require("./remove")
+const { removeData } = require("./data")
 
 const defaultInputHandler = ({STATE, VALUE, id}) => {
 
     var local = VALUE[id]
-    if (!local || local.element.tagName !== 'INPUT') return
+    if (!local) return
+
+    if (local.element.tagName !== 'INPUT' && local.element.tagName !== 'TEXTAREA') return
+    if (local.input && local.input.type === 'checkbox') return
 
     // input
     local.value = local.element.value
@@ -57,9 +60,9 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
 
             // reset DATA
             setData({ VALUE, params: { value }, id })
-
+            
             // remove value from data
-            //if (value === '') return remove({ VALUE, STATE, id })
+            if (value === '') return removeData({ VALUE, STATE, id })
         }
 
         // resize

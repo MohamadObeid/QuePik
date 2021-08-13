@@ -1,6 +1,5 @@
 const newProduct = {
     type: 'View?DATA={}',
-    actions: 'setValue?value.element.scrollTop=0',
     children: [{
         type: 'View?class=flex-box;style.width=100%;style.marginBottom=2.5rem',
         children: [{
@@ -90,11 +89,6 @@ const newProduct = {
                         children: [{
                             type: 'Input?featured;lang=en;path=name;data=[]',
                             style: {
-                                height: '4rem',
-                                borderRadius: '0.25rem',
-                                border: '0',
-                                padding: '0.5rem',
-                                width: '100%',
                                 marginBottom: '1rem'
                             },
                         }]
@@ -111,11 +105,6 @@ const newProduct = {
                         children: [{
                             type: 'Input?featured;path=supplier;data=[]',
                             style: {
-                                height: '4rem',
-                                borderRadius: '0.25rem',
-                                border: '0',
-                                padding: '0.5rem',
-                                width: '100%',
                                 marginBottom: '1rem'
                             }
                         }]
@@ -133,11 +122,6 @@ const newProduct = {
                     }, {
                         type: 'Input?input.type=number;path=UPC',
                         style: {
-                            height: '4rem',
-                            borderRadius: '0.25rem',
-                            border: '0',
-                            padding: '0.5rem',
-                            width: '100%',
                             marginBottom: '2rem'
                         },
                     }, {
@@ -153,11 +137,6 @@ const newProduct = {
                     }, {
                         type: 'Input?path=EAN;input.type=number',
                         style: {
-                            height: '4rem',
-                            borderRadius: '0.25rem',
-                            border: '0',
-                            padding: '0.5rem',
-                            width: '100%',
                             marginBottom: '2rem'
                         },
                     }]
@@ -326,14 +305,6 @@ const newProduct = {
                                 actions: 'setState?state.spec-dup=value.id',
                                 children: [{
                                     type: 'Input?featured;lang=en;!removable;!clearable;path=specification',
-                                    style: {
-                                        width: '100%',
-                                        height: '4rem',
-                                        borderRadius: '0.25rem',
-                                        border: '0',
-                                        padding: '0.5rem',
-                                        color: '#444'
-                                    },
                                     actions: 'setState?state.spec-dup-input=value.id',
                                 }, {
                                     type: 'Text?text=:',
@@ -344,14 +315,6 @@ const newProduct = {
                                     }
                                 }, {
                                     type: 'Input?featured;lang=en;!removable;!clearable;path=value',
-                                    style: {
-                                        width: '100%',
-                                        height: '4rem',
-                                        borderRadius: '0.25rem',
-                                        border: '0',
-                                        padding: '0.5rem',
-                                        color: '#444'
-                                    }
                                 }, {
                                     type: 'View?style.minWidth=3rem',
                                     children: [{
@@ -457,15 +420,6 @@ const newProduct = {
                                 children: [{
                                     type: 'Input?featured;!removable;!clearable;lang=en;path=group',
                                     actions: 'setState?state.options-input=value.id',
-                                    style: {
-                                        width: '100%',
-                                        height: '4rem',
-                                        borderRadius: '0.25rem',
-                                        border: '0',
-                                        padding: '0.5rem',
-                                        color: '#444',
-                                        alignSelf: 'flex-start',
-                                    }
                                 }, {
                                     type: 'Text?text=:',
                                     style: {
@@ -724,14 +678,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=text;path=status;readOnly;input.value=In stock;dropList.items=[Status:readOnly,In stock,Out of stock,Pre Order]',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                },
                                 controls: [{
                                     actions: 'createControls?type=dropList'
                                 }]
@@ -744,14 +690,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=number;path=SKU',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             type: 'View',
@@ -761,14 +699,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?featured;input.type=number;path=count-in-stock;input.value=1;unit=unit;!clearable;!removable',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             type: 'View',
@@ -778,14 +708,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=number;path=min-per-order;input.value=1',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             type: 'View',
@@ -794,14 +716,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=number;path=max-per-order;input.value=10',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             class: 'flex-box',
@@ -985,14 +899,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?model=featured;input.type=number;path=cost;currency=$;!clearable;!removable',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             type: 'View',
@@ -1002,14 +908,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=number;path=selling;model=featured;currency=$;!clearable;!removable',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             type: 'View',
@@ -1018,14 +916,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?input.type=number;path=exchange-rate.global;model=featured;currency=$;input.value=1;!clearable;!removable',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             class: 'flex-box',
@@ -1044,14 +934,6 @@ const newProduct = {
                             },
                             children: [{
                                 type: 'Input?featured;input.type=number;path=exchange-rate.local;currency=L.L;input.value=13000;!clearable;!removable',
-                                style: {
-                                    width: '100%',
-                                    height: '4rem',
-                                    borderRadius: '0.25rem',
-                                    border: '0',
-                                    padding: '0.5rem',
-                                    color: '#444',
-                                }
                             }]
                         }, {
                             class: 'flex-box',
@@ -1296,7 +1178,7 @@ const newProduct = {
                 children: [{
                     type: 'Item?icon.name=gift;text=Offers;style.fontSize=1.5rem;icon.style.fontSize=1.6rem;style.after.color=#0d6efd',
                     controls: [{
-                        actions: 'createControls?type=windowView;view=Offer'
+                        actions: 'createControls?type=windowView;view=offer'
                     }]
                 }]
             }]

@@ -5,6 +5,8 @@ const Upload = (component) => {
     component = toComponent(component)
     var { upload } = component
 
+    upload.multiple = upload.multiple !== undefined ? upload.multiple : true
+
     return {
         ...component,
         type: 'View',
@@ -19,7 +21,7 @@ const Upload = (component) => {
         }, {
             type: `Text?class=file-msg;text=or drag and drop ${upload.type}s here`
         }, {
-            type: `Input?class=file-input;upload.type=${upload.type};upload.multiple;upload.accept=${upload.accept}`
+            type: `Input?class=file-input;upload.type=${upload.type};upload.multiple=${upload.multiple};upload.accept=${upload.accept};style.height=100%`
         }]
     }
 }

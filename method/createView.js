@@ -13,7 +13,7 @@ const createView = ({ STATE, VALUE, params, id }) => {
     if (!_view[view]) return
 
     local.children = [_view[view]]
-    
+
     // update
     update({ VALUE, STATE, id })
 }

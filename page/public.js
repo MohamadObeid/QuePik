@@ -1,5 +1,5 @@
 const public = {
-    views: ['dropList']
+    views: ['dropList', 'windowView']
 }
 
 module.exports = {public}

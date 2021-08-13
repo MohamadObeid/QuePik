@@ -53,7 +53,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 
                 local[`${controls.actions}-timer`] = setTimeout(
                     () => execute({ VALUE, STATE, controls, e, id }),
-                    timer)
+                    timer);
 
             }
 

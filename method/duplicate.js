@@ -6,14 +6,11 @@ const { isEqual } = require('./isEqual')
 const { removeDuplicates } = require('./removeDuplicates')
 const { update } = require('./update')
 
-const duplicate = ({ VALUE, STATE, params, id }) => {
-
-    const { createElement } = require('./createElement')
+const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 
     var local = VALUE[id]
     if (!local) return
 
-    if (!params) params = {}
     if (local.DATA) {
 
         var keys = clone(local.derivations)

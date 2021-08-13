@@ -24,6 +24,17 @@ const Input = (component) => {
         return {
             ...component,
             templated: true,
+            style: {
+                width: '100%',
+                border: '0',
+                padding: '0.5rem',
+                color: '#444',
+                backgroundColor: '#fff',
+                height: '4rem',
+                borderRadius: '0.25rem',
+
+                ...style,
+            },
             controls: [...controls,
             /*{
                 watch: 'value.data',
@@ -54,6 +65,8 @@ const Input = (component) => {
                 position: 'relative',
                 backgroundColor: '#fff',
                 height: '4rem',
+                borderRadius: '0.25rem',
+                border: '0',
                 flexDirection: lang === 'ar' ? 'row-reverse' : 'row',
                 ...style,
             },
@@ -155,7 +168,7 @@ const Input = (component) => {
                         event: 'click',
                         actions: [
                             `remove>>${id}??${component.removable}${component.clearable ? `;value.length>>${id}>1;!value.data>>${id}-input` : ''}`,
-                            `clearData>>${id}-input;focus::50>>${id}-input??${component.clearable}`,
+                            `removeData>>${id}-input;focus::50>>${id}-input??${component.clearable}`,
                         ]
                     }]
                 }]

@@ -26,19 +26,40 @@ const remove = ({ VALUE, params, id }) => {
 
     }, local.DATA)
 
-    //local.parent.children.splice([keys[keys.length - 1]], 1)
-
     console.log(local.DATA)
+
     clearIntervals({ VALUE, id })
     removeId({ VALUE, id })
     local.element.remove()
-    
-    VALUE[local.parent].childrenSiblings.map((id, i) => {
-        VALUE[id].length -= 1
-        if (id === local.id) VALUE[local.parent].childrenSiblings.splice(i, 1)
-    })
-    delete VALUE[id]
 
+    // reset length and derivations
+    var after = false
+    var siblings = clone(VALUE[local.parent].childrenSiblings)
+    
+    siblings.map((id, i) => {
+        VALUE[id].length -= 1
+        
+        if (after) {
+            var index = VALUE[id].derivations.length - 1
+            if (!isNaN(VALUE[id].derivations[index])) resetDerivations({VALUE, id, index})
+        }
+
+        if (id === local.id) {
+            VALUE[local.parent].childrenSiblings.splice(i, 1)
+            after = true
+        }
+    })
+
+    delete VALUE[id]
+}
+
+const resetDerivations = ({VALUE, id, index}) => {
+    
+    VALUE[id].derivations[index] -= 1
+    
+    VALUE[id].childrenSiblings && VALUE[id].childrenSiblings.map(id => {
+        resetDerivations({VALUE, id, index})
+    })
 }
 
 module.exports = {remove}
