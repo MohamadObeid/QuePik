@@ -7,7 +7,7 @@ const { clone } = require("./clone")
 const { derive } = require("./derive")
 const { createTags } = require("./createTags")
 
-const _view = require("../view/_view")
+const _view = require("../view/trip/_view")
 
 const createElement = ({STATE, VALUE, id, params = {}}) => {
     

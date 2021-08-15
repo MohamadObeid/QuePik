@@ -1,5 +1,5 @@
 const { update } = require("./update")
-const _view = require("../view/_view")
+const _view = require("../view/trip/_view")
 
 const createView = ({ STATE, VALUE, params, id }) => {
 

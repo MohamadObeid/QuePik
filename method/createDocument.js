@@ -1,5 +1,5 @@
 const { createElement } = require("./createElement")
-const _view = require('../view/_view')
+const _view = require('../view/trip/_view')
 const _page = require('../page/_page')
 
 const createDocument = (page) => {
