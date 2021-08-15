@@ -36,7 +36,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         // approval
         var approved = toBoolean({ VALUE, STATE, string: conditions, id })
         if (!approved) return
-        
+
         // push destructured params from type to value
         if (params) {
             params = toObject({VALUE, STATE, string: params, id})
@@ -71,6 +71,12 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         if (path.length > 0) {
             if (!parent.DATA) parent.DATA = {}
 
+            // convert string numbers paths to num
+            path = path.map(k => { 
+                if (!isNaN(k)) k = parseFloat(k) 
+                return k
+            })
+
             // push path to a data array and derivations last element is not an index
             if (isNaN(path[0])) {
                 var data = derive(parent.DATA, parent.derivations)[0]
@@ -103,7 +109,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         
         //tag = innerHTML
         innerHTML += tags
-
+        
     })
     return innerHTML
 }

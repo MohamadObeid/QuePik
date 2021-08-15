@@ -152,20 +152,41 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
 
                                 return VALUE[id]
 
-                            } else if (k === 'firstChild') {
+                            } else if (k === '1stChild') {
 
-                                var firstChild = o.element.children[0]
-                                return VALUE[firstChild.id]
+                                var id = o.element.children[0].id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
                                 
-                            } else if (k === 'secondChild') {
+                                return VALUE[id]
+                                
+                            } else if (k === '2ndChild') {
 
-                                var secondChild = o.element.children[1] ? o.element.children[1] : o.element.children[0]
-                                return VALUE[secondChild.id]
+                                var id = (o.element.children[1] || o.element.children[0]).id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
+
+                            } else if (k === '3rdChild') {
+
+                                var id = (o.element.children[2] || o.element.children[1] || o.element.children[0]).id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
 
                             } else if (k === 'lastChild') {
 
-                                var lastChild = o.element.children[o.element.children.length - 1]
-                                return VALUE[lastChild.id]
+                                var id = o.element.children[o.element.children.length - 1].id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
 
                             } else if (k === 'INPUT') {
 

@@ -47,6 +47,7 @@ const createTags = ({ VALUE, STATE, value, data, derivations }) => {
 
                 VALUE[id] = { ...local, id, index, data, derivations: [...derivations, index] }
                 VALUE[local.parent].childrenSiblings.push(id)
+                if (VALUE[id].tt) console.log('1', VALUE[id].data);
 
                 // execute onload actions
                 if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })

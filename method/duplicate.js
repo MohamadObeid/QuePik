@@ -15,7 +15,16 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 
         var keys = clone(local.derivations)
         var index = params.index || 0
-        if (params.path) keys.push(...params.path.split('.'))
+        var path = params.path ? params.path('.') : []
+        
+        // convert string numbers paths to num
+        if (path.length > 0)
+            path = path.map(k => { 
+                if (!isNaN(k)) k = parseFloat(k) 
+                return k
+            })
+
+        if (params.path) keys.push(...path)
 
         // last index refers to data index => must be poped
         if (!isNaN(keys[keys.length - 1])) {

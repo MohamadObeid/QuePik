@@ -1486,7 +1486,7 @@ const Input = (component) => {
         }
 
     }
-
+    
     if (model === 'featured') {
 
         return {
@@ -1494,6 +1494,7 @@ const Input = (component) => {
             class: 'flex-box',
             type: 'View',
             id,
+            component: 'Input',
             controls: { actions: `focus::50>>${id}-input??value.length;value.index=value.length--1` },
             style: {
                 display: 'inline-flex',
@@ -1562,7 +1563,7 @@ const Input = (component) => {
                 }]
             }, {
                 type: `View?class=flex-box ${lang === 'ar' ? 'arabic' : ''}`,
-                style: { 
+                style: {
                     padding: '0 0.5rem',
                 },
                 children: [{
@@ -1703,7 +1704,7 @@ const Item = (component) => {
                     `setState?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountOnLoad`,
                 ]
             }, {
-                event: `click??state.${state}.0!=${id}`,
+                event: `click??state.${state}=undefined||state.${state}.0!=${id}`,
                 actions: `createActions?type=item;id=${id};state=${state}`
             }, {
                 event: 'mouseenter',
@@ -2338,7 +2339,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         // approval
         var approved = toBoolean({ VALUE, STATE, string: conditions, id })
         if (!approved) return
-        
+
         // push destructured params from type to value
         if (params) {
             params = toObject({VALUE, STATE, string: params, id})
@@ -2373,6 +2374,12 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         if (path.length > 0) {
             if (!parent.DATA) parent.DATA = {}
 
+            // convert string numbers paths to num
+            path = path.map(k => { 
+                if (!isNaN(k)) k = parseFloat(k) 
+                return k
+            })
+
             // push path to a data array and derivations last element is not an index
             if (isNaN(path[0])) {
                 var data = derive(parent.DATA, parent.derivations)[0]
@@ -2405,7 +2412,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         
         //tag = innerHTML
         innerHTML += tags
-
+        
     })
     return innerHTML
 }
@@ -2461,6 +2468,7 @@ const createTags = ({ VALUE, STATE, value, data, derivations }) => {
 
                 VALUE[id] = { ...local, id, index, data, derivations: [...derivations, index] }
                 VALUE[local.parent].childrenSiblings.push(id)
+                if (VALUE[id].tt) console.log('1', VALUE[id].data);
 
                 // execute onload actions
                 if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
@@ -2639,7 +2647,6 @@ module.exports = {createView}
 },{"../view/_view":69,"./update":63}],31:[function(require,module,exports){
 const { clone } = require("./clone")
 const { setContent } = require("./setContent")
-const { update } = require("./update")
 
 const createData = ({ VALUE, params, id }) => {
     var local = VALUE[id]
@@ -2656,13 +2663,20 @@ const pushData = ({ VALUE, params }) => {
     setData({ VALUE, value })
 }
 
-const setData = ({ VALUE, STATE, params = {}, id }) => {
+const setData = ({ VALUE, params = {}, id }) => {
     var local = VALUE[id]
     if (!local.DATA) return
 
     var path = params.path
     if (path) path = path.split('.')
     else path = []
+
+    
+    // convert string numbers paths to num
+    path = path.map(k => { 
+        if (!isNaN(k)) k = parseFloat(k) 
+        return k
+    })
 
     var value = params.value || params.data
 
@@ -2719,6 +2733,13 @@ const removeData = ({ VALUE, id, params = {} }) => {
 
     var path = params.path
     path = path ? path.split('.') : []
+
+    // convert string numbers paths to num
+    path = path.map(k => { 
+        if (!isNaN(k)) k = parseFloat(k) 
+        return k
+    })
+    
     path = [...local.derivations, ...path]
     
     path.reduce((o, k, i) => {
@@ -2734,7 +2755,7 @@ const removeData = ({ VALUE, id, params = {} }) => {
 }
 
 module.exports = {createData, setData, pushData, clearData, removeData}
-},{"./clone":23,"./setContent":50,"./update":63}],32:[function(require,module,exports){
+},{"./clone":23,"./setContent":50}],32:[function(require,module,exports){
 const { setData } = require("./data")
 const { resizeInput } = require("./resize")
 const { isArabic } = require("./isArabic")
@@ -2975,7 +2996,16 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 
         var keys = clone(local.derivations)
         var index = params.index || 0
-        if (params.path) keys.push(...params.path.split('.'))
+        var path = params.path ? params.path('.') : []
+        
+        // convert string numbers paths to num
+        if (path.length > 0)
+            path = path.map(k => { 
+                if (!isNaN(k)) k = parseFloat(k) 
+                return k
+            })
+
+        if (params.path) keys.push(...path)
 
         // last index refers to data index => must be poped
         if (!isNaN(keys[keys.length - 1])) {
@@ -3492,7 +3522,7 @@ const overflow = ({ VALUE, params, id }) => {
 
 module.exports = {overflow}
 },{}],46:[function(require,module,exports){
-const { removeId } = require("./update")
+const { removeIds } = require("./update")
 const { clone } = require("./clone")
 const { clearIntervals } = require("./clearIntervals")
 
@@ -3504,7 +3534,16 @@ const remove = ({ VALUE, params, id }) => {
     if (!local.DATA) return
 
     var keys = clone(local.derivations)
-    if (params.path) keys.push(...params.path.split('.'))
+    var path = params.path ? params.path('.') : []
+    
+    // convert string numbers paths to num
+    if (path.length > 0)
+        path = path.map(k => { 
+            if (!isNaN(k)) k = parseFloat(k) 
+            return k
+        })
+
+    if (params.path) keys.push(...path)
 
     if (keys.length === 0) local.parent.children.splice([keys[keys.length - 1]], 1)
     else keys.reduce((o, k, i) => {
@@ -3523,7 +3562,7 @@ const remove = ({ VALUE, params, id }) => {
     console.log(local.DATA)
 
     clearIntervals({ VALUE, id })
-    removeId({ VALUE, id })
+    removeIds({ VALUE, id })
     local.element.remove()
 
     // reset length and derivations
@@ -3716,7 +3755,7 @@ const setContent = ({ VALUE, params = {}, id }) => {
     var local = VALUE[id]
 
     var value = ''
-    if (params) value = params.value || params.content || ''
+    if (params) value = params.value || params.content || params.data || ''
 
     // for specific case: VAR.data was equal to [], then updated to ['value'] =>
     if (Array.isArray(value))
@@ -4129,11 +4168,14 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                     // ex: key1=value1||key2=value2||key3=value3
                     if (condition[1].length > 1) {
                         condition[2] = condition.slice(2, condition.length).join('=')
-                        approval = toBoolean({ VALUE, STATE, e, string: `${condition[1][1]}=${condition[2]}`, id })
+                        approval = toBoolean({ VALUE, STATE, e, string: `${condition[0]}=${condition[1][0]}`, id })
                         if (approval) return
 
                         // approval isn't true yet => keep trying
-                        value = condition[1][0]
+                        key = condition[1][1]
+                        value = condition.slice(2).join('=')
+                        string = `${key}=${value}`
+                        return approval = toBoolean({ VALUE, STATE, e, string, id})
                     }
 
                     // ex: key=value1=value2=value3
@@ -4149,14 +4191,24 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
 
 
                 else if (value) {
-
                     value = value.split('||')
 
                     if (value.length === 1) value = value[0]
 
-                    // ex: key=value1||value2||value3
                     else if (value[1]) {
 
+                        // ex: key1=value1||key2=value2...
+                        if (value[1].includes('=')) {
+                            
+                            var string = `${key}=${value[0]}`
+                            approval = toBoolean({ VALUE, STATE, e, string, id })
+                            if (approval) return
+
+                            string = value.slice(1).join('||')
+                            return approval = toBoolean({ VALUE, STATE, e, string, id })
+                        }
+
+                        // ex: key=value1||value2||value3
                         value[1] = value.slice(1, value.length).join('||')
                         var string = `${key}=${value[1]}`
                         approval = toBoolean({ VALUE, STATE, e, string, id })
@@ -4293,11 +4345,15 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                         
                         var val = STATE[key1[0]]
                         key1 = key1.slice(1)
-
+                        key1 = key1.map(k => { 
+                            if (!isNaN(k)) k = parseFloat(k)
+                            return k
+                        })
                         if (key1.length > 0) key1.reduce((o, k, i) => {
                             
                             if (i === key1.length - 1) return local[key] = o[k]
                             return o[k]
+
                         }, clone(val))
 
                         else local[key] = val
@@ -4330,36 +4386,61 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
 
                         }
                         else {
-
-                            local[key] = local[key1[0]]
-                            key1 = key1.slice(1)
+                            
                             local[key] = key1.reduce((o, k, i) => {
 
                                 if (k === 'parent') {
-
+                                    
                                     var parent = o.parent
                                     if (o.type === 'Input') parent = VALUE[parent].parent
                                     return VALUE[parent]
-    
+
                                 } else if (k === 'next' || k === 'nextSibling') {
-    
+
                                     var nextSibling = o.element.nextSibling
                                     var id = nextSibling.id
-    
+
                                     return VALUE[id]
-    
+
                                 } else if (k === 'prev' || k === 'prevSibling') {
-    
+
                                     var previousSibling = o.element.previousSibling
                                     var id = previousSibling.id
-    
+
                                     return VALUE[id]
-    
+
+                                } else if (k === 'firstChild') {
+
+                                    var firstChild = o.element.children[0]
+                                    return VALUE[firstChild.id]
+                                    
+                                } else if (k === 'secondChild') {
+
+                                    var secondChild = o.element.children[1] ? o.element.children[1] : o.element.children[0]
+                                    return VALUE[secondChild.id]
+
+                                } else if (k === 'lastChild') {
+
+                                    var lastChild = o.element.children[o.element.children.length - 1]
+                                    return VALUE[lastChild.id]
+
+                                } else if (k === 'INPUT') {
+
+                                    var inputComps = [...o.element.getElementsByTagName(k)]
+                                    inputComps = inputComps.map(comp => VALUE[comp.id])
+                                    if (inputComps.length === 0) return inputComps[0]
+                                    else return inputComps
+
+                                } else if (k === 'findIdByData') {
+
+                                    var id = o.find(id => local.data === VALUE[id].text)
+                                    if (id) return id
+                                    else return id
                                 }
-                                
+
                                 return o[k]
-    
-                            }, clone(local[key]))
+
+                            }, clone(local))
                         }
                     }
 
@@ -4391,6 +4472,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                         
                         if (key1[0] === 'false' || key1[0] === 'undefined' || key1[0] === '') local[key] = false
                         else local[key] = key1.join('')
+                        
                     }
                     else if (key0 === 'parent') {
 
@@ -4430,7 +4512,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 if (minus) value = value - minus
                 if (times) value = value * times
                 if (division) value = value / division
-
+                
                 if (!local) return approval = false
                 if (value === undefined) approval = notEqual ? !local[key] : local[key]
                 else {
@@ -4830,20 +4912,41 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
 
                                 return VALUE[id]
 
-                            } else if (k === 'firstChild') {
+                            } else if (k === '1stChild') {
 
-                                var firstChild = o.element.children[0]
-                                return VALUE[firstChild.id]
+                                var id = o.element.children[0].id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
                                 
-                            } else if (k === 'secondChild') {
+                                return VALUE[id]
+                                
+                            } else if (k === '2ndChild') {
 
-                                var secondChild = o.element.children[1] ? o.element.children[1] : o.element.children[0]
-                                return VALUE[secondChild.id]
+                                var id = (o.element.children[1] || o.element.children[0]).id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
+
+                            } else if (k === '3rdChild') {
+
+                                var id = (o.element.children[2] || o.element.children[1] || o.element.children[0]).id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
 
                             } else if (k === 'lastChild') {
 
-                                var lastChild = o.element.children[o.element.children.length - 1]
-                                return VALUE[lastChild.id]
+                                var id = o.element.children[o.element.children.length - 1].id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
 
                             } else if (k === 'INPUT') {
 
@@ -5022,47 +5125,31 @@ const update = ({ STATE, VALUE, id }) => {
     if (!local) return
 
     clearIntervals({ VALUE, id })
-    removeId({ VALUE, id })
+    removeIds({ VALUE, id })
 
     var innerHTML = createElement({ STATE, VALUE, id })
-    
-    var transition = local.element.style.transition
-    if (transition.includes('; opacity .1s')) {
-        transition = transition.split('; opacity .1s')[0]
-        transition += '; opacity 50ms'
-        local.element.style.transition = transition
-    }
     local.element.style.opacity = '0'
 
-    setTimeout(() => {
-        local.element.innerHTML = innerHTML
-        var transition = local.element.style.transition
-        if (transition.includes('; opacity 50ms')) {
-            transition = transition.split('; opacity 50ms')[0]
-            transition += '; opacity .1s'
-            local.element.style.transition = transition
-        }
-        if (local.childrenSiblings) local.childrenSiblings.map(id => starter({ STATE, VALUE, id }))
-    }, 50)
+    local.element.innerHTML = innerHTML
+    if (local.childrenSiblings) local.childrenSiblings.map(id => starter({ STATE, VALUE, id }))
     
-    setTimeout(() => local.element.style.opacity = '1', 100)
-
+    setTimeout(() => local.element.style.opacity = '1', 50)
     console.log('#', Object.entries(VALUE).length)
 
 }
 
-const removeId = ({ VALUE, id }) => {
+const removeIds = ({ VALUE, id }) => {
     var local = VALUE[id]
 
     local.childrenSiblings && local.childrenSiblings.map(id => {
 
         if (!VALUE[id]) return
-        removeId({ VALUE, id })
+        removeIds({ VALUE, id })
         delete VALUE[id]
     })
 }
 
-module.exports = {update, removeId}
+module.exports = {update, removeIds}
 },{"./clearIntervals":21,"./createElement":28,"./starter":54}],64:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toBoolean } = require("./toBoolean")
@@ -6775,19 +6862,19 @@ const offer = {
             type: 'Text?class=divider'
         }, {
             type: 'View?style.display=flex;style.width=100%',
-            toChildren: 'path=offers.0.type;state=offer-item;icon.style.fontSize=1.6rem;style.height=10rem;style.color=#fff;icon.style.margin=0;icon.style.marginBottom=.2rem;style.flexDirection=column;style.justifyContent=center;chevron.style.display=none;style.flex=1;style.fontSize=1.2rem;style.after.backgroundColor=#fff;style.marginRight=.6rem;style.after.marginRight=.5rem',
+            toChildren: 'model=featured;path=offers.0.type;state=offer-item;icon.style.fontSize=1.6rem;style.height=10rem;style.color=#fff;icon.style.margin=0;icon.style.marginBottom=.4rem;style.flexDirection=column;style.justifyContent=center;chevron.style.display=none;style.flex=1;style.fontSize=1.2rem;style.after.backgroundColor=#fff;style.marginRight=.6rem;style.after.marginRight=.5rem',
             children: [{
-                type: 'Item?featured;text=Discount;icon.name=cash-coin;featured;style.after.color=HotPink;style.backgroundColor=HotPink;style.after.border=1px solid HotPink'
+                type: 'Item?text=Discount;icon.name=cash-coin;style.after.color=HotPink;style.backgroundColor=HotPink;style.after.border=1px solid HotPink'
             }, {
-                type: 'Item?featured;text=Sale Price;icon.name=tag;featured;style.after.color=#ff4d4d;style.backgroundColor=#ff4d4d;style.after.border=1px solid #ff4d4d'
+                type: 'Item?text=Sale Price;icon.name=tag;style.after.color=#ff4d4d;style.backgroundColor=#ff4d4d;style.after.border=1px solid #ff4d4d'
             }, {
-                type: 'Item?featured;text=Free Shipping;icon.name=truck;featured;style.after.color=#FF9933;style.backgroundColor=#FF9933;style.after.border=1px solid #FF9933'
+                type: 'Item?text=Free Shipping;icon.name=truck;style.after.color=#FF9933;style.backgroundColor=#FF9933;style.after.border=1px solid #FF9933'
             }, {
-                type: 'Item?featured;text=Buy X Get Y Free;icon.name=tags;featured;style.after.color=MediumSeaGreen;style.backgroundColor=MediumSeaGreen;style.after.border=1px solid MediumSeaGreen'
+                type: 'Item?text=Buy X Get Y Free;icon.name=tags;style.after.color=MediumSeaGreen;style.backgroundColor=MediumSeaGreen;style.after.border=1px solid MediumSeaGreen'
             }, {
-                type: 'Item?featured;text=Cash Back;icon.name=currency-dollar;featured;style.after.color=#3399FF;style.backgroundColor=#3399FF;style.after.border=1px solid #3399FF'
+                type: 'Item?text=Cash Back;icon.name=currency-dollar;style.after.color=#3399FF;style.backgroundColor=#3399FF;style.after.border=1px solid #3399FF'
             }, {
-                type: 'Item?featured;text=Earn Points;icon.name=piggy-bank;featured;style.after.color=#CC66FF;style.backgroundColor=#CC66FF;style.after.border=1px solid #CC66FF'
+                type: 'Item?text=Earn Points;icon.name=piggy-bank;style.after.color=#CC66FF;style.backgroundColor=#CC66FF;style.after.border=1px solid #CC66FF'
             }]
         }, {
             type: 'Text?class=divider'
@@ -6814,10 +6901,10 @@ const offer = {
                         children: [{
                             type: 'Label?text=Type;style.fontSize=1.4rem;style.marginBottom=.5rem'
                         }, {
-                            type: 'Input?featured;!clearable;!removable;style.backgroundColor=#f0f0f0;path=type;data=Discount;dropList.items=[Offers:readOnly,Discount,Sale Price,Free Shipping,Buy X Get Y Free,Cash Back,Earn Points]',
+                            type: 'Input?featured;tt;!clearable;!removable;style.backgroundColor=#f0f0f0;path=type;data=Discount;dropList.items=[Offers:readOnly,Discount,Sale Price,Free Shipping,Buy X Get Y Free,Cash Back,Earn Points]',
                             controls: {
-                                watch: 'value.data',
-                                //actions: 'createActions?type=item;state=offer-item;id=value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData??value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData'
+                                watch: 'value.data??value.parent.parent.parent.index=0',
+                                actions: 'createActions?type=item;state=offer-item;id=value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData??value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData'
                             }
                         }]
                     }, {
@@ -6865,9 +6952,9 @@ const offer = {
                         }, {
                             event: 'change',
                             actions: [
-                                'setData?data=date.today;path=validity.starting-date?value.element.checked',
-                                'setData?data=date.today.+4;path=validity.ending-date?value.element.checked',
-                                'setStyle;update::50?style.display=grid?value.element.checked?value.parent.next.next.id',
+                                'setData;setContent>>value.parent.next.next.1stChild.2ndChild.id?data=date.today;path=validity.starting-date?value.element.checked',
+                                'setData;setContent>>value.parent.next.next.2ndChild.2ndChild.id?data=date.today.+4;path=validity.ending-date?value.element.checked',
+                                'setStyle?style.display=grid?value.element.checked?value.parent.next.next.id',
                                 'setStyle>>value.parent.next.next.id;removeData?style.display=none;path=validity?!value.element.checked',
                             ]
                         }]
@@ -6909,10 +6996,10 @@ const offer = {
                         }, {
                             event: 'change',
                             actions: [
-                                'setData?data=generate;path=code.code?value.element.checked',
-                                'setData?data=20;path=code.total-uses?value.element.checked',
-                                'setData?data=1;path=code.allowed-uses-per-user?value.element.checked',
-                                'setStyle;update::50?style.display=grid?value.element.checked?value.parent.next.next.id',
+                                'setData;setContent>>value.parent.next.next.1stChild.2ndChild.id?data=generate;path=code.code?value.element.checked',
+                                'setData;setContent>>value.parent.next.next.2ndChild.2ndChild.id?data=20;path=code.total-uses?value.element.checked',
+                                'setData;setContent>>value.parent.next.next.3rdChild.2ndChild.id?data=1;path=code.allowed-uses-per-user?value.element.checked',
+                                'setStyle?style.display=grid?value.element.checked?value.parent.next.next.id',
                                 'setStyle>>value.parent.next.next.id;removeData?style.display=none;path=code?!value.element.checked',
                             ]
                         }]
@@ -6958,7 +7045,7 @@ const offer = {
                 type: 'Icon?icon.name=plus-circle-fill;style.fontSize=2rem;style.margin=0 1rem;style.color=#444;style.cursor=pointer',
                 controls: [{
                     event: 'click',
-                    actions: 'duplicate;focus::100???value.parent.prev.firstChild.id'
+                    actions: 'duplicate;focus::100???value.parent.prev.1stChild.id'
                 }]
             }, {
                 type: 'Text?text=Add More Offers;style.fontSize=1.4rem;style.color=#444'

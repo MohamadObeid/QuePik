@@ -51,11 +51,14 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                     // ex: key1=value1||key2=value2||key3=value3
                     if (condition[1].length > 1) {
                         condition[2] = condition.slice(2, condition.length).join('=')
-                        approval = toBoolean({ VALUE, STATE, e, string: `${condition[1][1]}=${condition[2]}`, id })
+                        approval = toBoolean({ VALUE, STATE, e, string: `${condition[0]}=${condition[1][0]}`, id })
                         if (approval) return
 
                         // approval isn't true yet => keep trying
-                        value = condition[1][0]
+                        key = condition[1][1]
+                        value = condition.slice(2).join('=')
+                        string = `${key}=${value}`
+                        return approval = toBoolean({ VALUE, STATE, e, string, id})
                     }
 
                     // ex: key=value1=value2=value3
@@ -71,14 +74,24 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
 
 
                 else if (value) {
-
                     value = value.split('||')
 
                     if (value.length === 1) value = value[0]
 
-                    // ex: key=value1||value2||value3
                     else if (value[1]) {
 
+                        // ex: key1=value1||key2=value2...
+                        if (value[1].includes('=')) {
+                            
+                            var string = `${key}=${value[0]}`
+                            approval = toBoolean({ VALUE, STATE, e, string, id })
+                            if (approval) return
+
+                            string = value.slice(1).join('||')
+                            return approval = toBoolean({ VALUE, STATE, e, string, id })
+                        }
+
+                        // ex: key=value1||value2||value3
                         value[1] = value.slice(1, value.length).join('||')
                         var string = `${key}=${value[1]}`
                         approval = toBoolean({ VALUE, STATE, e, string, id })
@@ -215,11 +228,15 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                         
                         var val = STATE[key1[0]]
                         key1 = key1.slice(1)
-
+                        key1 = key1.map(k => { 
+                            if (!isNaN(k)) k = parseFloat(k)
+                            return k
+                        })
                         if (key1.length > 0) key1.reduce((o, k, i) => {
                             
                             if (i === key1.length - 1) return local[key] = o[k]
                             return o[k]
+
                         }, clone(val))
 
                         else local[key] = val
@@ -252,36 +269,61 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
 
                         }
                         else {
-
-                            local[key] = local[key1[0]]
-                            key1 = key1.slice(1)
+                            
                             local[key] = key1.reduce((o, k, i) => {
 
                                 if (k === 'parent') {
-
+                                    
                                     var parent = o.parent
                                     if (o.type === 'Input') parent = VALUE[parent].parent
                                     return VALUE[parent]
-    
+
                                 } else if (k === 'next' || k === 'nextSibling') {
-    
+
                                     var nextSibling = o.element.nextSibling
                                     var id = nextSibling.id
-    
+
                                     return VALUE[id]
-    
+
                                 } else if (k === 'prev' || k === 'prevSibling') {
-    
+
                                     var previousSibling = o.element.previousSibling
                                     var id = previousSibling.id
-    
+
                                     return VALUE[id]
-    
+
+                                } else if (k === 'firstChild') {
+
+                                    var firstChild = o.element.children[0]
+                                    return VALUE[firstChild.id]
+                                    
+                                } else if (k === 'secondChild') {
+
+                                    var secondChild = o.element.children[1] ? o.element.children[1] : o.element.children[0]
+                                    return VALUE[secondChild.id]
+
+                                } else if (k === 'lastChild') {
+
+                                    var lastChild = o.element.children[o.element.children.length - 1]
+                                    return VALUE[lastChild.id]
+
+                                } else if (k === 'INPUT') {
+
+                                    var inputComps = [...o.element.getElementsByTagName(k)]
+                                    inputComps = inputComps.map(comp => VALUE[comp.id])
+                                    if (inputComps.length === 0) return inputComps[0]
+                                    else return inputComps
+
+                                } else if (k === 'findIdByData') {
+
+                                    var id = o.find(id => local.data === VALUE[id].text)
+                                    if (id) return id
+                                    else return id
                                 }
-                                
+
                                 return o[k]
-    
-                            }, clone(local[key]))
+
+                            }, clone(local))
                         }
                     }
 
@@ -313,6 +355,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                         
                         if (key1[0] === 'false' || key1[0] === 'undefined' || key1[0] === '') local[key] = false
                         else local[key] = key1.join('')
+                        
                     }
                     else if (key0 === 'parent') {
 
@@ -352,7 +395,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 if (minus) value = value - minus
                 if (times) value = value * times
                 if (division) value = value / division
-
+                
                 if (!local) return approval = false
                 if (value === undefined) approval = notEqual ? !local[key] : local[key]
                 else {

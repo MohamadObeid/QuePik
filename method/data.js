@@ -1,6 +1,5 @@
 const { clone } = require("./clone")
 const { setContent } = require("./setContent")
-const { update } = require("./update")
 
 const createData = ({ VALUE, params, id }) => {
     var local = VALUE[id]
@@ -17,13 +16,20 @@ const pushData = ({ VALUE, params }) => {
     setData({ VALUE, value })
 }
 
-const setData = ({ VALUE, STATE, params = {}, id }) => {
+const setData = ({ VALUE, params = {}, id }) => {
     var local = VALUE[id]
     if (!local.DATA) return
 
     var path = params.path
     if (path) path = path.split('.')
     else path = []
+
+    
+    // convert string numbers paths to num
+    path = path.map(k => { 
+        if (!isNaN(k)) k = parseFloat(k) 
+        return k
+    })
 
     var value = params.value || params.data
 
@@ -80,6 +86,13 @@ const removeData = ({ VALUE, id, params = {} }) => {
 
     var path = params.path
     path = path ? path.split('.') : []
+
+    // convert string numbers paths to num
+    path = path.map(k => { 
+        if (!isNaN(k)) k = parseFloat(k) 
+        return k
+    })
+    
     path = [...local.derivations, ...path]
     
     path.reduce((o, k, i) => {

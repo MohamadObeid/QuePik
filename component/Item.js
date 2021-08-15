@@ -85,7 +85,7 @@ const Item = (component) => {
                     `setState?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountOnLoad`,
                 ]
             }, {
-                event: `click??state.${state}.0!=${id}`,
+                event: `click??state.${state}=undefined||state.${state}.0!=${id}`,
                 actions: `createActions?type=item;id=${id};state=${state}`
             }, {
                 event: 'mouseenter',

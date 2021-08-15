@@ -5,7 +5,7 @@ const setContent = ({ VALUE, params = {}, id }) => {
     var local = VALUE[id]
 
     var value = ''
-    if (params) value = params.value || params.content || ''
+    if (params) value = params.value || params.content || params.data || ''
 
     // for specific case: VAR.data was equal to [], then updated to ['value'] =>
     if (Array.isArray(value))

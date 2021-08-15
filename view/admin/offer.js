@@ -8,19 +8,19 @@ const offer = {
             type: 'Text?class=divider'
         }, {
             type: 'View?style.display=flex;style.width=100%',
-            toChildren: 'path=offers.0.type;state=offer-item;icon.style.fontSize=1.6rem;style.height=10rem;style.color=#fff;icon.style.margin=0;icon.style.marginBottom=.2rem;style.flexDirection=column;style.justifyContent=center;chevron.style.display=none;style.flex=1;style.fontSize=1.2rem;style.after.backgroundColor=#fff;style.marginRight=.6rem;style.after.marginRight=.5rem',
+            toChildren: 'model=featured;path=offers.0.type;state=offer-item;icon.style.fontSize=1.6rem;style.height=10rem;style.color=#fff;icon.style.margin=0;icon.style.marginBottom=.4rem;style.flexDirection=column;style.justifyContent=center;chevron.style.display=none;style.flex=1;style.fontSize=1.2rem;style.after.backgroundColor=#fff;style.marginRight=.6rem;style.after.marginRight=.5rem',
             children: [{
-                type: 'Item?featured;text=Discount;icon.name=cash-coin;featured;style.after.color=HotPink;style.backgroundColor=HotPink;style.after.border=1px solid HotPink'
+                type: 'Item?text=Discount;icon.name=cash-coin;style.after.color=HotPink;style.backgroundColor=HotPink;style.after.border=1px solid HotPink'
             }, {
-                type: 'Item?featured;text=Sale Price;icon.name=tag;featured;style.after.color=#ff4d4d;style.backgroundColor=#ff4d4d;style.after.border=1px solid #ff4d4d'
+                type: 'Item?text=Sale Price;icon.name=tag;style.after.color=#ff4d4d;style.backgroundColor=#ff4d4d;style.after.border=1px solid #ff4d4d'
             }, {
-                type: 'Item?featured;text=Free Shipping;icon.name=truck;featured;style.after.color=#FF9933;style.backgroundColor=#FF9933;style.after.border=1px solid #FF9933'
+                type: 'Item?text=Free Shipping;icon.name=truck;style.after.color=#FF9933;style.backgroundColor=#FF9933;style.after.border=1px solid #FF9933'
             }, {
-                type: 'Item?featured;text=Buy X Get Y Free;icon.name=tags;featured;style.after.color=MediumSeaGreen;style.backgroundColor=MediumSeaGreen;style.after.border=1px solid MediumSeaGreen'
+                type: 'Item?text=Buy X Get Y Free;icon.name=tags;style.after.color=MediumSeaGreen;style.backgroundColor=MediumSeaGreen;style.after.border=1px solid MediumSeaGreen'
             }, {
-                type: 'Item?featured;text=Cash Back;icon.name=currency-dollar;featured;style.after.color=#3399FF;style.backgroundColor=#3399FF;style.after.border=1px solid #3399FF'
+                type: 'Item?text=Cash Back;icon.name=currency-dollar;style.after.color=#3399FF;style.backgroundColor=#3399FF;style.after.border=1px solid #3399FF'
             }, {
-                type: 'Item?featured;text=Earn Points;icon.name=piggy-bank;featured;style.after.color=#CC66FF;style.backgroundColor=#CC66FF;style.after.border=1px solid #CC66FF'
+                type: 'Item?text=Earn Points;icon.name=piggy-bank;style.after.color=#CC66FF;style.backgroundColor=#CC66FF;style.after.border=1px solid #CC66FF'
             }]
         }, {
             type: 'Text?class=divider'
@@ -47,10 +47,10 @@ const offer = {
                         children: [{
                             type: 'Label?text=Type;style.fontSize=1.4rem;style.marginBottom=.5rem'
                         }, {
-                            type: 'Input?featured;!clearable;!removable;style.backgroundColor=#f0f0f0;path=type;data=Discount;dropList.items=[Offers:readOnly,Discount,Sale Price,Free Shipping,Buy X Get Y Free,Cash Back,Earn Points]',
+                            type: 'Input?featured;tt;!clearable;!removable;style.backgroundColor=#f0f0f0;path=type;data=Discount;dropList.items=[Offers:readOnly,Discount,Sale Price,Free Shipping,Buy X Get Y Free,Cash Back,Earn Points]',
                             controls: {
-                                watch: 'value.data',
-                                //actions: 'createActions?type=item;state=offer-item;id=value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData??value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData'
+                                watch: 'value.data??value.parent.parent.parent.index=0',
+                                actions: 'createActions?type=item;state=offer-item;id=value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData??value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData'
                             }
                         }]
                     }, {
@@ -98,9 +98,9 @@ const offer = {
                         }, {
                             event: 'change',
                             actions: [
-                                'setData?data=date.today;path=validity.starting-date?value.element.checked',
-                                'setData?data=date.today.+4;path=validity.ending-date?value.element.checked',
-                                'setStyle;update::50?style.display=grid?value.element.checked?value.parent.next.next.id',
+                                'setData;setContent>>value.parent.next.next.1stChild.2ndChild.id?data=date.today;path=validity.starting-date?value.element.checked',
+                                'setData;setContent>>value.parent.next.next.2ndChild.2ndChild.id?data=date.today.+4;path=validity.ending-date?value.element.checked',
+                                'setStyle?style.display=grid?value.element.checked?value.parent.next.next.id',
                                 'setStyle>>value.parent.next.next.id;removeData?style.display=none;path=validity?!value.element.checked',
                             ]
                         }]
@@ -142,10 +142,10 @@ const offer = {
                         }, {
                             event: 'change',
                             actions: [
-                                'setData?data=generate;path=code.code?value.element.checked',
-                                'setData?data=20;path=code.total-uses?value.element.checked',
-                                'setData?data=1;path=code.allowed-uses-per-user?value.element.checked',
-                                'setStyle;update::50?style.display=grid?value.element.checked?value.parent.next.next.id',
+                                'setData;setContent>>value.parent.next.next.1stChild.2ndChild.id?data=generate;path=code.code?value.element.checked',
+                                'setData;setContent>>value.parent.next.next.2ndChild.2ndChild.id?data=20;path=code.total-uses?value.element.checked',
+                                'setData;setContent>>value.parent.next.next.3rdChild.2ndChild.id?data=1;path=code.allowed-uses-per-user?value.element.checked',
+                                'setStyle?style.display=grid?value.element.checked?value.parent.next.next.id',
                                 'setStyle>>value.parent.next.next.id;removeData?style.display=none;path=code?!value.element.checked',
                             ]
                         }]
@@ -191,7 +191,7 @@ const offer = {
                 type: 'Icon?icon.name=plus-circle-fill;style.fontSize=2rem;style.margin=0 1rem;style.color=#444;style.cursor=pointer',
                 controls: [{
                     event: 'click',
-                    actions: 'duplicate;focus::100???value.parent.prev.firstChild.id'
+                    actions: 'duplicate;focus::100???value.parent.prev.1stChild.id'
                 }]
             }, {
                 type: 'Text?text=Add More Offers;style.fontSize=1.4rem;style.color=#444'

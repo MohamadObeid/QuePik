@@ -1,4 +1,4 @@
-const { removeId } = require("./update")
+const { removeIds } = require("./update")
 const { clone } = require("./clone")
 const { clearIntervals } = require("./clearIntervals")
 
@@ -10,7 +10,16 @@ const remove = ({ VALUE, params, id }) => {
     if (!local.DATA) return
 
     var keys = clone(local.derivations)
-    if (params.path) keys.push(...params.path.split('.'))
+    var path = params.path ? params.path('.') : []
+    
+    // convert string numbers paths to num
+    if (path.length > 0)
+        path = path.map(k => { 
+            if (!isNaN(k)) k = parseFloat(k) 
+            return k
+        })
+
+    if (params.path) keys.push(...path)
 
     if (keys.length === 0) local.parent.children.splice([keys[keys.length - 1]], 1)
     else keys.reduce((o, k, i) => {
@@ -29,7 +38,7 @@ const remove = ({ VALUE, params, id }) => {
     console.log(local.DATA)
 
     clearIntervals({ VALUE, id })
-    removeId({ VALUE, id })
+    removeIds({ VALUE, id })
     local.element.remove()
 
     // reset length and derivations

@@ -49,7 +49,7 @@ const Input = (component) => {
         }
 
     }
-
+    
     if (model === 'featured') {
 
         return {
@@ -57,6 +57,7 @@ const Input = (component) => {
             class: 'flex-box',
             type: 'View',
             id,
+            component: 'Input',
             controls: { actions: `focus::50>>${id}-input??value.length;value.index=value.length--1` },
             style: {
                 display: 'inline-flex',
@@ -125,7 +126,7 @@ const Input = (component) => {
                 }]
             }, {
                 type: `View?class=flex-box ${lang === 'ar' ? 'arabic' : ''}`,
-                style: { 
+                style: {
                     padding: '0 0.5rem',
                 },
                 children: [{
