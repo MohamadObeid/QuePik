@@ -1,0 +1,72 @@
+{
+    "file-name": "admin-navbar",
+    "type": "View",
+    "style": {
+        "zIndex": "2",
+        "width": "100%",
+        "position": "sticky",
+        "top": "0",
+        "backgroundColor": "#fff",
+        "boxShadow": "0 0 6px rgba(33, 33, 33, 0.431)"
+    },
+    "children": [{
+        "type": "View?class=flex-box",
+        "style": {
+            "backgroundColor": "#fff",
+            "padding": "1rem"
+        },
+        "children": [{
+            "type": "Text?link=/;text=digiTrip",
+            "style": {
+                "fontSize": "2.9rem",
+                "fontWeight": "900",
+                "color": "#ee384e",
+                "margin": "0 1rem",
+                "cursor": "pointer"
+            }
+        }, {
+            "type": "SearchBox?placeholder=Search for hotel, city, attraction, restaurant..."
+        }, {
+            "type": "Text?style.width=1px;style.backgroundColor=#ddd;style.height=3rem;style.marginRight=2rem"
+        }, {
+            "type": "View?class=flex-box;style.cursor=pointer",
+            "controls": { "actions": "createControls?type=toggle-style;id=value.2ndChild.id" },
+            "children": [{
+                "type": "Text?text=My Bookings;style.marginRight=1rem;style.fontSize=1.4rem"
+            }, {
+                "type": "Icon?icon.name=bi-chevron-down;style.fontSize=1.6rem;style.after.transform=rotate(180deg);style.transition=transform .2s"
+            }]
+        }, {
+            "type": "Text?style.width=1px;style.backgroundColor=#ddd;style.height=3rem;style.margin=0 2rem"
+        }, {
+            "type": "Icon?icon.name=bi-heart;auto-style",
+            "style": {
+                "color": "#666",
+                "fontSize": "1.8rem",
+                "marginRight": "3rem",
+                "cursor": "pointer",
+                "after": { "color": "#116dff" }
+            }
+        }, {
+            "type": "Icon?icon.name=bi-translate;auto-style",
+            "style": {
+                "color": "#666",
+                "fontSize": "1.8rem",
+                "marginRight": "3rem",
+                "cursor": "pointer",
+                "after": { "color": "#116dff" }
+            }
+        }, {
+            "type": "Text?text=USD;auto-style",
+            "style": {
+                "color": "#666",
+                "fontSize": "1.4rem",
+                "marginRight": "3rem",
+                "cursor": "pointer",
+                "after": { "color": "#116dff" }
+            }
+        }, {
+            "type": "Button?link=/signin;text=Sign in | up;icon.name=bi-person;icon.style.fontSize=2.4rem;tooltip=Free Sign Up"
+        }]
+    }]
+}

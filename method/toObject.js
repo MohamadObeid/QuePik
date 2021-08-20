@@ -3,8 +3,6 @@ const { toArray } = require("./toArray")
 const { merge } = require("./merge")
 const { clone } = require("./clone")
 const { derive } = require("./derive")
-const _asset = require("../asset/_asset")
-//import Assets from '../Assets/Assets'
 
 const toObject = ({ VALUE, STATE, string, e, id }) => {
 
@@ -115,7 +113,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                     if (path.length > 0) {
                         if (value) value = merge(
                             value.map(
-                                val => derive(val, path)[0] || (local.dropList ? `${derive(val, 'title')[0]}:readOnly` : '')
+                                val => derive(val, path)[0] || (local.droplist ? `${derive(val, 'title')[0]}:readOnly` : '')
                             )
                         )
                     }
@@ -125,7 +123,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                     if (path[1] === 'data') {
 
                         var path = path.slice(2)
-                        value = derive(local.DATA, [...local.derivations, ...path])[0]
+                        value = derive(local.Data, [...local.derivations, ...path])[0]
 
                     } else {
 
@@ -208,27 +206,42 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                         
                     }
 
-                } else if (path[0] === 'DATA') {
+                } else if (path[0] === 'Data') {
 
                     value = value.split('.')
                     value.shift()
-                    value = merge(toArray(derive(local.DATA, value, true)[0]))
+                    value = merge(toArray(derive(local.Data, value, true)[0]))
 
                 } else if (path[0] === 'const') {
                     value = value.split('const.')[1]
 
                 } else if (path[0] === 'asset') {
+                    var asset = STATE.asset
 
-                    value = value.split('asset.')[1]
-                    var file = value.split('.')[0]
-                    value = value.split(`${file}.`)[1]
-                    var path = value.split('.')
-                    value = _asset[file]
-                    value = merge(
-                        value.map(
-                            val => derive(val, path)[0] || `${derive(val, 'title')[0]}:readOnly`
-                        )
-                    )
+                    if (path[1] === 'entries') {
+ 
+                        value = Object.entries(asset).map(([key, value]) => {
+                            if (path[2] === 'key') return key
+                            if (path[2] === 'value') return value
+                        })
+
+                    } else {
+                        
+                        path = path.slice(1)
+                        var isArray
+                        value = path.reduce((o, k, i) => {
+                            if (isArray) return o
+    
+                            if (Array.isArray(o)) {
+                                path = path.slice(i)
+                                value = o.map(o => path.reduce((o, k) => o[k], o))
+                                isArray = true
+                                return value
+                            }
+
+                            return o[k]
+                        }, asset)
+                    }
 
                 } else if (path[0] === 'encoded') {
                     value = STATE.encoded[path[1]]
@@ -274,19 +287,37 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
 
         }
 
-        // remove key from VAR
-        if (key.split('.')[0] === 'remove') {
-
-            key = key.split('.').slice(1)
-            key.reduce((o, k, i) => {
-                if (i === key.length - 1) return delete o[k]
-                return o[k]
-            }, local)
-        }
+        // keys from brackets to dots
+        key = bracketsToDots({ VALUE, STATE, key, e, id })
+        keys = key.split('.')
 
         // object structure
         if (keys && keys.length > 1) {
-            keys.reduce((obj, key, index) => {
+            
+            // mount state without using setState
+            if (keys[0] === 'state') {
+                var keys = keys.slice(1)
+                var deleteRequest
+                var length = keys.length - 1
+
+                keys.reduce((o, k, i) => {
+                    if (deleteRequest) return
+                    if (i === keys.length - 1) {
+
+                        return o[k] = value
+
+                    } if ( i === length - 1 && keys[length] === 'delete') { // last key = delete
+
+                        deleteRequest = true
+                        return delete o[k]
+                    }
+                    return o[k]
+                }, STATE)
+                
+                if (deleteRequest) return
+            }
+
+            else keys.reduce((obj, key, index) => {
 
                 if (obj[key] !== undefined) {
 
@@ -323,6 +354,27 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
 
 function addDays(theDate, days) {
     return new Date(theDate.getTime() + days * 24 * 60 * 60 * 1000);
+}
+
+function bracketsToDots({ VALUE, STATE, key, e, id }) {
+
+    var keys = []
+    keys = key.split('[')
+
+    if (keys[1]) {
+
+        var bracketKey = keys[1].split(']')
+        var k = generate()
+        var value = toObject({ VALUE, STATE, string: `${k}=${bracketKey[0]}`, e, id })[k]
+        var before = keys[0]
+        keys = keys.slice(2)
+        key = `${before}.${value}${bracketKey[1]}${keys.join('[') ? `[${keys.join('[')}` : ''}`
+        
+    }
+
+    if (keys[2]) key = bracketsToDots(key)
+
+    return key
 }
 
 module.exports = {toObject}

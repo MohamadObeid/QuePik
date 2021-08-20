@@ -252,7 +252,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                                 key1 = key1.slice(0, -1)
                                 length = true
                             }
-                            var data = derive(local.DATA, [...local.derivations, ...key1])[0]
+                            var data = derive(local.Data, [...local.derivations, ...key1])[0]
                             local[key] = data
 
                             if (length) {
@@ -261,10 +261,10 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                             }
 
                         }
-                        else if (key1[0] === 'DATA') {
+                        else if (key1[0] === 'Data') {
 
                             key1 = key1.slice(1)
-                            var data = derive(local.DATA, key1)[0]
+                            var data = derive(local.Data, key1)[0]
                             local[key] = data
 
                         }
@@ -340,11 +340,11 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                     }
                     else if (key0 === 'data') {
 
-                        var data = derive(local.DATA, [...local.derivations, ...key1])[0]
+                        var data = derive(local.Data, [...local.derivations, ...key1])[0]
                         local[key] = data
                     }
-                    else if (key0 === 'DATA') {
-                        var data = derive(local.DATA, key1)[0]
+                    else if (key0 === 'Data') {
+                        var data = derive(local.Data, key1)[0]
                         local[key] = data
                     }
                     else if (key0 === 'style') {
@@ -379,7 +379,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 } else if (key === 'data') {
 
                     key = generate()
-                    local[key] = derive(local.DATA, local.derivations)[0]
+                    local[key] = derive(local.Data, local.derivations)[0]
 
                 } else if (key === 'duplicates') {
 
@@ -468,12 +468,12 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                                 key1 = key1.slice(0, -1)
                                 length = true
                             }
-                            var data = derive(local.DATA, [...local.derivations, ...key1])[0]
+                            var data = derive(local.Data, [...local.derivations, ...key1])[0]
                             local[key] = data
                             if (length) local[key] = data.length
 
                         }
-                        else if (key1[0] === 'DATA') {
+                        else if (key1[0] === 'Data') {
 
                             key1 = key1.slice(1)
                             var length
@@ -481,7 +481,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                                 key1 = key1.slice(0, -1)
                                 length = true
                             }
-                            var data = derive(local.DATA, key1)[0]
+                            var data = derive(local.Data, key1)[0]
                             local[key] = data
                             if (length) local[key] = data.length
 

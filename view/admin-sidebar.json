@@ -1,0 +1,39 @@
+{
+    "file-name": "admin-sidebar",
+    "type": "View?toChildren.state=side-bar-item;toChildren.featured;toChildren.icon.style.fontSize=2.2rem;toChildren.icon.style.color=#555;toChildren.icon.google;toChildren.icon.outlined",
+    "style": {
+        "padding": "0.5rem 0.2rem",
+        "boxShadow": "0px 0px 5px 0px #888",
+        "clipPath": "inset(0 -5px 0 0)",
+        "width": "17%",
+        "position": "fixed",
+        "height": "90%",
+        "display": "display",
+        "flexDirection": "column"
+    },
+    "children": [{
+        "type": "Item?text=Dashboard;icon.name=space_dashboard;chevron.style.display=none;mountOnLoad"
+    }, {
+        "type": "Item?text=Customers;icon.name=people_alt"
+    }, {
+        "type": "Item?text=Bookings;icon.name=library_books"
+    }, {
+        "type": "Item?text=Stays;icon.name=hotel",
+        "controls": { "actions": "createControls?type=toggle-view;id=admin-view;view=admin-stays-list" }
+    }, {
+        "type": "Item?text=Tours;icon.name=festival"
+    }, {
+        "type": "Item?text=Airport Transfer;icon.name=local_taxi"
+    }, {
+        "type": "Item?text=Travel Insurance;icon.name=health_and_safety"
+    }, {
+        "type": "Item?text=Collections;icon.name=category"
+    }, {
+        "type": "Item?text=Assets;icon.name=web_asset",
+        "controls": { "actions": "createControls?type=toggle-view;id=admin-view;view=admin-assets-list" }
+    }, {
+        "type": "Item?text=Inbox;icon.name=question_answer"
+    }, {
+        "type": "Item?text=Settings;icon.name=settings"
+    }]
+}

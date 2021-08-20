@@ -7,7 +7,7 @@ const isArabic = (value) => {
     var { VALUE, params = {}, id } = value
     var local = VALUE[id]
 
-    var text = params.value || (local.type === 'Input' ? local.value : (local.type === 'Text' && local.text))
+    var text = params.value || local.element.value || local.element.innerHTML
     if (!text) return 
     var result = arabic.test(text)
 

@@ -1,0 +1,311 @@
+{
+  "name": [
+    {
+      "name": "Unit",
+      "lang": "en"
+    }
+  ],
+  "file-name": "unit",
+  "options": [
+    {
+      "name": "Unit::readOnly",
+      "lang": "en"
+    },
+    {
+      "name": "unit",
+      "lang": "en"
+    },
+    {
+      "name": "item",
+      "lang": "en"
+    },
+    {
+      "name": "piece",
+      "lang": "en"
+    },
+    {
+      "name": "bag",
+      "lang": "en"
+    },
+    {
+      "name": "cartoon",
+      "lang": "en"
+    },
+    {
+      "name": "pack",
+      "lang": "en"
+    },
+    {
+      "name": "box",
+      "lang": "en"
+    },
+    {
+      "name": "pallet",
+      "lang": "en"
+    },
+    {
+      "name": "Service::readOnly",
+      "lang": "en"
+    },
+    {
+      "name": "service",
+      "lang": "en"
+    },
+    {
+      "name": "ticket",
+      "lang": "en"
+    },
+    {
+      "name": "room",
+      "lang": "en"
+    },
+    {
+      "name": "seat",
+      "lang": "en"
+    },
+    {
+      "name": "way",
+      "lang": "en"
+    },
+    {
+      "name": "meal",
+      "lang": "en"
+    },
+    {
+      "name": "Length::readOnly",
+      "lang": "en"
+    },
+    {
+      "name": "mm",
+      "lang": "en"
+    },
+    {
+      "name": "cm",
+      "lang": "en"
+    },
+    {
+      "name": "dm",
+      "lang": "en"
+    },
+    {
+      "name": "m",
+      "lang": "en"
+    },
+    {
+      "name": "km",
+      "lang": "en"
+    },
+    {
+      "name": "ft",
+      "lang": "en"
+    },
+    {
+      "name": "in",
+      "lang": "en"
+    },
+    {
+      "name": "mi",
+      "lang": "en"
+    },
+    {
+      "name": "yd",
+      "lang": "en"
+    },
+    {
+      "name": "Volume::readOnly",
+      "lang": "en"
+    },
+    {
+      "name": "ft3",
+      "lang": "en"
+    },
+    {
+      "name": "in3",
+      "lang": "en"
+    },
+    {
+      "name": "mi3",
+      "lang": "en"
+    },
+    {
+      "name": "yd3",
+      "lang": "en"
+    },
+    {
+      "name": "cup",
+      "lang": "en"
+    },
+    {
+      "name": "gal",
+      "lang": "en"
+    },
+    {
+      "name": "mL",
+      "lang": "en"
+    },
+    {
+      "name": "L",
+      "lang": "en"
+    },
+    {
+      "name": "fl oz",
+      "lang": "en"
+    },
+    {
+      "name": "pt",
+      "lang": "en"
+    },
+    {
+      "name": "qt",
+      "lang": "en"
+    },
+    {
+      "name": "tbsp",
+      "lang": "en"
+    },
+    {
+      "name": "tspn",
+      "lang": "en"
+    },
+    {
+      "name": "Weight::readOnly",
+      "lang": "en"
+    },
+    {
+      "name": "mg",
+      "lang": "en"
+    },
+    {
+      "name": "g",
+      "lang": "en"
+    },
+    {
+      "name": "kg",
+      "lang": "en"
+    },
+    {
+      "name": "CD",
+      "lang": "en"
+    },
+    {
+      "name": "gr",
+      "lang": "en"
+    },
+    {
+      "name": "oz",
+      "lang": "en"
+    },
+    {
+      "name": "dwt",
+      "lang": "en"
+    },
+    {
+      "name": "lb",
+      "lang": "en"
+    },
+    {
+      "name": "st",
+      "lang": "en"
+    },
+    {
+      "name": "slug",
+      "lang": "en"
+    },
+    {
+      "name": "t",
+      "lang": "en"
+    },
+    {
+      "name": "Area::readOnly",
+      "lang": "en"
+    },
+    {
+      "name": "ha",
+      "lang": "en"
+    },
+    {
+      "name": "ft2",
+      "lang": "en"
+    },
+    {
+      "name": "m2",
+      "lang": "en"
+    },
+    {
+      "name": "km2",
+      "lang": "en"
+    },
+    {
+      "name": "in2",
+      "lang": "en"
+    },
+    {
+      "name": "yd2",
+      "lang": "en"
+    },
+    {
+      "name": "mi2",
+      "lang": "en"
+    },
+    {
+      "name": "Pressure::readOnly",
+      "lang": "en"
+    },
+    {
+      "name": "Pa",
+      "lang": "en"
+    },
+    {
+      "name": "Torr",
+      "lang": "en"
+    },
+    {
+      "name": "bar",
+      "lang": "en"
+    },
+    {
+      "name": "mb",
+      "lang": "en"
+    },
+    {
+      "name": "lbf/in2",
+      "lang": "en"
+    },
+    {
+      "name": "Time::readOnly",
+      "lang": "en"
+    },
+    {
+      "name": "day",
+      "lang": "en"
+    },
+    {
+      "name": "hr",
+      "lang": "en"
+    },
+    {
+      "name": "min",
+      "lang": "en"
+    },
+    {
+      "name": "yr",
+      "lang": "en"
+    },
+    {
+      "name": "Temperature::readOnly",
+      "lang": "en"
+    },
+    {
+      "name": "°C",
+      "lang": "en"
+    },
+    {
+      "name": "°F",
+      "lang": "en"
+    },
+    {
+      "name": "K",
+      "lang": "en"
+    }
+  ]
+}

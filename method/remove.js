@@ -7,7 +7,7 @@ const remove = ({ VALUE, params, id }) => {
     var local = VALUE[id]
     if (!params) params = {}
 
-    if (!local.DATA) return
+    if (!local.Data) return
 
     var keys = clone(local.derivations)
     var path = params.path ? params.path('.') : []
@@ -33,9 +33,9 @@ const remove = ({ VALUE, params, id }) => {
         }
         return o[k]
 
-    }, local.DATA)
+    }, local.Data)
 
-    console.log(local.DATA)
+    console.log(local.Data)
 
     clearIntervals({ VALUE, id })
     removeIds({ VALUE, id })

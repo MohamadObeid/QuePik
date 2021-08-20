@@ -31,7 +31,9 @@ const setStyle = ({ VALUE, params, id }) => {
 const resetStyles = ({ VALUE, params, id }) => {
     
     var local = VALUE[id]
-    if (!local.style.after) return
+    if (!local.style || !local.style.after) return
+
+    local.afterStylesMounted = false
 
     params = { style: {} }
 
@@ -54,7 +56,7 @@ const toggleStyles = ({ VALUE, params, id }) => {
 
 const mountAfterStyles = ({ VALUE, params, id }) => {
     var local = VALUE[id]
-    if (!local.style.after) return
+    if (!local.style || !local.style.after) return
 
     local.afterStylesMounted = true
 

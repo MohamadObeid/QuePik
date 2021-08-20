@@ -6,60 +6,54 @@ const { toObject } = require("./toObject")
 
 const _component = require("../component/_component")
 
-const createTags = ({ VALUE, STATE, value, data, derivations }) => {
+const createTags = ({ VALUE, STATE, params: { value, data, derivations } }) => {
+    
     const { execute } = require("./execute")
     
     if (Array.isArray(data)) {
 
         value.length = data.length
 
-        if (data.length > 0) {
-            var tags = data.map((data, index) => {
+        if (data.length > 0) return data.map((data, index) => {
 
-                var id = generate(), local = clone(value)
-                local.id = id
+            var id = generate(), local = clone(value)
+            local.id = id
+    
+            // components
+            if (_component[local.type]) {
+                
+                local = _component[local.type](local)
+    
+                // destructure type, params, & conditions from type
+                var type = local.type.split('?')[0]
+                var params = local.type.split('?')[1] 
+                var conditions = local.type.split('?')[2]
         
-                // components
-                if (_component[local.type]) {
-                    
-                    local = _component[local.type](local)
-        
-                    // destructure type, params, & conditions from type
-                    var type = local.type.split('?')[0]
-                    var params = local.type.split('?')[1] 
-                    var conditions = local.type.split('?')[2]
-            
-                    // type
-                    local.type = type
-                    
-                    // approval
-                    var approved = toBoolean({ VALUE, STATE, string: conditions, id })
-                    if (!approved) return
-                    
-                    // push destructured params from type to value
-                    if (params) {
-                        params = toObject({VALUE, STATE, string: params, id})
-                        Object.entries(params).map(([k, v]) => local[k] = v )
-                    }
-
-                    id = local.id
+                // type
+                local.type = type
+                
+                // approval
+                var approved = toBoolean({ VALUE, STATE, string: conditions, id })
+                if (!approved) return
+                
+                // push destructured params from type to value
+                if (params) {
+                    params = toObject({VALUE, STATE, string: params, id})
+                    Object.entries(params).map(([k, v]) => local[k] = v )
                 }
 
-                VALUE[id] = { ...local, id, index, data, derivations: [...derivations, index] }
-                VALUE[local.parent].childrenSiblings.push(id)
-                if (VALUE[id].tt) console.log('1', VALUE[id].data);
+                id = local.id
+            }
 
-                // execute onload actions
-                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
+            VALUE[id] = { ...local, id, index, data, derivations: [...derivations, index] }
+            VALUE[local.parent].childrenSiblings.push(id)
 
-                //if (!Components[local.type]) return <></>
+            // execute onload actions
+            if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
 
-                return oneTag({ STATE, VALUE, id })
+            return oneTag({ STATE, VALUE, id })
 
-            }).join('')
-
-            return tags
-        }
+        }).join('')
     }
 
     
@@ -89,26 +83,23 @@ const createTags = ({ VALUE, STATE, value, data, derivations }) => {
             Object.entries(params).map(([k, v]) => value[k] = v )
         }
 
+        // reset id
         id = value.id
     }
     
     
     VALUE[id] = { ...value, id, data, derivations }
     VALUE[value.parent].childrenSiblings.push(id)
-
+    
     // execute onload actions
-    if (value.actions) execute({ VALUE, STATE, actions: value.actions, id })
+    if (value.actions) execute({ VALUE, STATE, id, actions: value.actions, instantly: true })
 
-    //if (!Components[value.type]) return <></>
-
-    tag = oneTag({ STATE, VALUE, id })
-
-    return tag
+    return oneTag({ STATE, VALUE, id })
 }
 
 
 
-const oneTag = ({STATE, VALUE, id}) => {
+const oneTag = ({ STATE, VALUE, id }) => {
 
     const { createElement } = require("./createElement")
     var tag, value = VALUE[id]
@@ -146,6 +137,8 @@ const oneTag = ({STATE, VALUE, id}) => {
             else if (k === 'minWidth') k = 'min-width'
             else if (k === 'maxHeight') k = 'max-height'
             else if (k === 'minHeight') k = 'min-height'
+            else if (k === 'gridTemplateColumns') k = 'grid-template-columns'
+            else if (k === 'gridTemplateRows') k = 'grid-template-rows'
             style += `${k}:${v}; `
         })
     }
@@ -154,19 +147,19 @@ const oneTag = ({STATE, VALUE, id}) => {
     var text = (typeof value.data !== 'object' && value.data) || value.text || ''
     
     if (value.type === 'View')
-    tag = `<div class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({STATE, VALUE, id}) : text}</div>`
+    tag = `<div class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</div>`
 
     else if (value.type === 'Table')
-    tag = `<table class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({STATE, VALUE, id}) : text}</table>`
+    tag = `<table class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</table>`
 
     else if (value.type === 'Row')
-    tag = `<tr class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({STATE, VALUE, id}) : text}</tr>`
+    tag = `<tr class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</tr>`
 
     else if (value.type === 'Header')
-    tag = `<th class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({STATE, VALUE, id}) : text}</th>`
+    tag = `<th class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</th>`
 
     else if (value.type === 'Cell')
-    tag = `<td class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({STATE, VALUE, id}) : text}</td>`
+    tag = `<td class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</td>`
 
     else if (value.type === 'Text')
     tag = `<p class='${value.class}' id='${value.id}' style='${style}'>${text}</p>`
@@ -177,8 +170,8 @@ const oneTag = ({STATE, VALUE, id}) => {
     else if (value.type === 'Span')
     tag = `<span class='${value.class}' id='${value.id}' style='${style}'>${text}</span>`
 
-    else if (value.type === 'Icon')
-    tag = `<i class='${value.class} bi-${value.icon.name}' id='${value.id}' style='${style}'></i>`
+    else if (value.type === 'Icon') 
+    tag = `<i class='material-icons${value.outlined ? '-outlined' : value.rounded ? '-round' : value.sharp ? '-sharp' : value.twoTone ? '-two-tone' : ''} ${value.class || ''} ${value.icon.name}' id='${value.id}' style='${style}'>${value.google ? value.icon.name : ''}</i>`
     
     else if (value.type === 'Input')
     tag = `<input class='${value.class}' id='${value.id}' style='${style}' ${value.upload ? `type=file accept='${value.upload.type}/*' ${value.upload.multiple ? 'multiple': ''}` : ''} type='${value.input.type || 'text'}' placeholder='${value.placeholder || ''}' value='${value.data || value.input.value || ''}'/>`
@@ -196,7 +189,7 @@ const oneTag = ({STATE, VALUE, id}) => {
             actions: `route?route=${value.link}`
         })
     }
-
+    
     return tag
 }
 

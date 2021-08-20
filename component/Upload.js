@@ -12,7 +12,7 @@ const Upload = (component) => {
         type: 'View',
         class: `file-drop-area ${component.class || ''}`,
         children: [{
-            type: `Icon?icon.name=${upload.type === 'image' ? 'images' : upload.type === 'video' ? 'camera-video' : ''}`,
+            type: `Icon?icon.name=${upload.type === 'image' ? 'bi-images' : upload.type === 'video' ? 'bi-camera-video' : ''}`,
             style: {
                 fontSize: '2.5rem',
                 color: '#444',

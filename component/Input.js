@@ -7,7 +7,7 @@ const Input = (component) => {
     if (component.templated) return component
 
     component = toComponent(component)
-    var { input, model, dropList, lang, readOnly, style, controls, icon, placeholder } = component
+    var { input, model, droplist, lang, readOnly, style, controls, icon, placeholder } = component
     var id = component.id || generate()
 
     // for search inputs
@@ -32,14 +32,12 @@ const Input = (component) => {
                 backgroundColor: '#fff',
                 height: '4rem',
                 borderRadius: '0.25rem',
+                fontSize: '1.4rem',
 
                 ...style,
             },
             controls: [...controls,
-            /*{
-                watch: 'value.data',
-                actions: 'setContent?value=value.data'
-            }, */{
+            {
                 event: 'mouseenter??overflow',
                 actions: 'showTooltip?tooltip=value.data;placement=top?value.data',
             }, {
@@ -72,6 +70,7 @@ const Input = (component) => {
                 ...style,
             },
             children: [{
+                ...icon,
                 type: `Icon?icon.name=${icon.name}${icon.code ? ';icon.code=' : ''};id=${id}-icon?const.${icon.name}`,
                 style: {
                     color: '#444',
@@ -85,12 +84,12 @@ const Input = (component) => {
             }, {
                 class: lang === 'ar' ? 'arabic' : '',
                 type: `Input?readOnly=${readOnly};input.type=${input.type || 'text'};id=${id}-input;input.value=${input.value}${(component.currency || component.unit) ? `;path=amount;data=${component.data}` : component.lang ? `;path=name;data=${component.data}` : ''};filterable=${component.filterable}`,
-                dropList: dropList,
+                droplist: droplist,
                 placeholder,
                 'placeholder-ar': component['placeholer-ar'],
                 templated: true,
                 style: {
-                    width: style.width || '100%',
+                    width: '100%',
                     height: '100%',
                     borderRadius: style.borderRadius || '0.25rem',
                     backgroundColor: style.backgroundColor || '#fff',
@@ -110,7 +109,7 @@ const Input = (component) => {
                 }, {
                     event: `input??value.data!=free`,
                     actions: [
-                        `filter>>drop-list?${component.filterable};dropList`,
+                        `filter>>droplist?${component.filterable};droplist`,
                         `setData>>${id}-language?data=ar?isArabic`,
                         `search?state=${component.search.state};${component.search.query};id=${component.search.id}?${component.searchable}`
                     ]
@@ -126,44 +125,52 @@ const Input = (component) => {
                 }]
             }, {
                 type: `View?class=flex-box ${lang === 'ar' ? 'arabic' : ''}`,
-                style: {
-                    padding: '0 0.5rem',
-                },
+                style: { padding: '0 0.5rem' },
                 children: [{
-                    type: `Text?path=currency;id=${id}-currency;dropList.items=[asset.currency.symbol]?const.${component.currency}`,
+                    type: `Text?path=currency;id=${id}-currency;droplist.items=[asset.currency.options.name];auto-style?const.${component.currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
                         cursor: 'pointer',
-                        margin: '0 0.5rem'
+                        padding: '.5rem',
+                        borderRadius: '.25rem',
+                        transition: 'color .2s',
+                        after: { color: '#0d6efd' }
                     },
                     actions: `setData?data=${component.currency}?!value.data`
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;dropList.items=[asset.unit.symbol]?const.${component.unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=[asset.unit.options.name];auto-style?const.${component.unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
                         cursor: 'pointer',
-                        margin: '0 0.5rem',
+                        padding: '.5rem',
+                        borderRadius: '.25rem',
+                        transition: 'color .2s',
+                        after: { color: '#0d6efd' }
                     },
                     actions: `setData?data=${component.unit}?!value.data`
                 }, {
-                    type: `Text?path=lang;id=${id}-language;dropList.items=[asset.language.code]?const.${component.lang}`,
+                    type: `Text?path=lang;id=${id}-language;droplist.items=[asset.language.options.name];auto-style?const.${component.lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
                         cursor: 'pointer',
-                        margin: '0 0.5rem',
+                        padding: '.5rem',
+                        borderRadius: '.25rem',
+                        transition: 'color .2s',
+                        after: { color: '#0d6efd' }
                     },
                     actions: `setData?data=${component.lang}?!value.data`,
                 }, {
-                    type: `Icon?icon.name=x;id=${id}-x?${component.clearable}||${component.removable}`,
+                    type: `Icon?icon.name=bi-x;id=${id}-x;auto-style?${component.clearable}||${component.removable}`,
                     style: {
                         display: 'flex',
                         alignItems: 'center',
                         fontSize: '2rem',
                         color: '#444',
                         cursor: 'pointer',
+                        after: { color: 'red' }
                     },
                     controls: [{
                         event: 'click',

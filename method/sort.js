@@ -34,7 +34,7 @@ const sort = ({ VALUE, STATE, params, id }) => {
 
     if (params.id) {
         var id = params.id
-        VALUE[id].DATA = data
+        VALUE[id].Data = data
         update({ VALUE, STATE, id })
     }
 

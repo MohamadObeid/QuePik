@@ -27,13 +27,17 @@ const {route} = require('./route')
 const {starter} = require('./starter')
 const {setState} = require('./state')
 const {setPosition} = require('./setPosition')
-const {dropList} = require('./dropList')
+const {droplist} = require('./droplist')
+const {actionlist} = require('./actionlist')
 const {createView} = require('./createView')
 const {filter} = require('./filter')
 const {setValue} = require('./setValue')
 const {remove} = require('./remove')
 const {focus} = require('./focus')
 const {sort} = require('./sort')
+const {log} = require('./log')
+const {save} = require('./save')
+const {deleteDb} = require('./db')
 const {defaultInputHandler} = require('./defaultInputHandler')
 const {createActions} = require('./createActions')
 const {setStyle, resetStyles, toggleStyles, mountAfterStyles} = require('./style')
@@ -41,14 +45,14 @@ const {resizeInput, dimensions} = require('./resize')
 const {createData, setData, pushData, clearData, removeData} = require('./data')
 
 const _method = {
-    clearIntervals, clearValues, clone, derive, duplicate, duplicates,
+    clearIntervals, clearValues, clone, derive, duplicate, duplicates, actionlist,
     getParam, isArabic, isEqual, merge, overflow, addEventListener, setState,
     toBoolean, toComponent, toId, toObject, toString, update, execute,
     createDocument, toArray, generate, createElement, controls, route,
     setStyle, resetStyles, toggleStyles, mountAfterStyles, resizeInput, dimensions,
     createData, setData, pushData, clearData, removeData, setContent, starter,
-    setPosition, dropList, filter, setValue, createView, createActions,
-    createControls, remove, defaultInputHandler, focus, sort
+    setPosition, droplist, filter, setValue, createView, createActions,
+    createControls, remove, defaultInputHandler, focus, sort, log, save, deleteDb
 }
 
 module.exports = _method

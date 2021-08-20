@@ -49,9 +49,9 @@ const Header = (component) => {
             }, {
                 type: `View?id=${id}-caret;style.display=none;style.cursor=pointer?const.${path}`,
                 children: [{
-                    type: `Icon?id=${id}-caret-up;style.position=absolute;style.top=-1rem;style.left=calc(50% - 1rem);style.width=2rem;icon.name=caret-up-fill`,
+                    type: `Icon?id=${id}-caret-up;style.position=absolute;style.top=-1rem;style.left=calc(50% - 1rem);style.width=2rem;icon.name=bi-caret-up-fill`,
                 }, {
-                    type: `Icon?id=${id}-caret-down;style.position=absolute;style.bottom=-1.1rem;style.left=calc(50% - 1rem);style.width=2rem;icon.name=caret-down-fill`
+                    type: `Icon?id=${id}-caret-down;style.position=absolute;style.bottom=-1.1rem;style.left=calc(50% - 1rem);style.width=2rem;icon.name=bi-caret-down-fill`
                 }]
             }]
         }]

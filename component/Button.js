@@ -35,6 +35,7 @@ const Button = (component) => {
             }
         },
         children: [{
+            ...icon,
             type: `Icon?icon.name=${icon.name};icon.code=${icon.code};id=${id}-icon`,
             style: {
                 color: style.color || '#444',
@@ -61,7 +62,7 @@ const Button = (component) => {
             }
         }],
         controls: [...controls, {
-            actions: `createControls?type=dropList?dropList`
+            actions: `createControls?type=droplist?droplist`
         }, /*{
             event: 'click',
             actions: 'ripple'
@@ -71,10 +72,7 @@ const Button = (component) => {
         }, {
             event: 'mouseleave',
             actions: `resetStyles???${id};${id}-text;${id}-icon`
-        }/*, {
-            watch: 'value.data',
-            actions: `search?state=${component.state};${component.query}?${component.searchable}`
-        }*/]
+        }]
     }
 }
 

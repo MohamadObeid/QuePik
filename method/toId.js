@@ -6,7 +6,7 @@ const toId = ({ VALUE, STATE, id, string }) => {
     var idList = [], local = VALUE[id]
 
     if (typeof string === 'object') return string;
-
+    
     (string || id).split(';').map(id => {
 
         // id=id:index

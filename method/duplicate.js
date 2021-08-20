@@ -11,7 +11,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
     var local = VALUE[id]
     if (!local) return
 
-    if (local.DATA) {
+    if (local.Data) {
 
         var keys = clone(local.derivations)
         var index = params.index || 0
@@ -51,7 +51,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 
             return o[k]
 
-        }, local.DATA)
+        }, local.Data)
 
     } else {
 
@@ -66,7 +66,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 const duplicates = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
-    var [data] = derive(local.DATA, local.derivations), exists
+    var [data] = derive(local.Data, local.derivations), exists
     if (!params.data) return false
 
     data = toArray(data)

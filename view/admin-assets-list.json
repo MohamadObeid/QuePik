@@ -1,0 +1,74 @@
+{
+    "file-name": "admin-assets-list",
+    "type": "View?Data=undefined",
+    "children": [{
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
+        "children": [{
+            "type": "Text?text=Asset List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
+        }, {
+            "type": "View?class=flex-box",
+            "children": [{
+                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem",
+                "tooltip": "Import multiple products to store at once"
+            }, {
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "tooltip": "Export all products to a CSV file"
+            }, {
+                "type": "Button?text=Add New Asset;icon.name=bi-plus;style.marginRight=1rem",
+                "controls": [{
+                    "actions": "createControls?type=mini-window;view=asset"
+                }]
+            }]
+        }]
+    }, {
+        "type": "View?style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee",
+        "children": [{
+            "type": "View?class=flex-box;style.justifyContent=space-between;style.paddingBottom=1rem;style.borderBottom=1px solid #eee",
+            "children": [{
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;search.id=products-table;search.state=products-table;search.query.collection=const.product;search.query.all=const.element.value;placeholder-ar=...إبحث عن الإسم، الصنف، الماركة",
+                "placeholder": "Search by name, options, description...",
+                "style": {
+                    "height": "4rem",
+                    "backgroundColor": "#fff",
+                    "border": "1px solid #ddd",
+                    "color": "#666",
+                    "borderRadius": ".75rem",
+                    "marginRight": "1rem",
+                    "maxWidth": "50rem"
+                }
+            }, {
+                "type": "View?class=flex-box",
+                "children": [{
+                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down"
+                }, {
+                    "type": "Button?text=View;icon.name=bi-list-ul"
+                }]
+            }]
+        }, {
+            "type": "View?id=assets-data;style.padding=1rem;style.width=100%",
+            "children": [{
+                "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr",
+                "children": [{
+                    "type": "View?Data=asset.entries.value;class=flex-box",
+                    "style": {
+                        "borderRadius": ".75rem",
+                        "border": "1px solid #ddd",
+                        "minHeight": "8rem",
+                        "cursor": "pointer",
+                        "after": {
+                            "border": "1px solid #ee384e"
+                        }
+                    },
+                    "controls": [{
+                        "actions": "createControls?type=auto-style;id=[value.id,value.1stChild.id]" 
+                    }, {
+                        "actions": "createControls?type=mini-window;view=asset"
+                    }],
+                    "children": [{
+                        "type": "Text?path=name.0.name;style.fontSize=1.3rem;style.after.color=#ee384e"
+                    }]
+                }]
+            }]
+        }]
+    }]
+}

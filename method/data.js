@@ -8,7 +8,7 @@ const createData = ({ VALUE, params, id }) => {
     local.derivations.reduce((o, k, i) => {
         if (i === local.derivations.length - 1) return o[k] = data
         return o[k]
-    }, local.DATA)
+    }, local.Data)
 }
 
 const pushData = ({ VALUE, params }) => {
@@ -18,7 +18,7 @@ const pushData = ({ VALUE, params }) => {
 
 const setData = ({ VALUE, params = {}, id }) => {
     var local = VALUE[id]
-    if (!local.DATA) return
+    if (!local.Data) return
 
     var path = params.path
     if (path) path = path.split('.')
@@ -73,7 +73,7 @@ const setData = ({ VALUE, params = {}, id }) => {
         }
 
         return o[k]
-    }, local.DATA)
+    }, local.Data)
 }
 
 const clearData = ({ VALUE, STATE, id }) => {
@@ -82,7 +82,7 @@ const clearData = ({ VALUE, STATE, id }) => {
 
 const removeData = ({ VALUE, id, params = {} }) => {
     var local = VALUE[id]
-    if (!local.DATA) return
+    if (!local.Data) return
 
     var path = params.path
     path = path ? path.split('.') : []
@@ -101,10 +101,10 @@ const removeData = ({ VALUE, id, params = {} }) => {
             else return delete o[k]
         }
         return o[k]
-    }, local.DATA)
+    }, local.Data)
 
     setContent({ VALUE, id })
-    console.log(local.DATA);
+    console.log(local.Data);
 }
 
 module.exports = {createData, setData, pushData, clearData, removeData}

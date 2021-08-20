@@ -1,0 +1,55 @@
+{
+    "file-name": "admin-stays-list",
+    "type": "View?value.Data=undefined",
+    "actions": "search?state=products-table;query.collection=product;id=products-table",
+    "children": [{
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
+        "children": [{
+            "type": "Text?text=Stay List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
+        }, {
+            "type": "View?class=flex-box",
+            "children": [{
+                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem",
+                "tooltip": "Import multiple products to store at once"
+            }, {
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "tooltip": "Export all products to a CSV file"
+            }, {
+                "type": "Button?text=Add New Stay;icon.name=bi-plus;style.marginRight=1rem",
+                "controls": [{
+                    "actions": "createControls?type=toggle-view;id=admin-view;view=new-product"
+                }]
+            }]
+        }]
+    }, {
+        "type": "View?style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee",
+        "children": [{
+            "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee",
+            "children": [{
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;search.id=products-table;search.state=products-table;search.query.collection=const.product;search.query.all=const.element.value;placeholder-ar=...إبحث عن الإسم، الصنف، الماركة",
+                "placeholder": "Search by name, city, type, description...",
+                "style": {
+                    "height": "4rem",
+                    "backgroundColor": "#fff",
+                    "border": "1px solid #ddd",
+                    "color": "#666",
+                    "borderRadius": ".75rem",
+                    "marginRight": "1rem"
+                }
+            }, {
+                "type": "Button?text=Filter;icon.name=bi-funnel"
+            }, {
+                "type": "Button?text=Collection;icon.name=bi-ui-checks-grid"
+            }, {
+                "type": "Button?text=City;icon.name=bi-map;droplist.items=[Cities:readOnly,state.category-list.name];search.state=products-admin;search.query.collection=const.product;search.query.category=const.value.data"
+            }, {
+                "type": "Button?text=Stars;icon.name=bi-star;droplist.items=[Stars:readOnly,state.brand-list.name]"
+            }, {
+                "type": "Button?text=View;icon.name=bi-list-ul"
+            }]
+        }, {
+            "type": "View?style.padding=1rem;style.width=100%",
+            "children": []
+        }]
+    }]
+}

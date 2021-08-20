@@ -7,7 +7,7 @@ const { toId } = require("./toId")
 const { generate } = require("./generate")
 const _method = require("./_method")
 
-const execute = ({ VALUE, STATE, controls, actions, e, id }) => {
+const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
 
     var local = VALUE[id]
     if (!local) return
@@ -33,13 +33,11 @@ const execute = ({ VALUE, STATE, controls, actions, e, id }) => {
             var timer = name.split('::')[1] || 0
             name = name.split('::')[0]
 
-            if (!_method[name]) return
-
             // reset
             var reset = getParam(action, 'reset', false)
             if (reset) clearTimeout(local[`${name}-timer`])
 
-            local[`${name}-timer`] = setTimeout(() => {
+            const myFn = () => {
 
                 // approval
                 approved = toBoolean({ VALUE, STATE, string: conditions, params, id })
@@ -67,12 +65,18 @@ const execute = ({ VALUE, STATE, controls, actions, e, id }) => {
                     // component doesnot exist
                     if (!id || !VALUE[id]) return
                     
+
+                    if (!_method[name]) return
                     _method[name]({ VALUE, STATE, controls, params, e, id })
                 })
 
-            }, timer)
+            }
+
+            if (instantly) return myFn()
+            local[`${name}-timer`] = setTimeout(myFn, timer)
         })
     })
+    
 }
 
 module.exports = {execute}

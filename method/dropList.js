@@ -4,56 +4,49 @@ const { filter } = require('./filter')
 const { toObject } = require('./toObject')
 const { clone } = require('./clone')
 
-const dropList = ({ VALUE, STATE, params, id }) => {
-    
-    var local = VALUE[id] // drop-list
-    if (!local) return
+const droplist = ({ VALUE, STATE, params, id }) => {
 
-    // button or input or text...
-    var button = clone(VALUE[params.id]) 
+    var local = VALUE[id]
+    if (!local) return
+    
+    var dropList = VALUE['droplist'] // droplist
 
     // items
-    var items = clone(button.dropList.items) || []
-    local.derivations = clone(button.derivations)
-    local.DATA = button.DATA
+    var items = clone(local.droplist.items) || []
+    dropList.derivations = clone(local.derivations)
+    dropList.Data = local.Data
 
     // path
-    if (params.path) local.derivations = params.path.split('.')
+    if (params.path) dropList.derivations = params.path.split('.')
 
     // input components => focus
     var inputid
-    if (button.id.includes('-language') || button.id.includes('-unit') || button.id.includes('-currency')) {
-
-        inputid = button.id.split('-language')
-        if (inputid[1] === undefined) inputid = button.id.split('-unit')
-        if (inputid[1] === undefined) inputid = button.id.split('-currency')
-
-        inputid = inputid[0] + '-input'
-    }
+    if (local.lang || local.unit || local.currency)
+        inputid = VALUE[local.parent].element.previousSibling.id
 
     // data related items
-    var index = items.findIndex(item => item && item.split('.')[0] === 'DATA' || item.split('.')[0] === 'data')
+    var index = items.findIndex(item => item && item.split('.')[0] === 'Data' || item.split('.')[0] === 'data')
     if (index !== -1) {
         var k = generate()
-        var editedItem = toObject({ VALUE, STATE, string: `${k}=${items[index]}`, id: button.id })[k]
+        var editedItem = toObject({ VALUE, STATE, string: `${k}=${items[index]}`, id })[k]
         items.splice(index, 1)
         items.push(...editedItem)
     }
     
     items = items.filter(item => item)
-    if (items.length > 0) local.children = items.map(item => {
+    if (items.length > 0) dropList.children = items.map(item => {
 
         var readOnly = false
-        item = item.split(':')
+        item = item.split('::')
         if (item[1]) readOnly = item[1].split(';').find(param => param === 'readOnly')
 
         return {
             type: `Item?text=${item[0]};readOnly=${readOnly};data=${item[0]}`,
             controls: [{
-                event: `click??!readOnly;state.drop-list=${button.id}`,
+                event: `click??!readOnly;state.droplist=${id}`,
                 actions: [
-                    `setContent>>${button.id};focus>>${inputid}?content=${item[0]}`,
-                    //`update::50>>${button.id}`,
+                    `setContent>>${id};focus>>${inputid}?content=${item[0]}`,
+                    //`update::50>>${id}`,
                     `setData>>${inputid}?data=free?const.${item[0]}=free`,
                     `setData>>${inputid}?data=''?const.${item[0]}!=free;value.data=free`
                 ]
@@ -61,20 +54,20 @@ const dropList = ({ VALUE, STATE, params, id }) => {
         }
     })
     
-    local.turnOff = true
-    update({ VALUE, STATE, id })
+    dropList.turnOff = true
+    update({ VALUE, STATE, id: 'droplist' })
     
-    if (local.filterable) {
+    if (dropList.filterable) {
         // get input value for filter
-        var value = button.value
+        var value = local.element.value
 
         if (!value) {
-            value = button.getElementsByTagName('INPUT')[0]
+            value = local.getElementsByTagName('INPUT')[0]
             if (value) value = value.value
         }
 
-        if (value) filter({ VALUE, STATE, params: { value }, id })
+        if (value) filter({ VALUE, STATE, params: { value }, id: 'droplist' })
     }
 }
 
-module.exports = {dropList}
+module.exports = {droplist}

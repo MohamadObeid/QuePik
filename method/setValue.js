@@ -10,7 +10,7 @@ const setValue = ({ VALUE, params, id }) => {
     Object.entries(params.value).map(([key, value]) => {
         if (key === 'data') setData({ VALUE, params: { value }, id })
 
-        else if (key === 'DATA') {
+        else if (key === 'Data') {
             local[key] = value
             local.data = value
         }

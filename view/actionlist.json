@@ -1,0 +1,32 @@
+{
+    "type": "List?id=actionlist;toChildren.icon.google;toChildren.icon.outlined;toChildren.icon.style.fontSize=1.7rem",
+    "children": [{
+        "type": "Item?text=Edit;icon.name=edit;id=action-list-edit"
+    }, {
+        "type": "Item?text=Hide;icon.name=visibility_off;id=action-list-hide",
+        "actions": [
+            "setValue?value.element.innerHTML=Show?value.data.hidden=false",
+            "setValue?value.element.innerHTML=Hide?value.data.hidden=true"
+        ],
+        "tooltip": "Hide from store?maxWidth=25rem"
+    }, {
+        "type": "Item?text=Duplicate;icon.name=file_copy;id=action-list-duplicate",
+        "tooltip": "Create a copy of the item?maxWidth=25rem"
+    }, {
+        "type": "Item?text=Archive;icon.name=archive;id=action-list-archive",
+        "actions": [
+            "setValue?value.element.innerHTML=Archive?value.data.archived=false",
+            "setValue?value.element.innerHTML=Unarchive?value.data.archived=true"
+        ],
+        "tooltip": "Hide from both store and list?maxWidth=25rem"
+    }, {
+        "type": "Item?text=Delete;icon.name=delete;id=action-list-delete",
+        "controls": {
+            "event": "click",
+            "actions": [
+                "deleteDb;resetStyles>>actionlist?state.asset[value.data.file-name].delete;delete=value.Data",
+                "setStyle>>mini-window;update>>assets-data?style.display=none::200;style.opacity=0?global.mini-window.element.style.display!=none"
+            ]
+        }
+    }]
+}

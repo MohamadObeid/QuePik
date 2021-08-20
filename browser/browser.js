@@ -1,1283 +1,725 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const { currency } = require('./currency')
-const { unit } = require('./unit')
-const { language } = require('./language')
 
-module.exports = { unit, currency, language }
-},{"./currency":2,"./language":3,"./unit":4}],2:[function(require,module,exports){
-const currency = [{
-    'title': 'General'
-}, {
-    "symbol": 'item',
-    "name": 'item'
-}, {
-    "symbol": 'free',
-    "name": 'Free'
-}, {
-    "symbol": 'points',
-    "name": 'Points'
-}, {
-    'title': 'Percentage'
-}, {
-    'symbol': '%',
-    "name": "Percentage",
-    "code": "Percent",
-}, {
-    'symbol': '‰',
-    "name": "Per Thousand",
-    "code": "Per-mille",
-}, {
-    'symbol': '‱',
-    "name": "Per Ten Thousand",
-    "code": "Per-tenk",
-}, {
-    'title': 'Currency'
-}, {
-    "symbol": "$",
-    "name": "US Dollar",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "USD",
-    "name_plural": "US dollars"
-}, {
-    "symbol": "L.L",
-    "name": "Lebanese Pound",
-    "symbol_native": "ل.ل.‏",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "LBP",
-    "name_plural": "Lebanese pounds"
-}, {
-    "symbol": "€",
-    "name": "Euro",
-    "symbol_native": "€",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "EUR",
-    "name_plural": "euros"
-}, {
-    "symbol": "IQD",
-    "name": "Iraqi Dinar",
-    "symbol_native": "د.ع.‏",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "IQD",
-    "name_plural": "Iraqi dinars"
-}, {
-    "symbol": "IRR",
-    "name": "Iranian Rial",
-    "symbol_native": "﷼",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "IRR",
-    "name_plural": "Iranian rials"
-}, {
-    "symbol": "EGP",
-    "name": "Egyptian Pound",
-    "symbol_native": "ج.م.‏",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "EGP",
-    "name_plural": "Egyptian pounds"
-}, {
-    "symbol": "AED",
-    "name": "United Arab Emirates Dirham",
-    "symbol_native": "د.إ.‏",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "AED",
-    "name_plural": "UAE dirhams"
-}, {
-    "symbol": "CA$",
-    "name": "Canadian Dollar",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "CAD",
-    "name_plural": "Canadian dollars"
-}, {
-    "symbol": "Af",
-    "name": "Afghan Afghani",
-    "symbol_native": "؋",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "AFN",
-    "name_plural": "Afghan Afghanis"
-}, {
-    "symbol": "ALL",
-    "name": "Albanian Lek",
-    "symbol_native": "Lek",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "ALL",
-    "name_plural": "Albanian lekë"
-}, {
-    "symbol": "AMD",
-    "name": "Armenian Dram",
-    "symbol_native": "դր.",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "AMD",
-    "name_plural": "Armenian drams"
-}, {
-    "symbol": "AR$",
-    "name": "Argentine Peso",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "ARS",
-    "name_plural": "Argentine pesos"
-}, {
-    "symbol": "AU$",
-    "name": "Australian Dollar",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "AUD",
-    "name_plural": "Australian dollars"
-}, {
-    "symbol": "man.",
-    "name": "Azerbaijani Manat",
-    "symbol_native": "ман.",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "AZN",
-    "name_plural": "Azerbaijani manats"
-}, {
-    "symbol": "KM",
-    "name": "Bosnia-Herzegovina Convertible Mark",
-    "symbol_native": "KM",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "BAM",
-    "name_plural": "Bosnia-Herzegovina convertible marks"
-}, {
-    "symbol": "Tk",
-    "name": "Bangladeshi Taka",
-    "symbol_native": "৳",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "BDT",
-    "name_plural": "Bangladeshi takas"
-}, {
-    "symbol": "BGN",
-    "name": "Bulgarian Lev",
-    "symbol_native": "лв.",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "BGN",
-    "name_plural": "Bulgarian leva"
-}, {
-    "symbol": "BD",
-    "name": "Bahraini Dinar",
-    "symbol_native": "د.ب.‏",
-    "decimal_digits": 3,
-    "rounding": 0,
-    "code": "BHD",
-    "name_plural": "Bahraini dinars"
-}, {
-    "symbol": "FBu",
-    "name": "Burundian Franc",
-    "symbol_native": "FBu",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "BIF",
-    "name_plural": "Burundian francs"
-}, {
-    "symbol": "BN$",
-    "name": "Brunei Dollar",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "BND",
-    "name_plural": "Brunei dollars"
-}, {
-    "symbol": "Bs",
-    "name": "Bolivian Boliviano",
-    "symbol_native": "Bs",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "BOB",
-    "name_plural": "Bolivian bolivianos"
-}, {
-    "symbol": "R$",
-    "name": "Brazilian Real",
-    "symbol_native": "R$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "BRL",
-    "name_plural": "Brazilian reals"
-}, {
-    "symbol": "BWP",
-    "name": "Botswanan Pula",
-    "symbol_native": "P",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "BWP",
-    "name_plural": "Botswanan pulas"
-}, {
-    "symbol": "Br",
-    "name": "Belarusian Ruble",
-    "symbol_native": "руб.",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "BYN",
-    "name_plural": "Belarusian rubles"
-}, {
-    "symbol": "BZ$",
-    "name": "Belize Dollar",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "BZD",
-    "name_plural": "Belize dollars"
-}, {
-    "symbol": "CDF",
-    "name": "Congolese Franc",
-    "symbol_native": "FrCD",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "CDF",
-    "name_plural": "Congolese francs"
-}, {
-    "symbol": "CHF",
-    "name": "Swiss Franc",
-    "symbol_native": "CHF",
-    "decimal_digits": 2,
-    "rounding": 0.05,
-    "code": "CHF",
-    "name_plural": "Swiss francs"
-}, {
-    "symbol": "CL$",
-    "name": "Chilean Peso",
-    "symbol_native": "$",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "CLP",
-    "name_plural": "Chilean pesos"
-}, {
-    "symbol": "CN¥",
-    "name": "Chinese Yuan",
-    "symbol_native": "CN¥",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "CNY",
-    "name_plural": "Chinese yuan"
-}, {
-    "symbol": "CO$",
-    "name": "Colombian Peso",
-    "symbol_native": "$",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "COP",
-    "name_plural": "Colombian pesos"
-}, {
-    "symbol": "₡",
-    "name": "Costa Rican Colón",
-    "symbol_native": "₡",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "CRC",
-    "name_plural": "Costa Rican colóns"
-}, {
-    "symbol": "CV$",
-    "name": "Cape Verdean Escudo",
-    "symbol_native": "CV$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "CVE",
-    "name_plural": "Cape Verdean escudos"
-}, {
-    "symbol": "Kč",
-    "name": "Czech Republic Koruna",
-    "symbol_native": "Kč",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "CZK",
-    "name_plural": "Czech Republic korunas"
-}, {
-    "symbol": "Fdj",
-    "name": "Djiboutian Franc",
-    "symbol_native": "Fdj",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "DJF",
-    "name_plural": "Djiboutian francs"
-}, {
-    "symbol": "Dkr",
-    "name": "Danish Krone",
-    "symbol_native": "kr",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "DKK",
-    "name_plural": "Danish kroner"
-}, {
-    "symbol": "RD$",
-    "name": "Dominican Peso",
-    "symbol_native": "RD$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "DOP",
-    "name_plural": "Dominican pesos"
-}, {
-    "symbol": "DA",
-    "name": "Algerian Dinar",
-    "symbol_native": "د.ج.‏",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "DZD",
-    "name_plural": "Algerian dinars"
-}, {
-    "symbol": "Ekr",
-    "name": "Estonian Kroon",
-    "symbol_native": "kr",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "EEK",
-    "name_plural": "Estonian kroons"
-}, {
-    "symbol": "Nfk",
-    "name": "Eritrean Nakfa",
-    "symbol_native": "Nfk",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "ERN",
-    "name_plural": "Eritrean nakfas"
-}, {
-    "symbol": "Br",
-    "name": "Ethiopian Birr",
-    "symbol_native": "Br",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "ETB",
-    "name_plural": "Ethiopian birrs"
-}, {
-    "symbol": "£",
-    "name": "British Pound Sterling",
-    "symbol_native": "£",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "GBP",
-    "name_plural": "British pounds sterling"
-}, {
-    "symbol": "GEL",
-    "name": "Georgian Lari",
-    "symbol_native": "GEL",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "GEL",
-    "name_plural": "Georgian laris"
-}, {
-    "symbol": "GH₵",
-    "name": "Ghanaian Cedi",
-    "symbol_native": "GH₵",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "GHS",
-    "name_plural": "Ghanaian cedis"
-}, {
-    "symbol": "FG",
-    "name": "Guinean Franc",
-    "symbol_native": "FG",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "GNF",
-    "name_plural": "Guinean francs"
-}, {
-    "symbol": "GTQ",
-    "name": "Guatemalan Quetzal",
-    "symbol_native": "Q",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "GTQ",
-    "name_plural": "Guatemalan quetzals"
-}, {
-    "symbol": "HK$",
-    "name": "Hong Kong Dollar",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "HKD",
-    "name_plural": "Hong Kong dollars"
-}, {
-    "symbol": "HNL",
-    "name": "Honduran Lempira",
-    "symbol_native": "L",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "HNL",
-    "name_plural": "Honduran lempiras"
-}, {
-    "symbol": "kn",
-    "name": "Croatian Kuna",
-    "symbol_native": "kn",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "HRK",
-    "name_plural": "Croatian kunas"
-}, {
-    "symbol": "Ft",
-    "name": "Hungarian Forint",
-    "symbol_native": "Ft",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "HUF",
-    "name_plural": "Hungarian forints"
-}, {
-    "symbol": "Rp",
-    "name": "Indonesian Rupiah",
-    "symbol_native": "Rp",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "IDR",
-    "name_plural": "Indonesian rupiahs"
-}, {
-    "symbol": "₪",
-    "name": "Israeli New Sheqel",
-    "symbol_native": "₪",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "ILS",
-    "name_plural": "Israeli new sheqels"
-}, {
-    "symbol": "Rs",
-    "name": "Indian Rupee",
-    "symbol_native": "টকা",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "INR",
-    "name_plural": "Indian rupees"
-}, {
-    "symbol": "Ikr",
-    "name": "Icelandic Króna",
-    "symbol_native": "kr",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "ISK",
-    "name_plural": "Icelandic krónur"
-}, {
-    "symbol": "J$",
-    "name": "Jamaican Dollar",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "JMD",
-    "name_plural": "Jamaican dollars"
-}, {
-    "symbol": "JD",
-    "name": "Jordanian Dinar",
-    "symbol_native": "د.أ.‏",
-    "decimal_digits": 3,
-    "rounding": 0,
-    "code": "JOD",
-    "name_plural": "Jordanian dinars"
-}, {
-    "symbol": "¥",
-    "name": "Japanese Yen",
-    "symbol_native": "￥",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "JPY",
-    "name_plural": "Japanese yen"
-}, {
-    "symbol": "Ksh",
-    "name": "Kenyan Shilling",
-    "symbol_native": "Ksh",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "KES",
-    "name_plural": "Kenyan shillings"
-}, {
-    "symbol": "KHR",
-    "name": "Cambodian Riel",
-    "symbol_native": "៛",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "KHR",
-    "name_plural": "Cambodian riels"
-}, {
-    "symbol": "CF",
-    "name": "Comorian Franc",
-    "symbol_native": "FC",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "KMF",
-    "name_plural": "Comorian francs"
-}, {
-    "symbol": "₩",
-    "name": "South Korean Won",
-    "symbol_native": "₩",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "KRW",
-    "name_plural": "South Korean won"
-}, {
-    "symbol": "KD",
-    "name": "Kuwaiti Dinar",
-    "symbol_native": "د.ك.‏",
-    "decimal_digits": 3,
-    "rounding": 0,
-    "code": "KWD",
-    "name_plural": "Kuwaiti dinars"
-}, {
-    "symbol": "KZT",
-    "name": "Kazakhstani Tenge",
-    "symbol_native": "тңг.",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "KZT",
-    "name_plural": "Kazakhstani tenges"
-}, {
-    "symbol": "SLRs",
-    "name": "Sri Lankan Rupee",
-    "symbol_native": "SL Re",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "LKR",
-    "name_plural": "Sri Lankan rupees"
-}, {
-    "symbol": "Lt",
-    "name": "Lithuanian Litas",
-    "symbol_native": "Lt",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "LTL",
-    "name_plural": "Lithuanian litai"
-}, {
-    "symbol": "Ls",
-    "name": "Latvian Lats",
-    "symbol_native": "Ls",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "LVL",
-    "name_plural": "Latvian lati"
-}, {
-    "symbol": "LD",
-    "name": "Libyan Dinar",
-    "symbol_native": "د.ل.‏",
-    "decimal_digits": 3,
-    "rounding": 0,
-    "code": "LYD",
-    "name_plural": "Libyan dinars"
-}, {
-    "symbol": "MAD",
-    "name": "Moroccan Dirham",
-    "symbol_native": "د.م.‏",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "MAD",
-    "name_plural": "Moroccan dirhams"
-}, {
-    "symbol": "MDL",
-    "name": "Moldovan Leu",
-    "symbol_native": "MDL",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "MDL",
-    "name_plural": "Moldovan lei"
-}, {
-    "symbol": "MGA",
-    "name": "Malagasy Ariary",
-    "symbol_native": "MGA",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "MGA",
-    "name_plural": "Malagasy Ariaries"
-}, {
-    "symbol": "MKD",
-    "name": "Macedonian Denar",
-    "symbol_native": "MKD",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "MKD",
-    "name_plural": "Macedonian denari"
-}, {
-    "symbol": "MMK",
-    "name": "Myanma Kyat",
-    "symbol_native": "K",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "MMK",
-    "name_plural": "Myanma kyats"
-}, {
-    "symbol": "MOP$",
-    "name": "Macanese Pataca",
-    "symbol_native": "MOP$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "MOP",
-    "name_plural": "Macanese patacas"
-}, {
-    "symbol": "MURs",
-    "name": "Mauritian Rupee",
-    "symbol_native": "MURs",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "MUR",
-    "name_plural": "Mauritian rupees"
-}, {
-    "symbol": "MX$",
-    "name": "Mexican Peso",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "MXN",
-    "name_plural": "Mexican pesos"
-}, {
-    "symbol": "RM",
-    "name": "Malaysian Ringgit",
-    "symbol_native": "RM",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "MYR",
-    "name_plural": "Malaysian ringgits"
-}, {
-    "symbol": "MTn",
-    "name": "Mozambican Metical",
-    "symbol_native": "MTn",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "MZN",
-    "name_plural": "Mozambican meticals"
-}, {
-    "symbol": "N$",
-    "name": "Namibian Dollar",
-    "symbol_native": "N$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "NAD",
-    "name_plural": "Namibian dollars"
-}, {
-    "symbol": "₦",
-    "name": "Nigerian Naira",
-    "symbol_native": "₦",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "NGN",
-    "name_plural": "Nigerian nairas"
-}, {
-    "symbol": "C$",
-    "name": "Nicaraguan Córdoba",
-    "symbol_native": "C$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "NIO",
-    "name_plural": "Nicaraguan córdobas"
-}, {
-    "symbol": "Nkr",
-    "name": "Norwegian Krone",
-    "symbol_native": "kr",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "NOK",
-    "name_plural": "Norwegian kroner"
-}, {
-    "symbol": "NPRs",
-    "name": "Nepalese Rupee",
-    "symbol_native": "नेरू",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "NPR",
-    "name_plural": "Nepalese rupees"
-}, {
-    "symbol": "NZ$",
-    "name": "New Zealand Dollar",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "NZD",
-    "name_plural": "New Zealand dollars"
-}, {
-    "symbol": "OMR",
-    "name": "Omani Rial",
-    "symbol_native": "ر.ع.‏",
-    "decimal_digits": 3,
-    "rounding": 0,
-    "code": "OMR",
-    "name_plural": "Omani rials"
-}, {
-    "symbol": "B/.",
-    "name": "Panamanian Balboa",
-    "symbol_native": "B/.",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "PAB",
-    "name_plural": "Panamanian balboas"
-}, {
-    "symbol": "S/.",
-    "name": "Peruvian Nuevo Sol",
-    "symbol_native": "S/.",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "PEN",
-    "name_plural": "Peruvian nuevos soles"
-}, {
-    "symbol": "₱",
-    "name": "Philippine Peso",
-    "symbol_native": "₱",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "PHP",
-    "name_plural": "Philippine pesos"
-}, {
-    "symbol": "PKRs",
-    "name": "Pakistani Rupee",
-    "symbol_native": "₨",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "PKR",
-    "name_plural": "Pakistani rupees"
-}, {
-    "symbol": "zł",
-    "name": "Polish Zloty",
-    "symbol_native": "zł",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "PLN",
-    "name_plural": "Polish zlotys"
-}, {
-    "symbol": "₲",
-    "name": "Paraguayan Guarani",
-    "symbol_native": "₲",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "PYG",
-    "name_plural": "Paraguayan guaranis"
-}, {
-    "symbol": "QR",
-    "name": "Qatari Rial",
-    "symbol_native": "ر.ق.‏",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "QAR",
-    "name_plural": "Qatari rials"
-}, {
-    "symbol": "RON",
-    "name": "Romanian Leu",
-    "symbol_native": "RON",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "RON",
-    "name_plural": "Romanian lei"
-}, {
-    "symbol": "din.",
-    "name": "Serbian Dinar",
-    "symbol_native": "дин.",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "RSD",
-    "name_plural": "Serbian dinars"
-}, {
-    "symbol": "RUB",
-    "name": "Russian Ruble",
-    "symbol_native": "₽.",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "RUB",
-    "name_plural": "Russian rubles"
-}, {
-    "symbol": "RWF",
-    "name": "Rwandan Franc",
-    "symbol_native": "FR",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "RWF",
-    "name_plural": "Rwandan francs"
-}, {
-    "symbol": "SR",
-    "name": "Saudi Riyal",
-    "symbol_native": "ر.س.‏",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "SAR",
-    "name_plural": "Saudi riyals"
-}, {
-    "symbol": "SDG",
-    "name": "Sudanese Pound",
-    "symbol_native": "SDG",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "SDG",
-    "name_plural": "Sudanese pounds"
-}, {
-    "symbol": "Skr",
-    "name": "Swedish Krona",
-    "symbol_native": "kr",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "SEK",
-    "name_plural": "Swedish kronor"
-}, {
-    "symbol": "S$",
-    "name": "Singapore Dollar",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "SGD",
-    "name_plural": "Singapore dollars"
-}, {
-    "symbol": "Ssh",
-    "name": "Somali Shilling",
-    "symbol_native": "Ssh",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "SOS",
-    "name_plural": "Somali shillings"
-}, {
-    "symbol": "SY£",
-    "name": "Syrian Pound",
-    "symbol_native": "ل.س.‏",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "SYP",
-    "name_plural": "Syrian pounds"
-}, {
-    "symbol": "฿",
-    "name": "Thai Baht",
-    "symbol_native": "฿",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "THB",
-    "name_plural": "Thai baht"
-}, {
-    "symbol": "DT",
-    "name": "Tunisian Dinar",
-    "symbol_native": "د.ت.‏",
-    "decimal_digits": 3,
-    "rounding": 0,
-    "code": "TND",
-    "name_plural": "Tunisian dinars"
-}, {
-    "symbol": "T$",
-    "name": "Tongan Paʻanga",
-    "symbol_native": "T$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "TOP",
-    "name_plural": "Tongan paʻanga"
-}, {
-    "symbol": "TL",
-    "name": "Turkish Lira",
-    "symbol_native": "TL",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "TRY",
-    "name_plural": "Turkish Lira"
-}, {
-    "symbol": "TT$",
-    "name": "Trinidad and Tobago Dollar",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "TTD",
-    "name_plural": "Trinidad and Tobago dollars"
-}, {
-    "symbol": "NT$",
-    "name": "New Taiwan Dollar",
-    "symbol_native": "NT$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "TWD",
-    "name_plural": "New Taiwan dollars"
-}, {
-    "symbol": "TSh",
-    "name": "Tanzanian Shilling",
-    "symbol_native": "TSh",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "TZS",
-    "name_plural": "Tanzanian shillings"
-}, {
-    "symbol": "₴",
-    "name": "Ukrainian Hryvnia",
-    "symbol_native": "₴",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "UAH",
-    "name_plural": "Ukrainian hryvnias"
-}, {
-    "symbol": "USh",
-    "name": "Ugandan Shilling",
-    "symbol_native": "USh",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "UGX",
-    "name_plural": "Ugandan shillings"
-}, {
-    "symbol": "$U",
-    "name": "Uruguayan Peso",
-    "symbol_native": "$",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "UYU",
-    "name_plural": "Uruguayan pesos"
-}, {
-    "symbol": "UZS",
-    "name": "Uzbekistan Som",
-    "symbol_native": "UZS",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "UZS",
-    "name_plural": "Uzbekistan som"
-}, {
-    "symbol": "Bs.F.",
-    "name": "Venezuelan Bolívar",
-    "symbol_native": "Bs.F.",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "VEF",
-    "name_plural": "Venezuelan bolívars"
-}, {
-    "symbol": "₫",
-    "name": "Vietnamese Dong",
-    "symbol_native": "₫",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "VND",
-    "name_plural": "Vietnamese dong"
-}, {
-    "symbol": "FCFA",
-    "name": "CFA Franc BEAC",
-    "symbol_native": "FCFA",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "XAF",
-    "name_plural": "CFA francs BEAC"
-}, {
-    "symbol": "CFA",
-    "name": "CFA Franc BCEAO",
-    "symbol_native": "CFA",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "XOF",
-    "name_plural": "CFA francs BCEAO"
-}, {
-    "symbol": "YR",
-    "name": "Yemeni Rial",
-    "symbol_native": "ر.ي.‏",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "YER",
-    "name_plural": "Yemeni rials"
-}, {
-    "symbol": "R",
-    "name": "South African Rand",
-    "symbol_native": "R",
-    "decimal_digits": 2,
-    "rounding": 0,
-    "code": "ZAR",
-    "name_plural": "South African rand"
-}, {
-    "symbol": "ZK",
-    "name": "Zambian Kwacha",
-    "symbol_native": "ZK",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "ZMK",
-    "name_plural": "Zambian kwachas"
-}, {
-    "symbol": "ZWL$",
-    "name": "Zimbabwean Dollar",
-    "symbol_native": "ZWL$",
-    "decimal_digits": 0,
-    "rounding": 0,
-    "code": "ZWL",
-    "name_plural": "Zimbabwean Dollar"
-}]
+},{}],2:[function(require,module,exports){
+(function (process){(function (){
+// 'path' module extracted from Node.js v8.11.1 (only the posix part)
+// transplited with Babel
 
-module.exports = {currency}
-},{}],3:[function(require,module,exports){
-const language = [{
-    'title': 'Language'
-},
-{ "code": "ar", "name": "Arabic", 'native-name': 'العربية' },
-{ "code": "en", "name": "English", 'native-name': 'English' },
-{ "code": "fr", "name": "French", 'native-name': 'Francais' },
-{ "code": "fa", "name": "Persian", 'native-name': 'فارسی' },
-{ "code": "aa", "name": "Afar" },
-{ "code": "ab", "name": "Abkhazian" },
-{ "code": "ae", "name": "Avestan" },
-{ "code": "af", "name": "Afrikaans" },
-{ "code": "ak", "name": "Akan" },
-{ "code": "am", "name": "Amharic" },
-{ "code": "an", "name": "Aragonese" },
-{ "code": "as", "name": "Assamese" },
-{ "code": "av", "name": "Avaric" },
-{ "code": "ay", "name": "Aymara" },
-{ "code": "az", "name": "Azerbaijani" },
-{ "code": "ba", "name": "Bashkir" },
-{ "code": "be", "name": "Belarusian" },
-{ "code": "bg", "name": "Bulgarian" },
-{ "code": "bh", "name": "Bihari languages" },
-{ "code": "bi", "name": "Bislama" },
-{ "code": "bm", "name": "Bambara" },
-{ "code": "bn", "name": "Bengali" },
-{ "code": "bo", "name": "Tibetan" },
-{ "code": "br", "name": "Breton" },
-{ "code": "bs", "name": "Bosnian" },
-{ "code": "ca", "name": "Catalan; Valencian" },
-{ "code": "ce", "name": "Chechen" },
-{ "code": "ch", "name": "Chamorro" },
-{ "code": "co", "name": "Corsican" },
-{ "code": "cr", "name": "Cree" },
-{ "code": "cs", "name": "Czech" },
-{
-    "code": "cu",
-    "name": "Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic"
-},
-{ "code": "cv", "name": "Chuvash" },
-{ "code": "cy", "name": "Welsh" },
-{ "code": "da", "name": "Danish" },
-{ "code": "de", "name": "German" },
-{ "code": "dv", "name": "Divehi; Dhivehi; Maldivian" },
-{ "code": "dz", "name": "Dzongkha" },
-{ "code": "ee", "name": "Ewe" },
-{ "code": "el", "name": "Greek, Modern (1453-)" },
-{ "code": "eo", "name": "Esperanto" },
-{ "code": "es", "name": "Spanish; Castilian" },
-{ "code": "et", "name": "Estonian" },
-{ "code": "eu", "name": "Basque" },
-{ "code": "ff", "name": "Fulah" },
-{ "code": "fi", "name": "Finnish" },
-{ "code": "fj", "name": "Fijian" },
-{ "code": "fo", "name": "Faroese" },
-{ "code": "fy", "name": "Western Frisian" },
-{ "code": "ga", "name": "Irish" },
-{ "code": "gd", "name": "Gaelic; Scomttish Gaelic" },
-{ "code": "gl", "name": "Galician" },
-{ "code": "gn", "name": "Guarani" },
-{ "code": "gu", "name": "Gujarati" },
-{ "code": "gv", "name": "Manx" },
-{ "code": "ha", "name": "Hausa" },
-{ "code": "he", "name": "Hebrew" },
-{ "code": "hi", "name": "Hindi" },
-{ "code": "ho", "name": "Hiri Motu" },
-{ "code": "hr", "name": "Croatian" },
-{ "code": "ht", "name": "Haitian; Haitian Creole" },
-{ "code": "hu", "name": "Hungarian" },
-{ "code": "hy", "name": "Armenian" },
-{ "code": "hz", "name": "Herero" },
-{
-    "code": "ia",
-    "name": "Interlingua (International Auxiliary Language Association)"
-},
-{ "code": "id", "name": "Indonesian" },
-{ "code": "ie", "name": "Interlingue; Occidental" },
-{ "code": "ig", "name": "Igbo" },
-{ "code": "ii", "name": "Sichuan Yi; Nuosu" },
-{ "code": "ik", "name": "Inupiaq" },
-{ "code": "io", "name": "Ido" },
-{ "code": "is", "name": "Icelandic" },
-{ "code": "it", "name": "Italian" },
-{ "code": "iu", "name": "Inuktitut" },
-{ "code": "ja", "name": "Japanese" },
-{ "code": "jv", "name": "Javanese" },
-{ "code": "ka", "name": "Georgian" },
-{ "code": "kg", "name": "Kongo" },
-{ "code": "ki", "name": "Kikuyu; Gikuyu" },
-{ "code": "kj", "name": "Kuanyama; Kwanyama" },
-{ "code": "kk", "name": "Kazakh" },
-{ "code": "kl", "name": "Kalaallisut; Greenlandic" },
-{ "code": "km", "name": "Central Khmer" },
-{ "code": "kn", "name": "Kannada" },
-{ "code": "ko", "name": "Korean" },
-{ "code": "kr", "name": "Kanuri" },
-{ "code": "ks", "name": "Kashmiri" },
-{ "code": "ku", "name": "Kurdish" },
-{ "code": "kv", "name": "Komi" },
-{ "code": "kw", "name": "Cornish" },
-{ "code": "ky", "name": "Kirghiz; Kyrgyz" },
-{ "code": "la", "name": "Latin" },
-{ "code": "lb", "name": "Luxembourgish; Letzeburgesch" },
-{ "code": "lg", "name": "Ganda" },
-{ "code": "li", "name": "Limburgan; Limburger; Limburgish" },
-{ "code": "ln", "name": "Lingala" },
-{ "code": "lo", "name": "Lao" },
-{ "code": "lt", "name": "Lithuanian" },
-{ "code": "lu", "name": "Luba-Katanga" },
-{ "code": "lv", "name": "Latvian" },
-{ "code": "mg", "name": "Malagasy" },
-{ "code": "mh", "name": "Marshallese" },
-{ "code": "mi", "name": "Maori" },
-{ "code": "mk", "name": "Macedonian" },
-{ "code": "ml", "name": "Malayalam" },
-{ "code": "mn", "name": "Mongolian" },
-{ "code": "mr", "name": "Marathi" },
-{ "code": "ms", "name": "Malay" },
-{ "code": "mt", "name": "Maltese" },
-{ "code": "my", "name": "Burmese" },
-{ "code": "na", "name": "Nauru" },
-{
-    "code": "nb",
-    "name": "Bokmål, Norwegian; Norwegian Bokmål"
-},
-{ "code": "nd", "name": "Ndebele, North; North Ndebele" },
-{ "code": "ne", "name": "Nepali" },
-{ "code": "ng", "name": "Ndonga" },
-{ "code": "nl", "name": "Dutch; Flemish" },
-{ "code": "nn", "name": "Norwegian Nynorsk; Nynorsk, Norwegian" },
-{ "code": "no", "name": "Norwegian" },
-{ "code": "nr", "name": "Ndebele, South; South Ndebele" },
-{ "code": "nv", "name": "Navajo; Navaho" },
-{ "code": "ny", "name": "Chichewa; Chewa; Nyanja" },
-{ "code": "oc", "name": "Occitan (post 1500)" },
-{ "code": "oj", "name": "Ojibwa" },
-{ "code": "om", "name": "Oromo" },
-{ "code": "or", "name": "Oriya" },
-{ "code": "os", "name": "Ossetian; Ossetic" },
-{ "code": "pa", "name": "Panjabi; Punjabi" },
-{ "code": "pi", "name": "Pali" },
-{ "code": "pl", "name": "Polish" },
-{ "code": "ps", "name": "Pushto; Pashto" },
-{ "code": "pt", "name": "Portuguese" },
-{ "code": "qu", "name": "Quechua" },
-{ "code": "rm", "name": "Romansh" },
-{ "code": "rn", "name": "Rundi" },
-{ "code": "ro", "name": "Romanian; Moldavian; Moldovan" },
-{ "code": "ru", "name": "Russian" },
-{ "code": "rw", "name": "Kinyarwanda" },
-{ "code": "sa", "name": "Sanskrit" },
-{ "code": "sc", "name": "Sardinian" },
-{ "code": "sd", "name": "Sindhi" },
-{ "code": "se", "name": "Northern Sami" },
-{ "code": "sg", "name": "Sango" },
-{ "code": "si", "name": "Sinhala; Sinhalese" },
-{ "code": "sk", "name": "Slovak" },
-{ "code": "sl", "name": "Slovenian" },
-{ "code": "sm", "name": "Samoan" },
-{ "code": "sn", "name": "Shona" },
-{ "code": "so", "name": "Somali" },
-{ "code": "sq", "name": "Albanian" },
-{ "code": "sr", "name": "Serbian" },
-{ "code": "ss", "name": "Swati" },
-{ "code": "st", "name": "Sotho, Southern" },
-{ "code": "su", "name": "Sundanese" },
-{ "code": "sv", "name": "Swedish" },
-{ "code": "sw", "name": "Swahili" },
-{ "code": "ta", "name": "Tamil" },
-{ "code": "te", "name": "Telugu" },
-{ "code": "tg", "name": "Tajik" },
-{ "code": "th", "name": "Thai" },
-{ "code": "ti", "name": "Tigrinya" },
-{ "code": "tk", "name": "Turkmen" },
-{ "code": "tl", "name": "Tagalog" },
-{ "code": "tn", "name": "Tswana" },
-{ "code": "to", "name": "Tonga (Tonga Islands)" },
-{ "code": "tr", "name": "Turkish" },
-{ "code": "ts", "name": "Tsonga" },
-{ "code": "tt", "name": "Tatar" },
-{ "code": "tw", "name": "Twi" },
-{ "code": "ty", "name": "Tahitian" },
-{ "code": "ug", "name": "Uighur; Uyghur" },
-{ "code": "uk", "name": "Ukrainian" },
-{ "code": "ur", "name": "Urdu" },
-{ "code": "uz", "name": "Uzbek" },
-{ "code": "ve", "name": "Venda" },
-{ "code": "vi", "name": "Vietnamese" },
-{ "code": "vo", "name": "Volapük" },
-{ "code": "wa", "name": "Walloon" },
-{ "code": "wo", "name": "Wolof" },
-{ "code": "xh", "name": "Xhosa" },
-{ "code": "yi", "name": "Yiddish" },
-{ "code": "yo", "name": "Yoruba" },
-{ "code": "za", "name": "Zhuang; Chuang" },
-{ "code": "zh", "name": "Chinese" },
-{ "code": "zu", "name": "Zulu" }
-]
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module.exports = {language}
+'use strict';
+
+function assertPath(path) {
+  if (typeof path !== 'string') {
+    throw new TypeError('Path must be a string. Received ' + JSON.stringify(path));
+  }
+}
+
+// Resolves . and .. elements in a path with directory names
+function normalizeStringPosix(path, allowAboveRoot) {
+  var res = '';
+  var lastSegmentLength = 0;
+  var lastSlash = -1;
+  var dots = 0;
+  var code;
+  for (var i = 0; i <= path.length; ++i) {
+    if (i < path.length)
+      code = path.charCodeAt(i);
+    else if (code === 47 /*/*/)
+      break;
+    else
+      code = 47 /*/*/;
+    if (code === 47 /*/*/) {
+      if (lastSlash === i - 1 || dots === 1) {
+        // NOOP
+      } else if (lastSlash !== i - 1 && dots === 2) {
+        if (res.length < 2 || lastSegmentLength !== 2 || res.charCodeAt(res.length - 1) !== 46 /*.*/ || res.charCodeAt(res.length - 2) !== 46 /*.*/) {
+          if (res.length > 2) {
+            var lastSlashIndex = res.lastIndexOf('/');
+            if (lastSlashIndex !== res.length - 1) {
+              if (lastSlashIndex === -1) {
+                res = '';
+                lastSegmentLength = 0;
+              } else {
+                res = res.slice(0, lastSlashIndex);
+                lastSegmentLength = res.length - 1 - res.lastIndexOf('/');
+              }
+              lastSlash = i;
+              dots = 0;
+              continue;
+            }
+          } else if (res.length === 2 || res.length === 1) {
+            res = '';
+            lastSegmentLength = 0;
+            lastSlash = i;
+            dots = 0;
+            continue;
+          }
+        }
+        if (allowAboveRoot) {
+          if (res.length > 0)
+            res += '/..';
+          else
+            res = '..';
+          lastSegmentLength = 2;
+        }
+      } else {
+        if (res.length > 0)
+          res += '/' + path.slice(lastSlash + 1, i);
+        else
+          res = path.slice(lastSlash + 1, i);
+        lastSegmentLength = i - lastSlash - 1;
+      }
+      lastSlash = i;
+      dots = 0;
+    } else if (code === 46 /*.*/ && dots !== -1) {
+      ++dots;
+    } else {
+      dots = -1;
+    }
+  }
+  return res;
+}
+
+function _format(sep, pathObject) {
+  var dir = pathObject.dir || pathObject.root;
+  var base = pathObject.base || (pathObject.name || '') + (pathObject.ext || '');
+  if (!dir) {
+    return base;
+  }
+  if (dir === pathObject.root) {
+    return dir + base;
+  }
+  return dir + sep + base;
+}
+
+var posix = {
+  // path.resolve([from ...], to)
+  resolve: function resolve() {
+    var resolvedPath = '';
+    var resolvedAbsolute = false;
+    var cwd;
+
+    for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+      var path;
+      if (i >= 0)
+        path = arguments[i];
+      else {
+        if (cwd === undefined)
+          cwd = process.cwd();
+        path = cwd;
+      }
+
+      assertPath(path);
+
+      // Skip empty entries
+      if (path.length === 0) {
+        continue;
+      }
+
+      resolvedPath = path + '/' + resolvedPath;
+      resolvedAbsolute = path.charCodeAt(0) === 47 /*/*/;
+    }
+
+    // At this point the path should be resolved to a full absolute path, but
+    // handle relative paths to be safe (might happen when process.cwd() fails)
+
+    // Normalize the path
+    resolvedPath = normalizeStringPosix(resolvedPath, !resolvedAbsolute);
+
+    if (resolvedAbsolute) {
+      if (resolvedPath.length > 0)
+        return '/' + resolvedPath;
+      else
+        return '/';
+    } else if (resolvedPath.length > 0) {
+      return resolvedPath;
+    } else {
+      return '.';
+    }
+  },
+
+  normalize: function normalize(path) {
+    assertPath(path);
+
+    if (path.length === 0) return '.';
+
+    var isAbsolute = path.charCodeAt(0) === 47 /*/*/;
+    var trailingSeparator = path.charCodeAt(path.length - 1) === 47 /*/*/;
+
+    // Normalize the path
+    path = normalizeStringPosix(path, !isAbsolute);
+
+    if (path.length === 0 && !isAbsolute) path = '.';
+    if (path.length > 0 && trailingSeparator) path += '/';
+
+    if (isAbsolute) return '/' + path;
+    return path;
+  },
+
+  isAbsolute: function isAbsolute(path) {
+    assertPath(path);
+    return path.length > 0 && path.charCodeAt(0) === 47 /*/*/;
+  },
+
+  join: function join() {
+    if (arguments.length === 0)
+      return '.';
+    var joined;
+    for (var i = 0; i < arguments.length; ++i) {
+      var arg = arguments[i];
+      assertPath(arg);
+      if (arg.length > 0) {
+        if (joined === undefined)
+          joined = arg;
+        else
+          joined += '/' + arg;
+      }
+    }
+    if (joined === undefined)
+      return '.';
+    return posix.normalize(joined);
+  },
+
+  relative: function relative(from, to) {
+    assertPath(from);
+    assertPath(to);
+
+    if (from === to) return '';
+
+    from = posix.resolve(from);
+    to = posix.resolve(to);
+
+    if (from === to) return '';
+
+    // Trim any leading backslashes
+    var fromStart = 1;
+    for (; fromStart < from.length; ++fromStart) {
+      if (from.charCodeAt(fromStart) !== 47 /*/*/)
+        break;
+    }
+    var fromEnd = from.length;
+    var fromLen = fromEnd - fromStart;
+
+    // Trim any leading backslashes
+    var toStart = 1;
+    for (; toStart < to.length; ++toStart) {
+      if (to.charCodeAt(toStart) !== 47 /*/*/)
+        break;
+    }
+    var toEnd = to.length;
+    var toLen = toEnd - toStart;
+
+    // Compare paths to find the longest common path from root
+    var length = fromLen < toLen ? fromLen : toLen;
+    var lastCommonSep = -1;
+    var i = 0;
+    for (; i <= length; ++i) {
+      if (i === length) {
+        if (toLen > length) {
+          if (to.charCodeAt(toStart + i) === 47 /*/*/) {
+            // We get here if `from` is the exact base path for `to`.
+            // For example: from='/foo/bar'; to='/foo/bar/baz'
+            return to.slice(toStart + i + 1);
+          } else if (i === 0) {
+            // We get here if `from` is the root
+            // For example: from='/'; to='/foo'
+            return to.slice(toStart + i);
+          }
+        } else if (fromLen > length) {
+          if (from.charCodeAt(fromStart + i) === 47 /*/*/) {
+            // We get here if `to` is the exact base path for `from`.
+            // For example: from='/foo/bar/baz'; to='/foo/bar'
+            lastCommonSep = i;
+          } else if (i === 0) {
+            // We get here if `to` is the root.
+            // For example: from='/foo'; to='/'
+            lastCommonSep = 0;
+          }
+        }
+        break;
+      }
+      var fromCode = from.charCodeAt(fromStart + i);
+      var toCode = to.charCodeAt(toStart + i);
+      if (fromCode !== toCode)
+        break;
+      else if (fromCode === 47 /*/*/)
+        lastCommonSep = i;
+    }
+
+    var out = '';
+    // Generate the relative path based on the path difference between `to`
+    // and `from`
+    for (i = fromStart + lastCommonSep + 1; i <= fromEnd; ++i) {
+      if (i === fromEnd || from.charCodeAt(i) === 47 /*/*/) {
+        if (out.length === 0)
+          out += '..';
+        else
+          out += '/..';
+      }
+    }
+
+    // Lastly, append the rest of the destination (`to`) path that comes after
+    // the common path parts
+    if (out.length > 0)
+      return out + to.slice(toStart + lastCommonSep);
+    else {
+      toStart += lastCommonSep;
+      if (to.charCodeAt(toStart) === 47 /*/*/)
+        ++toStart;
+      return to.slice(toStart);
+    }
+  },
+
+  _makeLong: function _makeLong(path) {
+    return path;
+  },
+
+  dirname: function dirname(path) {
+    assertPath(path);
+    if (path.length === 0) return '.';
+    var code = path.charCodeAt(0);
+    var hasRoot = code === 47 /*/*/;
+    var end = -1;
+    var matchedSlash = true;
+    for (var i = path.length - 1; i >= 1; --i) {
+      code = path.charCodeAt(i);
+      if (code === 47 /*/*/) {
+          if (!matchedSlash) {
+            end = i;
+            break;
+          }
+        } else {
+        // We saw the first non-path separator
+        matchedSlash = false;
+      }
+    }
+
+    if (end === -1) return hasRoot ? '/' : '.';
+    if (hasRoot && end === 1) return '//';
+    return path.slice(0, end);
+  },
+
+  basename: function basename(path, ext) {
+    if (ext !== undefined && typeof ext !== 'string') throw new TypeError('"ext" argument must be a string');
+    assertPath(path);
+
+    var start = 0;
+    var end = -1;
+    var matchedSlash = true;
+    var i;
+
+    if (ext !== undefined && ext.length > 0 && ext.length <= path.length) {
+      if (ext.length === path.length && ext === path) return '';
+      var extIdx = ext.length - 1;
+      var firstNonSlashEnd = -1;
+      for (i = path.length - 1; i >= 0; --i) {
+        var code = path.charCodeAt(i);
+        if (code === 47 /*/*/) {
+            // If we reached a path separator that was not part of a set of path
+            // separators at the end of the string, stop now
+            if (!matchedSlash) {
+              start = i + 1;
+              break;
+            }
+          } else {
+          if (firstNonSlashEnd === -1) {
+            // We saw the first non-path separator, remember this index in case
+            // we need it if the extension ends up not matching
+            matchedSlash = false;
+            firstNonSlashEnd = i + 1;
+          }
+          if (extIdx >= 0) {
+            // Try to match the explicit extension
+            if (code === ext.charCodeAt(extIdx)) {
+              if (--extIdx === -1) {
+                // We matched the extension, so mark this as the end of our path
+                // component
+                end = i;
+              }
+            } else {
+              // Extension does not match, so our result is the entire path
+              // component
+              extIdx = -1;
+              end = firstNonSlashEnd;
+            }
+          }
+        }
+      }
+
+      if (start === end) end = firstNonSlashEnd;else if (end === -1) end = path.length;
+      return path.slice(start, end);
+    } else {
+      for (i = path.length - 1; i >= 0; --i) {
+        if (path.charCodeAt(i) === 47 /*/*/) {
+            // If we reached a path separator that was not part of a set of path
+            // separators at the end of the string, stop now
+            if (!matchedSlash) {
+              start = i + 1;
+              break;
+            }
+          } else if (end === -1) {
+          // We saw the first non-path separator, mark this as the end of our
+          // path component
+          matchedSlash = false;
+          end = i + 1;
+        }
+      }
+
+      if (end === -1) return '';
+      return path.slice(start, end);
+    }
+  },
+
+  extname: function extname(path) {
+    assertPath(path);
+    var startDot = -1;
+    var startPart = 0;
+    var end = -1;
+    var matchedSlash = true;
+    // Track the state of characters (if any) we see before our first dot and
+    // after any path separator we find
+    var preDotState = 0;
+    for (var i = path.length - 1; i >= 0; --i) {
+      var code = path.charCodeAt(i);
+      if (code === 47 /*/*/) {
+          // If we reached a path separator that was not part of a set of path
+          // separators at the end of the string, stop now
+          if (!matchedSlash) {
+            startPart = i + 1;
+            break;
+          }
+          continue;
+        }
+      if (end === -1) {
+        // We saw the first non-path separator, mark this as the end of our
+        // extension
+        matchedSlash = false;
+        end = i + 1;
+      }
+      if (code === 46 /*.*/) {
+          // If this is our first dot, mark it as the start of our extension
+          if (startDot === -1)
+            startDot = i;
+          else if (preDotState !== 1)
+            preDotState = 1;
+      } else if (startDot !== -1) {
+        // We saw a non-dot and non-path separator before our dot, so we should
+        // have a good chance at having a non-empty extension
+        preDotState = -1;
+      }
+    }
+
+    if (startDot === -1 || end === -1 ||
+        // We saw a non-dot character immediately before the dot
+        preDotState === 0 ||
+        // The (right-most) trimmed path component is exactly '..'
+        preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
+      return '';
+    }
+    return path.slice(startDot, end);
+  },
+
+  format: function format(pathObject) {
+    if (pathObject === null || typeof pathObject !== 'object') {
+      throw new TypeError('The "pathObject" argument must be of type Object. Received type ' + typeof pathObject);
+    }
+    return _format('/', pathObject);
+  },
+
+  parse: function parse(path) {
+    assertPath(path);
+
+    var ret = { root: '', dir: '', base: '', ext: '', name: '' };
+    if (path.length === 0) return ret;
+    var code = path.charCodeAt(0);
+    var isAbsolute = code === 47 /*/*/;
+    var start;
+    if (isAbsolute) {
+      ret.root = '/';
+      start = 1;
+    } else {
+      start = 0;
+    }
+    var startDot = -1;
+    var startPart = 0;
+    var end = -1;
+    var matchedSlash = true;
+    var i = path.length - 1;
+
+    // Track the state of characters (if any) we see before our first dot and
+    // after any path separator we find
+    var preDotState = 0;
+
+    // Get non-dir info
+    for (; i >= start; --i) {
+      code = path.charCodeAt(i);
+      if (code === 47 /*/*/) {
+          // If we reached a path separator that was not part of a set of path
+          // separators at the end of the string, stop now
+          if (!matchedSlash) {
+            startPart = i + 1;
+            break;
+          }
+          continue;
+        }
+      if (end === -1) {
+        // We saw the first non-path separator, mark this as the end of our
+        // extension
+        matchedSlash = false;
+        end = i + 1;
+      }
+      if (code === 46 /*.*/) {
+          // If this is our first dot, mark it as the start of our extension
+          if (startDot === -1) startDot = i;else if (preDotState !== 1) preDotState = 1;
+        } else if (startDot !== -1) {
+        // We saw a non-dot and non-path separator before our dot, so we should
+        // have a good chance at having a non-empty extension
+        preDotState = -1;
+      }
+    }
+
+    if (startDot === -1 || end === -1 ||
+    // We saw a non-dot character immediately before the dot
+    preDotState === 0 ||
+    // The (right-most) trimmed path component is exactly '..'
+    preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
+      if (end !== -1) {
+        if (startPart === 0 && isAbsolute) ret.base = ret.name = path.slice(1, end);else ret.base = ret.name = path.slice(startPart, end);
+      }
+    } else {
+      if (startPart === 0 && isAbsolute) {
+        ret.name = path.slice(1, startDot);
+        ret.base = path.slice(1, end);
+      } else {
+        ret.name = path.slice(startPart, startDot);
+        ret.base = path.slice(startPart, end);
+      }
+      ret.ext = path.slice(startDot, end);
+    }
+
+    if (startPart > 0) ret.dir = path.slice(0, startPart - 1);else if (isAbsolute) ret.dir = '/';
+
+    return ret;
+  },
+
+  sep: '/',
+  delimiter: ':',
+  win32: null,
+  posix: null
+};
+
+posix.posix = posix;
+
+module.exports = posix;
+
+}).call(this)}).call(this,require('_process'))
+},{"_process":3}],3:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
 },{}],4:[function(require,module,exports){
-const unit = [
-    { title: 'Unit' },
-    { name: 'unit', symbol: 'unit' },
-    { name: 'item', symbol: 'item' },
-    { name: 'piece', symbol: 'piece' },
-    { name: 'bag', symbol: 'bag' },
-    { name: 'cartoon', symbol: 'cartoon' },
-    { name: 'pack', symbol: 'pack' },
-    { name: 'box', symbol: 'box' },
-    { name: 'pallet', symbol: 'pallet' },
-
-
-    { title: 'Service' },
-    { name: 'service', symbol: 'service' },
-    { name: 'ticket', symbol: 'ticket' },
-    { name: 'room', symbol: 'room' },
-    { name: 'seat', symbol: 'seat' },
-    { name: 'way', symbol: 'way' },
-    { name: 'meal', symbol: 'meal' },
-
-
-    { title: 'Length' },
-    { name: 'millimeter', symbol: 'mm' },
-    { name: 'centimeter', symbol: 'cm' },
-    { name: 'decimeter', symbol: 'dm' },
-    { name: 'meter', symbol: 'm' },
-    { name: 'kilometer', symbol: 'km' },
-    { name: 'foot', symbol: 'ft' },
-    { name: 'inch', symbol: 'in' },
-    { name: 'mile', symbol: 'mi' },
-    { name: 'yard', symbol: 'yd' },
-
-    { title: 'Volume' },
-    { name: 'cubic foot', symbol: 'ft3' },
-    { name: 'cubic inch', symbol: 'in3' },
-    { name: 'cubic mile', symbol: 'mi3' },
-    { name: 'cubic yard', symbol: 'yd3' },
-    { name: 'cup', symbol: 'cup' },
-    { name: 'Imperial gallon', symbol: 'gal' },
-    { name: 'milliliter', symbol: 'mL' },
-    { name: 'liter', symbol: 'L' },
-    { name: 'Imperial fluid ounce', symbol: 'fl oz' },
-    { name: 'Imperial pint', symbol: 'pt' },
-    { name: 'Imperial quart', symbol: 'qt' },
-    { name: 'tablespoon', symbol: 'tbsp' },
-    { name: 'teaspoon', symbol: 'tspn' },
-
-    { title: 'Weight' },
-    { name: 'milligram', symbol: 'mg' },
-    { name: 'gram', symbol: 'g' },
-    { name: 'kilogram', symbol: 'kg' },
-    { name: 'carat', symbol: 'CD' },
-    { name: 'grain', symbol: 'gr' },
-    { name: 'ounce', symbol: 'oz' },
-    { name: 'pennyweight', symbol: 'dwt' },
-    { name: 'pound', symbol: 'lb' },
-    { name: 'stone', symbol: 'st' },
-    { name: 'slug', symbol: 'slug' },
-    { name: 'metric ton', symbol: 't' },
-
-    { title: 'Area' },
-    { name: 'hectare', symbol: 'ha' },
-    { name: 'square foot', symbol: 'ft2' },
-    { name: 'square meter', symbol: 'm2' },
-    { name: 'square kilometer', symbol: 'km2' },
-    { name: 'square inch', symbol: 'in2' },
-    { name: 'square yard', symbol: 'yd2' },
-    { name: 'square mile', symbol: 'mi2' },
-
-    { title: 'Pressure' },
-    { name: 'pascal', symbol: 'Pa' },
-    { name: 'torr', symbol: 'Torr' },
-    { name: 'bar', symbol: 'bar' },
-    { name: 'millibar', symbol: 'mb' },
-    { name: 'psi', symbol: 'lbf/in2' },
-
-    { title: 'Time' },
-    { name: 'day', symbol: 'day' },
-    { name: 'hour', symbol: 'hr' },
-    { name: 'minute', symbol: 'min' },
-    { name: 'year', symbol: 'yr' },
-
-    { title: 'Temperature' },
-    { name: 'celsius', symbol: '°C' },
-    { name: 'fahrenheit', symbol: '°F' },
-    { name: 'kelvin', symbol: 'K' }
-]
-
-module.exports = {unit}
-},{}],5:[function(require,module,exports){
 // browserify index.js > browser.js
 const { starter } = require("../method/starter")
 
@@ -1288,9 +730,10 @@ var STATE = JSON.parse(root.getAttribute('STATE'))
 
 VALUE.body = document.body
 VALUE.window = window
+VALUE.root.element = root
 
 starter({VALUE, STATE, id: 'root'})
-},{"../method/starter":54}],6:[function(require,module,exports){
+},{"../method/starter":61}],5:[function(require,module,exports){
 const { toString } = require('../method/toString')
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
@@ -1328,6 +771,7 @@ const Button = (component) => {
             }
         },
         children: [{
+            ...icon,
             type: `Icon?icon.name=${icon.name};icon.code=${icon.code};id=${id}-icon`,
             style: {
                 color: style.color || '#444',
@@ -1354,7 +798,7 @@ const Button = (component) => {
             }
         }],
         controls: [...controls, {
-            actions: `createControls?type=dropList?dropList`
+            actions: `createControls?type=droplist?droplist`
         }, /*{
             event: 'click',
             actions: 'ripple'
@@ -1364,15 +808,12 @@ const Button = (component) => {
         }, {
             event: 'mouseleave',
             actions: `resetStyles???${id};${id}-text;${id}-icon`
-        }/*, {
-            watch: 'value.data',
-            actions: `search?state=${component.state};${component.query}?${component.searchable}`
-        }*/]
+        }]
     }
 }
 
 module.exports = {Button}
-},{"../method/generate":40,"../method/toComponent":59,"../method/toString":62}],7:[function(require,module,exports){
+},{"../method/generate":45,"../method/toComponent":66,"../method/toString":69}],6:[function(require,module,exports){
 const { generate } = require("../method/generate")
 const { toComponent } = require("../method/toComponent")
 
@@ -1424,9 +865,9 @@ const Header = (component) => {
             }, {
                 type: `View?id=${id}-caret;style.display=none;style.cursor=pointer?const.${path}`,
                 children: [{
-                    type: `Icon?id=${id}-caret-up;style.position=absolute;style.top=-1rem;style.left=calc(50% - 1rem);style.width=2rem;icon.name=caret-up-fill`,
+                    type: `Icon?id=${id}-caret-up;style.position=absolute;style.top=-1rem;style.left=calc(50% - 1rem);style.width=2rem;icon.name=bi-caret-up-fill`,
                 }, {
-                    type: `Icon?id=${id}-caret-down;style.position=absolute;style.bottom=-1.1rem;style.left=calc(50% - 1rem);style.width=2rem;icon.name=caret-down-fill`
+                    type: `Icon?id=${id}-caret-down;style.position=absolute;style.bottom=-1.1rem;style.left=calc(50% - 1rem);style.width=2rem;icon.name=bi-caret-down-fill`
                 }]
             }]
         }]
@@ -1434,7 +875,7 @@ const Header = (component) => {
 }
 
 module.exports = {Header}
-},{"../method/generate":40,"../method/toComponent":59}],8:[function(require,module,exports){
+},{"../method/generate":45,"../method/toComponent":66}],7:[function(require,module,exports){
 const { toString } = require('../method/toString')
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
@@ -1444,7 +885,7 @@ const Input = (component) => {
     if (component.templated) return component
 
     component = toComponent(component)
-    var { input, model, dropList, lang, readOnly, style, controls, icon, placeholder } = component
+    var { input, model, droplist, lang, readOnly, style, controls, icon, placeholder } = component
     var id = component.id || generate()
 
     // for search inputs
@@ -1469,14 +910,12 @@ const Input = (component) => {
                 backgroundColor: '#fff',
                 height: '4rem',
                 borderRadius: '0.25rem',
+                fontSize: '1.4rem',
 
                 ...style,
             },
             controls: [...controls,
-            /*{
-                watch: 'value.data',
-                actions: 'setContent?value=value.data'
-            }, */{
+            {
                 event: 'mouseenter??overflow',
                 actions: 'showTooltip?tooltip=value.data;placement=top?value.data',
             }, {
@@ -1509,6 +948,7 @@ const Input = (component) => {
                 ...style,
             },
             children: [{
+                ...icon,
                 type: `Icon?icon.name=${icon.name}${icon.code ? ';icon.code=' : ''};id=${id}-icon?const.${icon.name}`,
                 style: {
                     color: '#444',
@@ -1522,12 +962,12 @@ const Input = (component) => {
             }, {
                 class: lang === 'ar' ? 'arabic' : '',
                 type: `Input?readOnly=${readOnly};input.type=${input.type || 'text'};id=${id}-input;input.value=${input.value}${(component.currency || component.unit) ? `;path=amount;data=${component.data}` : component.lang ? `;path=name;data=${component.data}` : ''};filterable=${component.filterable}`,
-                dropList: dropList,
+                droplist: droplist,
                 placeholder,
                 'placeholder-ar': component['placeholer-ar'],
                 templated: true,
                 style: {
-                    width: style.width || '100%',
+                    width: '100%',
                     height: '100%',
                     borderRadius: style.borderRadius || '0.25rem',
                     backgroundColor: style.backgroundColor || '#fff',
@@ -1547,7 +987,7 @@ const Input = (component) => {
                 }, {
                     event: `input??value.data!=free`,
                     actions: [
-                        `filter>>drop-list?${component.filterable};dropList`,
+                        `filter>>droplist?${component.filterable};droplist`,
                         `setData>>${id}-language?data=ar?isArabic`,
                         `search?state=${component.search.state};${component.search.query};id=${component.search.id}?${component.searchable}`
                     ]
@@ -1563,44 +1003,52 @@ const Input = (component) => {
                 }]
             }, {
                 type: `View?class=flex-box ${lang === 'ar' ? 'arabic' : ''}`,
-                style: {
-                    padding: '0 0.5rem',
-                },
+                style: { padding: '0 0.5rem' },
                 children: [{
-                    type: `Text?path=currency;id=${id}-currency;dropList.items=[asset.currency.symbol]?const.${component.currency}`,
+                    type: `Text?path=currency;id=${id}-currency;droplist.items=[asset.currency.options.name];auto-style?const.${component.currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
                         cursor: 'pointer',
-                        margin: '0 0.5rem'
+                        padding: '.5rem',
+                        borderRadius: '.25rem',
+                        transition: 'color .2s',
+                        after: { color: '#0d6efd' }
                     },
                     actions: `setData?data=${component.currency}?!value.data`
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;dropList.items=[asset.unit.symbol]?const.${component.unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=[asset.unit.options.name];auto-style?const.${component.unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
                         cursor: 'pointer',
-                        margin: '0 0.5rem',
+                        padding: '.5rem',
+                        borderRadius: '.25rem',
+                        transition: 'color .2s',
+                        after: { color: '#0d6efd' }
                     },
                     actions: `setData?data=${component.unit}?!value.data`
                 }, {
-                    type: `Text?path=lang;id=${id}-language;dropList.items=[asset.language.code]?const.${component.lang}`,
+                    type: `Text?path=lang;id=${id}-language;droplist.items=[asset.language.options.name];auto-style?const.${component.lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
                         cursor: 'pointer',
-                        margin: '0 0.5rem',
+                        padding: '.5rem',
+                        borderRadius: '.25rem',
+                        transition: 'color .2s',
+                        after: { color: '#0d6efd' }
                     },
                     actions: `setData?data=${component.lang}?!value.data`,
                 }, {
-                    type: `Icon?icon.name=x;id=${id}-x?${component.clearable}||${component.removable}`,
+                    type: `Icon?icon.name=bi-x;id=${id}-x;auto-style?${component.clearable}||${component.removable}`,
                     style: {
                         display: 'flex',
                         alignItems: 'center',
                         fontSize: '2rem',
                         color: '#444',
                         cursor: 'pointer',
+                        after: { color: 'red' }
                     },
                     controls: [{
                         event: 'click',
@@ -1616,7 +1064,7 @@ const Input = (component) => {
 }
 
 module.exports = {Input}
-},{"../method/generate":40,"../method/toComponent":59,"../method/toString":62}],9:[function(require,module,exports){
+},{"../method/generate":45,"../method/toComponent":66,"../method/toString":69}],8:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -1633,7 +1081,7 @@ const Item = (component) => {
     if (model === 'featured')
         return {
             ...component,
-            class: `flex-box`,
+            class: 'flex-box item',
             type: 'View',
             tooltip,
             props,
@@ -1658,6 +1106,7 @@ const Item = (component) => {
                 },
             },
             children: [{
+                ...icon,
                 type: `Icon?icon.name=${icon.name};icon.code=${icon.code};id=${id}-icon?const.${icon.name}`,
                 style: {
                     width: '4rem',
@@ -1718,7 +1167,7 @@ const Item = (component) => {
     if (model === 'classic')
         return {
             ...component,
-            class: `flex-box`,
+            class: 'flex-box item',
             type: 'View',
             tooltip,
             style: {
@@ -1739,7 +1188,7 @@ const Item = (component) => {
                 },
             },
             children: [{
-                class: 'side-bar-home-icon',
+                ...icon,
                 type: `Icon?icon.name=${icon.name};icon.code=${icon.code};id=${id}-icon?const.${icon.name}`,
                 style: {
                     display: icon ? 'flex' : 'none',
@@ -1780,67 +1229,21 @@ const Item = (component) => {
 }
 
 module.exports = {Item}
-},{"../method/generate":40,"../method/toComponent":59}],10:[function(require,module,exports){
+},{"../method/generate":45,"../method/toComponent":66}],9:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const List = (component) => {
 
     component = toComponent(component)
-    var { id, model, props, style, children, controls } = component
+    var { id, model, props, style, children, controls, toChildren } = component
 
     props.placement = props.placement || ''
     props.distance = props.distance || '15'
     
-    if (model === 'featured')
+    if (model === 'classic')
         return {
             ...component,
-            class: `list flex-box`,
-            type: 'View',
-            style: {
-                flexDirection: 'column',
-                alignItem: 'flex-start',
-                backgroundColor: '#333',
-                padding: '1rem',
-                borderRadius: '0.5rem',
-                position: 'fixed',
-                opacity: '0',
-                transform: 'translateY(-100%)',
-                transition: 'transform 0.2s, opacity 0.1s, top 0.1s',
-                minWidth: '18rem',
-                pointerEvents: 'none',
-                zIndex: '2',
-                ...style,
-                after: {
-                    pointerEvents: 'auto',
-                    opacity: '1',
-                    transform: 'translateY(0)',
-                    ...style.after
-                },
-            },
-            props,
-            children: [...children,
-            {
-                class: `list-fin`,
-                type: 'Text',
-                style: {
-                    position: 'absolute',
-                    backgroundColor: '#333',
-                    width: '1rem',
-                    height: '1rem',
-                    transform: 'rotate(45deg)',
-                    borderRadius: '0 0 0 0.4rem',
-                }
-            }],
-            controls: [...controls,
-            {
-                event: 'mouseleave',
-                actions: 'resetStyles'
-            }]
-        }
-
-    else if (model === 'classic')
-        return {
-            ...component,
+            toChildren: '',
             class: `box-shadow list flex-box`,
             type: 'View',
             style: {
@@ -1860,11 +1263,12 @@ const List = (component) => {
                     opacity: '1',
                     pointerEvents: 'auto',
                     transform: 'translateY(0)',
-                    zIndex: '2'
+                    zIndex: '999'
                 }
             },
             children: [{
                 type: 'View',
+                class: 'list-wrap',
                 style: {
                     height: '100%',
                     width: '100%',
@@ -1873,6 +1277,7 @@ const List = (component) => {
                     borderRadius: '0.5rem',
                     zIndex: '1'
                 },
+                toChildren,
                 children,
             }, {
                 class: 'box-shadow list-fin',
@@ -1897,7 +1302,113 @@ const List = (component) => {
 }
 
 module.exports = {List}
-},{"../method/toComponent":59}],11:[function(require,module,exports){
+},{"../method/toComponent":66}],10:[function(require,module,exports){
+const { toComponent } = require("../method/toComponent")
+
+const SearchBox = (component) => {
+
+    component = toComponent(component)
+    var { placeholder } = component
+
+    return {
+        ...component,
+        type: 'View',
+        style: {
+            flex: '1',
+            margin: '0 1rem',
+            height: '4.5rem',
+        },
+        children: [{
+            type: 'View?class=overlay;id=search-mini-page-overlay',
+            style: {
+                zIndex: '-1',
+                transition: '0.2s',
+                display: 'none',
+                after: {
+                    opacity: '1::50',
+                    display: 'flex'
+                }
+            },
+            controls: [{
+                event: 'click',
+                actions: [
+                    'resetStyles???search-mini-page;search-mini-page-results',
+                    'setStyle?style.opacity=0;style.display=none::250'
+                ],
+            }]
+        }, {
+            type: 'View?id=search-mini-page',
+            style: {
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundColor: '#f0f0f0',
+                borderRadius: '.75rem',
+                flex: '1',
+                top: '1rem',
+                position: 'initial::210',
+                width: '60rem',
+                after: {
+                    backgroundColor: '#fff',
+                    boxShadow: '0 0 6px rgba(33, 33, 33, 0.431)',
+                    position: 'absolute',
+                    width: '60rem',
+                }
+            },
+            children: [{
+                type: 'View?class=flex-box',
+                style: {
+                    flex: '1',
+                    borderRadius: '.75rem',
+                    height: '4.5rem',
+                    justifyContent: 'flex-start',
+                },
+                children: [{
+                    type: 'Icon?icon.name=bi-search',
+                    style: {
+                        margin: '0 1rem',
+                        color: '#888',
+                        fontSize: '1.8rem',
+                    }
+                }, {
+                    type: `Input?placeholder=${placeholder}`,
+                    style: {
+                        flex: '1',
+                        height: '4.5rem',
+                        backgroundColor: 'inherit',
+                        border: '0',
+                        color: '#444',
+                        fontSize: '1.4rem',
+                        outline: 'none',
+                    },
+                    controls: [{
+                        event: 'focusin',
+                        actions: 'mountAfterStyles???search-mini-page-overlay;search-mini-page;search-mini-page-results'
+                    }, {
+                        event: 'input',
+                        actions: 'search?query.collection=all;query.name=input||query.nameEn=input;state=search-input?value.input'
+                    }]
+                }]
+            }, {
+                type: 'View?id=search-mini-page-results',
+                style: {
+                    width: '100%',
+                    padding: '0 1rem',
+                    transition: '.2s',
+                    height: '0',
+                    after: {
+                        height: '15rem',
+                    }
+                },
+                children: [{
+                    type: 'Text?class=divider;style.margin=0'
+                }]
+            }]
+        }]
+    }
+}
+
+module.exports = {SearchBox}
+},{"../method/toComponent":66}],11:[function(require,module,exports){
 const { generate } = require('../method/generate')
 const {toComponent} = require('../method/toComponent')
 
@@ -1924,7 +1435,7 @@ const Switch = (component) => {
 }
 
 module.exports = {Switch}
-},{"../method/generate":40,"../method/toComponent":59}],12:[function(require,module,exports){
+},{"../method/generate":45,"../method/toComponent":66}],12:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const Upload = (component) => {
@@ -1939,7 +1450,7 @@ const Upload = (component) => {
         type: 'View',
         class: `file-drop-area ${component.class || ''}`,
         children: [{
-            type: `Icon?icon.name=${upload.type === 'image' ? 'images' : upload.type === 'video' ? 'camera-video' : ''}`,
+            type: `Icon?icon.name=${upload.type === 'image' ? 'bi-images' : upload.type === 'video' ? 'bi-camera-video' : ''}`,
             style: {
                 fontSize: '2.5rem',
                 color: '#444',
@@ -1954,7 +1465,7 @@ const Upload = (component) => {
 }
 
 module.exports = {Upload}
-},{"../method/toComponent":59}],13:[function(require,module,exports){
+},{"../method/toComponent":66}],13:[function(require,module,exports){
 const {Button} = require('./Button')
 const {Input} = require('./Input')
 const {Item} = require('./Item')
@@ -1962,91 +1473,126 @@ const {List} = require('./List')
 const {Upload} = require('./Upload')
 const {Header} = require('./Header')
 const {Switch} = require('./Switch')
+const {SearchBox} = require('./SearchBox')
 
-module.exports = {Input, Button, Item, List, Upload, Header, Switch}
-},{"./Button":6,"./Header":7,"./Input":8,"./Item":9,"./List":10,"./Switch":11,"./Upload":12}],14:[function(require,module,exports){
-const {dropList} = require('./dropList')
-const {item} = require('./item')
-const {list} = require('./list')
-const {toggleView} = require('./toggleView')
-const {windowView} = require('./windowView')
+module.exports = {Input, Button, Item, List, Upload, Header, Switch, SearchBox}
+},{"./Button":5,"./Header":6,"./Input":7,"./Item":8,"./List":9,"./SearchBox":10,"./Switch":11,"./Upload":12}],14:[function(require,module,exports){
+module.exports = {
+    "item": require('./item'),
+    "list": require('./list'),
+    "droplist": require('./droplist'),
+    "actionlist": require('./actionlist'),
+    "auto-style": require('./auto-style'),
+    "mini-window": require('./mini-window'),
+    "toggle-style": require('./toggle-style'),
+    "toggle-view": require('./toggle-view'),
+}
+},{"./actionlist":15,"./auto-style":16,"./droplist":17,"./item":18,"./list":19,"./mini-window":20,"./toggle-style":21,"./toggle-view":22}],15:[function(require,module,exports){
+module.exports = ({ params = {}, id }) => {
 
-const _controls = {dropList, item, list, windowView, toggleView}
-
-module.exports = _controls
-},{"./dropList":15,"./item":16,"./list":17,"./toggleView":18,"./windowView":19}],15:[function(require,module,exports){
-const dropList = ({id, path, placement, distance}) => (
-    [{
-        event: `mouseenter`,
+    return [{
+        event: `click`,
         actions: [
-            `setState?state.drop-list-mouseenter;state.drop-list=${id || 'value.id'}`,
-            `dropList>>drop-list?id=${id || 'value.id'}${path ? `;path=${path}` : ''}`,
-            `setPosition?id=drop-list;placement=${placement || 'bottom'};distance=${distance}`,
-            `mountAfterStyles::10>>drop-list`,
+            `setState?state.actionlist-mouseenter;state.actionlist=${params.id || id}`,
+            `setPosition?id=actionlist;placement=${params.placement || 'left'};distance=${params.distance}`,
+            `actionlist>>${params.id || id}?${params.path ? `;path=${params.path}` : ''}`,
+            `mountAfterStyles::10>>actionlist`,
+        ]
+    }, {
+        event: 'mouseleave',
+        actions: [
+            `setState?state.actionlist-mouseenter=false`,
+            `resetStyles::200>>actionlist??!mouseenter;!mouseenter>>actionlist;!state.actionlist-mouseenter`
+        ]
+    }]
+}
+},{}],16:[function(require,module,exports){
+const { toArray } = require("../method/toArray");
+
+module.exports = ({ VALUE, id, params = {} }) => {
+    id = toArray(params.id || id)
+    
+    return [{
+        event: 'mouseenter',
+        actions: `mountAfterStyles???${id.join(';')}`
+    }, {
+        event: 'mouseleave',
+        actions: `resetStyles???${id.join(';')}`
+    }]
+}
+},{"../method/toArray":64}],17:[function(require,module,exports){
+module.exports = ({ params, id }) => {
+
+    return [{
+        event: `click`,
+        actions: [
+            `setState?state.droplist-mouseenter;state.droplist=${params.id || id}`,
+            `setPosition?id=droplist;placement=${params.placement || 'bottom'};distance=${params.distance}`,
+            `droplist>>${params.id || id}?${params.path ? `;path=${params.path}` : ''}`,
+            `mountAfterStyles::10>>droplist`,
         ]
     }, {
         event: 'Input',
-        actions: 'setState?state.drop-list-filter=value.input;state.drop-list-element=value.element'
+        actions: 'setState?state.droplist-filter=value.input;state.droplist-element=value.element'
     }, {
         event: 'mouseleave',
-        actions: `setState?state.drop-list-mouseenter=false`
+        actions: `setState?state.droplist-mouseenter=false`
     }]
-)
-
-module.exports = {dropList}
-},{}],16:[function(require,module,exports){
-const item = ({id, state}) => ([
-    `setData?data=value.text`,
-    `setValue;resetStyles?value.mountOnLoad=false??state.${state}`,
-    `setState?state.${state}=[${id || 'value.id'},${id || 'value.id'}++-icon,${id || 'value.id'}++-text,${id || 'value.id'}++-chevron]`,
-    `setValue;mountAfterStyles?value.mountOnLoad??state.${state}`,
-])//;state.admin-view=Inventory;route,
-
-module.exports = {item}
-},{}],17:[function(require,module,exports){
-const list = ({id, placement, distance}) => (
-    [{
-        event: `mouseenter`,
-        actions: [
-            `setState?state.${id}-mouseenter`,
-            `mountAfterStyles>>${id}`,
-            `setPosition?placement=${placement || 'right'};distance=${distance || '15'};id=${id}`,
-        ]
-    }, {
-        event: 'mouseleave',
-        actions: [
-            `resetStyles::200>>${id}??!mouseenter;!mouseenter>>${id};!state.${id}-mouseenter`,
-            `setState?state.${id}-mouseenter=false`
-        ]
-    }]
-)
-
-module.exports = {list}
+}
 },{}],18:[function(require,module,exports){
-const toggleView = ({id, view}) => ([
-    {
-        event: `click??global.${id}.view!=${view}`,
-        actions: [
-            `resetStyles;mountAfterStyles::400???global.${id}.parent.id`,
-            `createView::250>>${id}?view=${view}`,
-        ]
-    }
+module.exports = ({params}) => ([
+    `setData?data=value.text`,
+    `setValue;resetStyles?value.mountOnLoad=false??state.${params.state}`,
+    `setState?state.${params.state}=[${params.id || 'value.id'},${params.id || 'value.id'}++-icon,${params.id || 'value.id'}++-text,${params.id || 'value.id'}++-chevron]`,
+    `setValue;mountAfterStyles?value.mountOnLoad??state.${params.state}`,
 ])
-
-module.exports = {toggleView}
 },{}],19:[function(require,module,exports){
-const windowView = (params) => (
+module.exports = ({ VALUE, STATE, params, id }) => {
+    
+    return [{
+        event: `click`,
+        actions: [
+            `setState?state.${params.id}-mouseenter`,
+            `mountAfterStyles>>${params.id}`,
+            `setPosition?placement=${params.placement || 'right'};distance=${params.distance || '15'};id=${params.id}`,
+        ]
+    }, {
+        event: 'mouseleave',
+        actions: [
+            `resetStyles::200>>${params.id}??!mouseenter;!mouseenter>>${params.id};!state.${params.id}-mouseenter`,
+            `setState?state.${params.id}-mouseenter=false`
+        ]
+    }]
+}
+},{}],20:[function(require,module,exports){
+module.exports = ({params}) => (
     [{
         event: 'click',
         actions: [
-            `setValue;createView?value.DATA=value.DATA;view=${params.view}??window-view`,
+            `setValue;createView?value.Data=value.data;view=${params.view}??mini-window-view`,
             `setStyle?style.display=flex;style.opacity=1::25??mini-window`
         ]
     }]
 )
-
-module.exports = {windowView}
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
+module.exports = ({params}) => {
+    return [{
+        event: 'click',
+        actions: `toggleStyles>>${params.id || 'value.id'}`
+    }]
+}
+},{}],22:[function(require,module,exports){
+module.exports = ({ VALUE, params, id }) => {
+    
+    return [{
+        event: `click??global.${params.id}.view!=${params.view}`,
+        actions: [
+            `resetStyles;mountAfterStyles::400???global.${params.id}.parent.id`,
+            `setValue;createView::250?value.Data=value.data;view=${params.view}??${params.id}`,
+        ]
+    }]
+}
+},{}],23:[function(require,module,exports){
 const {clearIntervals} = require('./clearIntervals')
 const {clearValues} = require('./clearValues')
 const {clone} = require('./clone')
@@ -2076,13 +1622,17 @@ const {route} = require('./route')
 const {starter} = require('./starter')
 const {setState} = require('./state')
 const {setPosition} = require('./setPosition')
-const {dropList} = require('./dropList')
+const {droplist} = require('./droplist')
+const {actionlist} = require('./actionlist')
 const {createView} = require('./createView')
 const {filter} = require('./filter')
 const {setValue} = require('./setValue')
 const {remove} = require('./remove')
 const {focus} = require('./focus')
 const {sort} = require('./sort')
+const {log} = require('./log')
+const {save} = require('./save')
+const {deleteDb} = require('./db')
 const {defaultInputHandler} = require('./defaultInputHandler')
 const {createActions} = require('./createActions')
 const {setStyle, resetStyles, toggleStyles, mountAfterStyles} = require('./style')
@@ -2090,18 +1640,35 @@ const {resizeInput, dimensions} = require('./resize')
 const {createData, setData, pushData, clearData, removeData} = require('./data')
 
 const _method = {
-    clearIntervals, clearValues, clone, derive, duplicate, duplicates,
+    clearIntervals, clearValues, clone, derive, duplicate, duplicates, actionlist,
     getParam, isArabic, isEqual, merge, overflow, addEventListener, setState,
     toBoolean, toComponent, toId, toObject, toString, update, execute,
     createDocument, toArray, generate, createElement, controls, route,
     setStyle, resetStyles, toggleStyles, mountAfterStyles, resizeInput, dimensions,
     createData, setData, pushData, clearData, removeData, setContent, starter,
-    setPosition, dropList, filter, setValue, createView, createActions,
-    createControls, remove, defaultInputHandler, focus, sort
+    setPosition, droplist, filter, setValue, createView, createActions,
+    createControls, remove, defaultInputHandler, focus, sort, log, save, deleteDb
 }
 
 module.exports = _method
-},{"./clearIntervals":21,"./clearValues":22,"./clone":23,"./controls":24,"./createActions":25,"./createControls":26,"./createDocument":27,"./createElement":28,"./createView":30,"./data":31,"./defaultInputHandler":32,"./derive":33,"./dropList":34,"./duplicate":35,"./event":36,"./execute":37,"./filter":38,"./focus":39,"./generate":40,"./getParam":41,"./isArabic":42,"./isEqual":43,"./merge":44,"./overflow":45,"./remove":46,"./resize":48,"./route":49,"./setContent":50,"./setPosition":51,"./setValue":52,"./sort":53,"./starter":54,"./state":55,"./style":56,"./toArray":57,"./toBoolean":58,"./toComponent":59,"./toId":60,"./toObject":61,"./toString":62,"./update":63}],21:[function(require,module,exports){
+},{"./actionlist":24,"./clearIntervals":25,"./clearValues":26,"./clone":27,"./controls":28,"./createActions":29,"./createControls":30,"./createDocument":31,"./createElement":32,"./createView":34,"./data":35,"./db":36,"./defaultInputHandler":37,"./derive":38,"./droplist":39,"./duplicate":40,"./event":41,"./execute":42,"./filter":43,"./focus":44,"./generate":45,"./getParam":46,"./isArabic":47,"./isEqual":48,"./log":49,"./merge":50,"./overflow":51,"./remove":52,"./resize":54,"./route":55,"./save":56,"./setContent":57,"./setPosition":58,"./setValue":59,"./sort":60,"./starter":61,"./state":62,"./style":63,"./toArray":64,"./toBoolean":65,"./toComponent":66,"./toId":67,"./toObject":68,"./toString":69,"./update":70}],24:[function(require,module,exports){
+const actionlist = ({ VALUE, STATE, id, params = {} }) => {
+    
+    var local = VALUE[id]
+    if(!local) return
+
+    var actionList = VALUE['actionlist']
+    var deleteBtn = VALUE['action-list-delete']
+    var editBtn = VALUE['action-list-edit']
+    var hideBtn = VALUE['action-list-hide']
+    var archiveBtn = VALUE['action-list-archive']
+    var dulicateBtn = VALUE['action-list-duplicate']
+
+    actionList.Data = deleteBtn.Data = editBtn.Data = hideBtn.Data = archiveBtn.Data = dulicateBtn.Data = local.Data
+}
+
+module.exports = {actionlist}
+},{}],25:[function(require,module,exports){
 const clearIntervals = ({ VALUE, id }) => {
     var local = VALUE[id]
 
@@ -2116,7 +1683,7 @@ const clearIntervals = ({ VALUE, id }) => {
 }
 
 module.exports = {clearIntervals}
-},{}],22:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 const { clone } = require("./clone")
 
 const clearValues = ({ params }) => {
@@ -2158,7 +1725,7 @@ const clearValues = ({ params }) => {
 }
 
 module.exports = {clearValues}
-},{"./clone":23}],23:[function(require,module,exports){
+},{"./clone":27}],27:[function(require,module,exports){
 const clone = (obj) => {
     var copy
     if (typeof obj !== 'object') return obj
@@ -2202,7 +1769,7 @@ const isElement = (obj) => {
   }
 
 module.exports = {clone}
-},{}],24:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 const controls = ({ VALUE, STATE, controls, id }) => {
     
     const { addEventListener } = require("./event")
@@ -2229,59 +1796,69 @@ const controls = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {controls}
-},{"./event":36,"./execute":37,"./toArray":57,"./watch":64}],25:[function(require,module,exports){
-const _controls = require("../controls/_controls")
+},{"./event":41,"./execute":42,"./toArray":64,"./watch":71}],29:[function(require,module,exports){
+const _controls = require('../controls/_controls')
 
 const createActions = ({ VALUE, STATE, params, id }) => {
     
     const { execute } = require('./execute')
-
+    
     if (!params.type) return
-    var actions = _controls[params.type](params)
+    var actions = _controls[params.type]({ VALUE, STATE, params, id })
 
     execute({ VALUE, STATE, actions, id })
 }
 
 module.exports = {createActions}
-},{"../controls/_controls":14,"./execute":37}],26:[function(require,module,exports){
-const _controls = require("../controls/_controls")
+},{"../controls/_controls":14,"./execute":42}],30:[function(require,module,exports){
 const {controls} = require("./controls")
+const _controls = require('../controls/_controls')
 
 const createControls = ({ VALUE, STATE, params, id }) => {
+    
     var local = VALUE[id]
     if (!local) return
     
     var type = params.type
-    if (!_controls[type]) return
+    var exists = Object.entries(_controls).find(([key]) => key === type)
+    if (!exists) return
     
     if (local[type]) params = local[type] || {}
     
-    controls({VALUE, STATE, id, controls: _controls[type](params)})
+    controls({ VALUE, STATE, id, controls: _controls[type]({ VALUE, STATE, params, id }) })
 }
 
 module.exports = {createControls}
-},{"../controls/_controls":14,"./controls":24}],27:[function(require,module,exports){
+},{"../controls/_controls":14,"./controls":28}],31:[function(require,module,exports){
+(function (process){(function (){
 const { createElement } = require("./createElement")
-const _view = require('../view/_view')
 const _page = require('../page/_page')
+const path = require('path')
+const fs = require('fs')
 
 const createDocument = (page) => {
     var innerHTML = '', STATE = {}, VALUE = {}, id = 'root'
+    
+    // get assets
+    STATE.asset = getAssets()
+
+    // get views
+    STATE.view = getViews()
 
     // set root values
     VALUE[id] = {}
     VALUE[id].children = []
     VALUE[id].derivations = []
-    VALUE[id].childrenSiblings = []
     
     // push page views to root
-    page.views.map(view => _view[view] && VALUE[id].children.push(_view[view]))
+    page.views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
 
     // push public views to root
-    _page.public.views.map(view => _view[view] && VALUE[id].children.push(_view[view]))
+    _page.public.views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
     
     // create html
     innerHTML = createElement({STATE, VALUE, id})
+
     
     return `<!DOCTYPE html>
     <html lang="en" class="html">
@@ -2289,8 +1866,9 @@ const createDocument = (page) => {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>DigiMatjar</title>
+        <title>digiTrip</title>
         <link rel="stylesheet" href="index.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
     <body>
         <div id="root" VALUE='${JSON.stringify(VALUE)}' STATE='${JSON.stringify(STATE)}'>${innerHTML}</div>
@@ -2299,8 +1877,42 @@ const createDocument = (page) => {
     </html>`
 }
 
+
+// assets
+const getAssets = () => {
+
+    var assets = {}
+    var assetsFolderPath = path.join(process.cwd(), 'asset')
+    
+    fs.readdirSync(assetsFolderPath).forEach(fileName => {
+    
+        var file = fs.readFileSync(path.join(assetsFolderPath, fileName))
+        fileName = fileName.split('.json')[0]
+        assets[fileName] = JSON.parse(file)
+    })
+    
+    return assets
+}
+
+// views
+const getViews = () => {
+
+    var views = {}
+    var viewsFolderPath = path.join(process.cwd(), 'view')
+    
+    fs.readdirSync(viewsFolderPath).forEach(fileName => {
+    
+        var file = fs.readFileSync(path.join(viewsFolderPath, fileName))
+        fileName = fileName.split('.json')[0]
+        views[fileName] = JSON.parse(file)
+    })
+
+    return views
+}
+
 module.exports = {createDocument}
-},{"../page/_page":65,"../view/_view":69,"./createElement":28}],28:[function(require,module,exports){
+}).call(this)}).call(this,require('_process'))
+},{"../page/_page":72,"./createElement":32,"_process":3,"fs":1,"path":2}],32:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { toObject } = require("./toObject")
@@ -2310,10 +1922,8 @@ const { clone } = require("./clone")
 const { derive } = require("./derive")
 const { createTags } = require("./createTags")
 
-const _view = require("../view/_view")
+const createElement = ({ STATE, VALUE, id, params = {} }) => {
 
-const createElement = ({STATE, VALUE, id, params = {}}) => {
-    
     var tags = '', innerHTML = '', parent = VALUE[id], children = params.children || parent.children
 
     // childrenSiblings
@@ -2323,7 +1933,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         var value = clone(child)
         
         // view value
-        if (_view[value.view]) value = _view[value.view]
+        if (value.view && STATE.view[value.view]) value = STATE.view[value.view]
 
         // no value
         if (!value.type) return
@@ -2339,7 +1949,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         // approval
         var approved = toBoolean({ VALUE, STATE, string: conditions, id })
         if (!approved) return
-
+        
         // push destructured params from type to value
         if (params) {
             params = toObject({VALUE, STATE, string: params, id})
@@ -2351,12 +1961,18 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
 
             if (typeof parent.toChildren === 'string')
             parent.toChildren = toObject({ VALUE, STATE, string: parent.toChildren, id })
-
             value = override(value, parent.toChildren)
         }
         
         // icon
-        if (value.icon) value.icon.name = value.icon.name || ''
+        if (value.icon && value.type === 'Icon') {
+            value.icon.name = value.icon.name || ''
+            if (value.icon.google) value.google = true
+            else if (value.icon.outlined) value.outlined = true
+            else if (value.icon.rounded) value.rounded = true
+            else if (value.icon.sharp) value.sharp = true
+            else if (value.icon.twoTone) value.twoTone = true
+        }
 
         // id
         value.id = value.id || generate()
@@ -2364,7 +1980,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
 
         // parent
         value.parent = id
-        value.DATA = value.DATA || parent.DATA
+        value.Data = value.Data || parent.Data
 
         // derivations
         var derivations = clone(parent.derivations)
@@ -2372,7 +1988,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         // path
         var path = typeof value.path === 'string' && value.path !== '' ? value.path.split('.') : []
         if (path.length > 0) {
-            if (!parent.DATA) parent.DATA = {}
+            if (!parent.Data) parent.Data = {}
 
             // convert string numbers paths to num
             path = path.map(k => { 
@@ -2382,7 +1998,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
 
             // push path to a data array and derivations last element is not an index
             if (isNaN(path[0])) {
-                var data = derive(parent.DATA, parent.derivations)[0]
+                var data = derive(parent.Data, parent.derivations)[0]
                 if (Array.isArray(data)) derivations.push(0)
             }
 
@@ -2392,7 +2008,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
         // data (turnoff is do not mount data)
         var data, isArray
         if (parent.turnOff) { data = ''; value.turnOff = true }                     //def value
-        else { [data, derivations, isArray] = derive(value.DATA, derivations, false, value.data, true) }
+        else { [data, derivations, isArray] = derive(value.Data, derivations, false, value.data, true) }
         
         if (isArray) {
             
@@ -2402,13 +2018,13 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
                 keys.push(index, ...path)
                 
                 // data
-                var [data, derivations] = derive(value.DATA, keys, false, value.data, true)
+                var [data, derivations] = derive(value.Data, keys, false, value.data, true)
 
-                return createTags({ VALUE, STATE, value, data, derivations })
+                return createTags({ VALUE, STATE, params: { value, data, derivations } })
 
             }).join('')
 
-        } else tags = createTags({ VALUE, STATE, value, data, derivations })
+        } else tags = createTags({ VALUE, STATE, params: { value, data, derivations } })
         
         //tag = innerHTML
         innerHTML += tags
@@ -2418,7 +2034,7 @@ const createElement = ({STATE, VALUE, id, params = {}}) => {
 }
 
 module.exports = {createElement}
-},{"../view/_view":69,"./clone":23,"./createTags":29,"./derive":33,"./generate":40,"./merge":44,"./toArray":57,"./toBoolean":58,"./toObject":61}],29:[function(require,module,exports){
+},{"./clone":27,"./createTags":33,"./derive":38,"./generate":45,"./merge":50,"./toArray":64,"./toBoolean":65,"./toObject":68}],33:[function(require,module,exports){
 const { clone } = require("./clone")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2427,60 +2043,54 @@ const { toObject } = require("./toObject")
 
 const _component = require("../component/_component")
 
-const createTags = ({ VALUE, STATE, value, data, derivations }) => {
+const createTags = ({ VALUE, STATE, params: { value, data, derivations } }) => {
+    
     const { execute } = require("./execute")
     
     if (Array.isArray(data)) {
 
         value.length = data.length
 
-        if (data.length > 0) {
-            var tags = data.map((data, index) => {
+        if (data.length > 0) return data.map((data, index) => {
 
-                var id = generate(), local = clone(value)
-                local.id = id
+            var id = generate(), local = clone(value)
+            local.id = id
+    
+            // components
+            if (_component[local.type]) {
+                
+                local = _component[local.type](local)
+    
+                // destructure type, params, & conditions from type
+                var type = local.type.split('?')[0]
+                var params = local.type.split('?')[1] 
+                var conditions = local.type.split('?')[2]
         
-                // components
-                if (_component[local.type]) {
-                    
-                    local = _component[local.type](local)
-        
-                    // destructure type, params, & conditions from type
-                    var type = local.type.split('?')[0]
-                    var params = local.type.split('?')[1] 
-                    var conditions = local.type.split('?')[2]
-            
-                    // type
-                    local.type = type
-                    
-                    // approval
-                    var approved = toBoolean({ VALUE, STATE, string: conditions, id })
-                    if (!approved) return
-                    
-                    // push destructured params from type to value
-                    if (params) {
-                        params = toObject({VALUE, STATE, string: params, id})
-                        Object.entries(params).map(([k, v]) => local[k] = v )
-                    }
-
-                    id = local.id
+                // type
+                local.type = type
+                
+                // approval
+                var approved = toBoolean({ VALUE, STATE, string: conditions, id })
+                if (!approved) return
+                
+                // push destructured params from type to value
+                if (params) {
+                    params = toObject({VALUE, STATE, string: params, id})
+                    Object.entries(params).map(([k, v]) => local[k] = v )
                 }
 
-                VALUE[id] = { ...local, id, index, data, derivations: [...derivations, index] }
-                VALUE[local.parent].childrenSiblings.push(id)
-                if (VALUE[id].tt) console.log('1', VALUE[id].data);
+                id = local.id
+            }
 
-                // execute onload actions
-                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
+            VALUE[id] = { ...local, id, index, data, derivations: [...derivations, index] }
+            VALUE[local.parent].childrenSiblings.push(id)
 
-                //if (!Components[local.type]) return <></>
+            // execute onload actions
+            if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
 
-                return oneTag({ STATE, VALUE, id })
+            return oneTag({ STATE, VALUE, id })
 
-            }).join('')
-
-            return tags
-        }
+        }).join('')
     }
 
     
@@ -2510,26 +2120,23 @@ const createTags = ({ VALUE, STATE, value, data, derivations }) => {
             Object.entries(params).map(([k, v]) => value[k] = v )
         }
 
+        // reset id
         id = value.id
     }
     
     
     VALUE[id] = { ...value, id, data, derivations }
     VALUE[value.parent].childrenSiblings.push(id)
-
+    
     // execute onload actions
-    if (value.actions) execute({ VALUE, STATE, actions: value.actions, id })
+    if (value.actions) execute({ VALUE, STATE, id, actions: value.actions, instantly: true })
 
-    //if (!Components[value.type]) return <></>
-
-    tag = oneTag({ STATE, VALUE, id })
-
-    return tag
+    return oneTag({ STATE, VALUE, id })
 }
 
 
 
-const oneTag = ({STATE, VALUE, id}) => {
+const oneTag = ({ STATE, VALUE, id }) => {
 
     const { createElement } = require("./createElement")
     var tag, value = VALUE[id]
@@ -2567,6 +2174,8 @@ const oneTag = ({STATE, VALUE, id}) => {
             else if (k === 'minWidth') k = 'min-width'
             else if (k === 'maxHeight') k = 'max-height'
             else if (k === 'minHeight') k = 'min-height'
+            else if (k === 'gridTemplateColumns') k = 'grid-template-columns'
+            else if (k === 'gridTemplateRows') k = 'grid-template-rows'
             style += `${k}:${v}; `
         })
     }
@@ -2575,19 +2184,19 @@ const oneTag = ({STATE, VALUE, id}) => {
     var text = (typeof value.data !== 'object' && value.data) || value.text || ''
     
     if (value.type === 'View')
-    tag = `<div class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({STATE, VALUE, id}) : text}</div>`
+    tag = `<div class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</div>`
 
     else if (value.type === 'Table')
-    tag = `<table class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({STATE, VALUE, id}) : text}</table>`
+    tag = `<table class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</table>`
 
     else if (value.type === 'Row')
-    tag = `<tr class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({STATE, VALUE, id}) : text}</tr>`
+    tag = `<tr class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</tr>`
 
     else if (value.type === 'Header')
-    tag = `<th class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({STATE, VALUE, id}) : text}</th>`
+    tag = `<th class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</th>`
 
     else if (value.type === 'Cell')
-    tag = `<td class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({STATE, VALUE, id}) : text}</td>`
+    tag = `<td class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</td>`
 
     else if (value.type === 'Text')
     tag = `<p class='${value.class}' id='${value.id}' style='${style}'>${text}</p>`
@@ -2598,8 +2207,8 @@ const oneTag = ({STATE, VALUE, id}) => {
     else if (value.type === 'Span')
     tag = `<span class='${value.class}' id='${value.id}' style='${style}'>${text}</span>`
 
-    else if (value.type === 'Icon')
-    tag = `<i class='${value.class} bi-${value.icon.name}' id='${value.id}' style='${style}'></i>`
+    else if (value.type === 'Icon') 
+    tag = `<i class='material-icons${value.outlined ? '-outlined' : value.rounded ? '-round' : value.sharp ? '-sharp' : value.twoTone ? '-two-tone' : ''} ${value.class || ''} ${value.icon.name}' id='${value.id}' style='${style}'>${value.google ? value.icon.name : ''}</i>`
     
     else if (value.type === 'Input')
     tag = `<input class='${value.class}' id='${value.id}' style='${style}' ${value.upload ? `type=file accept='${value.upload.type}/*' ${value.upload.multiple ? 'multiple': ''}` : ''} type='${value.input.type || 'text'}' placeholder='${value.placeholder || ''}' value='${value.data || value.input.value || ''}'/>`
@@ -2617,34 +2226,55 @@ const oneTag = ({STATE, VALUE, id}) => {
             actions: `route?route=${value.link}`
         })
     }
-
+    
     return tag
 }
 
 module.exports = {createTags}
-},{"../component/_component":13,"./clone":23,"./createElement":28,"./execute":37,"./generate":40,"./toArray":57,"./toBoolean":58,"./toObject":61}],30:[function(require,module,exports){
+},{"../component/_component":13,"./clone":27,"./createElement":32,"./execute":42,"./generate":45,"./toArray":64,"./toBoolean":65,"./toObject":68}],34:[function(require,module,exports){
 const { update } = require("./update")
-const _view = require("../view/_view")
+const { generate } = require("./generate")
 
 const createView = ({ STATE, VALUE, params, id }) => {
 
-    var local = VALUE[id]
+    var local
+
+    // append view to root
+    if (id === 'root') {
+
+        id = generate()
+        var element = document.createElement("div")
+        element.id = id
+
+        element.style.height = '100%'
+        element.style.width = '100%'
+
+        VALUE[id] = {element, id, derivations: []}
+        local = VALUE[id]
+
+        VALUE.root.element.appendChild(element)
+
+    } else local = VALUE[id]
+
+    if (!local) return
+    
     var view = params.view
 
     if (!view) return
-    if (local.view === view) return
+    //if (local.view === view) return
 
     local.view = view
-    if (!_view[view]) return
+    if (!STATE.view[view]) return
 
-    local.children = [_view[view]]
-
+    local.children = [STATE.view[view]]
+    
     // update
     update({ VALUE, STATE, id })
+
 }
 
 module.exports = {createView}
-},{"../view/_view":69,"./update":63}],31:[function(require,module,exports){
+},{"./generate":45,"./update":70}],35:[function(require,module,exports){
 const { clone } = require("./clone")
 const { setContent } = require("./setContent")
 
@@ -2655,7 +2285,7 @@ const createData = ({ VALUE, params, id }) => {
     local.derivations.reduce((o, k, i) => {
         if (i === local.derivations.length - 1) return o[k] = data
         return o[k]
-    }, local.DATA)
+    }, local.Data)
 }
 
 const pushData = ({ VALUE, params }) => {
@@ -2665,7 +2295,7 @@ const pushData = ({ VALUE, params }) => {
 
 const setData = ({ VALUE, params = {}, id }) => {
     var local = VALUE[id]
-    if (!local.DATA) return
+    if (!local.Data) return
 
     var path = params.path
     if (path) path = path.split('.')
@@ -2720,7 +2350,7 @@ const setData = ({ VALUE, params = {}, id }) => {
         }
 
         return o[k]
-    }, local.DATA)
+    }, local.Data)
 }
 
 const clearData = ({ VALUE, STATE, id }) => {
@@ -2729,7 +2359,7 @@ const clearData = ({ VALUE, STATE, id }) => {
 
 const removeData = ({ VALUE, id, params = {} }) => {
     var local = VALUE[id]
-    if (!local.DATA) return
+    if (!local.Data) return
 
     var path = params.path
     path = path ? path.split('.') : []
@@ -2748,14 +2378,25 @@ const removeData = ({ VALUE, id, params = {} }) => {
             else return delete o[k]
         }
         return o[k]
-    }, local.DATA)
+    }, local.Data)
 
     setContent({ VALUE, id })
-    console.log(local.DATA);
+    console.log(local.Data);
 }
 
 module.exports = {createData, setData, pushData, clearData, removeData}
-},{"./clone":23,"./setContent":50}],32:[function(require,module,exports){
+},{"./clone":27,"./setContent":57}],36:[function(require,module,exports){
+const deleteDb = async ({ VALUE, STATE, id, params = {} }) => {
+    var local = VALUE[id]
+    if (!local) return
+
+    var {data} = await axios.delete('/api/asset', { data: params.delete })
+    
+    console.log(data, STATE[params.state]);
+}
+
+module.exports = {deleteDb}
+},{}],37:[function(require,module,exports){
 const { setData } = require("./data")
 const { resizeInput } = require("./resize")
 const { isArabic } = require("./isArabic")
@@ -2814,9 +2455,9 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
         local.value = value
         local.data = value
 
-        if (local.DATA && local.derivations[0] != '') {
+        if (local.Data && local.derivations[0] != '') {
 
-            // reset DATA
+            // reset Data
             setData({ VALUE, params: { value }, id })
             
             // remove value from data
@@ -2829,14 +2470,14 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
         // arabic values
         isArabic({ VALUE, params: { value }, id })
 
-        console.log(local.data, local.DATA)
+        console.log(local.data, local.Data)
     }
 
     local.element.addEventListener('input', myFn)
 }
 
 module.exports = {defaultInputHandler}
-},{"./data":31,"./isArabic":42,"./resize":48}],33:[function(require,module,exports){
+},{"./data":35,"./isArabic":47,"./resize":54}],38:[function(require,module,exports){
 const { merge } = require("./merge")
 
 const derive = (data, keys, fullDerivation, defValue, writable) => {
@@ -2897,63 +2538,56 @@ const derive = (data, keys, fullDerivation, defValue, writable) => {
 
 
 module.exports = {derive}
-},{"./merge":44}],34:[function(require,module,exports){
+},{"./merge":50}],39:[function(require,module,exports){
 const { generate } = require('./generate')
 const { update } = require('./update')
 const { filter } = require('./filter')
 const { toObject } = require('./toObject')
 const { clone } = require('./clone')
 
-const dropList = ({ VALUE, STATE, params, id }) => {
-    
-    var local = VALUE[id] // drop-list
-    if (!local) return
+const droplist = ({ VALUE, STATE, params, id }) => {
 
-    // button or input or text...
-    var button = clone(VALUE[params.id]) 
+    var local = VALUE[id]
+    if (!local) return
+    
+    var dropList = VALUE['droplist'] // droplist
 
     // items
-    var items = clone(button.dropList.items) || []
-    local.derivations = clone(button.derivations)
-    local.DATA = button.DATA
+    var items = clone(local.droplist.items) || []
+    dropList.derivations = clone(local.derivations)
+    dropList.Data = local.Data
 
     // path
-    if (params.path) local.derivations = params.path.split('.')
+    if (params.path) dropList.derivations = params.path.split('.')
 
     // input components => focus
     var inputid
-    if (button.id.includes('-language') || button.id.includes('-unit') || button.id.includes('-currency')) {
-
-        inputid = button.id.split('-language')
-        if (inputid[1] === undefined) inputid = button.id.split('-unit')
-        if (inputid[1] === undefined) inputid = button.id.split('-currency')
-
-        inputid = inputid[0] + '-input'
-    }
+    if (local.lang || local.unit || local.currency)
+        inputid = VALUE[local.parent].element.previousSibling.id
 
     // data related items
-    var index = items.findIndex(item => item && item.split('.')[0] === 'DATA' || item.split('.')[0] === 'data')
+    var index = items.findIndex(item => item && item.split('.')[0] === 'Data' || item.split('.')[0] === 'data')
     if (index !== -1) {
         var k = generate()
-        var editedItem = toObject({ VALUE, STATE, string: `${k}=${items[index]}`, id: button.id })[k]
+        var editedItem = toObject({ VALUE, STATE, string: `${k}=${items[index]}`, id })[k]
         items.splice(index, 1)
         items.push(...editedItem)
     }
     
     items = items.filter(item => item)
-    if (items.length > 0) local.children = items.map(item => {
+    if (items.length > 0) dropList.children = items.map(item => {
 
         var readOnly = false
-        item = item.split(':')
+        item = item.split('::')
         if (item[1]) readOnly = item[1].split(';').find(param => param === 'readOnly')
 
         return {
             type: `Item?text=${item[0]};readOnly=${readOnly};data=${item[0]}`,
             controls: [{
-                event: `click??!readOnly;state.drop-list=${button.id}`,
+                event: `click??!readOnly;state.droplist=${id}`,
                 actions: [
-                    `setContent>>${button.id};focus>>${inputid}?content=${item[0]}`,
-                    //`update::50>>${button.id}`,
+                    `setContent>>${id};focus>>${inputid}?content=${item[0]}`,
+                    //`update::50>>${id}`,
                     `setData>>${inputid}?data=free?const.${item[0]}=free`,
                     `setData>>${inputid}?data=''?const.${item[0]}!=free;value.data=free`
                 ]
@@ -2961,24 +2595,24 @@ const dropList = ({ VALUE, STATE, params, id }) => {
         }
     })
     
-    local.turnOff = true
-    update({ VALUE, STATE, id })
+    dropList.turnOff = true
+    update({ VALUE, STATE, id: 'droplist' })
     
-    if (local.filterable) {
+    if (dropList.filterable) {
         // get input value for filter
-        var value = button.value
+        var value = local.element.value
 
         if (!value) {
-            value = button.getElementsByTagName('INPUT')[0]
+            value = local.getElementsByTagName('INPUT')[0]
             if (value) value = value.value
         }
 
-        if (value) filter({ VALUE, STATE, params: { value }, id })
+        if (value) filter({ VALUE, STATE, params: { value }, id: 'droplist' })
     }
 }
 
-module.exports = {dropList}
-},{"./clone":23,"./filter":38,"./generate":40,"./toObject":61,"./update":63}],35:[function(require,module,exports){
+module.exports = {droplist}
+},{"./clone":27,"./filter":43,"./generate":45,"./toObject":68,"./update":70}],40:[function(require,module,exports){
 const { clearValues } = require('./clearValues')
 const { clone } = require('./clone')
 const { toArray } = require('./toArray')
@@ -2992,7 +2626,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
     var local = VALUE[id]
     if (!local) return
 
-    if (local.DATA) {
+    if (local.Data) {
 
         var keys = clone(local.derivations)
         var index = params.index || 0
@@ -3032,7 +2666,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 
             return o[k]
 
-        }, local.DATA)
+        }, local.Data)
 
     } else {
 
@@ -3047,7 +2681,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 const duplicates = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
-    var [data] = derive(local.DATA, local.derivations), exists
+    var [data] = derive(local.Data, local.derivations), exists
     if (!params.data) return false
 
     data = toArray(data)
@@ -3062,7 +2696,7 @@ const duplicates = ({ VALUE, params, id }) => {
 }
 
 module.exports = {duplicate, duplicates}
-},{"./clearValues":22,"./clone":23,"./derive":33,"./isEqual":43,"./removeDuplicates":47,"./toArray":57,"./update":63}],36:[function(require,module,exports){
+},{"./clearValues":26,"./clone":27,"./derive":38,"./isEqual":48,"./removeDuplicates":53,"./toArray":64,"./update":70}],41:[function(require,module,exports){
 
 const { toBoolean } = require('./toBoolean')
 const { toObject } = require('./toObject')
@@ -3134,9 +2768,9 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 const setEvents = ({ VALUE, id }) => {
     var local = VALUE[id]
 
-    local.touchStart = false
+    local.touchstart = false
     local.mouseenter = false
-    local.mouseDown = false
+    local.mousedown = false
 
     events.map(event => {
 
@@ -3147,10 +2781,10 @@ const setEvents = ({ VALUE, id }) => {
 
             if (event === 'mouseenter') local.mouseenter = true
             else if (event === 'mouseleave') local.mouseenter = false
-            else if (event === 'mousedown') local.mouseDown = true
-            else if (event === 'mouseup') local.mouseDown = false
-            else if (event === 'touchstart') local.touchStart = true
-            else if (event === 'touchend') local.touchStart = false
+            else if (event === 'mousedown') local.mousedown = true
+            else if (event === 'mouseup') local.mousedown = false
+            else if (event === 'touchstart') local.touchstart = true
+            else if (event === 'touchend') local.touchstart = false
         }
 
         local.element.addEventListener(event, setEventType)
@@ -3158,7 +2792,7 @@ const setEvents = ({ VALUE, id }) => {
 }
 
 module.exports = {addEventListener, setEvents}
-},{"./execute":37,"./toBoolean":58,"./toId":60,"./toObject":61}],37:[function(require,module,exports){
+},{"./execute":42,"./toBoolean":65,"./toId":67,"./toObject":68}],42:[function(require,module,exports){
 
 const { toBoolean } = require("./toBoolean")
 const { toArray } = require("./toArray")
@@ -3168,7 +2802,7 @@ const { toId } = require("./toId")
 const { generate } = require("./generate")
 const _method = require("./_method")
 
-const execute = ({ VALUE, STATE, controls, actions, e, id }) => {
+const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
 
     var local = VALUE[id]
     if (!local) return
@@ -3194,13 +2828,11 @@ const execute = ({ VALUE, STATE, controls, actions, e, id }) => {
             var timer = name.split('::')[1] || 0
             name = name.split('::')[0]
 
-            if (!_method[name]) return
-
             // reset
             var reset = getParam(action, 'reset', false)
             if (reset) clearTimeout(local[`${name}-timer`])
 
-            local[`${name}-timer`] = setTimeout(() => {
+            const myFn = () => {
 
                 // approval
                 approved = toBoolean({ VALUE, STATE, string: conditions, params, id })
@@ -3228,16 +2860,22 @@ const execute = ({ VALUE, STATE, controls, actions, e, id }) => {
                     // component doesnot exist
                     if (!id || !VALUE[id]) return
                     
+
+                    if (!_method[name]) return
                     _method[name]({ VALUE, STATE, controls, params, e, id })
                 })
 
-            }, timer)
+            }
+
+            if (instantly) return myFn()
+            local[`${name}-timer`] = setTimeout(myFn, timer)
         })
     })
+    
 }
 
 module.exports = {execute}
-},{"./_method":20,"./generate":40,"./getParam":41,"./toArray":57,"./toBoolean":58,"./toId":60,"./toObject":61}],38:[function(require,module,exports){
+},{"./_method":23,"./generate":45,"./getParam":46,"./toArray":64,"./toBoolean":65,"./toId":67,"./toObject":68}],43:[function(require,module,exports){
 const filter = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
@@ -3255,7 +2893,7 @@ const filter = ({ VALUE, params, id }) => {
 }
 
 module.exports = {filter}
-},{}],39:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 const focus = ({ VALUE, id }) => {
     var local = VALUE[id]
 
@@ -3275,7 +2913,7 @@ const focus = ({ VALUE, id }) => {
 }
 
 module.exports = {focus}
-},{}],40:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
 const generate = (length) => {
@@ -3289,7 +2927,7 @@ const generate = (length) => {
 }
 
 module.exports = {generate}
-},{}],41:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 const getParam = (string, param, defValue) => {
     if (!string) return defValue
     if (!string.includes('?')) return defValue
@@ -3308,7 +2946,7 @@ const getParam = (string, param, defValue) => {
 }
 
 module.exports = {getParam}
-},{}],42:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var arabic = /[\u0600-\u06FF\u0750-\u077F]/
 
 const isArabic = (value) => {
@@ -3318,7 +2956,7 @@ const isArabic = (value) => {
     var { VALUE, params = {}, id } = value
     var local = VALUE[id]
 
-    var text = params.value || (local.type === 'Input' ? local.value : (local.type === 'Text' && local.text))
+    var text = params.value || local.element.value || local.element.innerHTML
     if (!text) return 
     var result = arabic.test(text)
 
@@ -3335,7 +2973,7 @@ const isArabic = (value) => {
 }
 
 module.exports = {isArabic}
-},{}],43:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 const isEqual = function (value, other) {
     //if (value === undefined || other === undefined) return false
 
@@ -3411,7 +3049,13 @@ const isEqual = function (value, other) {
 };
 
 module.exports = {isEqual}
-},{}],44:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
+const log = ({params}) => {
+    console.log(params.log);
+}
+
+module.exports = {log}
+},{}],50:[function(require,module,exports){
 
 const { toArray } = require("./toArray")
 const { clone } = require("./clone")
@@ -3471,7 +3115,7 @@ const override = (obj1, obj2) => {
 }
 
 module.exports = {merge, override}
-},{"./clone":23,"./toArray":57}],45:[function(require,module,exports){
+},{"./clone":27,"./toArray":64}],51:[function(require,module,exports){
 const overflow = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
@@ -3521,7 +3165,7 @@ const overflow = ({ VALUE, params, id }) => {
 }
 
 module.exports = {overflow}
-},{}],46:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 const { removeIds } = require("./update")
 const { clone } = require("./clone")
 const { clearIntervals } = require("./clearIntervals")
@@ -3531,7 +3175,7 @@ const remove = ({ VALUE, params, id }) => {
     var local = VALUE[id]
     if (!params) params = {}
 
-    if (!local.DATA) return
+    if (!local.Data) return
 
     var keys = clone(local.derivations)
     var path = params.path ? params.path('.') : []
@@ -3557,9 +3201,9 @@ const remove = ({ VALUE, params, id }) => {
         }
         return o[k]
 
-    }, local.DATA)
+    }, local.Data)
 
-    console.log(local.DATA)
+    console.log(local.Data)
 
     clearIntervals({ VALUE, id })
     removeIds({ VALUE, id })
@@ -3596,7 +3240,7 @@ const resetDerivations = ({VALUE, id, index}) => {
 }
 
 module.exports = {remove}
-},{"./clearIntervals":21,"./clone":23,"./update":63}],47:[function(require,module,exports){
+},{"./clearIntervals":25,"./clone":27,"./update":70}],53:[function(require,module,exports){
 const removeDuplicates = (object) => {
 
     if (typeof object === 'string' || typeof object === 'number' || !object) return object
@@ -3613,7 +3257,7 @@ const removeDuplicates = (object) => {
 }
 
 module.exports = {removeDuplicates}
-},{}],48:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 const resizeInput = ({ VALUE, id }) => {
     var local = VALUE[id]
     if (!local) return
@@ -3666,7 +3310,7 @@ const dimensions = ({ VALUE, id, params = {} }) => {
 }
 
 module.exports = {resizeInput, dimensions}
-},{}],49:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 const { clearIntervals } = require('./clearIntervals')
 const { starter } = require('./starter')
 //const { search } = require("./search")
@@ -3747,7 +3391,18 @@ export const pushRoute = ({ params }) => {
 }*/
 
 module.exports = {route}
-},{"./clearIntervals":21,"./starter":54}],50:[function(require,module,exports){
+},{"./clearIntervals":25,"./starter":61}],56:[function(require,module,exports){
+const save = async ({VALUE, STATE, params, id}) => {
+
+    var local = VALUE[id]
+    if (!local) return
+    
+    var { data } = await axios.post('/api/asset', params.save)
+    console.log('saved');
+}
+
+module.exports = {save}
+},{}],57:[function(require,module,exports){
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
 
@@ -3785,7 +3440,7 @@ const setContent = ({ VALUE, params = {}, id }) => {
         local.data = value
 
         local.parent.data = local.data
-        local.parent.DATA = local.DATA
+        local.parent.Data = local.Data
         local.parent.derivations = local.derivations
 
     } else {
@@ -3803,7 +3458,7 @@ const setContent = ({ VALUE, params = {}, id }) => {
 }
 
 module.exports = {setContent}
-},{"./isArabic":42,"./isEqual":43}],51:[function(require,module,exports){
+},{"./isArabic":47,"./isEqual":48}],58:[function(require,module,exports){
 const setPosition = ({ VALUE, params, id }) => {
     var element = VALUE[id].element
     
@@ -3896,7 +3551,7 @@ const setPosition = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setPosition}
-},{}],52:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 const { setData } = require("./data")
 const { setStyle } = require("./style")
 const { toString } = require("./toString")
@@ -3909,7 +3564,7 @@ const setValue = ({ VALUE, params, id }) => {
     Object.entries(params.value).map(([key, value]) => {
         if (key === 'data') setData({ VALUE, params: { value }, id })
 
-        else if (key === 'DATA') {
+        else if (key === 'Data') {
             local[key] = value
             local.data = value
         }
@@ -3936,7 +3591,7 @@ const setValue = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setValue}
-},{"./data":31,"./style":56,"./toString":62}],53:[function(require,module,exports){
+},{"./data":35,"./style":63,"./toString":69}],60:[function(require,module,exports){
 const { update } = require("./update")
 
 const sort = ({ VALUE, STATE, params, id }) => {
@@ -3973,23 +3628,24 @@ const sort = ({ VALUE, STATE, params, id }) => {
 
     if (params.id) {
         var id = params.id
-        VALUE[id].DATA = data
+        VALUE[id].Data = data
         update({ VALUE, STATE, id })
     }
 
 }
 
 module.exports = {sort}
-},{"./update":63}],54:[function(require,module,exports){
+},{"./update":70}],61:[function(require,module,exports){
+const autoControls = ['auto-style', 'toggle-style', 'droplist', 'actionlist']
 
-
-const starter = ({STATE, VALUE, id}) => {
-
+const starter = ({ STATE, VALUE, id }) => {
+    
     const { setEvents } = require("./event")
     const { setStyle } = require("./style")
     const { controls } = require('./controls')
     const { createControls } = require("./createControls")
     const { defaultInputHandler } = require("./defaultInputHandler")
+    const { isArabic } = require("./isArabic")
 
     var local = VALUE[id]
     var element = document.getElementById(id)
@@ -3997,6 +3653,9 @@ const starter = ({STATE, VALUE, id}) => {
     if (!element) return
     
     local.element = element
+
+    // arabic text
+    isArabic({ VALUE, id })
 
     if (local.link) local.element.addEventListener('click', (e) => e.preventDefault())
 
@@ -4006,8 +3665,8 @@ const starter = ({STATE, VALUE, id}) => {
     // execute controls
     if (local.controls) controls({ VALUE, STATE, id })
 
-    // lunch dropList
-    if (local.dropList) createControls({ VALUE, STATE, id, params: {type: 'dropList'} })
+    // lunch auto controls
+    autoControls.map(type => local[type] && createControls({ VALUE, STATE, id, params: { type } }) )
 
     // input handlers
     defaultInputHandler({ VALUE, STATE, id })
@@ -4016,24 +3675,26 @@ const starter = ({STATE, VALUE, id}) => {
     setEvents({VALUE, id})
     
     if (local.childrenSiblings) local.childrenSiblings.map(id => starter({STATE, VALUE, id}))
-
 }
 
 module.exports = {starter}
-},{"./controls":24,"./createControls":26,"./defaultInputHandler":32,"./event":36,"./style":56}],55:[function(require,module,exports){
-const setState = ({ STATE, params }) => {
+},{"./controls":28,"./createControls":30,"./defaultInputHandler":37,"./event":41,"./isArabic":47,"./style":63}],62:[function(require,module,exports){
+const setState = ({ STATE, params,  }) => {
 
     // push states to route
-    if (params.route) pushRoute({ params })
+    /*if (params.route) pushRoute({ params })
 
-    params.state ;
+    console.log(STATE.asset, params);
+    params.state &&
         Object.entries(params.state).map(([key, value]) => {
             STATE[key] = value
-        })
+        })*/
+
+
 }
 
 module.exports = {setState}
-},{}],56:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 const {resizeInput} = require('./resize')
 
 const setStyle = ({ VALUE, params, id }) => {
@@ -4067,7 +3728,9 @@ const setStyle = ({ VALUE, params, id }) => {
 const resetStyles = ({ VALUE, params, id }) => {
     
     var local = VALUE[id]
-    if (!local.style.after) return
+    if (!local.style || !local.style.after) return
+
+    local.afterStylesMounted = false
 
     params = { style: {} }
 
@@ -4090,7 +3753,7 @@ const toggleStyles = ({ VALUE, params, id }) => {
 
 const mountAfterStyles = ({ VALUE, params, id }) => {
     var local = VALUE[id]
-    if (!local.style.after) return
+    if (!local.style || !local.style.after) return
 
     local.afterStylesMounted = true
 
@@ -4108,13 +3771,13 @@ const mountAfterStyles = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setStyle, resetStyles, toggleStyles, mountAfterStyles}
-},{"./resize":48}],57:[function(require,module,exports){
+},{"./resize":54}],64:[function(require,module,exports){
 const toArray = (data) => {
     return data !== undefined ? (Array.isArray(data) ? data : [data]) : []
 }
 
 module.exports = {toArray}
-},{}],58:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 const { derive } = require("./derive")
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
@@ -4369,7 +4032,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                                 key1 = key1.slice(0, -1)
                                 length = true
                             }
-                            var data = derive(local.DATA, [...local.derivations, ...key1])[0]
+                            var data = derive(local.Data, [...local.derivations, ...key1])[0]
                             local[key] = data
 
                             if (length) {
@@ -4378,10 +4041,10 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                             }
 
                         }
-                        else if (key1[0] === 'DATA') {
+                        else if (key1[0] === 'Data') {
 
                             key1 = key1.slice(1)
-                            var data = derive(local.DATA, key1)[0]
+                            var data = derive(local.Data, key1)[0]
                             local[key] = data
 
                         }
@@ -4457,11 +4120,11 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                     }
                     else if (key0 === 'data') {
 
-                        var data = derive(local.DATA, [...local.derivations, ...key1])[0]
+                        var data = derive(local.Data, [...local.derivations, ...key1])[0]
                         local[key] = data
                     }
-                    else if (key0 === 'DATA') {
-                        var data = derive(local.DATA, key1)[0]
+                    else if (key0 === 'Data') {
+                        var data = derive(local.Data, key1)[0]
                         local[key] = data
                     }
                     else if (key0 === 'style') {
@@ -4496,7 +4159,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 } else if (key === 'data') {
 
                     key = generate()
-                    local[key] = derive(local.DATA, local.derivations)[0]
+                    local[key] = derive(local.Data, local.derivations)[0]
 
                 } else if (key === 'duplicates') {
 
@@ -4585,12 +4248,12 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                                 key1 = key1.slice(0, -1)
                                 length = true
                             }
-                            var data = derive(local.DATA, [...local.derivations, ...key1])[0]
+                            var data = derive(local.Data, [...local.derivations, ...key1])[0]
                             local[key] = data
                             if (length) local[key] = data.length
 
                         }
-                        else if (key1[0] === 'DATA') {
+                        else if (key1[0] === 'Data') {
 
                             key1 = key1.slice(1)
                             var length
@@ -4598,7 +4261,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                                 key1 = key1.slice(0, -1)
                                 length = true
                             }
-                            var data = derive(local.DATA, key1)[0]
+                            var data = derive(local.Data, key1)[0]
                             local[key] = data
                             if (length) local[key] = data.length
 
@@ -4629,7 +4292,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
 }
 
 module.exports = {toBoolean}
-},{"./clone":23,"./derive":33,"./duplicate":35,"./generate":40,"./getParam":41,"./isArabic":42,"./isEqual":43,"./overflow":45,"./toId":60}],59:[function(require,module,exports){
+},{"./clone":27,"./derive":38,"./duplicate":40,"./generate":45,"./getParam":46,"./isArabic":47,"./isEqual":48,"./overflow":51,"./toId":67}],66:[function(require,module,exports){
 const { generate } = require('./generate')
 const {toArray} = require('./toArray')
 
@@ -4701,7 +4364,7 @@ const toComponent = (obj) => {
 }
 
 module.exports = {toComponent}
-},{"./generate":40,"./toArray":57}],60:[function(require,module,exports){
+},{"./generate":45,"./toArray":64}],67:[function(require,module,exports){
 const { generate } = require("./generate");
 const { toArray } = require("./toArray")
 const { toObject } = require("./toObject");
@@ -4710,7 +4373,7 @@ const toId = ({ VALUE, STATE, id, string }) => {
     var idList = [], local = VALUE[id]
 
     if (typeof string === 'object') return string;
-
+    
     (string || id).split(';').map(id => {
 
         // id=id:index
@@ -4757,14 +4420,12 @@ const toId = ({ VALUE, STATE, id, string }) => {
 }
 
 module.exports = {toId}
-},{"./generate":40,"./toArray":57,"./toObject":61}],61:[function(require,module,exports){
+},{"./generate":45,"./toArray":64,"./toObject":68}],68:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { merge } = require("./merge")
 const { clone } = require("./clone")
 const { derive } = require("./derive")
-const _asset = require("../asset/_asset")
-//import Assets from '../Assets/Assets'
 
 const toObject = ({ VALUE, STATE, string, e, id }) => {
 
@@ -4875,7 +4536,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                     if (path.length > 0) {
                         if (value) value = merge(
                             value.map(
-                                val => derive(val, path)[0] || (local.dropList ? `${derive(val, 'title')[0]}:readOnly` : '')
+                                val => derive(val, path)[0] || (local.droplist ? `${derive(val, 'title')[0]}:readOnly` : '')
                             )
                         )
                     }
@@ -4885,7 +4546,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                     if (path[1] === 'data') {
 
                         var path = path.slice(2)
-                        value = derive(local.DATA, [...local.derivations, ...path])[0]
+                        value = derive(local.Data, [...local.derivations, ...path])[0]
 
                     } else {
 
@@ -4968,27 +4629,42 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                         
                     }
 
-                } else if (path[0] === 'DATA') {
+                } else if (path[0] === 'Data') {
 
                     value = value.split('.')
                     value.shift()
-                    value = merge(toArray(derive(local.DATA, value, true)[0]))
+                    value = merge(toArray(derive(local.Data, value, true)[0]))
 
                 } else if (path[0] === 'const') {
                     value = value.split('const.')[1]
 
                 } else if (path[0] === 'asset') {
+                    var asset = STATE.asset
 
-                    value = value.split('asset.')[1]
-                    var file = value.split('.')[0]
-                    value = value.split(`${file}.`)[1]
-                    var path = value.split('.')
-                    value = _asset[file]
-                    value = merge(
-                        value.map(
-                            val => derive(val, path)[0] || `${derive(val, 'title')[0]}:readOnly`
-                        )
-                    )
+                    if (path[1] === 'entries') {
+ 
+                        value = Object.entries(asset).map(([key, value]) => {
+                            if (path[2] === 'key') return key
+                            if (path[2] === 'value') return value
+                        })
+
+                    } else {
+                        
+                        path = path.slice(1)
+                        var isArray
+                        value = path.reduce((o, k, i) => {
+                            if (isArray) return o
+    
+                            if (Array.isArray(o)) {
+                                path = path.slice(i)
+                                value = o.map(o => path.reduce((o, k) => o[k], o))
+                                isArray = true
+                                return value
+                            }
+
+                            return o[k]
+                        }, asset)
+                    }
 
                 } else if (path[0] === 'encoded') {
                     value = STATE.encoded[path[1]]
@@ -5034,19 +4710,37 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
 
         }
 
-        // remove key from VAR
-        if (key.split('.')[0] === 'remove') {
-
-            key = key.split('.').slice(1)
-            key.reduce((o, k, i) => {
-                if (i === key.length - 1) return delete o[k]
-                return o[k]
-            }, local)
-        }
+        // keys from brackets to dots
+        key = bracketsToDots({ VALUE, STATE, key, e, id })
+        keys = key.split('.')
 
         // object structure
         if (keys && keys.length > 1) {
-            keys.reduce((obj, key, index) => {
+            
+            // mount state without using setState
+            if (keys[0] === 'state') {
+                var keys = keys.slice(1)
+                var deleteRequest
+                var length = keys.length - 1
+
+                keys.reduce((o, k, i) => {
+                    if (deleteRequest) return
+                    if (i === keys.length - 1) {
+
+                        return o[k] = value
+
+                    } if ( i === length - 1 && keys[length] === 'delete') { // last key = delete
+
+                        deleteRequest = true
+                        return delete o[k]
+                    }
+                    return o[k]
+                }, STATE)
+                
+                if (deleteRequest) return
+            }
+
+            else keys.reduce((obj, key, index) => {
 
                 if (obj[key] !== undefined) {
 
@@ -5085,8 +4779,29 @@ function addDays(theDate, days) {
     return new Date(theDate.getTime() + days * 24 * 60 * 60 * 1000);
 }
 
+function bracketsToDots({ VALUE, STATE, key, e, id }) {
+
+    var keys = []
+    keys = key.split('[')
+
+    if (keys[1]) {
+
+        var bracketKey = keys[1].split(']')
+        var k = generate()
+        var value = toObject({ VALUE, STATE, string: `${k}=${bracketKey[0]}`, e, id })[k]
+        var before = keys[0]
+        keys = keys.slice(2)
+        key = `${before}.${value}${bracketKey[1]}${keys.join('[') ? `[${keys.join('[')}` : ''}`
+        
+    }
+
+    if (keys[2]) key = bracketsToDots(key)
+
+    return key
+}
+
 module.exports = {toObject}
-},{"../asset/_asset":1,"./clone":23,"./derive":33,"./generate":40,"./merge":44,"./toArray":57}],62:[function(require,module,exports){
+},{"./clone":27,"./derive":38,"./generate":45,"./merge":50,"./toArray":64}],69:[function(require,module,exports){
 const toString = (object) => {
     if (!object) return ''
 
@@ -5113,7 +4828,7 @@ const toString = (object) => {
 }
 
 module.exports = {toString}
-},{}],63:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 const { clearIntervals } = require("./clearIntervals")
 const { starter } = require("./starter")
 
@@ -5126,14 +4841,15 @@ const update = ({ STATE, VALUE, id }) => {
 
     clearIntervals({ VALUE, id })
     removeIds({ VALUE, id })
-
+    
     var innerHTML = createElement({ STATE, VALUE, id })
     local.element.style.opacity = '0'
-
     local.element.innerHTML = innerHTML
+
+    setTimeout(() => local.element.style.opacity = '1', 50)
+
     if (local.childrenSiblings) local.childrenSiblings.map(id => starter({ STATE, VALUE, id }))
     
-    setTimeout(() => local.element.style.opacity = '1', 50)
     console.log('#', Object.entries(VALUE).length)
 
 }
@@ -5150,7 +4866,7 @@ const removeIds = ({ VALUE, id }) => {
 }
 
 module.exports = {update, removeIds}
-},{"./clearIntervals":21,"./createElement":28,"./starter":54}],64:[function(require,module,exports){
+},{"./clearIntervals":25,"./createElement":32,"./starter":61}],71:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toBoolean } = require("./toBoolean")
 const { isEqual } = require("./isEqual")
@@ -5238,7 +4954,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {watch}
-},{"./clone":23,"./data":31,"./execute":37,"./generate":40,"./isEqual":43,"./toBoolean":58,"./toObject":61}],65:[function(require,module,exports){
+},{"./clone":27,"./data":35,"./execute":42,"./generate":45,"./isEqual":48,"./toBoolean":65,"./toObject":68}],72:[function(require,module,exports){
 const {admin} = require('./admin')
 const {home} = require('./home')
 const {public} = require('./public')
@@ -5246,2090 +4962,22 @@ const {public} = require('./public')
 module.exports = {
     admin, home, public
 }
-},{"./admin":66,"./home":67,"./public":68}],66:[function(require,module,exports){
-const admin = { 
-    views: ['adminNavbar', 'admin', 'productList']
+},{"./admin":73,"./home":74,"./public":75}],73:[function(require,module,exports){
+const admin = {
+    views: ['admin-navbar', 'admin']
 }
 
 module.exports = {admin}
-},{}],67:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 const home = {
     views: ['navbar']
 }
 
 module.exports = {home}
-},{}],68:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 const public = {
-    views: ['dropList', 'windowView']
+    views: ['droplist', 'mini-window', 'actionlist']
 }
 
 module.exports = {public}
-},{}],69:[function(require,module,exports){
-const {navbar} = require('./home/navbar')
-
-const {searchBox} = require('./public/searchBox')
-const {dropList} = require('./public/dropList')
-const {windowView} = require('./public/windowView')
-
-const {adminNavbar} = require('./admin/navbar')
-const {adminSidebar} = require('./admin/sidebar')
-const {admin} = require('./admin/admin')
-const {productList} = require('./admin/productList')
-const {inventory} = require('./admin/inventory')
-const {newProduct} = require('./admin/newProduct')
-const {offer} = require('./admin/offer')
-
-module.exports = {
-    navbar, searchBox, adminNavbar, admin, adminSidebar, productList, inventory, newProduct, dropList,
-    windowView, offer
-}
-},{"./admin/admin":70,"./admin/inventory":71,"./admin/navbar":72,"./admin/newProduct":73,"./admin/offer":74,"./admin/productList":75,"./admin/sidebar":76,"./home/navbar":77,"./public/dropList":78,"./public/searchBox":79,"./public/windowView":80}],70:[function(require,module,exports){
-const admin = {
-    type: 'View',
-    style: {
-        display: 'flex',
-        width: '100%',
-        height: '100%',
-        overflowY: 'auto',
-    },
-    controls: [{
-        actions: [
-            'search?state=category-list;query.collection=category',
-            'search?state=brand-list;query.collection=brand'
-        ]
-    }],
-    children: [{
-        view: 'adminSidebar',
-    }, {
-        type: 'View',
-        style: {
-            width: '83%',
-            height: '90%',
-            overflowY: 'auto',
-            marginLeft: '17%',
-            padding: '2.5rem 3rem',
-            flexDirection: 'column',
-            transform: 'translateY(-110%)',
-            position: 'fixed',
-            after: {
-                transform: 'translateY(0)',
-            }
-        },
-        children: [{
-            type: 'View?id=admin-view',
-        }],
-        controls: [{
-            actions: 'setStyle?style.transition=transform 0.2s'
-        }]
-    }]
-}
-
-module.exports = {admin}
-},{}],71:[function(require,module,exports){
-const inventory = {
-    type: 'View?remove.DATA',
-    actions: 'search?state=products-table;query.collection=product;id=products-table',
-    children: [{
-        type: 'View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between',
-        children: [{
-            type: 'Text?text=Inventory;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500'
-        }, {
-            type: 'View?class=flex-box',
-            children: [{
-                type: 'Button?text=Import;icon.name=download;style.marginRight=1rem',
-                tooltip: 'Import multiple products to store at once',
-            }, {
-                type: 'Button?text=Export;icon.name=upload;style.marginRight=1rem',
-                tooltip: 'Export all products to a CSV file',
-            }, {
-                type: 'Button?text=New Product;icon.name=plus;style.marginRight=1rem',
-                tooltip: 'Create a new product',
-                controls: [{
-                    actions: 'createControls?type=toggleView;id=admin-view;view=newProduct'
-                }]
-            }]
-        }]
-    }, {
-        type: 'View?style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee',
-        children: [{
-            type: 'View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee',
-            children: [{
-                type: 'Input?featured;!removable;!clearable;icon.name=search;icon.style.fontSize=1.8rem;search.id=products-table;search.state=products-table;search.query.collection=const.product;search.query.all=const.element.value;placeholder-ar=...إبحث عن الإسم، الصنف، الماركة',
-                placeholder: 'Search by name, collection, category, brand...',
-                style: {
-                    height: '4rem',
-                    backgroundColor: '#fff',
-                    border: '1px solid #ddd',
-                    color: '#666',
-                    borderRadius: '.75rem',
-                    marginRight: '1rem'
-                }
-            }, {
-                type: 'Button?text=Filter;icon.name=funnel',
-            }, {
-                type: 'Button?text=Collection;icon.name=ui-checks-grid',
-            }, {
-                type: 'Button?text=Category;icon.name=bookmarks;dropList.items=[Categories:readOnly,state.category-list.name];search.state=products-admin;search.query.collection=const.product;search.query.category=const.value.data',
-            }, {
-                type: 'Button?text=Brand;icon.name=bootstrap;dropList.items=[Brands:readOnly,state.brand-list.name]',
-            }, {
-                type: 'Button?text=View;icon.name=list-ul',
-            }]
-        }, {
-            type: 'View?style.padding=1rem;style.width=100%',
-            children: [{
-                type: 'Table?style.width=100%',
-                children: [{
-                    type: 'Row?class=flex-box;toChildren.sort.state=products-table;toChildren.sort.id=products-table;toChildren.featured=true',
-                    style: {
-                        height: '5rem',
-                        fontSize: '1.4rem',
-                        fontWeight: '400',
-                        color: '#444',
-                        textAlign: 'Left',
-                        borderBottom: '1px solid #eee',
-                    },
-                    children: [{
-                        type: 'Header?text=Image;style.width=6rem',
-                    }, {
-                        type: 'Header?path=nameEn;text=Name;style.width=25rem',
-                    }, {
-                        type: 'Header?path=discount;text=Discount;style.wdith=6rem',
-                    }, {
-                        type: 'Header?path=priceLbp;text=Price;style.width=10rem;style.justifyContent=flex-end',
-                    }, {
-                        type: 'Header?path=countInStock;text=Stock;style.width=7rem;style.justifyContent=center',
-                    }, {
-                        type: 'Header?path=active;text=Status;style.width=10rem;style.justifyContent=center',
-                    }, {
-                        type: 'Header?text=Actions;style.flex=1',
-                    }]
-                }]
-            }, {
-                type: 'View?id=products-table;t=true',
-                actions: [
-                    'setStyle?style.display=none?!value.data',
-                    'setStyle?style.display=initial;t?value.data',
-                    'setValue?value.DATA=state.products-table?state.products-table'
-                ],
-                children: [{
-                    type: 'View?class=flex-box',
-                    style: {
-                        textAlign: 'start',
-                        justifyContent: 'flex-start',
-                        fontSize: '1.4rem',
-                        color: '#444',
-                        borderBottom: '1px solid #eee',
-                        height: '5rem',
-                        after: { backgroundColor: '#daeffe' }
-                    },
-                    controls: [{
-                        event: 'mouseenter',
-                        actions: 'mountAfterStyles'
-                    }, {
-                        event: 'mouseleave',
-                        actions: 'resetStyles'
-                    }],
-                    children: [{
-                        type: 'View?path=image;class=flex-box;style.width=6rem',
-                        children: [{
-                            type: 'Image?style.borderRadius=5rem;style.maxWidth=4rem;style.maxHeight=4rem'
-                        }]
-                    }, {
-                        type: 'View?path=nameEn;style.width=25rem',
-                        children: [{
-                            type: 'Text',
-                            tooltip: '?text=value.element.innerHTML;placement=right;width=25rem',
-                            style: {
-                                width: 'fit-content',
-                                maxWidth: '25rem',
-                                overflowX: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap'
-                            }
-                        }]
-                    }, {
-                        type: 'View?path=discount;class=flex-box;style.width=6rem;style.maxWidth=6rem;style.color=red',
-                        children: [{
-                            type: 'Text?style.marginRight=.1rem',
-                        }, {
-                            type: 'Text?text=%',
-                            actions: `setValue?value.text=''?!value.data`
-                        }]
-                    }, {
-                        type: 'View?path=priceLbp;class=flex-box;style.width=10rem;style.justifyContent=flex-end',
-                        children: [{
-                            type: 'Text?style.marginRight=.2rem',
-                            actions: 'toNumber'
-                        }, {
-                            type: 'Text?text=L.L'
-                        }]
-                    }, {
-                        type: 'View?path=countInStock;class=Stock flex-box;style.width=7rem',
-                        children: [{
-                            type: 'Text',
-                        }]
-                    }, {
-                        type: 'View?path=active;class=Status flex-box;style.width=10rem',
-                        children: [{
-                            type: 'View?class=flex-box',
-                            style: {
-                                padding: '0.2rem 0.8rem',
-                                backgroundColor: '#f0c040',
-                                borderRadius: '1.5rem',
-                                cursor: 'pointer'
-                            },
-                            children: [{
-                                type: 'Text?text=Active;style.color=#fff;style.fontSize=1.2rem'
-                            }, {
-                                type: 'Icon?icon.name=chevron-down',
-                                style: {
-                                    color: '#fff',
-                                    marginTop: '0.3rem',
-                                    fontSize: '1.2rem',
-                                    marginLeft: '0.4rem',
-                                    transition: 'transform 0.2s'
-                                }
-                            }]
-                        }]
-                    }, {
-                        type: 'View?class=flex-box;style.justifyContent=flex-end;style.flex=1',
-                        children: [{
-                            type: 'Icon?class=flex-box actions-list;icon.name=three-dots',
-                            style: {
-                                cursor: 'pointer',
-                                color: '#116dff',
-                                fontSize: '2.5rem',
-                                height: '3.5rem',
-                                width: '3.5rem',
-                                borderRadius: '3.5rem',
-                                transition: 'all 0.2s',
-                                marginRight: '1rem',
-                                after: { backgroundColor: '#fff' }
-                            },
-                            controls: [{
-                                actions: 'createControls?type=list;id=actions-list;placement=left'
-                            }, {
-                                event: 'mouseenter',
-                                actions: 'mountAfterStyles'
-                            }, {
-                                event: 'mouseleave',
-                                actions: 'resetStyles'
-                            }]
-                        }]
-                    }]
-                }]
-            }]
-        }]
-    }]
-}
-
-module.exports = {inventory}
-},{}],72:[function(require,module,exports){
-const adminNavbar = {
-    type: 'View',
-    style: {
-        zIndex: '2',
-        width: '100%',
-        position: 'sticky',
-        top: '0',
-        backgroundColor: '#fff',
-        boxShadow: '0 0 6px rgba(33, 33, 33, 0.431)',
-    },
-    children: [{
-        type: 'View?class=flex-box',
-        style: {
-            backgroundColor: '#fff',
-            padding: '1rem'
-        },
-        children: [{
-            type: 'Text?link=/;text=digiMatjar',
-            style: {
-                fontSize: '2.9rem',
-                fontWeight: '900',
-                color: '#ee384e',
-                margin: '0 1rem',
-                cursor: 'pointer'
-            },
-        }, {
-            view: 'searchBox'
-        }, {
-            type: 'View?class=flex-box',
-            style: {
-                borderLeft: '1px solid #ddd',
-                borderRight: '1px solid #ddd',
-                marginRight: '0.5rem',
-                padding: '0 1rem',
-                height: '3.5rem'
-            },
-            children: [{
-                type: 'Text?text=My sites: ',
-                style: {
-                    fontSize: '1.3rem',
-                    color: '#bbb',
-                    marginRight: '0.5rem',
-                },
-            }, {
-                type: 'View?class=flex-box',
-                style: {
-                    cursor: 'pointer',
-                    padding: '0.5rem 0'
-                },
-                controls: [{
-                    event: 'click',
-                    actions: 'toggleStyles???my-sites-chevron'
-                }],
-                children: [{
-                    type: 'Text?text=Sarah Originals',
-                    style: {
-                        fontSize: '1.5rem',
-                        color: '#444',
-                        margin: '0 0.5rem',
-                    },
-                }, {
-                    type: 'Icon?id=my-sites-chevron;icon.name=chevron-down;icon.code=fas',
-                    style: {
-                        color: '#444',
-                        fontSize: '1.5rem',
-                        transition: 'all 0.2s',
-                        margin: '0 0.5rem',
-                        marginTop: '0.2rem',
-                        after: {
-                            transform: 'rotate(180deg)'
-                        }
-                    }
-                }]
-            }]
-        }, {
-            type: 'Icon?tooltip=Notifications;icon.name=bell',
-            style: {
-                color: '#666',
-                fontSize: '1.7rem',
-                margin: '0 2rem',
-                cursor: 'pointer',
-                after: {
-                    color: '#116dff'
-                }
-            },
-            controls: [{
-                event: 'mouseenter',
-                actions: 'mountAfterStyles'
-            }, {
-                event: 'mouseleave',
-                actions: 'resetStyles'
-            }]
-        }, {
-            type: 'Icon?icon.name=megaphone;tooltip=New Releases',
-            style: {
-                color: '#666',
-                fontSize: '1.7rem',
-                marginRight: '2rem',
-                cursor: 'pointer',
-                after: {
-                    color: '#116dff'
-                }
-            },
-            controls: [{
-                event: 'mouseenter',
-                actions: 'mountAfterStyles'
-            }, {
-                event: 'mouseleave',
-                actions: 'resetStyles'
-            }]
-        }, {
-            type: 'Icon?icon.name=box;tooltip=Plans & Pricing',
-            style: {
-                color: '#666',
-                fontSize: '1.7rem',
-                marginRight: '2rem',
-                cursor: 'pointer',
-                after: {
-                    color: '#116dff'
-                }
-            },
-            controls: [{
-                event: 'mouseenter',
-                actions: 'mountAfterStyles'
-            }, {
-                event: 'mouseleave',
-                actions: 'resetStyles'
-            }]
-        }, {
-            type: 'Button?link=/signin;text=Sign In | Up;icon.name=person-circle;icon.style.fontSize=2.4rem;tooltip=Free Sign Up',
-        }]
-    }]
-}
-
-module.exports = {adminNavbar}
-},{}],73:[function(require,module,exports){
-const newProduct = {
-    type: 'View?DATA={}',
-    children: [{
-        type: 'View?class=flex-box;style.width=100%;style.marginBottom=2.5rem',
-        children: [{
-            type: 'Text?text=Create a New Product',
-            style: { fontSize: '1.8rem', color: '#444', fontWeight: '500' }
-        }, {
-            type: 'View?class=flex-box;style.marginLeft=auto',
-            children: [{
-                type: 'Icon?class=flex-box;icon.name=three-dots',
-                style: {
-                    cursor: 'pointer',
-                    color: '#116dff',
-                    fontSize: '2.5rem',
-                    height: '4rem',
-                    width: '4rem',
-                    borderRadius: '4rem',
-                    transition: 'all 0.2s',
-                    marginRight: '1rem',
-                    after: { backgroundColor: '#eee' }
-                },
-                controls: [{
-                    actions: 'createControls?state=actions-list;type=list;id=actions-list;placement=left'
-                }, {
-                    event: 'mouseenter',
-                    actions: 'mountAfterStyles'
-                }, {
-                    event: 'mouseleave',
-                    actions: 'resetStyles'
-                }]
-            }, {
-                type: 'Button?icon.name=x-square;text=Cancel;style.marginRight=1rem',
-                controls: [{ actions: 'createControls?type=toggleView;id=admin-view;view=inventory' }]
-            }, {
-                type: 'Button?icon.name=check2-square;text=Save',
-            }]
-        }]
-    }, {
-        type: 'View',
-        style: {
-            border: '1px solid #eee',
-            borderRadius: '0.5rem',
-            padding: '1rem',
-            display: 'flex'
-        },
-        children: [{
-            type: 'View',
-            style: {
-                display: 'flex',
-                flexDirection: 'column',
-                width: '75%',
-                padding: '1rem',
-            },
-            children: [{
-                type: 'Text?text=General Info',
-                style: {
-                    display: 'flex',
-                    fontSize: '1.7rem',
-                    color: '#444',
-                    marginBottom: '1rem',
-                },
-            }, {
-                type: 'View',
-                style: {
-                    display: 'flex',
-                    padding: '2rem',
-                    backgroundColor: '#eee',
-                    borderRadius: '0.75rem',
-                    marginBottom: '3rem',
-                },
-                children: [{
-                    type: 'View',
-                    style: {
-                        flex: '1',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        marginRight: '1rem',
-                    },
-                    children: [{
-                        type: 'Label?text=Product Name',
-                        style: {
-                            height: '3rem',
-                            fontSize: '1.5rem',
-                            color: '#444',
-                        }
-                    }, {
-                        type: 'View?actions=focus::200',
-                        children: [{
-                            type: 'Input?featured;lang=en;path=name;data=[]',
-                            style: {
-                                marginBottom: '1rem'
-                            },
-                        }]
-                    }, {
-                        type: 'Label?text=Suppliers',
-                        style: {
-                            height: '3rem',
-                            fontSize: '1.5rem',
-                            color: '#444',
-                            marginTop: '1rem'
-                        }
-                    }, {
-                        type: 'View',
-                        children: [{
-                            type: 'Input?featured;path=supplier;data=[]',
-                            style: {
-                                marginBottom: '1rem'
-                            }
-                        }]
-                    }, {
-                        type: 'Label?text=UPC;class=flex-box',
-                        style: {
-                            height: '3rem',
-                            fontSize: '1.5rem',
-                            color: '#444',
-                            justifyContent: 'flex-start',
-                            width: 'fit-content',
-                            marginTop: '1rem'
-                        },
-                        tooltip: 'UPC is a 13 digits number which stands for Universal Product Code?placement=right;maxWidth=30rem'
-                    }, {
-                        type: 'Input?input.type=number;path=UPC',
-                        style: {
-                            marginBottom: '2rem'
-                        },
-                    }, {
-                        type: 'Label?text=EAN;class=flex-box',
-                        style: {
-                            justifyContent: 'flex-start',
-                            height: '3rem',
-                            fontSize: '1.5rem',
-                            color: '#444',
-                            width: 'fit-content'
-                        },
-                        tooltip: 'EAN is a 12 digits number which stands for European Article Number?placement=right;maxWidth=30rem'
-                    }, {
-                        type: 'Input?path=EAN;input.type=number',
-                        style: {
-                            marginBottom: '2rem'
-                        },
-                    }]
-                }, {
-                    type: 'View',
-                    style: {
-                        flex: '1',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        marginLeft: '1rem',
-                    },
-                    children: [{
-                        type: 'Label?text=Product Description',
-                        style: {
-                            height: '3rem',
-                            fontSize: '1.5rem',
-                            color: '#444',
-                        },
-                    }, {
-                        type: 'Paragraph?lang=en;path=description',
-                        style: {
-                            minHeight: '13rem',
-                            borderRadius: '0.25rem',
-                            border: '0',
-                            padding: '0.5rem',
-                            width: '100%',
-                            marginBottom: '2rem'
-                        },
-                    }, {
-                        type: 'Label?text=Notes',
-                        style: {
-                            height: '3rem',
-                            fontSize: '1.5rem',
-                            color: '#444',
-                        },
-                    }, {
-                        type: 'Paragraph?lang=en;path=notes',
-                        style: {
-                            minHeight: '13rem',
-                            borderRadius: '0.25rem',
-                            border: '0',
-                            padding: '0.5rem',
-                            width: '100%',
-                            marginBottom: '2rem'
-                        },
-                    }]
-                }]
-            }, {
-                type: 'Text',
-                style: {
-                    display: 'flex',
-                    fontSize: '1.7rem',
-                    color: '#444',
-                    marginBottom: '1rem',
-                },
-                text: 'Uploads'
-            }, {
-                type: 'View',
-                style: {
-                    display: 'grid',
-                    padding: '2rem',
-                    backgroundColor: '#eee',
-                    borderRadius: '0.75rem',
-                    marginBottom: '3rem',
-                    flexWrap: 'wrap',
-                    gap: '2rem',
-                    gridTemplateColumns: 'calc(50% - 1rem) calc(50% - 1rem)'
-                },
-                children: [{
-                    type: 'View',
-                    children: [{
-                        type: 'Text?text=Images',
-                        style: {
-                            color: '#444',
-                            fontSize: '1.5rem',
-                            marginBottom: '1rem'
-                        }
-                    }, {
-                        type: 'Upload?upload.type=image;style.width=100%;path=images',
-                    }]
-                }, {
-                    type: 'View',
-                    children: [{
-                        type: 'Text?text=Videos',
-                        style: {
-                            color: '#444',
-                            fontSize: '1.5rem',
-                            marginBottom: '1rem'
-                        }
-                    }, {
-                        type: 'Upload?upload.type=video;style.width=100%;path=videos',
-                    }]
-                }]
-            },
-
-            // specs and options
-
-            {
-                type: 'Text?text=Specifications & Options',
-                style: {
-                    display: 'flex',
-                    fontSize: '1.7rem',
-                    color: '#444',
-                    marginBottom: '1rem',
-                },
-            }, {
-                type: 'View',
-                style: {
-                    display: 'flex',
-                    padding: '2rem',
-                    backgroundColor: '#eee',
-                    borderRadius: '0.75rem',
-                    marginBottom: '3rem',
-                    flexDirection: 'column'
-                },
-                children: [{
-                    type: 'View?style.display=flex',
-                    children: [{
-                        type: 'View?style.flex=1',
-                        children: [{
-
-                            // spec
-
-                            type: 'Text?text=Specifications;style.fontSize=1.5rem;style.width=fit-content',
-                            tooltip: 'It is how product looks like, what are its features and functions...?placement=right;maxWidth=30rem'
-                        }, {
-                            class: 'flex-box',
-                            type: 'View',
-                            style: {
-                                marginTop: '2rem',
-                                flex: '1',
-                            },
-                            children: [{
-                                type: 'Text?text=Specification',
-                                style: {
-                                    width: '100%',
-                                    fontSize: '1.4rem',
-                                    height: '3rem',
-                                    color: '#444',
-                                    textAlign: 'left'
-                                },
-                            }, {
-                                type: 'Text?style.minWidth=3rem',
-                            }, {
-                                type: 'Text?text=Value',
-                                style: {
-                                    width: '100%',
-                                    fontSize: '1.4rem',
-                                    height: '3rem',
-                                    color: '#444',
-                                    textAlign: 'left'
-                                },
-                            }, {
-                                type: 'Text?style.minWidth=3rem',
-                            }]
-                        }, {
-                            type: 'View',
-                            style: {
-                                flex: '1',
-                                display: 'grid',
-                                gap: '1rem',
-                                marginBottom: '1rem'
-                            },
-                            children: [{
-                                type: 'View?path=specifications;class=flex-box;data=[]',
-                                actions: 'setState?state.spec-dup=value.id',
-                                children: [{
-                                    type: 'Input?featured;lang=en;!removable;!clearable;path=specification',
-                                    actions: 'setState?state.spec-dup-input=value.id',
-                                }, {
-                                    type: 'Text?text=:',
-                                    style: {
-                                        minWidth: '3rem',
-                                        fontSize: '2.4rem',
-                                        color: '#444'
-                                    }
-                                }, {
-                                    type: 'Input?featured;lang=en;!removable;!clearable;path=value',
-                                }, {
-                                    type: 'View?style.minWidth=3rem',
-                                    children: [{
-                                        type: 'Icon?icon.name=x',
-                                        style: {
-                                            fontSize: '2.2rem',
-                                            color: '#444',
-                                            cursor: 'pointer'
-                                        },
-                                        controls: [{
-                                            event: 'click',
-                                            actions: [
-                                                'remove>>value.parent.parent.id??value.length>>value.parent.parent.id>1',
-                                                `focus::100>>state.spec-dup-input`
-                                            ]
-                                        }]
-                                    }]
-                                }]
-                            }]
-                        }, {
-                            type: 'View',
-                            style: {
-                                display: 'flex',
-                                alignItems: 'center'
-                            },
-                            children: [{
-                                type: 'Icon?icon.name=plus-circle-fill',
-                                style: {
-                                    fontSize: '2rem',
-                                    margin: '0 1rem',
-                                    color: '#444',
-                                    cursor: 'pointer'
-                                },
-                                controls: [{
-                                    event: 'click',
-                                    actions: 'duplicate>>state.spec-dup;focus::100>>state.spec-dup-input'
-                                }]
-                            }, {
-                                type: 'Text?text=Add New Specification',
-                                style: {
-                                    fontSize: '1.4rem',
-                                    color: '#444',
-                                }
-                            }]
-                        }]
-                    }, {
-                        type: 'Text?style.height=100%;style.width=1px;style.backgroundColor=#ddd;style.margin=0 1rem'
-                    }, {
-                        type: 'View',
-                        style: {
-                            flex: '1',
-                            marginLeft: '1rem'
-                        },
-                        children: [{
-                            type: 'Text?text=Options',
-                            style: {
-                                fontSize: '1.5rem',
-                                width: 'fit-content'
-                            },
-                            tooltip: 'If the product come in options like size: small, medium, large | color: red, blue, yellow...?placement=right;maxWidth=30rem'
-                        }, {
-                            class: 'flex-box',
-                            type: 'View',
-                            style: {
-                                marginTop: '2rem',
-                                flex: '1',
-                            },
-                            children: [{
-                                type: 'Text?text=Group',
-                                style: {
-                                    width: '100%',
-                                    fontSize: '1.4rem',
-                                    height: '3rem',
-                                    color: '#444',
-                                    textAlign: 'left'
-                                },
-                            }, {
-                                type: 'Text?style.minWidth=3rem',
-                            }, {
-                                type: 'Text?text=Options',
-                                style: {
-                                    width: '100%',
-                                    fontSize: '1.4rem',
-                                    height: '3rem',
-                                    color: '#444',
-                                    textAlign: 'left'
-                                },
-                            }, {
-                                type: 'Text?style.minWidth=3rem',
-                            }]
-                        }, {
-                            type: 'View',
-                            style: {
-                                flex: '1',
-                                display: 'grid',
-                                gap: '1rem',
-                                marginBottom: '1rem'
-                            },
-                            children: [{
-                                type: 'View?path=options;class=flex-box;data=[]',
-                                actions: 'setState?state.options-dup=value.id',
-                                style: { flex: '1' },
-                                children: [{
-                                    type: 'Input?featured;!removable;!clearable;lang=en;path=group',
-                                    actions: 'setState?state.options-input=value.id',
-                                }, {
-                                    type: 'Text?text=:',
-                                    style: {
-                                        minWidth: '3rem',
-                                        fontSize: '2.4rem',
-                                        color: '#444',
-                                        height: '4rem',
-                                        alignSelf: 'flex-start',
-                                    }
-                                }, {
-                                    type: 'View',
-                                    style: {
-                                        width: '100%',
-                                        display: 'grid',
-                                        gap: '1rem'
-                                    },
-                                    children: [{
-                                        type: 'Input?featured;lang=en;path=options;data=[]'
-                                    }]
-                                }, {
-                                    type: 'View',
-                                    style: {
-                                        minWidth: '3rem',
-                                    },
-                                    children: [{
-                                        type: 'Icon?icon.name=x',
-                                        style: {
-                                            fontSize: '2.2rem',
-                                            color: '#444',
-                                            cursor: 'pointer'
-                                        },
-                                        controls: [{
-                                            event: 'click',
-                                            actions: [
-                                                'remove>>value.parent.parent.id??value.length>>value.parent.parent.id>1',
-                                                `focus::100>>state.options-input`
-                                            ]
-                                        }]
-                                    }],
-                                }]
-                            }, {
-                                type: 'View',
-                                style: {
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                },
-                                children: [{
-                                    type: 'Icon',
-                                    style: {
-                                        fontSize: '2rem',
-                                        margin: '0 1rem',
-                                        color: '#444',
-                                        cursor: 'pointer'
-                                    },
-                                    icon: { name: 'plus-circle-fill' },
-                                    controls: [{
-                                        event: 'click',
-                                        actions: 'duplicate>>state.options-dup;focus::100>>state.options-input'
-                                    }]
-                                }, {
-                                    type: 'Text?text=Add New Group',
-                                    style: {
-                                        fontSize: '1.4rem',
-                                        color: '#444',
-                                    }
-                                }]
-                            }]
-                        }, {
-
-                        }]
-                    }],
-                }]
-            }, {
-
-                // Inventory & Pricing
-
-                type: 'Text',
-                style: {
-                    display: 'flex',
-                    fontSize: '1.7rem',
-                    color: '#444',
-                    marginBottom: '1rem',
-                },
-                text: 'Inventory & Pricing'
-            }, {
-                type: 'View',
-                style: {
-                    display: 'flex',
-                    padding: '2rem',
-                    backgroundColor: '#eee',
-                    borderRadius: '0.75rem',
-                    marginBottom: '3rem',
-                    flexDirection: 'column'
-                },
-                children: [{
-
-                    // Inventory
-
-                    type: 'Text',
-                    style: {
-                        fontSize: '1.5rem',
-                        width: 'fit-content'
-                    },
-                    text: 'Inventory',
-                }, {
-                    type: 'View',
-                    style: {
-                        flex: '1',
-                        display: 'flex',
-                        marginTop: '2rem',
-                    },
-                    children: [{
-                        type: 'View',
-                        style: {
-                            height: '3rem',
-                            width: '100%',
-                            marginRight: '1rem'
-                        },
-                        children: [{
-                            type: 'Text',
-                            style: {
-                                fontSize: '1.4rem',
-                                color: '#444',
-                                textAlign: 'left',
-                                width: 'fit-content'
-                            },
-                            text: 'Options',
-                            tooltip: 'Set price according to product options. Press enter to add new option. Press X to delete it'
-                        }]
-                    }, {
-                        type: 'View',
-                        style: {
-                            height: '3rem',
-                            width: '100%',
-                            marginRight: '1rem'
-                        },
-                        children: [{
-                            type: 'Text',
-                            style: {
-                                fontSize: '1.4rem',
-                                color: '#444',
-                                textAlign: 'left',
-                                width: 'fit-content'
-                            },
-                            text: 'Status',
-                            tooltip: 'Set item available for purchase or block ordering it'
-                        }]
-                    }, {
-                        type: 'View',
-                        style: {
-                            height: '3rem',
-                            width: '100%',
-                            marginRight: '1rem'
-                        },
-                        children: [{
-                            type: 'Text',
-                            style: {
-                                fontSize: '1.4rem',
-                                color: '#444',
-                                textAlign: 'left',
-                                width: 'fit-content',
-                            },
-                            text: 'SKU',
-                            tooltip: 'A “Stock Keeping Unit” is a unique code you can create for each product or variant you have in your store. Using SKUs helps with tracking inventory.?maxWidth=25rem'
-                        }]
-                    }, {
-                        type: 'View',
-                        style: {
-                            height: '3rem',
-                            width: '100%',
-                            marginRight: '1rem'
-                        },
-                        children: [{
-                            type: 'Text',
-                            style: {
-                                fontSize: '1.4rem',
-                                color: '#444',
-                                textAlign: 'left',
-                                width: 'fit-content',
-                                whiteSpace: 'nowrap'
-                            },
-                            text: 'Count in stock',
-                            tooltip: 'Quantity available in stock'
-                        }]
-                    }, {
-                        type: 'View',
-                        style: {
-                            height: '3rem',
-                            width: '100%',
-                            marginRight: '1rem'
-                        },
-                        children: [{
-                            type: 'Text',
-                            style: {
-                                fontSize: '1.4rem',
-                                color: '#444',
-                                textAlign: 'left',
-                                width: 'fit-content'
-                            },
-                            text: 'Minimum',
-                            tooltip: 'Minimum amount of items allowed per order'
-                        }]
-                    }, {
-                        type: 'View',
-                        style: {
-                            height: '3rem',
-                            width: '100%',
-                        },
-                        children: [{
-                            type: 'Text',
-                            style: {
-                                fontSize: '1.4rem',
-                                color: '#444',
-                                textAlign: 'left',
-                                width: 'fit-content'
-                            },
-                            text: 'Maximum',
-                            tooltip: 'Maximum amount of items allowed per order'
-                        }]
-                    }, {
-                        type: 'Text',
-                        style: { minWidth: '3rem' }
-                    }]
-                }, {
-                    type: 'View',
-                    style: {
-                        display: 'grid',
-                        gap: '1rem',
-                        flex: '1'
-                    },
-                    children: [{
-                        type: 'View?path=inventory;data=[]',
-                        actions: 'setState?state.inventory-dup=value.id',
-                        style: {
-                            flex: '1',
-                            display: 'flex',
-                        },
-                        children: [{
-                            type: 'View',
-                            style: {
-                                width: '100%',
-                                display: 'grid',
-                                gap: '1rem',
-                                marginRight: '1rem'
-                            },
-                            children: [{
-                                type: `Input?readOnly;featured;dropList.items=[Options:readOnly,All,const.DATA.options.options.name];path=options;data=[]`,
-                                actions: 'setState?state.inventory-input=value.id',
-                            }]
-                        }, {
-                            class: 'status-input',
-                            type: 'View',
-                            style: {
-                                width: '100%',
-                                marginRight: '1rem'
-                            },
-                            children: [{
-                                type: 'Input?input.type=text;path=status;readOnly;input.value=In stock;dropList.items=[Status:readOnly,In stock,Out of stock,Pre Order]',
-                                controls: [{
-                                    actions: 'createControls?type=dropList'
-                                }]
-                            }]
-                        }, {
-                            type: 'View',
-                            style: {
-                                width: '100%',
-                                marginRight: '1rem'
-                            },
-                            children: [{
-                                type: 'Input?input.type=number;path=SKU',
-                            }]
-                        }, {
-                            type: 'View',
-                            style: {
-                                width: '100%',
-                                marginRight: '1rem'
-                            },
-                            children: [{
-                                type: 'Input?featured;input.type=number;path=count-in-stock;input.value=1;unit=unit;!clearable;!removable',
-                            }]
-                        }, {
-                            type: 'View',
-                            style: {
-                                width: '100%',
-                                marginRight: '1rem'
-                            },
-                            children: [{
-                                type: 'Input?input.type=number;path=min-per-order;input.value=1',
-                            }]
-                        }, {
-                            type: 'View',
-                            style: {
-                                width: '100%',
-                            },
-                            children: [{
-                                type: 'Input?input.type=number;path=max-per-order;input.value=10',
-                            }]
-                        }, {
-                            class: 'flex-box',
-                            type: 'View',
-                            style: {
-                                height: '4rem',
-                                minWidth: '3rem',
-                            },
-                            children: [{
-                                type: 'Icon?icon.name=x',
-                                style: {
-                                    fontSize: '2.2rem',
-                                    color: '#444',
-                                    cursor: 'pointer'
-                                },
-                                controls: [{
-                                    event: 'click',
-                                    actions: [
-                                        'remove>>value.parent.parent.id??value.length>>value.parent.parent.id>1',
-                                        `focus::100>>state.inventory-input`
-                                    ]
-                                }]
-                            }],
-                        }]
-                    }],
-                }, {
-                    type: 'View',
-                    style: {
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginTop: '1rem'
-                    },
-                    children: [{
-                        type: 'Icon?icon.name=plus-circle-fill',
-                        style: {
-                            fontSize: '2rem',
-                            margin: '0 1rem',
-                            color: '#444',
-                            cursor: 'pointer'
-                        },
-                        controls: [{
-                            event: 'click',
-                            actions: 'duplicate>>state.inventory-dup;focus::100>>state.inventory-input'
-                        }]
-                    }, {
-                        type: 'Text',
-                        text: 'Add More To Inventory',
-                        style: {
-                            fontSize: '1.4rem',
-                            color: '#444',
-                        }
-                    }]
-                }, {
-
-                    // divider
-
-                    type: 'Text',
-                    style: {
-                        height: '1px',
-                        width: '100%',
-                        backgroundColor: '#ddd',
-                        margin: '2.5rem 0'
-                    }
-                }, {
-
-                    // Pricing
-
-                    type: 'Text',
-                    style: {
-                        fontSize: '1.5rem',
-                        width: 'fit-content'
-                    },
-                    text: 'Pricing',
-                }, {
-                    type: 'View',
-                    style: {
-                        flex: '1',
-                        display: 'flex',
-                        marginTop: '2rem',
-                    },
-                    children: [{
-                        type: 'View',
-                        style: {
-                            height: '3rem',
-                            width: '100%',
-                            marginRight: '1rem'
-                        },
-                        children: [{
-                            type: 'Text',
-                            style: {
-                                fontSize: '1.4rem',
-                                color: '#444',
-                                textAlign: 'left',
-                                width: 'fit-content'
-                            },
-                            text: 'Options',
-                            tooltip: 'Set price according to product options. Press enter to add new option. Press X to delete it'
-                        }]
-                    }, {
-                        type: 'View',
-                        style: {
-                            height: '3rem',
-                            width: '100%',
-                            marginRight: '1rem'
-                        },
-                        children: [{
-                            type: 'Text?text=Cost',
-                            style: {
-                                fontSize: '1.4rem',
-                                color: '#444',
-                                textAlign: 'left',
-                                width: 'fit-content'
-                            },
-                        }]
-                    }, {
-                        type: 'View',
-                        style: {
-                            height: '3rem',
-                            width: '100%',
-                            marginRight: '6rem',
-                        },
-                        children: [{
-                            type: 'Text?text=Selling',
-                            style: {
-                                fontSize: '1.4rem',
-                                color: '#444',
-                                textAlign: 'left',
-                                width: 'fit-content'
-                            },
-                        }]
-                    }, {
-                        type: 'View',
-                        style: {
-                            height: '3rem',
-                            width: '200%',
-                        },
-                        children: [{
-                            type: 'Text?text=Exchange Rate',
-                            style: {
-                                fontSize: '1.4rem',
-                                color: '#444',
-                                textAlign: 'left',
-                                width: 'fit-content'
-                            },
-                        }]
-                    }, {
-                        type: 'Text',
-                        style: { minWidth: '6rem' }
-                    }]
-                }, {
-                    type: 'View',
-                    style: {
-                        display: 'grid',
-                        gap: '1rem',
-                        flex: '1',
-                    },
-                    children: [{
-                        type: 'View?path=pricing',
-                        actions: 'setState?state.pricing-dup=value.id',
-                        style: {
-                            flex: '1',
-                            display: 'flex',
-                        },
-                        children: [{
-                            type: 'View',
-                            style: {
-                                width: '100%',
-                                display: 'grid',
-                                gap: '1rem',
-                                marginRight: '1rem'
-                            },
-                            children: [{
-                                type: `Input?readOnly;model=featured;dropList.items=[Options:readOnly,All,const.DATA.options.options.name];path=options;data=[]`,
-                                actions: 'setState?state.pricing-input=value.id',
-                            }]
-                        }, {
-                            type: 'View',
-                            style: {
-                                width: '100%',
-                                marginRight: '1rem'
-                            },
-                            children: [{
-                                type: 'Input?model=featured;input.type=number;path=cost;currency=$;!clearable;!removable',
-                            }]
-                        }, {
-                            type: 'View',
-                            style: {
-                                width: '100%',
-                                marginRight: '6rem'
-                            },
-                            children: [{
-                                type: 'Input?input.type=number;path=selling;model=featured;currency=$;!clearable;!removable',
-                            }]
-                        }, {
-                            type: 'View',
-                            style: {
-                                width: '100%',
-                            },
-                            children: [{
-                                type: 'Input?input.type=number;path=exchange-rate.global;model=featured;currency=$;input.value=1;!clearable;!removable',
-                            }]
-                        }, {
-                            class: 'flex-box',
-                            type: 'Text?text==',
-                            style: {
-                                minWidth: '3rem',
-                                height: '4rem',
-                                fontSize: '1.8rem',
-                                color: '#444',
-                                alignSelf: 'flex-start'
-                            }
-                        }, {
-                            type: 'View',
-                            style: {
-                                width: '100%',
-                            },
-                            children: [{
-                                type: 'Input?featured;input.type=number;path=exchange-rate.local;currency=L.L;input.value=13000;!clearable;!removable',
-                            }]
-                        }, {
-                            class: 'flex-box',
-                            type: 'View',
-                            style: {
-                                height: '4rem',
-                                minWidth: '3rem',
-                            },
-                            children: [{
-                                type: 'Icon?icon.name=x',
-                                style: {
-                                    fontSize: '2.2rem',
-                                    color: '#444',
-                                    cursor: 'pointer'
-                                },
-                                controls: [{
-                                    event: 'click',
-                                    actions: [
-                                        'remove>>value.parent.parent.id??value.length>>value.parent.parent.id>1',
-                                        `focus::100>>state.pricing-input`
-                                    ]
-                                }]
-                            }],
-                        }]
-                    }]
-                }, {
-                    type: 'View',
-                    style: {
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginTop: '1rem'
-                    },
-                    children: [{
-                        type: 'Icon',
-                        style: {
-                            fontSize: '2rem',
-                            margin: '0 1rem',
-                            color: '#444',
-                            cursor: 'pointer'
-                        },
-                        icon: { name: 'plus-circle-fill' },
-                        controls: [{
-                            event: 'click',
-                            actions: 'duplicate>>state.pricing-dup;focus::100>>state.pricing-input'
-                        }]
-                    }, {
-                        type: 'Text',
-                        text: 'Add More Option Prices',
-                        style: {
-                            fontSize: '1.4rem',
-                            color: '#444',
-                        }
-                    }]
-                }]
-            }]
-        }, {
-
-            // Collections & Categories
-
-            type: 'View',
-            style: {
-                width: '25%',
-                padding: '1rem'
-            },
-            children: [{
-                type: 'Text',
-                style: {
-                    display: 'flex',
-                    fontSize: '1.6rem',
-                    color: '#444',
-                    marginBottom: '1rem',
-                },
-                text: 'Collections & Categories'
-            }, {
-                type: 'View',
-                style: {
-                    backgroundColor: '#eee',
-                    borderRadius: '0.75rem',
-                    padding: '2rem',
-                    marginBottom: '2rem',
-                    display: 'flex',
-                    flexDirection: 'column'
-                },
-                children: [{
-                    class: 'flex-box',
-                    type: 'View',
-                    style: {
-                        justifyContent: 'space-between',
-                        height: '3.5rem'
-                    },
-                    children: [{
-                        type: 'Text?text=Categories',
-                        style: {
-                            fontSize: '1.5rem',
-                            color: '#444',
-                        },
-                    }, {
-                        type: 'Icon?icon.name=plus-circle-fill;dropList.id=category-view',
-                        style: {
-                            fontSize: '2rem',
-                            color: '#444',
-                            cursor: 'pointer'
-                        }
-                    }]
-                }, {
-                    type: 'View?id=category-view;dropList.items=[Categories:readOnly,state.category-list.name];dropList.path=category',
-                    style: {
-                        display: 'inline-flex',
-                        flexWrap: 'wrap',
-                        width: '100%',
-                        gap: '1rem',
-                    },
-                    children: [{
-                        type: 'Input?featured;readOnly;path=category;!clearable;!duplicatable;data=[]',
-                        style: {
-                            width: 'fit-content',
-                            height: '3rem',
-                        },
-                        actions: 'setStyle?style.display=none?!data||data=[]',
-                    }]
-                }]
-            }, {
-                type: 'View',
-                style: {
-                    backgroundColor: '#eee',
-                    borderRadius: '0.75rem',
-                    padding: '2rem',
-                    marginBottom: '2rem',
-                    display: 'flex',
-                    flexDirection: 'column'
-                },
-                children: [{
-                    class: 'flex-box',
-                    type: 'View',
-                    style: {
-                        height: '3.5rem',
-                        width: '100%',
-                        justifyContent: 'space-between',
-                    },
-                    children: [{
-                        type: 'Text?text=Collections',
-                        style: {
-                            fontSize: '1.5rem',
-                            color: '#444',
-                        }
-                    }, {
-                        type: 'Icon?icon.name=plus-circle-fill;dropList.id=collections-view',
-                        style: {
-                            fontSize: '2rem',
-                            color: '#444',
-                            cursor: 'pointer'
-                        }
-                    }]
-                }, {
-                    type: 'View?id=collections-view;dropList.items=[Collections:readOnly,state.collections-list.name];dropList.path=collections',
-                    style: {
-                        display: 'inline-flex',
-                        gap: '1rem',
-                        flexWrap: 'wrap',
-                        width: '100%',
-                    },
-                    children: [{
-                        type: 'Input?model=featured;readOnly;path=collections;!clearable;!duplicates;data=[]',
-                        style: {
-                            width: 'fit-content',
-                            height: '3rem'
-                        },
-                        actions: 'setValue?value.style.display=none?!data||data=[]'
-                    }]
-                }]
-            }, {
-                type: 'View',
-                style: {
-                    backgroundColor: '#eee',
-                    borderRadius: '0.75rem',
-                    padding: '2rem',
-                    marginBottom: '2rem',
-                },
-                children: [{
-                    type: 'View',
-                    style: {
-                        display: 'flex',
-                        width: '100%',
-                        justifyContent: 'space-between',
-                    },
-                    children: [{
-                        type: 'Text?text=Brand',
-                        style: {
-                            height: '3rem',
-                            fontSize: '1.5rem',
-                            color: '#444',
-                        },
-                    }]
-                }, {
-                    type: 'Input?model=featured;path=brand;dropList.items=[Brands:readOnly,state.brand-list.name];!duplicate;readOnly'
-                }]
-            }, {
-                type: 'View',
-                style: {
-                    backgroundColor: '#eee',
-                    borderRadius: '0.75rem',
-                    padding: '2rem',
-                    marginBottom: '2rem',
-                },
-                children: [{
-                    type: 'Text?text=Tags',
-                    style: {
-                        height: '3rem',
-                        fontSize: '1.5rem',
-                        color: '#444',
-                        marginRight: '1rem'
-                    },
-                }, {
-                    type: 'Input?featured;path=tags;data=[]',
-                    style: {
-                        width: 'fit-content',
-                        minWidth: '6rem',
-                        height: '3rem',
-                        marginRight: '.5rem',
-                        marginBottom: '.5rem'
-                    },
-                }]
-            }, {
-
-                // Offers & Promotions
-
-                type: 'Text?text=Offers & Promotions',
-                style: {
-                    display: 'flex',
-                    fontSize: '1.6rem',
-                    color: '#444',
-                    marginBottom: '1rem',
-                },
-            }, {
-                type: 'View',
-                style: {
-                    backgroundColor: '#eee',
-                    borderRadius: '0.75rem',
-                    padding: '1rem',
-                    marginBottom: '2rem',
-                },
-                children: [{
-                    type: 'Item?icon.name=gift;text=Offers;style.fontSize=1.5rem;icon.style.fontSize=1.6rem;style.after.color=#0d6efd',
-                    controls: [{
-                        actions: 'createControls?type=windowView;view=offer'
-                    }]
-                }]
-            }]
-        }]
-    }]
-}
-
-module.exports = {newProduct}
-},{}],74:[function(require,module,exports){
-const offer = {
-    type: 'View?style.padding=2rem;style.width=100%',
-    children: [{
-        type: 'View?class=flex-start',
-        children: [{
-            type: 'Text?text=New Offer;style.fontSize=2rem;style.color=#444',
-        }, {
-            type: 'Text?class=divider'
-        }, {
-            type: 'View?style.display=flex;style.width=100%',
-            toChildren: 'model=featured;path=offers.0.type;state=offer-item;icon.style.fontSize=1.6rem;style.height=10rem;style.color=#fff;icon.style.margin=0;icon.style.marginBottom=.4rem;style.flexDirection=column;style.justifyContent=center;chevron.style.display=none;style.flex=1;style.fontSize=1.2rem;style.after.backgroundColor=#fff;style.marginRight=.6rem;style.after.marginRight=.5rem',
-            children: [{
-                type: 'Item?text=Discount;icon.name=cash-coin;style.after.color=HotPink;style.backgroundColor=HotPink;style.after.border=1px solid HotPink'
-            }, {
-                type: 'Item?text=Sale Price;icon.name=tag;style.after.color=#ff4d4d;style.backgroundColor=#ff4d4d;style.after.border=1px solid #ff4d4d'
-            }, {
-                type: 'Item?text=Free Shipping;icon.name=truck;style.after.color=#FF9933;style.backgroundColor=#FF9933;style.after.border=1px solid #FF9933'
-            }, {
-                type: 'Item?text=Buy X Get Y Free;icon.name=tags;style.after.color=MediumSeaGreen;style.backgroundColor=MediumSeaGreen;style.after.border=1px solid MediumSeaGreen'
-            }, {
-                type: 'Item?text=Cash Back;icon.name=currency-dollar;style.after.color=#3399FF;style.backgroundColor=#3399FF;style.after.border=1px solid #3399FF'
-            }, {
-                type: 'Item?text=Earn Points;icon.name=piggy-bank;style.after.color=#CC66FF;style.backgroundColor=#CC66FF;style.after.border=1px solid #CC66FF'
-            }]
-        }, {
-            type: 'Text?class=divider'
-        }, {
-            type: 'View?style.width=100%;style.display=flex;style.flexDirection=column',
-            children: [{
-                type: 'View?class=flex-start;style.border=1px solid #f0f0f0;style.borderRadius=.5rem;style.padding=2rem;style.position=relative;style.marginBottom=2rem;path=offers',
-                children: [{
-                    type: 'View?style.display=flex;style.alignItems=center;style.position=absolute;style.top=1rem;style.right=2rem',
-                    children: [{
-                        type: 'Text?text=remove;style.fontSize=1.2rem'
-                    }, {
-                        type: 'Icon?icon.name=x;style.fontSize=2.2rem;style.cursor=pointer',
-                        controls: {
-                            event: 'click',
-                            actions: 'remove>>value.parent.parent.id??value.length>>value.parent.parent.id>1'
-                        }
-                    }]
-                }, {
-                    type: 'View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%',
-                    children: [{
-                        // type
-                        type: 'View?class=flex-start',
-                        children: [{
-                            type: 'Label?text=Type;style.fontSize=1.4rem;style.marginBottom=.5rem'
-                        }, {
-                            type: 'Input?featured;tt;!clearable;!removable;style.backgroundColor=#f0f0f0;path=type;data=Discount;dropList.items=[Offers:readOnly,Discount,Sale Price,Free Shipping,Buy X Get Y Free,Cash Back,Earn Points]',
-                            controls: {
-                                watch: 'value.data??value.parent.parent.parent.index=0',
-                                actions: 'createActions?type=item;state=offer-item;id=value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData??value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData'
-                            }
-                        }]
-                    }, {
-                        // name
-                        type: 'View?class=flex-start',
-                        children: [{
-                            type: 'Label?text=Name;style.fontSize=1.4rem;style.marginBottom=.5rem'
-                        }, {
-                            type: 'Input?featured;!clearable;!removable;style.backgroundColor=#f0f0f0;path=name'
-                        }]
-                    }]
-                }, {
-                    type: 'View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%;style.marginTop=2rem',
-                    children: [{
-                        // offer
-                        type: 'View?class=flex-start',
-                        children: [{
-                            type: 'Label?text=Offer;style.fontSize=1.4rem;style.marginBottom=.5rem'
-                        }, {
-                            type: 'Input?featured;!clearable;!removable;input.type=number;style.backgroundColor=#f0f0f0;path=offer;currency=L.L',
-                        }]
-                    }, {
-                        // minimmum requirements
-                        type: 'View?class=flex-start',
-                        children: [{
-                            type: 'Label?text=Minimum Requirements;style.fontSize=1.4rem;style.marginBottom=.5rem'
-                        }, {
-                            type: 'Input?featured;!clearable;!removable;input.type=number;style.backgroundColor=#f0f0f0;path=minimum-requirements;currency=L.L'
-                        }]
-                    }]
-                }, {
-                    type: 'Text?class=divider',
-                },
-
-                // Validity
-
-                {
-                    type: 'View?style.display=flex;style.justifyContent=space-between;style.alignItems=center;style.width=100%',
-                    children: [{
-                        type: 'Text?text=Validity;style.fontSize=1.4rem',
-                    }, {
-                        type: 'Switch',
-                        controls: [{
-                            actions: 'setValue?value.element.checked=true?value.data.validity.starting-date'
-                        }, {
-                            event: 'change',
-                            actions: [
-                                'setData;setContent>>value.parent.next.next.1stChild.2ndChild.id?data=date.today;path=validity.starting-date?value.element.checked',
-                                'setData;setContent>>value.parent.next.next.2ndChild.2ndChild.id?data=date.today.+4;path=validity.ending-date?value.element.checked',
-                                'setStyle?style.display=grid?value.element.checked?value.parent.next.next.id',
-                                'setStyle>>value.parent.next.next.id;removeData?style.display=none;path=validity?!value.element.checked',
-                            ]
-                        }]
-                    }]
-                }, {
-                    type: 'Text?class=divider',
-                }, {
-                    type: 'View?style.display=none;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%;path=validity',
-                    actions: 'setStyle?style.display=grid?value.data.starting-date',
-                    children: [{
-                        // starting date
-                        type: 'View?class=flex-start',
-                        children: [{
-                            type: 'Label?text=Starting Date;style.fontSize=1.4rem;style.marginBottom=.5rem'
-                        }, {
-                            type: 'Input?featured;input.type=datetime-local;style.backgroundColor=#f0f0f0;path=starting-date'
-                        }]
-                    }, {
-                        // ending date
-                        type: 'View?class=flex-start',
-                        children: [{
-                            type: 'Label?text=Ending Date;style.fontSize=1.4rem;style.marginBottom=.5rem'
-                        }, {
-                            type: 'Input?featured;input.type=datetime-local;style.backgroundColor=#f0f0f0;path=ending-date'
-                        }]
-                    }]
-                },
-
-                // Add a Code
-
-                {
-                    type: 'View?style.display=flex;style.justifyContent=space-between;style.alignItems=center;style.width=100%;style.marginTop=2rem',
-                    children: [{
-                        type: 'Text?text=Add a Code;style.fontSize=1.4rem',
-                    }, {
-                        type: 'Switch',
-                        controls: [{
-                            actions: 'setValue?value.element.checked=true?value.data.code.code'
-                        }, {
-                            event: 'change',
-                            actions: [
-                                'setData;setContent>>value.parent.next.next.1stChild.2ndChild.id?data=generate;path=code.code?value.element.checked',
-                                'setData;setContent>>value.parent.next.next.2ndChild.2ndChild.id?data=20;path=code.total-uses?value.element.checked',
-                                'setData;setContent>>value.parent.next.next.3rdChild.2ndChild.id?data=1;path=code.allowed-uses-per-user?value.element.checked',
-                                'setStyle?style.display=grid?value.element.checked?value.parent.next.next.id',
-                                'setStyle>>value.parent.next.next.id;removeData?style.display=none;path=code?!value.element.checked',
-                            ]
-                        }]
-                    }]
-                }, {
-                    type: 'Text?class=divider',
-                }, {
-                    type: 'View?style.display=none;style.gridTemplateColumns=1fr 1fr 1fr;style.gap=1rem;style.width=100%;path=code',
-                    actions: 'setStyle?style.display=grid?value.data.code',
-                    children: [{
-                        // code 
-                        type: 'View?class=flex-start',
-                        children: [{
-                            type: 'Label?text=Code;style.fontSize=1.4rem;style.marginBottom=.5rem'
-                        }, {
-                            type: 'Input?featured;input.type=code;style.backgroundColor=#f0f0f0;path=code'
-                        }]
-                    }, {
-                        // total available
-                        type: 'View?class=flex-start',
-                        children: [{
-                            type: 'Label?text=Total Uses;style.fontSize=1.4rem;style.marginBottom=.5rem'
-                        }, {
-                            type: 'Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=total-uses'
-                        }]
-                    }, {
-                        // allowed uses per user
-                        type: 'View?class=flex-start',
-                        children: [{
-                            type: 'Label?text=Allowed Uses Per User;style.fontSize=1.4rem;style.marginBottom=.5rem'
-                        }, {
-                            type: 'Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=allowed-uses-per-user'
-                        }]
-                    }]
-                }]
-            }]
-        }, {
-
-            // add more offers
-
-            type: 'View?style.display=flex;style.alignItems=center',
-            children: [{
-                type: 'Icon?icon.name=plus-circle-fill;style.fontSize=2rem;style.margin=0 1rem;style.color=#444;style.cursor=pointer',
-                controls: [{
-                    event: 'click',
-                    actions: 'duplicate;focus::100???value.parent.prev.1stChild.id'
-                }]
-            }, {
-                type: 'Text?text=Add More Offers;style.fontSize=1.4rem;style.color=#444'
-            }]
-        }]
-    }]
-}
-
-module.exports = {offer}
-},{}],75:[function(require,module,exports){
-const productList = {
-    type: 'List?id=side-bar-products-list',
-    children: [{
-        type: 'Item?text=Inventory;icon.name=grid',
-        controls: [{
-            event: 'click',
-            actions: 'createActions?type=item;state=side-bar-item;id=side-bar-products-id',
-        }, {
-            actions: 'createControls?type=toggleView;id=admin-view;view=inventory'
-        }]
-    }, {
-        type: 'Item?text=Brands;icon.name=bootstrap',
-    }, {
-        type: 'Item?text=Packages;icon.name=box-seam',
-    }]
-}
-
-module.exports = {productList}
-},{}],76:[function(require,module,exports){
-const adminSidebar = {
-    type: 'View?toChildren.state=side-bar-item;toChildren.featured',
-    style: {
-        padding: '0.5rem 0.2rem',
-        boxShadow: '0px 0px 5px 0px #888',
-        clipPath: 'inset(0 -5px 0 0)',
-        width: '17%',
-        position: 'fixed',
-        height: '90%',
-        display: 'display',
-        flexDirection: 'column',
-    },
-    children: [{
-        type: 'Item?text=Dashboard;icon.name=house-door;chevron.style.display=none;mountOnLoad'
-    }, {
-        type: 'Item?text=Orders;icon.name=cart3',
-    }, {
-        type: 'Item?text=Products;icon.name=tag;id=side-bar-products-id',
-        controls: [{
-            actions: 'createControls?type=list;id=side-bar-products-list',
-        }]
-    }, {
-        type: 'Item?text=Collections;icon.name=collection',
-    }, {
-        type: 'Item?text=Customers;icon.name=people',
-    }, {
-        type: 'Item?text=Shipping & Delivery;icon.name=truck',
-    }, {
-        type: 'Item?text=Finance & Payment;icon.name=credit-card',
-    }, {
-        type: 'Item?text=Marketing & SEO;icon.name=megaphone',
-    }, {
-        type: 'Item?text=Analytics & Reports;icon.name=clipboard-data'
-    }, {
-        type: 'Item?text=Inbox;icon.name=chat-left-text',
-    }, {
-        type: 'Item?text=Website;icon.name=layout-wtf',
-    }, {
-        type: 'Item?text=Settings;icon.name=gear',
-    }]
-}
-
-module.exports = {adminSidebar}
-},{}],77:[function(require,module,exports){
-const navbar = {
-    type: 'View?class=nav-bar',
-    style: {
-        zIndex: '2',
-        width: '100%',
-        position: 'sticky',
-        top: '0',
-        backgroundColor: '#fff',
-        boxShadow: '0 0 6px rgba(33, 33, 33, 0.431)',
-    },
-    children: [{
-        type: 'View?class=main-nav-bar flex-box',
-        style: {
-            backgroundColor: '#fff',
-            padding: '1rem',
-        },
-        children: [{
-            type: 'Text?link=/;text=digiMatjar;class=nav-bar-logo',
-            style: {
-                fontSize: '2.9rem',
-                fontWeight: '900',
-                color: '#ee384e',
-                margin: '0 1rem',
-                cursor: 'pointer'
-            }
-        }, {
-            view: 'searchBox'
-        }, {
-            type: 'Button?link=/signin;text=Sign In | Up;icon.name=person-circle;icon.style.fontSize=2.4rem;tooltip=Free Sign Up',
-        }, {
-            type: 'Text?class=vertical-stroke-nav-bar',
-            style: {
-                backgroundColor: '#e0e0e0',
-                height: '2.5rem',
-                width: '1px',
-                margin: '0 0.8rem'
-            }
-        }, {
-            type: 'Icon?link=/cart;icon.name=cart3;tooltip=Cart Quick View',
-            style: {
-                color: '#666',
-                fontSize: '2.4rem',
-                margin: '0 1rem',
-                cursor: 'pointer'
-            }
-        }]
-    }]
-}
-
-module.exports={navbar}
-},{}],78:[function(require,module,exports){
-const dropList = {
-    class: 'box-shadow',
-    type: 'View?id=drop-list',
-    style: {
-        transform: 'scale(0.8)',
-        opacity: '0',
-        position: 'fixed',
-        padding: '0.5rem',
-        minWidth: '15rem',
-        maxWidth: '20rem',
-        maxHeight: '25rem',
-        minHeight: '3rem',
-        overflowY: 'auto',
-        borderRadius: '0.5rem',
-        backgroundColor: '#fff',
-        transition: 'opacity 0.1s, transform 0.1s, max-height 0.2s, top 0.1s',
-        pointerEvents: 'none',
-        zIndex: '-1',
-        after: {
-            zIndex: '9999',
-            transform: 'scale(1)',
-            opacity: '1',
-            pointerEvents: 'auto'
-        }
-    },
-    controls: [{
-        event: 'mouseover>>body',
-        actions: `resetStyles::200??!mouseenter;!state.drop-list-mouseenter`
-    }]
-}
-
-module.exports = {dropList}
-},{}],79:[function(require,module,exports){
-const searchBox = {
-    type: 'View',
-    style: {
-        flex: '1',
-        margin: '0 1rem',
-        height: '4.5rem',
-    },
-    children: [{
-        type: 'View?class=overlay;id=search-mini-page-overlay',
-        style: {
-            zIndex: '-1',
-            transition: '0.2s',
-            display: 'none',
-            after: {
-                opacity: '1::50',
-                display: 'flex'
-            }
-        },
-        controls: [{
-            event: 'click',
-            actions: [
-                'resetStyles???search-mini-page;search-mini-page-results',
-                'setStyle?style.opacity=0;style.display=none::250'
-            ],
-        }]
-    }, {
-        type: 'View?id=search-mini-page',
-        style: {
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: '#f0f0f0',
-            borderRadius: '.75rem',
-            flex: '1',
-            top: '1rem',
-            position: 'initial::210',
-            width: '60rem',
-            after: {
-                backgroundColor: '#fff',
-                boxShadow: '0 0 6px rgba(33, 33, 33, 0.431)',
-                position: 'absolute',
-                width: '60rem',
-            }
-        },
-        children: [{
-            type: 'View?class=flex-box',
-            style: {
-                flex: '1',
-                borderRadius: '.75rem',
-                height: '4.5rem',
-                justifyContent: 'flex-start',
-            },
-            children: [{
-                type: 'Icon?icon.name=search',
-                style: {
-                    margin: '0 1rem',
-                    color: '#888',
-                    fontSize: '1.8rem',
-                }
-            }, {
-                type: 'Input?placeholder=Search for product, category, brand...',
-                style: {
-                    flex: '1',
-                    height: '4.5rem',
-                    backgroundColor: 'inherit',
-                    border: '0',
-                    color: '#444',
-                    fontSize: '1.4rem',
-                    outline: 'none',
-                },
-                controls: [{
-                    event: 'focusin',
-                    actions: 'mountAfterStyles???search-mini-page-overlay;search-mini-page;search-mini-page-results'
-                }, {
-                    event: 'input',
-                    actions: 'search?query.collection=all;query.name=input||query.nameEn=input;state=search-input?value.input'
-                }]
-            }]
-        }, {
-            type: 'View?id=search-mini-page-results',
-            style: {
-                width: '100%',
-                padding: '0 1rem',
-                transition: '.2s',
-                height: '0',
-                after: {
-                    height: '15rem',
-                }
-            },
-            children: [{
-                type: 'Text?class=divider;style.margin=0'
-            }]
-        }]
-    }]
-}
-
-module.exports = {searchBox}
-},{}],80:[function(require,module,exports){
-const windowView = {
-    type: 'View?id=mini-window;class=flex-box',
-    style: {
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        display: 'none',
-        height: '100%',
-        width: '100%',
-        backgroundColor: '#00000050',
-        opacity: '0',
-        transition: 'opacity 0.2s',
-        zIndex: '999'
-    },
-    children: [{
-        type: 'View?style.height=70%;style.width=60%;style.overflowY=auto;style.borderRadius=.5rem;style.backgroundColor=#fff',
-        children: { type: 'View?id=window-view' },
-        controls: [{
-            event: 'mouseenter',
-            actions: 'setState?state.hide-window-view'
-        }, {
-            event: 'mouseleave',
-            actions: 'setState?state.hide-window-view=false'
-        }]
-    }],
-    controls: [{
-        event: 'click',
-        actions: 'setStyle?style.display=none::200;style.opacity=0?!state.hide-window-view'
-    }]
-}
-
-module.exports = {windowView}
-},{}]},{},[5]);
+},{}]},{},[4]);

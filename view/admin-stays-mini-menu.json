@@ -1,0 +1,20 @@
+{
+    "file-name": "admin-stays-mini-menu",
+    "id": "side-bar-stays-list",
+    "type": "List?toChildren.icon.google;toChildren.icon.outlined;toChildren.icon.style.fontSize=2.2rem;toChildren.icon.style.color=#555",
+    "children": [{
+        "type": "Item?text=Hotel;icon.name=room_service",
+        "controls": [{
+            "event": "click",
+            "actions": "createActions?type=item;state=side-bar-item;id=side-bar-stays-id"
+        }, {
+            "actions": "createControls?type=toggle-view;id=admin-view;view=admin-stays-list"
+        }]
+    }, {
+        "type": "Item?text=Villa;icon.name=villa"
+    }, {
+        "type": "Item?text=Challet;icon.name=chalet"
+    }, {
+        "type": "Item?text=Apartment;icon.name=apartment"
+    }]
+}

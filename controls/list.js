@@ -1,18 +1,17 @@
-const list = ({id, placement, distance}) => (
-    [{
-        event: `mouseenter`,
+module.exports = ({ VALUE, STATE, params, id }) => {
+    
+    return [{
+        event: `click`,
         actions: [
-            `setState?state.${id}-mouseenter`,
-            `mountAfterStyles>>${id}`,
-            `setPosition?placement=${placement || 'right'};distance=${distance || '15'};id=${id}`,
+            `setState?state.${params.id}-mouseenter`,
+            `mountAfterStyles>>${params.id}`,
+            `setPosition?placement=${params.placement || 'right'};distance=${params.distance || '15'};id=${params.id}`,
         ]
     }, {
         event: 'mouseleave',
         actions: [
-            `resetStyles::200>>${id}??!mouseenter;!mouseenter>>${id};!state.${id}-mouseenter`,
-            `setState?state.${id}-mouseenter=false`
+            `resetStyles::200>>${params.id}??!mouseenter;!mouseenter>>${params.id};!state.${params.id}-mouseenter`,
+            `setState?state.${params.id}-mouseenter=false`
         ]
     }]
-)
-
-module.exports = {list}
+}

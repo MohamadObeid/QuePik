@@ -69,9 +69,9 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 const setEvents = ({ VALUE, id }) => {
     var local = VALUE[id]
 
-    local.touchStart = false
+    local.touchstart = false
     local.mouseenter = false
-    local.mouseDown = false
+    local.mousedown = false
 
     events.map(event => {
 
@@ -82,10 +82,10 @@ const setEvents = ({ VALUE, id }) => {
 
             if (event === 'mouseenter') local.mouseenter = true
             else if (event === 'mouseleave') local.mouseenter = false
-            else if (event === 'mousedown') local.mouseDown = true
-            else if (event === 'mouseup') local.mouseDown = false
-            else if (event === 'touchstart') local.touchStart = true
-            else if (event === 'touchend') local.touchStart = false
+            else if (event === 'mousedown') local.mousedown = true
+            else if (event === 'mouseup') local.mousedown = false
+            else if (event === 'touchstart') local.touchstart = true
+            else if (event === 'touchend') local.touchstart = false
         }
 
         local.element.addEventListener(event, setEventType)

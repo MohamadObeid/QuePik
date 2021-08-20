@@ -14,7 +14,7 @@ const Item = (component) => {
     if (model === 'featured')
         return {
             ...component,
-            class: `flex-box`,
+            class: 'flex-box item',
             type: 'View',
             tooltip,
             props,
@@ -39,6 +39,7 @@ const Item = (component) => {
                 },
             },
             children: [{
+                ...icon,
                 type: `Icon?icon.name=${icon.name};icon.code=${icon.code};id=${id}-icon?const.${icon.name}`,
                 style: {
                     width: '4rem',
@@ -99,7 +100,7 @@ const Item = (component) => {
     if (model === 'classic')
         return {
             ...component,
-            class: `flex-box`,
+            class: 'flex-box item',
             type: 'View',
             tooltip,
             style: {
@@ -120,7 +121,7 @@ const Item = (component) => {
                 },
             },
             children: [{
-                class: 'side-bar-home-icon',
+                ...icon,
                 type: `Icon?icon.name=${icon.name};icon.code=${icon.code};id=${id}-icon?const.${icon.name}`,
                 style: {
                     display: icon ? 'flex' : 'none',

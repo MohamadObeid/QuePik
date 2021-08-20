@@ -10,14 +10,15 @@ const update = ({ STATE, VALUE, id }) => {
 
     clearIntervals({ VALUE, id })
     removeIds({ VALUE, id })
-
+    
     var innerHTML = createElement({ STATE, VALUE, id })
     local.element.style.opacity = '0'
-
     local.element.innerHTML = innerHTML
+
+    setTimeout(() => local.element.style.opacity = '1', 50)
+
     if (local.childrenSiblings) local.childrenSiblings.map(id => starter({ STATE, VALUE, id }))
     
-    setTimeout(() => local.element.style.opacity = '1', 50)
     console.log('#', Object.entries(VALUE).length)
 
 }

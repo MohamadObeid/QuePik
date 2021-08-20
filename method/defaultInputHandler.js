@@ -56,9 +56,9 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
         local.value = value
         local.data = value
 
-        if (local.DATA && local.derivations[0] != '') {
+        if (local.Data && local.derivations[0] != '') {
 
-            // reset DATA
+            // reset Data
             setData({ VALUE, params: { value }, id })
             
             // remove value from data
@@ -71,7 +71,7 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
         // arabic values
         isArabic({ VALUE, params: { value }, id })
 
-        console.log(local.data, local.DATA)
+        console.log(local.data, local.Data)
     }
 
     local.element.addEventListener('input', myFn)

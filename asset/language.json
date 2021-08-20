@@ -1,0 +1,747 @@
+{
+  "name": [
+    {
+      "name": "Language",
+      "lang": "en"
+    }
+  ],
+  "file-name": "language",
+  "options": [
+    {
+      "name": "Language::readOnly",
+      "lang": "en"
+    },
+    {
+      "lang": "en",
+      "name": "ar"
+    },
+    {
+      "name": "en",
+      "lang": "en"
+    },
+    {
+      "name": "fr",
+      "lang": "en"
+    },
+    {
+      "name": "fa",
+      "lang": "en"
+    },
+    {
+      "name": "aa",
+      "lang": "en"
+    },
+    {
+      "name": "ab",
+      "lang": "en"
+    },
+    {
+      "name": "ae",
+      "lang": "en"
+    },
+    {
+      "name": "af",
+      "lang": "en"
+    },
+    {
+      "name": "ak",
+      "lang": "en"
+    },
+    {
+      "name": "am",
+      "lang": "en"
+    },
+    {
+      "name": "an",
+      "lang": "en"
+    },
+    {
+      "name": "as",
+      "lang": "en"
+    },
+    {
+      "name": "av",
+      "lang": "en"
+    },
+    {
+      "name": "ay",
+      "lang": "en"
+    },
+    {
+      "name": "az",
+      "lang": "en"
+    },
+    {
+      "name": "ba",
+      "lang": "en"
+    },
+    {
+      "name": "be",
+      "lang": "en"
+    },
+    {
+      "name": "bg",
+      "lang": "en"
+    },
+    {
+      "name": "bh",
+      "lang": "en"
+    },
+    {
+      "name": "bi",
+      "lang": "en"
+    },
+    {
+      "name": "bm",
+      "lang": "en"
+    },
+    {
+      "name": "bn",
+      "lang": "en"
+    },
+    {
+      "name": "bo",
+      "lang": "en"
+    },
+    {
+      "name": "br",
+      "lang": "en"
+    },
+    {
+      "name": "bs",
+      "lang": "en"
+    },
+    {
+      "name": "ca",
+      "lang": "en"
+    },
+    {
+      "name": "ce",
+      "lang": "en"
+    },
+    {
+      "name": "ch",
+      "lang": "en"
+    },
+    {
+      "name": "co",
+      "lang": "en"
+    },
+    {
+      "name": "cr",
+      "lang": "en"
+    },
+    {
+      "name": "cs",
+      "lang": "en"
+    },
+    {
+      "name": "cu",
+      "lang": "en"
+    },
+    {
+      "name": "cv",
+      "lang": "en"
+    },
+    {
+      "name": "cy",
+      "lang": "en"
+    },
+    {
+      "name": "da",
+      "lang": "en"
+    },
+    {
+      "name": "de",
+      "lang": "en"
+    },
+    {
+      "name": "dv",
+      "lang": "en"
+    },
+    {
+      "name": "dz",
+      "lang": "en"
+    },
+    {
+      "name": "ee",
+      "lang": "en"
+    },
+    {
+      "name": "el",
+      "lang": "en"
+    },
+    {
+      "name": "eo",
+      "lang": "en"
+    },
+    {
+      "name": "es",
+      "lang": "en"
+    },
+    {
+      "name": "et",
+      "lang": "en"
+    },
+    {
+      "name": "eu",
+      "lang": "en"
+    },
+    {
+      "name": "ff",
+      "lang": "en"
+    },
+    {
+      "name": "fi",
+      "lang": "en"
+    },
+    {
+      "name": "fj",
+      "lang": "en"
+    },
+    {
+      "name": "fo",
+      "lang": "en"
+    },
+    {
+      "name": "fy",
+      "lang": "en"
+    },
+    {
+      "name": "ga",
+      "lang": "en"
+    },
+    {
+      "name": "gd",
+      "lang": "en"
+    },
+    {
+      "name": "gl",
+      "lang": "en"
+    },
+    {
+      "name": "gn",
+      "lang": "en"
+    },
+    {
+      "name": "gu",
+      "lang": "en"
+    },
+    {
+      "name": "gv",
+      "lang": "en"
+    },
+    {
+      "name": "ha",
+      "lang": "en"
+    },
+    {
+      "name": "hi",
+      "lang": "en"
+    },
+    {
+      "name": "ho",
+      "lang": "en"
+    },
+    {
+      "name": "hr",
+      "lang": "en"
+    },
+    {
+      "name": "ht",
+      "lang": "en"
+    },
+    {
+      "name": "hu",
+      "lang": "en"
+    },
+    {
+      "name": "hy",
+      "lang": "en"
+    },
+    {
+      "name": "hz",
+      "lang": "en"
+    },
+    {
+      "name": "ia",
+      "lang": "en"
+    },
+    {
+      "name": "id",
+      "lang": "en"
+    },
+    {
+      "name": "ie",
+      "lang": "en"
+    },
+    {
+      "name": "ig",
+      "lang": "en"
+    },
+    {
+      "name": "ii",
+      "lang": "en"
+    },
+    {
+      "name": "ik",
+      "lang": "en"
+    },
+    {
+      "name": "io",
+      "lang": "en"
+    },
+    {
+      "name": "is",
+      "lang": "en"
+    },
+    {
+      "name": "it",
+      "lang": "en"
+    },
+    {
+      "name": "iu",
+      "lang": "en"
+    },
+    {
+      "name": "ja",
+      "lang": "en"
+    },
+    {
+      "name": "jv",
+      "lang": "en"
+    },
+    {
+      "name": "ka",
+      "lang": "en"
+    },
+    {
+      "name": "kg",
+      "lang": "en"
+    },
+    {
+      "name": "ki",
+      "lang": "en"
+    },
+    {
+      "name": "kj",
+      "lang": "en"
+    },
+    {
+      "name": "kk",
+      "lang": "en"
+    },
+    {
+      "name": "kl",
+      "lang": "en"
+    },
+    {
+      "name": "km",
+      "lang": "en"
+    },
+    {
+      "name": "kn",
+      "lang": "en"
+    },
+    {
+      "name": "ko",
+      "lang": "en"
+    },
+    {
+      "name": "kr",
+      "lang": "en"
+    },
+    {
+      "name": "ks",
+      "lang": "en"
+    },
+    {
+      "name": "ku",
+      "lang": "en"
+    },
+    {
+      "name": "kv",
+      "lang": "en"
+    },
+    {
+      "name": "kw",
+      "lang": "en"
+    },
+    {
+      "name": "ky",
+      "lang": "en"
+    },
+    {
+      "name": "la",
+      "lang": "en"
+    },
+    {
+      "name": "lb",
+      "lang": "en"
+    },
+    {
+      "name": "lg",
+      "lang": "en"
+    },
+    {
+      "name": "li",
+      "lang": "en"
+    },
+    {
+      "name": "ln",
+      "lang": "en"
+    },
+    {
+      "name": "lo",
+      "lang": "en"
+    },
+    {
+      "name": "lt",
+      "lang": "en"
+    },
+    {
+      "name": "lu",
+      "lang": "en"
+    },
+    {
+      "name": "lv",
+      "lang": "en"
+    },
+    {
+      "name": "mg",
+      "lang": "en"
+    },
+    {
+      "name": "mh",
+      "lang": "en"
+    },
+    {
+      "name": "mi",
+      "lang": "en"
+    },
+    {
+      "name": "mk",
+      "lang": "en"
+    },
+    {
+      "name": "ml",
+      "lang": "en"
+    },
+    {
+      "name": "mn",
+      "lang": "en"
+    },
+    {
+      "name": "mr",
+      "lang": "en"
+    },
+    {
+      "name": "ms",
+      "lang": "en"
+    },
+    {
+      "name": "mt",
+      "lang": "en"
+    },
+    {
+      "name": "my",
+      "lang": "en"
+    },
+    {
+      "name": "na",
+      "lang": "en"
+    },
+    {
+      "name": "nb",
+      "lang": "en"
+    },
+    {
+      "name": "nd",
+      "lang": "en"
+    },
+    {
+      "name": "ne",
+      "lang": "en"
+    },
+    {
+      "name": "ng",
+      "lang": "en"
+    },
+    {
+      "name": "nl",
+      "lang": "en"
+    },
+    {
+      "name": "nn",
+      "lang": "en"
+    },
+    {
+      "name": "no",
+      "lang": "en"
+    },
+    {
+      "name": "nr",
+      "lang": "en"
+    },
+    {
+      "name": "nv",
+      "lang": "en"
+    },
+    {
+      "name": "ny",
+      "lang": "en"
+    },
+    {
+      "name": "oc",
+      "lang": "en"
+    },
+    {
+      "name": "oj",
+      "lang": "en"
+    },
+    {
+      "name": "om",
+      "lang": "en"
+    },
+    {
+      "name": "or",
+      "lang": "en"
+    },
+    {
+      "name": "os",
+      "lang": "en"
+    },
+    {
+      "name": "pa",
+      "lang": "en"
+    },
+    {
+      "name": "pi",
+      "lang": "en"
+    },
+    {
+      "name": "pl",
+      "lang": "en"
+    },
+    {
+      "name": "ps",
+      "lang": "en"
+    },
+    {
+      "name": "pt",
+      "lang": "en"
+    },
+    {
+      "name": "qu",
+      "lang": "en"
+    },
+    {
+      "name": "rm",
+      "lang": "en"
+    },
+    {
+      "name": "rn",
+      "lang": "en"
+    },
+    {
+      "name": "ro",
+      "lang": "en"
+    },
+    {
+      "name": "ru",
+      "lang": "en"
+    },
+    {
+      "name": "rw",
+      "lang": "en"
+    },
+    {
+      "name": "sa",
+      "lang": "en"
+    },
+    {
+      "name": "sc",
+      "lang": "en"
+    },
+    {
+      "name": "sd",
+      "lang": "en"
+    },
+    {
+      "name": "se",
+      "lang": "en"
+    },
+    {
+      "name": "sg",
+      "lang": "en"
+    },
+    {
+      "name": "si",
+      "lang": "en"
+    },
+    {
+      "name": "sk",
+      "lang": "en"
+    },
+    {
+      "name": "sl",
+      "lang": "en"
+    },
+    {
+      "name": "sm",
+      "lang": "en"
+    },
+    {
+      "name": "sn",
+      "lang": "en"
+    },
+    {
+      "name": "so",
+      "lang": "en"
+    },
+    {
+      "name": "sq",
+      "lang": "en"
+    },
+    {
+      "name": "sr",
+      "lang": "en"
+    },
+    {
+      "name": "ss",
+      "lang": "en"
+    },
+    {
+      "name": "st",
+      "lang": "en"
+    },
+    {
+      "name": "su",
+      "lang": "en"
+    },
+    {
+      "name": "sv",
+      "lang": "en"
+    },
+    {
+      "name": "sw",
+      "lang": "en"
+    },
+    {
+      "name": "ta",
+      "lang": "en"
+    },
+    {
+      "name": "te",
+      "lang": "en"
+    },
+    {
+      "name": "tg",
+      "lang": "en"
+    },
+    {
+      "name": "th",
+      "lang": "en"
+    },
+    {
+      "name": "ti",
+      "lang": "en"
+    },
+    {
+      "name": "tk",
+      "lang": "en"
+    },
+    {
+      "name": "tl",
+      "lang": "en"
+    },
+    {
+      "name": "tn",
+      "lang": "en"
+    },
+    {
+      "name": "to",
+      "lang": "en"
+    },
+    {
+      "name": "tr",
+      "lang": "en"
+    },
+    {
+      "name": "ts",
+      "lang": "en"
+    },
+    {
+      "name": "tt",
+      "lang": "en"
+    },
+    {
+      "name": "tw",
+      "lang": "en"
+    },
+    {
+      "name": "ty",
+      "lang": "en"
+    },
+    {
+      "name": "ug",
+      "lang": "en"
+    },
+    {
+      "name": "uk",
+      "lang": "en"
+    },
+    {
+      "name": "ur",
+      "lang": "en"
+    },
+    {
+      "name": "uz",
+      "lang": "en"
+    },
+    {
+      "name": "ve",
+      "lang": "en"
+    },
+    {
+      "name": "vi",
+      "lang": "en"
+    },
+    {
+      "name": "vo",
+      "lang": "en"
+    },
+    {
+      "name": "wa",
+      "lang": "en"
+    },
+    {
+      "name": "wo",
+      "lang": "en"
+    },
+    {
+      "name": "xh",
+      "lang": "en"
+    },
+    {
+      "name": "yi",
+      "lang": "en"
+    },
+    {
+      "name": "yo",
+      "lang": "en"
+    },
+    {
+      "name": "za",
+      "lang": "en"
+    },
+    {
+      "name": "zh",
+      "lang": "en"
+    },
+    {
+      "name": "zu",
+      "lang": "en"
+    }
+  ]
+}
