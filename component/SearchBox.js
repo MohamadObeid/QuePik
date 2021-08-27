@@ -20,7 +20,7 @@ const SearchBox = (component) => {
                 transition: '0.2s',
                 display: 'none',
                 after: {
-                    opacity: '1::50',
+                    opacity: '1>>50',
                     display: 'flex'
                 }
             },
@@ -28,7 +28,7 @@ const SearchBox = (component) => {
                 event: 'click',
                 actions: [
                     'resetStyles???search-mini-page;search-mini-page-results',
-                    'setStyle?style.opacity=0;style.display=none::250'
+                    'setStyle?style.opacity=0;style.display=none>>250'
                 ],
             }]
         }, {
@@ -40,7 +40,7 @@ const SearchBox = (component) => {
                 borderRadius: '.75rem',
                 flex: '1',
                 top: '1rem',
-                position: 'initial::210',
+                position: 'initial>>210',
                 width: '60rem',
                 after: {
                     backgroundColor: '#fff',
@@ -65,7 +65,8 @@ const SearchBox = (component) => {
                         fontSize: '1.8rem',
                     }
                 }, {
-                    type: `Input?placeholder=${placeholder}`,
+                    type: `Input?placeholder=${placeholder};input.type=text`,
+                    templated: true,
                     style: {
                         flex: '1',
                         height: '4.5rem',

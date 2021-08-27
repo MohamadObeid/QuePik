@@ -1,7 +1,6 @@
 const { clone } = require("./clone")
 
-const clearValues = ({ params }) => {
-    var obj = params.values
+const clearValues = (obj) => {
     var newObj = clone(obj)
 
     if (typeof obj === 'undefined') return ''
@@ -13,7 +12,7 @@ const clearValues = ({ params }) => {
         obj.map((element, index) => {
 
             if (typeof element === 'object') {
-                newObj[index] = clearValues({ params: { values: element } })
+                newObj[index] = clearValues(element)
             } else newObj[index] = ''
 
         })
@@ -22,16 +21,18 @@ const clearValues = ({ params }) => {
     }
 
     Object.entries(obj).map(([key, value]) => {
+        
         if (Array.isArray(value)) {
             newObj[key] = []
             value.map((element, index) => {
 
                 if (typeof element === 'object') {
-                    newObj[key][index] = clearValues({ params: { values: element } })
+                    newObj[key][index] = clearValues(element)
                 } else newObj[key][index] = ''
 
             })
-        } else if (typeof value === 'object') newObj[key] = clearValues({ params: { values: value } })
+        }
+        else if (typeof value === 'object') newObj[key] = clearValues(value)
         else newObj[key] = ''
     })
 

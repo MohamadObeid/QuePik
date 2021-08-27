@@ -1,6 +1,6 @@
 {
     "file-name": "admin-stays-list",
-    "type": "View?value.Data=undefined",
+    "type": "View?data={}",
     "actions": "search?state=products-table;query.collection=product;id=products-table",
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
@@ -17,7 +17,7 @@
             }, {
                 "type": "Button?text=Add New Stay;icon.name=bi-plus;style.marginRight=1rem",
                 "controls": [{
-                    "actions": "createControls?type=toggle-view;id=admin-view;view=new-product"
+                    "actions": "createControls?controls.type=toggle-view;controls.id=admin-view;controls.view=new-product"
                 }]
             }]
         }]
@@ -41,9 +41,9 @@
             }, {
                 "type": "Button?text=Collection;icon.name=bi-ui-checks-grid"
             }, {
-                "type": "Button?text=City;icon.name=bi-map;droplist.items=[Cities:readOnly,state.category-list.name];search.state=products-admin;search.query.collection=const.product;search.query.category=const.value.data"
+                "type": "Button?text=City;icon.name=bi-map;droplist.items=[Cities:readonly,state.category-list.name];search.state=products-admin;search.query.collection=const.product;search.query.category=const.value.data"
             }, {
-                "type": "Button?text=Stars;icon.name=bi-star;droplist.items=[Stars:readOnly,state.brand-list.name]"
+                "type": "Button?text=Stars;icon.name=bi-star;droplist.items=[Stars:readonly,state.brand-list.name]"
             }, {
                 "type": "Button?text=View;icon.name=bi-list-ul"
             }]

@@ -1,6 +1,6 @@
 {
     "file-name": "new-product",
-    "type": "View?Data={}",
+    "type": "View?data={}",
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem",
         "children": [{
@@ -22,7 +22,7 @@
                     "after": { "backgroundColor": "#eee" }
                 },
                 "controls": [{
-                    "actions": "createControls?state=actions-list;type=list;id=actions-list;placement=left"
+                    "actions": "createControls?controls.state=actions-list;controls.type=list;id=actions-list;controls.placement=left"
                 }, {
                     "event": "mouseenter",
                     "actions": "mountAfterStyles"
@@ -32,7 +32,7 @@
                 }]
             }, {
                 "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
-                "controls": [{ "actions": "createControls?type=toggle-view;id=admin-view;view=stays" }]
+                "controls": [{ "actions": "createControls?controls.type=toggle-view;controls.id=admin-view;controls.view=stays" }]
             }, {
                 "type": "Button?icon.name=bi-check2-square;text=Save"
             }]
@@ -86,7 +86,7 @@
                             "color": "#444"
                         }
                     }, {
-                        "type": "View?actions=focus::200",
+                        "type": "View?actions=focus>>200",
                         "children": [{
                             "type": "Input?featured;lang=en;path=name;data=[]",
                             "style": {
@@ -326,8 +326,8 @@
                                         "controls": [{
                                             "event": "click",
                                             "actions": [
-                                                "remove>>value.parent.parent.id??value.length>>value.parent.parent.id>1",
-                                                "focus::100>>state.spec-dup-input"
+                                                "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
+                                                "focus>>100::state.spec-dup-input"
                                             ]
                                         }]
                                     }]
@@ -349,7 +349,7 @@
                                 },
                                 "controls": [{
                                     "event": "click",
-                                    "actions": "duplicate>>state.spec-dup;focus::100>>state.spec-dup-input"
+                                    "actions": "duplicate::state.spec-dup;focus>>100::state.spec-dup-input"
                                 }]
                             }, {
                                 "type": "Text?text=Add New Specification",
@@ -453,8 +453,8 @@
                                         "controls": [{
                                             "event": "click",
                                             "actions": [
-                                                "remove>>value.parent.parent.id??value.length>>value.parent.parent.id>1",
-                                                "focus::100>>state.options-input"
+                                                "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
+                                                "focus>>100::state.options-input"
                                             ]
                                         }]
                                     }]
@@ -475,7 +475,7 @@
                                     },
                                     "controls": [{
                                         "event": "click",
-                                        "actions": "duplicate>>state.options-dup;focus::100>>state.options-input"
+                                        "actions": "duplicate::state.options-dup;focus>>100::state.options-input"
                                     }]
                                 }, {
                                     "type": "Text?text=Add New Group",
@@ -662,7 +662,7 @@
                                 "marginRight": "1rem"
                             },
                             "children": [{
-                                "type": "Input?readOnly;featured;droplist.items=[Options:readOnly,All,const.Data.options.options.name];path=options;data=[]",
+                                "type": "Input?readonly;featured;droplist.items=[Options:readonly,All,const.Data.options.options.name];path=options;data=[]",
                                 "actions": "setState?state.inventory-input=value.id"
                             }]
                         }, {
@@ -673,9 +673,9 @@
                                 "marginRight": "1rem"
                             },
                             "children": [{
-                                "type": "Input?input.type=text;path=status;readOnly;input.value=In stock;droplist.items=[Status:readOnly,In stock,Out of stock,Pre Order]",
+                                "type": "Input?input.type=text;path=status;readonly;input.value=In stock;droplist.items=[Status:readonly,In stock,Out of stock,Pre Order]",
                                 "controls": [{
-                                    "actions": "createControls?type=droplist"
+                                    "actions": "createControls?controls.type=droplist"
                                 }]
                             }]
                         }, {
@@ -730,8 +730,8 @@
                                 "controls": [{
                                     "event": "click",
                                     "actions": [
-                                        "remove>>value.parent.parent.id??value.length>>value.parent.parent.id>1",
-                                        "focus::100>>state.inventory-input"
+                                        "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
+                                        "focus>>100::state.inventory-input"
                                     ]
                                 }]
                             }]
@@ -754,7 +754,7 @@
                         },
                         "controls": [{
                             "event": "click",
-                            "actions": "duplicate>>state.inventory-dup;focus::100>>state.inventory-input"
+                            "actions": "duplicate::state.inventory-dup;focus>>100::state.inventory-input"
                         }]
                     }, {
                         "type": "Text",
@@ -881,7 +881,7 @@
                                 "marginRight": "1rem"
                             },
                             "children": [{
-                                "type": "Input?readOnly;model=featured;droplist.items=[Options:readOnly,All,const.Data.options.options.name];path=options;data=[]",
+                                "type": "Input?readonly;model=featured;droplist.items=[Options:readonly,All,const.Data.options.options.name];path=options;data=[]",
                                 "actions": "setState?state.pricing-input=value.id"
                             }]
                         }, {
@@ -945,8 +945,8 @@
                                 "controls": [{
                                     "event": "click",
                                     "actions": [
-                                        "remove>>value.parent.parent.id??value.length>>value.parent.parent.id>1",
-                                        "focus::100>>state.pricing-input"
+                                        "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
+                                        "focus>>100::state.pricing-input"
                                     ]
                                 }]
                             }]
@@ -969,7 +969,7 @@
                         },
                         "controls": [{
                             "event": "click",
-                            "actions": "duplicate>>state.pricing-dup;focus::100>>state.pricing-input"
+                            "actions": "duplicate::state.pricing-dup;focus>>100::state.pricing-input"
                         }]
                     }, {
                         "type": "Text",
@@ -1030,7 +1030,7 @@
                         }
                     }]
                 }, {
-                    "type": "View?id=category-view;droplist.items=[Categories:readOnly,state.category-list.name];droplist.path=category",
+                    "type": "View?id=category-view;droplist.items=[Categories:readonly,state.category-list.name];droplist.path=category",
                     "style": {
                         "display": "inline-flex",
                         "flexWrap": "wrap",
@@ -1038,7 +1038,7 @@
                         "gap": "1rem"
                     },
                     "children": [{
-                        "type": "Input?featured;readOnly;path=category;!clearable;!duplicatable;data=[]",
+                        "type": "Input?featured;readonly;path=category;!clearable;!duplicatable;data=[]",
                         "style": {
                             "width": "fit-content",
                             "height": "3rem"
@@ -1079,7 +1079,7 @@
                         }
                     }]
                 }, {
-                    "type": "View?id=collections-view;droplist.items=[Collections:readOnly,state.collections-list.name];droplist.path=collections",
+                    "type": "View?id=collections-view;droplist.items=[Collections:readonly,state.collections-list.name];droplist.path=collections",
                     "style": {
                         "display": "inline-flex",
                         "gap": "1rem",
@@ -1087,7 +1087,7 @@
                         "width": "100%"
                     },
                     "children": [{
-                        "type": "Input?model=featured;readOnly;path=collections;!clearable;!duplicates;data=[]",
+                        "type": "Input?model=featured;readonly;path=collections;!clearable;!duplicates;data=[]",
                         "style": {
                             "width": "fit-content",
                             "height": "3rem"
@@ -1119,7 +1119,7 @@
                         }
                     }]
                 }, {
-                    "type": "Input?model=featured;path=brand;droplist.items=[Brands:readOnly,state.brand-list.name];!duplicate;readOnly"
+                    "type": "Input?model=featured;path=brand;droplist.items=[Brands:readonly,state.brand-list.name];!duplicate;readonly"
                 }]
             }, {
                 "type": "View",
@@ -1168,7 +1168,7 @@
                 "children": [{
                     "type": "Item?icon.name=bi-gift;text=Offers;style.fontSize=1.5rem;icon.style.fontSize=1.6rem;style.after.color=#0d6efd",
                     "controls": [{
-                        "actions": "createControls?type=mini-window;view=offer"
+                        "actions": "createControls?controls.type=mini-window;controls.view=offer"
                     }]
                 }]
             }]

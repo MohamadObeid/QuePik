@@ -16,7 +16,7 @@
             }, {
                 "type": "Button?text=Add New Asset;icon.name=bi-plus;style.marginRight=1rem",
                 "controls": [{
-                    "actions": "createControls?type=mini-window;view=asset"
+                    "actions": "createControls?controls.type=mini-window;controls.view=asset"
                 }]
             }]
         }]
@@ -45,11 +45,11 @@
                 }]
             }]
         }, {
-            "type": "View?id=assets-data;style.padding=1rem;style.width=100%",
+            "type": "View?id=assets-data;style.padding=1rem;style.width=100%.",
             "children": [{
                 "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr",
                 "children": [{
-                    "type": "View?Data=asset.entries.value;class=flex-box",
+                    "type": "View?data=asset.entries.value;class=flex-box",
                     "style": {
                         "borderRadius": ".75rem",
                         "border": "1px solid #ddd",
@@ -60,9 +60,9 @@
                         }
                     },
                     "controls": [{
-                        "actions": "createControls?type=auto-style;id=[value.id,value.1stChild.id]" 
+                        "actions": "createControls?controls.type=auto-style;controls.id=[value.id,value.1stChild.id]" 
                     }, {
-                        "actions": "createControls?type=mini-window;view=asset"
+                        "actions": "createControls?controls.type=mini-window;controls.view=asset?value.data.file-name!=language;value.data.file-name!=unit;value.data.file-name!=currency"
                     }],
                     "children": [{
                         "type": "Text?path=name.0.name;style.fontSize=1.3rem;style.after.color=#ee384e"

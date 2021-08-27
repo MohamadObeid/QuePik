@@ -12,7 +12,7 @@ const Switch = (component) => {
         id: generate(),
         controls: {},
         children: [{
-            type: `Input?input.type=checkbox;class=checkbox;id=${component.id}`,
+            type: `Input?input.type=checkbox;class=switch-checkbox;id=${component.id}`,
             controls: [...component.controls]
         }, {
             type: 'View?class=knobs',

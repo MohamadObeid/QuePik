@@ -26,7 +26,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
             var eq = condition.includes('=')
             var gt = condition.includes('>')
             if (gt) {
-                var test = condition.split('>>')
+                var test = condition.split('::')
                 gt = test.find(exp => exp.includes('>'))
             }
             var gte = condition.includes('>=')
@@ -134,10 +134,10 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 }
 
                 // id
-                if (value && value.includes('>>')) {
+                if (value && value.includes('::')) {
 
-                    id = value.split('>>')[1]
-                    value = value.split('>>')[0]
+                    id = value.split('::')[1]
+                    value = value.split('::')[0]
 
                     // id
                     id = toId({ VALUE, STATE, string: id, id: local.id })[0]
@@ -187,10 +187,10 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 ///////////////////// key /////////////////////
 
                 // id
-                if (key.includes('>>')) {
+                if (key.includes('::')) {
 
-                    id = key.split('>>')[1]
-                    key = key.split('>>')[0]
+                    id = key.split('::')[1]
+                    key = key.split('::')[0]
 
                     // id
                     id = toId({ VALUE, STATE, string: id, id: local.id })[0]
@@ -252,7 +252,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                                 key1 = key1.slice(0, -1)
                                 length = true
                             }
-                            var data = derive(local.Data, [...local.derivations, ...key1])[0]
+                            var data = derive(STATE[local.Data], [...local.derivations, ...key1])[0]
                             local[key] = data
 
                             if (length) {
@@ -264,7 +264,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                         else if (key1[0] === 'Data') {
 
                             key1 = key1.slice(1)
-                            var data = derive(local.Data, key1)[0]
+                            var data = derive(STATE[local.Data], key1)[0]
                             local[key] = data
 
                         }
@@ -340,11 +340,11 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                     }
                     else if (key0 === 'data') {
 
-                        var data = derive(local.Data, [...local.derivations, ...key1])[0]
+                        var data = derive(STATE[local.Data], [...local.derivations, ...key1])[0]
                         local[key] = data
                     }
                     else if (key0 === 'Data') {
-                        var data = derive(local.Data, key1)[0]
+                        var data = derive(STATE[local.Data], key1)[0]
                         local[key] = data
                     }
                     else if (key0 === 'style') {
@@ -379,12 +379,12 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 } else if (key === 'data') {
 
                     key = generate()
-                    local[key] = derive(local.Data, local.derivations)[0]
+                    local[key] = derive(STATE[local.Data], local.derivations)[0]
 
                 } else if (key === 'duplicates') {
 
                     var data = getParam(`?${params}`, 'data=', false)
-                    local[key] = duplicates({ VALUE, params: { data }, id })
+                    local[key] = duplicates({ STATE, VALUE, params: { data }, id })
 
                 } else if (key === 'overflow') {
 
@@ -408,7 +408,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
             } else if (gt && !gte) {
 
                 var local = VALUE[id]
-                var key = '', value = '', test = condition.split('>>')
+                var key = '', value = '', test = condition.split('::')
 
                 if (test[1]) {
 
@@ -420,8 +420,8 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                             value += exp[1]
 
                         }
-                        else if (!value) key += exp + '>>'
-                        else value += '>>' + exp
+                        else if (!value) key += exp + '::'
+                        else value += '::' + exp
                     })
 
                 } else {
@@ -430,10 +430,10 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 }
 
                 // id
-                if (key.includes('>>')) {
+                if (key.includes('::')) {
 
-                    id = key.split('>>')[1]
-                    key = key.split('>>')[0]
+                    id = key.split('::')[1]
+                    key = key.split('::')[0]
 
                     // id
                     id = toId({ VALUE, STATE, string: id, id: local.id })[0]
@@ -468,7 +468,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                                 key1 = key1.slice(0, -1)
                                 length = true
                             }
-                            var data = derive(local.Data, [...local.derivations, ...key1])[0]
+                            var data = derive(STATE[local.Data], [...local.derivations, ...key1])[0]
                             local[key] = data
                             if (length) local[key] = data.length
 
@@ -481,7 +481,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                                 key1 = key1.slice(0, -1)
                                 length = true
                             }
-                            var data = derive(local.Data, key1)[0]
+                            var data = derive(STATE[local.Data], key1)[0]
                             local[key] = data
                             if (length) local[key] = data.length
 
@@ -491,13 +491,60 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                         }
                         else {
 
-                            var val = clone(local[key1[0]])
-                            key1 = key1.slice(1)
-                            local[key] = val
-                            key1.reduce((o, k, i) => {
-                                if (i === key1.length - 1) return local[key] = o[k]
+                            local[key] = key1.reduce((o, k, i) => {
+
+                                if (k === 'parent') {
+                                    
+                                    var parent = o.parent
+                                    if (o.type === 'Input') parent = VALUE[parent].parent
+                                    return VALUE[parent]
+
+                                } else if (k === 'next' || k === 'nextSibling') {
+
+                                    var nextSibling = o.element.nextSibling
+                                    var id = nextSibling.id
+
+                                    return VALUE[id]
+
+                                } else if (k === 'prev' || k === 'prevSibling') {
+
+                                    var previousSibling = o.element.previousSibling
+                                    var id = previousSibling.id
+
+                                    return VALUE[id]
+
+                                } else if (k === 'firstChild') {
+
+                                    var firstChild = o.element.children[0]
+                                    return VALUE[firstChild.id]
+                                    
+                                } else if (k === 'secondChild') {
+
+                                    var secondChild = o.element.children[1] ? o.element.children[1] : o.element.children[0]
+                                    return VALUE[secondChild.id]
+
+                                } else if (k === 'lastChild') {
+
+                                    var lastChild = o.element.children[o.element.children.length - 1]
+                                    return VALUE[lastChild.id]
+
+                                } else if (k === 'INPUT') {
+
+                                    var inputComps = [...o.element.getElementsByTagName(k)]
+                                    inputComps = inputComps.map(comp => VALUE[comp.id])
+                                    if (inputComps.length === 0) return inputComps[0]
+                                    else return inputComps
+
+                                } else if (k === 'findIdByData') {
+
+                                    var id = o.find(id => local.data === VALUE[id].text)
+                                    if (id) return id
+                                    else return id
+                                }
+
                                 return o[k]
-                            }, val)
+
+                            }, clone(local))
 
                         }
                     }

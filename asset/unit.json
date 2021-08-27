@@ -8,7 +8,7 @@
   "file-name": "unit",
   "options": [
     {
-      "name": "Unit::readOnly",
+      "name": "Unit>>readonly",
       "lang": "en"
     },
     {
@@ -44,7 +44,7 @@
       "lang": "en"
     },
     {
-      "name": "Service::readOnly",
+      "name": "Service>>readonly",
       "lang": "en"
     },
     {
@@ -72,7 +72,7 @@
       "lang": "en"
     },
     {
-      "name": "Length::readOnly",
+      "name": "Length>>readonly",
       "lang": "en"
     },
     {
@@ -112,7 +112,7 @@
       "lang": "en"
     },
     {
-      "name": "Volume::readOnly",
+      "name": "Volume>>readonly",
       "lang": "en"
     },
     {
@@ -168,7 +168,7 @@
       "lang": "en"
     },
     {
-      "name": "Weight::readOnly",
+      "name": "Weight>>readonly",
       "lang": "en"
     },
     {
@@ -216,7 +216,7 @@
       "lang": "en"
     },
     {
-      "name": "Area::readOnly",
+      "name": "Area>>readonly",
       "lang": "en"
     },
     {
@@ -248,7 +248,7 @@
       "lang": "en"
     },
     {
-      "name": "Pressure::readOnly",
+      "name": "Pressure>>readonly",
       "lang": "en"
     },
     {
@@ -272,7 +272,7 @@
       "lang": "en"
     },
     {
-      "name": "Time::readOnly",
+      "name": "Time>>readonly",
       "lang": "en"
     },
     {
@@ -292,7 +292,7 @@
       "lang": "en"
     },
     {
-      "name": "Temperature::readOnly",
+      "name": "Temperature>>readonly",
       "lang": "en"
     },
     {

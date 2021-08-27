@@ -4,6 +4,7 @@ const { generate } = require('../method/generate')
 
 const Button = (component) => {
     
+    component.icon = component.icon || {}
     component = toComponent(component)
     var { style, tooltip, icon, controls } = component
     var id = component.id || generate()
@@ -35,7 +36,7 @@ const Button = (component) => {
             }
         },
         children: [{
-            ...icon,
+            icon,
             type: `Icon?icon.name=${icon.name};icon.code=${icon.code};id=${id}-icon`,
             style: {
                 color: style.color || '#444',
@@ -44,9 +45,10 @@ const Button = (component) => {
                 transition: 'color 0.1s',
                 display: 'flex',
                 alignItems: 'center',
-                ...icon.style,
+                ...(icon.style || {}),
                 after: {
-                    color: style.after.color || '#0d6efd'
+                    color: '#0d6efd',
+                    ...(icon.style && icon.style.after || {})
                 }
             }
         }, {
@@ -62,7 +64,7 @@ const Button = (component) => {
             }
         }],
         controls: [...controls, {
-            actions: `createControls?type=droplist?droplist`
+            actions: `createControls?controls.type=droplist?droplist`
         }, /*{
             event: 'click',
             actions: 'ripple'

@@ -1,7 +1,7 @@
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
 
-const setContent = ({ VALUE, params = {}, id }) => {
+const setContent = ({ VALUE, STATE, params = {}, id }) => {
     var local = VALUE[id]
 
     var value = ''
@@ -35,7 +35,7 @@ const setContent = ({ VALUE, params = {}, id }) => {
         local.data = value
 
         local.parent.data = local.data
-        local.parent.Data = local.Data
+        local.parent.Data = STATE[local.Data]
         local.parent.derivations = local.derivations
 
     } else {

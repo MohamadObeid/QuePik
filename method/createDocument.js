@@ -4,7 +4,7 @@ const path = require('path')
 const fs = require('fs')
 
 const createDocument = (page) => {
-    var innerHTML = '', STATE = {}, VALUE = {}, id = 'root'
+    var innerHTML = '', STATE = {}, VALUE = {}
     
     // get assets
     STATE.asset = getAssets()
@@ -12,10 +12,19 @@ const createDocument = (page) => {
     // get views
     STATE.view = getViews()
 
-    // set root values
+    // body
+    var id = 'body'
     VALUE[id] = {}
+    VALUE[id].id = id
+    //VALUE[id].childrenSiblings = []
+
+    // root
+    var id = 'root'
+    VALUE[id] = {}
+    VALUE[id].id = id
+    VALUE[id].type = 'View'
     VALUE[id].children = []
-    VALUE[id].derivations = []
+    VALUE[id].parent = 'body'
     
     // push page views to root
     page.views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
@@ -24,8 +33,7 @@ const createDocument = (page) => {
     _page.public.views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
     
     // create html
-    innerHTML = createElement({STATE, VALUE, id})
-
+    innerHTML = createElement({ STATE, VALUE, id })
     
     return `<!DOCTYPE html>
     <html lang="en" class="html">
@@ -35,10 +43,11 @@ const createDocument = (page) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>digiTrip</title>
         <link rel="stylesheet" href="index.css"/>
+        <link href='https://css.gg/trash.css' rel='stylesheet'>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
-    <body>
-        <div id="root" VALUE='${JSON.stringify(VALUE)}' STATE='${JSON.stringify(STATE)}'>${innerHTML}</div>
+    <body VALUE='${JSON.stringify(VALUE)}' STATE='${JSON.stringify(STATE)}'>
+        ${innerHTML}
         <script src="browser.js"></script>
     </body>
     </html>`

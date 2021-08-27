@@ -1,5 +1,4 @@
 const { generate } = require("./generate")
-const { toArray } = require("./toArray")
 const { toObject } = require("./toObject")
 const { toBoolean } = require("./toBoolean")
 const { override } = require("./merge")
@@ -7,114 +6,147 @@ const { clone } = require("./clone")
 const { derive } = require("./derive")
 const { createTags } = require("./createTags")
 
-const createElement = ({ STATE, VALUE, id, params = {} }) => {
+const createElement = ({ STATE, VALUE, id }) => {
 
-    var tags = '', innerHTML = '', parent = VALUE[id], children = params.children || parent.children
+    var innerHTML = ''
+    var local = VALUE[id]
+    var parent = VALUE[local.parent]
 
-    // childrenSiblings
-    parent.childrenSiblings = params.siblings || []
+    // html
+    if (local.html) return local.html
 
-    children && toArray(children).map(child => {
-        var value = clone(child)
-        
-        // view value
-        if (value.view && STATE.view[value.view]) value = STATE.view[value.view]
+    // view value
+    if (local.view && STATE.view[local.view]) local = clone(STATE.view[local.view])
 
-        // no value
-        if (!value.type) return
+    // no value
+    if (!local.type) return
 
-        // destructure type, params, & conditions from type
-        var type = value.type.split('?')[0]
-        var params = value.type.split('?')[1] 
-        var conditions = value.type.split('?')[2]
+    // destructure type, params, & conditions from type
+    var type = local.type.split('?')[0]
+    var params = local.type.split('?')[1] 
+    var conditions = local.type.split('?')[2]
 
-        // type
-        value.type = type
-        
-        // approval
-        var approved = toBoolean({ VALUE, STATE, string: conditions, id })
-        if (!approved) return
-        
-        // push destructured params from type to value
-        if (params) {
-            params = toObject({VALUE, STATE, string: params, id})
-            Object.entries(params).map(([k, v]) => value[k] = v )
-        }
-        
-        // pass to children
-        if (parent.toChildren) {
+    // type
+    local.type = type
 
-            if (typeof parent.toChildren === 'string')
-            parent.toChildren = toObject({ VALUE, STATE, string: parent.toChildren, id })
-            value = override(value, parent.toChildren)
-        }
-        
-        // icon
-        if (value.icon && value.type === 'Icon') {
-            value.icon.name = value.icon.name || ''
-            if (value.icon.google) value.google = true
-            else if (value.icon.outlined) value.outlined = true
-            else if (value.icon.rounded) value.rounded = true
-            else if (value.icon.sharp) value.sharp = true
-            else if (value.icon.twoTone) value.twoTone = true
-        }
+    // parent
+    local.parent = parent.id
 
-        // id
-        value.id = value.id || generate()
-        value.class = value.class || ''
+    // id 
+    local.id = local.id || generate()
+    id = local.id
 
-        // parent
-        value.parent = id
-        value.Data = value.Data || parent.Data
+    // class
+    local.class = local.class || ''
 
-        // derivations
-        var derivations = clone(parent.derivations)
+    // Data
+    local.Data = parent.Data
 
-        // path
-        var path = typeof value.path === 'string' && value.path !== '' ? value.path.split('.') : []
-        if (path.length > 0) {
-            if (!parent.Data) parent.Data = {}
+    // derivations
+    local.derivations = local.derivations || [...(parent.derivations || [])]
 
-            // convert string numbers paths to num
-            path = path.map(k => { 
-                if (!isNaN(k)) k = parseFloat(k) 
-                return k
-            })
+    // first mount of local
+    VALUE[id] = local
 
-            // push path to a data array and derivations last element is not an index
-            if (isNaN(path[0])) {
-                var data = derive(parent.Data, parent.derivations)[0]
-                if (Array.isArray(data)) derivations.push(0)
-            }
+    /////////////////// approval & params /////////////////////
+    
+    // approval
+    var approved = toBoolean({ VALUE, STATE, string: conditions, id })
+    if (!approved) return
+    
+    // push destructured params from type to local
+    if (params) {
+        params = toObject({ VALUE, STATE, string: params, id })
+        Object.entries(params).map(([k, v]) => local[k] = v )
+        if (params.id) {
 
-            derivations.push(...path)
-        }
+            delete Object.assign(VALUE, { [params.id]: VALUE[id] })[id]
+            id = params.id
 
-        // data (turnoff is do not mount data)
-        var data, isArray
-        if (parent.turnOff) { data = ''; value.turnOff = true }                     //def value
-        else { [data, derivations, isArray] = derive(value.Data, derivations, false, value.data, true) }
-        
-        if (isArray) {
+        } else if (params.data) {
+
+            var state = local.Data = generate()
+            STATE[state] = params.data
             
-            tags = data.map((data, index) => {
+        }
+    }
+    if (local.tt) console.log(local, STATE[local.Data]);
+    // pass to children
+    if (parent.toChildren) {
+
+        if (typeof parent.toChildren === 'string')
+        parent.toChildren = toObject({ VALUE, STATE, string: parent.toChildren, id })
+        local = override(local, parent.toChildren)
+    }
+    
+    // icon
+    if (local.type === 'Icon') {
+        local.icon.name = local.icon.name || ''
+        if (local.icon.google) local.google = true
+
+        if (local.icon.outlined || local.icon.type === 'outlined') local.outlined = true
+        else if (local.icon.rounded || local.icon.type === 'rounded') local.rounded = true
+        else if (local.icon.sharp || local.icon.type === 'sharp') local.sharp = true
+        else if (local.icon.twoTone || local.icon.type === 'twoTone') local.twoTone = true
+    }
+
+    if (local.duplicating) {
+
+        delete local.path
+        delete local.data
+    }
+
+    // path
+    var path = typeof local.path === 'string' && local.path !== '' ? local.path.split('.') : []
+    if (path.length > 0) {
+
+        if (!local.Data) {
+
+            var state = local.Data = generate()
+            STATE[state] = local.data || {}
+        }
+
+        // convert string numbers paths to num
+        path = path.map(k => { 
+            if (!isNaN(k)) k = parseFloat(k) 
+            return k
+        })
+
+        // push path to a data array and derivations last element is not an index
+        if (isNaN(path[0])) {
+            var data = derive(STATE[parent.Data], parent.derivations)[0]
+            if (Array.isArray(data)) local.derivations.push(0)
+        }
+
+        local.derivations.push(...path)
+    }
+    
+    // data (turnoff is do not mount data)
+    var data, isArray
+    if (parent.turnOff) { data = ''; local.turnOff = true }                     //def value
+    else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, local.data, true) }
+    
+    if (isArray) {
+        
+        innerHTML = data.map((data, index) => {
+
+            var keys = clone(derivations)
+            keys.push(index, ...path)
             
-                var keys = clone(derivations)
-                keys.push(index, ...path)
-                
-                // data
-                var [data, derivations] = derive(value.Data, keys, false, value.data, true)
+            // data
+            var [data, derivations] = derive(STATE[local.Data], keys, false, local.data, true)
+            VALUE[id] = { ...local, id, data, derivations }
 
-                return createTags({ VALUE, STATE, params: { value, data, derivations } })
+            return createTags({ VALUE, STATE, id })
 
-            }).join('')
+        }).join('')
 
-        } else tags = createTags({ VALUE, STATE, params: { value, data, derivations } })
+    } else {
+
+        VALUE[id] = { ...local, data, derivations }
+        innerHTML = createTags({ VALUE, STATE, id })
+    }
         
-        //tag = innerHTML
-        innerHTML += tags
-        
-    })
     return innerHTML
 }
 

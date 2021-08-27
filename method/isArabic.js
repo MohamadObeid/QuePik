@@ -6,6 +6,7 @@ const isArabic = (value) => {
     if (!value) return
     var { VALUE, params = {}, id } = value
     var local = VALUE[id]
+    if (local.type !== 'Text' && local.type !== 'Input') return
 
     var text = params.value || local.element.value || local.element.innerHTML
     if (!text) return 

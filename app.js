@@ -14,21 +14,33 @@ app.use(express.urlencoded({extended: false}))
 app.post('/api/asset', (req, res) => {
 
   var file = req.body
-  var filePath = `./asset/${file['file-name']}.json`
+  var fileName = file['file-name']
+  var filePath = `./asset/${fileName}.json`
+
+  fileName = fileName.charAt(0).toUpperCase() + fileName.slice(1)
+  
+  if (fileName === 'Currency' || fileName === 'Language' || fileName === 'Unit')
+  return res.send({ success: false, message: `${fileName} file can't be edited!` })
 
   fs.writeFileSync(filePath, JSON.stringify(file, null, 2))
 
-  res.send(file)
+  res.send({ data: file, success: true, message: `${fileName} edited successfuly!` })
 })
 
 app.delete('/api/asset', (req, res) => {
 
   var file = req.body
-  var filePath = `./asset/${file['file-name']}.json`
+  var fileName = file['file-name']
+  var filePath = `./asset/${fileName}.json`
+
+  fileName = fileName.charAt(0).toUpperCase() + fileName.slice(1)
+
+  if (fileName === 'Currency' || fileName === 'Language' || fileName === 'Unit') 
+  return res.send({ success: false, message: `${fileName} file can't be deleted!` })
 
   fs.unlinkSync(filePath)
 
-  res.send(file)
+  res.send({ data: file, success: true, message: `${fileName} deleted successfuly!` })
 })
 
 // end: asset //

@@ -9,6 +9,7 @@ const removeDuplicates = (object) => {
         Object.entries(object).map(([key, value]) => {
             object[key] = removeDuplicates(value)
         })
+        
         return object
     }
 }

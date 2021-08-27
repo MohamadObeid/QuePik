@@ -30,7 +30,7 @@
             "type": "Text?style.width=1px;style.backgroundColor=#ddd;style.height=3rem;style.marginRight=2rem"
         }, {
             "type": "View?class=flex-box;style.cursor=pointer",
-            "controls": { "actions": "createControls?type=toggle-style;id=value.2ndChild.id" },
+            "controls": { "actions": "createControls?controls.type=toggle-style;controls.id=value.2ndChild.id" },
             "children": [{
                 "type": "Text?text=My Bookings;style.marginRight=1rem;style.fontSize=1.4rem"
             }, {

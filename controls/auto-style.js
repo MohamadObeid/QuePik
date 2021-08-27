@@ -1,13 +1,15 @@
 const { toArray } = require("../method/toArray");
 
 module.exports = ({ VALUE, id, params = {} }) => {
-    id = toArray(params.id || id)
+    
+    var controls = params.controls
+    controls.id = toArray(controls.id || id)
     
     return [{
         event: 'mouseenter',
-        actions: `mountAfterStyles???${id.join(';')}`
+        actions: `mountAfterStyles???${controls.id.join(';')}`
     }, {
         event: 'mouseleave',
-        actions: `resetStyles???${id.join(';')}`
+        actions: `resetStyles???${controls.id.join(';')}`
     }]
 }

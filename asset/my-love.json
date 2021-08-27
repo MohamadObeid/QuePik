@@ -1,0 +1,43 @@
+{
+  "name": [
+    {
+      "lang": "en",
+      "icon": {
+        "name": "baby_changing_station",
+        "google": true,
+        "type": "outlined"
+      },
+      "name": "Sarah"
+    },
+    {
+      "lang": "en",
+      "icon": {
+        "name": "pets",
+        "google": true,
+        "type": "outlined"
+      },
+      "name": "Hneino"
+    }
+  ],
+  "options": [
+    {
+      "lang": "en",
+      "icon": {
+        "google": true,
+        "name": "hotel",
+        "type": "outlined"
+      },
+      "name": "Reserve one night at a hotel in Beirut"
+    },
+    {
+      "lang": "en",
+      "icon": {
+        "google": true,
+        "name": "female",
+        "type": "outlined"
+      },
+      "name": "alam homra aswad samua"
+    }
+  ],
+  "file-name": "my-love"
+}

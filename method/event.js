@@ -26,14 +26,14 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 
         var timer = 0
 
-        // action>>id
-        var eventid = event.split('>>')[1]
+        // action::id
+        var eventid = event.split('::')[1]
         if (eventid) idList = toId({ VALUE, STATE, id, string: eventid })
-        event = event.split('>>')[0]
-
-        // action::timer
-        timer = event.split('::')[1] || 0
         event = event.split('::')[0]
+
+        // action>>timer
+        timer = event.split('>>')[1] || 0
+        event = event.split('>>')[0]
 
         if (!event) return
 
@@ -66,13 +66,13 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
     })
 }
 
-const setEvents = ({ VALUE, id }) => {
+const defaultEventHandler = ({ VALUE, id }) => {
     var local = VALUE[id]
 
     local.touchstart = false
     local.mouseenter = false
     local.mousedown = false
-
+    
     events.map(event => {
 
         const setEventType = (e) => {
@@ -92,4 +92,4 @@ const setEvents = ({ VALUE, id }) => {
     })
 }
 
-module.exports = {addEventListener, setEvents}
+module.exports = {addEventListener, defaultEventHandler}

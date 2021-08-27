@@ -1,16 +1,17 @@
 const setPosition = ({ VALUE, params, id }) => {
     var element = VALUE[id].element
+    var {position} = params
     
-    if (!VALUE[params.id]) return
-    var list = VALUE[params.id].element
+    if (!VALUE[position.id]) return
+    var list = VALUE[position.id].element
     var fin = list.getElementsByClassName('list-fin')[0]
 
     var top, left, bottom, distance, placement
     var height = list.offsetHeight
     var width = list.offsetWidth
 
-    placement = list.placement || params.placement || 'right'
-    distance = parseFloat(list.distance || params.distance || 10)
+    placement = list.placement || position.placement || 'right'
+    distance = parseFloat(list.distance || position.distance || 10)
 
     if (placement === 'right') {
 

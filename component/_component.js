@@ -6,5 +6,6 @@ const {Upload} = require('./Upload')
 const {Header} = require('./Header')
 const {Switch} = require('./Switch')
 const {SearchBox} = require('./SearchBox')
+const {Checkbox} = require('./Checkbox')
 
-module.exports = {Input, Button, Item, List, Upload, Header, Switch, SearchBox}
+module.exports = { Input, Button, Item, List, Upload, Header, Switch, SearchBox, Checkbox }

@@ -3,11 +3,13 @@ const { generate } = require('../method/generate')
 
 const Item = (component) => {
 
+    component.icon = component.icon || {}
+    component.chevron = component.chevron || {}
     component = toComponent(component)
-    var { model, state, props, style, icon, text, tooltip, chevron, controls } = component
+    var { model, state, style, icon, text, tooltip, chevron, controls } = component
 
-    props.borderMarker = props.borderMarker !== undefined ? props.borderMarker : true
-    component.readOnly = component.readOnly !== undefined ? component.readOnly : false
+    component.borderMarker = component.borderMarker !== undefined ? component.borderMarker : true
+    component.readonly = component.readonly !== undefined ? component.readonly : false
 
     var id = component.id || generate()
 
@@ -17,7 +19,6 @@ const Item = (component) => {
             class: 'flex-box item',
             type: 'View',
             tooltip,
-            props,
             style: {
                 position: 'relative',
                 justifyContent: 'flex-start',
@@ -39,16 +40,16 @@ const Item = (component) => {
                 },
             },
             children: [{
-                ...icon,
-                type: `Icon?icon.name=${icon.name};icon.code=${icon.code};id=${id}-icon?const.${icon.name}`,
+                icon,
+                type: `Icon?id=${id}-icon?const.${icon.name}`,
                 style: {
                     width: '4rem',
                     color: style.color || '#444',
                     fontSize: '1.8rem',
-                    ...icon.style,
+                    ...(icon.style || {}),
                     after: {
                         color: style.after.color || '#ee384e',
-                        ...icon.style.after,
+                        ...(icon.style && icon.style.after || {})
                     },
                 }
             }, {
@@ -71,11 +72,11 @@ const Item = (component) => {
                     fontSize: style.fontSize || '1.3rem',
                     color: style.color || '#666',
                     transition: '0.2s',
-                    ...chevron.style,
+                    ...(chevron.style || {}),
                     after: {
                         right: '0.8rem',
-                        color: style.after.color || '#ee384e',
-                        ...chevron.style.after,
+                        color: '#ee384e',
+                        ...(chevron.style && chevron.style.after || {})
                     }
                 }
             }],
@@ -108,38 +109,39 @@ const Item = (component) => {
                 justifyContent: 'flex-start',
                 width: '100%',
                 minHeight: '3.3rem',
-                cursor: !component.readOnly ? 'pointer' : 'initial',
+                cursor: !component.readonly ? 'pointer' : 'initial',
                 marginBottom: '1px',
                 borderRadius: '0.5rem',
                 padding: '0.9rem',
-                borderBottom: !component.readOnly ? 'initial' : '1px solid #eee',
+                borderBottom: !component.readonly ? 'initial' : '1px solid #eee',
                 pointerEvents: 'fill',
                 ...style,
-                after: component.readOnly ? {} : {
+                after: component.readonly ? {} : {
                     backgroundColor: '#eee',
                     ...style.after,
                 },
             },
             children: [{
-                ...icon,
-                type: `Icon?icon.name=${icon.name};icon.code=${icon.code};id=${id}-icon?const.${icon.name}`,
+                icon,
+                type: `Icon?id=${id}-icon?const.${icon.name}`,
                 style: {
                     display: icon ? 'flex' : 'none',
-                    color: !component.readOnly ? style.color || '#444' : '#333',
-                    fontSize: !component.readOnly ? style.fontSize || '1.4rem' : '1.6rem',
-                    fontWeight: !component.readOnly ? 'initial' : 'bolder',
+                    color: !component.readonly ? style.color || '#444' : '#333',
+                    fontSize: !component.readonly ? style.fontSize || '1.4rem' : '1.6rem',
+                    fontWeight: !component.readonly ? 'initial' : 'bolder',
                     marginRight: '1rem',
-                    ...icon.style,
+                    ...(icon.style || {}),
                     after: {
-                        color: style.after.color || style.color || '#444'
+                        color: '#444',
+                        ...(icon.style && icon.style.after || {}),
                     }
                 }
             }, {
                 type: `Text?text=${text};id=${id}-text`,
                 style: {
                     fontSize: style.fontSize || '1.4rem',
-                    color: !component.readOnly ? style.color || '#444' : '#333',
-                    fontWeight: !component.readOnly ? 'initial' : 'bolder',
+                    color: !component.readonly ? style.color || '#444' : '#333',
+                    fontWeight: !component.readonly ? 'initial' : 'bolder',
                     userSelect: 'none',
                     textAlign: 'left',
                     after: {
@@ -155,7 +157,7 @@ const Item = (component) => {
                 actions: `resetStyles??!mountOnLoad?${id};${id}-icon;${id}-text`
             }, {
                 // on item click
-                event: `click??!readOnly`,
+                event: `click??!readonly`,
                 actions: `setData;setState?data=${text};state.${state}=${id}?!duplicates`,
             }]
         }

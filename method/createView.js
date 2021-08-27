@@ -1,7 +1,10 @@
 const { update } = require("./update")
 const { generate } = require("./generate")
+const { toArray } = require("./toArray")
+const { removeIds } = require("./update")
+const { clone } = require("./clone")
 
-const createView = ({ STATE, VALUE, params, id }) => {
+const createView = ({ STATE, VALUE, params ={}, id }) => {
 
     var local
 
@@ -23,20 +26,31 @@ const createView = ({ STATE, VALUE, params, id }) => {
     } else local = VALUE[id]
 
     if (!local) return
+
+    // delete prev elements and ids
+    var children = [...local.element.children]
     
+    children.map(child => {
+        var id = child.id
+
+        removeIds({ VALUE, id })
+        
+        VALUE[id].element.remove()
+        delete VALUE[id]
+    })
+
     var view = params.view
 
     if (!view) return
-    //if (local.view === view) return
-
-    local.view = view
+    // if (local.view === view) return
+    
+    // local.view = view
     if (!STATE.view[view]) return
 
-    local.children = [STATE.view[view]]
+    local.children = toArray(clone(STATE.view[view]))
     
     // update
     update({ VALUE, STATE, id })
-
 }
 
 module.exports = {createView}

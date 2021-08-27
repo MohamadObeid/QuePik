@@ -3,13 +3,34 @@ const { resizeInput } = require("./resize")
 const { isArabic } = require("./isArabic")
 const { removeData } = require("./data")
 
-const defaultInputHandler = ({STATE, VALUE, id}) => {
+const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
     var local = VALUE[id]
     if (!local) return
 
     if (local.element.tagName !== 'INPUT' && local.element.tagName !== 'TEXTAREA') return
-    if (local.input && local.input.type === 'checkbox') return
+
+    // checkbox input
+    if (local.input && local.input.type === 'checkbox') {
+        if (local.data === true) local.element.checked = true
+
+        var myFn = (e) => {
+
+            // local doesnot exist
+            if (!VALUE[id]) return e.target.removeEventListener('change', myFn)
+
+            var value = e.target.checked
+            local.data = value
+
+            if (STATE[local.Data] && local.derivations[0] != '') {
+
+                // reset Data
+                setData({ STATE, VALUE, params: { value }, id })
+            }
+        }
+
+        return local.element.addEventListener('change', myFn)
+    }
 
     // input
     local.value = local.element.value
@@ -18,9 +39,9 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
         local.element.addEventListener("mousewheel", (e) => e.target.blur())
 
     if (local.input && local.input.value && !local.data)
-        setData({ VALUE, params: { value: local.input.value }, id })
+        setData({ STATE, VALUE, params: { value: local.input.value }, id })
 
-    if (local.readOnly) return
+    if (local.readonly) return
 
     var myFn = (e) => {
 
@@ -56,10 +77,10 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
         local.value = value
         local.data = value
 
-        if (local.Data && local.derivations[0] != '') {
+        if (STATE[local.Data] && local.derivations[0] != '') {
 
             // reset Data
-            setData({ VALUE, params: { value }, id })
+            setData({ STATE, VALUE, params: { value }, id })
             
             // remove value from data
             if (value === '') return removeData({ VALUE, STATE, id })
@@ -71,7 +92,7 @@ const defaultInputHandler = ({STATE, VALUE, id}) => {
         // arabic values
         isArabic({ VALUE, params: { value }, id })
 
-        console.log(local.data, local.Data)
+        console.log(local.data, STATE[local.Data])
     }
 
     local.element.addEventListener('input', myFn)

@@ -1,4 +1,4 @@
-const { clearIntervals } = require('./clearIntervals')
+
 const { starter } = require('./starter')
 //const { search } = require("./search")
 //const { setState } = require("./state")
@@ -21,8 +21,6 @@ const { starter } = require('./starter')
 }*/
 
 const route = async ({ VALUE, STATE, params, id }) => {
-
-    clearIntervals({ VALUE, STATE, id })
 
     var {data} = await axios.get(`/route${params.route}`)
     document.body.innerHTML = data

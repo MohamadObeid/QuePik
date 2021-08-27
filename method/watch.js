@@ -29,9 +29,9 @@ const watch = ({ VALUE, STATE, controls, id }) => {
         else params = {}
 
         var timer = 50
-        if (name.includes('::')) {
-            timer = name.split('::')[1]
-            name = name.split('::')[0]
+        if (name.includes('>>')) {
+            timer = name.split('>>')[1]
+            name = name.split('>>')[0]
         }
 
         // value

@@ -3,10 +3,10 @@ const { toComponent } = require("../method/toComponent")
 const List = (component) => {
 
     component = toComponent(component)
-    var { id, model, props, style, children, controls, toChildren } = component
+    var { id, model, style, children, controls, toChildren } = component
 
-    props.placement = props.placement || ''
-    props.distance = props.distance || '15'
+    component.placement = component.placement || ''
+    component.distance = component.distance || '15'
     
     if (model === 'classic')
         return {
@@ -64,7 +64,7 @@ const List = (component) => {
             controls: [...controls,
             {
                 event: 'mouseleave',
-                actions: `resetStyles::200??!mouseenter;!state.${id}-mouseenter`
+                actions: `resetStyles>>200??!mouseenter;!state.${id}-mouseenter`
             }]
         }
 }

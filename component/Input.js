@@ -6,8 +6,16 @@ const Input = (component) => {
 
     if (component.templated) return component
 
+    // icon
+    component.icon = component.icon || {}
+
+    // input
+    component.input = component.input || { type: 'text'}
+    component.input.type = component.input.type || 'text'
+    component.input.value = component.input.value || ''
+
     component = toComponent(component)
-    var { input, model, droplist, lang, readOnly, style, controls, icon, placeholder } = component
+    var { input, model, droplist, lang, readonly, style, controls, icon, placeholder } = component
     var id = component.id || generate()
 
     // for search inputs
@@ -23,7 +31,6 @@ const Input = (component) => {
     if (model === 'classic') {
         return {
             ...component,
-            templated: true,
             style: {
                 width: '100%',
                 border: '0',
@@ -45,7 +52,6 @@ const Input = (component) => {
                 actions: 'hideTooltip',
             }]
         }
-
     }
     
     if (model === 'featured') {
@@ -55,8 +61,7 @@ const Input = (component) => {
             class: 'flex-box',
             type: 'View',
             id,
-            component: 'Input',
-            controls: { actions: `focus::50>>${id}-input??value.length;value.index=value.length--1` },
+            controls: { actions: `focus>>50::${id}-input??value.length;value.index=value.length--1` },
             style: {
                 display: 'inline-flex',
                 width: '100%',
@@ -70,8 +75,8 @@ const Input = (component) => {
                 ...style,
             },
             children: [{
-                ...icon,
-                type: `Icon?icon.name=${icon.name}${icon.code ? ';icon.code=' : ''};id=${id}-icon?const.${icon.name}`,
+                icon,
+                type: `Icon?id=${id}-icon?const.${icon.name}`,
                 style: {
                     color: '#444',
                     fontSize: '1.6rem',
@@ -79,12 +84,13 @@ const Input = (component) => {
                     marginRight: '.5rem',
                     display: 'flex',
                     alignItems: 'center',
-                    ...icon.style
+                    ...(icon.style || {})
                 }
             }, {
-                class: lang === 'ar' ? 'arabic' : '',
-                type: `Input?readOnly=${readOnly};input.type=${input.type || 'text'};id=${id}-input;input.value=${input.value}${(component.currency || component.unit) ? `;path=amount;data=${component.data}` : component.lang ? `;path=name;data=${component.data}` : ''};filterable=${component.filterable}`,
-                droplist: droplist,
+                type: `Input?id=${id}-input;${(component.currency || component.unit) ? `;path=amount;data=${component.data}` : (component.lang || component.google) ? `;path=name;data=${component.data}` : ''};filterable=${component.filterable}`,
+                input,
+                readonly,
+                droplist,
                 placeholder,
                 'placeholder-ar': component['placeholer-ar'],
                 templated: true,
@@ -105,12 +111,12 @@ const Input = (component) => {
                     actions: 'resizeInput'
                 }, {
                     event: `keyup??value.data;e.key=Enter;${component.duplicatable};${component.removable}`,
-                    actions: `duplicate>>${id}`
+                    actions: `duplicate::${id}`
                 }, {
                     event: `input??value.data!=free`,
                     actions: [
-                        `filter>>droplist?${component.filterable};droplist`,
-                        `setData>>${id}-language?data=ar?isArabic`,
+                        `filter::droplist?${component.filterable};droplist`,
+                        `setData::${id}-language?data=ar?isArabic`,
                         `search?state=${component.search.state};${component.search.query};id=${component.search.id}?${component.searchable}`
                     ]
                 }, {
@@ -125,7 +131,6 @@ const Input = (component) => {
                 }]
             }, {
                 type: `View?class=flex-box ${lang === 'ar' ? 'arabic' : ''}`,
-                style: { padding: '0 0.5rem' },
                 children: [{
                     type: `Text?path=currency;id=${id}-currency;droplist.items=[asset.currency.options.name];auto-style?const.${component.currency}`,
                     style: {
@@ -163,10 +168,10 @@ const Input = (component) => {
                     },
                     actions: `setData?data=${component.lang}?!value.data`,
                 }, {
-                    type: `Icon?icon.name=bi-x;id=${id}-x;auto-style?${component.clearable}||${component.removable}`,
+                    type: `Checkbox?class=align-center;path=google;id=${id}-google;style.cursor=pointer;style.height=1.5rem;style.width=1.5rem;style.margin=0 .75rem?const.${component.google}`,
+                }, {
+                    type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;auto-style?${component.clearable}||${component.removable}`,
                     style: {
-                        display: 'flex',
-                        alignItems: 'center',
                         fontSize: '2rem',
                         color: '#444',
                         cursor: 'pointer',
@@ -175,8 +180,8 @@ const Input = (component) => {
                     controls: [{
                         event: 'click',
                         actions: [
-                            `remove>>${id}??${component.removable}${component.clearable ? `;value.length>>${id}>1;!value.data>>${id}-input` : ''}`,
-                            `removeData>>${id}-input;focus::50>>${id}-input??${component.clearable}`,
+                            `remove::${id}??${component.removable}${component.clearable ? `;value.length::${id}>1;!value.data::${id}-input` : ''}`,
+                            `removeData::${id}-input;focus>>50::${id}-input??${component.clearable}`,
                         ]
                     }]
                 }]

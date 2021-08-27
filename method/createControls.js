@@ -6,13 +6,12 @@ const createControls = ({ VALUE, STATE, params, id }) => {
     var local = VALUE[id]
     if (!local) return
     
-    var type = params.type
-    var exists = Object.entries(_controls).find(([key]) => key === type)
+    var exists = Object.entries(_controls).find(([key]) => key === params.controls.type)
     if (!exists) return
     
-    if (local[type]) params = local[type] || {}
+    // if (local[controls]) params = local[controls] || {}
     
-    controls({ VALUE, STATE, id, controls: _controls[type]({ VALUE, STATE, params, id }) })
+    controls({ VALUE, STATE, id, controls: _controls[params.controls.type]({ VALUE, STATE, params, id }) })
 }
 
 module.exports = {createControls}

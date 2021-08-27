@@ -8,7 +8,7 @@
             "event": "click",
             "actions": "createActions?type=item;state=side-bar-item;id=side-bar-stays-id"
         }, {
-            "actions": "createControls?type=toggle-view;id=admin-view;view=admin-stays-list"
+            "actions": "createControls?controls.type=toggle-view;controls.id=admin-view;controls.view=admin-stays-list"
         }]
     }, {
         "type": "Item?text=Villa;icon.name=villa"

@@ -19,7 +19,7 @@
         "type": "Item?text=Bookings;icon.name=library_books"
     }, {
         "type": "Item?text=Stays;icon.name=hotel",
-        "controls": { "actions": "createControls?type=toggle-view;id=admin-view;view=admin-stays-list" }
+        "controls": { "actions": "createControls?controls.type=toggle-view;controls.id=admin-view;controls.view=admin-stays-list" }
     }, {
         "type": "Item?text=Tours;icon.name=festival"
     }, {
@@ -30,7 +30,7 @@
         "type": "Item?text=Collections;icon.name=category"
     }, {
         "type": "Item?text=Assets;icon.name=web_asset",
-        "controls": { "actions": "createControls?type=toggle-view;id=admin-view;view=admin-assets-list" }
+        "controls": { "actions": "createControls?controls.type=toggle-view;controls.id=admin-view;controls.view=admin-assets-list" }
     }, {
         "type": "Item?text=Inbox;icon.name=question_answer"
     }, {

@@ -36,19 +36,18 @@ const droplist = ({ VALUE, STATE, params, id }) => {
     items = items.filter(item => item)
     if (items.length > 0) dropList.children = items.map(item => {
 
-        var readOnly = false
-        item = item.split('::')
-        if (item[1]) readOnly = item[1].split(';').find(param => param === 'readOnly')
+        var readonly = false
+        item = item.split('>>')
+        if (item[1]) readonly = item[1].split(';').find(param => param === 'readonly')
 
         return {
-            type: `Item?text=${item[0]};readOnly=${readOnly};data=${item[0]}`,
+            type: `Item?text=${item[0]};readonly=${readonly};data=${item[0]}`,
             controls: [{
-                event: `click??!readOnly;state.droplist=${id}`,
+                event: `click??!readonly;state.droplist=${id}`,
                 actions: [
-                    `setContent>>${id};focus>>${inputid}?content=${item[0]}`,
-                    //`update::50>>${id}`,
-                    `setData>>${inputid}?data=free?const.${item[0]}=free`,
-                    `setData>>${inputid}?data=''?const.${item[0]}!=free;value.data=free`
+                    `setContent::${id};focus::${inputid}?content=${item[0]}`,
+                    `setData::${inputid}?data=free?const.${item[0]}=free`,
+                    `setData::${inputid}?data=''?const.${item[0]}!=free;value.data=free`
                 ]
             }]
         }

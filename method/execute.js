@@ -27,11 +27,11 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
         // action does not exist
         actions.map(action => {
 
-            var name = action.split('>>')[0]
+            var name = action.split('::')[0]
 
-            // action::timer
-            var timer = name.split('::')[1] || 0
-            name = name.split('::')[0]
+            // action>timer
+            var timer = name.split('>>')[1] || 0
+            name = name.split('>>')[0]
 
             // reset
             var reset = getParam(action, 'reset', false)
@@ -49,9 +49,8 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
                 // id's
                 idList = toId({ VALUE, STATE, id, string: idList, e })
 
-                // action>>id
-                var actionid = action.split('>>')[1];
-
+                // action::id
+                var actionid = action.split('::')[1];
 
                 (actionid ? [actionid] : idList).map(id => {
 

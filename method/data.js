@@ -1,24 +1,24 @@
 const { clone } = require("./clone")
 const { setContent } = require("./setContent")
 
-const createData = ({ VALUE, params, id }) => {
+const createData = ({ STATE, VALUE, params, id }) => {
     var local = VALUE[id]
     var data = params.data
 
     local.derivations.reduce((o, k, i) => {
         if (i === local.derivations.length - 1) return o[k] = data
         return o[k]
-    }, local.Data)
+    }, STATE[local.Data])
 }
 
-const pushData = ({ VALUE, params }) => {
+const pushData = ({ STATE, VALUE, params }) => {
     var value = params.data
-    setData({ VALUE, value })
+    setData({ STATE, VALUE, value })
 }
 
-const setData = ({ VALUE, params = {}, id }) => {
+const setData = ({ STATE, VALUE, params = {}, id }) => {
     var local = VALUE[id]
-    if (!local.Data) return
+    if (!STATE[local.Data]) return
 
     var path = params.path
     if (path) path = path.split('.')
@@ -31,18 +31,18 @@ const setData = ({ VALUE, params = {}, id }) => {
         return k
     })
 
-    var value = params.value || params.data
+    var value = (params.value !== undefined && params.value) || params.data
 
     var derivations = clone(local.derivations)
     if (params.derivations) derivations = params.derivations.split('.')
 
-    if (!value) value = ''
+    if (value === undefined) value = ''
     local.data = value
 
     setContent({ VALUE, params: { value }, id })
 
     var keys = [...derivations, ...path]
-
+    
     keys.reduce((o, k, i) => {
         if (!o) return o
         
@@ -73,16 +73,16 @@ const setData = ({ VALUE, params = {}, id }) => {
         }
 
         return o[k]
-    }, local.Data)
+    }, STATE[local.Data])
 }
 
 const clearData = ({ VALUE, STATE, id }) => {
     setData({ VALUE, STATE, id })
 }
 
-const removeData = ({ VALUE, id, params = {} }) => {
+const removeData = ({ STATE, VALUE, id, params = {} }) => {
     var local = VALUE[id]
-    if (!local.Data) return
+    if (!STATE[local.Data]) return
 
     var path = params.path
     path = path ? path.split('.') : []
@@ -101,10 +101,10 @@ const removeData = ({ VALUE, id, params = {} }) => {
             else return delete o[k]
         }
         return o[k]
-    }, local.Data)
+    }, STATE[local.Data])
 
     setContent({ VALUE, id })
-    console.log(local.Data);
+    console.log(STATE[local.Data]);
 }
 
 module.exports = {createData, setData, pushData, clearData, removeData}

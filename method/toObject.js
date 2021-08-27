@@ -6,6 +6,11 @@ const { derive } = require("./derive")
 
 const toObject = ({ VALUE, STATE, string, e, id }) => {
 
+    const { toBoolean } = require("./toBoolean")
+    const { toId } = require("./toId")
+
+    var localId = id
+
     if (typeof string !== 'string' || !string) return string || {}
     var params = {}
 
@@ -29,15 +34,27 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
         }
 
         // id
-        if (value && value.includes('>>')) {
+        if (value && value.includes('::')) {
 
-            id = value.split('>>')[1]
-            value = value.split('>>')[0]
+            var newId = value.split('::')[1]
+            id = toId({ VALUE, STATE, id, string: newId, e })[0]
+            value = value.split('::')[0]
 
+        }
+        
+        // condition
+        if (value && value.includes('<<')) {
+
+            var condition = value.split('<<')[1]
+            var approved = toBoolean({ STATE, VALUE, id, e, string: condition })
+            if (!approved) return
+            value = value.split('<<')[0]
         }
 
         var local = VALUE[id]
         if (!local) return
+        
+        if (value) value = bracketsToDots({ VALUE, STATE, string: value, e, id })
 
         var path = typeof value === 'string' ? value.split('.') : []
         var keys = typeof key === 'string' ? key.split('.') : []
@@ -113,7 +130,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                     if (path.length > 0) {
                         if (value) value = merge(
                             value.map(
-                                val => derive(val, path)[0] || (local.droplist ? `${derive(val, 'title')[0]}:readOnly` : '')
+                                val => derive(val, path)[0] || (local.droplist ? `${derive(val, 'title')[0]}:readonly` : '')
                             )
                         )
                     }
@@ -121,9 +138,9 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                 } else if (path[0] === 'value') {
 
                     if (path[1] === 'data') {
-
+                        
                         var path = path.slice(2)
-                        value = derive(local.Data, [...local.derivations, ...path])[0]
+                        value = derive(STATE[local.Data], [...local.derivations, ...path])[0]
 
                     } else {
 
@@ -133,21 +150,21 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                             if (k === 'parent') {
 
                                 var parent = o.parent
-                                if (o.type === 'Input') parent = VALUE[parent].parent
+                                if (o.templated) parent = VALUE[parent].parent
                                 return VALUE[parent]
 
                             } else if (k === 'next' || k === 'nextSibling') {
 
-                                var nextSibling = o.element.nextSibling
+                                var element = o.templated ? VALUE[o.parent].element : o.element
+                                var nextSibling = element.nextSibling
                                 var id = nextSibling.id
-
                                 return VALUE[id]
 
                             } else if (k === 'prev' || k === 'prevSibling') {
 
-                                var previousSibling = o.element.previousSibling
+                                var element = o.templated ? VALUE[o.parent].element : o.element
+                                var previousSibling = element.previousSibling
                                 var id = previousSibling.id
-
                                 return VALUE[id]
 
                             } else if (k === '1stChild') {
@@ -160,7 +177,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                                 return VALUE[id]
                                 
                             } else if (k === '2ndChild') {
-
+                                
                                 var id = (o.element.children[1] || o.element.children[0]).id
                                 if (VALUE[id].component === 'Input') {
                                     id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
@@ -210,7 +227,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
 
                     value = value.split('.')
                     value.shift()
-                    value = merge(toArray(derive(local.Data, value, true)[0]))
+                    value = merge(toArray(derive(STATE[local.Data], value, true)[0]))
 
                 } else if (path[0] === 'const') {
                     value = value.split('const.')[1]
@@ -287,20 +304,36 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
 
         }
 
+        id = localId
+
+        // id
+        if (key && key.includes('::')) {
+
+            var newId = key.split('::')[1]
+            id = toId({ VALUE, STATE, id, string: newId, e })[0]
+            key = key.split('::')[0]
+        }
+
+        var local = VALUE[id]
+        if (!local) return
+
         // keys from brackets to dots
-        key = bracketsToDots({ VALUE, STATE, key, e, id })
+        key = bracketsToDots({ VALUE, STATE, string: key, e, id })
         keys = key.split('.')
 
         // object structure
         if (keys && keys.length > 1) {
             
-            // mount state without using setState
-            if (keys[0] === 'state') {
+            // mount state & value without using setState & setValue
+            if (keys[0] === 'state' || keys[0] === 'value') {
+                
+                var object = keys[0] === 'state' ? STATE : (keys[0] === 'value' && local)
                 var keys = keys.slice(1)
                 var deleteRequest
                 var length = keys.length - 1
-
+                
                 keys.reduce((o, k, i) => {
+                    
                     if (deleteRequest) return
                     if (i === keys.length - 1) {
 
@@ -312,7 +345,8 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                         return delete o[k]
                     }
                     return o[k]
-                }, STATE)
+                    
+                }, object)
                 
                 if (deleteRequest) return
             }
@@ -348,7 +382,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
             } else params[key] = value
         }
     })
-
+    
     return params
 }
 
@@ -356,10 +390,11 @@ function addDays(theDate, days) {
     return new Date(theDate.getTime() + days * 24 * 60 * 60 * 1000);
 }
 
-function bracketsToDots({ VALUE, STATE, key, e, id }) {
+function bracketsToDots({ VALUE, STATE, string, e, id }) {
 
     var keys = []
-    keys = key.split('[')
+    keys = string.split('[')
+    if (!keys[0]) return string
 
     if (keys[1]) {
 
@@ -368,13 +403,13 @@ function bracketsToDots({ VALUE, STATE, key, e, id }) {
         var value = toObject({ VALUE, STATE, string: `${k}=${bracketKey[0]}`, e, id })[k]
         var before = keys[0]
         keys = keys.slice(2)
-        key = `${before}.${value}${bracketKey[1]}${keys.join('[') ? `[${keys.join('[')}` : ''}`
+        string = `${before}.${value}${bracketKey[1]}${keys.join('[') ? `[${keys.join('[')}` : ''}`
         
     }
 
-    if (keys[2]) key = bracketsToDots(key)
+    if (keys[2]) string = bracketsToDots({ VALUE, STATE, string, e, id })
 
-    return key
+    return string
 }
 
 module.exports = {toObject}

@@ -1,17 +1,18 @@
 module.exports = ({ VALUE, STATE, params, id }) => {
+    var controls = params.controls
     
     return [{
         event: `click`,
         actions: [
-            `setState?state.${params.id}-mouseenter`,
-            `mountAfterStyles>>${params.id}`,
-            `setPosition?placement=${params.placement || 'right'};distance=${params.distance || '15'};id=${params.id}`,
+            `setState?state.${controls.id}-mouseenter`,
+            `mountAfterStyles::${controls.id}`,
+            `setPosition?position.placement=${controls.placement || 'right'};position.distance=${controls.distance || '15'};position.id=${controls.id}`,
         ]
     }, {
         event: 'mouseleave',
         actions: [
-            `resetStyles::200>>${params.id}??!mouseenter;!mouseenter>>${params.id};!state.${params.id}-mouseenter`,
-            `setState?state.${params.id}-mouseenter=false`
+            `resetStyles>>200::${controls.id}??!mouseenter;!mouseenter::${controls.id};!state.${controls.id}-mouseenter`,
+            `setState?state.${controls.id}-mouseenter=false`
         ]
     }]
 }

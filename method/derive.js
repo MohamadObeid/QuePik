@@ -1,18 +1,13 @@
 const { merge } = require("./merge")
 
-const derive = (data, keys, fullDerivation, defValue, writable) => {
-
+const derive = (data, keys, fullDerivation, defaultData, writable) => {
+    
     var derivedData = data
     var isArray = false
 
     if (!Array.isArray(keys)) keys = keys.split('.')
 
-    if (!data || typeof data !== 'object' || keys.length === 0) {
-        if (defValue) data = defValue
-        derivedData = data
-    }
-
-    else derivedData = keys.reduce((o, k, i) => {
+    derivedData = keys.reduce((o, k, i) => {
         if (isArray) return o
 
         if (k === 'merge') return merge(o)
@@ -27,8 +22,8 @@ const derive = (data, keys, fullDerivation, defValue, writable) => {
 
             else if (i === keys.length - 1) {
 
-                if (defValue || defValue === 0) {
-                    if (!o[k]) o[k] = defValue
+                if (defaultData || defaultData === 0) {
+                    if (!o[k]) o[k] = defaultData
                 } else if (Array.isArray(o) && isNaN(k)) {
                     if (o.length === 0) {
                         o.push({})
@@ -51,8 +46,8 @@ const derive = (data, keys, fullDerivation, defValue, writable) => {
 
         return o[k]
     }, data)
-
-    // do not touch isArray...
+    
+        // do not touch isArray...
     return [derivedData, keys, isArray]
 }
 

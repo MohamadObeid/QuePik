@@ -6,19 +6,28 @@ const { toObject } = require("./toObject")
 
 const _component = require("../component/_component")
 
-const createTags = ({ VALUE, STATE, params: { value, data, derivations } }) => {
+const createTags = ({ VALUE, STATE, id }) => {
     
     const { execute } = require("./execute")
-    
-    if (Array.isArray(data)) {
 
-        value.length = data.length
+    var local = VALUE[id]
+    if (!local) return
 
-        if (data.length > 0) return data.map((data, index) => {
+    if (Array.isArray(local.data) && local.data.length > 0) {
 
-            var id = generate(), local = clone(value)
+        local.length = local.data.length
+        var $ = clone(local)
+        delete VALUE[id]
+
+        return $.data.map((data, index) => {
+
+            var id = generate()
+            var local = clone($)
+
+            local.derivations = [...local.derivations, index]
+            local.data = data
             local.id = id
-    
+
             // components
             if (_component[local.type]) {
                 
@@ -36,18 +45,26 @@ const createTags = ({ VALUE, STATE, params: { value, data, derivations } }) => {
                 var approved = toBoolean({ VALUE, STATE, string: conditions, id })
                 if (!approved) return
                 
-                // push destructured params from type to value
+                // push destructured params from type to local
                 if (params) {
-                    params = toObject({VALUE, STATE, string: params, id})
+                    params = toObject({ VALUE, STATE, string: params, id })
                     Object.entries(params).map(([k, v]) => local[k] = v )
+                    if (params.id) {
+
+                        delete Object.assign(VALUE, { [params.id]: VALUE[id] })[id]
+                        id = params.id
+
+                    } else if (params.data) {
+
+                        var state = local.Data = generate()
+                        STATE[state] = params.data
+            
+                    }
                 }
-
-                id = local.id
             }
-
-            VALUE[id] = { ...local, id, index, data, derivations: [...derivations, index] }
-            VALUE[local.parent].childrenSiblings.push(id)
-
+            
+            VALUE[id] = local
+            
             // execute onload actions
             if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
 
@@ -56,43 +73,47 @@ const createTags = ({ VALUE, STATE, params: { value, data, derivations } }) => {
         }).join('')
     }
 
-    
-    var id = value.id || generate()
-    value.id = id
 
     // components
-    if (_component[value.type]) {
-        
-        value = _component[value.type](value)
+    if (_component[local.type]) {
+
+        local = _component[local.type](local)
 
         // destructure type, params, & conditions from type
-        var type = value.type.split('?')[0]
-        var params = value.type.split('?')[1] 
-        var conditions = value.type.split('?')[2]
+        var type = local.type.split('?')[0]
+        var params = local.type.split('?')[1] 
+        var conditions = local.type.split('?')[2]
 
         // type
-        value.type = type
+        local.type = type
         
         // approval
         var approved = toBoolean({ VALUE, STATE, string: conditions, id })
         if (!approved) return
         
-        // push destructured params from type to value
+        // push destructured params from type to local
         if (params) {
-            params = toObject({VALUE, STATE, string: params, id})
-            Object.entries(params).map(([k, v]) => value[k] = v )
-        }
+            params = toObject({ VALUE, STATE, string: params, id })
+            Object.entries(params).map(([k, v]) => local[k] = v )
+            if (params.id) {
 
-        // reset id
-        id = value.id
+                delete Object.assign(VALUE, { [params.id]: VALUE[id] })[id]
+                id = params.id
+
+            } else if (params.data) {
+
+                var state = local.Data = generate()
+                STATE[state] = params.data
+
+            }
+        }
     }
     
-    
-    VALUE[id] = { ...value, id, data, derivations }
-    VALUE[value.parent].childrenSiblings.push(id)
+    VALUE[id] = local
+    //VALUE[local.parent].childrenSiblings.push(id)
     
     // execute onload actions
-    if (value.actions) execute({ VALUE, STATE, id, actions: value.actions, instantly: true })
+    if (local.actions) execute({ VALUE, STATE, id, actions: local.actions, instantly: true })
 
     return oneTag({ STATE, VALUE, id })
 }
@@ -102,91 +123,104 @@ const createTags = ({ VALUE, STATE, params: { value, data, derivations } }) => {
 const oneTag = ({ STATE, VALUE, id }) => {
 
     const { createElement } = require("./createElement")
-    var tag, value = VALUE[id]
+    var tag, local = VALUE[id], style = ''
     
-    // style
-    var style = ''
-    if (value.style) {
-        Object.entries(value.style).map(([k, v]) => {
-            if (k === 'after' || k.includes('::')) return
-            else if (k === 'borderBottom') k = 'border-bottom'
-            else if (k === 'borderLeft') k = 'border-left'
-            else if (k === 'borderRight') k = 'border-right'
-            else if (k === 'borderTop') k = 'border-top'
-            else if (k === 'marginBottom') k = 'margin-bottom'
-            else if (k === 'marginLeft') k = 'margin-left'
-            else if (k === 'marginRight') k = 'margin-right'
-            else if (k === 'marginTop') k = 'margin-top'
-            else if (k === 'fontSize') k = 'font-size'
-            else if (k === 'fontWeight') k = 'font-weight'
-            else if (k === 'lineHeight') k = 'line-weight'
-            else if (k === 'textOverflow') k = 'text-overflow'
-            else if (k === 'whiteSpace') k = 'white-space'
-            else if (k === 'backgroundColor') k = 'background-color'
-            else if (k === 'zIndex') k = 'z-index'
-            else if (k === 'boxShadow') k = 'box-shadow'
-            else if (k === 'borderRadius') k = 'border-radius'
-            else if (k === 'zIndex') k = 'z-index'
-            else if (k === 'alignItems') k = 'align-items'
-            else if (k === 'justifyContent') k = 'justify-content'
-            else if (k === 'userSelect') k = 'user-select'
-            else if (k === 'textAlign') k = 'text-align'
-            else if (k === 'pointerEvents') k = 'pointer-events'
-            else if (k === 'flexDirection') k = 'flex-direction'
-            else if (k === 'maxWidth') k = 'max-width'
-            else if (k === 'minWidth') k = 'min-width'
-            else if (k === 'maxHeight') k = 'max-height'
-            else if (k === 'minHeight') k = 'min-height'
-            else if (k === 'gridTemplateColumns') k = 'grid-template-columns'
-            else if (k === 'gridTemplateRows') k = 'grid-template-rows'
-            style += `${k}:${v}; `
-        })
-    }
+    if (local.style) 
+    Object.entries(local.style).map(([k, v]) => {
+        if (k === 'after' || k.includes('>>')) return
+        else if (k === 'borderBottom') k = 'border-bottom'
+        else if (k === 'borderLeft') k = 'border-left'
+        else if (k === 'borderRight') k = 'border-right'
+        else if (k === 'borderTop') k = 'border-top'
+        else if (k === 'marginBottom') k = 'margin-bottom'
+        else if (k === 'marginLeft') k = 'margin-left'
+        else if (k === 'marginRight') k = 'margin-right'
+        else if (k === 'marginTop') k = 'margin-top'
+        else if (k === 'fontSize') k = 'font-size'
+        else if (k === 'fontWeight') k = 'font-weight'
+        else if (k === 'lineHeight') k = 'line-weight'
+        else if (k === 'textOverflow') k = 'text-overflow'
+        else if (k === 'whiteSpace') k = 'white-space'
+        else if (k === 'backgroundColor') k = 'background-color'
+        else if (k === 'zIndex') k = 'z-index'
+        else if (k === 'boxShadow') k = 'box-shadow'
+        else if (k === 'borderRadius') k = 'border-radius'
+        else if (k === 'zIndex') k = 'z-index'
+        else if (k === 'alignItems') k = 'align-items'
+        else if (k === 'justifyContent') k = 'justify-content'
+        else if (k === 'userSelect') k = 'user-select'
+        else if (k === 'textAlign') k = 'text-align'
+        else if (k === 'pointerEvents') k = 'pointer-events'
+        else if (k === 'flexDirection') k = 'flex-direction'
+        else if (k === 'maxWidth') k = 'max-width'
+        else if (k === 'minWidth') k = 'min-width'
+        else if (k === 'maxHeight') k = 'max-height'
+        else if (k === 'minHeight') k = 'min-height'
+        else if (k === 'gridTemplateColumns') k = 'grid-template-columns'
+        else if (k === 'gridTemplateRows') k = 'grid-template-rows'
+        style += `${k}:${v}; `
+    })
 
     // innerHTML
-    var text = (typeof value.data !== 'object' && value.data) || value.text || ''
+    var text = (typeof local.data !== 'object' && local.data) || local.text || ''
+    var innerHTML = text
     
-    if (value.type === 'View')
-    tag = `<div class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</div>`
-
-    else if (value.type === 'Table')
-    tag = `<table class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</table>`
-
-    else if (value.type === 'Row')
-    tag = `<tr class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</tr>`
-
-    else if (value.type === 'Header')
-    tag = `<th class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</th>`
-
-    else if (value.type === 'Cell')
-    tag = `<td class='${value.class}' id='${value.id}' style='${style}'>${value.children ? createElement({ STATE, VALUE, id }) : text}</td>`
-
-    else if (value.type === 'Text')
-    tag = `<p class='${value.class}' id='${value.id}' style='${style}'>${text}</p>`
-
-    else if (value.type === 'Label')
-    tag = `<label class='${value.class}' id='${value.id}' style='${style}'>${text}</label>`
-
-    else if (value.type === 'Span')
-    tag = `<span class='${value.class}' id='${value.id}' style='${style}'>${text}</span>`
-
-    else if (value.type === 'Icon') 
-    tag = `<i class='material-icons${value.outlined ? '-outlined' : value.rounded ? '-round' : value.sharp ? '-sharp' : value.twoTone ? '-two-tone' : ''} ${value.class || ''} ${value.icon.name}' id='${value.id}' style='${style}'>${value.google ? value.icon.name : ''}</i>`
+    if (local.children) {
+        
+        innerHTML = toArray(clone(local.children)).map((child, index) => {
+        
+            var id = child.id || generate()
+            VALUE[id] = clone(child)
+            VALUE[id].id = id
+            VALUE[id].index = index
+            VALUE[id].parent = local.id
+            
+            return createElement({ STATE, VALUE, id })
     
-    else if (value.type === 'Input')
-    tag = `<input class='${value.class}' id='${value.id}' style='${style}' ${value.upload ? `type=file accept='${value.upload.type}/*' ${value.upload.multiple ? 'multiple': ''}` : ''} type='${value.input.type || 'text'}' placeholder='${value.placeholder || ''}' value='${value.data || value.input.value || ''}'/>`
+        }).join('')
+    }
     
-    else if (value.type === 'Paragraph')
-    tag = `<textarea class='${value.class}' id='${value.id}' style='${style}' placeholder='${value.placeholder || ''}'>${text}</textarea>`
+    if (local.type === 'View')
+    tag = `<div class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</div>`
+
+    else if (local.type === 'Table')
+    tag = `<table class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</table>`
+
+    else if (local.type === 'Row')
+    tag = `<tr class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</tr>`
+
+    else if (local.type === 'Header')
+    tag = `<th class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</th>`
+
+    else if (local.type === 'Cell')
+    tag = `<td class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</td>`
+
+    else if (local.type === 'Label')
+    tag = `<label class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</label>`
+
+    else if (local.type === 'Span')
+    tag = `<span class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</span>`
+
+    else if (local.type === 'Text')
+    tag = `<p class='${local.class}' id='${local.id}' style='${style}'>${text}</p>`
+
+    else if (local.type === 'Icon') 
+    tag = `<i class='material-icons${local.outlined ? '-outlined' : local.rounded ? '-round' : local.sharp ? '-sharp' : local.twoTone ? '-two-tone' : ''} ${local.class || ''} ${local.icon.name}' id='${local.id}' style='${style}'>${local.google ? local.icon.name : ''}</i>`
+    
+    else if (local.type === 'Input')
+    tag = `<input class='${local.class}' id='${local.id}' style='${style}' ${local.upload ? `type=file accept='${local.upload.type}/*' ${local.upload.multiple ? 'multiple': ''}` : ''} type='${local.input.type || 'text'}' placeholder='${local.placeholder || ''}' value='${local.data || local.input.value || ''}' ${local.readonly ? 'readonly' : ''} />`
+    
+    else if (local.type === 'Paragraph')
+    tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ''}'>${text}</textarea>`
 
     // linkable
-    if (value.link) {
+    if (local.link) {
 
-        tag = `<a href=${value.link}>${tag}</a>`
-        value.controls = toArray(value.controls) || []
-        value.controls.push({
+        tag = `<a href=${local.link}>${tag}</a>`
+        local.controls = toArray(local.controls) || []
+        local.controls.push({
             event: 'click',
-            actions: `route?route=${value.link}`
+            actions: `route?route=${local.link}`
         })
     }
     

@@ -1,6 +1,7 @@
 module.exports = ({params}) => {
+    var controls = params.controls
     return [{
         event: 'click',
-        actions: `toggleStyles>>${params.id || 'value.id'}`
+        actions: `toggleStyles::${controls.id || 'value.id'}`
     }]
 }

@@ -29,7 +29,11 @@ const toId = ({ VALUE, STATE, id, string }) => {
 
         // id=siblings
         else if (id === 'siblings') {
-            var siblings = VALUE[local.parent].childrenSiblings
+            
+            var children = [...local.element.children]
+            var siblings = []
+    
+            children.map(child => siblings.push(child.id))
 
             // remove current id from siblings
             siblings = siblings.filter(id => id !== id)

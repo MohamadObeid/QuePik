@@ -1,10 +1,8 @@
 const clone = (obj) => {
-    var copy
-    if (typeof obj !== 'object') return obj
     
-    if (isElement(obj)) return obj
+    // if (isElement(obj)) return obj
 
-    if (Array.isArray(obj)) {
+    /*if (Array.isArray(obj)) {
 
         copy = []
         obj.map((value, index) => {
@@ -20,9 +18,20 @@ const clone = (obj) => {
             copy[key] = value
         })
 
+    }*/
+
+    var copy 
+    if (typeof obj !== 'object') copy = obj
+    else if (Array.isArray(obj)) copy = [...obj]
+    else {
+      var element
+      if (obj.element) element = obj.element
+      copy = JSON.parse(JSON.stringify(obj))
+      if (element) copy.element = element
     }
 
     return copy
+     
 }
 
 const isElement = (obj) => {
