@@ -1013,7 +1013,7 @@ const Input = (component) => {
                     ...(icon.style || {})
                 }
             }, {
-                type: `Input?id=${id}-input;${(component.currency || component.unit) ? `;path=amount;data=${component.data}` : (component.lang || component.google) ? `;path=name;data=${component.data}` : ''};filterable=${component.filterable}`,
+                type: `Input?id=${id}-input;${(component.currency || component.unit) ? `path=amount` : (component.lang || component.google) ? `path=name` : ''};filterable=${component.filterable}`,
                 input,
                 readonly,
                 droplist,
@@ -1056,7 +1056,7 @@ const Input = (component) => {
                     actions: 'hideTooltip',
                 }]
             }, {
-                type: `View?class=flex-box ${lang === 'ar' ? 'arabic' : ''}`,
+                type: `View?class=flex-box`,
                 children: [{
                     type: `Text?path=currency;id=${id}-currency;droplist.items=[asset.currency.options.name];auto-style?const.${component.currency}`,
                     style: {
@@ -1094,7 +1094,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data=${component.lang}?!value.data`,
                 }, {
-                    type: `Checkbox?class=align-center;path=google;id=${id}-google;style.cursor=pointer;style.height=1.5rem;style.width=1.5rem;style.margin=0 .75rem?const.${component.google}`,
+                    type: `Checkbox?class=align-center;path=google;id=${id}-google;style.cursor=pointer;style.margin=0 .5rem?const.${component.google}`,
                 }, {
                     type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;auto-style?${component.clearable}||${component.removable}`,
                     style: {
@@ -2047,14 +2047,14 @@ const createElement = ({ STATE, VALUE, id }) => {
             delete Object.assign(VALUE, { [params.id]: VALUE[id] })[id]
             id = params.id
 
-        } else if (params.data) {
+        } else if (params.data && !local.Data) {
 
             var state = local.Data = generate()
             STATE[state] = params.data
             
         }
     }
-    if (local.tt) console.log(local, STATE[local.Data]);
+
     // pass to children
     if (parent.toChildren) {
 

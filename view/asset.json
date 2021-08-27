@@ -68,7 +68,7 @@
                 "type": "Label?text=Icon;style.fontSize=1.4rem;style.textAlign=left"
             }]
         }, {
-            "type": "View?tt;style.display=grid;style.gap=1rem",
+            "type": "View?style.display=grid;style.gap=1rem",
             "children": [{
                 "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=6fr 4fr 2fr 1fr;style.gap=1rem;path=name;data=[]",
                 "children": [{

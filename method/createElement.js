@@ -63,14 +63,14 @@ const createElement = ({ STATE, VALUE, id }) => {
             delete Object.assign(VALUE, { [params.id]: VALUE[id] })[id]
             id = params.id
 
-        } else if (params.data) {
+        } else if (params.data && !local.Data) {
 
             var state = local.Data = generate()
             STATE[state] = params.data
             
         }
     }
-    if (local.tt) console.log(local, STATE[local.Data]);
+
     // pass to children
     if (parent.toChildren) {
 
