@@ -64,7 +64,7 @@ const List = (component) => {
             controls: [...controls,
             {
                 event: 'mouseleave',
-                actions: `resetStyles>>200??!mouseenter;!state.${id}-mouseenter`
+                actions: `resetStyles::200??!mouseenter;!state.${id}-mouseenter`
             }]
         }
 }

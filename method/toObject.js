@@ -34,21 +34,21 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
         }
 
         // id
-        if (value && value.includes('::')) {
+        if (value && value.includes('::::')) {
 
-            var newId = value.split('::')[1]
+            var newId = value.split('::::')[1]
             id = toId({ VALUE, STATE, id, string: newId, e })[0]
-            value = value.split('::')[0]
+            value = value.split('::::')[0]
 
         }
         
         // condition
-        if (value && value.includes('<<')) {
+        if (value && value.includes(':::')) {
 
-            var condition = value.split('<<')[1]
+            var condition = value.split(':::')[1]
             var approved = toBoolean({ STATE, VALUE, id, e, string: condition })
             if (!approved) return
-            value = value.split('<<')[0]
+            value = value.split(':::')[0]
         }
 
         var local = VALUE[id]
@@ -106,6 +106,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
             else if (value === 'string' || value === `''`) value = ''
             else if (value === 'object' || value === '{}') value = {}
             else if (value === 'array' || value === '[]') value = []
+            else if (value === '[{}]') value = [{}]
             else if (value === '[string]') value = ['']
             else if (value.includes('%20')) value = value.split('%20').join(' ')
             else if (path.length > 1) {
@@ -307,11 +308,11 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
         id = localId
 
         // id
-        if (key && key.includes('::')) {
+        if (key && key.includes('::::')) {
 
-            var newId = key.split('::')[1]
+            var newId = key.split('::::')[1]
             id = toId({ VALUE, STATE, id, string: newId, e })[0]
-            key = key.split('::')[0]
+            key = key.split('::::')[0]
         }
 
         var local = VALUE[id]
@@ -340,7 +341,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                         return o[k] = value
 
                     } if ( i === length - 1 && keys[length] === 'delete') { // last key = delete
-
+                        
                         deleteRequest = true
                         return delete o[k]
                     }
@@ -404,7 +405,6 @@ function bracketsToDots({ VALUE, STATE, string, e, id }) {
         var before = keys[0]
         keys = keys.slice(2)
         string = `${before}.${value}${bracketKey[1]}${keys.join('[') ? `[${keys.join('[')}` : ''}`
-        
     }
 
     if (keys[2]) string = bracketsToDots({ VALUE, STATE, string, e, id })

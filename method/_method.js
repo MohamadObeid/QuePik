@@ -36,6 +36,7 @@ const {focus} = require('./focus')
 const {sort} = require('./sort')
 const {log} = require('./log')
 const {deleteDb, saveDb} = require('./db')
+const {getViews, getAssets} = require("./getAssets")
 const {defaultInputHandler} = require('./defaultInputHandler')
 const {createActions} = require('./createActions')
 const {setStyle, resetStyles, toggleStyles, mountAfterStyles} = require('./style')
@@ -43,7 +44,7 @@ const {resizeInput, dimensions} = require('./resize')
 const {createData, setData, pushData, clearData, removeData} = require('./data')
 
 const _method = {
-    clearValues, clone, derive, duplicate, duplicates, actionlist,
+    clearValues, clone, derive, duplicate, duplicates, actionlist, getViews, getAssets,
     getParam, isArabic, isEqual, merge, overflow, addEventListener, setState,
     toBoolean, toComponent, toId, toObject, toString, update, execute, removeIds,
     createDocument, toArray, generate, createElement, controls, route,

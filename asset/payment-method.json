@@ -1,0 +1,61 @@
+{
+  "name": [
+    {
+      "lang": "en",
+      "icon": {
+        "name": "credit_card",
+        "google": true,
+        "type": "outlined"
+      },
+      "name": "Payment Methods"
+    }
+  ],
+  "options": [
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Cash Debit"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Bank Transfer"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Cash"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Credit"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Check"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Credit Card"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "PayPal"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Wire Transfer"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Banking Card"
+    }
+  ],
+  "file-name": "payment-method"
+}

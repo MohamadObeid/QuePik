@@ -24,7 +24,7 @@ const setContent = ({ VALUE, STATE, params = {}, id }) => {
     else if (local.type === 'UploadInput') local.element.value = value || null
 
     // set parent data the same as child data
-    if (isEqual(local.parent.derivations, local.derivations) && isEqual(local.data, local.parent.data)) {
+    /*if (isEqual(local.parent.derivations, local.derivations) && isEqual(local.data, local.parent.data)) {
 
         // set derivations
         if (Array.isArray(local.data))
@@ -47,7 +47,7 @@ const setContent = ({ VALUE, STATE, params = {}, id }) => {
 
         // set data
         local.data = value
-    }
+    }*/
 
     isArabic({ VALUE, params: { value }, id })
 }

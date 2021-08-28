@@ -8,7 +8,7 @@ const update = ({ STATE, VALUE, id }) => {
 
     var local = VALUE[id]
     if (!local) return
-
+    
     // remove id from VALUE
     removeIds({ VALUE, id })
     

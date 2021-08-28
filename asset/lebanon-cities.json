@@ -1,0 +1,146 @@
+{
+  "name": [
+    {
+      "lang": "en",
+      "icon": {
+        "name": "flag",
+        "google": true,
+        "type": "outlined"
+      },
+      "name": "Lebanon Cities"
+    }
+  ],
+  "options": [
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Tripoli"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Beirut"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Sidon"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Tyre"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Jounie"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Zahle"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Nabatiye"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Baalbek"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Amioun"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Baabda"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Marjayoun"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Jdaidet el Matn"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Zgharta"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Aaley"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Jbail"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Sir ed Danniye"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Halba"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Bent Jbail"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Jezzîne"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Batroun"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Hasbaiya"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Joubb Jannine"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Beit ed Dine"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "El Hermel"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Rachaiya el Ouadi"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Bcharre"
+    }
+  ],
+  "file-name": "lebanon-cities"
+}

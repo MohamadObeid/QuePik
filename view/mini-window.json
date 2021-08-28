@@ -24,7 +24,7 @@
         }]
     }],
     "controls": [{
-        "event": "click",
-        "actions": "setStyle?style.display=none>>200;style.opacity=0?!state.mini-window-view-mouseenter"
+        "event": "mousedown",
+        "actions": "setStyle?style.display=none::200;style.opacity=0?!state.mini-window-view-mouseenter"
     }]
 }

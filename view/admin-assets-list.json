@@ -62,7 +62,7 @@
                     "controls": [{
                         "actions": "createControls?controls.type=auto-style;controls.id=[value.id,value.1stChild.id]" 
                     }, {
-                        "actions": "createControls?controls.type=mini-window;controls.view=asset?value.data.file-name!=language;value.data.file-name!=unit;value.data.file-name!=currency"
+                        "actions": "createControls?controls.type=mini-window;controls.view=asset?value.data.file-name!=language!=unit!=currency!=country"
                     }],
                     "children": [{
                         "type": "Text?path=name.0.name;style.fontSize=1.3rem;style.after.color=#ee384e"

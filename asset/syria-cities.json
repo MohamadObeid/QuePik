@@ -1,0 +1,386 @@
+{
+  "name": [
+    {
+      "lang": "en",
+      "icon": {
+        "google": true,
+        "name": "flag",
+        "type": "outlined"
+      },
+      "name": "Syria Cities"
+    }
+  ],
+  "options": [
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Dayr az Zawr"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Aleppo"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Damascus"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Homs"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Latakia"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ḩamāh"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ar Raqqah"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Al Ḩasakah"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Al Qāmishlī"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Idlib"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Dar‘ā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Dūmā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Jaramānā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "As Salamīyah"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Al Ḩajar al Aswad"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ma‘arrat an Nu‘mān"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ţarţūs"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Dārayyā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ath Thawrah"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Manbij"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Jablah"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "As Suwaydā’"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Nawá"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "At Tall"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ar Rastan"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Khān Shaykhūn"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "An Nabk"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ālbū Kamāl"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Tadmur"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Al Mayādīn"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "‘Āmūdā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Yabrūd"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Al Quşayr"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ḩarastā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Tallbīsah"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Jisr ash Shughūr"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Bāniyās"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Tādif"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Jayrūd"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Sarāqib"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Al Mālikīyah"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Hajīn"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Al Qaryatayn"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ma‘arratmişrīn"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Maşyāf"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Al Qunayţirah"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Tallkalakh"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Dayr Ḩāfir"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Tall Salḩab"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Qadsayyā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ţafas"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Şāfītā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Jāsim"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "I‘zāz"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ra’s al ‘Ayn"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Şūrān"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Tall Rif‘at"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Az Zabadānī"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Aş Şanamayn"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Şaydnāyā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Salqīn"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Qaţanā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Ḩārim"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Binnish"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Buşrá ash Shām"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Izra"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Muḩradah"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "As Suqaylibīyah"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Kafr Zaytā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Shahbā"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "As Sukhnah"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Kafr Nubl"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Şalkhad"
+    },
+    {
+      "lang": "en",
+      "icon": {},
+      "name": "Tall Abyaḑ"
+    }
+  ],
+  "file-name": "syria-cities"
+}

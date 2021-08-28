@@ -1,7 +1,6 @@
 const { createElement } = require("./createElement")
+const { getAssets, getViews } = require("./getAssets")
 const _page = require('../page/_page')
-const path = require('path')
-const fs = require('fs')
 
 const createDocument = (page) => {
     var innerHTML = '', STATE = {}, VALUE = {}
@@ -16,7 +15,6 @@ const createDocument = (page) => {
     var id = 'body'
     VALUE[id] = {}
     VALUE[id].id = id
-    //VALUE[id].childrenSiblings = []
 
     // root
     var id = 'root'
@@ -42,48 +40,18 @@ const createDocument = (page) => {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>digiTrip</title>
-        <link rel="stylesheet" href="index.css"/>
-        <link href='https://css.gg/trash.css' rel='stylesheet'>
+        <link rel="stylesheet" href="index.css" />
+        <link href="https://css.gg/trash.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
     </head>
-    <body VALUE='${JSON.stringify(VALUE)}' STATE='${JSON.stringify(STATE)}'>
+    <body>
         ${innerHTML}
+        <script id="STATE" type="application/json">${JSON.stringify(STATE)}</script>
+        <script id="VALUE" type="application/json">${JSON.stringify(VALUE)}</script>
         <script src="browser.js"></script>
     </body>
     </html>`
-}
-
-
-// assets
-const getAssets = () => {
-
-    var assets = {}
-    var assetsFolderPath = path.join(process.cwd(), 'asset')
-    
-    fs.readdirSync(assetsFolderPath).forEach(fileName => {
-    
-        var file = fs.readFileSync(path.join(assetsFolderPath, fileName))
-        fileName = fileName.split('.json')[0]
-        assets[fileName] = JSON.parse(file)
-    })
-    
-    return assets
-}
-
-// views
-const getViews = () => {
-
-    var views = {}
-    var viewsFolderPath = path.join(process.cwd(), 'view')
-    
-    fs.readdirSync(viewsFolderPath).forEach(fileName => {
-    
-        var file = fs.readFileSync(path.join(viewsFolderPath, fileName))
-        fileName = fileName.split('.json')[0]
-        views[fileName] = JSON.parse(file)
-    })
-
-    return views
 }
 
 module.exports = {createDocument}

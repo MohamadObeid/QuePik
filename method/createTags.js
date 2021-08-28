@@ -13,9 +13,9 @@ const createTags = ({ VALUE, STATE, id }) => {
     var local = VALUE[id]
     if (!local) return
 
-    if (Array.isArray(local.data) && local.data.length > 0) {
+    if (Array.isArray(local.data)) {
 
-        local.length = local.data.length
+        local.length = local.data.length || 1
         var $ = clone(local)
         delete VALUE[id]
 
@@ -127,7 +127,7 @@ const oneTag = ({ STATE, VALUE, id }) => {
     
     if (local.style) 
     Object.entries(local.style).map(([k, v]) => {
-        if (k === 'after' || k.includes('>>')) return
+        if (k === 'after' || k.includes('::')) return
         else if (k === 'borderBottom') k = 'border-bottom'
         else if (k === 'borderLeft') k = 'border-left'
         else if (k === 'borderRight') k = 'border-right'

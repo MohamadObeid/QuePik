@@ -37,7 +37,7 @@
                         "type": "Icon?icon.name=bi-x;style.fontSize=2.2rem;style.cursor=pointer",
                         "controls": {
                             "event": "click",
-                            "actions": "remove::value.parent.parent.id??value.length::value.parent.parent.id>1"
+                            "actions": "remove::::value.parent.parent.id??value.length::::value.parent.parent.id>1"
                         }
                     }]
                 }, {
@@ -91,10 +91,10 @@
                         }, {
                             "event": "change",
                             "actions": [
-                                "setData;setContent::value.parent.next.next.1stChild.2ndChild.id?data=date.today;path=validity.starting-date?value.element.checked",
-                                "setData;setContent::value.parent.next.next.2ndChild.2ndChild.id?data=date.today.+4;path=validity.ending-date?value.element.checked",
+                                "setData;setContent::::value.parent.next.next.1stChild.2ndChild.id?data=date.today;path=validity.starting-date?value.element.checked",
+                                "setData;setContent::::value.parent.next.next.2ndChild.2ndChild.id?data=date.today.+4;path=validity.ending-date?value.element.checked",
                                 "setStyle?style.display=grid?value.element.checked?value.parent.next.next.id",
-                                "setStyle::value.parent.next.next.id;removeData?style.display=none;path=validity?!value.element.checked"
+                                "setStyle::::value.parent.next.next.id;removeData?style.display=none;path=validity?!value.element.checked"
                             ]
                         }]
                     }]
@@ -131,11 +131,11 @@
                         }, {
                             "event": "change",
                             "actions": [
-                                "setData;setContent::value.parent.next.next.1stChild.2ndChild.id?data=generate;path=code.code?value.element.checked",
-                                "setData;setContent::value.parent.next.next.2ndChild.2ndChild.id?data=20;path=code.total-uses?value.element.checked",
-                                "setData;setContent::value.parent.next.next.3rdChild.2ndChild.id?data=1;path=code.allowed-uses-per-user?value.element.checked",
+                                "setData;setContent::::value.parent.next.next.1stChild.2ndChild.id?data=generate;path=code.code?value.element.checked",
+                                "setData;setContent::::value.parent.next.next.2ndChild.2ndChild.id?data=20;path=code.total-uses?value.element.checked",
+                                "setData;setContent::::value.parent.next.next.3rdChild.2ndChild.id?data=1;path=code.allowed-uses-per-user?value.element.checked",
                                 "setStyle?style.display=grid?value.element.checked?value.parent.next.next.id",
-                                "setStyle::value.parent.next.next.id;removeData?style.display=none;path=code?!value.element.checked"
+                                "setStyle::::value.parent.next.next.id;removeData?style.display=none;path=code?!value.element.checked"
                             ]
                         }]
                     }]
@@ -178,7 +178,7 @@
                 "type": "Icon?icon.name=bi-plus-circle-fill;style.fontSize=2rem;style.margin=0 1rem;style.color=#444;style.cursor=pointer",
                 "controls": [{
                     "event": "click",
-                    "actions": "duplicate;focus>>100???value.parent.prev.1stChild.id"
+                    "actions": "duplicate;focus::100???value.parent.prev.1stChild.id"
                 }]
             }, {
                 "type": "Text?text=Add More Offers;style.fontSize=1.4rem;style.color=#444"

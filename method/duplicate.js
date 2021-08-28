@@ -42,7 +42,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
                 o[k] = toArray(o[k])
                 i = o[k].length - 1
 
-                if (i === 0) local.derivations.push(0)
+                if (isNaN(local.derivations[local.derivations.length - 1])) local.derivations.push(0)
                 o[k].push(clone(local.pushData || o[k][i] || ''))
 
                 if (!params.keepValues) {

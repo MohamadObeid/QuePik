@@ -34,10 +34,10 @@ const droplist = ({ VALUE, STATE, params, id }) => {
     }
     
     items = items.filter(item => item)
-    if (items.length > 0) dropList.children = items.map(item => {
+    if (items.length > 0) dropList.children = clone(items.map(item => {
 
         var readonly = false
-        item = item.split('>>')
+        item = item.split('::')
         if (item[1]) readonly = item[1].split(';').find(param => param === 'readonly')
 
         return {
@@ -45,13 +45,13 @@ const droplist = ({ VALUE, STATE, params, id }) => {
             controls: [{
                 event: `click??!readonly;state.droplist=${id}`,
                 actions: [
-                    `setContent::${id};focus::${inputid}?content=${item[0]}`,
-                    `setData::${inputid}?data=free?const.${item[0]}=free`,
-                    `setData::${inputid}?data=''?const.${item[0]}!=free;value.data=free`
+                    `setData::::${id};focus::::${inputid}?data=${item[0]}`,
+                    `setData::::${inputid}?data=free?const.${item[0]}=free`,
+                    `setData::::${inputid}?data=''?const.${item[0]}!=free;value.data=free`
                 ]
             }]
         }
-    })
+    }))
     
     dropList.turnOff = true
     update({ VALUE, STATE, id: 'droplist' })

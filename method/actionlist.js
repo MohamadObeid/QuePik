@@ -10,7 +10,7 @@ const actionlist = ({ VALUE, STATE, id, params = {} }) => {
     var archiveBtn = VALUE['action-list-archive']
     var dulicateBtn = VALUE['action-list-duplicate']
 
-    actionList.Data = deleteBtn.Data = editBtn.Data = hideBtn.Data = archiveBtn.Data = dulicateBtn.Data = STATE[local.Data]
+    actionList.Data = deleteBtn.Data = editBtn.Data = hideBtn.Data = archiveBtn.Data = dulicateBtn.Data = local.Data
 }
 
 module.exports = {actionlist}

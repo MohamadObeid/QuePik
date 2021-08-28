@@ -86,7 +86,7 @@
                             "color": "#444"
                         }
                     }, {
-                        "type": "View?actions=focus>>200",
+                        "type": "View?actions=focus::200",
                         "children": [{
                             "type": "Input?featured;lang=en;path=name;data=[]",
                             "style": {
@@ -326,8 +326,8 @@
                                         "controls": [{
                                             "event": "click",
                                             "actions": [
-                                                "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
-                                                "focus>>100::state.spec-dup-input"
+                                                "remove::::value.parent.parent.id??value.length::::value.parent.parent.id>1",
+                                                "focus::100::::state.spec-dup-input"
                                             ]
                                         }]
                                     }]
@@ -349,7 +349,7 @@
                                 },
                                 "controls": [{
                                     "event": "click",
-                                    "actions": "duplicate::state.spec-dup;focus>>100::state.spec-dup-input"
+                                    "actions": "duplicate::::state.spec-dup;focus::100::::state.spec-dup-input"
                                 }]
                             }, {
                                 "type": "Text?text=Add New Specification",
@@ -453,8 +453,8 @@
                                         "controls": [{
                                             "event": "click",
                                             "actions": [
-                                                "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
-                                                "focus>>100::state.options-input"
+                                                "remove::::value.parent.parent.id??value.length::::value.parent.parent.id>1",
+                                                "focus::100::::state.options-input"
                                             ]
                                         }]
                                     }]
@@ -475,7 +475,7 @@
                                     },
                                     "controls": [{
                                         "event": "click",
-                                        "actions": "duplicate::state.options-dup;focus>>100::state.options-input"
+                                        "actions": "duplicate::::state.options-dup;focus::100::::state.options-input"
                                     }]
                                 }, {
                                     "type": "Text?text=Add New Group",
@@ -730,8 +730,8 @@
                                 "controls": [{
                                     "event": "click",
                                     "actions": [
-                                        "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
-                                        "focus>>100::state.inventory-input"
+                                        "remove::::value.parent.parent.id??value.length::::value.parent.parent.id>1",
+                                        "focus::100::::state.inventory-input"
                                     ]
                                 }]
                             }]
@@ -754,7 +754,7 @@
                         },
                         "controls": [{
                             "event": "click",
-                            "actions": "duplicate::state.inventory-dup;focus>>100::state.inventory-input"
+                            "actions": "duplicate::::state.inventory-dup;focus::100::::state.inventory-input"
                         }]
                     }, {
                         "type": "Text",
@@ -945,8 +945,8 @@
                                 "controls": [{
                                     "event": "click",
                                     "actions": [
-                                        "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
-                                        "focus>>100::state.pricing-input"
+                                        "remove::::value.parent.parent.id??value.length::::value.parent.parent.id>1",
+                                        "focus::100::::state.pricing-input"
                                     ]
                                 }]
                             }]
@@ -969,7 +969,7 @@
                         },
                         "controls": [{
                             "event": "click",
-                            "actions": "duplicate::state.pricing-dup;focus>>100::state.pricing-input"
+                            "actions": "duplicate::::state.pricing-dup;focus::100::::state.pricing-input"
                         }]
                     }, {
                         "type": "Text",

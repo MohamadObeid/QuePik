@@ -81,7 +81,7 @@ const clearData = ({ VALUE, STATE, id }) => {
 }
 
 const removeData = ({ STATE, VALUE, id, params = {} }) => {
-    var local = VALUE[id]
+    var local = VALUE[id];
     if (!STATE[local.Data]) return
 
     var path = params.path

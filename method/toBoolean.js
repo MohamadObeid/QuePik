@@ -26,7 +26,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
             var eq = condition.includes('=')
             var gt = condition.includes('>')
             if (gt) {
-                var test = condition.split('::')
+                var test = condition.split('::::')
                 gt = test.find(exp => exp.includes('>'))
             }
             var gte = condition.includes('>=')
@@ -64,11 +64,19 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                     // ex: key=value1=value2=value3
                     else {
                         condition[2] = condition.slice(2, condition.length).join('=')
+                        
+                        // key!=value1!=value2!=value3
+                        if (key.slice(-1) === '!') 
+                        if (condition[2].slice(-1) === '!') 
+                        condition[2] = condition[2].slice(0, -1)
+                        
                         approval = toBoolean({ VALUE, STATE, e, string: `${key}=${condition[2]}`, id })
                         if (!approval) return
 
                         // approval is true till now => keep going
-                        value = condition[1]
+                        if (key.slice(-1) === '!') 
+                        if (value.slice(-1) === '!') 
+                        value = value.slice(0, -1)
                     }
                 }
 
@@ -134,10 +142,10 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 }
 
                 // id
-                if (value && value.includes('::')) {
+                if (value && value.includes('::::')) {
 
-                    id = value.split('::')[1]
-                    value = value.split('::')[0]
+                    id = value.split('::::')[1]
+                    value = value.split('::::')[0]
 
                     // id
                     id = toId({ VALUE, STATE, string: id, id: local.id })[0]
@@ -187,10 +195,10 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 ///////////////////// key /////////////////////
 
                 // id
-                if (key.includes('::')) {
+                if (key.includes('::::')) {
 
-                    id = key.split('::')[1]
-                    key = key.split('::')[0]
+                    id = key.split('::::')[1]
+                    key = key.split('::::')[0]
 
                     // id
                     id = toId({ VALUE, STATE, string: id, id: local.id })[0]
@@ -408,7 +416,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
             } else if (gt && !gte) {
 
                 var local = VALUE[id]
-                var key = '', value = '', test = condition.split('::')
+                var key = '', value = '', test = condition.split('::::')
 
                 if (test[1]) {
 
@@ -420,8 +428,8 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                             value += exp[1]
 
                         }
-                        else if (!value) key += exp + '::'
-                        else value += '::' + exp
+                        else if (!value) key += exp + '::::'
+                        else value += '::::' + exp
                     })
 
                 } else {
@@ -430,10 +438,10 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 }
 
                 // id
-                if (key.includes('::')) {
+                if (key.includes('::::')) {
 
-                    id = key.split('::')[1]
-                    key = key.split('::')[0]
+                    id = key.split('::::')[1]
+                    key = key.split('::::')[0]
 
                     // id
                     id = toId({ VALUE, STATE, string: id, id: local.id })[0]

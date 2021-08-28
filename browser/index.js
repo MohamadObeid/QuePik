@@ -1,10 +1,8 @@
-// browserify index.js > browser.js
+// browserify -t brfs index.js > browser.js
 const { starter } = require("../method/starter")
 
-var root = document.querySelector('#root')
-
-var VALUE = JSON.parse(document.body.getAttribute('VALUE'))
-var STATE = JSON.parse(document.body.getAttribute('STATE'))
+var VALUE = JSON.parse(document.getElementById('VALUE').textContent)
+var STATE = JSON.parse(document.getElementById('STATE').textContent)
 
 VALUE.body = document.body
 VALUE.window = window
