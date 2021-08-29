@@ -380,7 +380,9 @@
       "lang": "en",
       "icon": {},
       "name": "Tall Abyaḑ"
-    }
+    },
+    "country"
   ],
-  "file-name": "syria-cities"
+  "file-name": "syria-cities",
+  "parent": "country"
 }

@@ -39,7 +39,11 @@
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
-                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down"
+                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
+                    "controls": {
+                        "event": "click", 
+                        "actions": "sort::state.assets-list?path=name.0.name" 
+                    }
                 }, {
                     "type": "Button?text=View;icon.name=bi-list-ul"
                 }]
@@ -49,7 +53,8 @@
             "children": [{
                 "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr",
                 "children": [{
-                    "type": "View?data=asset.entries.value;class=flex-box",
+                    "type": "View?Data=assets-list-Data;data=state.asset.entries.value;class=flex-box",
+                    "actions": "?state.assets-list=value.id",
                     "style": {
                         "borderRadius": ".75rem",
                         "border": "1px solid #ddd",

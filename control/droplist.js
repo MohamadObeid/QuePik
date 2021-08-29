@@ -1,12 +1,13 @@
 module.exports = ({ params, id }) => {
     var controls = params.controls
-
+    
     return [{
         event: `click`,
         actions: [
             `setPosition?state.droplist-mouseenter;state.droplist=${controls.id || id};position.id=droplist;position.placement=${controls.placement || 'bottom'};position.distance=${controls.distance}`,
-            `mountAfterStyles::::droplist`,
-            `droplist::::${controls.id || id}?${controls.path ? `;path=${controls.path}` : ''}`,
+            `mountAfterStyles::droplist`,
+            `droplist::${controls.id || id}?${controls.path ? `;path=${controls.path}` : ''}`,
+            `setStyle?style=JSON.parse(${JSON.stringify(params.style)})?${params.style}?droplist`
         ]
     }, {
         event: 'Input',

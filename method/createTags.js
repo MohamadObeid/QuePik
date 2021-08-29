@@ -27,7 +27,7 @@ const createTags = ({ VALUE, STATE, id }) => {
             local.derivations = [...local.derivations, index]
             local.data = data
             local.id = id
-
+            
             // components
             if (_component[local.type]) {
                 
@@ -56,8 +56,10 @@ const createTags = ({ VALUE, STATE, id }) => {
 
                     } else if (params.data) {
 
-                        var state = local.Data = generate()
-                        STATE[state] = params.data
+                        var state = local.Data
+                        if (!state) state = local.Data = generate()
+                        STATE[state] = local.data || {}
+                        STATE[`${state}-options`] = {}
             
                     }
                 }
@@ -102,8 +104,10 @@ const createTags = ({ VALUE, STATE, id }) => {
 
             } else if (params.data) {
 
-                var state = local.Data = generate()
-                STATE[state] = params.data
+                var state = local.Data
+                if (!state) state = local.Data = generate()
+                STATE[state] = local.data || {}
+                STATE[`${state}-options`] = {}
 
             }
         }
@@ -127,7 +131,7 @@ const oneTag = ({ STATE, VALUE, id }) => {
     
     if (local.style) 
     Object.entries(local.style).map(([k, v]) => {
-        if (k === 'after' || k.includes('::')) return
+        if (k === 'after' || k.includes('>>')) return
         else if (k === 'borderBottom') k = 'border-bottom'
         else if (k === 'borderLeft') k = 'border-left'
         else if (k === 'borderRight') k = 'border-right'

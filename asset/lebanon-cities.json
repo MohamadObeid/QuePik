@@ -142,5 +142,6 @@
       "name": "Bcharre"
     }
   ],
-  "file-name": "lebanon-cities"
+  "file-name": "lebanon-cities",
+  "parent": "country"
 }

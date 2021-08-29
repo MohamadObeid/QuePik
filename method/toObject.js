@@ -34,21 +34,21 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
         }
 
         // id
-        if (value && value.includes('::::')) {
+        if (value && value.includes('::')) {
 
-            var newId = value.split('::::')[1]
+            var newId = value.split('::')[1]
             id = toId({ VALUE, STATE, id, string: newId, e })[0]
-            value = value.split('::::')[0]
+            value = value.split('::')[0]
 
         }
         
         // condition
-        if (value && value.includes(':::')) {
+        if (value && value.includes('<<')) {
 
-            var condition = value.split(':::')[1]
+            var condition = value.split('<<')[1]
             var approved = toBoolean({ STATE, VALUE, id, e, string: condition })
             if (!approved) return
-            value = value.split(':::')[0]
+            value = value.split('<<')[0]
         }
 
         var local = VALUE[id]
@@ -109,6 +109,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
             else if (value === '[{}]') value = [{}]
             else if (value === '[string]') value = ['']
             else if (value.includes('%20')) value = value.split('%20').join(' ')
+            else if (value.includes('JSON.parse')) value = JSON.parse(value.split('JSON.parse(')[1].slice(0, -1))
             else if (path.length > 1) {
 
                 if (path[0] === 'global') {
@@ -123,7 +124,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                     path = path.slice(1)
                     value = path.reduce((o, k) => o[k], e)
 
-                } else if (path[0] === 'state') {
+                } /*else if (path[0] === 'state') {
 
                     value = STATE[path[1]]
 
@@ -136,94 +137,106 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                         )
                     }
 
-                } else if (path[0] === 'value') {
+                } */else if (path[0] === 'value' || path[0] === 'state') {
 
-                    if (path[1] === 'data') {
-                        
-                        var path = path.slice(2)
-                        value = derive(STATE[local.Data], [...local.derivations, ...path])[0]
+                    var object = clone(local)
 
-                    } else {
+                    if (path[0] === 'state') {
 
-                        path = path.slice(1)
-                        value = path.reduce((o, k, i) => {
+                        object = clone(STATE[path[1]])
+                        path = path.slice(2)
 
-                            if (k === 'parent') {
+                    } else path = path.slice(1)
 
-                                var parent = o.parent
-                                if (o.templated) parent = VALUE[parent].parent
-                                return VALUE[parent]
+                    value = path.reduce((o, k, i) => {
 
-                            } else if (k === 'next' || k === 'nextSibling') {
+                        if ((k === 'key' || k === 'value') && path[i - 1] === 'entries') return o
 
-                                var element = o.templated ? VALUE[o.parent].element : o.element
-                                var nextSibling = element.nextSibling
-                                var id = nextSibling.id
-                                return VALUE[id]
+                        else if (k === 'data') {
 
-                            } else if (k === 'prev' || k === 'prevSibling') {
+                            return derive(STATE[local.Data], local.derivations)[0]
 
-                                var element = o.templated ? VALUE[o.parent].element : o.element
-                                var previousSibling = element.previousSibling
-                                var id = previousSibling.id
-                                return VALUE[id]
+                        } else if (k === 'parent') {
 
-                            } else if (k === '1stChild') {
+                            var parent = o.parent
+                            if (o.templated) parent = VALUE[parent].parent
+                            return VALUE[parent]
 
-                                var id = o.element.children[0].id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
-                                
-                            } else if (k === '2ndChild') {
-                                
-                                var id = (o.element.children[1] || o.element.children[0]).id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
+                        } else if (k === 'next' || k === 'nextSibling') {
 
-                            } else if (k === '3rdChild') {
+                            var element = o.templated ? VALUE[o.parent].element : o.element
+                            var nextSibling = element.nextSibling
+                            var id = nextSibling.id
+                            return VALUE[id]
 
-                                var id = (o.element.children[2] || o.element.children[1] || o.element.children[0]).id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
+                        } else if (k === 'prev' || k === 'prevSibling') {
 
-                            } else if (k === 'lastChild') {
+                            var element = o.templated ? VALUE[o.parent].element : o.element
+                            var previousSibling = element.previousSibling
+                            var id = previousSibling.id
+                            return VALUE[id]
 
-                                var id = o.element.children[o.element.children.length - 1].id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
+                        } else if (k === '1stChild') {
 
-                            } else if (k === 'INPUT') {
-
-                                var inputComps = [...o.element.getElementsByTagName(k)]
-                                inputComps = inputComps.map(comp => VALUE[comp.id])
-                                if (inputComps.length === 0) return inputComps[0]
-                                else return inputComps
-
-                            } else if (k === 'findIdByData') {
-
-                                var id = o.find(id => local.data === VALUE[id].text)
-                                if (id) return id
-                                else return id
+                            var id = o.element.children[0].id
+                            if (VALUE[id].component === 'Input') {
+                                id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
                             }
+                            
+                            return VALUE[id]
+                            
+                        } else if (k === '2ndChild') {
+                            
+                            var id = (o.element.children[1] || o.element.children[0]).id
+                            if (VALUE[id].component === 'Input') {
+                                id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                            }
+                            
+                            return VALUE[id]
 
-                            return o[k]
+                        } else if (k === '3rdChild') {
 
-                        }, clone(local))
-                        
-                    }
+                            var id = (o.element.children[2] || o.element.children[1] || o.element.children[0]).id
+                            if (VALUE[id].component === 'Input') {
+                                id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                            }
+                            
+                            return VALUE[id]
 
+                        } else if (k === 'lastChild') {
+
+                            var id = o.element.children[o.element.children.length - 1].id
+                            if (VALUE[id].component === 'Input') {
+                                id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                            }
+                            
+                            return VALUE[id]
+
+                        } else if (k === 'INPUT') {
+
+                            var inputComps = [...o.element.getElementsByTagName(k)]
+                            inputComps = inputComps.map(comp => VALUE[comp.id])
+                            if (inputComps.length === 0) return inputComps[0]
+                            else return inputComps
+
+                        } else if (k === 'findIdByData') {
+
+                            var id = o.find(id => local.data === VALUE[id].text)
+                            if (id) return id
+                            else return id
+
+                        } else if (k === 'entries') {
+
+                            return Object.entries(o).map(([key, value]) => {
+                                if (path[i + 1] === 'key') return key
+                                if (path[i + 1] === 'value') return value
+                            })
+                        }
+
+                        return o[k]
+
+                    }, object)
+                    
                 } else if (path[0] === 'Data') {
 
                     value = value.split('.')
@@ -306,13 +319,13 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
         }
 
         id = localId
-
+        
         // id
-        if (key && key.includes('::::')) {
+        if (key && key.includes('::')) {
 
-            var newId = key.split('::::')[1]
+            var newId = key.split('::')[1]
             id = toId({ VALUE, STATE, id, string: newId, e })[0]
-            key = key.split('::::')[0]
+            key = key.split('::')[0]
         }
 
         var local = VALUE[id]

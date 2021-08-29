@@ -58,18 +58,23 @@ const createElement = ({ STATE, VALUE, id }) => {
     if (params) {
         params = toObject({ VALUE, STATE, string: params, id })
         Object.entries(params).map(([k, v]) => local[k] = v )
+
         if (params.id) {
 
             delete Object.assign(VALUE, { [params.id]: VALUE[id] })[id]
             id = params.id
 
-        } else if (params.data && !local.Data) {
-
-            var state = local.Data = generate()
-            STATE[state] = params.data
-            
         }
-    }
+        
+        if (params.data) {
+            
+            var state = local.Data
+            if (!state) state = local.Data = generate()
+            STATE[state] = clone(local.data) || {}
+            STATE[`${state}-options`] = {}
+        }
+
+    } else params = {}
 
     // pass to children
     if (parent.toChildren) {
@@ -104,6 +109,8 @@ const createElement = ({ STATE, VALUE, id }) => {
 
             var state = local.Data = generate()
             STATE[state] = local.data || {}
+            STATE[`${state}-options`] = {}
+            
         }
 
         // convert string numbers paths to num
@@ -123,8 +130,8 @@ const createElement = ({ STATE, VALUE, id }) => {
     
     // data (turnoff is do not mount data)
     var data, isArray
-    if (parent.turnOff) { data = ''; local.turnOff = true }                     //def value
-    else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, local.data, true) }
+    if (parent.turnOff) { data = ''; local.turnOff = true }                                // params cz local.data is inherited from parent which is not default
+    else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, clone(local.data), true) }
     
     if (isArray) {
         

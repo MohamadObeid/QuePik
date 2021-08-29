@@ -24,7 +24,7 @@
         }
     },
     "controls": [{
-        "event": "mouseover::::body",
-        "actions": "resetStyles::200??!mouseenter;!state.droplist-mouseenter"
+        "event": "mouseover::body",
+        "actions": "resetStyles>>200??!mouseenter;!state.droplist-mouseenter"
     }]
 }

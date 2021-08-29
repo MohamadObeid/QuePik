@@ -8,7 +8,7 @@
   "file-name": "language",
   "options": [
     {
-      "name": "Language::readonly",
+      "name": "Language>>readonly",
       "lang": "en"
     },
     {

@@ -3,20 +3,11 @@
     {
       "lang": "en",
       "icon": {
-        "name": "baby_changing_station",
+        "name": "redeem",
         "google": true,
         "type": "outlined"
       },
       "name": "Sarah Gifts"
-    },
-    {
-      "lang": "en",
-      "icon": {
-        "name": "pets",
-        "google": true,
-        "type": "outlined"
-      },
-      "name": "Hneino"
     }
   ],
   "options": [
@@ -27,7 +18,8 @@
         "name": "hotel",
         "type": "outlined"
       },
-      "name": "Reserve one night at a hotel in Beirut"
+      "name": "1N Hotel",
+      "description": "in Beirut"
     },
     {
       "lang": "en",
@@ -36,7 +28,18 @@
         "name": "female",
         "type": "outlined"
       },
-      "name": "alam homra aswad samua"
+      "name": "Homra",
+      "description": "Aswad"
+    },
+    {
+      "lang": "en",
+      "icon": {
+        "name": "fireplace",
+        "google": true,
+        "type": "outlined"
+      },
+      "name": "Oven",
+      "description": "Small for Home"
     }
   ],
   "file-name": "my-love"

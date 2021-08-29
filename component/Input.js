@@ -62,7 +62,7 @@ const Input = (component) => {
             class: 'flex-box',
             type: 'View',
             id,
-            controls: { actions: `focus::50::::${id}-input??value.length;value.index=value.length--1` },
+            controls: { actions: `focus>>50::${id}-input??value.length;value.index=value.length--1` },
             style: {
                 display: 'inline-flex',
                 width: '100%',
@@ -112,12 +112,12 @@ const Input = (component) => {
                     actions: 'resizeInput'
                 }, {
                     event: `keyup??value.data;e.key=Enter;${component.duplicatable};${component.removable}`,
-                    actions: `duplicate::::${id}`
+                    actions: `duplicate::${id}`
                 }, {
                     event: `input??value.data!=free`,
                     actions: [
-                        `filter::::droplist?${component.filterable};droplist`,
-                        `setData::::${id}-language?data=ar?isArabic`,
+                        `filter::droplist?${component.filterable};droplist`,
+                        `setData::${id}-language?data=ar?isArabic`,
                         `search?state=${component.search.state};${component.search.query};id=${component.search.id}?${component.searchable}`
                     ]
                 }, {
@@ -181,8 +181,8 @@ const Input = (component) => {
                     controls: [{
                         event: 'click',
                         actions: [
-                            `remove::::${id}??${component.removable};${component.clearable ? `value.length::::${id}>1;!value.data::::${id}-input` : ''}`,
-                            `removeData::::${id}-input;focus::50::::${id}-input??${component.clearable}`,
+                            `remove::${id}??${component.removable};${component.clearable ? `value.length::${id}>1;!value.data::${id}-input` : ''}`,
+                            `removeData::${id}-input;focus>>50::${id}-input??${component.clearable}`,
                         ]
                     }]
                 }]

@@ -3,6 +3,7 @@ const { update } = require('./update')
 const { filter } = require('./filter')
 const { toObject } = require('./toObject')
 const { clone } = require('./clone')
+const { setStyle } = require('./style')
 
 const droplist = ({ VALUE, STATE, params, id }) => {
 
@@ -37,7 +38,7 @@ const droplist = ({ VALUE, STATE, params, id }) => {
     if (items.length > 0) dropList.children = clone(items.map(item => {
 
         var readonly = false
-        item = item.split('::')
+        item = item.split('>>')
         if (item[1]) readonly = item[1].split(';').find(param => param === 'readonly')
 
         return {
@@ -45,16 +46,18 @@ const droplist = ({ VALUE, STATE, params, id }) => {
             controls: [{
                 event: `click??!readonly;state.droplist=${id}`,
                 actions: [
-                    `setData::::${id};focus::::${inputid}?data=${item[0]}`,
-                    `setData::::${inputid}?data=free?const.${item[0]}=free`,
-                    `setData::::${inputid}?data=''?const.${item[0]}!=free;value.data=free`
+                    `setData::${id};focus::${inputid}?data=${item[0]}`,
+                    `setData::${inputid}?data=free?const.${item[0]}=free`,
+                    `setData::${inputid}?data=''?const.${item[0]}!=free;value.data=free`
                 ]
             }]
         }
     }))
     
     dropList.turnOff = true
+    
     update({ VALUE, STATE, id: 'droplist' })
+
     
     if (dropList.filterable) {
         // get input value for filter

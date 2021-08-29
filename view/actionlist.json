@@ -24,8 +24,8 @@
         "controls": {
             "event": "click",
             "actions": [
-                "deleteDb;resetStyles::::actionlist?state.asset[value.data.file-name].delete;delete=value.data",
-                "setStyle::::mini-window;update::::assets-data?style.display=none::200;style.opacity=0?global.mini-window.element.style.display!=none"
+                "deleteDb;resetStyles::actionlist?state.asset[value.data.file-name].delete;delete=value.data",
+                "setStyle::mini-window;update::assets-data?style.display=none>>200;style.opacity=0?global.mini-window.element.style.display!=none"
             ]
         }
     }]

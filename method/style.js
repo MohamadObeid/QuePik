@@ -11,10 +11,10 @@ const setStyle = ({ VALUE, params, id }) => {
 
         var timer = 0
 
-        if ((value + '').includes('::')) {
+        if ((value + '').includes('>>')) {
             value = value + ''
-            timer = value.split('::')[1]
-            value = value.split('::')[0]
+            timer = value.split('>>')[1]
+            value = value.split('>>')[0]
         }
 
         local[key + '-timer'] = setTimeout(() => {
@@ -63,9 +63,9 @@ const mountAfterStyles = ({ VALUE, params, id }) => {
     Object.entries(local.style.after).map(([key, value]) => {
         var timer = 0
         value = value + ''
-        if (value.includes('::')) {
-            timer = value.split('::')[1]
-            value = value.split('::')[0]
+        if (value.includes('>>')) {
+            timer = value.split('>>')[1]
+            value = value.split('>>')[0]
         }
         local[key + '-timer'] = setTimeout(
             () => local.element.style[key] = value, timer

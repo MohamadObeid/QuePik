@@ -1,12 +1,16 @@
-const { update } = require("./update")
+const { update } = require('./update')
 
-const sort = ({ VALUE, STATE, params, id }) => {
+const sort = ({ VALUE, STATE, params = {}, id }) => {
+
     var local = VALUE[id]
     if (!local) return
 
-    local.sort = local.sort === 'ascending' ? 'descending' : 'ascending'
-    var path = params.path.split('.')
-    var data = params.data || local.data || []
+    var Data = params.Data || local.Data
+    var options = STATE[`${Data}-options`]
+    var data = STATE[Data]
+
+    options.sort = options.sort === 'ascending' ? 'descending' : 'ascending'
+    var path = (params.path || '').split('.')
 
     data.sort((a, b) => {
 
@@ -15,8 +19,8 @@ const sort = ({ VALUE, STATE, params, id }) => {
 
         b = path.reduce((o, k) => o[k], b)
         if (b !== undefined) b = b.toString()
-
-        if (local.sort === 'ascending') {
+        
+        if (options.sort === 'ascending') {
 
             if (!isNaN(a)) return b - a
 
@@ -32,12 +36,7 @@ const sort = ({ VALUE, STATE, params, id }) => {
         }
     })
 
-    if (params.id) {
-        var id = params.id
-        VALUE[id].Data = data
-        update({ VALUE, STATE, id })
-    }
-
+    update({ VALUE, STATE, id: local.parent })
 }
 
 module.exports = {sort}

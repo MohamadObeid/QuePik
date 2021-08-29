@@ -1,3 +1,4 @@
+const { clone } = require("./clone")
 const { merge } = require("./merge")
 
 const derive = (data, keys, fullDerivation, defaultData, writable) => {
@@ -6,7 +7,7 @@ const derive = (data, keys, fullDerivation, defaultData, writable) => {
     var isArray = false
 
     if (!Array.isArray(keys)) keys = keys.split('.')
-
+    
     derivedData = keys.reduce((o, k, i) => {
         if (isArray) return o
 
