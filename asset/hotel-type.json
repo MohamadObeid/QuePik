@@ -2,14 +2,14 @@
   "name": [
     {
       "lang": "en",
-      "icon": {
-        "name": "maps_home_work",
-        "google": true,
-        "type": "outlined"
-      },
       "name": "Hotel Type"
     }
   ],
+  "icon": {
+    "name": "maps_home_work",
+    "google": true,
+    "type": "outlined"
+  },
   "options": [
     {
       "lang": "en",

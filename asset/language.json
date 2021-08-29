@@ -1,10 +1,8 @@
 {
-  "name": [
-    {
-      "name": "Language",
-      "lang": "en"
-    }
-  ],
+  "name": [{
+    "name": "Language",
+    "lang": "en"
+  }],
   "file-name": "language",
   "options": [
     {

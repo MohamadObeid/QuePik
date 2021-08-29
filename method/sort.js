@@ -8,10 +8,10 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
     var Data = params.Data || local.Data
     var options = STATE[`${Data}-options`]
     var data = STATE[Data]
-
+    
     options.sort = options.sort === 'ascending' ? 'descending' : 'ascending'
     var path = (params.path || '').split('.')
-
+    
     data.sort((a, b) => {
 
         a = path.reduce((o, k) => o[k], a)

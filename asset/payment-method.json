@@ -2,14 +2,14 @@
   "name": [
     {
       "lang": "en",
-      "icon": {
-        "name": "credit_card",
-        "google": true,
-        "type": "outlined"
-      },
       "name": "Payment Methods"
     }
   ],
+  "icon": {
+    "name": "credit_card",
+    "google": true,
+    "type": "outlined"
+  },
   "options": [
     {
       "lang": "en",

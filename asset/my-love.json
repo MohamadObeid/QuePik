@@ -2,14 +2,14 @@
   "name": [
     {
       "lang": "en",
-      "icon": {
-        "name": "redeem",
-        "google": true,
-        "type": "outlined"
-      },
       "name": "Sarah Gifts"
     }
   ],
+  "icon": {
+    "name": "redeem",
+    "google": true,
+    "type": "outlined"
+  },
   "options": [
     {
       "lang": "en",

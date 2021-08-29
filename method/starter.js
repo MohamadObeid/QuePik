@@ -8,6 +8,7 @@ const starter = ({ STATE, VALUE, id }) => {
     const { createControls } = require("./createControls")
     const { defaultInputHandler } = require("./defaultInputHandler")
     const { isArabic } = require("./isArabic")
+    const { textarea } = require("./textarea")
 
     var local = VALUE[id]
     if (!local) return
@@ -19,6 +20,9 @@ const starter = ({ STATE, VALUE, id }) => {
 
     // arabic text
     isArabic({ VALUE, id })
+
+    // reset textarea height
+    textarea({ VALUE, id })
 
     // input handlers
     defaultInputHandler({ VALUE, STATE, id })

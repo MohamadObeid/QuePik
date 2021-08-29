@@ -2,14 +2,14 @@
   "name": [
     {
       "lang": "en",
-      "icon": {
-        "name": "monetization_on",
-        "google": true,
-        "type": "outlined"
-      },
       "name": "Payment Terms"
     }
   ],
+  "icon": {
+    "name": "monetization_on",
+    "google": true,
+    "type": "outlined"
+  },
   "options": [
     {
       "lang": "en",

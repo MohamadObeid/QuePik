@@ -2,14 +2,14 @@
   "name": [
     {
       "lang": "en",
-      "icon": {
-        "name": "hotel",
-        "google": true,
-        "type": "outlined"
-      },
       "name": "Room Type"
     }
   ],
+  "icon": {
+    "name": "hotel",
+    "google": true,
+    "type": "outlined"
+  },
   "options": [
     {
       "lang": "en",

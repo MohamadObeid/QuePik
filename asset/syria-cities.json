@@ -2,14 +2,14 @@
   "name": [
     {
       "lang": "en",
-      "icon": {
-        "google": true,
-        "name": "flag",
-        "type": "outlined"
-      },
       "name": "Syria Cities"
     }
   ],
+  "icon": {
+    "google": true,
+    "name": "flag",
+    "type": "outlined"
+  },
   "options": [
     {
       "lang": "en",

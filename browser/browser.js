@@ -814,7 +814,7 @@ const Button = (component) => {
 }
 
 module.exports = {Button}
-},{"../method/generate":45,"../method/toComponent":66,"../method/toString":69}],6:[function(require,module,exports){
+},{"../method/generate":45,"../method/toComponent":67,"../method/toString":70}],6:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -860,7 +860,7 @@ const Checkbox = (component) => {
 }
 
 module.exports = { Checkbox }
-},{"../method/generate":45,"../method/toComponent":66}],7:[function(require,module,exports){
+},{"../method/generate":45,"../method/toComponent":67}],7:[function(require,module,exports){
 const { generate } = require("../method/generate")
 const { toComponent } = require("../method/toComponent")
 
@@ -922,7 +922,7 @@ const Header = (component) => {
 }
 
 module.exports = {Header}
-},{"../method/generate":45,"../method/toComponent":66}],8:[function(require,module,exports){
+},{"../method/generate":45,"../method/toComponent":67}],8:[function(require,module,exports){
 const { toString } = require('../method/toString')
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
@@ -940,7 +940,7 @@ const Input = (component) => {
     component.input.value = component.input.value || ''
 
     component = toComponent(component)
-    var { input, model, droplist, lang, readonly, style, controls, icon, placeholder } = component
+    var { input, model, droplist, lang, readonly, style, controls, icon, placeholder, textarea } = component
     var id = component.id || generate()
 
     // for search inputs
@@ -1015,6 +1015,7 @@ const Input = (component) => {
             }, {
                 type: `Input?id=${id}-input;${(component.currency || component.unit) ? `path=amount` : (component.lang || component.google) ? `path=name` : ''};filterable=${component.filterable}`,
                 input,
+                textarea,
                 readonly,
                 droplist,
                 placeholder,
@@ -1117,7 +1118,7 @@ const Input = (component) => {
 }
 
 module.exports = {Input}
-},{"../method/generate":45,"../method/toComponent":66,"../method/toString":69}],9:[function(require,module,exports){
+},{"../method/generate":45,"../method/toComponent":67,"../method/toString":70}],9:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -1284,7 +1285,7 @@ const Item = (component) => {
 }
 
 module.exports = {Item}
-},{"../method/generate":45,"../method/toComponent":66}],10:[function(require,module,exports){
+},{"../method/generate":45,"../method/toComponent":67}],10:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const List = (component) => {
@@ -1357,7 +1358,7 @@ const List = (component) => {
 }
 
 module.exports = {List}
-},{"../method/toComponent":66}],11:[function(require,module,exports){
+},{"../method/toComponent":67}],11:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const SearchBox = (component) => {
@@ -1464,7 +1465,7 @@ const SearchBox = (component) => {
 }
 
 module.exports = {SearchBox}
-},{"../method/toComponent":66}],12:[function(require,module,exports){
+},{"../method/toComponent":67}],12:[function(require,module,exports){
 const { generate } = require('../method/generate')
 const {toComponent} = require('../method/toComponent')
 
@@ -1491,7 +1492,7 @@ const Switch = (component) => {
 }
 
 module.exports = {Switch}
-},{"../method/generate":45,"../method/toComponent":66}],13:[function(require,module,exports){
+},{"../method/generate":45,"../method/toComponent":67}],13:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const Upload = (component) => {
@@ -1521,7 +1522,7 @@ const Upload = (component) => {
 }
 
 module.exports = {Upload}
-},{"../method/toComponent":66}],14:[function(require,module,exports){
+},{"../method/toComponent":67}],14:[function(require,module,exports){
 const {Button} = require('./Button')
 const {Input} = require('./Input')
 const {Item} = require('./Item')
@@ -1580,7 +1581,7 @@ module.exports = ({ VALUE, id, params = {} }) => {
         actions: `resetStyles???${controls.id.join(';')}`
     }]
 }
-},{"../method/toArray":64}],18:[function(require,module,exports){
+},{"../method/toArray":65}],18:[function(require,module,exports){
 module.exports = ({ params, id }) => {
     var controls = params.controls
     
@@ -1699,6 +1700,7 @@ const {remove} = require('./remove')
 const {focus} = require('./focus')
 const {sort} = require('./sort')
 const {log} = require('./log')
+const {textarea} = require('./textarea')
 const {deleteDb, saveDb} = require('./db')
 const {getViews, getAssets} = require("./getAssets")
 const {defaultInputHandler} = require('./defaultInputHandler')
@@ -1711,7 +1713,7 @@ const _method = {
     clearValues, clone, derive, duplicate, duplicates, actionlist, getViews, getAssets,
     getParam, isArabic, isEqual, merge, overflow, addEventListener, setState,
     toBoolean, toComponent, toId, toObject, toString, update, execute, removeIds,
-    createDocument, toArray, generate, createElement, controls, route,
+    createDocument, toArray, generate, createElement, controls, route, textarea,
     setStyle, resetStyles, toggleStyles, mountAfterStyles, resizeInput, dimensions,
     createData, setData, pushData, clearData, removeData, setContent, starter,
     setPosition, droplist, filter, setValue, createView, createActions,
@@ -1719,7 +1721,7 @@ const _method = {
 }
 
 module.exports = _method
-},{"./actionlist":25,"./clearValues":26,"./clone":27,"./controls":28,"./createActions":29,"./createControls":30,"./createDocument":31,"./createElement":32,"./createView":34,"./data":35,"./db":36,"./defaultInputHandler":37,"./derive":38,"./droplist":39,"./duplicate":40,"./event":41,"./execute":42,"./filter":43,"./focus":44,"./generate":45,"./getAssets":46,"./getParam":47,"./isArabic":48,"./isEqual":49,"./log":50,"./merge":51,"./overflow":52,"./remove":53,"./resize":55,"./route":56,"./setContent":57,"./setPosition":58,"./setValue":59,"./sort":60,"./starter":61,"./state":62,"./style":63,"./toArray":64,"./toBoolean":65,"./toComponent":66,"./toId":67,"./toObject":68,"./toString":69,"./update":70}],25:[function(require,module,exports){
+},{"./actionlist":25,"./clearValues":26,"./clone":27,"./controls":28,"./createActions":29,"./createControls":30,"./createDocument":31,"./createElement":32,"./createView":34,"./data":35,"./db":36,"./defaultInputHandler":37,"./derive":38,"./droplist":39,"./duplicate":40,"./event":41,"./execute":42,"./filter":43,"./focus":44,"./generate":45,"./getAssets":46,"./getParam":47,"./isArabic":48,"./isEqual":49,"./log":50,"./merge":51,"./overflow":52,"./remove":53,"./resize":55,"./route":56,"./setContent":57,"./setPosition":58,"./setValue":59,"./sort":60,"./starter":61,"./state":62,"./style":63,"./textarea":64,"./toArray":65,"./toBoolean":66,"./toComponent":67,"./toId":68,"./toObject":69,"./toString":70,"./update":71}],25:[function(require,module,exports){
 const actionlist = ({ VALUE, STATE, id, params = {} }) => {
     
     var local = VALUE[id]
@@ -1859,7 +1861,7 @@ const controls = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {controls}
-},{"./event":41,"./execute":42,"./toArray":64,"./watch":71}],29:[function(require,module,exports){
+},{"./event":41,"./execute":42,"./toArray":65,"./watch":72}],29:[function(require,module,exports){
 const _control = require('../control/_control')
 
 const createActions = ({ VALUE, STATE, params, id }) => {
@@ -1947,7 +1949,7 @@ const createDocument = (page) => {
 }
 
 module.exports = {createDocument}
-},{"../page/_page":72,"./createElement":32,"./getAssets":46}],32:[function(require,module,exports){
+},{"../page/_page":73,"./createElement":32,"./getAssets":46}],32:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toObject } = require("./toObject")
 const { toBoolean } = require("./toBoolean")
@@ -1991,6 +1993,7 @@ const createElement = ({ STATE, VALUE, id }) => {
 
     // Data
     local.Data = parent.Data
+    local.data = parent.data
 
     // derivations
     local.derivations = local.derivations || [...(parent.derivations || [])]
@@ -2016,12 +2019,12 @@ const createElement = ({ STATE, VALUE, id }) => {
 
         }
         
-        if (params.data) {
-            
+        if (params.data && (!local.Data || params.Data)) {
+
             var state = local.Data
             if (!state) state = local.Data = generate()
-            STATE[state] = clone(local.data) || {}
-            STATE[`${state}-options`] = {}
+            STATE[state] = clone(STATE[state] || local.data)
+            STATE[`${state}-options`] = STATE[`${state}-options`] || {}
         }
 
     } else params = {}
@@ -2081,7 +2084,7 @@ const createElement = ({ STATE, VALUE, id }) => {
     // data (turnoff is do not mount data)
     var data, isArray
     if (parent.turnOff) { data = ''; local.turnOff = true }                                // params cz local.data is inherited from parent which is not default
-    else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, clone(local.data), true) }
+    else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, clone(params.data), true) }
     
     if (isArray) {
         
@@ -2108,7 +2111,7 @@ const createElement = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {createElement}
-},{"./clone":27,"./createTags":33,"./derive":38,"./generate":45,"./merge":51,"./toBoolean":65,"./toObject":68}],33:[function(require,module,exports){
+},{"./clone":27,"./createTags":33,"./derive":38,"./generate":45,"./merge":51,"./toBoolean":66,"./toObject":69}],33:[function(require,module,exports){
 const { clone } = require("./clone")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2322,8 +2325,10 @@ const oneTag = ({ STATE, VALUE, id }) => {
     else if (local.type === 'Icon') 
     tag = `<i class='material-icons${local.outlined ? '-outlined' : local.rounded ? '-round' : local.sharp ? '-sharp' : local.twoTone ? '-two-tone' : ''} ${local.class || ''} ${local.icon.name}' id='${local.id}' style='${style}'>${local.google ? local.icon.name : ''}</i>`
     
-    else if (local.type === 'Input')
-    tag = `<input class='${local.class}' id='${local.id}' style='${style}' ${local.upload ? `type=file accept='${local.upload.type}/*' ${local.upload.multiple ? 'multiple': ''}` : ''} type='${local.input.type || 'text'}' placeholder='${local.placeholder || ''}' value='${local.data || local.input.value || ''}' ${local.readonly ? 'readonly' : ''} />`
+    else if (local.type === 'Input') {
+    if (local.textarea) tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ''}' value='${local.data || local.input.value || ''}' ${local.readonly ? 'readonly' : ''} ${local.maxlength || ''}></textarea>`
+    else tag = `<input class='${local.class}' id='${local.id}' style='${style}' ${local.upload ? `type=file accept='${local.upload.type}/*' ${local.upload.multiple ? 'multiple': ''}` : ''} type='${local.input.type || 'text'}' placeholder='${local.placeholder || ''}' value='${local.data || local.input.value || ''}' ${local.readonly ? 'readonly' : ''} />`
+    }
     
     else if (local.type === 'Paragraph')
     tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ''}'>${text}</textarea>`
@@ -2343,7 +2348,7 @@ const oneTag = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {createTags}
-},{"../component/_component":14,"./clone":27,"./createElement":32,"./execute":42,"./generate":45,"./toArray":64,"./toBoolean":65,"./toObject":68}],34:[function(require,module,exports){
+},{"../component/_component":14,"./clone":27,"./createElement":32,"./execute":42,"./generate":45,"./toArray":65,"./toBoolean":66,"./toObject":69}],34:[function(require,module,exports){
 const { update } = require("./update")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2400,7 +2405,7 @@ const createView = ({ STATE, VALUE, params ={}, id }) => {
 }
 
 module.exports = {createView}
-},{"./clone":27,"./generate":45,"./toArray":64,"./update":70}],35:[function(require,module,exports){
+},{"./clone":27,"./generate":45,"./toArray":65,"./update":71}],35:[function(require,module,exports){
 const { clone } = require("./clone")
 const { setContent } = require("./setContent")
 
@@ -2769,7 +2774,7 @@ const droplist = ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {droplist}
-},{"./clone":27,"./filter":43,"./generate":45,"./style":63,"./toObject":68,"./update":70}],40:[function(require,module,exports){
+},{"./clone":27,"./filter":43,"./generate":45,"./style":63,"./toObject":69,"./update":71}],40:[function(require,module,exports){
 const { clearValues } = require('./clearValues')
 const { clone } = require('./clone')
 const { toArray } = require('./toArray')
@@ -2885,7 +2890,7 @@ const duplicates = ({ STATE, VALUE, params, id }) => {
 }
 
 module.exports = {duplicate, duplicates}
-},{"./clearValues":26,"./clone":27,"./createElement":32,"./derive":38,"./generate":45,"./isEqual":49,"./removeDuplicates":54,"./starter":61,"./toArray":64}],41:[function(require,module,exports){
+},{"./clearValues":26,"./clone":27,"./createElement":32,"./derive":38,"./generate":45,"./isEqual":49,"./removeDuplicates":54,"./starter":61,"./toArray":65}],41:[function(require,module,exports){
 
 const { toBoolean } = require('./toBoolean')
 const { toObject } = require('./toObject')
@@ -2981,7 +2986,7 @@ const defaultEventHandler = ({ VALUE, id }) => {
 }
 
 module.exports = {addEventListener, defaultEventHandler}
-},{"./execute":42,"./toBoolean":65,"./toId":67,"./toObject":68}],42:[function(require,module,exports){
+},{"./execute":42,"./toBoolean":66,"./toId":68,"./toObject":69}],42:[function(require,module,exports){
 
 const { toBoolean } = require("./toBoolean")
 const { toArray } = require("./toArray")
@@ -3063,7 +3068,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
 }
 
 module.exports = {execute}
-},{"./_method":24,"./generate":45,"./getParam":47,"./toArray":64,"./toBoolean":65,"./toId":67,"./toObject":68}],43:[function(require,module,exports){
+},{"./_method":24,"./generate":45,"./getParam":47,"./toArray":65,"./toBoolean":66,"./toId":68,"./toObject":69}],43:[function(require,module,exports){
 const filter = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
@@ -3343,7 +3348,7 @@ const override = (obj1, obj2) => {
 }
 
 module.exports = {merge, override}
-},{"./clone":27,"./toArray":64}],52:[function(require,module,exports){
+},{"./clone":27,"./toArray":65}],52:[function(require,module,exports){
 const overflow = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
@@ -3467,7 +3472,7 @@ const resetDerivations = ({ VALUE, id, index }) => {
 }
 
 module.exports = {remove}
-},{"./clone":27,"./update":70}],54:[function(require,module,exports){
+},{"./clone":27,"./update":71}],54:[function(require,module,exports){
 const removeDuplicates = (object) => {
 
     if (typeof object === 'string' || typeof object === 'number' || !object) return object
@@ -3807,7 +3812,7 @@ const setValue = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setValue}
-},{"./data":35,"./style":63,"./toString":69}],60:[function(require,module,exports){
+},{"./data":35,"./style":63,"./toString":70}],60:[function(require,module,exports){
 const { update } = require('./update')
 
 const sort = ({ VALUE, STATE, params = {}, id }) => {
@@ -3818,10 +3823,10 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
     var Data = params.Data || local.Data
     var options = STATE[`${Data}-options`]
     var data = STATE[Data]
-
+    
     options.sort = options.sort === 'ascending' ? 'descending' : 'ascending'
     var path = (params.path || '').split('.')
-
+    
     data.sort((a, b) => {
 
         a = path.reduce((o, k) => o[k], a)
@@ -3850,7 +3855,7 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {sort}
-},{"./update":70}],61:[function(require,module,exports){
+},{"./update":71}],61:[function(require,module,exports){
 const autoControls = ['auto-style', 'toggle-style', 'droplist', 'actionlist']
 
 const starter = ({ STATE, VALUE, id }) => {
@@ -3861,6 +3866,7 @@ const starter = ({ STATE, VALUE, id }) => {
     const { createControls } = require("./createControls")
     const { defaultInputHandler } = require("./defaultInputHandler")
     const { isArabic } = require("./isArabic")
+    const { textarea } = require("./textarea")
 
     var local = VALUE[id]
     if (!local) return
@@ -3872,6 +3878,9 @@ const starter = ({ STATE, VALUE, id }) => {
 
     // arabic text
     isArabic({ VALUE, id })
+
+    // reset textarea height
+    textarea({ VALUE, id })
 
     // input handlers
     defaultInputHandler({ VALUE, STATE, id })
@@ -3909,7 +3918,7 @@ const starter = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {starter}
-},{"./controls":28,"./createControls":30,"./defaultInputHandler":37,"./event":41,"./isArabic":48,"./style":63}],62:[function(require,module,exports){
+},{"./controls":28,"./createControls":30,"./defaultInputHandler":37,"./event":41,"./isArabic":48,"./style":63,"./textarea":64}],62:[function(require,module,exports){
 const setState = ({ STATE, params,  }) => {
 
     // push states to route
@@ -4003,12 +4012,39 @@ const mountAfterStyles = ({ VALUE, params, id }) => {
 
 module.exports = {setStyle, resetStyles, toggleStyles, mountAfterStyles}
 },{"./resize":55}],64:[function(require,module,exports){
+const textarea = ({ VALUE, id }) => {
+    var local = VALUE[id]
+    if (!local) return
+
+    if (!local.textarea || local.type !== 'Input') return
+
+    var parent = local.templated && VALUE[local.parent]
+    local.element.setAttribute("style", "height:" + (local.element.scrollHeight) + "px;overflow-y:hidden;")
+    if (parent) parent.element.setAttribute("style", "height:" + (local.element.scrollHeight) + "px")
+
+    const OnInput = (e) => {
+
+        var element = local.element
+        var parent = local.templated && VALUE[local.parent]
+        
+        element.style.height = "auto"
+        element.style.height = (element.scrollHeight) + "px"
+
+        parent.element.style.height = "auto"
+        parent.element.style.height = (parent.element.scrollHeight) + "px"
+    }
+    
+    local.element.addEventListener("input", OnInput, false)
+}
+
+module.exports = { textarea }
+},{}],65:[function(require,module,exports){
 const toArray = (data) => {
     return data !== undefined ? (Array.isArray(data) ? data : [data]) : []
 }
 
 module.exports = {toArray}
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 const { derive } = require("./derive")
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
@@ -4578,7 +4614,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
 }
 
 module.exports = {toBoolean}
-},{"./clone":27,"./derive":38,"./duplicate":40,"./generate":45,"./getParam":47,"./isArabic":48,"./isEqual":49,"./overflow":52,"./toId":67}],66:[function(require,module,exports){
+},{"./clone":27,"./derive":38,"./duplicate":40,"./generate":45,"./getParam":47,"./isArabic":48,"./isEqual":49,"./overflow":52,"./toId":68}],67:[function(require,module,exports){
 const { generate } = require('./generate')
 const { toArray } = require('./toArray')
 
@@ -4617,7 +4653,7 @@ const toComponent = (obj) => {
 }
 
 module.exports = {toComponent}
-},{"./generate":45,"./toArray":64}],67:[function(require,module,exports){
+},{"./generate":45,"./toArray":65}],68:[function(require,module,exports){
 const { generate } = require("./generate");
 const { toArray } = require("./toArray")
 const { toObject } = require("./toObject");
@@ -4677,7 +4713,7 @@ const toId = ({ VALUE, STATE, id, string }) => {
 }
 
 module.exports = {toId}
-},{"./generate":45,"./toArray":64,"./toObject":68}],68:[function(require,module,exports){
+},{"./generate":45,"./toArray":65,"./toObject":69}],69:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { merge } = require("./merge")
@@ -5106,7 +5142,7 @@ function bracketsToDots({ VALUE, STATE, string, e, id }) {
 }
 
 module.exports = {toObject}
-},{"./clone":27,"./derive":38,"./generate":45,"./merge":51,"./toArray":64,"./toBoolean":65,"./toId":67}],69:[function(require,module,exports){
+},{"./clone":27,"./derive":38,"./generate":45,"./merge":51,"./toArray":65,"./toBoolean":66,"./toId":68}],70:[function(require,module,exports){
 const toString = (object) => {
     if (!object) return ''
 
@@ -5133,7 +5169,7 @@ const toString = (object) => {
 }
 
 module.exports = {toString}
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 const { generate } = require("./generate")
 const { starter } = require("./starter")
 const { toArray } = require("./toArray")
@@ -5196,7 +5232,7 @@ const removeIds = ({ VALUE, id }) => {
 }
 
 module.exports = {update, removeIds}
-},{"./clone":27,"./createElement":32,"./generate":45,"./starter":61,"./toArray":64}],71:[function(require,module,exports){
+},{"./clone":27,"./createElement":32,"./generate":45,"./starter":61,"./toArray":65}],72:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toBoolean } = require("./toBoolean")
 const { isEqual } = require("./isEqual")
@@ -5284,7 +5320,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {watch}
-},{"./clone":27,"./data":35,"./execute":42,"./generate":45,"./isEqual":49,"./toBoolean":65,"./toObject":68}],72:[function(require,module,exports){
+},{"./clone":27,"./data":35,"./execute":42,"./generate":45,"./isEqual":49,"./toBoolean":66,"./toObject":69}],73:[function(require,module,exports){
 const {admin} = require('./admin')
 const {home} = require('./home')
 const {public} = require('./public')
@@ -5292,19 +5328,19 @@ const {public} = require('./public')
 module.exports = {
     admin, home, public
 }
-},{"./admin":73,"./home":74,"./public":75}],73:[function(require,module,exports){
+},{"./admin":74,"./home":75,"./public":76}],74:[function(require,module,exports){
 const admin = {
     views: ['admin-navbar', 'admin']
 }
 
 module.exports = {admin}
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 const home = {
     views: ['navbar']
 }
 
 module.exports = {home}
-},{}],75:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 const public = {
     views: ['droplist', 'mini-window', 'actionlist']
 }

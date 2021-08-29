@@ -1,5 +1,13 @@
 {
-  "name": [{ "lang": "en", "icon": { "name": "flag", "google": true, "type": "outlined" }, "name": "Country" }],
+  "name": [{ 
+    "lang": "en", 
+    "name": "Country" 
+  }],
+  "icon": {
+    "name": "flag", 
+    "google": true, 
+    "type": "outlined" 
+  },
   "file-name": "country",
   "options": [ 
       { "name": "Afghanistan", "code": "AF" }, 

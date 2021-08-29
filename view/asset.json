@@ -68,9 +68,11 @@
                 }]
             }]
         }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=6fr 4fr 2fr 2rem;style.gap=1rem;style.width=100%",
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=4fr 6fr 3fr 2fr 2rem;style.gap=1rem;style.width=100%",
             "children": [{
                 "type": "Label?text=Name;style.fontSize=1.4rem;style.textAlign=left"
+            }, {
+                "type": "Label?text=Description;style.fontSize=1.4rem;style.textAlign=left"
             }, {
                 "type": "Label?text=Icon;style.fontSize=1.4rem;style.textAlign=left"
             }, {
@@ -79,13 +81,14 @@
         }, {
             "type": "View?style.display=grid;style.gap=1rem",
             "children": [{
-                "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=6fr 4fr 2fr 2rem;style.gap=1rem;path=name;data=[{}]<<!value.data.name",
+                "type": "View?style.display=grid;style.gridTemplateColumns=4fr 6fr 3fr 2fr 2rem;style.gap=1rem",
                 "children": [{
-                    "type": "Input?featured;lang=en;icon=value.data.icon;style.backgroundColor=#f0f0f0;!duplicatable",
-                    "controls": [{
-                        "event": "keyup??e.key=Enter",
-                        "actions": "duplicate::value.parent.id"
+                    "type": "View?style.display=grid;style.gap=1rem",
+                    "children": [{
+                        "type": "Input?featured;lang=en;icon=value.data.icon;style.backgroundColor=#f0f0f0;path=name"
                     }]
+                }, {
+                    "type": "Input?textarea;featured;!duplicatable;style.backgroundColor=#f0f0f0;path=description"
                 }, {
                     "type": "Input?featured;google;!clearable;!removable;style.backgroundColor=#f0f0f0;path=icon"
                 }, {
@@ -120,7 +123,7 @@
                         "actions": "duplicate::value.parent.id"
                     }]
                 }, {
-                    "type": "Input?featured;!duplicatable;style.backgroundColor=#f0f0f0;path=description"
+                    "type": "Input?textarea;featured;!duplicatable;style.backgroundColor=#f0f0f0;path=description"
                 }, {
                     "type": "Input?featured;google;!clearable;!removable;style.backgroundColor=#f0f0f0;path=icon"
                 }, {

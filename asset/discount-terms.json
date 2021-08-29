@@ -1,15 +1,13 @@
 {
-  "name": [
-    {
+  "name": [{
       "lang": "en",
-      "icon": {
-        "name": "local_offer",
-        "google": true,
-        "type": "outlined"
-      },
       "name": "Discount Terms"
-    }
-  ],
+  }],
+  "icon": {
+    "name": "local_offer",
+    "google": true,
+    "type": "outlined"
+  },
   "options": [
     {
       "lang": "en",

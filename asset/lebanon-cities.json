@@ -2,14 +2,14 @@
   "name": [
     {
       "lang": "en",
-      "icon": {
-        "name": "flag",
-        "google": true,
-        "type": "outlined"
-      },
       "name": "Lebanon Cities"
     }
   ],
+  "icon": {
+    "name": "flag",
+    "google": true,
+    "type": "outlined"
+  },
   "options": [
     {
       "lang": "en",

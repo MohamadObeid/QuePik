@@ -41,6 +41,7 @@ const createElement = ({ STATE, VALUE, id }) => {
 
     // Data
     local.Data = parent.Data
+    local.data = parent.data
 
     // derivations
     local.derivations = local.derivations || [...(parent.derivations || [])]
@@ -66,12 +67,12 @@ const createElement = ({ STATE, VALUE, id }) => {
 
         }
         
-        if (params.data) {
-            
+        if (params.data && (!local.Data || params.Data)) {
+
             var state = local.Data
             if (!state) state = local.Data = generate()
-            STATE[state] = clone(local.data) || {}
-            STATE[`${state}-options`] = {}
+            STATE[state] = clone(STATE[state] || local.data)
+            STATE[`${state}-options`] = STATE[`${state}-options`] || {}
         }
 
     } else params = {}
@@ -131,7 +132,7 @@ const createElement = ({ STATE, VALUE, id }) => {
     // data (turnoff is do not mount data)
     var data, isArray
     if (parent.turnOff) { data = ''; local.turnOff = true }                                // params cz local.data is inherited from parent which is not default
-    else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, clone(local.data), true) }
+    else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, clone(params.data), true) }
     
     if (isArray) {
         

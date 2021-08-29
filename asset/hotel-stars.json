@@ -1,15 +1,13 @@
 {
-  "name": [
-    {
+  "name": [{
       "lang": "en",
-      "icon": {
-        "name": "star_outline",
-        "google": true,
-        "type": "outlined"
-      },
       "name": "Hotel Stars"
-    }
-  ],
+  }],
+  "icon": {
+    "name": "star_outline",
+    "google": true,
+    "type": "outlined"
+  },
   "options": [
     {
       "lang": "en",

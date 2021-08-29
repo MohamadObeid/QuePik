@@ -15,7 +15,7 @@ const Input = (component) => {
     component.input.value = component.input.value || ''
 
     component = toComponent(component)
-    var { input, model, droplist, lang, readonly, style, controls, icon, placeholder } = component
+    var { input, model, droplist, lang, readonly, style, controls, icon, placeholder, textarea } = component
     var id = component.id || generate()
 
     // for search inputs
@@ -90,6 +90,7 @@ const Input = (component) => {
             }, {
                 type: `Input?id=${id}-input;${(component.currency || component.unit) ? `path=amount` : (component.lang || component.google) ? `path=name` : ''};filterable=${component.filterable}`,
                 input,
+                textarea,
                 readonly,
                 droplist,
                 placeholder,

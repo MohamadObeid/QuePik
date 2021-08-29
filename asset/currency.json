@@ -1,5 +1,8 @@
 {
-    "name": [{ "name": "Currency", "lang": "en" }],
+    "name": [{ 
+        "name": "Currency", 
+        "lang": "en" 
+    }],
     "file-name": "currency",
     "options": [
         { "name": "General>>readonly", "lang": "en" },
