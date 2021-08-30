@@ -1,17 +1,24 @@
-const filter = ({ VALUE, params, id }) => {
+const {clone} = require('./clone')
+
+const filter = ({ VALUE, STATE, params = {}, id }) => {
     var local = VALUE[id]
+    if (!local) return
+    
+    var filter = params.filter || {}
+    var Data = filter.Data || local.Data
+    var options = STATE[`${Data}-options`]
+    var backupData = clone(options.backup)
+    var path = (filter.path || '').split('.')
+    var value = filter.value
+    
+    options.filter = value
 
-    var element = params.element || local.element
-    var value = params.value || local.element.value
+    // no value
+    if (value === '' || value === undefined) return STATE[Data] = backupData
 
-    if (!value) return
-    value = value.toLowerCase()
-    var textEl = [...element.getElementsByClassName('text')]
-
-    textEl.map(el => {
-        if (el.innerHTML.toLowerCase().includes(value)) el.parentElement.style.display = 'flex'
-        else el.parentElement.style.display = 'none'
-    })
+    STATE[Data] = backupData.filter(data => 
+        path.reduce((o, k, i) => o[k], data).toString().toLowerCase().includes(value.toLowerCase())
+    )
 }
 
 module.exports = {filter}

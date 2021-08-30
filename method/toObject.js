@@ -119,12 +119,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                     path.unshift('value')
                 }
 
-                if (path[0] === 'e') {
-
-                    path = path.slice(1)
-                    value = path.reduce((o, k) => o[k], e)
-
-                } /*else if (path[0] === 'state') {
+                /*else if (path[0] === 'state') {
 
                     value = STATE[path[1]]
 
@@ -137,16 +132,14 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                         )
                     }
 
-                } */else if (path[0] === 'value' || path[0] === 'state') {
+                } */if (path[0] === 'value' || path[0] === 'state' || path[0] === 'e') {
 
-                    var object = clone(local)
-
-                    if (path[0] === 'state') {
-
-                        object = clone(STATE[path[1]])
-                        path = path.slice(2)
-
-                    } else path = path.slice(1)
+                    var object = path[0] === 'value' ? clone(local) 
+                    : path[0] === 'state' ? clone(STATE[path[1]]) 
+                    : path[0] === 'e' && e
+                    
+                    if (path[0] === 'state') path = path.slice(2)
+                    else path = path.slice(1)
 
                     value = path.reduce((o, k, i) => {
 

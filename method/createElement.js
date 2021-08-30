@@ -72,7 +72,8 @@ const createElement = ({ STATE, VALUE, id }) => {
             var state = local.Data
             if (!state) state = local.Data = generate()
             STATE[state] = clone(STATE[state] || local.data)
-            STATE[`${state}-options`] = STATE[`${state}-options`] || {}
+            STATE[`${state}-options`] = STATE[`${state}-options`] || { backup: clone(STATE[state]) }
+
         }
 
     } else params = {}
@@ -110,7 +111,7 @@ const createElement = ({ STATE, VALUE, id }) => {
 
             var state = local.Data = generate()
             STATE[state] = local.data || {}
-            STATE[`${state}-options`] = {}
+            STATE[`${state}-options`] = { backup: clone(STATE[state]) }
             
         }
 

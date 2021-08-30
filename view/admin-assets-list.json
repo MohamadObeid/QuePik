@@ -26,7 +26,7 @@
         "children": [{
             "type": "View?class=flex-box;style.justifyContent=space-between;style.paddingBottom=1rem;style.borderBottom=1px solid #eee",
             "children": [{
-                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;search.id=products-table;search.state=products-table;search.query.collection=const.product;search.query.all=const.element.value;placeholder-ar=...إبحث عن الإسم، الصنف، الماركة",
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;placeholder-ar=...إبحث عن الإسم، الصنف، الماركة",
                 "placeholder": "Search by name, options, description...",
                 "style": {
                     "height": "4rem",
@@ -36,7 +36,15 @@
                     "borderRadius": ".75rem",
                     "marginRight": "1rem",
                     "maxWidth": "50rem"
-                }
+                },
+                "controls": [{
+                    "event": "keyup>>200",
+                    "actions": [
+                        "filter?filter.path=name.0.name;filter.Data=asset-list-Data;filter.value=e.target.value",
+                        "update::global.asset-list.1stChild.id??global.asset-list.1stChild.element.style.display=grid",
+                        "update::global.asset-list.2ndChild.2ndChild.id??global.asset-list.2ndChild.element.style.display=grid"
+                    ]
+                }]
             }, {
                 "type": "View?class=flex-box",
                 "children": [{

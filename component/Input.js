@@ -120,7 +120,7 @@ const Input = (component) => {
                 }, {
                     event: `input??value.data!=free`,
                     actions: [
-                        `filter::droplist?${component.filterable};droplist`,
+                        `filter::droplist??${component.filterable};droplist`,
                         `setData::${id}-language?data=ar?isArabic`,
                         `search?state=${component.search.state};${component.search.query};id=${component.search.id}?${component.searchable}`
                     ]

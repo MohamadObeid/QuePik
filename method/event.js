@@ -42,7 +42,9 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 
             var body = id === 'body'
             var myFn = (e) => {
-                
+
+                clearTimeout(local[`${controls.actions}-timer`])
+
                 if (body) id = local.id
                 
                 // VALUE[id] doesnot exist

@@ -1045,7 +1045,7 @@ const Input = (component) => {
                 }, {
                     event: `input??value.data!=free`,
                     actions: [
-                        `filter::droplist?${component.filterable};droplist`,
+                        `filter::droplist??${component.filterable};droplist`,
                         `setData::${id}-language?data=ar?isArabic`,
                         `search?state=${component.search.state};${component.search.query};id=${component.search.id}?${component.searchable}`
                     ]
@@ -2011,7 +2011,8 @@ const createElement = ({ STATE, VALUE, id }) => {
             var state = local.Data
             if (!state) state = local.Data = generate()
             STATE[state] = clone(STATE[state] || local.data)
-            STATE[`${state}-options`] = STATE[`${state}-options`] || {}
+            STATE[`${state}-options`] = STATE[`${state}-options`] || { backup: clone(STATE[state]) }
+
         }
 
     } else params = {}
@@ -2049,7 +2050,7 @@ const createElement = ({ STATE, VALUE, id }) => {
 
             var state = local.Data = generate()
             STATE[state] = local.data || {}
-            STATE[`${state}-options`] = {}
+            STATE[`${state}-options`] = { backup: clone(STATE[state]) }
             
         }
 
@@ -2160,7 +2161,7 @@ const createTags = ({ VALUE, STATE, id }) => {
                         var state = local.Data
                         if (!state) state = local.Data = generate()
                         STATE[state] = local.data || {}
-                        STATE[`${state}-options`] = {}
+                        STATE[`${state}-options`] = { backup: clone(STATE[state]) }
             
                     }
                 }
@@ -2208,7 +2209,7 @@ const createTags = ({ VALUE, STATE, id }) => {
                 var state = local.Data
                 if (!state) state = local.Data = generate()
                 STATE[state] = local.data || {}
-                STATE[`${state}-options`] = {}
+                STATE[`${state}-options`] = { backup: clone(STATE[state]) }
 
             }
         }
@@ -2926,7 +2927,9 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 
             var body = id === 'body'
             var myFn = (e) => {
-                
+
+                clearTimeout(local[`${controls.actions}-timer`])
+
                 if (body) id = local.id
                 
                 // VALUE[id] doesnot exist
@@ -3060,24 +3063,31 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
 
 module.exports = {execute}
 },{"./_method":24,"./generate":44,"./getParam":46,"./toArray":64,"./toBoolean":65,"./toId":67,"./toObject":68}],42:[function(require,module,exports){
-const filter = ({ VALUE, params, id }) => {
+const {clone} = require('./clone')
+
+const filter = ({ VALUE, STATE, params = {}, id }) => {
     var local = VALUE[id]
+    if (!local) return
+    console.log('herer');
+    var filter = params.filter || {}
+    var Data = filter.Data || local.Data
+    var options = STATE[`${Data}-options`]
+    var backupData = clone(options.backup)
+    var path = (filter.path || '').split('.')
+    var value = filter.value
+    
+    options.filter = value
 
-    var element = params.element || local.element
-    var value = params.value || local.element.value
+    // no value
+    if (value === '' || value === undefined) return STATE[Data] = backupData
 
-    if (!value) return
-    value = value.toLowerCase()
-    var textEl = [...element.getElementsByClassName('text')]
-
-    textEl.map(el => {
-        if (el.innerHTML.toLowerCase().includes(value)) el.parentElement.style.display = 'flex'
-        else el.parentElement.style.display = 'none'
-    })
+    STATE[Data] = backupData.filter(data => 
+        path.reduce((o, k, i) => o[k], data).toString().toLowerCase().includes(value.toLowerCase())
+    )
 }
 
 module.exports = {filter}
-},{}],43:[function(require,module,exports){
+},{"./clone":26}],43:[function(require,module,exports){
 const focus = ({ VALUE, id }) => {
     var local = VALUE[id]
 
@@ -3824,8 +3834,6 @@ const setValue = ({ VALUE, params, id }) => {
 
 module.exports = {setValue}
 },{"./data":34,"./style":62,"./toString":69}],59:[function(require,module,exports){
-const { update } = require('./update')
-
 const sort = ({ VALUE, STATE, params = {}, id }) => {
 
     var local = VALUE[id]
@@ -3865,7 +3873,7 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {sort}
-},{"./update":70}],60:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 const autoControls = ['auto-style', 'toggle-style', 'droplist', 'actionlist']
 
 const starter = ({ STATE, VALUE, id }) => {
@@ -4841,12 +4849,7 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                     path.unshift('value')
                 }
 
-                if (path[0] === 'e') {
-
-                    path = path.slice(1)
-                    value = path.reduce((o, k) => o[k], e)
-
-                } /*else if (path[0] === 'state') {
+                /*else if (path[0] === 'state') {
 
                     value = STATE[path[1]]
 
@@ -4859,16 +4862,14 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
                         )
                     }
 
-                } */else if (path[0] === 'value' || path[0] === 'state') {
+                } */if (path[0] === 'value' || path[0] === 'state' || path[0] === 'e') {
 
-                    var object = clone(local)
-
-                    if (path[0] === 'state') {
-
-                        object = clone(STATE[path[1]])
-                        path = path.slice(2)
-
-                    } else path = path.slice(1)
+                    var object = path[0] === 'value' ? clone(local) 
+                    : path[0] === 'state' ? clone(STATE[path[1]]) 
+                    : path[0] === 'e' && e
+                    
+                    if (path[0] === 'state') path = path.slice(2)
+                    else path = path.slice(1)
 
                     value = path.reduce((o, k, i) => {
 

@@ -1,5 +1,3 @@
-const { update } = require('./update')
-
 const sort = ({ VALUE, STATE, params = {}, id }) => {
 
     var local = VALUE[id]

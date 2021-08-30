@@ -59,7 +59,7 @@ const createTags = ({ VALUE, STATE, id }) => {
                         var state = local.Data
                         if (!state) state = local.Data = generate()
                         STATE[state] = local.data || {}
-                        STATE[`${state}-options`] = {}
+                        STATE[`${state}-options`] = { backup: clone(STATE[state]) }
             
                     }
                 }
@@ -107,7 +107,7 @@ const createTags = ({ VALUE, STATE, id }) => {
                 var state = local.Data
                 if (!state) state = local.Data = generate()
                 STATE[state] = local.data || {}
-                STATE[`${state}-options`] = {}
+                STATE[`${state}-options`] = { backup: clone(STATE[state]) }
 
             }
         }
