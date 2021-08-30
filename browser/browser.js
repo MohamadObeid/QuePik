@@ -732,7 +732,7 @@ VALUE.root.element = root
 
 starter({ VALUE, STATE, id: 'root' })
 
-},{"../method/starter":61}],5:[function(require,module,exports){
+},{"../method/starter":60}],5:[function(require,module,exports){
 const { toString } = require('../method/toString')
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
@@ -814,7 +814,7 @@ const Button = (component) => {
 }
 
 module.exports = {Button}
-},{"../method/generate":45,"../method/toComponent":67,"../method/toString":70}],6:[function(require,module,exports){
+},{"../method/generate":44,"../method/toComponent":66,"../method/toString":69}],6:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -860,7 +860,7 @@ const Checkbox = (component) => {
 }
 
 module.exports = { Checkbox }
-},{"../method/generate":45,"../method/toComponent":67}],7:[function(require,module,exports){
+},{"../method/generate":44,"../method/toComponent":66}],7:[function(require,module,exports){
 const { generate } = require("../method/generate")
 const { toComponent } = require("../method/toComponent")
 
@@ -922,7 +922,7 @@ const Header = (component) => {
 }
 
 module.exports = {Header}
-},{"../method/generate":45,"../method/toComponent":67}],8:[function(require,module,exports){
+},{"../method/generate":44,"../method/toComponent":66}],8:[function(require,module,exports){
 const { toString } = require('../method/toString')
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
@@ -938,6 +938,7 @@ const Input = (component) => {
     component.input = component.input || { type: 'text'}
     component.input.type = component.input.type || 'text'
     component.input.value = component.input.value || ''
+    component.input.style = component.input.style || {}
 
     component = toComponent(component)
     var { input, model, droplist, lang, readonly, style, controls, icon, placeholder, textarea } = component
@@ -965,7 +966,7 @@ const Input = (component) => {
                 height: '4rem',
                 borderRadius: '0.25rem',
                 fontSize: '1.4rem',
-
+                ...input.style,
                 ...style,
             },
             controls: [...controls,
@@ -983,13 +984,14 @@ const Input = (component) => {
 
         return {
             ...component,
-            droplist: undefined,
-            class: 'flex-box',
-            type: 'View',
             id,
+            type: 'View',
+            class: 'flex-box',
+            droplist: undefined,
             controls: { actions: `focus>>50::${id}-input??value.length;value.index=value.length--1` },
             style: {
                 display: 'inline-flex',
+                alignItems: 'center',
                 width: '100%',
                 maxWidth: '100%',
                 position: 'relative',
@@ -1033,6 +1035,7 @@ const Input = (component) => {
                     color: '#444',
                     transition: 'width 0.2s',
                     outline: 'none',
+                    ...input.style,
                 },
                 controls: [...controls, {
                     actions: 'resizeInput'
@@ -1108,7 +1111,7 @@ const Input = (component) => {
                         event: 'click',
                         actions: [
                             `remove::${id}??${component.removable};${component.clearable ? `value.length::${id}>1;!value.data::${id}-input` : ''}`,
-                            `removeData::${id}-input;focus>>50::${id}-input??${component.clearable}`,
+                            `removeData;focus>>50;setStyle::${id};setStyle?style.height=${component.style.height || '4rem'}?${component.clearable}?${id}-input`,
                         ]
                     }]
                 }]
@@ -1118,7 +1121,7 @@ const Input = (component) => {
 }
 
 module.exports = {Input}
-},{"../method/generate":45,"../method/toComponent":67,"../method/toString":70}],9:[function(require,module,exports){
+},{"../method/generate":44,"../method/toComponent":66,"../method/toString":69}],9:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -1285,7 +1288,7 @@ const Item = (component) => {
 }
 
 module.exports = {Item}
-},{"../method/generate":45,"../method/toComponent":67}],10:[function(require,module,exports){
+},{"../method/generate":44,"../method/toComponent":66}],10:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const List = (component) => {
@@ -1358,7 +1361,7 @@ const List = (component) => {
 }
 
 module.exports = {List}
-},{"../method/toComponent":67}],11:[function(require,module,exports){
+},{"../method/toComponent":66}],11:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const SearchBox = (component) => {
@@ -1465,7 +1468,7 @@ const SearchBox = (component) => {
 }
 
 module.exports = {SearchBox}
-},{"../method/toComponent":67}],12:[function(require,module,exports){
+},{"../method/toComponent":66}],12:[function(require,module,exports){
 const { generate } = require('../method/generate')
 const {toComponent} = require('../method/toComponent')
 
@@ -1492,7 +1495,7 @@ const Switch = (component) => {
 }
 
 module.exports = {Switch}
-},{"../method/generate":45,"../method/toComponent":67}],13:[function(require,module,exports){
+},{"../method/generate":44,"../method/toComponent":66}],13:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const Upload = (component) => {
@@ -1522,7 +1525,7 @@ const Upload = (component) => {
 }
 
 module.exports = {Upload}
-},{"../method/toComponent":67}],14:[function(require,module,exports){
+},{"../method/toComponent":66}],14:[function(require,module,exports){
 const {Button} = require('./Button')
 const {Input} = require('./Input')
 const {Item} = require('./Item')
@@ -1546,16 +1549,18 @@ module.exports = {
     "toggle-view": require('./toggle-view'),
 }
 },{"./actionlist":16,"./auto-style":17,"./droplist":18,"./item":19,"./list":20,"./mini-window":21,"./toggle-style":22,"./toggle-view":23}],16:[function(require,module,exports){
+const { generate } = require("../method/generate")
+
 module.exports = ({ params = {}, id }) => {
     var controls = params.controls
+    var state = generate()
 
     return [{
         event: `click`,
         actions: [
-            `setState?state.actionlist-mouseenter;state.actionlist=${controls.id || id}`,
+            `setState?state.actionlist-mouseenter;state.${state}=value.data;value.Data::actionlist=${state};value.data::actionlist=value.data`,
             `setPosition?position.id=actionlist;position.placement=${controls.placement || 'bottom'};position.distance=${controls.distance}`,
-            `actionlist::${controls.id || id}?${controls.path ? `;path=${controls.path}` : ''}`,
-            `mountAfterStyles::actionlist`,
+            `mountAfterStyles;update???actionlist`,
         ]
     }, {
         event: 'mouseleave',
@@ -1565,7 +1570,7 @@ module.exports = ({ params = {}, id }) => {
         ]
     }]
 }
-},{}],17:[function(require,module,exports){
+},{"../method/generate":44}],17:[function(require,module,exports){
 const { toArray } = require("../method/toArray");
 
 module.exports = ({ VALUE, id, params = {} }) => {
@@ -1581,7 +1586,7 @@ module.exports = ({ VALUE, id, params = {} }) => {
         actions: `resetStyles???${controls.id.join(';')}`
     }]
 }
-},{"../method/toArray":65}],18:[function(require,module,exports){
+},{"../method/toArray":64}],18:[function(require,module,exports){
 module.exports = ({ params, id }) => {
     var controls = params.controls
     
@@ -1642,7 +1647,7 @@ module.exports = ({ VALUE, params, id }) => {
         ]
     }]
 }
-},{"../method/generate":45}],22:[function(require,module,exports){
+},{"../method/generate":44}],22:[function(require,module,exports){
 module.exports = ({params}) => {
     var controls = params.controls
     return [{
@@ -1692,7 +1697,6 @@ const {starter} = require('./starter')
 const {setState} = require('./state')
 const {setPosition} = require('./setPosition')
 const {droplist} = require('./droplist')
-const {actionlist} = require('./actionlist')
 const {createView} = require('./createView')
 const {filter} = require('./filter')
 const {setValue} = require('./setValue')
@@ -1710,7 +1714,7 @@ const {resizeInput, dimensions} = require('./resize')
 const {createData, setData, pushData, clearData, removeData} = require('./data')
 
 const _method = {
-    clearValues, clone, derive, duplicate, duplicates, actionlist, getViews, getAssets,
+    clearValues, clone, derive, duplicate, duplicates, getViews, getAssets,
     getParam, isArabic, isEqual, merge, overflow, addEventListener, setState,
     toBoolean, toComponent, toId, toObject, toString, update, execute, removeIds,
     createDocument, toArray, generate, createElement, controls, route, textarea,
@@ -1721,24 +1725,7 @@ const _method = {
 }
 
 module.exports = _method
-},{"./actionlist":25,"./clearValues":26,"./clone":27,"./controls":28,"./createActions":29,"./createControls":30,"./createDocument":31,"./createElement":32,"./createView":34,"./data":35,"./db":36,"./defaultInputHandler":37,"./derive":38,"./droplist":39,"./duplicate":40,"./event":41,"./execute":42,"./filter":43,"./focus":44,"./generate":45,"./getAssets":46,"./getParam":47,"./isArabic":48,"./isEqual":49,"./log":50,"./merge":51,"./overflow":52,"./remove":53,"./resize":55,"./route":56,"./setContent":57,"./setPosition":58,"./setValue":59,"./sort":60,"./starter":61,"./state":62,"./style":63,"./textarea":64,"./toArray":65,"./toBoolean":66,"./toComponent":67,"./toId":68,"./toObject":69,"./toString":70,"./update":71}],25:[function(require,module,exports){
-const actionlist = ({ VALUE, STATE, id, params = {} }) => {
-    
-    var local = VALUE[id]
-    if(!local) return
-
-    var actionList = VALUE['actionlist']
-    var deleteBtn = VALUE['action-list-delete']
-    var editBtn = VALUE['action-list-edit']
-    var hideBtn = VALUE['action-list-hide']
-    var archiveBtn = VALUE['action-list-archive']
-    var dulicateBtn = VALUE['action-list-duplicate']
-
-    actionList.Data = deleteBtn.Data = editBtn.Data = hideBtn.Data = archiveBtn.Data = dulicateBtn.Data = local.Data
-}
-
-module.exports = {actionlist}
-},{}],26:[function(require,module,exports){
+},{"./clearValues":25,"./clone":26,"./controls":27,"./createActions":28,"./createControls":29,"./createDocument":30,"./createElement":31,"./createView":33,"./data":34,"./db":35,"./defaultInputHandler":36,"./derive":37,"./droplist":38,"./duplicate":39,"./event":40,"./execute":41,"./filter":42,"./focus":43,"./generate":44,"./getAssets":45,"./getParam":46,"./isArabic":47,"./isEqual":48,"./log":49,"./merge":50,"./overflow":51,"./remove":52,"./resize":54,"./route":55,"./setContent":56,"./setPosition":57,"./setValue":58,"./sort":59,"./starter":60,"./state":61,"./style":62,"./textarea":63,"./toArray":64,"./toBoolean":65,"./toComponent":66,"./toId":67,"./toObject":68,"./toString":69,"./update":70}],25:[function(require,module,exports){
 const { clone } = require("./clone")
 
 const clearValues = (obj) => {
@@ -1781,7 +1768,7 @@ const clearValues = (obj) => {
 }
 
 module.exports = {clearValues}
-},{"./clone":27}],27:[function(require,module,exports){
+},{"./clone":26}],26:[function(require,module,exports){
 const clone = (obj) => {
     
     // if (isElement(obj)) return obj
@@ -1834,7 +1821,7 @@ const isElement = (obj) => {
   }
 
 module.exports = {clone}
-},{}],28:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 const controls = ({ VALUE, STATE, controls, id }) => {
     
     const { addEventListener } = require("./event")
@@ -1861,7 +1848,7 @@ const controls = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {controls}
-},{"./event":41,"./execute":42,"./toArray":65,"./watch":72}],29:[function(require,module,exports){
+},{"./event":40,"./execute":41,"./toArray":64,"./watch":71}],28:[function(require,module,exports){
 const _control = require('../control/_control')
 
 const createActions = ({ VALUE, STATE, params, id }) => {
@@ -1875,7 +1862,7 @@ const createActions = ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {createActions}
-},{"../control/_control":15,"./execute":42}],30:[function(require,module,exports){
+},{"../control/_control":15,"./execute":41}],29:[function(require,module,exports){
 const {controls} = require("./controls")
 const _control = require('../control/_control')
 
@@ -1891,7 +1878,7 @@ const createControls = ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {createControls}
-},{"../control/_control":15,"./controls":28}],31:[function(require,module,exports){
+},{"../control/_control":15,"./controls":27}],30:[function(require,module,exports){
 const { createElement } = require("./createElement")
 const { getAssets, getViews } = require("./getAssets")
 const _page = require('../page/_page')
@@ -1949,7 +1936,7 @@ const createDocument = (page) => {
 }
 
 module.exports = {createDocument}
-},{"../page/_page":73,"./createElement":32,"./getAssets":46}],32:[function(require,module,exports){
+},{"../page/_page":72,"./createElement":31,"./getAssets":45}],31:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toObject } = require("./toObject")
 const { toBoolean } = require("./toBoolean")
@@ -1994,7 +1981,7 @@ const createElement = ({ STATE, VALUE, id }) => {
     // Data
     local.Data = parent.Data
     local.data = parent.data
-
+    
     // derivations
     local.derivations = local.derivations || [...(parent.derivations || [])]
 
@@ -2111,7 +2098,7 @@ const createElement = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {createElement}
-},{"./clone":27,"./createTags":33,"./derive":38,"./generate":45,"./merge":51,"./toBoolean":66,"./toObject":69}],33:[function(require,module,exports){
+},{"./clone":26,"./createTags":32,"./derive":37,"./generate":44,"./merge":50,"./toBoolean":65,"./toObject":68}],32:[function(require,module,exports){
 const { clone } = require("./clone")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2246,6 +2233,7 @@ const oneTag = ({ STATE, VALUE, id }) => {
     if (local.style) 
     Object.entries(local.style).map(([k, v]) => {
         if (k === 'after' || k.includes('>>')) return
+        else if (k === 'verticalAlign') k = 'vertical-align'
         else if (k === 'borderBottom') k = 'border-bottom'
         else if (k === 'borderLeft') k = 'border-left'
         else if (k === 'borderRight') k = 'border-right'
@@ -2326,7 +2314,7 @@ const oneTag = ({ STATE, VALUE, id }) => {
     tag = `<i class='material-icons${local.outlined ? '-outlined' : local.rounded ? '-round' : local.sharp ? '-sharp' : local.twoTone ? '-two-tone' : ''} ${local.class || ''} ${local.icon.name}' id='${local.id}' style='${style}'>${local.google ? local.icon.name : ''}</i>`
     
     else if (local.type === 'Input') {
-    if (local.textarea) tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ''}' value='${local.data || local.input.value || ''}' ${local.readonly ? 'readonly' : ''} ${local.maxlength || ''}></textarea>`
+    if (local.textarea) tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ''}' ${local.readonly ? 'readonly' : ''} ${local.maxlength || ''}>${local.data || local.input.value || ''}</textarea>`
     else tag = `<input class='${local.class}' id='${local.id}' style='${style}' ${local.upload ? `type=file accept='${local.upload.type}/*' ${local.upload.multiple ? 'multiple': ''}` : ''} type='${local.input.type || 'text'}' placeholder='${local.placeholder || ''}' value='${local.data || local.input.value || ''}' ${local.readonly ? 'readonly' : ''} />`
     }
     
@@ -2348,7 +2336,7 @@ const oneTag = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {createTags}
-},{"../component/_component":14,"./clone":27,"./createElement":32,"./execute":42,"./generate":45,"./toArray":65,"./toBoolean":66,"./toObject":69}],34:[function(require,module,exports){
+},{"../component/_component":14,"./clone":26,"./createElement":31,"./execute":41,"./generate":44,"./toArray":64,"./toBoolean":65,"./toObject":68}],33:[function(require,module,exports){
 const { update } = require("./update")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2405,7 +2393,7 @@ const createView = ({ STATE, VALUE, params ={}, id }) => {
 }
 
 module.exports = {createView}
-},{"./clone":27,"./generate":45,"./toArray":65,"./update":71}],35:[function(require,module,exports){
+},{"./clone":26,"./generate":44,"./toArray":64,"./update":70}],34:[function(require,module,exports){
 const { clone } = require("./clone")
 const { setContent } = require("./setContent")
 
@@ -2516,7 +2504,7 @@ const removeData = ({ STATE, VALUE, id, params = {} }) => {
 }
 
 module.exports = {createData, setData, pushData, clearData, removeData}
-},{"./clone":27,"./setContent":57}],36:[function(require,module,exports){
+},{"./clone":26,"./setContent":56}],35:[function(require,module,exports){
 const deleteDb = async ({ VALUE, STATE, id, params = {} }) => {
     var local = VALUE[id]
     if (!local) return
@@ -2539,7 +2527,7 @@ const saveDb = async ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {deleteDb, saveDb}
-},{}],37:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 const { setData } = require("./data")
 const { resizeInput } = require("./resize")
 const { isArabic } = require("./isArabic")
@@ -2550,7 +2538,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
     var local = VALUE[id]
     if (!local) return
 
-    if (local.element.tagName !== 'INPUT' && local.element.tagName !== 'TEXTAREA') return
+    if (local.type !== 'Input') return
 
     // checkbox input
     if (local.input && local.input.type === 'checkbox') {
@@ -2619,7 +2607,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         local.value = value
         local.data = value
 
-        if (STATE[local.Data] && local.derivations[0] != '') {
+        if (local.Data && local.derivations[0] != '') {
 
             // reset Data
             setData({ STATE, VALUE, params: { value }, id })
@@ -2634,14 +2622,17 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         // arabic values
         isArabic({ VALUE, params: { value }, id })
 
-        console.log(local.data, STATE[local.Data])
+        console.log(value, STATE[local.Data])
     }
 
     local.element.addEventListener('input', myFn)
+    
+    // resize
+    resizeInput({ VALUE, id })
 }
 
 module.exports = {defaultInputHandler}
-},{"./data":35,"./isArabic":48,"./resize":55}],38:[function(require,module,exports){
+},{"./data":34,"./isArabic":47,"./resize":54}],37:[function(require,module,exports){
 const { clone } = require("./clone")
 const { merge } = require("./merge")
 
@@ -2698,7 +2689,7 @@ const derive = (data, keys, fullDerivation, defaultData, writable) => {
 
 
 module.exports = {derive}
-},{"./clone":27,"./merge":51}],39:[function(require,module,exports){
+},{"./clone":26,"./merge":50}],38:[function(require,module,exports){
 const { generate } = require('./generate')
 const { update } = require('./update')
 const { filter } = require('./filter')
@@ -2774,7 +2765,7 @@ const droplist = ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {droplist}
-},{"./clone":27,"./filter":43,"./generate":45,"./style":63,"./toObject":69,"./update":71}],40:[function(require,module,exports){
+},{"./clone":26,"./filter":42,"./generate":44,"./style":62,"./toObject":68,"./update":70}],39:[function(require,module,exports){
 const { clearValues } = require('./clearValues')
 const { clone } = require('./clone')
 const { toArray } = require('./toArray')
@@ -2890,7 +2881,7 @@ const duplicates = ({ STATE, VALUE, params, id }) => {
 }
 
 module.exports = {duplicate, duplicates}
-},{"./clearValues":26,"./clone":27,"./createElement":32,"./derive":38,"./generate":45,"./isEqual":49,"./removeDuplicates":54,"./starter":61,"./toArray":65}],41:[function(require,module,exports){
+},{"./clearValues":25,"./clone":26,"./createElement":31,"./derive":37,"./generate":44,"./isEqual":48,"./removeDuplicates":53,"./starter":60,"./toArray":64}],40:[function(require,module,exports){
 
 const { toBoolean } = require('./toBoolean')
 const { toObject } = require('./toObject')
@@ -2986,7 +2977,7 @@ const defaultEventHandler = ({ VALUE, id }) => {
 }
 
 module.exports = {addEventListener, defaultEventHandler}
-},{"./execute":42,"./toBoolean":66,"./toId":68,"./toObject":69}],42:[function(require,module,exports){
+},{"./execute":41,"./toBoolean":65,"./toId":67,"./toObject":68}],41:[function(require,module,exports){
 
 const { toBoolean } = require("./toBoolean")
 const { toArray } = require("./toArray")
@@ -3068,7 +3059,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
 }
 
 module.exports = {execute}
-},{"./_method":24,"./generate":45,"./getParam":47,"./toArray":65,"./toBoolean":66,"./toId":68,"./toObject":69}],43:[function(require,module,exports){
+},{"./_method":24,"./generate":44,"./getParam":46,"./toArray":64,"./toBoolean":65,"./toId":67,"./toObject":68}],42:[function(require,module,exports){
 const filter = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
@@ -3086,7 +3077,7 @@ const filter = ({ VALUE, params, id }) => {
 }
 
 module.exports = {filter}
-},{}],44:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 const focus = ({ VALUE, id }) => {
     var local = VALUE[id]
 
@@ -3106,7 +3097,7 @@ const focus = ({ VALUE, id }) => {
 }
 
 module.exports = {focus}
-},{}],45:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
 const generate = (length) => {
@@ -3120,7 +3111,7 @@ const generate = (length) => {
 }
 
 module.exports = {generate}
-},{}],46:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 (function (process){(function (){
 const path = require('path')
 const fs = require('fs')
@@ -3159,7 +3150,7 @@ const getViews = () => {
 
 module.exports = { getViews, getAssets }
 }).call(this)}).call(this,require('_process'))
-},{"_process":3,"fs":1,"path":2}],47:[function(require,module,exports){
+},{"_process":3,"fs":1,"path":2}],46:[function(require,module,exports){
 const getParam = (string, param, defValue) => {
     if (!string) return defValue
     if (!string.includes('?')) return defValue
@@ -3178,7 +3169,7 @@ const getParam = (string, param, defValue) => {
 }
 
 module.exports = {getParam}
-},{}],48:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var arabic = /[\u0600-\u06FF\u0750-\u077F]/
 
 const isArabic = (value) => {
@@ -3206,7 +3197,7 @@ const isArabic = (value) => {
 }
 
 module.exports = {isArabic}
-},{}],49:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 const isEqual = function (value, other) {
     //if (value === undefined || other === undefined) return false
 
@@ -3282,13 +3273,13 @@ const isEqual = function (value, other) {
 };
 
 module.exports = {isEqual}
-},{}],50:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 const log = ({params}) => {
     console.log(params.log);
 }
 
 module.exports = {log}
-},{}],51:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 
 const { toArray } = require("./toArray")
 const { clone } = require("./clone")
@@ -3348,7 +3339,7 @@ const override = (obj1, obj2) => {
 }
 
 module.exports = {merge, override}
-},{"./clone":27,"./toArray":65}],52:[function(require,module,exports){
+},{"./clone":26,"./toArray":64}],51:[function(require,module,exports){
 const overflow = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
@@ -3398,7 +3389,7 @@ const overflow = ({ VALUE, params, id }) => {
 }
 
 module.exports = {overflow}
-},{}],53:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 const { removeIds } = require("./update")
 const { clone } = require("./clone")
 
@@ -3472,7 +3463,7 @@ const resetDerivations = ({ VALUE, id, index }) => {
 }
 
 module.exports = {remove}
-},{"./clone":27,"./update":71}],54:[function(require,module,exports){
+},{"./clone":26,"./update":70}],53:[function(require,module,exports){
 const removeDuplicates = (object) => {
 
     if (typeof object === 'string' || typeof object === 'number' || !object) return object
@@ -3490,22 +3481,40 @@ const removeDuplicates = (object) => {
 }
 
 module.exports = {removeDuplicates}
-},{}],55:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 const resizeInput = ({ VALUE, id }) => {
     var local = VALUE[id]
     if (!local) return
 
     if (local.type !== 'Input') return
 
+    var results = dimensions({ VALUE, id })
+
+    // for width
     var width = local.style.width
     if (width === 'fit-content') {
 
-        var results = dimensions({ VALUE, id })
+        if (local.element) {
 
-        if (local.element) local.element.style.width = results.width + 'px'
-        else return results.width + 'px'
+            local.element.style.width = results.width + 'px'
+            if (local.templated) VALUE[local.parent].element.style.width = results.width + 'px'
 
-    } else return local.style.width
+        } else results.width + 'px'
+
+    } else local.style.width
+
+    // for height
+    var height = local.style.height
+    if (height === 'fit-content') {
+
+        if (local.element) {
+
+            local.element.style.height = results.height + 'px'
+            if (local.templated) VALUE[local.parent].element.style.height = results.height + 'px'
+
+        } else results.height + 'px'
+
+    } else local.style.height
 }
 
 const dimensions = ({ VALUE, id, params = {} }) => {
@@ -3526,8 +3535,10 @@ const dimensions = ({ VALUE, id, params = {} }) => {
     lDiv.style.left = -1000
     lDiv.style.top = -1000
     lDiv.style.padding = pStyle.padding
-    lDiv.style.maxWidth = pStyle.maxWidth
+    lDiv.style.maxWidth = pStyle.maxWidth 
+    lDiv.style.maxHeight = pStyle.maxHeight
     lDiv.style.transform = pStyle.transform
+    if (pStyle.width === '100%') lDiv.style.width = local.element.clientWidth + 'px'
 
     lDiv.innerHTML = pText
 
@@ -3538,12 +3549,12 @@ const dimensions = ({ VALUE, id, params = {} }) => {
 
     document.body.removeChild(lDiv)
     lDiv = null
-
+    
     return lResult
 }
 
 module.exports = {resizeInput, dimensions}
-},{}],56:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 
 const { starter } = require('./starter')
 //const { search } = require("./search")
@@ -3622,7 +3633,7 @@ export const pushRoute = ({ params }) => {
 }*/
 
 module.exports = {route}
-},{"./starter":61}],57:[function(require,module,exports){
+},{"./starter":60}],56:[function(require,module,exports){
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
 
@@ -3678,7 +3689,7 @@ const setContent = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {setContent}
-},{"./isArabic":48,"./isEqual":49}],58:[function(require,module,exports){
+},{"./isArabic":47,"./isEqual":48}],57:[function(require,module,exports){
 const setPosition = ({ VALUE, params, id }) => {
     var element = VALUE[id].element
     var {position} = params
@@ -3772,7 +3783,7 @@ const setPosition = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setPosition}
-},{}],59:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 const { setData } = require("./data")
 const { setStyle } = require("./style")
 const { toString } = require("./toString")
@@ -3812,7 +3823,7 @@ const setValue = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setValue}
-},{"./data":35,"./style":63,"./toString":70}],60:[function(require,module,exports){
+},{"./data":34,"./style":62,"./toString":69}],59:[function(require,module,exports){
 const { update } = require('./update')
 
 const sort = ({ VALUE, STATE, params = {}, id }) => {
@@ -3820,12 +3831,13 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
     var local = VALUE[id]
     if (!local) return
 
-    var Data = params.Data || local.Data
+    var sort = params.sort || {}
+    var Data = sort.Data || local.Data
     var options = STATE[`${Data}-options`]
     var data = STATE[Data]
     
     options.sort = options.sort === 'ascending' ? 'descending' : 'ascending'
-    var path = (params.path || '').split('.')
+    var path = (sort.path || '').split('.')
     
     data.sort((a, b) => {
 
@@ -3850,12 +3862,10 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
             return b > a ? 1 : 0
         }
     })
-
-    update({ VALUE, STATE, id: local.parent })
 }
 
 module.exports = {sort}
-},{"./update":71}],61:[function(require,module,exports){
+},{"./update":70}],60:[function(require,module,exports){
 const autoControls = ['auto-style', 'toggle-style', 'droplist', 'actionlist']
 
 const starter = ({ STATE, VALUE, id }) => {
@@ -3878,9 +3888,6 @@ const starter = ({ STATE, VALUE, id }) => {
 
     // arabic text
     isArabic({ VALUE, id })
-
-    // reset textarea height
-    textarea({ VALUE, id })
 
     // input handlers
     defaultInputHandler({ VALUE, STATE, id })
@@ -3918,7 +3925,7 @@ const starter = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {starter}
-},{"./controls":28,"./createControls":30,"./defaultInputHandler":37,"./event":41,"./isArabic":48,"./style":63,"./textarea":64}],62:[function(require,module,exports){
+},{"./controls":27,"./createControls":29,"./defaultInputHandler":36,"./event":40,"./isArabic":47,"./style":62,"./textarea":63}],61:[function(require,module,exports){
 const setState = ({ STATE, params,  }) => {
 
     // push states to route
@@ -3934,7 +3941,7 @@ const setState = ({ STATE, params,  }) => {
 }
 
 module.exports = {setState}
-},{}],63:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 const {resizeInput} = require('./resize')
 
 const setStyle = ({ VALUE, params, id }) => {
@@ -4011,12 +4018,12 @@ const mountAfterStyles = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setStyle, resetStyles, toggleStyles, mountAfterStyles}
-},{"./resize":55}],64:[function(require,module,exports){
+},{"./resize":54}],63:[function(require,module,exports){
 const textarea = ({ VALUE, id }) => {
     var local = VALUE[id]
     if (!local) return
 
-    if (!local.textarea || local.type !== 'Input') return
+    /*if (!local.textarea || local.type !== 'Input') return
 
     var parent = local.templated && VALUE[local.parent]
     local.element.setAttribute("style", "height:" + (local.element.scrollHeight) + "px;overflow-y:hidden;")
@@ -4034,17 +4041,17 @@ const textarea = ({ VALUE, id }) => {
         parent.element.style.height = (parent.element.scrollHeight) + "px"
     }
     
-    local.element.addEventListener("input", OnInput, false)
+    local.element.addEventListener("input", OnInput, false)*/
 }
 
 module.exports = { textarea }
-},{}],65:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 const toArray = (data) => {
     return data !== undefined ? (Array.isArray(data) ? data : [data]) : []
 }
 
 module.exports = {toArray}
-},{}],66:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 const { derive } = require("./derive")
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
@@ -4266,7 +4273,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 }
 
                 else if (key.includes('.')) {
-
+                    
                     var key0 = key.split('.')[0]
                     var key1 = key.split(`${key0}.`)[1]
                     if (key1 !== undefined) key1 = key1.split('.')
@@ -4279,107 +4286,106 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
 
                     key = generate()
 
-                    if (key0 === 'state') {
+                    if (key0 === 'value' || key0 === 'state') {
+
+                        var object = clone(local)
+    
+                        if (key0 === 'state') {
+    
+                            object = clone(STATE[key1[0]])
+                            key1 = key1.slice(1)
+    
+                        }
                         
-                        var val = STATE[key1[0]]
-                        key1 = key1.slice(1)
-                        key1 = key1.map(k => { 
-                            if (!isNaN(k)) k = parseFloat(k)
-                            return k
-                        })
-                        if (key1.length > 0) key1.reduce((o, k, i) => {
-                            
-                            if (i === key1.length - 1) return local[key] = o[k]
+                        local[key] = key1.reduce((o, k, i) => {
+
+                            if (o === undefined) return o
+                            if ((k === 'key' || k === 'value') && key1[i - 1] === 'entries') return o
+
+                            else if (k === 'data') {
+
+                                return derive(STATE[local.Data], local.derivations)[0]
+
+                            } else if (k === 'parent') {
+                                
+                                var parent = o.parent
+                                if (o.type === 'Input') parent = VALUE[parent].parent
+                                return VALUE[parent]
+
+                            } else if (k === 'next' || k === 'nextSibling') {
+
+                                var nextSibling = o.element.nextSibling
+                                var id = nextSibling.id
+
+                                return VALUE[id]
+
+                            } else if (k === 'prev' || k === 'prevSibling') {
+
+                                var previousSibling = o.element.previousSibling
+                                var id = previousSibling.id
+
+                                return VALUE[id]
+
+                            } else if (k === '1stChild') {
+
+                                var id = o.element.children[0].id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
+                                
+                            } else if (k === '2ndChild') {
+                        
+                                var id = (o.element.children[1] || o.element.children[0]).id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
+
+                            } else if (k === '3rdChild') {
+
+                                var id = (o.element.children[2] || o.element.children[1] || o.element.children[0]).id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
+    
+                            } else if (k === 'lastChild') {
+    
+                                var id = o.element.children[o.element.children.length - 1].id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
+    
+                            } else if (k === 'INPUT') {
+
+                                var inputComps = [...o.element.getElementsByTagName(k)]
+                                inputComps = inputComps.map(comp => VALUE[comp.id])
+                                if (inputComps.length === 0) return inputComps[0]
+                                else return inputComps
+
+                            } else if (k === 'findIdByData') {
+
+                                var id = o.find(id => local.data === VALUE[id].text)
+                                if (id) return id
+                                else return id
+
+                            } else if (k === 'entries') {
+
+                                return Object.entries(o).map(([key, value]) => {
+                                    if (key1[i + 1] === 'key') return key
+                                    if (key1[i + 1] === 'value') return value
+                                })
+                            }
+
                             return o[k]
 
-                        }, clone(val))
-
-                        else local[key] = val
-                    }
-
-                    else if (key0 === 'value') {
-                        
-                        if (key1[0] === 'data') {
-
-                            key1 = key1.slice(1)
-                            var length
-                            if (key1.slice(-1)[0] === 'length') {
-                                key1 = key1.slice(0, -1)
-                                length = true
-                            }
-                            var data = derive(STATE[local.Data], [...local.derivations, ...key1])[0]
-                            local[key] = data
-
-                            if (length) {
-                                if (data) local[key] = data.length
-                                else local[key] = false
-                            }
-
-                        }
-                        else if (key1[0] === 'Data') {
-
-                            key1 = key1.slice(1)
-                            var data = derive(STATE[local.Data], key1)[0]
-                            local[key] = data
-
-                        }
-                        else {
-                            
-                            local[key] = key1.reduce((o, k, i) => {
-
-                                if (k === 'parent') {
-                                    
-                                    var parent = o.parent
-                                    if (o.type === 'Input') parent = VALUE[parent].parent
-                                    return VALUE[parent]
-
-                                } else if (k === 'next' || k === 'nextSibling') {
-
-                                    var nextSibling = o.element.nextSibling
-                                    var id = nextSibling.id
-
-                                    return VALUE[id]
-
-                                } else if (k === 'prev' || k === 'prevSibling') {
-
-                                    var previousSibling = o.element.previousSibling
-                                    var id = previousSibling.id
-
-                                    return VALUE[id]
-
-                                } else if (k === 'firstChild') {
-
-                                    var firstChild = o.element.children[0]
-                                    return VALUE[firstChild.id]
-                                    
-                                } else if (k === 'secondChild') {
-
-                                    var secondChild = o.element.children[1] ? o.element.children[1] : o.element.children[0]
-                                    return VALUE[secondChild.id]
-
-                                } else if (k === 'lastChild') {
-
-                                    var lastChild = o.element.children[o.element.children.length - 1]
-                                    return VALUE[lastChild.id]
-
-                                } else if (k === 'INPUT') {
-
-                                    var inputComps = [...o.element.getElementsByTagName(k)]
-                                    inputComps = inputComps.map(comp => VALUE[comp.id])
-                                    if (inputComps.length === 0) return inputComps[0]
-                                    else return inputComps
-
-                                } else if (k === 'findIdByData') {
-
-                                    var id = o.find(id => local.data === VALUE[id].text)
-                                    if (id) return id
-                                    else return id
-                                }
-
-                                return o[k]
-
-                            }, clone(local))
-                        }
+                        }, object)
                     }
 
                     else if (key0 === 'e') local[key] = e[key1]
@@ -4614,7 +4620,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
 }
 
 module.exports = {toBoolean}
-},{"./clone":27,"./derive":38,"./duplicate":40,"./generate":45,"./getParam":47,"./isArabic":48,"./isEqual":49,"./overflow":52,"./toId":68}],67:[function(require,module,exports){
+},{"./clone":26,"./derive":37,"./duplicate":39,"./generate":44,"./getParam":46,"./isArabic":47,"./isEqual":48,"./overflow":51,"./toId":67}],66:[function(require,module,exports){
 const { generate } = require('./generate')
 const { toArray } = require('./toArray')
 
@@ -4653,7 +4659,7 @@ const toComponent = (obj) => {
 }
 
 module.exports = {toComponent}
-},{"./generate":45,"./toArray":65}],68:[function(require,module,exports){
+},{"./generate":44,"./toArray":64}],67:[function(require,module,exports){
 const { generate } = require("./generate");
 const { toArray } = require("./toArray")
 const { toObject } = require("./toObject");
@@ -4713,7 +4719,7 @@ const toId = ({ VALUE, STATE, id, string }) => {
 }
 
 module.exports = {toId}
-},{"./generate":45,"./toArray":65,"./toObject":69}],69:[function(require,module,exports){
+},{"./generate":44,"./toArray":64,"./toObject":68}],68:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { merge } = require("./merge")
@@ -4737,8 +4743,8 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
         if (param.includes('=')) {
 
             key = param.split('=')[0]
-            value = param.split(`${key}=`)[1]
-
+            value = param.substring(key.length + 1)
+            
         } else key = param
 
         // operator has !
@@ -5142,7 +5148,7 @@ function bracketsToDots({ VALUE, STATE, string, e, id }) {
 }
 
 module.exports = {toObject}
-},{"./clone":27,"./derive":38,"./generate":45,"./merge":51,"./toArray":65,"./toBoolean":66,"./toId":68}],70:[function(require,module,exports){
+},{"./clone":26,"./derive":37,"./generate":44,"./merge":50,"./toArray":64,"./toBoolean":65,"./toId":67}],69:[function(require,module,exports){
 const toString = (object) => {
     if (!object) return ''
 
@@ -5169,7 +5175,7 @@ const toString = (object) => {
 }
 
 module.exports = {toString}
-},{}],71:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 const { generate } = require("./generate")
 const { starter } = require("./starter")
 const { toArray } = require("./toArray")
@@ -5201,7 +5207,7 @@ const update = ({ STATE, VALUE, id }) => {
     setTimeout(() => {
 
         local.element.style.opacity = '1'
-
+        
         var children = [...local.element.children]
         children.map(child => {
             var id = child.id
@@ -5232,7 +5238,7 @@ const removeIds = ({ VALUE, id }) => {
 }
 
 module.exports = {update, removeIds}
-},{"./clone":27,"./createElement":32,"./generate":45,"./starter":61,"./toArray":65}],72:[function(require,module,exports){
+},{"./clone":26,"./createElement":31,"./generate":44,"./starter":60,"./toArray":64}],71:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toBoolean } = require("./toBoolean")
 const { isEqual } = require("./isEqual")
@@ -5320,7 +5326,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {watch}
-},{"./clone":27,"./data":35,"./execute":42,"./generate":45,"./isEqual":49,"./toBoolean":66,"./toObject":69}],73:[function(require,module,exports){
+},{"./clone":26,"./data":34,"./execute":41,"./generate":44,"./isEqual":48,"./toBoolean":65,"./toObject":68}],72:[function(require,module,exports){
 const {admin} = require('./admin')
 const {home} = require('./home')
 const {public} = require('./public')
@@ -5328,19 +5334,19 @@ const {public} = require('./public')
 module.exports = {
     admin, home, public
 }
-},{"./admin":74,"./home":75,"./public":76}],74:[function(require,module,exports){
+},{"./admin":73,"./home":74,"./public":75}],73:[function(require,module,exports){
 const admin = {
     views: ['admin-navbar', 'admin']
 }
 
 module.exports = {admin}
-},{}],75:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 const home = {
     views: ['navbar']
 }
 
 module.exports = {home}
-},{}],76:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 const public = {
     views: ['droplist', 'mini-window', 'actionlist']
 }

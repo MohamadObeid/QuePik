@@ -21,8 +21,8 @@ const toObject = ({ VALUE, STATE, string, e, id }) => {
         if (param.includes('=')) {
 
             key = param.split('=')[0]
-            value = param.split(`${key}=`)[1]
-
+            value = param.substring(key.length + 1)
+            
         } else key = param
 
         // operator has !

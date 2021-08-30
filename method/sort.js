@@ -5,12 +5,13 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
     var local = VALUE[id]
     if (!local) return
 
-    var Data = params.Data || local.Data
+    var sort = params.sort || {}
+    var Data = sort.Data || local.Data
     var options = STATE[`${Data}-options`]
     var data = STATE[Data]
     
     options.sort = options.sort === 'ascending' ? 'descending' : 'ascending'
-    var path = (params.path || '').split('.')
+    var path = (sort.path || '').split('.')
     
     data.sort((a, b) => {
 
@@ -35,8 +36,6 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
             return b > a ? 1 : 0
         }
     })
-
-    update({ VALUE, STATE, id: local.parent })
 }
 
 module.exports = {sort}

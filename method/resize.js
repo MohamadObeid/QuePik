@@ -4,15 +4,33 @@ const resizeInput = ({ VALUE, id }) => {
 
     if (local.type !== 'Input') return
 
+    var results = dimensions({ VALUE, id })
+
+    // for width
     var width = local.style.width
     if (width === 'fit-content') {
 
-        var results = dimensions({ VALUE, id })
+        if (local.element) {
 
-        if (local.element) local.element.style.width = results.width + 'px'
-        else return results.width + 'px'
+            local.element.style.width = results.width + 'px'
+            if (local.templated) VALUE[local.parent].element.style.width = results.width + 'px'
 
-    } else return local.style.width
+        } else results.width + 'px'
+
+    } else local.style.width
+
+    // for height
+    var height = local.style.height
+    if (height === 'fit-content') {
+
+        if (local.element) {
+
+            local.element.style.height = results.height + 'px'
+            if (local.templated) VALUE[local.parent].element.style.height = results.height + 'px'
+
+        } else results.height + 'px'
+
+    } else local.style.height
 }
 
 const dimensions = ({ VALUE, id, params = {} }) => {
@@ -33,8 +51,10 @@ const dimensions = ({ VALUE, id, params = {} }) => {
     lDiv.style.left = -1000
     lDiv.style.top = -1000
     lDiv.style.padding = pStyle.padding
-    lDiv.style.maxWidth = pStyle.maxWidth
+    lDiv.style.maxWidth = pStyle.maxWidth 
+    lDiv.style.maxHeight = pStyle.maxHeight
     lDiv.style.transform = pStyle.transform
+    if (pStyle.width === '100%') lDiv.style.width = local.element.clientWidth + 'px'
 
     lDiv.innerHTML = pText
 
@@ -45,7 +65,7 @@ const dimensions = ({ VALUE, id, params = {} }) => {
 
     document.body.removeChild(lDiv)
     lDiv = null
-
+    
     return lResult
 }
 

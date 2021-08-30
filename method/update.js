@@ -29,7 +29,7 @@ const update = ({ STATE, VALUE, id }) => {
     setTimeout(() => {
 
         local.element.style.opacity = '1'
-
+        
         var children = [...local.element.children]
         children.map(child => {
             var id = child.id

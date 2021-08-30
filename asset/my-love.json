@@ -40,6 +40,16 @@
       },
       "name": "Oven",
       "description": "Small for Home"
+    },
+    {
+      "lang": "en",
+      "icon": {
+        "name": "scatter_plot",
+        "google": true,
+        "type": "outlined"
+      },
+      "name": "Zbib",
+      "description": "bez l3anze"
     }
   ],
   "file-name": "my-love"

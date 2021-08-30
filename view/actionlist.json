@@ -1,7 +1,10 @@
 {
     "type": "List?id=actionlist;toChildren.icon.google;toChildren.icon.outlined;toChildren.icon.style.fontSize=1.7rem",
     "children": [{
-        "type": "Item?text=Edit;icon.name=edit;id=action-list-edit"
+        "type": "Item?text=Edit;icon.name=edit;id=action-list-edit",
+        "controls": {
+            "actions": "createControls?controls.type=mini-window;controls.view=asset"
+        }
     }, {
         "type": "Item?text=Hide;icon.name=visibility_off;id=action-list-hide",
         "actions": [

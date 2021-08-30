@@ -1,8 +1,10 @@
 {
-  "name": [{
+  "name": [
+    {
       "lang": "en",
       "name": "Hotel Stars"
-  }],
+    }
+  ],
   "icon": {
     "name": "star_outline",
     "google": true,

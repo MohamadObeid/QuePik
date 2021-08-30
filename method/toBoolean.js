@@ -219,7 +219,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 }
 
                 else if (key.includes('.')) {
-
+                    
                     var key0 = key.split('.')[0]
                     var key1 = key.split(`${key0}.`)[1]
                     if (key1 !== undefined) key1 = key1.split('.')
@@ -232,107 +232,106 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
 
                     key = generate()
 
-                    if (key0 === 'state') {
+                    if (key0 === 'value' || key0 === 'state') {
+
+                        var object = clone(local)
+    
+                        if (key0 === 'state') {
+    
+                            object = clone(STATE[key1[0]])
+                            key1 = key1.slice(1)
+    
+                        }
                         
-                        var val = STATE[key1[0]]
-                        key1 = key1.slice(1)
-                        key1 = key1.map(k => { 
-                            if (!isNaN(k)) k = parseFloat(k)
-                            return k
-                        })
-                        if (key1.length > 0) key1.reduce((o, k, i) => {
-                            
-                            if (i === key1.length - 1) return local[key] = o[k]
+                        local[key] = key1.reduce((o, k, i) => {
+
+                            if (o === undefined) return o
+                            if ((k === 'key' || k === 'value') && key1[i - 1] === 'entries') return o
+
+                            else if (k === 'data') {
+
+                                return derive(STATE[local.Data], local.derivations)[0]
+
+                            } else if (k === 'parent') {
+                                
+                                var parent = o.parent
+                                if (o.type === 'Input') parent = VALUE[parent].parent
+                                return VALUE[parent]
+
+                            } else if (k === 'next' || k === 'nextSibling') {
+
+                                var nextSibling = o.element.nextSibling
+                                var id = nextSibling.id
+
+                                return VALUE[id]
+
+                            } else if (k === 'prev' || k === 'prevSibling') {
+
+                                var previousSibling = o.element.previousSibling
+                                var id = previousSibling.id
+
+                                return VALUE[id]
+
+                            } else if (k === '1stChild') {
+
+                                var id = o.element.children[0].id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
+                                
+                            } else if (k === '2ndChild') {
+                        
+                                var id = (o.element.children[1] || o.element.children[0]).id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
+
+                            } else if (k === '3rdChild') {
+
+                                var id = (o.element.children[2] || o.element.children[1] || o.element.children[0]).id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
+    
+                            } else if (k === 'lastChild') {
+    
+                                var id = o.element.children[o.element.children.length - 1].id
+                                if (VALUE[id].component === 'Input') {
+                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
+                                }
+                                
+                                return VALUE[id]
+    
+                            } else if (k === 'INPUT') {
+
+                                var inputComps = [...o.element.getElementsByTagName(k)]
+                                inputComps = inputComps.map(comp => VALUE[comp.id])
+                                if (inputComps.length === 0) return inputComps[0]
+                                else return inputComps
+
+                            } else if (k === 'findIdByData') {
+
+                                var id = o.find(id => local.data === VALUE[id].text)
+                                if (id) return id
+                                else return id
+
+                            } else if (k === 'entries') {
+
+                                return Object.entries(o).map(([key, value]) => {
+                                    if (key1[i + 1] === 'key') return key
+                                    if (key1[i + 1] === 'value') return value
+                                })
+                            }
+
                             return o[k]
 
-                        }, clone(val))
-
-                        else local[key] = val
-                    }
-
-                    else if (key0 === 'value') {
-                        
-                        if (key1[0] === 'data') {
-
-                            key1 = key1.slice(1)
-                            var length
-                            if (key1.slice(-1)[0] === 'length') {
-                                key1 = key1.slice(0, -1)
-                                length = true
-                            }
-                            var data = derive(STATE[local.Data], [...local.derivations, ...key1])[0]
-                            local[key] = data
-
-                            if (length) {
-                                if (data) local[key] = data.length
-                                else local[key] = false
-                            }
-
-                        }
-                        else if (key1[0] === 'Data') {
-
-                            key1 = key1.slice(1)
-                            var data = derive(STATE[local.Data], key1)[0]
-                            local[key] = data
-
-                        }
-                        else {
-                            
-                            local[key] = key1.reduce((o, k, i) => {
-
-                                if (k === 'parent') {
-                                    
-                                    var parent = o.parent
-                                    if (o.type === 'Input') parent = VALUE[parent].parent
-                                    return VALUE[parent]
-
-                                } else if (k === 'next' || k === 'nextSibling') {
-
-                                    var nextSibling = o.element.nextSibling
-                                    var id = nextSibling.id
-
-                                    return VALUE[id]
-
-                                } else if (k === 'prev' || k === 'prevSibling') {
-
-                                    var previousSibling = o.element.previousSibling
-                                    var id = previousSibling.id
-
-                                    return VALUE[id]
-
-                                } else if (k === 'firstChild') {
-
-                                    var firstChild = o.element.children[0]
-                                    return VALUE[firstChild.id]
-                                    
-                                } else if (k === 'secondChild') {
-
-                                    var secondChild = o.element.children[1] ? o.element.children[1] : o.element.children[0]
-                                    return VALUE[secondChild.id]
-
-                                } else if (k === 'lastChild') {
-
-                                    var lastChild = o.element.children[o.element.children.length - 1]
-                                    return VALUE[lastChild.id]
-
-                                } else if (k === 'INPUT') {
-
-                                    var inputComps = [...o.element.getElementsByTagName(k)]
-                                    inputComps = inputComps.map(comp => VALUE[comp.id])
-                                    if (inputComps.length === 0) return inputComps[0]
-                                    else return inputComps
-
-                                } else if (k === 'findIdByData') {
-
-                                    var id = o.find(id => local.data === VALUE[id].text)
-                                    if (id) return id
-                                    else return id
-                                }
-
-                                return o[k]
-
-                            }, clone(local))
-                        }
+                        }, object)
                     }
 
                     else if (key0 === 'e') local[key] = e[key1]

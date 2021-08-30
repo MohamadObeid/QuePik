@@ -1,6 +1,7 @@
 {
     "file-name": "admin-assets-list",
     "type": "View?Data=undefined",
+    "actions": "?state.asset-list-grid-display=grid;state.asset-list-table-display=none",
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
         "children": [{
@@ -42,19 +43,30 @@
                     "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
                     "controls": {
                         "event": "click", 
-                        "actions": "sort::state.assets-list?path=name.0.name" 
+                        "actions": [
+                            "sort?sort.path=name.0.name;sort.Data=asset-list-Data",
+                            "update::global.asset-list.1stChild.id??global.asset-list.1stChild.element.style.display=grid",
+                            "update::global.asset-list.2ndChild.2ndChild.id??global.asset-list.2ndChild.element.style.display=grid"
+                        ]
                     }
                 }, {
-                    "type": "Button?text=View;icon.name=bi-list-ul"
+                    "type": "Button?text=View;icon.name=bi-list-ul",
+                    "controls": {
+                        "event": "click", 
+                        "actions": [
+                            "setStyle::global.asset-list.1stChild.id?style.display=none<<global.asset-list.1stChild.element.style.display=grid;style.display=grid<<global.asset-list.1stChild.element.style.display=none",
+                            "setStyle::global.asset-list.2ndChild.id?style.display=none<<global.asset-list.2ndChild.element.style.display=grid;style.display=grid<<global.asset-list.2ndChild.element.style.display=none",
+                            "?state.asset-list-grid-display=global.asset-list.1stChild.element.style.display;state.asset-list-table-display=global.asset-list.2ndChild.element.style.display"
+                        ]
+                    }
                 }]
             }]
         }, {
-            "type": "View?id=assets-data;style.padding=1rem;style.width=100%",
+            "type": "View?id=asset-list;style.display=flex;style.flexDirection=column;style.width=100%",
             "children": [{
-                "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr",
+                "type": "View?style.display=state.asset-list-grid-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem",
                 "children": [{
-                    "type": "View?Data=assets-list-Data;data=state.asset.entries.value;class=flex-box",
-                    "actions": "?state.assets-list=value.id",
+                    "type": "View?class=flex-box;Data=asset-list-Data;data=state.asset.entries.value",
                     "style": {
                         "borderRadius": ".75rem",
                         "border": "1px solid #ddd",
@@ -74,7 +86,68 @@
                     }]
                 }]
             }, {
-                
+                "type": "View?style.display=state.asset-list-table-display;style.gridTemplateColumns=1fr;style.gap=1px",
+                "children": [{
+                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem",
+                    "children": [{
+                        "type": "Text?text=Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer",
+                        "controls": {
+                            "event": "click", 
+                            "actions": [
+                                "sort?sort.path=name.0.name;sort.Data=asset-list-Data",
+                                "update::value.parent.next.id"
+                            ]
+                        }
+                    }, {
+                        "type": "Text?text=File Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer",
+                        "controls": {
+                            "event": "click", 
+                            "actions": [
+                                "sort?sort.path=file-name;sort.Data=asset-list-Data",
+                                "update::value.parent.next.id"
+                            ]
+                        }
+                    }, {
+                        "type": "Text?text=Options;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer",
+                        "controls": {
+                            "event": "click", 
+                            "actions": [
+                                "sort?sort.path=options.length;sort.Data=asset-list-Data",
+                                "update::value.parent.next.id"
+                            ]
+                        }
+                    }, {
+                        "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
+                    }]
+                }, {
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr;style.gap=1px",
+                    "children": [{
+                        "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;Data=asset-list-Data;data=state.asset.entries.value;style.borderBottom=1px solid #eee;style.padding=0 1rem",
+                        "children": [{
+                            "type": "Text?text=value.data.name.0.name;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?text=value.data.file-name;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?text=value.data.options.length;style.fontSize=1.4rem"
+                        }, {
+                            "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%",
+                            "children": [{
+                                "type": "Icon?class=flex-box;icon.name=bi-three-dots;auto-style;actionlist.placement=left<<value.data.file-name!=language!=unit!=currency!=country",
+                                "style": {
+                                    "cursor": "pointer",
+                                    "color": "#116dff",
+                                    "fontSize": "2.5rem",
+                                    "height": "4rem",
+                                    "width": "4rem",
+                                    "borderRadius": "4rem",
+                                    "transition": "all 0.2s",
+                                    "marginRight": "1rem",
+                                    "after": { "backgroundColor": "#eee" }
+                                }
+                            }]
+                        }]
+                    }]
+                }]
             }]
         }]
     }]

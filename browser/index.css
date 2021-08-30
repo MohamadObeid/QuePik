@@ -406,3 +406,7 @@ i {
 html {
   -webkit-font-smoothing: antialiased;
 }
+
+textarea {
+  overflow-y: hidden
+}

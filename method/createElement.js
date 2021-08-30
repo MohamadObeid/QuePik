@@ -42,7 +42,7 @@ const createElement = ({ STATE, VALUE, id }) => {
     // Data
     local.Data = parent.Data
     local.data = parent.data
-
+    
     // derivations
     local.derivations = local.derivations || [...(parent.derivations || [])]
 

@@ -27,7 +27,6 @@ const {starter} = require('./starter')
 const {setState} = require('./state')
 const {setPosition} = require('./setPosition')
 const {droplist} = require('./droplist')
-const {actionlist} = require('./actionlist')
 const {createView} = require('./createView')
 const {filter} = require('./filter')
 const {setValue} = require('./setValue')
@@ -45,7 +44,7 @@ const {resizeInput, dimensions} = require('./resize')
 const {createData, setData, pushData, clearData, removeData} = require('./data')
 
 const _method = {
-    clearValues, clone, derive, duplicate, duplicates, actionlist, getViews, getAssets,
+    clearValues, clone, derive, duplicate, duplicates, getViews, getAssets,
     getParam, isArabic, isEqual, merge, overflow, addEventListener, setState,
     toBoolean, toComponent, toId, toObject, toString, update, execute, removeIds,
     createDocument, toArray, generate, createElement, controls, route, textarea,

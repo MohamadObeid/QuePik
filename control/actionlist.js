@@ -1,13 +1,15 @@
+const { generate } = require("../method/generate")
+
 module.exports = ({ params = {}, id }) => {
     var controls = params.controls
+    var state = generate()
 
     return [{
         event: `click`,
         actions: [
-            `setState?state.actionlist-mouseenter;state.actionlist=${controls.id || id}`,
+            `setState?state.actionlist-mouseenter;state.${state}=value.data;value.Data::actionlist=${state};value.data::actionlist=value.data`,
             `setPosition?position.id=actionlist;position.placement=${controls.placement || 'bottom'};position.distance=${controls.distance}`,
-            `actionlist::${controls.id || id}?${controls.path ? `;path=${controls.path}` : ''}`,
-            `mountAfterStyles::actionlist`,
+            `mountAfterStyles;update???actionlist`,
         ]
     }, {
         event: 'mouseleave',

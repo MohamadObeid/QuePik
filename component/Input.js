@@ -13,6 +13,7 @@ const Input = (component) => {
     component.input = component.input || { type: 'text'}
     component.input.type = component.input.type || 'text'
     component.input.value = component.input.value || ''
+    component.input.style = component.input.style || {}
 
     component = toComponent(component)
     var { input, model, droplist, lang, readonly, style, controls, icon, placeholder, textarea } = component
@@ -40,7 +41,7 @@ const Input = (component) => {
                 height: '4rem',
                 borderRadius: '0.25rem',
                 fontSize: '1.4rem',
-
+                ...input.style,
                 ...style,
             },
             controls: [...controls,
@@ -58,13 +59,14 @@ const Input = (component) => {
 
         return {
             ...component,
-            droplist: undefined,
-            class: 'flex-box',
-            type: 'View',
             id,
+            type: 'View',
+            class: 'flex-box',
+            droplist: undefined,
             controls: { actions: `focus>>50::${id}-input??value.length;value.index=value.length--1` },
             style: {
                 display: 'inline-flex',
+                alignItems: 'center',
                 width: '100%',
                 maxWidth: '100%',
                 position: 'relative',
@@ -108,6 +110,7 @@ const Input = (component) => {
                     color: '#444',
                     transition: 'width 0.2s',
                     outline: 'none',
+                    ...input.style,
                 },
                 controls: [...controls, {
                     actions: 'resizeInput'
@@ -183,7 +186,7 @@ const Input = (component) => {
                         event: 'click',
                         actions: [
                             `remove::${id}??${component.removable};${component.clearable ? `value.length::${id}>1;!value.data::${id}-input` : ''}`,
-                            `removeData::${id}-input;focus>>50::${id}-input??${component.clearable}`,
+                            `removeData;focus>>50;setStyle::${id};setStyle?style.height=${component.style.height || '4rem'}?${component.clearable}?${id}-input`,
                         ]
                     }]
                 }]

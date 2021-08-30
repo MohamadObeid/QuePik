@@ -8,7 +8,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
     var local = VALUE[id]
     if (!local) return
 
-    if (local.element.tagName !== 'INPUT' && local.element.tagName !== 'TEXTAREA') return
+    if (local.type !== 'Input') return
 
     // checkbox input
     if (local.input && local.input.type === 'checkbox') {
@@ -77,7 +77,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         local.value = value
         local.data = value
 
-        if (STATE[local.Data] && local.derivations[0] != '') {
+        if (local.Data && local.derivations[0] != '') {
 
             // reset Data
             setData({ STATE, VALUE, params: { value }, id })
@@ -92,10 +92,13 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         // arabic values
         isArabic({ VALUE, params: { value }, id })
 
-        console.log(local.data, STATE[local.Data])
+        console.log(value, STATE[local.Data])
     }
 
     local.element.addEventListener('input', myFn)
+    
+    // resize
+    resizeInput({ VALUE, id })
 }
 
 module.exports = {defaultInputHandler}

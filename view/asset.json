@@ -88,13 +88,13 @@
                         "type": "Input?featured;lang=en;icon=value.data.icon;style.backgroundColor=#f0f0f0;path=name"
                     }]
                 }, {
-                    "type": "Input?textarea;featured;!duplicatable;style.backgroundColor=#f0f0f0;path=description"
+                    "type": "Input?textarea;featured;!duplicatable;style.backgroundColor=#f0f0f0;path=description;input.style.height=fit-content;style.minHeight=4rem;input.style.minHeight=2.5rem"
                 }, {
                     "type": "Input?featured;google;!clearable;!removable;style.backgroundColor=#f0f0f0;path=icon"
                 }, {
                     "type": "Input?featured;!removable;readonly;path=icon.type;droplist.items=[outlined,rounded,sharp,twoTone];style.display=flex;style.backgroundColor=#f0f0f0"
                 }, {
-                    "type": "Icon?class=flex-box;icon.name=bi-trash;auto-style;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem",
+                    "type": "Icon?class=flex-box;icon.name=bi-trash;auto-style;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
                     "controls": {
                         "event": "click",
                         "actions": "remove::value.parent.id??value.parent.length>1"
@@ -115,7 +115,7 @@
         }, {
             "type": "View?style.display=grid;style.gap=1rem;style.width=100%",
             "children": [{
-                "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=4fr 6fr 3fr 2fr 2rem;style.gap=1rem;style.width=100%;path=options;data=[{}]<<!value.data.options",
+                "type": "View?style.display=grid;style.alignItems=flex-start;style.gridTemplateColumns=4fr 6fr 3fr 2fr 2rem;style.gap=1rem;style.width=100%;path=options;data=[{}]<<!value.data.options",
                 "children": [{
                     "type": "Input?featured;lang=en;icon=value.data.icon;style.backgroundColor=#f0f0f0;!duplicatable",
                     "controls": [{
@@ -123,13 +123,13 @@
                         "actions": "duplicate::value.parent.id"
                     }]
                 }, {
-                    "type": "Input?textarea;featured;!duplicatable;style.backgroundColor=#f0f0f0;path=description"
+                    "type": "Input?textarea;featured;!duplicatable;style.backgroundColor=#f0f0f0;path=description;input.style.height=fit-content;style.minHeight=4rem;input.style.minHeight=2.5rem"
                 }, {
                     "type": "Input?featured;google;!clearable;!removable;style.backgroundColor=#f0f0f0;path=icon"
                 }, {
                     "type": "Input?featured;!removable;readonly;path=icon.type;droplist.items=[outlined,rounded,sharp,twoTone];style.display=flex;style.backgroundColor=#f0f0f0"
                 }, {
-                    "type": "Icon?class=flex-box;icon.name=bi-trash;auto-style;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem",
+                    "type": "Icon?class=flex-box;icon.name=bi-trash;auto-style;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
                     "controls": {
                         "event": "click",
                         "actions": "remove??value.parent.length>1?value.parent.id"

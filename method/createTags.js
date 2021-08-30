@@ -132,6 +132,7 @@ const oneTag = ({ STATE, VALUE, id }) => {
     if (local.style) 
     Object.entries(local.style).map(([k, v]) => {
         if (k === 'after' || k.includes('>>')) return
+        else if (k === 'verticalAlign') k = 'vertical-align'
         else if (k === 'borderBottom') k = 'border-bottom'
         else if (k === 'borderLeft') k = 'border-left'
         else if (k === 'borderRight') k = 'border-right'
@@ -212,7 +213,7 @@ const oneTag = ({ STATE, VALUE, id }) => {
     tag = `<i class='material-icons${local.outlined ? '-outlined' : local.rounded ? '-round' : local.sharp ? '-sharp' : local.twoTone ? '-two-tone' : ''} ${local.class || ''} ${local.icon.name}' id='${local.id}' style='${style}'>${local.google ? local.icon.name : ''}</i>`
     
     else if (local.type === 'Input') {
-    if (local.textarea) tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ''}' value='${local.data || local.input.value || ''}' ${local.readonly ? 'readonly' : ''} ${local.maxlength || ''}></textarea>`
+    if (local.textarea) tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ''}' ${local.readonly ? 'readonly' : ''} ${local.maxlength || ''}>${local.data || local.input.value || ''}</textarea>`
     else tag = `<input class='${local.class}' id='${local.id}' style='${style}' ${local.upload ? `type=file accept='${local.upload.type}/*' ${local.upload.multiple ? 'multiple': ''}` : ''} type='${local.input.type || 'text'}' placeholder='${local.placeholder || ''}' value='${local.data || local.input.value || ''}' ${local.readonly ? 'readonly' : ''} />`
     }
     

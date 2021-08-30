@@ -21,9 +21,6 @@ const starter = ({ STATE, VALUE, id }) => {
     // arabic text
     isArabic({ VALUE, id })
 
-    // reset textarea height
-    textarea({ VALUE, id })
-
     // input handlers
     defaultInputHandler({ VALUE, STATE, id })
 
