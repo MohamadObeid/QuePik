@@ -1,7 +1,7 @@
 
 const { toBoolean } = require("./toBoolean")
 const { toArray } = require("./toArray")
-const { toObject } = require("./toObject")
+const { toParam } = require("./toParam")
 const { getParam } = require("./getParam")
 const { toId } = require("./toId")
 const { generate } = require("./generate")
@@ -44,7 +44,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
                 if (!approved) return
 
                 // params
-                params = toObject({ VALUE, STATE, string: params, e, id })
+                params = toParam({ VALUE, STATE, string: params, e, id })
 
                 // id's
                 idList = toId({ VALUE, STATE, id, string: idList, e })
@@ -58,7 +58,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
                     if (id.includes('.')) {
 
                         var k = generate()
-                        id = toObject({ VALUE, STATE, string: `${k}=${id}`, e, id: local.id })[k]
+                        id = toParam({ VALUE, STATE, string: `${k}=${id}`, e, id: local.id })[k]
                     }
 
                     // component doesnot exist

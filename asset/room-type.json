@@ -1,10 +1,5 @@
 {
-  "name": [
-    {
-      "lang": "en",
-      "name": "Room Type"
-    }
-  ],
+  "name": { "en": "Room Type" },
   "icon": {
     "name": "hotel",
     "google": true,
@@ -12,172 +7,144 @@
   },
   "options": [
     {
-      "lang": "en",
       "icon": {},
-      "name": "Single Room",
-      "description": "A room assigned to one person"
+      "name": { "en": "Single Room" },
+      "description": { "en": "A room assigned to one person" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Double Room",
-      "description": "A room assigned to two person"
+      "name": { "en": "Double Room" },
+      "description": { "en": "A room assigned to two person" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Twin Room",
-      "description": "A room with two beds"
+      "name": { "en": "Twin Room" },
+      "description": { "en": "A room with two beds" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Double King Room",
-      "description": "A room with a king-sized bed"
+      "name": { "en": "Double King Room" },
+      "description": { "en": "A room with a king-sized bed" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Double Queen Room",
-      "description": "A room with a queen-sized bed"
+      "name": { "en": "Double Queen Room" },
+      "description": { "en": "A room with a queen-sized bed" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Triple Room",
-      "description": "A room assigned to three people"
+      "name": { "en": "Triple Room" },
+      "description": { "en": "A room assigned to three people" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Quad Bedroom",
-      "description": "A room assigned to four people"
+      "name": { "en": "Quad Bedroom" },
+      "description": { "en": "A room assigned to four people" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Double-double Room",
-      "description": "A room with two double (or perhaps queen) beds"
+      "name": { "en": "Double-double Room" },
+      "description": { "en": "A room with two double (or perhaps queen) beds" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Studio Hotel Room",
-      "description": "A room with a studio bed – a couch that can be converted into a bed. May also have an additional bed"
+      "name": { "en": "Studio Hotel Room" },
+      "description": { "en": "A room with a studio bed – a couch that can be converted into a bed. May also have an additional bed" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Suite or Master Suite",
-      "description": "A parlour or living room connected to one or more bedrooms"
+      "name": { "en": "Suite or Master Suite" },
+      "description": { "en": "A parlour or living room connected to one or more bedrooms" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Junior Suite",
-      "description": "A single room with a bed and sitting area. Sometimes the sleeping area is in a bedroom separate from the parlour or living room"
+      "name": { "en": "Junior Suite" },
+      "description": { "en": "A single room with a bed and sitting area. Sometimes the sleeping area is in a bedroom separate from the parlour or living room" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Connecting Room",
-      "description": "Rooms with individual entrance doors from the outside and a connecting door between. Guests can move between rooms without going through the hallway"
+      "name": { "en": "Connecting Room" },
+      "description": { "en": "Rooms with individual entrance doors from the outside and a connecting door between. Guests can move between rooms without going through the hallway" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Adjacent Room",
-      "description": "Rooms close to each other, perhaps across the hall"
+      "name": { "en": "Adjacent Room" },
+      "description": { "en": "Rooms close to each other, perhaps across the hall" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Adjoining Room",
-      "description": "Rooms with a common wall, but no connecting door"
+      "name": { "en": "Adjoining Room" },
+      "description": { "en": "Rooms with a common wall, but no connecting door" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "President Suite",
-      "description": "The most expensive room provided by a hotel. Usually, only one president suite is available in one single hotel property. Similar to the normal suites, a president suite always has one or more bedrooms and a living space with a strong emphasis on grand in-room decoration, high-quality amenities and supplies, and tailor-made services (e.g. personal butler during the stay)"
+      "name": { "en": "President Suite" },
+      "description": { "en": "The most expensive room provided by a hotel. Usually, only one president suite is available in one single hotel property. Similar to the normal suites, a president suite always has one or more bedrooms and a living space with a strong emphasis on grand in-room decoration, high-quality amenities and supplies, and tailor-made services (e.g. personal butler during the stay)" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Presidential Suite",
-      "description": "The most expensive room provided by a hotel. Usually, only one president suite is available in one single hotel property. Similar to the normal suites, a president suite always has one or more bedrooms and a living space with a strong emphasis on grand in-room decoration, high-quality amenities and supplies, and tailor-made services (e.g. personal butler during the stay)"
+      "name": { "en": "Presidential Suite" },
+      "description": { "en": "The most expensive room provided by a hotel. Usually, only one president suite is available in one single hotel property. Similar to the normal suites, a president suite always has one or more bedrooms and a living space with a strong emphasis on grand in-room decoration, high-quality amenities and supplies, and tailor-made services (e.g. personal butler during the stay)" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Apartments",
-      "description": "Open kitchens, cooking equipment, dryer, washer etc. are usually available in the room. Usually housekeeping services are only provided once in a week or two times in a week"
+      "name": { "en": "Apartments" },
+      "description": { "en": "Open kitchens, cooking equipment, dryer, washer etc. are usually available in the room. Usually housekeeping services are only provided once in a week or two times in a week" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Murphy Room",
-      "description": "A room that is fitted with a sofa bed or a Murphy bed (i.e. a bed that folds out of a wall or closet) which can be transformed from a bedroom in the night time to a living room in daytime"
+      "name": { "en": "Murphy Room" },
+      "description": { "en": "A room that is fitted with a sofa bed or a Murphy bed (i.e. a bed that folds out of a wall or closet) which can be transformed from a bedroom in the night time to a living room in daytime" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Disabled Room",
-      "description": "This room type is mainly designed for disabled guests and it is required by law that hotels must provide a certain number of accessible rooms to avoid discrimination"
+      "name": { "en": "Disabled Room" },
+      "description": { "en": "This room type is mainly designed for disabled guests and it is required by law that hotels must provide a certain number of accessible rooms to avoid discrimination" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Accessible Room",
-      "description": "This room type is mainly designed for disabled guests and it is required by law that hotels must provide a certain number of accessible rooms to avoid discrimination"
+      "name": { "en": "Accessible Room" },
+      "description": { "en": "This room type is mainly designed for disabled guests and it is required by law that hotels must provide a certain number of accessible rooms to avoid discrimination" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Cabana Room",
-      "description": "This type of room is always adjoining to the swimming pool or have a private pool attached to the room"
+      "name": { "en": "Cabana Room" },
+      "description": { "en": "This type of room is always adjoining to the swimming pool or have a private pool attached to the room" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Villa",
-      "description": "It is a kind of stand-alone house which gives extra privacy and space to hotel guests. A fully equipped villa contains not only bedrooms and a living room but a private swimming pool, Jacuzzi and balcony. It is suitable for couples, families and large groups"
+      "name": { "en": "Villa" },
+      "description": { "en": "It is a kind of stand-alone house which gives extra privacy and space to hotel guests. A fully equipped villa contains not only bedrooms and a living room but a private swimming pool, Jacuzzi and balcony. It is suitable for couples, families and large groups" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Hollywood Twin Room",
-      "description": "It is a very comfortable twin room containing a double bed with two single beds joined by a similar headboard"
+      "name": { "en": "Hollywood Twin Room" },
+      "description": { "en": "It is a very comfortable twin room containing a double bed with two single beds joined by a similar headboard" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Deluxe Room",
-      "description": "This room type includes several rooms, usually a living room and a bed room. It may also have a separate functional kitchen"
+      "name": { "en": "Deluxe Room" },
+      "description": { "en": "This room type includes several rooms, usually a living room and a bed room. It may also have a separate functional kitchen" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Super Deluxe Room",
-      "description": "For Luxury lovers, a super deluxe hotel room might just be the ideal room option for you. It is an upgrade of the standard deluxe room"
+      "name": { "en": "Super Deluxe Room" },
+      "description": { "en": "For Luxury lovers, a super deluxe hotel room might just be the ideal room option for you. It is an upgrade of the standard deluxe room" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Penthouse",
-      "description": "A penthouse is a unit or an apartment on the highest floor of the hotel, condominium or apartment building. They are different for the unique amenities they offer (ex. swimming pool, private elevator, terrace, jacuzzi...))"
+      "name": { "en": "Penthouse" },
+      "description": { "en": "A penthouse is a unit or an apartment on the highest floor of the hotel, condominium or apartment building. They are different for the unique amenities they offer (ex. swimming pool, private elevator, terrace, jacuzzi...))" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Duplex Room",
-      "description": "This type is composed of two rooms located on two different floors, connected with internal stairs"
+      "name": { "en": "Duplex Room" },
+      "description": { "en": "This type is composed of two rooms located on two different floors, connected with internal stairs" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Lanai Room",
-      "description": "This room faces a landscape, a waterfall, or a garden"
+      "name": { "en": "Lanai Room" },
+      "description": { "en": "This room faces a landscape, a waterfall, or a garden" }
     }
   ],
   "file-name": "room-type"

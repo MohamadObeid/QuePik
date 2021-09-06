@@ -6,7 +6,7 @@ const setStyle = ({ VALUE, params, id }) => {
     if (!local) return
     
     if (!local.style) local.style = {}
-
+    
     Object.entries(params.style).map(([key, value]) => {
 
         var timer = 0
@@ -17,13 +17,15 @@ const setStyle = ({ VALUE, params, id }) => {
             value = value.split('>>')[0]
         }
 
-        local[key + '-timer'] = setTimeout(() => {
+        var style = () => {
 
             //VAR.style[key] = value
             if (local.element) local.element.style[key] = value
             else local.style[key] = value
 
-        }, timer)
+        }
+
+        if (timer) local[key + '-timer'] = setTimeout(style, timer); else style()
         if (key === 'width') resizeInput({ VALUE, id })
     })
 }

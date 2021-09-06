@@ -20,8 +20,11 @@ const remove = ({ STATE, VALUE, params, id }) => {
 
     if (params.path) keys.push(...path)
 
-    if (keys.length === 0) local.parent.children.splice([keys[keys.length - 1]], 1)
-    else keys.reduce((o, k, i) => {
+    if (keys.length === 0) { // local.parent.children.splice([keys[keys.length - 1]], 1)
+    
+        
+
+    } else keys.reduce((o, k, i) => {
 
         if (i === keys.length - 1) {
 

@@ -1,10 +1,5 @@
 {
-  "name": [
-    {
-      "lang": "en",
-      "name": "Hotel Type"
-    }
-  ],
+  "name": { "en": "Hotel Type" },
   "icon": {
     "name": "maps_home_work",
     "google": true,
@@ -12,88 +7,74 @@
   },
   "options": [
     {
-      "lang": "en",
       "icon": {},
-      "name": "Airport Hotel",
-      "description": "They target the business clientele, airline passengers, or any guests with cancelled or delayed flights"
+      "name": { "en": "Airport Hotel" },
+      "description": { "en": "They target the business clientele, airline passengers, or any guests with cancelled or delayed flights" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Business Hotel",
-      "description": "They primarily cater for the guests who are on business travel"
+      "name": { "en": "Business Hotel" },
+      "description": { "en": "They primarily cater for the guests who are on business travel" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Bed and Breakfast Hotel",
-      "description": "They are small hotels who target guests in transit or on leisure tour. The owner of B&B usually stays in the same premises and is responsible for serving breakfast to the guests"
+      "name": { "en": "Bed and Breakfast Hotel" },
+      "description": { "en": "They are small hotels who target guests in transit or on leisure tour. The owner of B&B usually stays in the same premises and is responsible for serving breakfast to the guests" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Casino Hotel",
-      "description": "They target the guests interested in gambling. Their functions of housekeeping is primary but food and beverage functions are just supportive"
+      "name": { "en": "Casino Hotel" },
+      "description": { "en": "They target the guests interested in gambling. Their functions of housekeeping is primary but food and beverage functions are just supportive" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Resort",
-      "description": "They target high-income busy professionals who wish to spend time away from city, noise, and crowd. They offer facilities such as spa, tennis court, fitness and center, sailing, snorkeling, and swimming"
+      "name": { "en": "Resort" },
+      "description": { "en": "They target high-income busy professionals who wish to spend time away from city, noise, and crowd. They offer facilities such as spa, tennis court, fitness and center, sailing, snorkeling, and swimming" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Apartment",
-      "description": "They are located in residential colonies. They provide long-term accommodation for guests. They need to execute an agreement with the guests for the stay of at least one month. All basic amenities such as kitchen, washing machine, dish washer, and beds are provided with once a week housekeeping service"
+      "name": { "en": "Apartment" },
+      "description": { "en": "They are located in residential colonies. They provide long-term accommodation for guests. They need to execute an agreement with the guests for the stay of at least one month. All basic amenities such as kitchen, washing machine, dish washer, and beds are provided with once a week housekeeping service" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Suite Hotel",
-      "description": "These hotels offer a living room and an en suite bedroom. The professionals who need to interact with their clients/customers find these hotels a good choice because they can interact with their guests in small meetings without any interruption and sacrificing privacy"
+      "name": { "en": "Suite Hotel" },
+      "description": { "en": "These hotels offer a living room and an en suite bedroom. The professionals who need to interact with their clients/customers find these hotels a good choice because they can interact with their guests in small meetings without any interruption and sacrificing privacy" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Villa",
-      "description": "A villa might have elaborate pools, gardens, farmlands, and other buildings surrounding the villa"
+      "name": { "en": "Villa" },
+      "description": { "en": "A villa might have elaborate pools, gardens, farmlands, and other buildings surrounding the villa" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Chalet",
-      "description": "A chalet is a type of house or cottage made of wood with a heavy, gentle sloping roof and wide edges set at right angles in the front. Also called as Swiss chalet, such homes are very common in Europe’s Alpine region. The term is used to refer to the hut of a herder. These days, chalets have emerged as holiday homes for ski and hiking enthusiasts, who prefer to stay on mountain tops during their vacations"
+      "name": { "en": "Chalet" },
+      "description": { "en": "A chalet is a type of house or cottage made of wood with a heavy, gentle sloping roof and wide edges set at right angles in the front. Also called as Swiss chalet, such homes are very common in Europe’s Alpine region. The term is used to refer to the hut of a herder. These days, chalets have emerged as holiday homes for ski and hiking enthusiasts, who prefer to stay on mountain tops during their vacations" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Cabin",
-      "description": "A cabin is any mountain or vacation home in the Smoky Mountains"
+      "name": { "en": "Cabin" },
+      "description": { "en": "A cabin is any mountain or vacation home in the Smoky Mountains" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Boatel",
-      "description": "They are on the houseboats such as Shikara in Kashmir"
+      "name": { "en": "Boatel" },
+      "description": { "en": "They are on the houseboats such as Shikara in Kashmir" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Motel",
-      "description": "They are small hotels usually located on highways. Transit guests use them"
+      "name": { "en": "Motel" },
+      "description": { "en": "They are small hotels usually located on highways. Transit guests use them" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Floating Hotel",
-      "description": "They are on the cruise ships, large lakes, or rivers"
+      "name": { "en": "Floating Hotel" },
+      "description": { "en": "They are on the cruise ships, large lakes, or rivers" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Rotel",
-      "description": "They are hotels on wheels such as Deccan Odyssey train"
+      "name": { "en": "Rotel" },
+      "description": { "en": "They are hotels on wheels such as Deccan Odyssey train" }
     }
   ],
   "file-name": "hotel-type"

@@ -27,7 +27,7 @@
         "controls": {
             "event": "click",
             "actions": [
-                "deleteDb;resetStyles::actionlist?state.asset[value.data.file-name].delete;delete=value.data",
+                "erase;resetStyles::actionlist?erase.api=asset;erase.data=value.data;erase.update=asset-list;erase.state=asset-list-Data;",
                 "setStyle::mini-window;update::assets-data?style.display=none>>200;style.opacity=0?global.mini-window.element.style.display!=none"
             ]
         }

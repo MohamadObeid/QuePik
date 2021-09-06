@@ -10,7 +10,7 @@ const {overflow} = require('./overflow')
 const {toBoolean} = require('./toBoolean')
 const {toComponent} = require('./toComponent')
 const {toId} = require('./toId')
-const {toObject} = require('./toObject')
+const {toParam} = require('./toParam')
 const {toString} = require('./toString')
 const {update, removeIds} = require('./update')
 const {createDocument} = require('./createDocument')
@@ -34,24 +34,35 @@ const {remove} = require('./remove')
 const {focus} = require('./focus')
 const {sort} = require('./sort')
 const {log} = require('./log')
+const {search} = require('./search')
+const {flicker} = require('./flicker')
 const {textarea} = require('./textarea')
-const {deleteDb, saveDb} = require('./db')
-const {getViews, getAssets} = require("./getAssets")
+const {save} = require('./save')
+const {erase} = require('./erase')
+const {toValue} = require('./toValue')
+const {toKey} = require('./toKey')
+const {reducer} = require('./reducer')
+const {toStyle} = require('./toStyle')
+const {preventDefault} = require('./preventDefault')
+const {createComponent} = require('./createComponent')
+const {getJsonFiles} = require("./getJsonFiles")
+const {toTag} = require("./toTag")
 const {defaultInputHandler} = require('./defaultInputHandler')
 const {createActions} = require('./createActions')
 const {setStyle, resetStyles, toggleStyles, mountAfterStyles} = require('./style')
 const {resizeInput, dimensions} = require('./resize')
-const {createData, setData, pushData, clearData, removeData} = require('./data')
+const {createData, setData, clearData, removeData} = require('./data')
 
 const _method = {
-    clearValues, clone, derive, duplicate, duplicates, getViews, getAssets,
+    clearValues, clone, derive, duplicate, duplicates, getJsonFiles, search,
     getParam, isArabic, isEqual, merge, overflow, addEventListener, setState,
-    toBoolean, toComponent, toId, toObject, toString, update, execute, removeIds,
+    toBoolean, toComponent, toId, toParam, toString, update, execute, removeIds,
     createDocument, toArray, generate, createElement, controls, route, textarea,
     setStyle, resetStyles, toggleStyles, mountAfterStyles, resizeInput, dimensions,
-    createData, setData, pushData, clearData, removeData, setContent, starter,
-    setPosition, droplist, filter, setValue, createView, createActions,
-    createControls, remove, defaultInputHandler, focus, sort, log, saveDb, deleteDb
+    createData, setData, clearData, removeData, setContent, starter, createComponent,
+    setPosition, droplist, filter, setValue, createView, createActions, flicker,
+    createControls, remove, defaultInputHandler, focus, sort, log, save, erase, 
+    toKey, toValue, reducer, preventDefault, toStyle, toTag
 }
 
 module.exports = _method

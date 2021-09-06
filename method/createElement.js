@@ -1,5 +1,5 @@
 const { generate } = require("./generate")
-const { toObject } = require("./toObject")
+const { toParam } = require("./toParam")
 const { toBoolean } = require("./toBoolean")
 const { override } = require("./merge")
 const { clone } = require("./clone")
@@ -57,7 +57,7 @@ const createElement = ({ STATE, VALUE, id }) => {
     
     // push destructured params from type to local
     if (params) {
-        params = toObject({ VALUE, STATE, string: params, id })
+        params = toParam({ VALUE, STATE, string: params, id })
         Object.entries(params).map(([k, v]) => local[k] = v )
 
         if (params.id) {
@@ -68,11 +68,11 @@ const createElement = ({ STATE, VALUE, id }) => {
         }
         
         if (params.data && (!local.Data || params.Data)) {
-
+            
             var state = local.Data
             if (!state) state = local.Data = generate()
-            STATE[state] = clone(STATE[state] || local.data)
-            STATE[`${state}-options`] = STATE[`${state}-options`] || { backup: clone(STATE[state]) }
+            STATE[state] = clone(local.data || STATE[state])
+            STATE[`${state}-options`] = STATE[`${state}-options`] || {}
 
         }
 
@@ -82,7 +82,7 @@ const createElement = ({ STATE, VALUE, id }) => {
     if (parent.toChildren) {
 
         if (typeof parent.toChildren === 'string')
-        parent.toChildren = toObject({ VALUE, STATE, string: parent.toChildren, id })
+        parent.toChildren = toParam({ VALUE, STATE, string: parent.toChildren, id })
         local = override(local, parent.toChildren)
     }
     
@@ -101,6 +101,16 @@ const createElement = ({ STATE, VALUE, id }) => {
 
         delete local.path
         delete local.data
+    }
+
+    // textarea
+    if (local.textarea && !local.templated) {
+        local.style = local.style || {}
+        local.input = local.input || {}
+        local.input.style = local.input.style || {}
+        local.input.style.height = 'fit-content'
+        local.style.minHeight = '4rem',
+        local.input.style.minHeight = '2.5rem'
     }
 
     // path
@@ -130,8 +140,9 @@ const createElement = ({ STATE, VALUE, id }) => {
         local.derivations.push(...path)
     }
     
+    
     // data (turnoff is do not mount data)
-    var data, isArray
+    var data, isArray, derivations = clone(local.derivations)
     if (parent.turnOff) { data = ''; local.turnOff = true }                                // params cz local.data is inherited from parent which is not default
     else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, clone(params.data), true) }
     

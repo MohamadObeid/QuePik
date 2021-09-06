@@ -11,11 +11,11 @@ const { starter } = require('./starter')
     pathname = pathname.filter(path => !path.includes('search?'))
 
     queries.map(query => {
-        query = toObject({ VAR, STATE, string: query })
+        query = toParam({ VAR, STATE, string: query })
         search({ VAR, STATE, params: query })
     })
 
-    var stateList = toObject({ VAR, STATE, string: pathname.join(';') || '' })
+    var stateList = toParam({ VAR, STATE, string: pathname.join(';') || '' })
     setState({ VAR, STATE, params: stateList })
 
 }*/
@@ -59,7 +59,7 @@ export const pushRoute = ({ params }) => {
     })
 
     // states
-    var states = toObject({ string: route.join(';') })
+    var states = toParam({ string: route.join(';') })
     states = states.state || {}
     states = { ...states, ...params.state }
 

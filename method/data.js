@@ -1,5 +1,6 @@
 const { clone } = require("./clone")
 const { setContent } = require("./setContent")
+const { derive } = require("./derive")
 
 const createData = ({ STATE, VALUE, params, id }) => {
     var local = VALUE[id]
@@ -11,16 +12,16 @@ const createData = ({ STATE, VALUE, params, id }) => {
     }, STATE[local.Data])
 }
 
-const pushData = ({ STATE, VALUE, params }) => {
-    var value = params.data
-    setData({ STATE, VALUE, value })
-}
-
 const setData = ({ STATE, VALUE, params = {}, id }) => {
+    
     var local = VALUE[id]
     if (!STATE[local.Data]) return
+    
+    var data = params.data
+    var path = data.path
+    var value = data.value
 
-    var path = params.path
+    if (value === undefined) value = ''
     if (path) path = path.split('.')
     else path = []
 
@@ -31,23 +32,21 @@ const setData = ({ STATE, VALUE, params = {}, id }) => {
         return k
     })
 
-    var value = (params.value !== undefined && params.value) || params.data
-
     var derivations = clone(local.derivations)
-    if (params.derivations) derivations = params.derivations.split('.')
+    if (data.derivations) derivations = data.derivations.split('.')
 
-    if (value === undefined) value = ''
+    // set local data equal to value
     local.data = value
 
-    setContent({ VALUE, params: { value }, id })
-
+    // keys
     var keys = [...derivations, ...path]
     
     keys.reduce((o, k, i) => {
+        
         if (!o) return o
         
         if (i === keys.length - 1) {
-
+            
             if (Array.isArray(o[k]) && typeof value !== 'object') {
 
                 if (isNaN(k) && o[k].length === 0) {
@@ -58,22 +57,17 @@ const setData = ({ STATE, VALUE, params = {}, id }) => {
                 } else o[k].push(value)
 
 
-            } else o[k] = value
+            } else return o[k] = value
 
-        } else {
-            if (!o[k]) return o[k] = {}
-
-            if (i === keys.length - 2 && !value) {
-                /*if (Array.isArray(o[k]) && o[k].length === 1) {
-                    delete o[k]
-                    local.derivations.pop()
-                    update({ VALUE, STATE, id: local.parent })
-                }*/
-            }
-        }
+        } else if (!o[k]) return o[k] = {}
 
         return o[k]
+
     }, STATE[local.Data])
+
+    // set content
+    var content = data.content || derive(STATE[local.Data], keys)[0]
+    setContent({ VALUE, params: { content: { value: content } }, id })
 }
 
 const clearData = ({ VALUE, STATE, id }) => {
@@ -81,6 +75,7 @@ const clearData = ({ VALUE, STATE, id }) => {
 }
 
 const removeData = ({ STATE, VALUE, id, params = {} }) => {
+    
     var local = VALUE[id];
     if (!STATE[local.Data]) return
 
@@ -107,4 +102,4 @@ const removeData = ({ STATE, VALUE, id, params = {} }) => {
     console.log(STATE[local.Data]);
 }
 
-module.exports = {createData, setData, pushData, clearData, removeData}
+module.exports = {createData, setData, clearData, removeData}

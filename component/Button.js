@@ -6,7 +6,7 @@ const Button = (component) => {
     
     component.icon = component.icon || {}
     component = toComponent(component)
-    var { style, tooltip, icon, controls } = component
+    var { style, tooltip, icon, controls, text } = component
     var id = component.id || generate()
 
     // for search inputs
@@ -37,7 +37,7 @@ const Button = (component) => {
         },
         children: [{
             icon,
-            type: `Icon?icon.name=${icon.name};icon.code=${icon.code};id=${id}-icon`,
+            type: `Icon?id=${id}-icon`,
             style: {
                 color: style.color || '#444',
                 fontSize: style.fontSize || '1.4rem',
@@ -52,7 +52,8 @@ const Button = (component) => {
                 }
             }
         }, {
-            type: `Text?text=${component.text};id=${id}-text`,
+            type: `Text?id=${id}-text`,
+            text,
             style: {
                 color: style.color || '#444',
                 fontSize: style.fontSize || '1.4rem',
@@ -63,9 +64,8 @@ const Button = (component) => {
                 }
             }
         }],
-        controls: [...controls, {
-            actions: `createControls?controls.type=droplist?droplist`
-        }, /*{
+        controls: [...controls,
+           /*{
             event: 'click',
             actions: 'ripple'
         }, */{

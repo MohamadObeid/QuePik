@@ -1,311 +1,228 @@
 {
-  "name": [
-    {
-      "name": "Unit",
-      "lang": "en"
-    }
-  ],
+  "name": { "en": "Unit" },
   "file-name": "unit",
   "options": [
     {
-      "name": "Unit>>readonly",
-      "lang": "en"
+      "name": { "en": "unit" }
     },
     {
-      "name": "unit",
-      "lang": "en"
+      "name": { "en": "item" }
     },
     {
-      "name": "item",
-      "lang": "en"
+      "name": { "en": "piece" }
     },
     {
-      "name": "piece",
-      "lang": "en"
+      "name": { "en": "bag" }
     },
     {
-      "name": "bag",
-      "lang": "en"
+      "name": { "en": "cartoon" }
     },
     {
-      "name": "cartoon",
-      "lang": "en"
+      "name": { "en": "pack" }
     },
     {
-      "name": "pack",
-      "lang": "en"
+      "name": { "en": "box" }
     },
     {
-      "name": "box",
-      "lang": "en"
+      "name": { "en": "pallet" }
     },
     {
-      "name": "pallet",
-      "lang": "en"
+      "name": { "en": "Service>>readonly" }
     },
     {
-      "name": "Service>>readonly",
-      "lang": "en"
+      "name": { "en": "service" }
     },
     {
-      "name": "service",
-      "lang": "en"
+      "name": { "en": "ticket" }
     },
     {
-      "name": "ticket",
-      "lang": "en"
+      "name": { "en": "room" }
     },
     {
-      "name": "room",
-      "lang": "en"
+      "name": { "en": "seat" }
     },
     {
-      "name": "seat",
-      "lang": "en"
+      "name": { "en": "way" }
     },
     {
-      "name": "way",
-      "lang": "en"
+      "name": { "en": "meal" }
     },
     {
-      "name": "meal",
-      "lang": "en"
+      "name": { "en": "Length>>readonly" }
     },
     {
-      "name": "Length>>readonly",
-      "lang": "en"
+      "name": { "en": "mm" }
     },
     {
-      "name": "mm",
-      "lang": "en"
+      "name": { "en": "cm" }
     },
     {
-      "name": "cm",
-      "lang": "en"
+      "name": { "en": "dm" }
     },
     {
-      "name": "dm",
-      "lang": "en"
+      "name": { "en": "m" }
     },
     {
-      "name": "m",
-      "lang": "en"
+      "name": { "en": "km" }
     },
     {
-      "name": "km",
-      "lang": "en"
+      "name": { "en": "ft" }
     },
     {
-      "name": "ft",
-      "lang": "en"
+      "name": { "en": "in" }
     },
     {
-      "name": "in",
-      "lang": "en"
+      "name": { "en": "mi" }
     },
     {
-      "name": "mi",
-      "lang": "en"
+      "name": { "en": "yd" }
     },
     {
-      "name": "yd",
-      "lang": "en"
+      "name": { "en": "Volume>>readonly" }
     },
     {
-      "name": "Volume>>readonly",
-      "lang": "en"
+      "name": { "en": "ft3" }
     },
     {
-      "name": "ft3",
-      "lang": "en"
+      "name": { "en": "in3" }
     },
     {
-      "name": "in3",
-      "lang": "en"
+      "name": { "en": "mi3" }
     },
     {
-      "name": "mi3",
-      "lang": "en"
+      "name": { "en": "yd3" }
     },
     {
-      "name": "yd3",
-      "lang": "en"
+      "name": { "en": "cup" }
     },
     {
-      "name": "cup",
-      "lang": "en"
+      "name": { "en": "gal" }
     },
     {
-      "name": "gal",
-      "lang": "en"
+      "name": { "en": "mL" }
     },
     {
-      "name": "mL",
-      "lang": "en"
+      "name": { "en": "L" }
     },
     {
-      "name": "L",
-      "lang": "en"
+      "name": { "en": "fl oz" }
     },
     {
-      "name": "fl oz",
-      "lang": "en"
+      "name": { "en": "pt" }
     },
     {
-      "name": "pt",
-      "lang": "en"
+      "name": { "en": "qt" }
     },
     {
-      "name": "qt",
-      "lang": "en"
+      "name": { "en": "tbsp" }
     },
     {
-      "name": "tbsp",
-      "lang": "en"
+      "name": { "en": "tspn" }
     },
     {
-      "name": "tspn",
-      "lang": "en"
+      "name": { "en": "Weight>>readonly" }
     },
     {
-      "name": "Weight>>readonly",
-      "lang": "en"
+      "name": { "en": "mg" }
     },
     {
-      "name": "mg",
-      "lang": "en"
+      "name": { "en": "g" }
     },
     {
-      "name": "g",
-      "lang": "en"
+      "name": { "en": "kg" }
     },
     {
-      "name": "kg",
-      "lang": "en"
+      "name": { "en": "CD" }
     },
     {
-      "name": "CD",
-      "lang": "en"
+      "name": { "en": "gr" }
     },
     {
-      "name": "gr",
-      "lang": "en"
+      "name": { "en": "oz" }
     },
     {
-      "name": "oz",
-      "lang": "en"
+      "name": { "en": "dwt" }
     },
     {
-      "name": "dwt",
-      "lang": "en"
+      "name": { "en": "lb" }
     },
     {
-      "name": "lb",
-      "lang": "en"
+      "name": { "en": "st" }
     },
     {
-      "name": "st",
-      "lang": "en"
+      "name": { "en": "slug" }
     },
     {
-      "name": "slug",
-      "lang": "en"
+      "name": { "en": "t" }
     },
     {
-      "name": "t",
-      "lang": "en"
+      "name": { "en": "Area>>readonly" }
     },
     {
-      "name": "Area>>readonly",
-      "lang": "en"
+      "name": { "en": "ha" }
     },
     {
-      "name": "ha",
-      "lang": "en"
+      "name": { "en": "ft2" }
     },
     {
-      "name": "ft2",
-      "lang": "en"
+      "name": { "en": "m2" }
     },
     {
-      "name": "m2",
-      "lang": "en"
+      "name": { "en": "km2" }
     },
     {
-      "name": "km2",
-      "lang": "en"
+      "name": { "en": "in2" }
     },
     {
-      "name": "in2",
-      "lang": "en"
+      "name": { "en": "yd2" }
     },
     {
-      "name": "yd2",
-      "lang": "en"
+      "name": { "en": "mi2" }
     },
     {
-      "name": "mi2",
-      "lang": "en"
+      "name": { "en": "Pressure>>readonly" }
     },
     {
-      "name": "Pressure>>readonly",
-      "lang": "en"
+      "name": { "en": "Pa" }
     },
     {
-      "name": "Pa",
-      "lang": "en"
+      "name": { "en": "Torr" }
     },
     {
-      "name": "Torr",
-      "lang": "en"
+      "name": { "en": "bar" }
     },
     {
-      "name": "bar",
-      "lang": "en"
+      "name": { "en": "mb" }
     },
     {
-      "name": "mb",
-      "lang": "en"
+      "name": { "en": "lbf/in2" }
     },
     {
-      "name": "lbf/in2",
-      "lang": "en"
+      "name": { "en": "Time>>readonly" }
     },
     {
-      "name": "Time>>readonly",
-      "lang": "en"
+      "name": { "en": "day" }
     },
     {
-      "name": "day",
-      "lang": "en"
+      "name": { "en": "hr" }
     },
     {
-      "name": "hr",
-      "lang": "en"
+      "name": { "en": "min" }
     },
     {
-      "name": "min",
-      "lang": "en"
+      "name": { "en": "yr" }
     },
     {
-      "name": "yr",
-      "lang": "en"
+      "name": { "en": "Temperature>>readonly" }
     },
     {
-      "name": "Temperature>>readonly",
-      "lang": "en"
+      "name": { "en": "°C" }
     },
     {
-      "name": "°C",
-      "lang": "en"
+      "name": { "en": "°F" }
     },
     {
-      "name": "°F",
-      "lang": "en"
-    },
-    {
-      "name": "K",
-      "lang": "en"
+      "name": { "en": "K" }
     }
   ]
 }

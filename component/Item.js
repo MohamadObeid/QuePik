@@ -155,11 +155,11 @@ const Item = (component) => {
             }, {
                 event: 'mouseleave',
                 actions: `resetStyles??!mountOnLoad?${id};${id}-icon;${id}-text`
-            }, {
+            }/*, {
                 // on item click
                 event: `click??!readonly`,
-                actions: `setData;setState?data=${text};state.${state}=${id}?!duplicates`,
-            }]
+                actions: `setData;setState?data.value=${text};state.${state}=${id}?!duplicates`,
+            }*/]
         }
 }
 

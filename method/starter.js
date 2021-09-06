@@ -1,3 +1,5 @@
+const { clone } = require("./clone")
+
 const autoControls = ['auto-style', 'toggle-style', 'droplist', 'actionlist']
 
 const starter = ({ STATE, VALUE, id }) => {
@@ -8,7 +10,6 @@ const starter = ({ STATE, VALUE, id }) => {
     const { createControls } = require("./createControls")
     const { defaultInputHandler } = require("./defaultInputHandler")
     const { isArabic } = require("./isArabic")
-    const { textarea } = require("./textarea")
 
     var local = VALUE[id]
     if (!local) return
@@ -17,7 +18,7 @@ const starter = ({ STATE, VALUE, id }) => {
     if (!local.element) return delete VALUE[id]
     
     /* Defaults must start before controls */
-
+    
     // arabic text
     isArabic({ VALUE, id })
 
@@ -35,20 +36,23 @@ const starter = ({ STATE, VALUE, id }) => {
     // setStyles
     if (local.style) setStyle({ VALUE, STATE, id, params: {style: local.style} })
 
-    // execute controls
-    if (local.controls) controls({ VALUE, STATE, id })
-
     // lunch auto controls
     autoControls.map(type => {
+
         if (!local[type]) return
         var params = { controls: { type, ...local[type] } }
         createControls({ VALUE, STATE, id, params }) 
+        
     })
+    
+    // execute controls
+    if (local.controls) controls({ VALUE, STATE, id })
     
     // run starter for children
     var children = [...local.element.children]
     
     children.map(child => {
+
         var id = child.id
         if (!id) return
         starter({ STATE, VALUE, id })

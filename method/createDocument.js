@@ -1,15 +1,12 @@
 const { createElement } = require("./createElement")
-const { getAssets, getViews } = require("./getAssets")
+const { getJsonFiles } = require("./getJsonFiles")
 const _page = require('../page/_page')
 
 const createDocument = (page) => {
     var innerHTML = '', STATE = {}, VALUE = {}
     
-    // get assets
-    STATE.asset = getAssets()
-
-    // get views
-    STATE.view = getViews()
+    // get assets & views
+    STATE = { asset: getJsonFiles('asset'), view: getJsonFiles('view') }
 
     // body
     var id = 'body'
@@ -42,14 +39,13 @@ const createDocument = (page) => {
         <title>digiTrip</title>
         <link rel="stylesheet" href="index.css" />
         <link href="https://css.gg/trash.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        
     </head>
+    
     <body>
         ${innerHTML}
         <script id="STATE" type="application/json">${JSON.stringify(STATE)}</script>
         <script id="VALUE" type="application/json">${JSON.stringify(VALUE)}</script>
-        <script src="browser.js"></script>
+        <script src="index.js"></script>
     </body>
     </html>`
 }

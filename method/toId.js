@@ -1,6 +1,6 @@
 const { generate } = require("./generate");
 const { toArray } = require("./toArray")
-const { toObject } = require("./toObject");
+const { toParam } = require("./toParam");
 
 const toId = ({ VALUE, STATE, id, string }) => {
     var idList = [], local = VALUE[id]
@@ -46,7 +46,7 @@ const toId = ({ VALUE, STATE, id, string }) => {
         else if (id.includes('.')) {
 
             var k = generate()
-            id = toObject({ VALUE, STATE, string: `${k}=${id}`, id: local.id })[k]
+            id = toParam({ VALUE, STATE, string: `${k}=${id}`, id: local.id })[k]
             idList.push(...toArray(id))
         }
 

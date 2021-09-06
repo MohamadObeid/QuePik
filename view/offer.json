@@ -91,8 +91,8 @@
                         }, {
                             "event": "change",
                             "actions": [
-                                "setData;setContent::value.parent.next.next.1stChild.2ndChild.id?data=date.today;path=validity.starting-date?value.element.checked",
-                                "setData;setContent::value.parent.next.next.2ndChild.2ndChild.id?data=date.today.+4;path=validity.ending-date?value.element.checked",
+                                "setData;setContent::value.parent.next.next.1stChild.2ndChild.id?content.value=date.today;data.value=date.today;data.path=validity.starting-date?value.element.checked",
+                                "setData;setContent::value.parent.next.next.2ndChild.2ndChild.id?content.value=date.today.+4;data.value=date.today.+4;data.path=validity.ending-date?value.element.checked",
                                 "setStyle?style.display=grid?value.element.checked?value.parent.next.next.id",
                                 "setStyle::value.parent.next.next.id;removeData?style.display=none;path=validity?!value.element.checked"
                             ]
@@ -131,9 +131,9 @@
                         }, {
                             "event": "change",
                             "actions": [
-                                "setData;setContent::value.parent.next.next.1stChild.2ndChild.id?data=generate;path=code.code?value.element.checked",
-                                "setData;setContent::value.parent.next.next.2ndChild.2ndChild.id?data=20;path=code.total-uses?value.element.checked",
-                                "setData;setContent::value.parent.next.next.3rdChild.2ndChild.id?data=1;path=code.allowed-uses-per-user?value.element.checked",
+                                "setData;setContent::value.parent.next.next.1stChild.2ndChild.id?content.value=generate;data.value=generate;data.path=code.code?value.element.checked",
+                                "setData;setContent::value.parent.next.next.2ndChild.2ndChild.id?content.value=20;data.value=20;data.path=code.total-uses?value.element.checked",
+                                "setData;setContent::value.parent.next.next.3rdChild.2ndChild.id?content.value=1;data.value=1;data.path=code.allowed-uses-per-user?value.element.checked",
                                 "setStyle?style.display=grid?value.element.checked?value.parent.next.next.id",
                                 "setStyle::value.parent.next.next.id;removeData?style.display=none;path=code?!value.element.checked"
                             ]

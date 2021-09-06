@@ -1,7 +1,8 @@
 
 const { toBoolean } = require('./toBoolean')
-const { toObject } = require('./toObject')
 const { toId } = require('./toId')
+const { getParam } = require('./getParam')
+const { toParam } = require('./toParam')
 
 const events = ['click', 'mouseenter', 'mouseleave', 'mousedown', 'mouseup', 'touchstart', 'touchend']
 
@@ -9,15 +10,12 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
     
     const { execute } = require('./execute')
 
-    if (!controls.actions) return
     var local = VALUE[id]
 
     var events = controls.event.split('?')
-    var params = toObject({ VALUE, STATE, string: events[1] })
-    var conditions = events[2]
     var idList = events[3]
-    var once = params.once !== undefined ? true : false
-
+    var once = getParam(controls.event, 'once', false)
+    
     idList = toId({ VALUE, STATE, id, string: idList })
 
     events = events[0].split(';')
@@ -43,24 +41,31 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
             var body = id === 'body'
             var myFn = (e) => {
 
-                clearTimeout(local[`${controls.actions}-timer`])
-
+                var events = controls.event.split('?')
+                clearTimeout(local[`${controls.actions || controls.event}-timer`])
+                
                 if (body) id = local.id
                 
                 // VALUE[id] doesnot exist
                 if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
                 
-                var approved = toBoolean({ VALUE, STATE, string: conditions, e, id })
-                if (!approved) return
+                // approval
+                if (!toBoolean({ VALUE, STATE, string: events[2], e, id })) return
 
-                local[`${controls.actions}-timer`] = setTimeout(
-                    () => execute({ VALUE, STATE, controls, e, id }),
-                    timer);
+                // params
+                params = toParam({ VALUE, STATE, string: events[1], e, id })
+
+                if (controls.actions) local[`${controls.actions}-timer`] = setTimeout(
+                    () => execute({ VALUE, STATE, controls, e, id }), timer)
+
 
             }
 
             // body || window
             if (id === 'body' || id === 'window') return document.body.addEventListener(event, myFn, { once })
+
+            // onload event
+            if (event === 'load') return myFn({ target: VALUE[id].element })
 
             // elements
             return VALUE[id].element.addEventListener(event, myFn, { once })

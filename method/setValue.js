@@ -8,7 +8,7 @@ const setValue = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
     Object.entries(params.value).map(([key, value]) => {
-        /*if (key === 'data') setData({ VALUE, params: { value }, id })
+        /*if (key === 'data') setData({ VALUE, params: { data: { value } }, id })
 
         else if (key === 'Data') {
             local[key] = value

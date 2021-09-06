@@ -8,10 +8,10 @@ const update = ({ STATE, VALUE, id }) => {
 
     var local = VALUE[id]
     if (!local) return
+    if (!local.element) return
     
     // remove id from VALUE
     removeIds({ VALUE, id })
-    
     local.element.style.opacity = '0'
 
     local.element.innerHTML = toArray(local.children).map((child, index) => {
@@ -42,6 +42,7 @@ const update = ({ STATE, VALUE, id }) => {
 const removeIds = ({ VALUE, id }) => {
 
     var local = VALUE[id]
+    if (!local.element) return
     var children = [...local.element.children]
     
     children.map(child => {

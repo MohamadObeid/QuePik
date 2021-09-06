@@ -25,7 +25,8 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
             if (STATE[local.Data] && local.derivations[0] != '') {
 
                 // reset Data
-                setData({ STATE, VALUE, params: { value }, id })
+                var data = { value }
+                setData({ STATE, VALUE, params: { data }, id })
             }
         }
 
@@ -39,11 +40,12 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         local.element.addEventListener("mousewheel", (e) => e.target.blur())
 
     if (local.input && local.input.value && !local.data)
-        setData({ STATE, VALUE, params: { value: local.input.value }, id })
+        setData({ STATE, VALUE, params: { data: { value: local.input.value } }, id })
 
     if (local.readonly) return
 
     var myFn = (e) => {
+        e.preventDefault()
 
         // VAR[id] doesnot exist
         if (!VALUE[id]) return e.target.removeEventListener('input', myFn)
@@ -74,13 +76,12 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         }
 
         local.element.value = value
-        local.value = value
         local.data = value
 
         if (local.Data && local.derivations[0] != '') {
 
             // reset Data
-            setData({ STATE, VALUE, params: { value }, id })
+            setData({ STATE, VALUE, params: { data: { value } }, id })
             
             // remove value from data
             if (value === '') return removeData({ VALUE, STATE, id })
@@ -96,6 +97,9 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
     }
 
     local.element.addEventListener('input', myFn)
+    local.element.addEventListener('keydown', (e) => {
+        if (e.keyCode == 13 && !e.shiftKey) e.preventDefault()
+    })
     
     // resize
     resizeInput({ VALUE, id })

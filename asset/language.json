@@ -1,745 +1,555 @@
 {
-  "name": [{
-    "name": "Language",
-    "lang": "en"
-  }],
+  "name": { "en": "Language" },
   "file-name": "language",
   "options": [
     {
-      "name": "Language>>readonly",
-      "lang": "en"
+      "name": { "en": "ar" }
     },
     {
-      "lang": "en",
-      "name": "ar"
+      "name": { "en": "en" }
     },
     {
-      "name": "en",
-      "lang": "en"
+      "name": { "en": "fr" }
     },
     {
-      "name": "fr",
-      "lang": "en"
+      "name": { "en": "fa" }
     },
     {
-      "name": "fa",
-      "lang": "en"
+      "name": { "en": "aa" }
     },
     {
-      "name": "aa",
-      "lang": "en"
+      "name": { "en": "ab" }
     },
     {
-      "name": "ab",
-      "lang": "en"
+      "name": { "en": "ae" }
     },
     {
-      "name": "ae",
-      "lang": "en"
+      "name": { "en": "af" }
     },
     {
-      "name": "af",
-      "lang": "en"
+      "name": { "en": "ak" }
     },
     {
-      "name": "ak",
-      "lang": "en"
+      "name": { "en": "am" }
     },
     {
-      "name": "am",
-      "lang": "en"
+      "name": { "en": "an" }
     },
     {
-      "name": "an",
-      "lang": "en"
+      "name": { "en": "as" }
     },
     {
-      "name": "as",
-      "lang": "en"
+      "name": { "en": "av" }
     },
     {
-      "name": "av",
-      "lang": "en"
+      "name": { "en": "ay" }
     },
     {
-      "name": "ay",
-      "lang": "en"
+      "name": { "en": "az" }
     },
     {
-      "name": "az",
-      "lang": "en"
+      "name": { "en": "ba" }
     },
     {
-      "name": "ba",
-      "lang": "en"
+      "name": { "en": "be" }
     },
     {
-      "name": "be",
-      "lang": "en"
+      "name": { "en": "bg" }
     },
     {
-      "name": "bg",
-      "lang": "en"
+      "name": { "en": "bh" }
     },
     {
-      "name": "bh",
-      "lang": "en"
+      "name": { "en": "bi" }
     },
     {
-      "name": "bi",
-      "lang": "en"
+      "name": { "en": "bm" }
     },
     {
-      "name": "bm",
-      "lang": "en"
+      "name": { "en": "bn" }
     },
     {
-      "name": "bn",
-      "lang": "en"
+      "name": { "en": "bo" }
     },
     {
-      "name": "bo",
-      "lang": "en"
+      "name": { "en": "br" }
     },
     {
-      "name": "br",
-      "lang": "en"
+      "name": { "en": "bs" }
     },
     {
-      "name": "bs",
-      "lang": "en"
+      "name": { "en": "ca" }
     },
     {
-      "name": "ca",
-      "lang": "en"
+      "name": { "en": "ce" }
     },
     {
-      "name": "ce",
-      "lang": "en"
+      "name": { "en": "ch" }
     },
     {
-      "name": "ch",
-      "lang": "en"
+      "name": { "en": "co" }
     },
     {
-      "name": "co",
-      "lang": "en"
+      "name": { "en": "cr" }
     },
     {
-      "name": "cr",
-      "lang": "en"
+      "name": { "en": "cs" }
     },
     {
-      "name": "cs",
-      "lang": "en"
+      "name": { "en": "cu" }
     },
     {
-      "name": "cu",
-      "lang": "en"
+      "name": { "en": "cv" }
     },
     {
-      "name": "cv",
-      "lang": "en"
+      "name": { "en": "cy" }
     },
     {
-      "name": "cy",
-      "lang": "en"
+      "name": { "en": "da" }
     },
     {
-      "name": "da",
-      "lang": "en"
+      "name": { "en": "de" }
     },
     {
-      "name": "de",
-      "lang": "en"
+      "name": { "en": "dv" }
     },
     {
-      "name": "dv",
-      "lang": "en"
+      "name": { "en": "dz" }
     },
     {
-      "name": "dz",
-      "lang": "en"
+      "name": { "en": "ee" }
     },
     {
-      "name": "ee",
-      "lang": "en"
+      "name": { "en": "el" }
     },
     {
-      "name": "el",
-      "lang": "en"
+      "name": { "en": "eo" }
     },
     {
-      "name": "eo",
-      "lang": "en"
+      "name": { "en": "es" }
     },
     {
-      "name": "es",
-      "lang": "en"
+      "name": { "en": "et" }
     },
     {
-      "name": "et",
-      "lang": "en"
+      "name": { "en": "eu" }
     },
     {
-      "name": "eu",
-      "lang": "en"
+      "name": { "en": "ff" }
     },
     {
-      "name": "ff",
-      "lang": "en"
+      "name": { "en": "fi" }
     },
     {
-      "name": "fi",
-      "lang": "en"
+      "name": { "en": "fj" }
     },
     {
-      "name": "fj",
-      "lang": "en"
+      "name": { "en": "fo" }
     },
     {
-      "name": "fo",
-      "lang": "en"
+      "name": { "en": "fy" }
     },
     {
-      "name": "fy",
-      "lang": "en"
+      "name": { "en": "ga" }
     },
     {
-      "name": "ga",
-      "lang": "en"
+      "name": { "en": "gd" }
     },
     {
-      "name": "gd",
-      "lang": "en"
+      "name": { "en": "gl" }
     },
     {
-      "name": "gl",
-      "lang": "en"
+      "name": { "en": "gn" }
     },
     {
-      "name": "gn",
-      "lang": "en"
+      "name": { "en": "gu" }
     },
     {
-      "name": "gu",
-      "lang": "en"
+      "name": { "en": "gv" }
     },
     {
-      "name": "gv",
-      "lang": "en"
+      "name": { "en": "ha" }
     },
     {
-      "name": "ha",
-      "lang": "en"
+      "name": { "en": "hi" }
     },
     {
-      "name": "hi",
-      "lang": "en"
+      "name": { "en": "ho" }
     },
     {
-      "name": "ho",
-      "lang": "en"
+      "name": { "en": "hr" }
     },
     {
-      "name": "hr",
-      "lang": "en"
+      "name": { "en": "ht" }
     },
     {
-      "name": "ht",
-      "lang": "en"
+      "name": { "en": "hu" }
     },
     {
-      "name": "hu",
-      "lang": "en"
+      "name": { "en": "hy" }
     },
     {
-      "name": "hy",
-      "lang": "en"
+      "name": { "en": "hz" }
     },
     {
-      "name": "hz",
-      "lang": "en"
+      "name": { "en": "ia" }
     },
     {
-      "name": "ia",
-      "lang": "en"
+      "name": { "en": "id" }
     },
     {
-      "name": "id",
-      "lang": "en"
+      "name": { "en": "ie" }
     },
     {
-      "name": "ie",
-      "lang": "en"
+      "name": { "en": "ig" }
     },
     {
-      "name": "ig",
-      "lang": "en"
+      "name": { "en": "ii" }
     },
     {
-      "name": "ii",
-      "lang": "en"
+      "name": { "en": "ik" }
     },
     {
-      "name": "ik",
-      "lang": "en"
+      "name": { "en": "io" }
     },
     {
-      "name": "io",
-      "lang": "en"
+      "name": { "en": "is" }
     },
     {
-      "name": "is",
-      "lang": "en"
+      "name": { "en": "it" }
     },
     {
-      "name": "it",
-      "lang": "en"
+      "name": { "en": "iu" }
     },
     {
-      "name": "iu",
-      "lang": "en"
+      "name": { "en": "ja" }
     },
     {
-      "name": "ja",
-      "lang": "en"
+      "name": { "en": "jv" }
     },
     {
-      "name": "jv",
-      "lang": "en"
+      "name": { "en": "ka" }
     },
     {
-      "name": "ka",
-      "lang": "en"
+      "name": { "en": "kg" }
     },
     {
-      "name": "kg",
-      "lang": "en"
+      "name": { "en": "ki" }
     },
     {
-      "name": "ki",
-      "lang": "en"
+      "name": { "en": "kj" }
     },
     {
-      "name": "kj",
-      "lang": "en"
+      "name": { "en": "kk" }
     },
     {
-      "name": "kk",
-      "lang": "en"
+      "name": { "en": "kl" }
     },
     {
-      "name": "kl",
-      "lang": "en"
+      "name": { "en": "km" }
     },
     {
-      "name": "km",
-      "lang": "en"
+      "name": { "en": "kn" }
     },
     {
-      "name": "kn",
-      "lang": "en"
+      "name": { "en": "ko" }
     },
     {
-      "name": "ko",
-      "lang": "en"
+      "name": { "en": "kr" }
     },
     {
-      "name": "kr",
-      "lang": "en"
+      "name": { "en": "ks" }
     },
     {
-      "name": "ks",
-      "lang": "en"
+      "name": { "en": "ku" }
     },
     {
-      "name": "ku",
-      "lang": "en"
+      "name": { "en": "kv" }
     },
     {
-      "name": "kv",
-      "lang": "en"
+      "name": { "en": "kw" }
     },
     {
-      "name": "kw",
-      "lang": "en"
+      "name": { "en": "ky" }
     },
     {
-      "name": "ky",
-      "lang": "en"
+      "name": { "en": "la" }
     },
     {
-      "name": "la",
-      "lang": "en"
+      "name": { "en": "lb" }
     },
     {
-      "name": "lb",
-      "lang": "en"
+      "name": { "en": "lg" }
     },
     {
-      "name": "lg",
-      "lang": "en"
+      "name": { "en": "li" }
     },
     {
-      "name": "li",
-      "lang": "en"
+      "name": { "en": "ln" }
     },
     {
-      "name": "ln",
-      "lang": "en"
+      "name": { "en": "lo" }
     },
     {
-      "name": "lo",
-      "lang": "en"
+      "name": { "en": "lt" }
     },
     {
-      "name": "lt",
-      "lang": "en"
+      "name": { "en": "lu" }
     },
     {
-      "name": "lu",
-      "lang": "en"
+      "name": { "en": "lv" }
     },
     {
-      "name": "lv",
-      "lang": "en"
+      "name": { "en": "mg" }
     },
     {
-      "name": "mg",
-      "lang": "en"
+      "name": { "en": "mh" }
     },
     {
-      "name": "mh",
-      "lang": "en"
+      "name": { "en": "mi" }
     },
     {
-      "name": "mi",
-      "lang": "en"
+      "name": { "en": "mk" }
     },
     {
-      "name": "mk",
-      "lang": "en"
+      "name": { "en": "ml" }
     },
     {
-      "name": "ml",
-      "lang": "en"
+      "name": { "en": "mn" }
     },
     {
-      "name": "mn",
-      "lang": "en"
+      "name": { "en": "mr" }
     },
     {
-      "name": "mr",
-      "lang": "en"
+      "name": { "en": "ms" }
     },
     {
-      "name": "ms",
-      "lang": "en"
+      "name": { "en": "mt" }
     },
     {
-      "name": "mt",
-      "lang": "en"
+      "name": { "en": "my" }
     },
     {
-      "name": "my",
-      "lang": "en"
+      "name": { "en": "na" }
     },
     {
-      "name": "na",
-      "lang": "en"
+      "name": { "en": "nb" }
     },
     {
-      "name": "nb",
-      "lang": "en"
+      "name": { "en": "nd" }
     },
     {
-      "name": "nd",
-      "lang": "en"
+      "name": { "en": "ne" }
     },
     {
-      "name": "ne",
-      "lang": "en"
+      "name": { "en": "ng" }
     },
     {
-      "name": "ng",
-      "lang": "en"
+      "name": { "en": "nl" }
     },
     {
-      "name": "nl",
-      "lang": "en"
+      "name": { "en": "nn" }
     },
     {
-      "name": "nn",
-      "lang": "en"
+      "name": { "en": "no" }
     },
     {
-      "name": "no",
-      "lang": "en"
+      "name": { "en": "nr" }
     },
     {
-      "name": "nr",
-      "lang": "en"
+      "name": { "en": "nv" }
     },
     {
-      "name": "nv",
-      "lang": "en"
+      "name": { "en": "ny" }
     },
     {
-      "name": "ny",
-      "lang": "en"
+      "name": { "en": "oc" }
     },
     {
-      "name": "oc",
-      "lang": "en"
+      "name": { "en": "oj" }
     },
     {
-      "name": "oj",
-      "lang": "en"
+      "name": { "en": "om" }
     },
     {
-      "name": "om",
-      "lang": "en"
+      "name": { "en": "or" }
     },
     {
-      "name": "or",
-      "lang": "en"
+      "name": { "en": "os" }
     },
     {
-      "name": "os",
-      "lang": "en"
+      "name": { "en": "pa" }
     },
     {
-      "name": "pa",
-      "lang": "en"
+      "name": { "en": "pi" }
     },
     {
-      "name": "pi",
-      "lang": "en"
+      "name": { "en": "pl" }
     },
     {
-      "name": "pl",
-      "lang": "en"
+      "name": { "en": "ps" }
     },
     {
-      "name": "ps",
-      "lang": "en"
+      "name": { "en": "pt" }
     },
     {
-      "name": "pt",
-      "lang": "en"
+      "name": { "en": "qu" }
     },
     {
-      "name": "qu",
-      "lang": "en"
+      "name": { "en": "rm" }
     },
     {
-      "name": "rm",
-      "lang": "en"
+      "name": { "en": "rn" }
     },
     {
-      "name": "rn",
-      "lang": "en"
+      "name": { "en": "ro" }
     },
     {
-      "name": "ro",
-      "lang": "en"
+      "name": { "en": "ru" }
     },
     {
-      "name": "ru",
-      "lang": "en"
+      "name": { "en": "rw" }
     },
     {
-      "name": "rw",
-      "lang": "en"
+      "name": { "en": "sa" }
     },
     {
-      "name": "sa",
-      "lang": "en"
+      "name": { "en": "sc" }
     },
     {
-      "name": "sc",
-      "lang": "en"
+      "name": { "en": "sd" }
     },
     {
-      "name": "sd",
-      "lang": "en"
+      "name": { "en": "se" }
     },
     {
-      "name": "se",
-      "lang": "en"
+      "name": { "en": "sg" }
     },
     {
-      "name": "sg",
-      "lang": "en"
+      "name": { "en": "si" }
     },
     {
-      "name": "si",
-      "lang": "en"
+      "name": { "en": "sk" }
     },
     {
-      "name": "sk",
-      "lang": "en"
+      "name": { "en": "sl" }
     },
     {
-      "name": "sl",
-      "lang": "en"
+      "name": { "en": "sm" }
     },
     {
-      "name": "sm",
-      "lang": "en"
+      "name": { "en": "sn" }
     },
     {
-      "name": "sn",
-      "lang": "en"
+      "name": { "en": "so" }
     },
     {
-      "name": "so",
-      "lang": "en"
+      "name": { "en": "sq" }
     },
     {
-      "name": "sq",
-      "lang": "en"
+      "name": { "en": "sr" }
     },
     {
-      "name": "sr",
-      "lang": "en"
+      "name": { "en": "ss" }
     },
     {
-      "name": "ss",
-      "lang": "en"
+      "name": { "en": "st" }
     },
     {
-      "name": "st",
-      "lang": "en"
+      "name": { "en": "su" }
     },
     {
-      "name": "su",
-      "lang": "en"
+      "name": { "en": "sv" }
     },
     {
-      "name": "sv",
-      "lang": "en"
+      "name": { "en": "sw" }
     },
     {
-      "name": "sw",
-      "lang": "en"
+      "name": { "en": "ta" }
     },
     {
-      "name": "ta",
-      "lang": "en"
+      "name": { "en": "te" }
     },
     {
-      "name": "te",
-      "lang": "en"
+      "name": { "en": "tg" }
     },
     {
-      "name": "tg",
-      "lang": "en"
+      "name": { "en": "th" }
     },
     {
-      "name": "th",
-      "lang": "en"
+      "name": { "en": "ti" }
     },
     {
-      "name": "ti",
-      "lang": "en"
+      "name": { "en": "tk" }
     },
     {
-      "name": "tk",
-      "lang": "en"
+      "name": { "en": "tl" }
     },
     {
-      "name": "tl",
-      "lang": "en"
+      "name": { "en": "tn" }
     },
     {
-      "name": "tn",
-      "lang": "en"
+      "name": { "en": "to" }
     },
     {
-      "name": "to",
-      "lang": "en"
+      "name": { "en": "tr" }
     },
     {
-      "name": "tr",
-      "lang": "en"
+      "name": { "en": "ts" }
     },
     {
-      "name": "ts",
-      "lang": "en"
+      "name": { "en": "tt" }
     },
     {
-      "name": "tt",
-      "lang": "en"
+      "name": { "en": "tw" }
     },
     {
-      "name": "tw",
-      "lang": "en"
+      "name": { "en": "ty" }
     },
     {
-      "name": "ty",
-      "lang": "en"
+      "name": { "en": "ug" }
     },
     {
-      "name": "ug",
-      "lang": "en"
+      "name": { "en": "uk" }
     },
     {
-      "name": "uk",
-      "lang": "en"
+      "name": { "en": "ur" }
     },
     {
-      "name": "ur",
-      "lang": "en"
+      "name": { "en": "uz" }
     },
     {
-      "name": "uz",
-      "lang": "en"
+      "name": { "en": "ve" }
     },
     {
-      "name": "ve",
-      "lang": "en"
+      "name": { "en": "vi" }
     },
     {
-      "name": "vi",
-      "lang": "en"
+      "name": { "en": "vo" }
     },
     {
-      "name": "vo",
-      "lang": "en"
+      "name": { "en": "wa" }
     },
     {
-      "name": "wa",
-      "lang": "en"
+      "name": { "en": "wo" }
     },
     {
-      "name": "wo",
-      "lang": "en"
+      "name": { "en": "xh" }
     },
     {
-      "name": "xh",
-      "lang": "en"
+      "name": { "en": "yi" }
     },
     {
-      "name": "yi",
-      "lang": "en"
+      "name": { "en": "yo" }
     },
     {
-      "name": "yo",
-      "lang": "en"
+      "name": { "en": "za" }
     },
     {
-      "name": "za",
-      "lang": "en"
+      "name": { "en": "zh" }
     },
     {
-      "name": "zh",
-      "lang": "en"
-    },
-    {
-      "name": "zu",
-      "lang": "en"
+      "name": { "en": "zu" }
     }
   ]
 }

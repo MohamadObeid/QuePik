@@ -1,10 +1,7 @@
 {
-  "name": [
-    {
-      "lang": "en",
-      "name": "Syria Cities"
-    }
-  ],
+  "name": {
+    "en": "Syria Cities"
+  },
   "icon": {
     "google": true,
     "name": "flag",
@@ -12,377 +9,526 @@
   },
   "options": [
     {
-      "lang": "en",
       "icon": {},
-      "name": "Dayr az Zawr"
+      "name": {
+        "en": "Dayr az Zawr"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Aleppo"
+      "name": {
+        "en": "Aleppo"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Damascus"
+      "name": {
+        "en": "Damascus"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Homs"
+      "name": {
+        "en": "Homs"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Latakia"
+      "name": {
+        "en": "Latakia"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ḩamāh"
+      "name": {
+        "en": "Ḩamāh"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ar Raqqah"
+      "name": {
+        "en": "Ar Raqqah"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Al Ḩasakah"
+      "name": {
+        "en": "Al Ḩasakah"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Al Qāmishlī"
+      "name": {
+        "en": "Al Qāmishlī"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Idlib"
+      "name": {
+        "en": "Idlib"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Dar‘ā"
+      "name": {
+        "en": "Dar‘ā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Dūmā"
+      "name": {
+        "en": "Dūmā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Jaramānā"
+      "name": {
+        "en": "Jaramānā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "As Salamīyah"
+      "name": {
+        "en": "As Salamīyah"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Al Ḩajar al Aswad"
+      "name": {
+        "en": "Al Ḩajar al Aswad"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ma‘arrat an Nu‘mān"
+      "name": {
+        "en": "Ma‘arrat an Nu‘mān"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ţarţūs"
+      "name": {
+        "en": "Ţarţūs"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Dārayyā"
+      "name": {
+        "en": "Dārayyā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ath Thawrah"
+      "name": {
+        "en": "Ath Thawrah"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Manbij"
+      "name": {
+        "en": "Manbij"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Jablah"
+      "name": {
+        "en": "Jablah"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "As Suwaydā’"
+      "name": {
+        "en": "As Suwaydā’"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Nawá"
+      "name": {
+        "en": "Nawá"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "At Tall"
+      "name": {
+        "en": "At Tall"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ar Rastan"
+      "name": {
+        "en": "Ar Rastan"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Khān Shaykhūn"
+      "name": {
+        "en": "Khān Shaykhūn"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "An Nabk"
+      "name": {
+        "en": "An Nabk"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ālbū Kamāl"
+      "name": {
+        "en": "Ālbū Kamāl"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Tadmur"
+      "name": {
+        "en": "Tadmur"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Al Mayādīn"
+      "name": {
+        "en": "Al Mayādīn"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "‘Āmūdā"
+      "name": {
+        "en": "‘Āmūdā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Yabrūd"
+      "name": {
+        "en": "Yabrūd"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Al Quşayr"
+      "name": {
+        "en": "Al Quşayr"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ḩarastā"
+      "name": {
+        "en": "Ḩarastā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Tallbīsah"
+      "name": {
+        "en": "Tallbīsah"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Jisr ash Shughūr"
+      "name": {
+        "en": "Jisr ash Shughūr"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Bāniyās"
+      "name": {
+        "en": "Bāniyās"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Tādif"
+      "name": {
+        "en": "Tādif"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Jayrūd"
+      "name": {
+        "en": "Jayrūd"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Sarāqib"
+      "name": {
+        "en": "Sarāqib"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Al Mālikīyah"
+      "name": {
+        "en": "Al Mālikīyah"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Hajīn"
+      "name": {
+        "en": "Hajīn"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Al Qaryatayn"
+      "name": {
+        "en": "Al Qaryatayn"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ma‘arratmişrīn"
+      "name": {
+        "en": "Ma‘arratmişrīn"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Maşyāf"
+      "name": {
+        "en": "Maşyāf"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Al Qunayţirah"
+      "name": {
+        "en": "Al Qunayţirah"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Tallkalakh"
+      "name": {
+        "en": "Tallkalakh"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Dayr Ḩāfir"
+      "name": {
+        "en": "Dayr Ḩāfir"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Tall Salḩab"
+      "name": {
+        "en": "Tall Salḩab"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Qadsayyā"
+      "name": {
+        "en": "Qadsayyā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ţafas"
+      "name": {
+        "en": "Ţafas"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Şāfītā"
+      "name": {
+        "en": "Şāfītā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Jāsim"
+      "name": {
+        "en": "Jāsim"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "I‘zāz"
+      "name": {
+        "en": "I‘zāz"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ra’s al ‘Ayn"
+      "name": {
+        "en": "Ra’s al ‘Ayn"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Şūrān"
+      "name": {
+        "en": "Şūrān"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Tall Rif‘at"
+      "name": {
+        "en": "Tall Rif‘at"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Az Zabadānī"
+      "name": {
+        "en": "Az Zabadānī"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Aş Şanamayn"
+      "name": {
+        "en": "Aş Şanamayn"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Şaydnāyā"
+      "name": {
+        "en": "Şaydnāyā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Salqīn"
+      "name": {
+        "en": "Salqīn"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Qaţanā"
+      "name": {
+        "en": "Qaţanā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Ḩārim"
+      "name": {
+        "en": "Ḩārim"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Binnish"
+      "name": {
+        "en": "Binnish"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Buşrá ash Shām"
+      "name": {
+        "en": "Buşrá ash Shām"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Izra"
+      "name": {
+        "en": "Izra"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Muḩradah"
+      "name": {
+        "en": "Muḩradah"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "As Suqaylibīyah"
+      "name": {
+        "en": "As Suqaylibīyah"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Kafr Zaytā"
+      "name": {
+        "en": "Kafr Zaytā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Shahbā"
+      "name": {
+        "en": "Shahbā"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "As Sukhnah"
+      "name": {
+        "en": "As Sukhnah"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Kafr Nubl"
+      "name": {
+        "en": "Kafr Nubl"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Şalkhad"
+      "name": {
+        "en": "Şalkhad"
+      },
+      "description": {}
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Tall Abyaḑ"
-    },
-    "country"
+      "name": {
+        "en": "Tall Abyaḑ"
+      },
+      "description": {}
+    }
   ],
   "file-name": "syria-cities",
-  "parent": "country"
+  "parent": "country",
+  "description": {},
+  "country": "Syria"
 }

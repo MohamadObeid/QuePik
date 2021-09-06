@@ -5,12 +5,14 @@ const { derive } = require('./derive')
 const { isEqual } = require('./isEqual')
 const { removeDuplicates } = require('./removeDuplicates')
 const { generate } = require('./generate')
+const { focus } = require('./focus')
 
 const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 
     const { createElement } = require('./createElement')
     const { starter } = require('./starter')
 
+    var localID = id
     var local = VALUE[id]
     if (!local) return
 
@@ -35,19 +37,43 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
             keys.pop()
         }
 
+        var language
+
         keys.reduce((o, k, i) => {
 
             if (i === keys.length - 1) {
 
-                o[k] = toArray(o[k])
-                i = o[k].length - 1
+                if (local.lang) {
 
-                if (isNaN(local.derivations[local.derivations.length - 1])) local.derivations.push(0)
-                o[k].push(clone(local.pushData || o[k][i] || ''))
+                    var langs = []
+                    Object.entries(o[k]).map(([k, v]) => {
+                        langs.push(k)
+                    })
 
-                if (!params.keepValues) {
-                    var i = o[k].length - 1
-                    o[k][i] = removeDuplicates(clearValues(o[k][i]))
+                    var random = []
+                    STATE.asset.language.options.map(lang => {
+                        if (!langs.includes(lang.name.en)) random.push(lang.name.en)
+                    })
+
+                    language = random[0]
+                    o[k][language] = ''
+
+                } else if (local.key) {
+
+                    // o[k][local.key] = ''
+
+                } else {
+
+                    o[k] = toArray(o[k])
+                    i = o[k].length - 1
+
+                    if (isNaN(local.derivations[local.derivations.length - 1])) local.derivations.push(0)
+                    o[k].push(clone(local.pushData || o[k][i] || ''))
+
+                    if (!params.keepValues) {
+                        var i = o[k].length - 1
+                        o[k][i] = removeDuplicates(clearValues(o[k][i]))
+                    }
                 }
             }
 
@@ -73,26 +99,44 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
     VALUE[id].derivations = [...local.derivations]
 
     var local = VALUE[id]
-    
-    local.derivations[local.derivations.length - 1] = length
+
+    if (VALUE[localID].lang) {
+
+        var type = local.type.split('lang=')[0]
+        type += local.type.split('lang=')[1].slice(2)
+        type += `;lang=${language}`
+        local.type = type
+
+    } else if (VALUE[localID].originalKeys || local.type.includes('originalKeys=')) {
+
+        // remove originalKeys=[]
+        var type = local.type.split('originalKeys=')[0]
+        if (local.type.split('originalKeys=')[1]) type += local.type.split('originalKeys=')[1].split(';').slice(1).join(';')
+        local.type = type
+        
+    } else local.derivations[local.derivations.length - 1] = length
     
     // create element => append child
     var newcontent = document.createElement('div')
     newcontent.innerHTML = createElement({ STATE, VALUE, id })
-
+    
     while (newcontent.firstChild) {
+
+        id = newcontent.firstChild.id
         VALUE[local.parent].element.appendChild(newcontent.firstChild)
+    
+        // starter
+        starter({ STATE, VALUE, id })
     }
 
     // update length
-    var children = [...VALUE[local.parent].element.children]
-    children.map(child => {
+    [...VALUE[local.parent].element.children].map(child => {
         var id = child.id
         VALUE[id].length = length + 1
     })
 
-    // starter
-    starter({ STATE, VALUE, id })
+    // focus
+    focus({ VALUE, STATE, id })
 }
 
 const duplicates = ({ STATE, VALUE, params, id }) => {

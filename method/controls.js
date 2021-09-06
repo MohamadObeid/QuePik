@@ -1,8 +1,9 @@
+const { toArray } = require("./toArray")
+
 const controls = ({ VALUE, STATE, controls, id }) => {
     
     const { addEventListener } = require("./event")
     const { execute } = require("./execute")
-    const { toArray } = require("./toArray")
     const { watch } = require("./watch")
 
     var local = VALUE[id]
@@ -23,4 +24,13 @@ const controls = ({ VALUE, STATE, controls, id }) => {
     })
 }
 
-module.exports = {controls}
+const setControls = ({ VALUE, id, params }) => {
+    
+    var local = VALUE[id]
+    if (!local) return
+    
+    local.controls = toArray(local.controls)
+    local.controls.push(...toArray(params.controls))
+}
+
+module.exports = {controls, setControls}

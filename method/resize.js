@@ -41,9 +41,9 @@ const dimensions = ({ VALUE, id, params = {} }) => {
     document.body.appendChild(lDiv)
 
     var pStyle = local.style
-    var pText = params.text || local.data || (local.input && local.input.value) || local.text || ''
+    var pText = params.text || local.data || (local.input && local.input.value) || local.text || 'A'
     var pFontSize = pStyle.fontSize
-
+    
     if (pStyle != null) lDiv.style = pStyle
 
     lDiv.style.fontSize = pFontSize
@@ -54,6 +54,10 @@ const dimensions = ({ VALUE, id, params = {} }) => {
     lDiv.style.maxWidth = pStyle.maxWidth 
     lDiv.style.maxHeight = pStyle.maxHeight
     lDiv.style.transform = pStyle.transform
+    lDiv.style.display = 'flex'
+    lDiv.style.flexWrap = 'wrap'
+
+
     if (pStyle.width === '100%') lDiv.style.width = local.element.clientWidth + 'px'
 
     lDiv.innerHTML = pText

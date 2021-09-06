@@ -4,14 +4,16 @@
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem",
         "children": [{
-            "type": "View?class=flex-box",
+            "type": "View?class=flex-box?value.data.name",
             "children": [{
                 "type": "Text?text=Edit",
                 "style": { "fontSize": "1.8rem", "color": "#444", "fontWeight": "500"}
             }, {
-                "type": "Text?text=value.data.name.0.name<<value.data.name",
+                "type": "Text?text=value.data.name.en<<value.data.name",
                 "style": { "fontSize": "1.8rem", "color": "#444", "fontWeight": "500", "margin": "0 .5rem" }
             }]
+        }, {
+            "type": "Text?text=Create New Asset;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data.name"
         }, {
             "type": "View?class=flex-box;style.marginLeft=auto",
             "children": [{
@@ -37,7 +39,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "saveDb;setStyle::mini-window;update::assets-data?state.asset[value.data.file-name]=value.data;save=state[value.Data];style.display=none>>200;style.opacity=0"
+                    "actions": "save;setStyle::mini-window?save.api=asset;save.data=state[value.Data];save.state=asset-list-Data;save.update=asset-list;style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -64,11 +66,11 @@
                 "children": [{
                     "type": "Label?text=Parent;style.fontSize=1.4rem;style.marginBottom=.75rem"
                 }, {
-                    "type": "Input?featured;icon.name=link;icon.google;icon.outlined;style.backgroundColor=#f0f0f0;path=parent;droplist.items=state.asset.entries.key"
+                    "type": "Input?featured;readonly;icon.name=link;icon.google;icon.outlined;style.backgroundColor=#f0f0f0;path=parent;droplist.items=state.asset.keys"
                 }]
             }]
         }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=4fr 6fr 3fr 2fr 2rem;style.gap=1rem;style.width=100%",
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=4fr 6fr 3fr 3fr 2rem;style.gap=1rem;style.width=100%",
             "children": [{
                 "type": "Label?text=Name;style.fontSize=1.4rem;style.textAlign=left"
             }, {
@@ -81,18 +83,18 @@
         }, {
             "type": "View?style.display=grid;style.gap=1rem",
             "children": [{
-                "type": "View?style.display=grid;style.gridTemplateColumns=4fr 6fr 3fr 2fr 2rem;style.gap=1rem",
+                "type": "View?style.display=grid;style.gridTemplateColumns=4fr 6fr 3fr 3fr 2rem;style.gap=1rem",
                 "children": [{
                     "type": "View?style.display=grid;style.gap=1rem",
                     "children": [{
-                        "type": "Input?featured;lang=en;icon=value.data.icon;style.backgroundColor=#f0f0f0;path=name"
+                        "type": "Input?textarea;featured;lang=en;icon=value.data.icon<<value.data;style.backgroundColor=#f0f0f0;path=name"
                     }]
                 }, {
-                    "type": "Input?textarea;featured;!duplicatable;style.backgroundColor=#f0f0f0;path=description;input.style.height=fit-content;style.minHeight=4rem;input.style.minHeight=2.5rem"
+                    "type": "Input?textarea;featured;!duplicatable;style.backgroundColor=#f0f0f0;lang=en;path=description;input.style.height=fit-content;style.minHeight=4rem;input.style.minHeight=2.5rem"
                 }, {
-                    "type": "Input?featured;google;!clearable;!removable;style.backgroundColor=#f0f0f0;path=icon"
+                    "type": "Input?textarea;featured;google;!clearable;!removable;style.backgroundColor=#f0f0f0;path=icon"
                 }, {
-                    "type": "Input?featured;!removable;readonly;path=icon.type;droplist.items=[outlined,rounded,sharp,twoTone];style.display=flex;style.backgroundColor=#f0f0f0"
+                    "type": "Input?featured;readonly;path=icon.type;droplist.items=[outlined,rounded,sharp,twoTone];style.display=flex;style.backgroundColor=#f0f0f0"
                 }, {
                     "type": "Icon?class=flex-box;icon.name=bi-trash;auto-style;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
                     "controls": {
@@ -102,7 +104,7 @@
                 }]
             }]
         }, {
-            "type": "View?style.marginTop=2rem;style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=4fr 6fr 3fr 2fr 2rem;style.gap=1rem;style.width=100%",
+            "type": "View?style.marginTop=2rem;style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=4fr 6fr 3fr 3fr 2rem;style.gap=1rem;style.width=100%",
             "children": [{
                 "type": "Label?text=Options;style.fontSize=1.4rem;style.textAlign=left"
             }, {
@@ -115,19 +117,19 @@
         }, {
             "type": "View?style.display=grid;style.gap=1rem;style.width=100%",
             "children": [{
-                "type": "View?style.display=grid;style.alignItems=flex-start;style.gridTemplateColumns=4fr 6fr 3fr 2fr 2rem;style.gap=1rem;style.width=100%;path=options;data=[{}]<<!value.data.options",
+                "type": "View?style.display=grid;style.alignItems=flex-start;style.gridTemplateColumns=4fr 6fr 3fr 3fr 2rem;style.gap=1rem;style.width=100%;path=options;data=[{}]<<!value.data.options",
                 "children": [{
-                    "type": "Input?featured;lang=en;icon=value.data.icon;style.backgroundColor=#f0f0f0;!duplicatable",
+                    "type": "Input?textarea;featured;lang=en;path=name;icon=value.data.icon;style.backgroundColor=#f0f0f0;!duplicatable",
                     "controls": [{
                         "event": "keyup??e.key=Enter",
                         "actions": "duplicate::value.parent.id"
                     }]
                 }, {
-                    "type": "Input?textarea;featured;!duplicatable;style.backgroundColor=#f0f0f0;path=description;input.style.height=fit-content;style.minHeight=4rem;input.style.minHeight=2.5rem"
+                    "type": "Input?textarea;featured;!duplicatable;style.backgroundColor=#f0f0f0;lang=en;path=description"
                 }, {
-                    "type": "Input?featured;google;!clearable;!removable;style.backgroundColor=#f0f0f0;path=icon"
+                    "type": "Input?textarea;featured;google;!clearable;!removable;style.backgroundColor=#f0f0f0;path=icon"
                 }, {
-                    "type": "Input?featured;!removable;readonly;path=icon.type;droplist.items=[outlined,rounded,sharp,twoTone];style.display=flex;style.backgroundColor=#f0f0f0"
+                    "type": "Input?featured;readonly;path=icon.type;droplist.items=[outlined,rounded,sharp,twoTone];style.display=flex;style.backgroundColor=#f0f0f0"
                 }, {
                     "type": "Icon?class=flex-box;icon.name=bi-trash;auto-style;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
                     "controls": {
@@ -137,7 +139,7 @@
                 }]
             }]
         }, {
-            "type": "View?style.display=flex;style.alignItems=center;style.marginTop=3rem",
+            "type": "View?style.display=flex;style.alignItems=center;style.marginTop=2rem",
             "children": [{
                 "type": "Icon?class=align-center;icon.name=bi-plus-circle-fill;style.fontSize=2rem;style.margin=0 1rem;style.cursor=pointer",
                 "controls": [{
@@ -146,6 +148,18 @@
                 }]
             }, {
                 "type": "Text?text=Add More Options;style.fontSize=1.4rem;style.color=#444"
+            }]
+        }, {
+            "type": "View?class=divider"
+        }, {
+            "type": "Label?text=Additional Info;style.marginBottom=.75rem;style.fontSize=1.4rem;style.textAlign=left"
+        }, {
+            "type": "View?style.width=100%",
+            "children": [{
+                "type": "View?style.margin=.5rem 0;style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr",
+                "children": [{
+                    "type": "Input?textarea;featured;key=key;originalKeys=[options,name,description,icon,file-name,parent];style.backgroundColor=#f0f0f0"
+                }]
             }]
         }]
     }]

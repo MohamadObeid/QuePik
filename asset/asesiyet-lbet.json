@@ -1,0 +1,115 @@
+{
+  "name": {
+    "en": "Asesiyet Lbet"
+  },
+  "description": {
+    "en": "tajhiz aw takmil decor bet"
+  },
+  "icon": {
+    "google": true,
+    "name": "house",
+    "type": "outlined"
+  },
+  "options": [
+    {
+      "name": {
+        "en": "Nash"
+      },
+      "description": {
+        "en": "3ilej nash sate7"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Sejjed"
+      },
+      "description": {
+        "en": "8eraf + matba5 + koridor"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Moket"
+      },
+      "description": {
+        "en": "la kel lbet"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Majla"
+      },
+      "description": {
+        "en": "idafe majla matba5"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Suba Orbit"
+      },
+      "description": {
+        "en": "tafi2a shbeh markaziyeh"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Nashefe"
+      },
+      "description": {
+        "en": ""
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Freezer"
+      },
+      "description": {
+        "en": ""
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Tajdid Bathroom"
+      },
+      "description": {
+        "en": ""
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "New Bathroom"
+      },
+      "description": {
+        "en": "la 8rft nom"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Shafat Ri7a"
+      },
+      "description": {
+        "en": ""
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Jalleye"
+      },
+      "description": {
+        "en": ""
+      },
+      "icon": {}
+    }
+  ],
+  "file-name": "asesiyet-lbet"
+}

@@ -1,4 +1,3 @@
-const { clone } = require("./clone")
 const { merge } = require("./merge")
 
 const derive = (data, keys, fullDerivation, defaultData, writable) => {

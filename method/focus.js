@@ -1,10 +1,13 @@
 const focus = ({ VALUE, id }) => {
+    
     var local = VALUE[id]
+    if (!local) return
 
-    if (local.type === 'Input' || local.type === 'TextInput') local.element.focus()
+    if (local.type === 'Input') local.element.focus()
     else {
         if (local.element) {
             var childElements = local.element.getElementsByTagName("INPUT")
+            if (childElements.length === 0) childElements = local.element.getElementsByTagName("TEXTAREA")
             if (childElements.length > 0) {
                 childElements[0].focus()
             }

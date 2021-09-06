@@ -5,15 +5,18 @@
   "main": "app.js",
   "scripts": {
     "server": "node app.js",
-    "browser": "cd browser && browserify index.js > browser.js",
+    "browser": "cd browser && browserify browser.js > index.js",
     "project": "npm-run-all --parallel server browser"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
     "nodemon": "^2.0.12",
     "npm-run-all": "^4.1.5"
   }

@@ -204,20 +204,12 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                     id = toId({ VALUE, STATE, string: id, id: local.id })[0]
                 }
 
+                var keygen = generate()
                 var local = VALUE[id]
                 if (!local) return approval = false
 
-                if (key === 'false' || key === 'undefined') {
-
-                    key = generate()
-                    local[key] = false
-
-                } else if (key === 'true') {
-
-                    key = generate()
-                    local[key] = true
-                }
-
+                if (key === 'false' || key === 'undefined') local[keygen] = false
+                else if (key === 'true') local[keygen] = true
                 else if (key.includes('.')) {
                     
                     var key0 = key.split('.')[0]
@@ -230,11 +222,9 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                         key1 = key1.slice(1)
                     }
 
-                    key = generate()
+                    if (key0 === 'value' || key0 === 'state' || key0 === 'e') {
 
-                    if (key0 === 'value' || key0 === 'state') {
-
-                        var object = clone(local)
+                        var object = key0 === 'value' ? clone(local) : key0 === 'e' && e
     
                         if (key0 === 'state') {
     
@@ -243,7 +233,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
     
                         }
                         
-                        local[key] = key1.reduce((o, k, i) => {
+                        local[keygen] = key1.reduce((o, k, i) => {
 
                             if (o === undefined) return o
                             if ((k === 'key' || k === 'value') && key1[i - 1] === 'entries') return o
@@ -334,69 +324,28 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                         }, object)
                     }
 
-                    else if (key0 === 'e') local[key] = e[key1]
-                    else if (key0 === 'input') {
-
-                        if (key1[0] === 'length') {
-
-                            var length = 0
-                            if (local.input.value) length = local.input.value.length
-                            local[key] = length
-
-                        }
-                    }
-                    else if (key0 === 'data') {
-
-                        var data = derive(STATE[local.Data], [...local.derivations, ...key1])[0]
-                        local[key] = data
-                    }
-                    else if (key0 === 'Data') {
-                        var data = derive(STATE[local.Data], key1)[0]
-                        local[key] = data
-                    }
-                    else if (key0 === 'style') {
-                        var style = local.style[key1]
-                        local[key] = style
-                    }
                     else if (key0 === 'const') {
                         
-                        if (key1[0] === 'false' || key1[0] === 'undefined' || key1[0] === '') local[key] = false
-                        else local[key] = key1.join('')
+                        if (key1[0] === 'false' || key1[0] === 'undefined' || key1[0] === '') local[keygen] = false
+                        else local[keygen] = key1.join('.')
                         
                     }
-                    else if (key0 === 'parent') {
-
-                        if (key1[0] === 'length') {
-                            local[key] = local.parent.element.children.length
-                        } else local[key] = local.parent[key]
-                    }
-                    else if (key0 === 'className') {
-                        local[key] = document.getElementsByClassName(key1)[0]
-                    }
-
-                } else if (key === 'nextSibling') {
-                    local[key] = local.element.nextSibling
 
                 } else if (key === 'isArabic') {
 
-                    key = generate()
                     var result = isArabic(local.type === 'Input' ? local.value : (local.type === 'Text' && local.text))
-                    local[key] = result
-
-                } else if (key === 'data') {
-
-                    key = generate()
-                    local[key] = derive(STATE[local.Data], local.derivations)[0]
+                    local[keygen] = result
 
                 } else if (key === 'duplicates') {
 
                     var data = getParam(`?${params}`, 'data=', false)
-                    local[key] = duplicates({ STATE, VALUE, params: { data }, id })
+                    local[keygen] = duplicates({ STATE, VALUE, params: { data }, id })
 
                 } else if (key === 'overflow') {
 
-                    local[key] = overflow({ VALUE, id })[0]
-                }
+                    local[keygen] = overflow({ VALUE, id })[0]
+                    
+                } else local[keygen] = clone(local[key])
 
                 if (plus) value = value + plus
                 if (minus) value = value - minus
@@ -404,13 +353,15 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 if (division) value = value / division
                 
                 if (!local) return approval = false
-                if (value === undefined) approval = notEqual ? !local[key] : local[key]
+                if (value === undefined) approval = notEqual ? !local[keygen] : local[keygen]
                 else {
                     if (value === 'undefined') value = undefined
                     if (value === 'false') value = false
                     if (value === 'true') value = true
-                    approval = notEqual ? !isEqual(local[key], value) : isEqual(local[key], value)
+                    approval = notEqual ? !isEqual(local[keygen], value) : isEqual(local[keygen], value)
                 }
+
+                delete local[keygen]
 
             } else if (gt && !gte) {
 

@@ -1,7 +1,8 @@
 {
     "file-name": "admin-stays-list",
-    "type": "View?data={}",
-    "actions": "search?state=products-table;query.collection=product;id=products-table",
+    "type": "View?value.Data",
+    "actions": "?state.stay-list-grid-view-display=grid;state.stay-list-table-view-display=none",
+    "controls": { "actions": "search?search.api=stay;search.update=stay-list-view;search.state=stay-list-Data" },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
         "children": [{
@@ -17,7 +18,7 @@
             }, {
                 "type": "Button?text=Add New Stay;icon.name=bi-plus;style.marginRight=1rem",
                 "controls": [{
-                    "actions": "createControls?controls.type=toggle-view;controls.id=admin-view;controls.view=new-product"
+                    "actions": "createControls?controls.type=mini-window;controls.view=stay"
                 }]
             }]
         }]
@@ -26,8 +27,8 @@
         "children": [{
             "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee",
             "children": [{
-                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;search.id=products-table;search.state=products-table;search.query.collection=const.product;search.query.all=const.element.value;placeholder-ar=...إبحث عن الإسم، الصنف، الماركة",
-                "placeholder": "Search by name, city, type, description...",
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem",
+                "placeholder": "Search by hotel name, city, type, description...",
                 "style": {
                     "height": "4rem",
                     "backgroundColor": "#fff",
@@ -35,21 +36,123 @@
                     "color": "#666",
                     "borderRadius": ".75rem",
                     "marginRight": "1rem"
+                },
+                "controls": [{
+                    "event": "keyup>>200??state.stay-list-Data",
+                    "actions": "filter?filter.backup=state.stay.values;filter.path=name.en;filter.Data=stay-list-Data;filter.value=e.target.value;filter.update=global.stay-list-view.1stChild.id<<global.stay-list-view.1stChild.element.style.display=grid;filter.update=global.stay-list-view.2ndChild.2ndChild.id<<global.stay-list-view.2ndChild.element.style.display=grid"
+                }]
+            }, {
+                "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
+                "controls": {
+                    "event": "click??state.stay-list-Data", 
+                    "actions": "sort?sort.path=name.en;sort.Data=stay-list-Data;sort.update=global.stay-list.1stChild.id<<global.stay-list.1stChild.element.style.display=grid;sort.update=global.stay-list.2ndChild.2ndChild.id<<global.stay-list.2ndChild.element.style.display=grid"
                 }
             }, {
-                "type": "Button?text=Filter;icon.name=bi-funnel"
+                "type": "Button?text=Collection;icon.name=bi-ui-checks-grid;droplist.items=[Collections>>readonly]"
             }, {
-                "type": "Button?text=Collection;icon.name=bi-ui-checks-grid"
+                "type": "Button?text=City;icon.name=bi-map;droplist.items=[Syria Cities>>readonly,state.asset.syria-cities.options.name.en]"
             }, {
-                "type": "Button?text=City;icon.name=bi-map;droplist.items=[Cities:readonly,state.category-list.name];search.state=products-admin;search.query.collection=const.product;search.query.category=const.value.data"
+                "type": "Button?text=Stars;icon.name=bi-star;droplist.items=[Stars>>readonly,state.asset.hotel-stars.options.name.en]"
             }, {
-                "type": "Button?text=Stars;icon.name=bi-star;droplist.items=[Stars:readonly,state.brand-list.name]"
-            }, {
-                "type": "Button?text=View;icon.name=bi-list-ul"
+                "type": "Button?text=View;icon.name=bi-list-ul",
+                "controls": {
+                    "event": "click", 
+                    "actions": [
+                        "setStyle::global.stay-list-view.1stChild.id?style.display=none<<global.stay-list-view.1stChild.element.style.display=grid;style.display=grid>>50<<global.stay-list-view.1stChild.element.style.display=none",
+                        "setStyle::global.stay-list-view.2ndChild.id?style.display=none<<global.stay-list-view.2ndChild.element.style.display=grid;style.display=grid>>50<<global.stay-list-view.2ndChild.element.style.display=none",
+                        "?state.stay-list-grid-view-display=global.stay-list-view.1stChild.element.style.display;state.stay-list-table-view-display=global.stay-list-view.2ndChild.element.style.display"
+                    ]
+                }
             }]
         }, {
-            "type": "View?style.padding=1rem;style.width=100%",
-            "children": []
+            "type": "View?id=stay-list-view;style.display=flex;style.flexDirection=column;style.width=100%",
+            "children": [{
+                "type": "View?style.display=state.stay-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
+                "children": [{
+                    "type": "View?class=flex-box;Data=stay-list-Data;data=state.stay-list-Data?state.stay",
+                    "style": {
+                        "borderRadius": ".75rem",
+                        "border": "1px solid #ddd",
+                        "minHeight": "8rem",
+                        "cursor": "pointer",
+                        "transition": "border .1s",
+                        "after": {
+                            "border": "1px solid #ee384e"
+                        }
+                    },
+                    "controls": [{
+                        "actions": "createControls?controls.type=auto-style;controls.id=[value.id,value.1stChild.id]" 
+                    }, {
+                        "actions": "createControls?controls.type=mini-window;controls.view=stay"
+                    }],
+                    "children": [{
+                        "type": "Text?text=value.data.name.en<<value.data.name;style.fontSize=1.3rem;style.after.color=#ee384e;style.transition=color .1s"
+                    }]
+                }]
+            }, {
+                "type": "View?style.display=state.stay-list-table-view-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
+                "children": [{
+                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem",
+                    "children": [{
+                        "type": "View",
+                        "children": [{
+                            "type": "Text?text=Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                            "controls": {
+                                "event": "click", 
+                                "actions": "sort?sort.path=name.en;sort.Data=stay-list-Data;sort.update=value.parent.parent.next.id?state.stay-list-Data"
+                            }
+                        }]
+                    }, {
+                        "type": "View",
+                        "children": [{
+                            "type": "Text?text=City;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                            "controls": {
+                                "event": "click", 
+                                "actions": "sort?sort.path=city.en;sort.Data=stay-list-Data;sort.update=value.parent.parent.next.id?state.stay-list-Data"
+                            }
+                        }]
+                    }, {
+                        "type": "View",
+                        "children": [{
+                            "type": "Text?text=Stars;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                            "controls": {
+                                "event": "click", 
+                                "actions": "sort?sort.path=stars;sort.Data=stay-list-Data;sort.update=value.parent.parent.next.id?state.stay-list-Data"
+                            }
+                        }]
+                    }, {
+                        "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
+                    }]
+                }, {
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
+                    "children": [{
+                        "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;Data=stay-list-Data;data=state.stay-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem?state.stay",
+                        "children": [{
+                            "type": "Text?text=value.data.name.en;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?text=value.data.city.en;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?text=value.data.stars;style.fontSize=1.4rem"
+                        }, {
+                            "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%",
+                            "children": [{
+                                "type": "Icon?class=flex-box;icon.name=bi-three-dots;auto-style;actionlist.placement=left",
+                                "style": {
+                                    "cursor": "pointer",
+                                    "color": "#116dff",
+                                    "fontSize": "2.5rem",
+                                    "height": "4rem",
+                                    "width": "4rem",
+                                    "borderRadius": "4rem",
+                                    "transition": "all 0.2s",
+                                    "marginRight": "1rem",
+                                    "after": { "backgroundColor": "#eee" }
+                                }
+                            }]
+                        }]
+                    }]
+                }]
+            }]
         }]
     }]
 }

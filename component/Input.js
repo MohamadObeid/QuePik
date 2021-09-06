@@ -16,18 +16,13 @@ const Input = (component) => {
     component.input.style = component.input.style || {}
 
     component = toComponent(component)
-    var { input, model, droplist, lang, readonly, style, controls, icon, placeholder, textarea } = component
-    var id = component.id || generate()
+    var { id, input, model, droplist, readonly, style, controls, icon, 
+        placeholder, textarea, filterable, clearable, removable, 
+        duplicatable, lang, unit, currency, google, key } = component
 
-    // for search inputs
-    if (component.search && component.search.query) {
-        component.search.query = toString(component.search)
-        component.searchable = true
-    }
-
-    component.clearable = component.clearable !== undefined ? component.clearable : true
-    component.removable = component.removable !== undefined ? component.removable : true
-    component.duplicatable = component.duplicatable !== undefined ? component.duplicatable : true
+    clearable = clearable !== undefined ? clearable : true
+    removable = removable !== undefined ? removable : true
+    duplicatable = duplicatable !== undefined ? duplicatable : true
     
     if (model === 'classic') {
         return {
@@ -74,7 +69,6 @@ const Input = (component) => {
                 height: '4rem',
                 borderRadius: '0.25rem',
                 border: '0',
-                flexDirection: lang === 'ar' ? 'row-reverse' : 'row',
                 ...style,
             },
             children: [{
@@ -90,14 +84,15 @@ const Input = (component) => {
                     ...(icon.style || {})
                 }
             }, {
-                type: `Input?id=${id}-input;${(component.currency || component.unit) ? `path=amount` : (component.lang || component.google) ? `path=name` : ''};filterable=${component.filterable}`,
+                type: `Input?id=${id}-input;${unit ? `path=amount` :  currency ? `path=${currency}` : lang ? `path=${lang}` : google ? `path=name` : key ? `path=${key}` : ''}`,
                 input,
                 textarea,
                 readonly,
                 droplist,
+                filterable,
                 placeholder,
-                'placeholder-ar': component['placeholer-ar'],
                 templated: true,
+                'placeholder-ar': component['placeholer-ar'],
                 style: {
                     width: '100%',
                     height: '100%',
@@ -110,20 +105,13 @@ const Input = (component) => {
                     color: '#444',
                     transition: 'width 0.2s',
                     outline: 'none',
-                    ...input.style,
+                    ...input.style
                 },
                 controls: [...controls, {
                     actions: 'resizeInput'
                 }, {
-                    event: `keyup??value.data;e.key=Enter;${component.duplicatable};${component.removable}`,
-                    actions: `duplicate::${id}`
-                }, {
-                    event: `input??value.data!=free`,
-                    actions: [
-                        `filter::droplist??${component.filterable};droplist`,
-                        `setData::${id}-language?data=ar?isArabic`,
-                        `search?state=${component.search.state};${component.search.query};id=${component.search.id}?${component.searchable}`
-                    ]
+                    event: `keyup??value.data;e.key=Enter;${duplicatable};${removable}`,
+                    actions: `duplicate::${id}??!value.key::${id}||value.key::${id}!=value.path`
                 }, {
                     event: `input??value.data=free`,
                     actions: `setValue?value.element.value=''`
@@ -135,9 +123,11 @@ const Input = (component) => {
                     actions: 'hideTooltip',
                 }]
             }, {
-                type: `View?class=flex-box`,
+                type: `View?class=flex-box;style.alignSelf=flex-start;style.height=${style.height || '4rem'}`,
                 children: [{
-                    type: `Text?path=currency;id=${id}-currency;droplist.items=[asset.currency.options.name];auto-style?const.${component.currency}`,
+                    type: `Icon?icon.name=bi-caret-down-fill;style.color=#444;style.fontSize=1.2rem;style.width=.5rem;style.marginRight=.5rem?const.${droplist}::${id}-input`
+                }, {
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,>>input];auto-style?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -147,9 +137,8 @@ const Input = (component) => {
                         transition: 'color .2s',
                         after: { color: '#0d6efd' }
                     },
-                    actions: `setData?data=${component.currency}?!value.data`
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=[asset.unit.options.name];auto-style?const.${component.unit}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,asset.currency.options.name.en];auto-style?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -159,9 +148,8 @@ const Input = (component) => {
                         transition: 'color .2s',
                         after: { color: '#0d6efd' }
                     },
-                    actions: `setData?data=${component.unit}?!value.data`
                 }, {
-                    type: `Text?path=lang;id=${id}-language;droplist.items=[asset.language.options.name];auto-style?const.${component.lang}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,asset.unit.options.name.en];auto-style?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -171,11 +159,27 @@ const Input = (component) => {
                         transition: 'color .2s',
                         after: { color: '#0d6efd' }
                     },
-                    actions: `setData?data=${component.lang}?!value.data`,
+                    actions: `setData?data.value=${unit}?!value.data`
                 }, {
-                    type: `Checkbox?class=align-center;path=google;id=${id}-google;style.cursor=pointer;style.margin=0 .5rem?const.${component.google}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.name.en];droplist.lang;auto-style?const.${lang}`,
+                    style: {
+                        fontSize: '1.3rem',
+                        color: '#666',
+                        cursor: 'pointer',
+                        padding: '.5rem',
+                        borderRadius: '.25rem',
+                        transition: 'color .2s',
+                        after: { color: '#0d6efd' }
+                    }
                 }, {
-                    type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;auto-style?${component.clearable}||${component.removable}`,
+                    type: `Checkbox?id=${id}-google;class=align-center;path=google;style.cursor=pointer;style.margin=0 .5rem?const.${google}`,
+                    controls: [{
+                        event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
+                    }]
+                }, {
+                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;droplist.items=[Enter google icon type:>>readonly,[outlined,rounded,sharp,twoTone]];auto-style?const.${google}`,
+                }, {
+                    type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;auto-style?${clearable}||${removable}`,
                     style: {
                         fontSize: '2rem',
                         color: '#444',
@@ -185,8 +189,9 @@ const Input = (component) => {
                     controls: [{
                         event: 'click',
                         actions: [
-                            `remove::${id}??${component.removable};${component.clearable ? `value.length::${id}>1;!value.data::${id}-input` : ''}`,
-                            `removeData;focus>>50;setStyle::${id};setStyle?style.height=${component.style.height || '4rem'}?${component.clearable}?${id}-input`,
+                            `remove::${id}??${removable};${clearable ? `value.length::${id}>1;!value.data::${id}-input` : ''}`,
+                            `removeData;focus>>50??${clearable}?${id}-input`,
+                            `?value.element.innerHTML::${id}-key=value.key::${id}-key;value.path::${id}-input=value.key::${id}-key;value.derivations::${id}-input=[value.derivations::${id},value.key::${id}-key]?value.key::${id}`
                         ]
                     }]
                 }]

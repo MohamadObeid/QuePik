@@ -1,3 +1,5 @@
+const { update } = require('./update')
+
 const sort = ({ VALUE, STATE, params = {}, id }) => {
 
     var local = VALUE[id]
@@ -34,6 +36,8 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
             return b > a ? 1 : 0
         }
     })
+
+    if (sort.update) update({ VALUE, STATE, id: sort.update })
 }
 
 module.exports = {sort}

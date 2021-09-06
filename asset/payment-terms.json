@@ -1,10 +1,5 @@
 {
-  "name": [
-    {
-      "lang": "en",
-      "name": "Payment Terms"
-    }
-  ],
+  "name": { "en": "Payment Terms" },
   "icon": {
     "name": "monetization_on",
     "google": true,
@@ -12,130 +7,109 @@
   },
   "options": [
     {
-      "lang": "en",
       "icon": {},
-      "name": "PIA",
-      "description": "Payment in advance"
+      "name": { "en": "PIA" },
+      "description": { "en": "Payment in advance" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Net 7",
-      "description": "Payment seven days after invoice date"
+      "name": { "en": "Net 7" },
+      "description": { "en": "Payment seven days after invoice date" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Net 10",
-      "description": "Payment ten days after invoice date"
+      "name": { "en": "Net 10" },
+      "description": { "en": "Payment ten days after invoice date" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Net 30",
-      "description": "Payment 30 days after invoice date"
+      "name": { "en": "Net 30" },
+      "description": { "en": "Payment 30 days after invoice date" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Net 60",
-      "description": "Payment 60 days after invoice date"
+      "name": { "en": "Net 60" },
+      "description": { "en": "Payment 60 days after invoice date" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Net 90",
-      "description": "Payment 90 days after invoice date"
+      "name": { "en": "Net 90" },
+      "description": { "en": "Payment 90 days after invoice date" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "EOM",
-      "description": "End of month"
+      "name": { "en": "EOM" },
+      "description": { "en": "End of month" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "21 MFI",
-      "description": "21st of the month following invoice date"
+      "name": { "en": "21 MFI" },
+      "description": { "en": "21st of the month following invoice date" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "1% 10 Net 30",
-      "description": "1% discount if payment received within ten days otherwise payment 30 days after invoice date"
+      "name": { "en": "1% 10 Net 30" },
+      "description": { "en": "1% discount if payment received within ten days otherwise payment 30 days after invoice date" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "COD",
-      "description": "Cash on delivery"
+      "name": { "en": "COD" },
+      "description": { "en": "Cash on delivery" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Cash account",
-      "description": "Account conducted on a cash basis, no credit"
+      "name": { "en": "Cash account" },
+      "description": { "en": "Account conducted on a cash basis, no credit" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Letter of credit",
-      "description": "A documentary credit confirmed by a bank, often used for export"
+      "name": { "en": "Letter of credit" },
+      "description": { "en": "A documentary credit confirmed by a bank, often used for export" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Bill of exchange",
-      "description": "A promise to pay at a later date, usually supported by a bank"
+      "name": { "en": "Bill of exchange" },
+      "description": { "en": "A promise to pay at a later date, usually supported by a bank" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "CND",
-      "description": "Cash next delivery"
+      "name": { "en": "CND" },
+      "description": { "en": "Cash next delivery" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "CBS",
-      "description": "Cash before shipment"
+      "name": { "en": "CBS" },
+      "description": { "en": "Cash before shipment" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "CIA",
-      "description": "Cash in advance"
+      "name": { "en": "CIA" },
+      "description": { "en": "Cash in advance" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "CWO",
-      "description": "Cash with order"
+      "name": { "en": "CWO" },
+      "description": { "en": "Cash with order" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "1MD",
-      "description": "Monthly credit payment of a full month's supply"
+      "name": { "en": "1MD" },
+      "description": { "en": "Monthly credit payment of a full month's supply" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "2MD",
-      "description": "Monthly credit payment of a full month's supply plus an extra calendar month"
+      "name": { "en": "2MD" },
+      "description": { "en": "Monthly credit payment of a full month's supply plus an extra calendar month" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Contra",
-      "description": "Payment from the customer offset against the value of supplies purchased from the customer"
+      "name": { "en": "Contra" },
+      "description": { "en": "Payment from the customer offset against the value of supplies purchased from the customer" }
     },
     {
-      "lang": "en",
       "icon": {},
-      "name": "Stage payment",
-      "description": "Payment of agreed amounts at stage"
+      "name": { "en": "Stage payment" },
+      "description": { "en": "Payment of agreed amounts at stage" }
     }
   ],
   "file-name": "payment-terms"

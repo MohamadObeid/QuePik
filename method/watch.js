@@ -2,7 +2,7 @@ const { generate } = require("./generate")
 const { toBoolean } = require("./toBoolean")
 const { isEqual } = require("./isEqual")
 const { clone } = require("./clone")
-const { toObject } = require("./toObject")
+const { toParam } = require("./toParam")
 const { setData } = require("./data")
 
 const watch = ({ VALUE, STATE, controls, id }) => {
@@ -25,7 +25,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 
         // params
         var params = watch.split('?')[1]
-        if (params) params = toObject({ VALUE, STATE, string: params, id })
+        if (params) params = toParam({ VALUE, STATE, string: params, id })
         else params = {}
 
         var timer = 50
@@ -47,14 +47,14 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 
             if (value) {
 
-                value = toObject({ VALUE, STATE, string: `${key}=${name}`, id })[key]
+                value = toParam({ VALUE, STATE, string: `${key}=${name}`, id })[key]
 
                 if (value !== undefined && !isEqual(value, local[`${name}-watch`])) {
 
                     if (value.nodeType === Node.ELEMENT_NODE) local[`${name}-watch`] = value
                     else local[`${name}-watch`] = clone(value)
 
-                    if (name.split('.')[1] === 'data') setData({ VALUE, STATE, params: { value }, id })
+                    if (name.split('.')[1] === 'data') setData({ VALUE, STATE, params: { data: { value } }, id })
                     if (params.once) clearInterval(local[`${watch}-timer`])
 
                     execute({ VALUE, STATE, controls, id })
