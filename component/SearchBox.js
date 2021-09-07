@@ -66,7 +66,6 @@ const SearchBox = (component) => {
                     }
                 }, {
                     type: `Input?placeholder=${placeholder};input.type=text`,
-                    templated: true,
                     style: {
                         flex: '1',
                         height: '4.5rem',
@@ -81,7 +80,7 @@ const SearchBox = (component) => {
                         actions: 'mountAfterStyles???search-mini-page-overlay;search-mini-page;search-mini-page-results'
                     }, {
                         event: 'input',
-                        actions: 'search?query.collection=all;query.name=input||query.nameEn=input;state=search-input?value.input'
+                        actions: ''
                     }]
                 }]
             }, {
@@ -91,8 +90,10 @@ const SearchBox = (component) => {
                     padding: '0 1rem',
                     transition: '.2s',
                     height: '0',
+                    opacity: '0',
                     after: {
-                        height: '15rem',
+                        opacity: '1',
+                        height: '15rem>>25',
                     }
                 },
                 children: [{

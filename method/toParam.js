@@ -5,6 +5,7 @@ const { toValue } = require("./toValue")
 const toParam = ({ VALUE, STATE, string, e, id }) => {
 
     const { toId } = require("./toId")
+    const { toApproval } = require("./toApproval")
 
     var localId = id
 
@@ -52,6 +53,16 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
             var newId = key.split('::')[1]
             id = toId({ VALUE, STATE, id, string: newId, e })[0]
             key = key.split('::')[0]
+        }
+        
+        // conditions
+        if (key && key.includes('<<')) {
+
+            var condition = key.split('<<')[1]
+            var approved = toApproval({ STATE, VALUE, id, e, string: condition })
+            if (!approved) return
+            key = key.split('<<')[0]
+            
         }
         
         var local = VALUE[id]

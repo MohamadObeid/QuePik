@@ -59,7 +59,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
                 params = toParam({ VALUE, STATE, string: events[1], e, id })
 
                 if (controls.actions) local[`${controls.actions}-timer`] = setTimeout(
-                    () => execute({ VALUE, STATE, controls, e, id }), timer)
+                    () => execute({ VALUE, STATE, controls, e, id: mainID }), timer)
 
             }
 

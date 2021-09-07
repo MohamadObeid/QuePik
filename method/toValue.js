@@ -58,7 +58,6 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
             })
             
             value = value.filter(value => value)
-            console.log(value);
         }
 
 

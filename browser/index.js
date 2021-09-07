@@ -1098,7 +1098,7 @@ const Input = (component) => {
                 }, {
                     type: `Checkbox?id=${id}-google;class=align-center;path=google;style.cursor=pointer;style.margin=0 .5rem?const.${google}`,
                     controls: [{
-                        event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
+                        event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked;state[value.Data][value.derivations::${id}].type.delete<<!e.target.checked`
                     }]
                 }, {
                     type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;droplist.items=[Enter google icon type>>readonly,[Icon type>>readonly,outlined,rounded,sharp,twoTone]];auto-style?const.${google}`,
@@ -1434,7 +1434,6 @@ const SearchBox = (component) => {
                     }
                 }, {
                     type: `Input?placeholder=${placeholder};input.type=text`,
-                    templated: true,
                     style: {
                         flex: '1',
                         height: '4.5rem',
@@ -1449,7 +1448,7 @@ const SearchBox = (component) => {
                         actions: 'mountAfterStyles???search-mini-page-overlay;search-mini-page;search-mini-page-results'
                     }, {
                         event: 'input',
-                        actions: 'search?query.collection=all;query.name=input||query.nameEn=input;state=search-input?value.input'
+                        actions: ''
                     }]
                 }]
             }, {
@@ -1459,8 +1458,10 @@ const SearchBox = (component) => {
                     padding: '0 1rem',
                     transition: '.2s',
                     height: '0',
+                    opacity: '0',
                     after: {
-                        height: '15rem',
+                        opacity: '1',
+                        height: '15rem>>25',
                     }
                 },
                 children: [{
@@ -1598,15 +1599,14 @@ module.exports = ({ params, id }) => {
         event: `click?state.droplist=${controls.id || id}`,
         actions: [
             `resetStyles?break?value.element.style.opacity::droplist=1;global.droplist.positioner=${id}?droplist`,
-            `mountAfterStyles::droplist`,
             `droplist::${controls.id || id}?${controls.path ? `;path=${controls.path}` : ''}`,
-            `setPosition?position.id=droplist;position.positioner=${controls.positioner || `${id}`};position.placement=${controls.placement || 'bottom'};position.distance=${controls.distance}`,
+            `setPosition;mountAfterStyles::droplist?position.id=droplist;position.positioner=${controls.positioner || `${id}`};position.placement=${controls.placement || 'bottom'};position.distance=${controls.distance}`,
             `setStyle?style=JSON.parse(${JSON.stringify(params.style)})?${params.style}?droplist`,
         ]
-    }, {
+    }/*, {
         event: 'Input',
         actions: 'setState?state.droplist-filter=value.input;state.droplist-element=value.element'
-    }]
+    }*/]
 }
 },{}],19:[function(require,module,exports){
 module.exports = ({params}) => ([
@@ -2675,16 +2675,17 @@ const droplist = ({ VALUE, STATE, id }) => {
         return {
             type: `Item?text=${item};readonly=${readonly}`,
             controls: [{
-                event: `click?state[value.Data][value.derivations]=${item}?!readonly;state.droplist=${id}`,
+                event: `click?value.element.${local.type === 'Input' ? 'value' : 'innerHTML'}::${id}=${item};state[value.Data][value.derivations]<<!const.${local.lang}=${item}?!readonly;state.droplist=${id}`,
                 actions: [
-                    `focus::${input_id}?value.element.innerHTML::${id}=${item}?!value.droplist.lang::${id}`,
 
                     // for lang droplist                // setData for new lang                    // delete last lang value from main Data                         // reset derivations for input                                                              // reset path for input                                 // if input lang is different from new lang
-                    `setData;focus::${input_id}?value.element.innerHTML::${id}=${item};data.path=${item};data.value=value.data::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id};value.path::${input_id}!=${item}`,
+                    `setData;focus::${input_id}?data.path=${item};data.value=value.data::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id};value.path::${input_id}!=${item}`,
 
                     // data = free
                     `setData::${input_id}?data.value=free?const.${item}=free`,
-                    `setData::${input_id}?data.value=''?const.${item}!=free;value.data=free`
+                    `setData::${input_id}?data.value=''?const.${item}!=free;value.data=free`,
+                    
+                    `focus::${input_id}`,
                 ]
             }]
         }
@@ -2954,7 +2955,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
                 params = toParam({ VALUE, STATE, string: events[1], e, id })
 
                 if (controls.actions) local[`${controls.actions}-timer`] = setTimeout(
-                    () => execute({ VALUE, STATE, controls, e, id }), timer)
+                    () => execute({ VALUE, STATE, controls, e, id: mainID }), timer)
 
             }
 
@@ -4845,7 +4846,7 @@ const { generate } = require("./generate")
 const toKey = ({ VALUE, STATE, string, e, id }) => {
 
     const { toParam } = require("./toParam")
-    
+
     var keys = []
     keys = string.split('[')
     if (!keys[0]) return string
@@ -4878,6 +4879,7 @@ const { toValue } = require("./toValue")
 const toParam = ({ VALUE, STATE, string, e, id }) => {
 
     const { toId } = require("./toId")
+    const { toApproval } = require("./toApproval")
 
     var localId = id
 
@@ -4925,6 +4927,16 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
             var newId = key.split('::')[1]
             id = toId({ VALUE, STATE, id, string: newId, e })[0]
             key = key.split('::')[0]
+        }
+        
+        // conditions
+        if (key && key.includes('<<')) {
+
+            var condition = key.split('<<')[1]
+            var approved = toApproval({ STATE, VALUE, id, e, string: condition })
+            if (!approved) return
+            key = key.split('<<')[0]
+            
         }
         
         var local = VALUE[id]
@@ -5019,7 +5031,7 @@ function addDays(theDate, days) {
 }
 
 module.exports = {toParam}
-},{"./toArray":71,"./toId":73,"./toKey":74,"./toValue":79}],76:[function(require,module,exports){
+},{"./toApproval":70,"./toArray":71,"./toId":73,"./toKey":74,"./toValue":79}],76:[function(require,module,exports){
 const toString = (object) => {
     if (!object) return ''
 
@@ -5237,7 +5249,6 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
             })
             
             value = value.filter(value => value)
-            console.log(value);
         }
 
 

@@ -173,7 +173,7 @@ const Input = (component) => {
                 }, {
                     type: `Checkbox?id=${id}-google;class=align-center;path=google;style.cursor=pointer;style.margin=0 .5rem?const.${google}`,
                     controls: [{
-                        event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
+                        event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked;state[value.Data][value.derivations::${id}].type.delete<<!e.target.checked`
                     }]
                 }, {
                     type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;droplist.items=[Enter google icon type>>readonly,[Icon type>>readonly,outlined,rounded,sharp,twoTone]];auto-style?const.${google}`,

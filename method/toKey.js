@@ -3,7 +3,7 @@ const { generate } = require("./generate")
 const toKey = ({ VALUE, STATE, string, e, id }) => {
 
     const { toParam } = require("./toParam")
-    
+
     var keys = []
     keys = string.split('[')
     if (!keys[0]) return string

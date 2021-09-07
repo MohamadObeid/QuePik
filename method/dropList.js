@@ -51,16 +51,17 @@ const droplist = ({ VALUE, STATE, id }) => {
         return {
             type: `Item?text=${item};readonly=${readonly}`,
             controls: [{
-                event: `click?state[value.Data][value.derivations]=${item}?!readonly;state.droplist=${id}`,
+                event: `click?value.element.${local.type === 'Input' ? 'value' : 'innerHTML'}::${id}=${item};state[value.Data][value.derivations]<<!const.${local.lang}=${item}?!readonly;state.droplist=${id}`,
                 actions: [
-                    `focus::${input_id}?value.element.innerHTML::${id}=${item}?!value.droplist.lang::${id}`,
 
                     // for lang droplist                // setData for new lang                    // delete last lang value from main Data                         // reset derivations for input                                                              // reset path for input                                 // if input lang is different from new lang
-                    `setData;focus::${input_id}?value.element.innerHTML::${id}=${item};data.path=${item};data.value=value.data::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id};value.path::${input_id}!=${item}`,
+                    `setData;focus::${input_id}?data.path=${item};data.value=value.data::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id};value.path::${input_id}!=${item}`,
 
                     // data = free
                     `setData::${input_id}?data.value=free?const.${item}=free`,
-                    `setData::${input_id}?data.value=''?const.${item}!=free;value.data=free`
+                    `setData::${input_id}?data.value=''?const.${item}!=free;value.data=free`,
+                    
+                    `focus::${input_id}`,
                 ]
             }]
         }
