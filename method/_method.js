@@ -7,7 +7,7 @@ const {isArabic} = require('./isArabic')
 const {isEqual} = require('./isEqual')
 const {merge} = require('./merge')
 const {overflow} = require('./overflow')
-const {toBoolean} = require('./toBoolean')
+const {toApproval} = require('./toApproval')
 const {toComponent} = require('./toComponent')
 const {toId} = require('./toId')
 const {toParam} = require('./toParam')
@@ -56,7 +56,7 @@ const {createData, setData, clearData, removeData} = require('./data')
 const _method = {
     clearValues, clone, derive, duplicate, duplicates, getJsonFiles, search,
     getParam, isArabic, isEqual, merge, overflow, addEventListener, setState,
-    toBoolean, toComponent, toId, toParam, toString, update, execute, removeIds,
+    toApproval, toComponent, toId, toParam, toString, update, execute, removeIds,
     createDocument, toArray, generate, createElement, controls, route, textarea,
     setStyle, resetStyles, toggleStyles, mountAfterStyles, resizeInput, dimensions,
     createData, setData, clearData, removeData, setContent, starter, createComponent,

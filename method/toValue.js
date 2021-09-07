@@ -7,7 +7,7 @@ const { reducer } = require("./reducer")
 const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
     
     const { toParam } = require("./toParam")
-    const { toBoolean } = require("./toBoolean")
+    const { toApproval } = require("./toApproval")
     const { toId } = require("./toId")
 
     var local = VALUE[id], minus, plus, times, division
@@ -25,7 +25,14 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
 
         if (open[0]) {
             open[0] = open[0].split(',')
-            open[0].map(open => open && value.push(toParam({ VALUE, STATE, string: `${k}=${open}`, id, e })[k] ))
+            open[0].map(open => {
+                if (open) {
+                    var flat = open.includes('.flat()')
+                    if (flat) open = open.split('.flat()')[0]
+                    var val = toParam({ VALUE, STATE, string: `${k}=${open}`, id, e })[k]
+                    flat ? value.push(...val) : value.push(val)
+                }
+            })
         }
         
         // an array value
@@ -39,7 +46,14 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
 
                 if (close[1]) {
                     close[1] = close[1].split(',')
-                    close[1].map(close => close && value.push(toParam({ VALUE, STATE, string: `${k}=${close}`, id, e })[k] ))
+                    close[1].map(close => {
+                        if (close) {
+                            var flat = close.includes('.flat()')
+                            if (flat) close = close.split('.flat()')[0]
+                            var val = toParam({ VALUE, STATE, string: `${k}=${close}`, id, e })[k]
+                            flat ? value.push(...val) : value.push(val)
+                        }
+                    })
                 }
             })
             
@@ -66,13 +80,11 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         if (value && value.includes('<<')) {
 
             var condition = value.split('<<')[1]
-            var approved = toBoolean({ STATE, VALUE, id, e, string: condition })
+            var approved = toApproval({ STATE, VALUE, id, e, string: condition })
             if (!approved) return '*return*'
             value = value.split('<<')[0]
             
         }
-        
-        var path = typeof value === 'string' ? value.split('.') : []
         
         // value1 || value2 || value3
         if (value && value.includes('||')) {
@@ -109,6 +121,8 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
             if (!isNaN(division)) division = parseFloat(division)
         }
 
+        var path = typeof value === 'string' ? value.split('.') : []
+        
         /* value */
         if (typeof value === 'boolean') { }
         else if (!isNaN(value)) value = parseFloat(value)
@@ -153,10 +167,12 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
                 value = STATE.encoded[path[1]]
 
             } else if (path[0] === 'generate') {
+
                 if (path[1] === 'capitalize') value = generate().toUpperCase()
                 else value = generate()
 
             } else if (path[path.length - 1] === 'parent') {
+
                 var element = VALUE[path[0]]
                 if (!element) value = path[0]
                 else value = element.parent

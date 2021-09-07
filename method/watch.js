@@ -1,5 +1,5 @@
 const { generate } = require("./generate")
-const { toBoolean } = require("./toBoolean")
+const { toApproval } = require("./toApproval")
 const { isEqual } = require("./isEqual")
 const { clone } = require("./clone")
 const { toParam } = require("./toParam")
@@ -18,7 +18,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 
     // approval
     var conditions = watch.split('?')[2] || true
-    var approved = toBoolean({ VALUE, STATE, string: conditions, id })
+    var approved = toApproval({ VALUE, STATE, string: conditions, id })
     if (!approved) return
 
     names.map(name => {

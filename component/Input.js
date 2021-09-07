@@ -58,7 +58,6 @@ const Input = (component) => {
             type: 'View',
             class: 'flex-box',
             droplist: undefined,
-            controls: { actions: `focus>>50::${id}-input??value.length;value.index=value.length--1` },
             style: {
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -127,7 +126,7 @@ const Input = (component) => {
                 children: [{
                     type: `Icon?icon.name=bi-caret-down-fill;style.color=#444;style.fontSize=1.2rem;style.width=.5rem;style.marginRight=.5rem?const.${droplist}::${id}-input`
                 }, {
-                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,>>input];auto-style?const.${key}`,
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,${key}>>input];auto-style?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -138,7 +137,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,asset.currency.options.name.en];auto-style?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,asset.currency.options.name.en.flat()];auto-style?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -149,7 +148,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,asset.unit.options.name.en];auto-style?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,asset.unit.options.name.en.flat()];auto-style?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -161,7 +160,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data`
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.name.en];droplist.lang;auto-style?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.name.en.flat()];droplist.lang;auto-style?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -177,7 +176,7 @@ const Input = (component) => {
                         event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
-                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;droplist.items=[Enter google icon type:>>readonly,[outlined,rounded,sharp,twoTone]];auto-style?const.${google}`,
+                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;droplist.items=[Enter google icon type>>readonly,[Icon type>>readonly,outlined,rounded,sharp,twoTone]];auto-style?const.${google}`,
                 }, {
                     type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;auto-style?${clearable}||${removable}`,
                     style: {

@@ -7,8 +7,9 @@ const { clone } = require("./clone")
 const { overflow } = require("./overflow")
 const { getParam } = require("./getParam")
 const { toId } = require("./toId")
+const { toValue } = require("./toValue")
 
-const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
+const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
     var mainId = id
 
     if (!string || typeof string !== 'string') return true
@@ -43,7 +44,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                 condition = condition.split('=')
                 var key = condition[0]
                 var value = condition[1]
-
+                
                 // ex: key1=string1=string2=string3
                 if (condition[2]) {
                     condition[1] = condition[1].split('||')
@@ -51,14 +52,14 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                     // ex: key1=value1||key2=value2||key3=value3
                     if (condition[1].length > 1) {
                         condition[2] = condition.slice(2, condition.length).join('=')
-                        approval = toBoolean({ VALUE, STATE, e, string: `${condition[0]}=${condition[1][0]}`, id })
+                        approval = toApproval({ VALUE, STATE, e, string: `${condition[0]}=${condition[1][0]}`, id })
                         if (approval) return
 
                         // approval isn't true yet => keep trying
                         key = condition[1][1]
                         value = condition.slice(2).join('=')
                         string = `${key}=${value}`
-                        return approval = toBoolean({ VALUE, STATE, e, string, id})
+                        return approval = toApproval({ VALUE, STATE, e, string, id})
                     }
 
                     // ex: key=value1=value2=value3
@@ -70,7 +71,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                         if (condition[2].slice(-1) === '!') 
                         condition[2] = condition[2].slice(0, -1)
                         
-                        approval = toBoolean({ VALUE, STATE, e, string: `${key}=${condition[2]}`, id })
+                        approval = toApproval({ VALUE, STATE, e, string: `${key}=${condition[2]}`, id })
                         if (!approval) return
 
                         // approval is true till now => keep going
@@ -92,17 +93,17 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                         if (value[1].includes('=')) {
                             
                             var string = `${key}=${value[0]}`
-                            approval = toBoolean({ VALUE, STATE, e, string, id })
+                            approval = toApproval({ VALUE, STATE, e, string, id })
                             if (approval) return
 
                             string = value.slice(1).join('||')
-                            return approval = toBoolean({ VALUE, STATE, e, string, id })
+                            return approval = toApproval({ VALUE, STATE, e, string, id })
                         }
 
                         // ex: key=value1||value2||value3
                         value[1] = value.slice(1, value.length).join('||')
                         var string = `${key}=${value[1]}`
-                        approval = toBoolean({ VALUE, STATE, e, string, id })
+                        approval = toApproval({ VALUE, STATE, e, string, id })
                         if (approval) return
 
                         // approval isn't true yet => keep trying
@@ -121,7 +122,7 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
 
                         key[1] = key.slice(1, key.length).join('||')
                         var string = `${key[1]}${value ? `=${value}` : ''}`
-                        approval = toBoolean({ VALUE, STATE, e, string, id })
+                        approval = toApproval({ VALUE, STATE, e, string, id })
                         if (approval) return
 
                         // approval isn't true yet => keep trying
@@ -141,56 +142,9 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                     notEqual = true
                 }
 
-                // id
-                if (value && value.includes('::')) {
-
-                    id = value.split('::')[1]
-                    value = value.split('::')[0]
-
-                    // id
-                    id = toId({ VALUE, STATE, string: id, id: local.id })[0]
-
-                }
-
-                var local = VALUE[id]
-                if (!local) return approval = false
-
-                if (value) {
-                    minus = value.split('--')[1]
-                    plus = value.split('++')[1]
-                    times = value.split('**')[1]
-                    division = value.split('÷÷')[1] // hold Alt + 0247
-                }
-
-                if (plus) value = value.split('++')[0]
-                if (minus) value = value.split('--')[0]
-                if (times) value = value.split('**')[0]
-                if (division) value = value.split('÷÷')[0]
-
-                if (value && value.includes('.')) {
-
-                    var value0 = value.split('.')[0]
-                    var value1 = value.split(`${value0}.`)[1]
-
-                    if (value0 === 'state') value = STATE[value1]
-                    else if (value0 === 'value') value = value1.split('.').reduce((o, k) => o[k], local)
-                    else if (value0 === 'className') value = document.getElementsByClassName(value1)[0]
-                    else if (value0 === 'parent') value = local.parent[value1]
-                    else if (value0 === 'window') {
-                        if (value1 === 'element') value = STATE.window
-                        else value = STATE.window[value1]
-                    }
-
-                }
-
-                if (value === 'false') value = false
-                else if (value === 'true') value = true
-                else if (value === 'element') value = local.element
-                else if (value === 'nextSibling') value = local.element.nextSibling
-                else if (value === '[]') value = []
-                else if (value === '[{}]') value = [{}]
-                else if (value === 'string') value = ''
-                else if (value === '{}') value = {}
+                ///////////////////// value /////////////////////
+                
+                if (value) value = toValue({ VALUE, STATE, id: mainId, params: { value }, e })
 
                 ///////////////////// key /////////////////////
 
@@ -387,6 +341,12 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
                     value = condition.split('>')[1]
                 }
 
+                ///////////////////// value /////////////////////
+                
+                value = toValue({ VALUE, STATE, id: mainId, params: { value }, e })
+
+                ///////////////////// key /////////////////////
+
                 // id
                 if (key.includes('::')) {
 
@@ -516,4 +476,4 @@ const toBoolean = ({ STATE, VALUE, e, string, params, id }) => {
     return approval
 }
 
-module.exports = {toBoolean}
+module.exports = {toApproval}

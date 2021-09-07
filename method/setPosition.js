@@ -1,6 +1,7 @@
 const setPosition = ({ VALUE, params, id }) => {
-    var element = VALUE[id].element
     var {position} = params
+
+    var element = (position.positioner && VALUE[position.positioner].element) || VALUE[id].element
     
     if (!VALUE[position.id]) return
     var list = VALUE[position.id].element

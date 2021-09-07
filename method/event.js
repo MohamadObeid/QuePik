@@ -1,8 +1,9 @@
 
-const { toBoolean } = require('./toBoolean')
+const { toApproval } = require('./toApproval')
 const { toId } = require('./toId')
 const { getParam } = require('./getParam')
 const { toParam } = require('./toParam')
+const { clone } = require('./clone')
 
 const events = ['click', 'mouseenter', 'mouseleave', 'mousedown', 'mouseup', 'touchstart', 'touchend']
 
@@ -11,12 +12,11 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
     const { execute } = require('./execute')
 
     var local = VALUE[id]
+    var mainID = local.id
 
     var events = controls.event.split('?')
-    var idList = events[3]
     var once = getParam(controls.event, 'once', false)
-    
-    idList = toId({ VALUE, STATE, id, string: idList })
+    var _idList = toId({ VALUE, STATE, id, string: events[3] })
 
     events = events[0].split(';')
 
@@ -27,6 +27,9 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
         // action::id
         var eventid = event.split('::')[1]
         if (eventid) idList = toId({ VALUE, STATE, id, string: eventid })
+        else idList = clone(_idList)
+
+        // event
         event = event.split('::')[0]
 
         // action>>timer
@@ -38,19 +41,19 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
         // add event listener
         idList.map(id => {
 
-            var body = id === 'body'
             var myFn = (e) => {
 
-                var events = controls.event.split('?')
+                var local = VALUE[id]
                 clearTimeout(local[`${controls.actions || controls.event}-timer`])
                 
-                if (body) id = local.id
+                var events = controls.event.split('?')
                 
                 // VALUE[id] doesnot exist
                 if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
                 
                 // approval
-                if (!toBoolean({ VALUE, STATE, string: events[2], e, id })) return
+                var approved = toApproval({ VALUE, STATE, string: events[2], e, id })
+                if (!approved) return
 
                 // params
                 params = toParam({ VALUE, STATE, string: events[1], e, id })
@@ -58,11 +61,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
                 if (controls.actions) local[`${controls.actions}-timer`] = setTimeout(
                     () => execute({ VALUE, STATE, controls, e, id }), timer)
 
-
             }
-
-            // body || window
-            if (id === 'body' || id === 'window') return document.body.addEventListener(event, myFn, { once })
 
             // onload event
             if (event === 'load') return myFn({ target: VALUE[id].element })

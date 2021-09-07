@@ -1,6 +1,6 @@
 const { generate } = require("./generate")
 const { toParam } = require("./toParam")
-const { toBoolean } = require("./toBoolean")
+const { toApproval } = require("./toApproval")
 const { override } = require("./merge")
 const { clone } = require("./clone")
 const { derive } = require("./derive")
@@ -52,7 +52,7 @@ const createElement = ({ STATE, VALUE, id }) => {
     /////////////////// approval & params /////////////////////
     
     // approval
-    var approved = toBoolean({ VALUE, STATE, string: conditions, id })
+    var approved = toApproval({ VALUE, STATE, string: conditions, id })
     if (!approved) return
     
     // push destructured params from type to local
@@ -143,7 +143,7 @@ const createElement = ({ STATE, VALUE, id }) => {
     
     // data (turnoff is do not mount data)
     var data, isArray, derivations = clone(local.derivations)
-    if (parent.turnOff) { data = ''; local.turnOff = true }                                // params cz local.data is inherited from parent which is not default
+    if (parent.turnOff) { data = local.data || ''; local.turnOff = true }                                // params cz local.data is inherited from parent which is not default
     else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, clone(params.data), true) }
     
     if (isArray) {

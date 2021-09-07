@@ -1,6 +1,6 @@
 const { clone } = require("./clone")
 const { generate } = require("./generate")
-const { toBoolean } = require("./toBoolean")
+const { toApproval } = require("./toApproval")
 const { toParam } = require("./toParam")
 
 const _component = require("../component/_component")
@@ -22,7 +22,7 @@ module.exports = {
         local.type = type
         
         // approval
-        var approved = toBoolean({ VALUE, STATE, string: conditions, id })
+        var approved = toApproval({ VALUE, STATE, string: conditions, id })
         if (!approved) return
         
         // push destructured params from type to local

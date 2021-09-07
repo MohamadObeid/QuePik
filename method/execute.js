@@ -1,5 +1,5 @@
 
-const { toBoolean } = require("./toBoolean")
+const { toApproval } = require("./toApproval")
 const { toArray } = require("./toArray")
 const { toParam } = require("./toParam")
 const { getParam } = require("./getParam")
@@ -12,12 +12,16 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
     var local = VALUE[id]
     if (!local) return
     if (controls) actions = controls.actions
+    local.break = false
 
     // execute actions
-    toArray(actions).map(action => {
-        
+    toArray(actions).map(_action => {
+
+        // stop after actions
+        if (local.break) return
+
         var approved = true
-        var actions = action.split('?')
+        var actions = _action.split('?')
         var params = actions[1]
         var conditions = actions[2]
         var idList = actions[3]
@@ -33,14 +37,19 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
             var timer = name.split('>>')[1] || 0
             name = name.split('>>')[0]
 
-            // reset
-            var reset = getParam(action, 'reset', false)
-            if (reset) clearTimeout(local[`${name}-timer`])
+            // approval => note: essential for break::do no remove
+            approved = toApproval({ VALUE, STATE, string: conditions, params, id })
+            if (!approved) return
 
+            // reset
+            var reset = getParam(_action, 'reset', false)
+            local.break = getParam(_action, 'break', false)
+            if (reset) clearTimeout(local[`${name}-timer`])
+            
             const myFn = () => {
 
                 // approval
-                approved = toBoolean({ VALUE, STATE, string: conditions, params, id })
+                approved = toApproval({ VALUE, STATE, string: conditions, params, id })
                 if (!approved) return
 
                 // params

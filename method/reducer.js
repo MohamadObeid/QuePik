@@ -84,9 +84,14 @@ const reducer = ({ VALUE, STATE, id, params: { path, object } }) => {
             
             answer = Object.values(o)
 
+        } else if (k === 'length' && !local.length && i === 0) {
+            
+            answer = VALUE[local.parent].element.children.length
+
         } else answer = o[k]
         
-        if (Array.isArray(o) && isNaN(k) && !answer) {
+        // create an inner reducer
+        if (Array.isArray(o) && isNaN(k) && answer === undefined) {
 
             var keys = path.slice(i - path.length)
 
