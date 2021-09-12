@@ -7,5 +7,6 @@ const {Header} = require('./Header')
 const {Switch} = require('./Switch')
 const {SearchBox} = require('./SearchBox')
 const {Checkbox} = require('./Checkbox')
+const {Rate} = require('./Rate')
 
-module.exports = { Input, Button, Item, List, Upload, Header, Switch, SearchBox, Checkbox }
+module.exports = { Input, Button, Item, List, Upload, Header, Switch, SearchBox, Checkbox, Rate }

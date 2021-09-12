@@ -17,7 +17,7 @@ const Switch = (component) => {
         }, {
             type: 'View?class=knobs',
             children: {
-                type: 'Span'
+                type: 'Text?span'
             }
         }]
     }

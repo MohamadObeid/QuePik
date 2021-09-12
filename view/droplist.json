@@ -13,7 +13,7 @@
         "overflowY": "auto",
         "borderRadius": "0.5rem",
         "backgroundColor": "#fff",
-        "transition": "opacity 0.1s, transform 0.1s, max-height 0.2s, top 0.1s",
+        "transition": "opacity 0.1s, transform 0.1s, max-height 0.2s",
         "pointerEvents": "none",
         "zIndex": "-1",
         "after": {
@@ -25,6 +25,6 @@
     },
     "controls": [{
         "event": "mouseleave;click::body??e.target.id!=state.droplist;state.droplist",
-        "actions": "resetStyles>>200?state.droplist.delete?!mouseenter"
+        "actions": "resetStyles>>200;blur>>200?state.droplist.delete?!mouseenter;e.target.id!=state.droplist"
     }]
 }

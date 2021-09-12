@@ -10,7 +10,7 @@ const derive = (data, keys, fullDerivation, defaultData, writable) => {
     derivedData = keys.reduce((o, k, i) => {
         if (isArray) return o
 
-        if (k === 'merge') return merge(o)
+        if (k === 'merge()') return merge(o)
 
         // path doesnot exist => create path
         if (writable && typeof o[k] !== 'object') {
@@ -22,9 +22,10 @@ const derive = (data, keys, fullDerivation, defaultData, writable) => {
 
             else if (i === keys.length - 1) {
 
-                if (defaultData || defaultData === 0) {
-                    if (!o[k]) o[k] = defaultData
-                } else if (Array.isArray(o) && isNaN(k)) {
+                if (defaultData || defaultData === 0) o[k] = defaultData
+
+                else if (Array.isArray(o) && isNaN(k)) {
+
                     if (o.length === 0) {
                         o.push({})
                         keys.splice(i, 0, 0)

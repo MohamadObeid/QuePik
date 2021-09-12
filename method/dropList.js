@@ -2,13 +2,16 @@ const { update } = require('./update')
 const { filter } = require('./filter')
 const { clone } = require('./clone')
 const { derive } = require('./derive')
+const { generate } = require('./generate')
+const { toParam } = require('./toParam')
 
-const droplist = ({ VALUE, STATE, id }) => {
+const droplist = ({ VALUE, STATE, id, e }) => {
 
     var local = VALUE[id]
     if (!local) return
     
     var dropList = VALUE['droplist']
+    var isInput = local.type === 'Input' || local.type === 'Textarea'
 
     // items
     var items = clone(local.droplist.items) || []
@@ -22,7 +25,24 @@ const droplist = ({ VALUE, STATE, id }) => {
     var input_id
     if (local.lang || local.unit || local.currency || local.key) input_id = VALUE[local.parent].element.previousSibling.id
     
+    // dynamic item
+    var flat
+    items = items.map(item => {
+        if (typeof item === 'string' && item.split('.')[1]) {
+
+            var k = generate()
+            flat = item.includes('.flat()')
+            item = toParam({ VALUE, STATE, id, string: `${k}=${item}`, e })[k]
+            return item
+
+        } return item
+    })
+    if (flat) items = items.flat()
+
+
     items = items.filter(item => item)
+    var parent = VALUE[local.parent].parent
+    
     if (items.length > 0) dropList.children = clone(items).map(item => {
         
         var readonly = false, input = false, droplist
@@ -41,7 +61,7 @@ const droplist = ({ VALUE, STATE, id }) => {
         
         if (input && !readonly) {
             return {
-                type: `Input?${droplist ? `featured;readonly;droplist.items=[${item}];droplist.positioner=${dropList.positioner};data=${derive(STATE[dropList.Data], dropList.derivations)[0]}` : `input.value=${item}`};style.backgroundColor=#f0f0f0`,
+                type: `Input?featured;clearable;${local.key ? `edit=${parent};` : ''}${droplist ? `readonly;droplist.items=[${item}];droplist.positioner=${dropList.positioner};data=${derive(STATE[local.Data], local.derivations)[0]};` : ''}${local.key ? `input.value=value.path::${input_id};` : `input.value=${item};`}style.backgroundColor=#f0f0f0`,
                 controls: [!droplist ? {
                     event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${VALUE[input_id].derivations.slice(0, -1).join(',')},e.target.value||${local.key}];state[value.Data][value.derivations::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?value.key::${id};value.path::${input_id}!=e.target.value`
                 }: {}]
@@ -51,7 +71,7 @@ const droplist = ({ VALUE, STATE, id }) => {
         return {
             type: `Item?text=${item};readonly=${readonly}`,
             controls: [{
-                event: `click?value.element.${local.type === 'Input' ? 'value' : 'innerHTML'}::${id}=${item};state[value.Data][value.derivations]<<!const.${local.lang}=${item}?!readonly;state.droplist=${id}`,
+                event: `click?value.element.${isInput ? 'value' : 'innerHTML'}::${id}=${item};state[value.Data][value.derivations]<<!const.${local.lang}=${item}?!readonly;state.droplist=${id}`,
                 actions: [
 
                     // for lang droplist                // setData for new lang                    // delete last lang value from main Data                         // reset derivations for input                                                              // reset path for input                                 // if input lang is different from new lang
@@ -68,7 +88,8 @@ const droplist = ({ VALUE, STATE, id }) => {
     })
     
     dropList.positioner = id
-    dropList.turnOff = true
+    dropList.turnoff = true
+    
     update({ VALUE, STATE, id: 'droplist' })
 
     

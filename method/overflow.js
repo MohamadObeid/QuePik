@@ -5,7 +5,7 @@ const overflow = ({ VALUE, params, id }) => {
     var height = local.element.clientHeight
     var text
 
-    if (local.type === 'Input' || local.type === 'TextInput') text = local.element.value
+    if (local.type === 'Input' || local.type === 'Textarea') text = local.element.value
     else if (local.type === 'Text' || local.type === 'Label' || local.type === 'Header') text = local.element.innerHTML
     else if (local.type === 'UploadInput') text = local.element.value
 

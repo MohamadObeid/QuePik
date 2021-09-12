@@ -57,9 +57,10 @@ const createElement = ({ STATE, VALUE, id }) => {
     
     // push destructured params from type to local
     if (params) {
+
         params = toParam({ VALUE, STATE, string: params, id })
         Object.entries(params).map(([k, v]) => local[k] = v )
-
+        
         if (params.id) {
 
             delete Object.assign(VALUE, { [params.id]: VALUE[id] })[id]
@@ -85,32 +86,11 @@ const createElement = ({ STATE, VALUE, id }) => {
         parent.toChildren = toParam({ VALUE, STATE, string: parent.toChildren, id })
         local = override(local, parent.toChildren)
     }
-    
-    // icon
-    if (local.type === 'Icon') {
-        local.icon.name = local.icon.name || ''
-        if (local.icon.google) local.google = true
-
-        if (local.icon.outlined || local.icon.type === 'outlined') local.outlined = true
-        else if (local.icon.rounded || local.icon.type === 'rounded') local.rounded = true
-        else if (local.icon.sharp || local.icon.type === 'sharp') local.sharp = true
-        else if (local.icon.twoTone || local.icon.type === 'twoTone') local.twoTone = true
-    }
 
     if (local.duplicating) {
 
         delete local.path
         delete local.data
-    }
-
-    // textarea
-    if (local.textarea && !local.templated) {
-        local.style = local.style || {}
-        local.input = local.input || {}
-        local.input.style = local.input.style || {}
-        local.input.style.height = 'fit-content'
-        local.style.minHeight = '4rem',
-        local.input.style.minHeight = '2.5rem'
     }
 
     // path
@@ -143,7 +123,7 @@ const createElement = ({ STATE, VALUE, id }) => {
     
     // data (turnoff is do not mount data)
     var data, isArray, derivations = clone(local.derivations)
-    if (parent.turnOff) { data = local.data || ''; local.turnOff = true }                                // params cz local.data is inherited from parent which is not default
+    if (parent.turnoff || local.turnoff) { data = local.data || ''; local.turnoff = true }                                // params cz local.data is inherited from parent which is not default
     else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, clone(params.data), true) }
     
     if (isArray) {

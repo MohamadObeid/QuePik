@@ -1,6 +1,4 @@
-const { toString } = require('../method/toString')
 const { toComponent } = require('../method/toComponent')
-const { generate } = require('../method/generate')
 
 const Input = (component) => {
 
@@ -17,12 +15,23 @@ const Input = (component) => {
 
     component = toComponent(component)
     var { id, input, model, droplist, readonly, style, controls, icon, 
-        placeholder, textarea, filterable, clearable, removable, 
-        duplicatable, lang, unit, currency, google, key } = component
+        placeholder, textarea, filterable, clearable, removable, msg,
+        duplicatable, lang, unit, currency, google, key, note, edit } = component
 
-    clearable = clearable !== undefined ? clearable : true
-    removable = removable !== undefined ? removable : true
-    duplicatable = duplicatable !== undefined ? duplicatable : true
+    duplicatable = duplicatable !== undefined ? (duplicatable === false ? false : true) : false
+    clearable = clearable !== undefined ? (clearable === false ? false : true) : false
+    removable = removable !== undefined ? (removable === false ? false : true) : false
+    if (duplicatable) removable = true
+
+    // upload input styles
+    var uploadInputStyle = input.type === 'file'
+    ? {
+        position: 'absolute',
+        left: '0',
+        top: '0',
+        opacity: '0',
+        cursor: 'pointer',
+    } : {}
     
     if (model === 'classic') {
         return {
@@ -39,14 +48,7 @@ const Input = (component) => {
                 ...input.style,
                 ...style,
             },
-            controls: [...controls,
-            {
-                event: 'mouseenter??overflow',
-                actions: 'showTooltip?tooltip=value.data;placement=top?value.data',
-            }, {
-                event: 'mouseleave',
-                actions: 'hideTooltip',
-            }]
+            controls,
         }
     }
     
@@ -57,6 +59,8 @@ const Input = (component) => {
             id,
             type: 'View',
             class: 'flex-box',
+            // remove from comp
+            controls: {},
             droplist: undefined,
             style: {
                 display: 'inline-flex',
@@ -67,20 +71,31 @@ const Input = (component) => {
                 backgroundColor: '#fff',
                 height: '4rem',
                 borderRadius: '0.25rem',
-                border: '0',
+                transition: '0.2s',
+                overflow: 'hidden',
+                border: input.type === 'file' ? '1px dashed #ccc' : '0',
                 ...style,
             },
             children: [{
                 icon,
                 type: `Icon?id=${id}-icon?const.${icon.name}`,
                 style: {
-                    color: '#444',
                     fontSize: '1.6rem',
                     marginLeft: '1rem',
                     marginRight: '.5rem',
                     display: 'flex',
                     alignItems: 'center',
                     ...(icon.style || {})
+                }
+            }, {
+                type: `Text?id=${id}-msg;msg=${msg};text=${msg}?const.${msg}`,
+                style: {
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                    fontSize: '1.3rem',
+                    position: 'absolute',
+                    maxWidth: '95%',
                 }
             }, {
                 type: `Input?id=${id}-input;${unit ? `path=amount` :  currency ? `path=${currency}` : lang ? `path=${lang}` : google ? `path=name` : key ? `path=${key}` : ''}`,
@@ -104,34 +119,30 @@ const Input = (component) => {
                     color: '#444',
                     transition: 'width 0.2s',
                     outline: 'none',
+                    ...uploadInputStyle,
                     ...input.style
                 },
                 controls: [...controls, {
                     actions: 'resizeInput'
                 }, {
-                    event: `keyup??value.data;e.key=Enter;${duplicatable};${removable}`,
-                    actions: `duplicate::${id}??!value.key::${id}||value.key::${id}!=value.path`
+                    event: `keyup??value.data;e.key=Enter;${duplicatable}`,
+                    actions: `duplicate::${id}`
                 }, {
-                    event: `input??value.data=free`,
-                    actions: `setValue?value.element.value=''`
-                }, {
-                    event: 'mouseenter??overflow',
-                    actions: 'showTooltip?tooltip=value.data;placement=top?value.data',
-                }, {
-                    event: 'mouseleave',
-                    actions: 'hideTooltip',
+                    event: `input?value.element.value=''?value.data=free`,
                 }]
             }, {
-                type: `View?class=flex-box;style.alignSelf=flex-start;style.height=${style.height || '4rem'}`,
+                type: `View?class=flex-box;style.alignSelf=flex-start;style.minWidth=fit-content;style.height=${style.height || '4rem'}`,
                 children: [{
-                    type: `Icon?icon.name=bi-caret-down-fill;style.color=#444;style.fontSize=1.2rem;style.width=.5rem;style.marginRight=.5rem?const.${droplist}::${id}-input`
+                    type: `Icon?icon.name=bi-caret-down-fill;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem?const.${droplist}::${id}-input`
+                }, {
+                    type: `Text?text=${note};style.color=#666;style.fontSize=1.3rem;style.padding=.5rem?const.${note}`
                 }, {
                     type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,${key}>>input];auto-style?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
                         cursor: 'pointer',
-                        padding: '.5rem',
+                        padding: '.25rem',
                         borderRadius: '.25rem',
                         transition: 'color .2s',
                         after: { color: '#0d6efd' }
@@ -142,7 +153,7 @@ const Input = (component) => {
                         fontSize: '1.3rem',
                         color: '#666',
                         cursor: 'pointer',
-                        padding: '.5rem',
+                        padding: '.25rem',
                         borderRadius: '.25rem',
                         transition: 'color .2s',
                         after: { color: '#0d6efd' }
@@ -153,7 +164,7 @@ const Input = (component) => {
                         fontSize: '1.3rem',
                         color: '#666',
                         cursor: 'pointer',
-                        padding: '.5rem',
+                        padding: '.25rem',
                         borderRadius: '.25rem',
                         transition: 'color .2s',
                         after: { color: '#0d6efd' }
@@ -165,15 +176,15 @@ const Input = (component) => {
                         fontSize: '1.3rem',
                         color: '#666',
                         cursor: 'pointer',
-                        padding: '.5rem',
+                        padding: '.25rem',
                         borderRadius: '.25rem',
                         transition: 'color .2s',
                         after: { color: '#0d6efd' }
                     }
                 }, {
-                    type: `Checkbox?id=${id}-google;class=align-center;path=google;style.cursor=pointer;style.margin=0 .5rem?const.${google}`,
+                    type: `Checkbox?id=${id}-google;class=align-center;path=google;style.cursor=pointer;style.margin=0 .25rem?const.${google}`,
                     controls: [{
-                        event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked;state[value.Data][value.derivations::${id}].type.delete<<!e.target.checked`
+                        event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
                     type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;droplist.items=[Enter google icon type>>readonly,[Icon type>>readonly,outlined,rounded,sharp,twoTone]];auto-style?const.${google}`,
@@ -181,6 +192,7 @@ const Input = (component) => {
                     type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;auto-style?${clearable}||${removable}`,
                     style: {
                         fontSize: '2rem',
+                        padding: '.25rem',
                         color: '#444',
                         cursor: 'pointer',
                         after: { color: 'red' }
@@ -188,9 +200,12 @@ const Input = (component) => {
                     controls: [{
                         event: 'click',
                         actions: [
+                            // remove element
                             `remove::${id}??${removable};${clearable ? `value.length::${id}>1;!value.data::${id}-input` : ''}`,
+                            // clear data
                             `removeData;focus>>50??${clearable}?${id}-input`,
-                            `?value.element.innerHTML::${id}-key=value.key::${id}-key;value.path::${id}-input=value.key::${id}-key;value.derivations::${id}-input=[value.derivations::${id},value.key::${id}-key]?value.key::${id}`
+                            // for key
+                            `focus::${id}-input?value.element.value::${id}-input='';value.element.innerHTML::${edit}-key=value.key::${edit}-key;value.path::${edit}-input=value.key::${edit}-key;value.derivations::${edit}-input=[value.derivations::${edit},value.key::${edit}-key];state[value.Data][value.derivations::${edit}-input]=value.element.value::${edit}-input?const.${edit}`
                         ]
                     }]
                 }]

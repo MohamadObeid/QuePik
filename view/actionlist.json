@@ -6,21 +6,13 @@
             "actions": "createControls?controls.type=mini-window;controls.view=asset"
         }
     }, {
-        "type": "Item?text=Hide;icon.name=visibility_off;id=action-list-hide",
-        "actions": [
-            "setValue?value.element.innerHTML=Show?value.data.hidden=false",
-            "setValue?value.element.innerHTML=Hide?value.data.hidden=true"
-        ],
+        "type": "Item?text=Show;text=Hide<<!value.data.hidden;icon.name=visibility_off;id=action-list-hide",
         "tooltip": "Hide from store?maxWidth=25rem"
     }, {
         "type": "Item?text=Duplicate;icon.name=file_copy;id=action-list-duplicate",
         "tooltip": "Create a copy of the item?maxWidth=25rem"
     }, {
-        "type": "Item?text=Archive;icon.name=archive;id=action-list-archive",
-        "actions": [
-            "setValue?value.element.innerHTML=Archive?value.data.archived=false",
-            "setValue?value.element.innerHTML=Unarchive?value.data.archived=true"
-        ],
+        "type": "Item?text=Archive;text=Unarchive<<value.data.archived;icon.name=archive;id=action-list-archive",
         "tooltip": "Hide from both store and list?maxWidth=25rem"
     }, {
         "type": "Item?text=Delete;icon.name=delete;id=action-list-delete",

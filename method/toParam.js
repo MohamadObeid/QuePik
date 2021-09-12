@@ -1,6 +1,7 @@
 const { toKey } = require("./toKey")
 const { toArray } = require("./toArray")
 const { toValue } = require("./toValue")
+const { clone } = require("./clone")
 
 const toParam = ({ VALUE, STATE, string, e, id }) => {
 
@@ -36,7 +37,7 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
         }
 
         value = toValue({ VALUE, STATE, id, e, params: { value, params } })
-
+        
         // condition not approved
         if (value === '*return*') return
         
@@ -53,6 +54,7 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
             var newId = key.split('::')[1]
             id = toId({ VALUE, STATE, id, string: newId, e })[0]
             key = key.split('::')[0]
+            
         }
         
         // conditions
@@ -73,26 +75,19 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
         // object structure
         if (keys && keys.length > 1) {
             
-            // mount state & value without using setState & setValue
+            // mount state & value without using setState & setData
             if (keys[0] === 'state' || keys[0] === 'value') {
                 
                 var object = keys[0] === 'state' ? STATE : (keys[0] === 'value' && local)
                 var keys = keys.slice(1)
                 var breakRequest
                 var length = keys.length - 1
-
+                
                 keys.reduce((o, k, i) => {
                     
+                    // break method
                     if (breakRequest) return
-                    if (i === keys.length - 1) {
-                        
-                        return o[k] = value
 
-                    } if ( i === length - 1 && keys[length] === 'delete') { // last key = delete
-                        
-                        breakRequest = true
-                        return delete o[k]
-                    }
 
                     // no element
                     if (k === 'element' && !o[k]) {
@@ -103,6 +98,24 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
                             event: `load?${key}=JSON.parse(${JSON.stringify(value)})`
                         })
                         
+                    }
+                    
+                    if (i === length) o[k] = value
+
+                    else if ( i === length - 1 ) {
+
+                        // last key = delete
+                        if (keys[length] === 'delete') {
+                        
+                            breakRequest = true
+                            return delete o[k]
+                        }
+
+                        else if (!o[k]) {
+                            
+                            if (!isNaN(keys[i + 1])) o[k] = []
+                            else o[k] = {}
+                        }
                     }
                     
                     return o[k]

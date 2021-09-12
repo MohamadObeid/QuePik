@@ -1,7 +1,6 @@
 {
     "file-name": "admin-stays-list",
-    "type": "View?value.Data",
-    "actions": "?state.stay-list-grid-view-display=grid;state.stay-list-table-view-display=none",
+    "type": "View?Data;state.stay-list-grid-view-display=grid;state.stay-list-table-view-display=none",
     "controls": { "actions": "search?search.api=stay;search.update=stay-list-view;search.state=stay-list-Data" },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
@@ -50,9 +49,11 @@
             }, {
                 "type": "Button?text=Collection;icon.name=bi-ui-checks-grid;droplist.items=[Collections>>readonly]"
             }, {
-                "type": "Button?text=City;icon.name=bi-map;droplist.items=[Syria Cities>>readonly,state.asset.syria-cities.options.name.en]"
+                "type": "Button?text=Country;icon.name=bi-flag;droplist.items=[Countries>>readonly,state.asset.country.options.name.en.flat()]"
             }, {
-                "type": "Button?text=Stars;icon.name=bi-star;droplist.items=[Stars>>readonly,state.asset.hotel-stars.options.name.en]"
+                "type": "Button?text=City;icon.name=bi-map;droplist.items=[Syria Cities>>readonly,state.asset[state[value.Data++-options].filter.country.toLowerCase()<<state[value.Data++-options]||syria].options.name.en.flat()]"
+            }, {
+                "type": "Button?text=Stars;icon.name=bi-star;droplist.items=[Stars>>readonly,state.asset.hotel-stars.options.name.en.flat()]"
             }, {
                 "type": "Button?text=View;icon.name=bi-list-ul",
                 "controls": {
@@ -128,9 +129,9 @@
                     "children": [{
                         "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;Data=stay-list-Data;data=state.stay-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem?state.stay",
                         "children": [{
-                            "type": "Text?text=value.data.name.en;style.fontSize=1.4rem"
+                            "type": "Text?text=value.data.name.en<<value.data.name;style.fontSize=1.4rem"
                         }, {
-                            "type": "Text?text=value.data.city.en;style.fontSize=1.4rem"
+                            "type": "Text?text=value.data.city.en<<value.data.city;style.fontSize=1.4rem"
                         }, {
                             "type": "Text?text=value.data.stars;style.fontSize=1.4rem"
                         }, {

@@ -1,23 +1,49 @@
-const {resizeInput} = require('./resize')
+const {resizeInput, dimensions} = require('./resize')
 
-const setStyle = ({ VALUE, params, id }) => {
+const setStyle = ({ VALUE, params = {}, id }) => {
 
     var local = VALUE[id]
     if (!local) return
-    
+
     if (!local.style) local.style = {}
+    if (!params.style) params.style = {}
     
     Object.entries(params.style).map(([key, value]) => {
 
+        if (key === 'after') return
         var timer = 0
+        if (value || value === 0) value = value + ''
 
-        if ((value + '').includes('>>')) {
-            value = value + ''
+        if (value && value.includes('>>')) {
             timer = value.split('>>')[1]
             value = value.split('>>')[0]
         }
 
         var style = () => {
+
+            // value = width || height
+            if (value) {
+                if (value.includes('width')) {
+
+                    var divide = value.split('/')[1]
+                    var multiply = value.split('*')[1]
+                    value = dimensions({ VALUE, id }).width
+                    if (divide) value = value / divide
+                    if (multiply) value = value * multiply
+
+                    value += 'px'
+
+                } else if (value.includes('height')) {
+
+                    var divide = value.split('/')[1]
+                    var multiply = value.split('*')[1]
+                    value = dimensions({ VALUE, id }).height
+                    if (divide) value = value / divide
+                    if (multiply) value = value * multiply
+
+                    value += 'px'
+                }
+            }
 
             //VAR.style[key] = value
             if (local.element) local.element.style[key] = value

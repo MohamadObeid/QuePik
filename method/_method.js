@@ -29,7 +29,6 @@ const {setPosition} = require('./setPosition')
 const {droplist} = require('./droplist')
 const {createView} = require('./createView')
 const {filter} = require('./filter')
-const {setValue} = require('./setValue')
 const {remove} = require('./remove')
 const {focus} = require('./focus')
 const {sort} = require('./sort')
@@ -47,11 +46,13 @@ const {preventDefault} = require('./preventDefault')
 const {createComponent} = require('./createComponent')
 const {getJsonFiles} = require("./getJsonFiles")
 const {toTag} = require("./toTag")
+const {setData} = require("./setData")
 const {defaultInputHandler} = require('./defaultInputHandler')
 const {createActions} = require('./createActions')
+const {blur} = require('./blur')
 const {setStyle, resetStyles, toggleStyles, mountAfterStyles} = require('./style')
 const {resizeInput, dimensions} = require('./resize')
-const {createData, setData, clearData, removeData} = require('./data')
+const {createData, clearData, removeData} = require('./data')
 
 const _method = {
     clearValues, clone, derive, duplicate, duplicates, getJsonFiles, search,
@@ -60,7 +61,7 @@ const _method = {
     createDocument, toArray, generate, createElement, controls, route, textarea,
     setStyle, resetStyles, toggleStyles, mountAfterStyles, resizeInput, dimensions,
     createData, setData, clearData, removeData, setContent, starter, createComponent,
-    setPosition, droplist, filter, setValue, createView, createActions, flicker,
+    setPosition, droplist, filter, createView, createActions, flicker, blur,
     createControls, remove, defaultInputHandler, focus, sort, log, save, erase, 
     toKey, toValue, reducer, preventDefault, toStyle, toTag
 }

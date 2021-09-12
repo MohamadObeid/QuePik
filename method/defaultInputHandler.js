@@ -1,7 +1,6 @@
 const { setData } = require("./data")
 const { resizeInput } = require("./resize")
 const { isArabic } = require("./isArabic")
-const { removeData } = require("./data")
 
 const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
@@ -32,15 +31,12 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
         return local.element.addEventListener('change', myFn)
     }
-
-    // input
-    local.value = local.element.value
     
     if (local.input && local.input.type === 'number')
         local.element.addEventListener("mousewheel", (e) => e.target.blur())
 
-    if (local.input && local.input.value && !local.data)
-        setData({ STATE, VALUE, params: { data: { value: local.input.value } }, id })
+    //if (local.input && local.input.value && !local.data)
+    //    setData({ STATE, VALUE, params: { data: { value: local.input.value } }, id })
 
     if (local.readonly) return
 
@@ -54,16 +50,21 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
         // for number inputs, strings are rejecteds
         if (local.input && local.input.type === 'number') {
-            if (isNaN(value) || local.data === 'free') return
+
             value = parseFloat(value)
+            if (isNaN(value) || local.data === 'free') return
+            if (local.input.min > value) value = local.input.min
+            else if (local.input.max < value) value = local.input.max
+            local.input.value = value
         }
 
         // for uploads
-        if (local.upload) {
+        if (local.input.type === 'file') {
 
             value = e.target.files
+            console.log('1', value);
             var length = Object.entries(value).length
-
+            
             if (length === 0) return
             else if (length === 1) value = value[0].name
             else if (length > 1) {
@@ -73,10 +74,12 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
                 })
             }
 
-        }
+        } else local.element.value = value
 
-        local.element.value = value
-        local.data = value
+        // rating input 
+        if (local.class.includes('rating__input')) {
+            value = local.element.getAttribute('defaultValue')
+        }
 
         if (local.Data && local.derivations[0] != '') {
 
@@ -84,7 +87,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
             setData({ STATE, VALUE, params: { data: { value } }, id })
             
             // remove value from data
-            if (value === '') return removeData({ VALUE, STATE, id })
+            //if (value === '') return removeData({ VALUE, STATE, id })
         }
 
         // resize

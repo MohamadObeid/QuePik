@@ -11,24 +11,57 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
     const { toId } = require("./toId")
 
     var local = VALUE[id], minus, plus, times, division
+    
+    // return const value
+    if (value && value.split('const.')[1] && !value.split('const.')[0] ) return value.split('const.')[1]
         
     // destructure []
     if (value) value = toKey({ VALUE, STATE, string: value, e, id })
 
+    // auto space
+    if (value === '&nbsp') value = '&nbsp;'
+    
     if (value && value.charAt(0) === '[' && value.charAt(value.length - 1) === ']') {
 
         value = value.slice(1, value.length - 1)
 
         var open = value.split('[')
-        var k = generate()
+
+        // check if [] is a key not an array => do not split at this point
+        if (open.length > 1) {
+            var newOpen = []
+
+            open.map((o, i) => {
+                if (i > 0 && open[i - 1].slice(-1) !== ',') {
+
+                    newOpen[newOpen.length - 1] += `[${o}`
+
+                } else newOpen.push(o)
+            })
+
+            open = newOpen
+        }
+
+        var k = generate(), isArray = open[1]
         value = []
 
+        
         if (open[0]) {
+            
             open[0] = open[0].split(',')
             open[0].map(open => {
                 if (open) {
+
+                    // const.
+                    if (open.split('.')[0] === 'const') {
+                        open = open.split('.').slice(1).join('.')
+                        return value.push(open)
+                    }
+
+                    // .flat()
                     var flat = open.includes('.flat()')
                     if (flat) open = open.split('.flat()')[0]
+
                     var val = toParam({ VALUE, STATE, string: `${k}=${open}`, id, e })[k]
                     flat ? value.push(...val) : value.push(val)
                 }
@@ -36,7 +69,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         }
         
         // an array value
-        if (open[1]) {
+        if (isArray) {
 
             open = open.slice(1)
             open.map(open => {
@@ -48,8 +81,17 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
                     close[1] = close[1].split(',')
                     close[1].map(close => {
                         if (close) {
+
+                            // const.
+                            if (close.split('.')[0] === 'const') {
+                                close = close.split('.').slice(1).join('.')
+                                value.push(close)
+                            }
+
+                            // .flat()
                             var flat = close.includes('.flat()')
                             if (flat) close = close.split('.flat()')[0]
+
                             var val = toParam({ VALUE, STATE, string: `${k}=${close}`, id, e })[k]
                             flat ? value.push(...val) : value.push(val)
                         }
@@ -75,16 +117,6 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         var local = VALUE[id]
         if (!local) return value
         
-        // conditions
-        if (value && value.includes('<<')) {
-
-            var condition = value.split('<<')[1]
-            var approved = toApproval({ STATE, VALUE, id, e, string: condition })
-            if (!approved) return '*return*'
-            value = value.split('<<')[0]
-            
-        }
-        
         // value1 || value2 || value3
         if (value && value.includes('||')) {
 
@@ -97,6 +129,16 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
             })
             
             return value
+        }
+
+        // conditions
+        if (value && value.includes('<<')) {
+
+            var condition = value.split('<<')[1]
+            var approved = toApproval({ STATE, VALUE, id, e, string: condition })
+            if (!approved) return '*return*'
+            value = value.split('<<')[0]
+            
         }
 
         if (value) {

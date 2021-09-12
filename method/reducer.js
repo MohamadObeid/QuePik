@@ -84,6 +84,18 @@ const reducer = ({ VALUE, STATE, id, params: { path, object } }) => {
             
             answer = Object.values(o)
 
+        } else if (k === 'toLowerCase()') {
+            
+            answer = o.toLowerCase()
+
+        } else if (k === 'length()') {
+            
+            answer = o.length
+
+        } else if (k === 'flat()') {
+            
+            answer = Array.isArray(o) ? o.flat() : o
+
         } else if (k === 'length' && !local.length && i === 0) {
             
             answer = VALUE[local.parent].element.children.length
@@ -95,16 +107,20 @@ const reducer = ({ VALUE, STATE, id, params: { path, object } }) => {
 
             var keys = path.slice(i - path.length)
 
+            var flat = o.includes('flat()')
+
             // reduce every element in array
             var valueO = o.map(newO => {
                 return reducer({ VALUE, STATE, id, params: { path: keys, object: newO }})
             })
 
+            if (flat) valueO = valueO.flat()
+
             // create a template object
             var templateO = {}
 
             // slice the current key
-            keys = keys.slice(1)
+            keys = keys.slice(0, i)
 
             // create an object to work for the rest keys for reduce
             keys.reduce((o, k, i) => {
@@ -112,14 +128,14 @@ const reducer = ({ VALUE, STATE, id, params: { path, object } }) => {
                 return o[k] = {}
             }, templateO)
             if (keys.length === 0) templateO = valueO
-
+            
             answer = templateO
         }
         
         return answer
 
     }, object)
-
+    
     return answer
 }
 

@@ -14,8 +14,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 
     var localID = id
     var local = VALUE[id]
-    if (!local) return
-
+    
     if (STATE[local.Data]) {
 
         var keys = clone(local.derivations)
@@ -60,7 +59,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 
                 } else if (local.key) {
 
-                    // o[k][local.key] = ''
+                    o[k][local.key] = ''
 
                 } else {
 
@@ -114,6 +113,10 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
         if (local.type.split('originalKeys=')[1]) type += local.type.split('originalKeys=')[1].split(';').slice(1).join(';')
         local.type = type
         
+    } else if (VALUE[localID].key) {
+    
+        // local.key
+
     } else local.derivations[local.derivations.length - 1] = length
     
     // create element => append child

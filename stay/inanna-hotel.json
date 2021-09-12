@@ -1,0 +1,33 @@
+{
+  "name": {
+    "en": "Inanna Hotel"
+  },
+  "icon": {
+    "google": true,
+    "type": "outlined",
+    "name": "hotel"
+  },
+  "city": {
+    "en": "Damascus"
+  },
+  "stars": "Five Star",
+  "file-name": "inanna-hotel",
+  "description": {},
+  "options": [
+    {
+      "name": {},
+      "description": {},
+      "icon": {}
+    }
+  ],
+  "type": "Historic House Hotel",
+  "country": {
+    "en": "Syria"
+  },
+  "rate": "4.5",
+  "address": "bab sharqi, next to the Mariamite church",
+  "contact-number": {
+    "Telephone": "00963-967960960",
+    "Yazan Orfali": "00963-955116041"
+  }
+}

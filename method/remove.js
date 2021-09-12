@@ -20,16 +20,27 @@ const remove = ({ STATE, VALUE, params, id }) => {
 
     if (params.path) keys.push(...path)
 
-    if (keys.length === 0) { // local.parent.children.splice([keys[keys.length - 1]], 1)
-    
+    if (keys.length === 0) {
         
+        // local.parent.children.splice([keys[keys.length - 1]], 1)
 
     } else keys.reduce((o, k, i) => {
 
         if (i === keys.length - 1) {
 
             if (Array.isArray(o)) {
+
                 o.splice(k, 1)
+
+            // name: { en: val1, ar: val2, ... }
+            } else if (local.lang || local.key) {
+
+                var input = local.element.getElementsByTagName('INPUT')[0]
+                if (!input) input = local.element.getElementsByTagName('TEXTAREA')[0]
+                var key = VALUE[input.id].path
+                if (o[k][key]) return delete o[k][key]
+                else return
+
             } else return delete o[k]
 
         }

@@ -133,13 +133,18 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 // operator has !
                 if (key.includes('!')) {
 
-                    if (key.split('!')[0]) key = key.split('!')[0]
-                    else {
+                    if (key.split('!')[0]) {
+
+                        key = key.split('!')[0]
+                        if (value) notEqual = true
+
+                    } else {
                         // !key => study key without value
                         value = undefined
                         key = key.split('!')[1]
+                        notEqual = true
                     }
-                    notEqual = true
+                    
                 }
 
                 ///////////////////// value /////////////////////
@@ -287,7 +292,8 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
 
                 } else if (key === 'isArabic') {
 
-                    var result = isArabic(local.type === 'Input' ? local.value : (local.type === 'Text' && local.text))
+                    var isInput = local.type === 'Input' || local.type === 'Textarea'
+                    var result = isArabic(isInput ? local.value : (local.type === 'Text' && local.text))
                     local[keygen] = result
 
                 } else if (key === 'duplicates') {

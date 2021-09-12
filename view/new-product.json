@@ -1087,12 +1087,11 @@
                         "width": "100%"
                     },
                     "children": [{
-                        "type": "Input?model=featured;readonly;path=collections;!clearable;!duplicates;data=[]",
+                        "type": "Input?style.display=none<<!data||data=[];model=featured;readonly;path=collections;!clearable;!duplicates;data=[]",
                         "style": {
                             "width": "fit-content",
                             "height": "3rem"
-                        },
-                        "actions": "setValue?value.style.display=none?!data||data=[]"
+                        }
                     }]
                 }]
             }, {

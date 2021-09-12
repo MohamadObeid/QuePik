@@ -1,7 +1,6 @@
 {
     "file-name": "admin-assets-list",
-    "type": "View?value.Data",
-    "actions": "?state.asset-list-grid-display=grid;state.asset-list-table-display=none;state.asset-list-Data=state.asset.values",
+    "type": "View?value.Data;state.asset-list-grid-display=grid;state.asset-list-table-display=none;state.asset-list-Data=state.asset.values",
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
         "children": [{

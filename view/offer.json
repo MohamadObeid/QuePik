@@ -87,7 +87,7 @@
                     }, {
                         "type": "Switch",
                         "controls": [{
-                            "actions": "setValue?value.element.checked=true?value.data.validity.starting-date"
+                            "event": "load?value.element.checked=true?value.data.validity.starting-date"
                         }, {
                             "event": "change",
                             "actions": [
@@ -127,7 +127,7 @@
                     }, {
                         "type": "Switch",
                         "controls": [{
-                            "actions": "setValue?value.element.checked=true?value.data.code.code"
+                            "event": "load?value.element.checked=true?value.data.code.code"
                         }, {
                             "event": "change",
                             "actions": [
