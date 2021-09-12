@@ -109,7 +109,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         if (value && value.includes('::')) {
 
             var newId = value.split('::')[1]
-            id = toId({ VALUE, STATE, id, string: newId, e })[0]
+            id = toValue({ VALUE, STATE, id, params: { value: newId }, e })
             value = value.split('::')[0]
 
         }

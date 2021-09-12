@@ -4,6 +4,8 @@ const reducer = ({ VALUE, STATE, id, params: { path, object } }) => {
     var local = VALUE[id]
 
     var answer = path.reduce((o, k, i) => {
+        
+        if (!o) return o
 
         if (k === 'data') {
 

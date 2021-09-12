@@ -8,6 +8,7 @@ const { overflow } = require("./overflow")
 const { getParam } = require("./getParam")
 const { toId } = require("./toId")
 const { toValue } = require("./toValue")
+const { reducer } = require("./reducer")
 
 const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
     var mainId = id
@@ -156,11 +157,11 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 // id
                 if (key.includes('::')) {
 
-                    id = key.split('::')[1]
+                    var newId = key.split('::')[1]
                     key = key.split('::')[0]
 
                     // id
-                    id = toId({ VALUE, STATE, string: id, id: local.id })[0]
+                    id = toValue({ VALUE, STATE, id, params: { value: newId }, e })
                 }
 
                 var keygen = generate()
@@ -192,95 +193,7 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
     
                         }
                         
-                        local[keygen] = key1.reduce((o, k, i) => {
-
-                            if (o === undefined) return o
-                            if ((k === 'key' || k === 'value') && key1[i - 1] === 'entries') return o
-
-                            else if (k === 'data') {
-
-                                return derive(STATE[local.Data], local.derivations)[0]
-
-                            } else if (k === 'parent') {
-                                
-                                var parent = o.parent
-                                if (o.type === 'Input') parent = VALUE[parent].parent
-                                return VALUE[parent]
-
-                            } else if (k === 'next' || k === 'nextSibling') {
-
-                                var nextSibling = o.element.nextSibling
-                                var id = nextSibling.id
-
-                                return VALUE[id]
-
-                            } else if (k === 'prev' || k === 'prevSibling') {
-
-                                var previousSibling = o.element.previousSibling
-                                var id = previousSibling.id
-
-                                return VALUE[id]
-
-                            } else if (k === '1stChild') {
-
-                                var id = o.element.children[0].id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
-                                
-                            } else if (k === '2ndChild') {
-                        
-                                var id = (o.element.children[1] || o.element.children[0]).id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
-
-                            } else if (k === '3rdChild') {
-
-                                var id = (o.element.children[2] || o.element.children[1] || o.element.children[0]).id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
-    
-                            } else if (k === 'lastChild') {
-    
-                                var id = o.element.children[o.element.children.length - 1].id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
-    
-                            } else if (k === 'INPUT') {
-
-                                var inputComps = [...o.element.getElementsByTagName(k)]
-                                inputComps = inputComps.map(comp => VALUE[comp.id])
-                                if (inputComps.length === 0) return inputComps[0]
-                                else return inputComps
-
-                            } else if (k === 'findIdByData') {
-
-                                var id = o.find(id => local.data === VALUE[id].text)
-                                if (id) return id
-                                else return id
-
-                            } else if (k === 'entries') {
-
-                                return Object.entries(o).map(([key, value]) => {
-                                    if (key1[i + 1] === 'key') return key
-                                    if (key1[i + 1] === 'value') return value
-                                })
-                            }
-
-                            return o[k]
-
-                        }, object)
+                        local[keygen] = reducer({ VALUE, STATE, id, params: { path: key1, object } })
                     }
 
                     else if (key0 === 'const') {
@@ -356,11 +269,11 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 // id
                 if (key.includes('::')) {
 
-                    id = key.split('::')[1]
+                    var newId = key.split('::')[1]
                     key = key.split('::')[0]
 
                     // id
-                    id = toId({ VALUE, STATE, string: id, id: local.id })[0]
+                    id = toValue({ VALUE, STATE, id, params: { value: newId }, e })
                 }
 
                 var local = VALUE[id]

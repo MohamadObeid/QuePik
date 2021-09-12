@@ -52,9 +52,10 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
         if (key && key.includes('::')) {
 
             var newId = key.split('::')[1]
-            id = toId({ VALUE, STATE, id, string: newId, e })[0]
             key = key.split('::')[0]
-            
+
+            // id
+            id = toValue({ VALUE, STATE, id, params: { value: newId }, e })
         }
         
         // conditions

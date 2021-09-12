@@ -2330,6 +2330,7 @@ const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { createComponent } = require("./createComponent")
 const { toTag } = require("./toTag")
+const { isEqual } = require("./isEqual")
 
 const actions = ['flicker']
 
@@ -2345,6 +2346,18 @@ const createTags = ({ VALUE, STATE, id }) => {
         local.length = local.data.length || 1
         var $ = clone(local)
         delete VALUE[id]
+
+        if (local.unmount !== undefined && local.data > 0) {
+            var toUnmount = []
+            toArray(local.unmount).map(i => {
+                toUnmount.push(local.data[i])
+            })
+            toUnmount.map(unmount => {
+                var index = local.data.findIndex(el => isEqual(el, unmount))
+                if (index !== -1) local.data.splice(index, 1)
+            })
+            console.log(local.unmount, toUnmount, local.data);
+        }
         
         return $.data.map((data, index) => {
 
@@ -2490,7 +2503,7 @@ const componentModifier = ({ VALUE, STATE, id }) => {
 }
 
 module.exports = {createTags}
-},{"./clone":28,"./createComponent":31,"./execute":44,"./generate":48,"./toArray":73,"./toTag":80}],36:[function(require,module,exports){
+},{"./clone":28,"./createComponent":31,"./execute":44,"./generate":48,"./isEqual":52,"./toArray":73,"./toTag":80}],36:[function(require,module,exports){
 const { update } = require("./update")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -3614,6 +3627,8 @@ const reducer = ({ VALUE, STATE, id, params: { path, object } }) => {
     var local = VALUE[id]
 
     var answer = path.reduce((o, k, i) => {
+        
+        if (!o) return o
 
         if (k === 'data') {
 
@@ -4493,6 +4508,7 @@ const { overflow } = require("./overflow")
 const { getParam } = require("./getParam")
 const { toId } = require("./toId")
 const { toValue } = require("./toValue")
+const { reducer } = require("./reducer")
 
 const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
     var mainId = id
@@ -4677,95 +4693,7 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
     
                         }
                         
-                        local[keygen] = key1.reduce((o, k, i) => {
-
-                            if (o === undefined) return o
-                            if ((k === 'key' || k === 'value') && key1[i - 1] === 'entries') return o
-
-                            else if (k === 'data') {
-
-                                return derive(STATE[local.Data], local.derivations)[0]
-
-                            } else if (k === 'parent') {
-                                
-                                var parent = o.parent
-                                if (o.type === 'Input') parent = VALUE[parent].parent
-                                return VALUE[parent]
-
-                            } else if (k === 'next' || k === 'nextSibling') {
-
-                                var nextSibling = o.element.nextSibling
-                                var id = nextSibling.id
-
-                                return VALUE[id]
-
-                            } else if (k === 'prev' || k === 'prevSibling') {
-
-                                var previousSibling = o.element.previousSibling
-                                var id = previousSibling.id
-
-                                return VALUE[id]
-
-                            } else if (k === '1stChild') {
-
-                                var id = o.element.children[0].id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
-                                
-                            } else if (k === '2ndChild') {
-                        
-                                var id = (o.element.children[1] || o.element.children[0]).id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
-
-                            } else if (k === '3rdChild') {
-
-                                var id = (o.element.children[2] || o.element.children[1] || o.element.children[0]).id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
-    
-                            } else if (k === 'lastChild') {
-    
-                                var id = o.element.children[o.element.children.length - 1].id
-                                if (VALUE[id].component === 'Input') {
-                                    id = VALUE[id].element.getElementsByTagName('INPUT')[0].id
-                                }
-                                
-                                return VALUE[id]
-    
-                            } else if (k === 'INPUT') {
-
-                                var inputComps = [...o.element.getElementsByTagName(k)]
-                                inputComps = inputComps.map(comp => VALUE[comp.id])
-                                if (inputComps.length === 0) return inputComps[0]
-                                else return inputComps
-
-                            } else if (k === 'findIdByData') {
-
-                                var id = o.find(id => local.data === VALUE[id].text)
-                                if (id) return id
-                                else return id
-
-                            } else if (k === 'entries') {
-
-                                return Object.entries(o).map(([key, value]) => {
-                                    if (key1[i + 1] === 'key') return key
-                                    if (key1[i + 1] === 'value') return value
-                                })
-                            }
-
-                            return o[k]
-
-                        }, object)
+                        local[keygen] = reducer({ VALUE, STATE, id, params: { path: key1, object } })
                     }
 
                     else if (key0 === 'const') {
@@ -4968,7 +4896,7 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
 }
 
 module.exports = {toApproval}
-},{"./clone":28,"./derive":39,"./duplicate":41,"./generate":48,"./getParam":50,"./isArabic":51,"./isEqual":52,"./overflow":55,"./toId":75,"./toValue":81}],73:[function(require,module,exports){
+},{"./clone":28,"./derive":39,"./duplicate":41,"./generate":48,"./getParam":50,"./isArabic":51,"./isEqual":52,"./overflow":55,"./reducer":57,"./toId":75,"./toValue":81}],73:[function(require,module,exports){
 const toArray = (data) => {
     return data !== undefined ? (Array.isArray(data) ? data : [data]) : []
 }

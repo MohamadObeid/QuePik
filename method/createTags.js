@@ -3,6 +3,7 @@ const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { createComponent } = require("./createComponent")
 const { toTag } = require("./toTag")
+const { isEqual } = require("./isEqual")
 
 const actions = ['flicker']
 
@@ -18,6 +19,18 @@ const createTags = ({ VALUE, STATE, id }) => {
         local.length = local.data.length || 1
         var $ = clone(local)
         delete VALUE[id]
+
+        if (local.unmount !== undefined && local.data > 0) {
+            var toUnmount = []
+            toArray(local.unmount).map(i => {
+                toUnmount.push(local.data[i])
+            })
+            toUnmount.map(unmount => {
+                var index = local.data.findIndex(el => isEqual(el, unmount))
+                if (index !== -1) local.data.splice(index, 1)
+            })
+            console.log(local.unmount, toUnmount, local.data);
+        }
         
         return $.data.map((data, index) => {
 
