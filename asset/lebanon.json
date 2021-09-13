@@ -1,198 +1,198 @@
 {
-  "name": {
-    "en": "Lebanon Cities"
-  },
-  "icon": {
-    "name": "flag",
-    "google": true,
-    "type": "outlined"
-  },
-  "options": [
-    {
-      "icon": {},
-      "name": {
-        "en": "Tripoli"
-      },
-      "description": {}
+    "name": {
+      "en": "Lebanon Cities"
     },
-    {
-      "icon": {},
-      "name": {
-        "en": "Beirut"
-      },
-      "description": {}
+    "icon": {
+      "name": "flag",
+      "google": true,
+      "type": "outlined"
     },
-    {
-      "icon": {},
-      "name": {
-        "en": "Sidon"
+    "options": [
+      {
+        "icon": {},
+        "name": {
+          "en": "Tripoli"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Tyre"
+      {
+        "icon": {},
+        "name": {
+          "en": "Beirut"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Jounie"
+      {
+        "icon": {},
+        "name": {
+          "en": "Sidon"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Zahle"
+      {
+        "icon": {},
+        "name": {
+          "en": "Tyre"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Nabatiye"
+      {
+        "icon": {},
+        "name": {
+          "en": "Jounie"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Baalbek"
+      {
+        "icon": {},
+        "name": {
+          "en": "Zahle"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Amioun"
+      {
+        "icon": {},
+        "name": {
+          "en": "Nabatiye"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Baabda"
+      {
+        "icon": {},
+        "name": {
+          "en": "Baalbek"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Marjayoun"
+      {
+        "icon": {},
+        "name": {
+          "en": "Amioun"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Jdaidet el Matn"
+      {
+        "icon": {},
+        "name": {
+          "en": "Baabda"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Zgharta"
+      {
+        "icon": {},
+        "name": {
+          "en": "Marjayoun"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Aaley"
+      {
+        "icon": {},
+        "name": {
+          "en": "Jdaidet el Matn"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Jbail"
+      {
+        "icon": {},
+        "name": {
+          "en": "Zgharta"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Sir ed Danniye"
+      {
+        "icon": {},
+        "name": {
+          "en": "Aaley"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Halba"
+      {
+        "icon": {},
+        "name": {
+          "en": "Jbail"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Bent Jbail"
+      {
+        "icon": {},
+        "name": {
+          "en": "Sir ed Danniye"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Jezzîne"
+      {
+        "icon": {},
+        "name": {
+          "en": "Halba"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Batroun"
+      {
+        "icon": {},
+        "name": {
+          "en": "Bent Jbail"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Hasbaiya"
+      {
+        "icon": {},
+        "name": {
+          "en": "Jezzîne"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Joubb Jannine"
+      {
+        "icon": {},
+        "name": {
+          "en": "Batroun"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Beit ed Dine"
+      {
+        "icon": {},
+        "name": {
+          "en": "Hasbaiya"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "El Hermel"
+      {
+        "icon": {},
+        "name": {
+          "en": "Joubb Jannine"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Rachaiya el Ouadi"
+      {
+        "icon": {},
+        "name": {
+          "en": "Beit ed Dine"
+        },
+        "description": {}
       },
-      "description": {}
-    },
-    {
-      "icon": {},
-      "name": {
-        "en": "Bcharre"
+      {
+        "icon": {},
+        "name": {
+          "en": "El Hermel"
+        },
+        "description": {}
       },
-      "description": {}
-    }
-  ],
-  "file-name": "lebanon",
-  "parent": "country",
-  "description": {},
-  "country": "Lebanon"
-}
+      {
+        "icon": {},
+        "name": {
+          "en": "Rachaiya el Ouadi"
+        },
+        "description": {}
+      },
+      {
+        "icon": {},
+        "name": {
+          "en": "Bcharre"
+        },
+        "description": {}
+      }
+    ],
+    "file-name": "lebanon",
+    "parent": "country",
+    "description": {},
+    "country": "Lebanon"
+  }

@@ -184,7 +184,7 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
 
                     if (key0 === 'value' || key0 === 'state' || key0 === 'e') {
 
-                        var object = key0 === 'value' ? clone(local) : key0 === 'e' && e
+                        var object = key0 === 'value' ? clone(local) : key0 === 'e' && clone(e)
     
                         if (key0 === 'state') {
     
@@ -193,7 +193,7 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
     
                         }
                         
-                        local[keygen] = reducer({ VALUE, STATE, id, params: { path: key1, object } })
+                        local[keygen] = reducer({ VALUE, STATE, id, params: { path: key1, object }, e })
                     }
 
                     else if (key0 === 'const') {

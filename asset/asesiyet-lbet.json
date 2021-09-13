@@ -1,115 +1,115 @@
 {
-  "name": {
-    "en": "Asesiyet Lbet"
-  },
-  "description": {
-    "en": "tajhiz aw takmil decor bet"
-  },
-  "icon": {
-    "google": true,
-    "name": "house",
-    "type": "outlined"
-  },
-  "options": [
-    {
-      "name": {
-        "en": "Nash"
-      },
-      "description": {
-        "en": "3ilej nash sate7"
-      },
-      "icon": {}
+    "name": {
+      "en": "Asesiyet Lbet"
     },
-    {
-      "name": {
-        "en": "Sejjed"
-      },
-      "description": {
-        "en": "8eraf + matba5 + koridor"
-      },
-      "icon": {}
+    "description": {
+      "en": "tajhiz aw takmil decor bet"
     },
-    {
-      "name": {
-        "en": "Moket"
-      },
-      "description": {
-        "en": "la kel lbet"
-      },
-      "icon": {}
+    "icon": {
+      "google": true,
+      "name": "house",
+      "type": "outlined"
     },
-    {
-      "name": {
-        "en": "Majla"
+    "options": [
+      {
+        "name": {
+          "en": "Nash"
+        },
+        "description": {
+          "en": "3ilej nash sate7"
+        },
+        "icon": {}
       },
-      "description": {
-        "en": "idafe majla matba5"
+      {
+        "name": {
+          "en": "Sejjed"
+        },
+        "description": {
+          "en": "8eraf + matba5 + koridor"
+        },
+        "icon": {}
       },
-      "icon": {}
-    },
-    {
-      "name": {
-        "en": "Suba Orbit"
+      {
+        "name": {
+          "en": "Moket"
+        },
+        "description": {
+          "en": "la kel lbet"
+        },
+        "icon": {}
       },
-      "description": {
-        "en": "tafi2a shbeh markaziyeh"
+      {
+        "name": {
+          "en": "Majla"
+        },
+        "description": {
+          "en": "idafe majla matba5"
+        },
+        "icon": {}
       },
-      "icon": {}
-    },
-    {
-      "name": {
-        "en": "Nashefe"
+      {
+        "name": {
+          "en": "Suba Orbit"
+        },
+        "description": {
+          "en": "tafi2a shbeh markaziyeh"
+        },
+        "icon": {}
       },
-      "description": {
-        "en": ""
+      {
+        "name": {
+          "en": "Nashefe"
+        },
+        "description": {
+          "en": ""
+        },
+        "icon": {}
       },
-      "icon": {}
-    },
-    {
-      "name": {
-        "en": "Freezer"
+      {
+        "name": {
+          "en": "Freezer"
+        },
+        "description": {
+          "en": ""
+        },
+        "icon": {}
       },
-      "description": {
-        "en": ""
+      {
+        "name": {
+          "en": "Tajdid Bathroom"
+        },
+        "description": {
+          "en": ""
+        },
+        "icon": {}
       },
-      "icon": {}
-    },
-    {
-      "name": {
-        "en": "Tajdid Bathroom"
+      {
+        "name": {
+          "en": "New Bathroom"
+        },
+        "description": {
+          "en": "la 8rft nom"
+        },
+        "icon": {}
       },
-      "description": {
-        "en": ""
+      {
+        "name": {
+          "en": "Shafat Ri7a"
+        },
+        "description": {
+          "en": ""
+        },
+        "icon": {}
       },
-      "icon": {}
-    },
-    {
-      "name": {
-        "en": "New Bathroom"
-      },
-      "description": {
-        "en": "la 8rft nom"
-      },
-      "icon": {}
-    },
-    {
-      "name": {
-        "en": "Shafat Ri7a"
-      },
-      "description": {
-        "en": ""
-      },
-      "icon": {}
-    },
-    {
-      "name": {
-        "en": "Jalleye"
-      },
-      "description": {
-        "en": ""
-      },
-      "icon": {}
-    }
-  ],
-  "file-name": "asesiyet-lbet"
-}
+      {
+        "name": {
+          "en": "Jalleye"
+        },
+        "description": {
+          "en": ""
+        },
+        "icon": {}
+      }
+    ],
+    "file-name": "asesiyet-lbet"
+  }

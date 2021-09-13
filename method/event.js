@@ -1,9 +1,9 @@
-
 const { toApproval } = require('./toApproval')
 const { toId } = require('./toId')
 const { getParam } = require('./getParam')
 const { toParam } = require('./toParam')
 const { clone } = require('./clone')
+const { generate } = require('./generate')
 
 const events = ['click', 'mouseenter', 'mouseleave', 'mousedown', 'mouseup', 'touchstart', 'touchend']
 
@@ -23,6 +23,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
     events.map(event => {
 
         var timer = 0
+        var code = generate()
 
         // action::id
         var eventid = event.split('::')[1]
@@ -38,34 +39,35 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 
         if (!event) return
 
+        clearTimeout(local[`${code}${event}-timer`])
+
         // add event listener
         idList.map(id => {
 
             var myFn = (e) => {
 
-                var local = VALUE[id]
-                clearTimeout(local[`${controls.actions || controls.event}-timer`])
-                
-                var events = controls.event.split('?')
-                
-                // VALUE[id] doesnot exist
-                if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
-                
-                // approval
-                var approved = toApproval({ VALUE, STATE, string: events[2], e, id })
-                if (!approved) return
+                local[`${code}${event}-timer`] = setTimeout(() => {
 
-                // params
-                params = toParam({ VALUE, STATE, string: events[1], e, id })
+                    var events = controls.event.split('?')
+                    
+                    // VALUE[id] doesnot exist
+                    if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
+                    
+                    // approval
+                    var approved = toApproval({ VALUE, STATE, string: events[2], e, id })
+                    if (!approved) return
 
-                if (controls.actions) local[`${controls.actions}-timer`] = setTimeout(
-                    () => execute({ VALUE, STATE, controls, e, id: mainID }), timer)
-
+                    // params
+                    params = toParam({ VALUE, STATE, string: events[1], e, id })
+                    
+                    if (controls.actions) execute({ VALUE, STATE, controls, e, id: mainID })
+                
+                }, timer)
             }
 
             // onload event
-            if (event === 'load') return myFn({ target: VALUE[id].element })
-
+            if (event === 'load') myFn({ target: VALUE[id].element })
+            
             // elements
             return VALUE[id].element.addEventListener(event, myFn, { once })
         })

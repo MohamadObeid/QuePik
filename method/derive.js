@@ -22,7 +22,7 @@ const derive = (data, keys, fullDerivation, defaultData, writable) => {
 
             else if (i === keys.length - 1) {
 
-                if (defaultData || defaultData === 0) o[k] = defaultData
+                if (defaultData !== undefined) o[k] = defaultData
 
                 else if (Array.isArray(o) && isNaN(k)) {
 

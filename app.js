@@ -36,6 +36,9 @@ app.get('*', (req, res) => {
   // api
   if (path[1] === 'api') return getApi(req, res)
 
+  // image
+  if (path[1] === 'image') return res.send('hello')
+
   // home page
   if (!page) page = 'home'
   

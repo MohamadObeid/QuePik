@@ -133,12 +133,37 @@
             "children": [{
                 "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 2rem;style.gap=1rem;state[value.Data].image=[]",
                 "children": [{
-                    "type": "Image?path=image.0;style.height=width;style.display=none;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0"
+                    "type": "View?style.height=width;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
+                    "children": [{
+                        "type": "Image?path=image.0;style.widath=100%;style.height=100%"
+                    }]
                 }, {
-                    "type": "Input?featured;path=image.0;style.backgroundColor=#f0f0f0;style.flexDirection=column;style.height=width;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!",
-                    "controls": {
-                        "event": "input?value.element.src::value.prev.id=__dirname++e.target.files.0.name;value.element.style.display=none"
-                    }
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem",
+                    "children": [{
+                        "type": "View?style.height=width;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
+                        "children": [{
+                            "type": "Image?path=image.1;style.width=100%"
+                        }]
+                    }, {
+                        "type": "View?style.height=width;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
+                        "children": [{
+                            "type": "Image?path=image.2;style.width=100%"
+                        }]
+                    }, {
+                        "type": "View?style.height=width;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
+                        "children": [{
+                            "type": "Image?path=image.3;style.width=100%"
+                        }]
+                    }, {
+                        "type": "Input?featured;path=image[value.data.image.length()];style.backgroundColor=#f0f0f0;style.height=width;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
+                        "controls": {
+                            "event": "input>>200",
+                            "actions": [
+                                "save?save.data=state.file;save.api=image;save.path=const.state[value.Data].image[state[value.Data].image.length()];save.value=const.data.file-name",
+                                ">>200?value.parent.element.children[state[value.Data].image.length()--2].id.value().1stChild.element.src=image/++state[value.Data].image[value.derivations.lastIndex()]<<state[value.Data].image.length()!=1;value.parent.prev.1stChild.element.src=image/++state[value.Data].image[value.derivations.lastIndex()]<<state[value.Data].image.length()=1;value.path=image[state[value.Data].image.length()];value.derivations=[image,state[value.Data].image.length()]"
+                            ]
+                        }
+                    }]
                 }]
             }]
         }]

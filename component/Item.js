@@ -40,8 +40,8 @@ const Item = (component) => {
                 },
             },
             children: [{
-                icon,
                 type: `Icon?id=${id}-icon?const.${icon.name}`,
+                icon,
                 style: {
                     width: '4rem',
                     color: style.color || '#444',
@@ -82,13 +82,14 @@ const Item = (component) => {
             }],
             controls: [...controls,
             {
-                actions: [
-                    `mountAfterStyles??mountOnLoad?${id};${id}-icon;${id}-text;${id}-chevron`,
-                    `setState?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountOnLoad`,
-                ]
+                actions: `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountOnLoad?state.${state}`
             }, {
                 event: `click??state.${state}=undefined||state.${state}.0!=${id}`,
-                actions: `createActions?type=item;id=${id};state=${state}`
+                actions: [
+                    `setData?data.value=value.text`,
+                    `resetStyles?value.mountOnLoad::state.${state}.0=false??state.${state}`,
+                    `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron];value.mountOnLoad::state.${state}.0??state.${state}`,
+                ]
             }, {
                 event: 'mouseenter',
                 actions: `mountAfterStyles???${id};${id}-icon;${id}-text;${id}-chevron`
@@ -155,11 +156,7 @@ const Item = (component) => {
             }, {
                 event: 'mouseleave',
                 actions: `resetStyles??!mountOnLoad?${id};${id}-icon;${id}-text`
-            }/*, {
-                // on item click
-                event: `click??!readonly`,
-                actions: `setData;setState?data.value=${text};state.${state}=${id}?!duplicates`,
-            }*/]
+            }]
         }
 }
 

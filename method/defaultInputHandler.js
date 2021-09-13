@@ -1,6 +1,7 @@
 const { setData } = require("./data")
 const { resizeInput } = require("./resize")
 const { isArabic } = require("./isArabic")
+const { generate } = require("./generate")
 
 const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
@@ -12,7 +13,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
     // checkbox input
     if (local.input && local.input.type === 'checkbox') {
         if (local.data === true) local.element.checked = true
-
+        
         var myFn = (e) => {
 
             // local doesnot exist
@@ -27,6 +28,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
                 var data = { value }
                 setData({ STATE, VALUE, params: { data }, id })
             }
+            console.log('1', local, local.element.checked);
         }
 
         return local.element.addEventListener('change', myFn)
@@ -40,7 +42,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
     if (local.readonly) return
 
-    var myFn = (e) => {
+    var myFn = async (e) => {
         e.preventDefault()
 
         // VAR[id] doesnot exist
@@ -62,20 +64,34 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         if (local.input.type === 'file') {
 
             value = e.target.files
-            console.log('1', value);
-            var length = Object.entries(value).length
+            
+            // add files to state for saving
+            const readFile = (file) => {
+                return new Promise ((res, rej) => {
+                    let myReader = new FileReader()
+                    myReader.onloadend = (e) => res(myReader.result)
+                    myReader.readAsDataURL(file)
+                })
+            }
+
+            var file = await readFile(value[0])
+            var fileName = `${Date.now()}-${generate()}`
+            
+            return STATE.file = { file, "file-name": fileName }
+
+            /*var length = Object.entries(value).length
             
             if (length === 0) return
-            else if (length === 1) value = value[0].name
+            else if (length === 1) value = `${fileName}.${fileType}`
             else if (length > 1) {
                 value = []
                 Object.entries(e.target.files).map(([key, val]) => {
                     value.push(val.name)
                 })
-            }
+            }*/
 
         } else local.element.value = value
-
+        
         // rating input 
         if (local.class.includes('rating__input')) {
             value = local.element.getAttribute('defaultValue')

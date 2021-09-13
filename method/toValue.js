@@ -1,6 +1,5 @@
 const { clone } = require("./clone")
-const { merge } = require("./merge")
-const { toKey } = require("./toKey")
+const { toPath } = require("./toKey")
 const { generate } = require("./generate")
 const { reducer } = require("./reducer")
 
@@ -8,7 +7,6 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
     
     const { toParam } = require("./toParam")
     const { toApproval } = require("./toApproval")
-    const { toId } = require("./toId")
 
     var local = VALUE[id], minus, plus, times, division
     
@@ -16,7 +14,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
     if (value && value.split('const.')[1] && !value.split('const.')[0] ) return value.split('const.')[1]
         
     // destructure []
-    if (value) value = toKey({ VALUE, STATE, string: value, e, id })
+    if (value) value = toPath({ VALUE, STATE, string: value, e, id })
 
     // auto space
     if (value === '&nbsp') value = '&nbsp;'
@@ -149,18 +147,28 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         }
 
         if (plus) {
+
             value = value.split('++')[0]
-            if (!isNaN(plus)) plus = parseFloat(plus)
+            plus = toValue({ VALUE, STATE, id, params: { value: plus }, e })
+
         } else if (minus) {
+
             value = value.split('--')[0]
-            if (!isNaN(minus)) minus = parseFloat(minus)
+            minus = toValue({ VALUE, STATE, id, params: { value: minus }, e })
+
         } else if (times) {
+
             value = value.split('**')[0]
-            if (!isNaN(times)) times = parseFloat(times)
+            times = toValue({ VALUE, STATE, id, params: { value: times }, e })
+
         } else if (division) {
+
             value = value.split('÷÷')[0]
-            if (!isNaN(division)) division = parseFloat(division)
+            division = toValue({ VALUE, STATE, id, params: { value: division }, e })
         }
+
+        // __dirname
+        //if (value === 'uploadsApi') value = require("path").resolve(plus)
 
         var path = typeof value === 'string' ? value.split('.') : []
         

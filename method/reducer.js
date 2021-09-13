@@ -1,10 +1,20 @@
 const { derive } = require("./derive")
+const { toArray } = require("./toArray")
 
-const reducer = ({ VALUE, STATE, id, params: { path, object } }) => {
+const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) => {
+
     var local = VALUE[id]
+    var breakRequest
+    var lastIndex = path.length - 1
 
     var answer = path.reduce((o, k, i) => {
-        
+                    
+        // break method
+        if (breakRequest) return
+        if (k === 'src') console.log(path, o, local, value);
+        // set Value
+        if (key && i === lastIndex) return o[k] = value
+
         if (!o) return o
 
         if (k === 'data') {
@@ -32,7 +42,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, object } }) => {
             answer = VALUE[_id]
 
         } else if (k === '1stChild') {
-
+            
             var _id = o.element.children[0].id
             if (VALUE[_id].component === 'Input') {
                 _id = VALUE[_id].element.getElementsByTagName('INPUT')[0].id
@@ -93,14 +103,52 @@ const reducer = ({ VALUE, STATE, id, params: { path, object } }) => {
         } else if (k === 'length()') {
             
             answer = o.length
-
+            
         } else if (k === 'flat()') {
             
             answer = Array.isArray(o) ? o.flat() : o
 
+        } else if (k === '1stIndex()' || k === 'firstIndex()') {
+            
+            answer = o[0]
+
+        } else if (k === '2ndIndex()' || k === 'secondIndex()') {
+            
+            answer = o[1]
+
+        } else if (k === '3rdIndex()' || k === 'thirdIndex()') {
+            
+            answer = o[2]
+
+        } else if (k === 'lastIndex()') {
+            
+            answer = o[o.length - 1]
+
+        } else if (k === 'value()') {
+            
+            answer = VALUE[o]
+
         } else if (k === 'length' && !local.length && i === 0) {
             
             answer = VALUE[local.parent].element.children.length
+
+        } else if (k === 'element' && !o[k]) {
+
+            breakRequest = true
+            local.controls = toArray(local.controls) || []
+            return local.controls.push({
+                event: `load?${key}=JSON.parse(${JSON.stringify(value)})`
+            })
+            
+        } else if (i === lastIndex - 1 && path[lastIndex] === 'delete') {
+            
+            breakRequest = true
+            return delete o[k]
+
+        } else if (!o[k] && key) {
+                
+            if (!isNaN(path[i + 1])) o[k] = []
+            else o[k] = {}
 
         } else answer = o[k]
         

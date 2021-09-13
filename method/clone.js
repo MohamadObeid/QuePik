@@ -24,10 +24,15 @@ const clone = (obj) => {
     if (typeof obj !== 'object') copy = obj
     else if (Array.isArray(obj)) copy = obj.map(obj => clone(obj))
     else {
-      var element
+      var element, target
+
       if (obj.element) element = obj.element
+      if (obj.target) target = obj.target
+
       copy = JSON.parse(JSON.stringify(obj))
+
       if (element) copy.element = element
+      if (target) copy.target = target
     }
 
     return copy

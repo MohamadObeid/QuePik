@@ -1,59 +1,12 @@
-const { generate } = require("./generate");
-const { toArray } = require("./toArray")
-const { toParam } = require("./toParam");
+const { clone } = require("./clone");
+const { toValue } = require("./toValue");
 
-const toId = ({ VALUE, STATE, id, string }) => {
-    var idList = [], local = VALUE[id]
-
-    if (typeof string === 'object') return string;
+const toId = ({ VALUE, STATE, id, string, e }) => {
+    if (typeof string === 'object') return string
+    if (string) string = clone(string.split(';').map(newId => toValue({ VALUE, STATE, id, params: { value: newId }, e }) ).flat())
+    else string = [id]
     
-    (string || id).split(';').map(id => {
-
-        // id=id:index
-        if (id.includes(':index')) {
-
-            var index = local.index
-            var parent = local.parent
-
-            // search parent for index
-            while (index === undefined) {
-                index = VALUE[parent].index
-                parent = VALUE[parent].parent
-            }
-
-            id = id.split(':index')[0] + ':' + index
-        }
-
-        // id=this
-        if (id === 'this') idList.push(local.id)
-
-        // id=siblings
-        else if (id === 'siblings') {
-            
-            var children = [...local.element.children]
-            var siblings = []
-    
-            children.map(child => siblings.push(child.id))
-
-            // remove current id from siblings
-            siblings = siblings.filter(id => id !== id)
-
-            // insert siblings
-            idList.push(...siblings)
-        }
-
-        // id=value.path
-        else if (id.includes('.')) {
-
-            var k = generate()
-            id = toParam({ VALUE, STATE, string: `${k}=${id}`, id: local.id })[k]
-            idList.push(...toArray(id))
-        }
-
-        else idList.push(id)
-    })
-
-    return idList
+    return string
 }
 
 module.exports = {toId}

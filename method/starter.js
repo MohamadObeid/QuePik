@@ -1,5 +1,3 @@
-const { clone } = require("./clone")
-
 const autoControls = ['auto-style', 'toggle-style', 'droplist', 'actionlist']
 
 const starter = ({ STATE, VALUE, id }) => {

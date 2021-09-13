@@ -39,7 +39,7 @@ const {textarea} = require('./textarea')
 const {save} = require('./save')
 const {erase} = require('./erase')
 const {toValue} = require('./toValue')
-const {toKey} = require('./toKey')
+const {toPath} = require('./toKey')
 const {reducer} = require('./reducer')
 const {toStyle} = require('./toStyle')
 const {preventDefault} = require('./preventDefault')
@@ -50,6 +50,7 @@ const {setData} = require("./setData")
 const {defaultInputHandler} = require('./defaultInputHandler')
 const {createActions} = require('./createActions')
 const {blur} = require('./blur')
+const {capitalize} = require('./capitalize')
 const {setStyle, resetStyles, toggleStyles, mountAfterStyles} = require('./style')
 const {resizeInput, dimensions} = require('./resize')
 const {createData, clearData, removeData} = require('./data')
@@ -63,7 +64,7 @@ const _method = {
     createData, setData, clearData, removeData, setContent, starter, createComponent,
     setPosition, droplist, filter, createView, createActions, flicker, blur,
     createControls, remove, defaultInputHandler, focus, sort, log, save, erase, 
-    toKey, toValue, reducer, preventDefault, toStyle, toTag
+    toPath, toValue, reducer, preventDefault, toStyle, toTag, capitalize
 }
 
 module.exports = _method

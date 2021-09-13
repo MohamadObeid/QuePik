@@ -1,11 +1,11 @@
-const { toKey } = require("./toKey")
+const { toPath } = require("./toKey")
 const { toArray } = require("./toArray")
 const { toValue } = require("./toValue")
 const { clone } = require("./clone")
+const { reducer } = require("./reducer")
 
 const toParam = ({ VALUE, STATE, string, e, id }) => {
 
-    const { toId } = require("./toId")
     const { toApproval } = require("./toApproval")
 
     var localId = id
@@ -46,7 +46,7 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
         var keys = typeof key === 'string' ? key.split('.') : []
 
         // keys from brackets to dots
-        key = toKey({ VALUE, STATE, string: key, e, id })
+        key = toPath({ VALUE, STATE, string: key, e, id })
 
         // id
         if (key && key.includes('::')) {
@@ -81,49 +81,8 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
                 
                 var object = keys[0] === 'state' ? STATE : (keys[0] === 'value' && local)
                 var keys = keys.slice(1)
-                var breakRequest
-                var length = keys.length - 1
-                
-                keys.reduce((o, k, i) => {
-                    
-                    // break method
-                    if (breakRequest) return
 
-
-                    // no element
-                    if (k === 'element' && !o[k]) {
-
-                        breakRequest = true
-                        local.controls = toArray(local.controls) || []
-                        return local.controls.push({
-                            event: `load?${key}=JSON.parse(${JSON.stringify(value)})`
-                        })
-                        
-                    }
-                    
-                    if (i === length) o[k] = value
-
-                    else if ( i === length - 1 ) {
-
-                        // last key = delete
-                        if (keys[length] === 'delete') {
-                        
-                            breakRequest = true
-                            return delete o[k]
-                        }
-
-                        else if (!o[k]) {
-                            
-                            if (!isNaN(keys[i + 1])) o[k] = []
-                            else o[k] = {}
-                        }
-                    }
-                    
-                    return o[k]
-                    
-                }, object)
-                
-                if (breakRequest) return
+                reducer({ VALUE, STATE, id, params: { path: keys, value, key, object } })
             }
 
             else keys.reduce((obj, key, index) => {

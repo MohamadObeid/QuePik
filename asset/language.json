@@ -1,555 +1,555 @@
 {
-  "name": { "en": "Language" },
-  "file-name": "language",
-  "options": [
-    {
-      "name": { "en": "ar" }
-    },
-    {
-      "name": { "en": "en" }
-    },
-    {
-      "name": { "en": "fr" }
-    },
-    {
-      "name": { "en": "fa" }
-    },
-    {
-      "name": { "en": "aa" }
-    },
-    {
-      "name": { "en": "ab" }
-    },
-    {
-      "name": { "en": "ae" }
-    },
-    {
-      "name": { "en": "af" }
-    },
-    {
-      "name": { "en": "ak" }
-    },
-    {
-      "name": { "en": "am" }
-    },
-    {
-      "name": { "en": "an" }
-    },
-    {
-      "name": { "en": "as" }
-    },
-    {
-      "name": { "en": "av" }
-    },
-    {
-      "name": { "en": "ay" }
-    },
-    {
-      "name": { "en": "az" }
-    },
-    {
-      "name": { "en": "ba" }
-    },
-    {
-      "name": { "en": "be" }
-    },
-    {
-      "name": { "en": "bg" }
-    },
-    {
-      "name": { "en": "bh" }
-    },
-    {
-      "name": { "en": "bi" }
-    },
-    {
-      "name": { "en": "bm" }
-    },
-    {
-      "name": { "en": "bn" }
-    },
-    {
-      "name": { "en": "bo" }
-    },
-    {
-      "name": { "en": "br" }
-    },
-    {
-      "name": { "en": "bs" }
-    },
-    {
-      "name": { "en": "ca" }
-    },
-    {
-      "name": { "en": "ce" }
-    },
-    {
-      "name": { "en": "ch" }
-    },
-    {
-      "name": { "en": "co" }
-    },
-    {
-      "name": { "en": "cr" }
-    },
-    {
-      "name": { "en": "cs" }
-    },
-    {
-      "name": { "en": "cu" }
-    },
-    {
-      "name": { "en": "cv" }
-    },
-    {
-      "name": { "en": "cy" }
-    },
-    {
-      "name": { "en": "da" }
-    },
-    {
-      "name": { "en": "de" }
-    },
-    {
-      "name": { "en": "dv" }
-    },
-    {
-      "name": { "en": "dz" }
-    },
-    {
-      "name": { "en": "ee" }
-    },
-    {
-      "name": { "en": "el" }
-    },
-    {
-      "name": { "en": "eo" }
-    },
-    {
-      "name": { "en": "es" }
-    },
-    {
-      "name": { "en": "et" }
-    },
-    {
-      "name": { "en": "eu" }
-    },
-    {
-      "name": { "en": "ff" }
-    },
-    {
-      "name": { "en": "fi" }
-    },
-    {
-      "name": { "en": "fj" }
-    },
-    {
-      "name": { "en": "fo" }
-    },
-    {
-      "name": { "en": "fy" }
-    },
-    {
-      "name": { "en": "ga" }
-    },
-    {
-      "name": { "en": "gd" }
-    },
-    {
-      "name": { "en": "gl" }
-    },
-    {
-      "name": { "en": "gn" }
-    },
-    {
-      "name": { "en": "gu" }
-    },
-    {
-      "name": { "en": "gv" }
-    },
-    {
-      "name": { "en": "ha" }
-    },
-    {
-      "name": { "en": "hi" }
-    },
-    {
-      "name": { "en": "ho" }
-    },
-    {
-      "name": { "en": "hr" }
-    },
-    {
-      "name": { "en": "ht" }
-    },
-    {
-      "name": { "en": "hu" }
-    },
-    {
-      "name": { "en": "hy" }
-    },
-    {
-      "name": { "en": "hz" }
-    },
-    {
-      "name": { "en": "ia" }
-    },
-    {
-      "name": { "en": "id" }
-    },
-    {
-      "name": { "en": "ie" }
-    },
-    {
-      "name": { "en": "ig" }
-    },
-    {
-      "name": { "en": "ii" }
-    },
-    {
-      "name": { "en": "ik" }
-    },
-    {
-      "name": { "en": "io" }
-    },
-    {
-      "name": { "en": "is" }
-    },
-    {
-      "name": { "en": "it" }
-    },
-    {
-      "name": { "en": "iu" }
-    },
-    {
-      "name": { "en": "ja" }
-    },
-    {
-      "name": { "en": "jv" }
-    },
-    {
-      "name": { "en": "ka" }
-    },
-    {
-      "name": { "en": "kg" }
-    },
-    {
-      "name": { "en": "ki" }
-    },
-    {
-      "name": { "en": "kj" }
-    },
-    {
-      "name": { "en": "kk" }
-    },
-    {
-      "name": { "en": "kl" }
-    },
-    {
-      "name": { "en": "km" }
-    },
-    {
-      "name": { "en": "kn" }
-    },
-    {
-      "name": { "en": "ko" }
-    },
-    {
-      "name": { "en": "kr" }
-    },
-    {
-      "name": { "en": "ks" }
-    },
-    {
-      "name": { "en": "ku" }
-    },
-    {
-      "name": { "en": "kv" }
-    },
-    {
-      "name": { "en": "kw" }
-    },
-    {
-      "name": { "en": "ky" }
-    },
-    {
-      "name": { "en": "la" }
-    },
-    {
-      "name": { "en": "lb" }
-    },
-    {
-      "name": { "en": "lg" }
-    },
-    {
-      "name": { "en": "li" }
-    },
-    {
-      "name": { "en": "ln" }
-    },
-    {
-      "name": { "en": "lo" }
-    },
-    {
-      "name": { "en": "lt" }
-    },
-    {
-      "name": { "en": "lu" }
-    },
-    {
-      "name": { "en": "lv" }
-    },
-    {
-      "name": { "en": "mg" }
-    },
-    {
-      "name": { "en": "mh" }
-    },
-    {
-      "name": { "en": "mi" }
-    },
-    {
-      "name": { "en": "mk" }
-    },
-    {
-      "name": { "en": "ml" }
-    },
-    {
-      "name": { "en": "mn" }
-    },
-    {
-      "name": { "en": "mr" }
-    },
-    {
-      "name": { "en": "ms" }
-    },
-    {
-      "name": { "en": "mt" }
-    },
-    {
-      "name": { "en": "my" }
-    },
-    {
-      "name": { "en": "na" }
-    },
-    {
-      "name": { "en": "nb" }
-    },
-    {
-      "name": { "en": "nd" }
-    },
-    {
-      "name": { "en": "ne" }
-    },
-    {
-      "name": { "en": "ng" }
-    },
-    {
-      "name": { "en": "nl" }
-    },
-    {
-      "name": { "en": "nn" }
-    },
-    {
-      "name": { "en": "no" }
-    },
-    {
-      "name": { "en": "nr" }
-    },
-    {
-      "name": { "en": "nv" }
-    },
-    {
-      "name": { "en": "ny" }
-    },
-    {
-      "name": { "en": "oc" }
-    },
-    {
-      "name": { "en": "oj" }
-    },
-    {
-      "name": { "en": "om" }
-    },
-    {
-      "name": { "en": "or" }
-    },
-    {
-      "name": { "en": "os" }
-    },
-    {
-      "name": { "en": "pa" }
-    },
-    {
-      "name": { "en": "pi" }
-    },
-    {
-      "name": { "en": "pl" }
-    },
-    {
-      "name": { "en": "ps" }
-    },
-    {
-      "name": { "en": "pt" }
-    },
-    {
-      "name": { "en": "qu" }
-    },
-    {
-      "name": { "en": "rm" }
-    },
-    {
-      "name": { "en": "rn" }
-    },
-    {
-      "name": { "en": "ro" }
-    },
-    {
-      "name": { "en": "ru" }
-    },
-    {
-      "name": { "en": "rw" }
-    },
-    {
-      "name": { "en": "sa" }
-    },
-    {
-      "name": { "en": "sc" }
-    },
-    {
-      "name": { "en": "sd" }
-    },
-    {
-      "name": { "en": "se" }
-    },
-    {
-      "name": { "en": "sg" }
-    },
-    {
-      "name": { "en": "si" }
-    },
-    {
-      "name": { "en": "sk" }
-    },
-    {
-      "name": { "en": "sl" }
-    },
-    {
-      "name": { "en": "sm" }
-    },
-    {
-      "name": { "en": "sn" }
-    },
-    {
-      "name": { "en": "so" }
-    },
-    {
-      "name": { "en": "sq" }
-    },
-    {
-      "name": { "en": "sr" }
-    },
-    {
-      "name": { "en": "ss" }
-    },
-    {
-      "name": { "en": "st" }
-    },
-    {
-      "name": { "en": "su" }
-    },
-    {
-      "name": { "en": "sv" }
-    },
-    {
-      "name": { "en": "sw" }
-    },
-    {
-      "name": { "en": "ta" }
-    },
-    {
-      "name": { "en": "te" }
-    },
-    {
-      "name": { "en": "tg" }
-    },
-    {
-      "name": { "en": "th" }
-    },
-    {
-      "name": { "en": "ti" }
-    },
-    {
-      "name": { "en": "tk" }
-    },
-    {
-      "name": { "en": "tl" }
-    },
-    {
-      "name": { "en": "tn" }
-    },
-    {
-      "name": { "en": "to" }
-    },
-    {
-      "name": { "en": "tr" }
-    },
-    {
-      "name": { "en": "ts" }
-    },
-    {
-      "name": { "en": "tt" }
-    },
-    {
-      "name": { "en": "tw" }
-    },
-    {
-      "name": { "en": "ty" }
-    },
-    {
-      "name": { "en": "ug" }
-    },
-    {
-      "name": { "en": "uk" }
-    },
-    {
-      "name": { "en": "ur" }
-    },
-    {
-      "name": { "en": "uz" }
-    },
-    {
-      "name": { "en": "ve" }
-    },
-    {
-      "name": { "en": "vi" }
-    },
-    {
-      "name": { "en": "vo" }
-    },
-    {
-      "name": { "en": "wa" }
-    },
-    {
-      "name": { "en": "wo" }
-    },
-    {
-      "name": { "en": "xh" }
-    },
-    {
-      "name": { "en": "yi" }
-    },
-    {
-      "name": { "en": "yo" }
-    },
-    {
-      "name": { "en": "za" }
-    },
-    {
-      "name": { "en": "zh" }
-    },
-    {
-      "name": { "en": "zu" }
-    }
-  ]
-}
+    "name": { "en": "Language" },
+    "file-name": "language",
+    "options": [
+      {
+        "name": { "en": "ar" }
+      },
+      {
+        "name": { "en": "en" }
+      },
+      {
+        "name": { "en": "fr" }
+      },
+      {
+        "name": { "en": "fa" }
+      },
+      {
+        "name": { "en": "aa" }
+      },
+      {
+        "name": { "en": "ab" }
+      },
+      {
+        "name": { "en": "ae" }
+      },
+      {
+        "name": { "en": "af" }
+      },
+      {
+        "name": { "en": "ak" }
+      },
+      {
+        "name": { "en": "am" }
+      },
+      {
+        "name": { "en": "an" }
+      },
+      {
+        "name": { "en": "as" }
+      },
+      {
+        "name": { "en": "av" }
+      },
+      {
+        "name": { "en": "ay" }
+      },
+      {
+        "name": { "en": "az" }
+      },
+      {
+        "name": { "en": "ba" }
+      },
+      {
+        "name": { "en": "be" }
+      },
+      {
+        "name": { "en": "bg" }
+      },
+      {
+        "name": { "en": "bh" }
+      },
+      {
+        "name": { "en": "bi" }
+      },
+      {
+        "name": { "en": "bm" }
+      },
+      {
+        "name": { "en": "bn" }
+      },
+      {
+        "name": { "en": "bo" }
+      },
+      {
+        "name": { "en": "br" }
+      },
+      {
+        "name": { "en": "bs" }
+      },
+      {
+        "name": { "en": "ca" }
+      },
+      {
+        "name": { "en": "ce" }
+      },
+      {
+        "name": { "en": "ch" }
+      },
+      {
+        "name": { "en": "co" }
+      },
+      {
+        "name": { "en": "cr" }
+      },
+      {
+        "name": { "en": "cs" }
+      },
+      {
+        "name": { "en": "cu" }
+      },
+      {
+        "name": { "en": "cv" }
+      },
+      {
+        "name": { "en": "cy" }
+      },
+      {
+        "name": { "en": "da" }
+      },
+      {
+        "name": { "en": "de" }
+      },
+      {
+        "name": { "en": "dv" }
+      },
+      {
+        "name": { "en": "dz" }
+      },
+      {
+        "name": { "en": "ee" }
+      },
+      {
+        "name": { "en": "el" }
+      },
+      {
+        "name": { "en": "eo" }
+      },
+      {
+        "name": { "en": "es" }
+      },
+      {
+        "name": { "en": "et" }
+      },
+      {
+        "name": { "en": "eu" }
+      },
+      {
+        "name": { "en": "ff" }
+      },
+      {
+        "name": { "en": "fi" }
+      },
+      {
+        "name": { "en": "fj" }
+      },
+      {
+        "name": { "en": "fo" }
+      },
+      {
+        "name": { "en": "fy" }
+      },
+      {
+        "name": { "en": "ga" }
+      },
+      {
+        "name": { "en": "gd" }
+      },
+      {
+        "name": { "en": "gl" }
+      },
+      {
+        "name": { "en": "gn" }
+      },
+      {
+        "name": { "en": "gu" }
+      },
+      {
+        "name": { "en": "gv" }
+      },
+      {
+        "name": { "en": "ha" }
+      },
+      {
+        "name": { "en": "hi" }
+      },
+      {
+        "name": { "en": "ho" }
+      },
+      {
+        "name": { "en": "hr" }
+      },
+      {
+        "name": { "en": "ht" }
+      },
+      {
+        "name": { "en": "hu" }
+      },
+      {
+        "name": { "en": "hy" }
+      },
+      {
+        "name": { "en": "hz" }
+      },
+      {
+        "name": { "en": "ia" }
+      },
+      {
+        "name": { "en": "id" }
+      },
+      {
+        "name": { "en": "ie" }
+      },
+      {
+        "name": { "en": "ig" }
+      },
+      {
+        "name": { "en": "ii" }
+      },
+      {
+        "name": { "en": "ik" }
+      },
+      {
+        "name": { "en": "io" }
+      },
+      {
+        "name": { "en": "is" }
+      },
+      {
+        "name": { "en": "it" }
+      },
+      {
+        "name": { "en": "iu" }
+      },
+      {
+        "name": { "en": "ja" }
+      },
+      {
+        "name": { "en": "jv" }
+      },
+      {
+        "name": { "en": "ka" }
+      },
+      {
+        "name": { "en": "kg" }
+      },
+      {
+        "name": { "en": "ki" }
+      },
+      {
+        "name": { "en": "kj" }
+      },
+      {
+        "name": { "en": "kk" }
+      },
+      {
+        "name": { "en": "kl" }
+      },
+      {
+        "name": { "en": "km" }
+      },
+      {
+        "name": { "en": "kn" }
+      },
+      {
+        "name": { "en": "ko" }
+      },
+      {
+        "name": { "en": "kr" }
+      },
+      {
+        "name": { "en": "ks" }
+      },
+      {
+        "name": { "en": "ku" }
+      },
+      {
+        "name": { "en": "kv" }
+      },
+      {
+        "name": { "en": "kw" }
+      },
+      {
+        "name": { "en": "ky" }
+      },
+      {
+        "name": { "en": "la" }
+      },
+      {
+        "name": { "en": "lb" }
+      },
+      {
+        "name": { "en": "lg" }
+      },
+      {
+        "name": { "en": "li" }
+      },
+      {
+        "name": { "en": "ln" }
+      },
+      {
+        "name": { "en": "lo" }
+      },
+      {
+        "name": { "en": "lt" }
+      },
+      {
+        "name": { "en": "lu" }
+      },
+      {
+        "name": { "en": "lv" }
+      },
+      {
+        "name": { "en": "mg" }
+      },
+      {
+        "name": { "en": "mh" }
+      },
+      {
+        "name": { "en": "mi" }
+      },
+      {
+        "name": { "en": "mk" }
+      },
+      {
+        "name": { "en": "ml" }
+      },
+      {
+        "name": { "en": "mn" }
+      },
+      {
+        "name": { "en": "mr" }
+      },
+      {
+        "name": { "en": "ms" }
+      },
+      {
+        "name": { "en": "mt" }
+      },
+      {
+        "name": { "en": "my" }
+      },
+      {
+        "name": { "en": "na" }
+      },
+      {
+        "name": { "en": "nb" }
+      },
+      {
+        "name": { "en": "nd" }
+      },
+      {
+        "name": { "en": "ne" }
+      },
+      {
+        "name": { "en": "ng" }
+      },
+      {
+        "name": { "en": "nl" }
+      },
+      {
+        "name": { "en": "nn" }
+      },
+      {
+        "name": { "en": "no" }
+      },
+      {
+        "name": { "en": "nr" }
+      },
+      {
+        "name": { "en": "nv" }
+      },
+      {
+        "name": { "en": "ny" }
+      },
+      {
+        "name": { "en": "oc" }
+      },
+      {
+        "name": { "en": "oj" }
+      },
+      {
+        "name": { "en": "om" }
+      },
+      {
+        "name": { "en": "or" }
+      },
+      {
+        "name": { "en": "os" }
+      },
+      {
+        "name": { "en": "pa" }
+      },
+      {
+        "name": { "en": "pi" }
+      },
+      {
+        "name": { "en": "pl" }
+      },
+      {
+        "name": { "en": "ps" }
+      },
+      {
+        "name": { "en": "pt" }
+      },
+      {
+        "name": { "en": "qu" }
+      },
+      {
+        "name": { "en": "rm" }
+      },
+      {
+        "name": { "en": "rn" }
+      },
+      {
+        "name": { "en": "ro" }
+      },
+      {
+        "name": { "en": "ru" }
+      },
+      {
+        "name": { "en": "rw" }
+      },
+      {
+        "name": { "en": "sa" }
+      },
+      {
+        "name": { "en": "sc" }
+      },
+      {
+        "name": { "en": "sd" }
+      },
+      {
+        "name": { "en": "se" }
+      },
+      {
+        "name": { "en": "sg" }
+      },
+      {
+        "name": { "en": "si" }
+      },
+      {
+        "name": { "en": "sk" }
+      },
+      {
+        "name": { "en": "sl" }
+      },
+      {
+        "name": { "en": "sm" }
+      },
+      {
+        "name": { "en": "sn" }
+      },
+      {
+        "name": { "en": "so" }
+      },
+      {
+        "name": { "en": "sq" }
+      },
+      {
+        "name": { "en": "sr" }
+      },
+      {
+        "name": { "en": "ss" }
+      },
+      {
+        "name": { "en": "st" }
+      },
+      {
+        "name": { "en": "su" }
+      },
+      {
+        "name": { "en": "sv" }
+      },
+      {
+        "name": { "en": "sw" }
+      },
+      {
+        "name": { "en": "ta" }
+      },
+      {
+        "name": { "en": "te" }
+      },
+      {
+        "name": { "en": "tg" }
+      },
+      {
+        "name": { "en": "th" }
+      },
+      {
+        "name": { "en": "ti" }
+      },
+      {
+        "name": { "en": "tk" }
+      },
+      {
+        "name": { "en": "tl" }
+      },
+      {
+        "name": { "en": "tn" }
+      },
+      {
+        "name": { "en": "to" }
+      },
+      {
+        "name": { "en": "tr" }
+      },
+      {
+        "name": { "en": "ts" }
+      },
+      {
+        "name": { "en": "tt" }
+      },
+      {
+        "name": { "en": "tw" }
+      },
+      {
+        "name": { "en": "ty" }
+      },
+      {
+        "name": { "en": "ug" }
+      },
+      {
+        "name": { "en": "uk" }
+      },
+      {
+        "name": { "en": "ur" }
+      },
+      {
+        "name": { "en": "uz" }
+      },
+      {
+        "name": { "en": "ve" }
+      },
+      {
+        "name": { "en": "vi" }
+      },
+      {
+        "name": { "en": "vo" }
+      },
+      {
+        "name": { "en": "wa" }
+      },
+      {
+        "name": { "en": "wo" }
+      },
+      {
+        "name": { "en": "xh" }
+      },
+      {
+        "name": { "en": "yi" }
+      },
+      {
+        "name": { "en": "yo" }
+      },
+      {
+        "name": { "en": "za" }
+      },
+      {
+        "name": { "en": "zh" }
+      },
+      {
+        "name": { "en": "zu" }
+      }
+    ]
+  }

@@ -94,7 +94,7 @@ const Input = (component) => {
                     textOverflow: 'ellipsis',
                     overflow: 'hidden',
                     fontSize: '1.3rem',
-                    position: 'absolute',
+                    //position: 'absolute',
                     maxWidth: '95%',
                 }
             }, {

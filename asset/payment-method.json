@@ -1,47 +1,47 @@
 {
-  "name": { "en": "Payment Methods" },
-  "icon": {
-    "name": "credit_card",
-    "google": true,
-    "type": "outlined"
-  },
-  "options": [
-    {
-      "icon": {},
-      "name": { "en": "Cash Debit" }
+    "name": { "en": "Payment Methods" },
+    "icon": {
+      "name": "credit_card",
+      "google": true,
+      "type": "outlined"
     },
-    {
-      "icon": {},
-      "name": { "en": "Bank Transfer" }
-    },
-    {
-      "icon": {},
-      "name": { "en": "Cash" }
-    },
-    {
-      "icon": {},
-      "name": { "en": "Credit" }
-    },
-    {
-      "icon": {},
-      "name": { "en": "Check" }
-    },
-    {
-      "icon": {},
-      "name": { "en": "Credit Card" }
-    },
-    {
-      "icon": {},
-      "name": { "en": "PayPal" }
-    },
-    {
-      "icon": {},
-      "name": { "en": "Wire Transfer" }
-    },
-    {
-      "icon": {},
-      "name": { "en": "Banking Card" }
-    }
-  ],
-  "file-name": "payment-method"
-}
+    "options": [
+      {
+        "icon": {},
+        "name": { "en": "Cash Debit" }
+      },
+      {
+        "icon": {},
+        "name": { "en": "Bank Transfer" }
+      },
+      {
+        "icon": {},
+        "name": { "en": "Cash" }
+      },
+      {
+        "icon": {},
+        "name": { "en": "Credit" }
+      },
+      {
+        "icon": {},
+        "name": { "en": "Check" }
+      },
+      {
+        "icon": {},
+        "name": { "en": "Credit Card" }
+      },
+      {
+        "icon": {},
+        "name": { "en": "PayPal" }
+      },
+      {
+        "icon": {},
+        "name": { "en": "Wire Transfer" }
+      },
+      {
+        "icon": {},
+        "name": { "en": "Banking Card" }
+      }
+    ],
+    "file-name": "payment-method"
+  }

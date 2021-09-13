@@ -1,6 +1,6 @@
 const { generate } = require("./generate")
 
-const toKey = ({ VALUE, STATE, string, e, id }) => {
+const toPath = ({ VALUE, STATE, string, e, id }) => {
 
     const { toParam } = require("./toParam")
 
@@ -18,7 +18,7 @@ const toKey = ({ VALUE, STATE, string, e, id }) => {
         while (subKey[0] === keys[1] && keys[2] !== undefined) {
 
             keys[1] += `[${keys[2]}`
-            if (keys[2]) keys[1] = toKey({ VALUE, STATE, string: keys[1], e, id })
+            if (keys[2]) keys[1] = toPath({ VALUE, STATE, string: keys[1], e, id })
             keys.splice(2, 1)
             subKey = keys[1].split(']')
             
@@ -39,9 +39,9 @@ const toKey = ({ VALUE, STATE, string, e, id }) => {
         if (string.slice(-1) === '.') string = string.slice(0, -1)
     }
     
-    if (string.split('[')[1]) string = toKey({ VALUE, STATE, string, e, id })
+    if (string.split('[')[1]) string = toPath({ VALUE, STATE, string, e, id })
     
     return string
 }
 
-module.exports = { toKey }
+module.exports = { toPath }

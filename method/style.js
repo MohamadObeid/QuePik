@@ -23,21 +23,21 @@ const setStyle = ({ VALUE, params = {}, id }) => {
 
             // value = width || height
             if (value) {
-                if (value.includes('width')) {
+                if (value.includes('width') && key.includes('height')) {
 
                     var divide = value.split('/')[1]
                     var multiply = value.split('*')[1]
-                    value = dimensions({ VALUE, id }).width
+                    value = local.element.clientWidth
                     if (divide) value = value / divide
                     if (multiply) value = value * multiply
 
                     value += 'px'
 
-                } else if (value.includes('height')) {
+                } else if (value.includes('height') && key.includes('width')) {
 
                     var divide = value.split('/')[1]
                     var multiply = value.split('*')[1]
-                    value = dimensions({ VALUE, id }).height
+                    value = local.element.clientHeight
                     if (divide) value = value / divide
                     if (multiply) value = value * multiply
 
