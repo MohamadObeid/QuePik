@@ -3385,10 +3385,12 @@ module.exports = {generate}
 const path = require('path')
 const fs = require('fs')
 
-const getJsonFiles = (folder) => {
+const getJsonFiles = (folder, fileName) => {
 
     var files = {}
     var folderPath = path.join(process.cwd(), folder)
+
+    if (fileName) return fs.readFileSync(path.join(folderPath, fileName))
     
     fs.readdirSync(folderPath).forEach(fileName => {
     
@@ -3661,7 +3663,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) 
                     
         // break method
         if (breakRequest) return
-        if (k === 'src') console.log(path, o, local, value);
+        
         // set Value
         if (key && i === lastIndex) return o[k] = value
 

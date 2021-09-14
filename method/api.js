@@ -1,17 +1,18 @@
 const { getJsonFiles } = require('./getJsonFiles')
-const fs = require('fs')
 const { capitalize } = require('./capitalize')
+const fs = require('fs')
 
 const getApi = (req, res) => {
 
     var path = req.url.split('/')
     var folder = path[2]
-    var files = getJsonFiles(folder)
-    
-    // to uppercase first letter
-    folder = folder.charAt(0).toUpperCase() + folder.slice(1)
+    var fileName = path[3]
 
-    return res.send({ data: files, success: true, message: `${folder} mounted successfuly!` })
+    if (folder === 'image')
+    return res.sendFile(require('path').join(process.cwd(), folder, fileName))
+
+    var files = getJsonFiles(folder, fileName)
+    return res.send({ data: files, success: true, message: `${capitalize(folder)} mounted successfuly!` })
 }
 
 const postApi = (req, res) => {

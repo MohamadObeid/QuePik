@@ -6,8 +6,8 @@ const { createDocument } = require('./method/createDocument')
 const app = express()
 
 app.use(express.static('./browser'))
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ extended: false, limit: '50mb' }))
 
 // post
 app.post('*', (req, res) => {
@@ -35,9 +35,6 @@ app.get('*', (req, res) => {
   
   // api
   if (path[1] === 'api') return getApi(req, res)
-
-  // image
-  if (path[1] === 'image') return res.send('hello')
 
   // home page
   if (!page) page = 'home'

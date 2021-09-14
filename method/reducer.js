@@ -11,7 +11,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) 
                     
         // break method
         if (breakRequest) return
-        if (k === 'src') console.log(path, o, local, value);
+        
         // set Value
         if (key && i === lastIndex) return o[k] = value
 
