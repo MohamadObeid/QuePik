@@ -1,14 +1,13 @@
-const { derive } = require("./derive")
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
 const { generate } = require("./generate")
 const { duplicates } = require("./duplicate")
-const { clone } = require("./clone")
 const { overflow } = require("./overflow")
 const { getParam } = require("./getParam")
-const { toId } = require("./toId")
 const { toValue } = require("./toValue")
 const { reducer } = require("./reducer")
+const { toPath } = require("./toPath")
+const { clone } = require("./clone")
 
 const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
     var mainId = id
@@ -168,40 +167,28 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 var local = VALUE[id]
                 if (!local) return approval = false
 
-                if (key === 'false' || key === 'undefined') local[keygen] = false
-                else if (key === 'true') local[keygen] = true
-                else if (key.includes('.')) {
+                // to path
+                key = toPath({ VALUE, STATE, id, string: key, e })
+                var path = typeof key === 'string' ? key.split('.') : []
+
+                // const
+                if (path[0] === 'const') {
+                        
+                    if (path[1] === 'false' || path[1] === 'undefined' || path[1] === '') local[keygen] = false
+                    else local[keygen] = path.slice(1).join('.')
                     
-                    var key0 = key.split('.')[0]
-                    var key1 = key.split(`${key0}.`)[1]
-                    if (key1 !== undefined) key1 = key1.split('.')
+                } else if (key === 'false' || key === 'undefined') local[keygen] = false
+                else if (key === 'true') local[keygen] = true
+                else if (path[1]) {
 
-                    if (key0 === 'global') {
-                        key0 = 'value'
-                        local = VALUE[key1[0]]
-                        key1 = key1.slice(1)
+                    if (path[0] === 'global') {
+                        local = VALUE[path[1]]
+                        id = path[1]
+                        path = path.slice(1)
+                        path[0] = 'value'
                     }
 
-                    if (key0 === 'value' || key0 === 'state' || key0 === 'e') {
-
-                        var object = key0 === 'value' ? clone(local) : key0 === 'e' && clone(e)
-    
-                        if (key0 === 'state') {
-    
-                            object = clone(STATE[key1[0]])
-                            key1 = key1.slice(1)
-    
-                        }
-                        
-                        local[keygen] = reducer({ VALUE, STATE, id, params: { path: key1, object }, e })
-                    }
-
-                    else if (key0 === 'const') {
-                        
-                        if (key1[0] === 'false' || key1[0] === 'undefined' || key1[0] === '') local[keygen] = false
-                        else local[keygen] = key1.join('.')
-                        
-                    }
+                    local[keygen] = reducer({ VALUE, STATE, id, params: { path, value }, e })
 
                 } else if (key === 'isArabic') {
 
@@ -279,115 +266,24 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 var local = VALUE[id]
                 if (!local) return approval = false
 
-                if (key === 'length') {
+                // to path
+                key = toPath({ VALUE, STATE, id, string: key, e })
+                var path = typeof key === 'string' ? key.split('.') : []
 
-                    if (!local.element.parentElement) return approval = false
-                    return approval = local.element.parentElement.children.length > value
+                if (path[1]) {
 
-                } else if (key.includes('.')) {
-
-                    var key0 = key.split('.')[0]
-                    var key1 = key.split(`${key0}.`)[1]
-                    if (key1) key1 = key1.split('.')
-                    key = generate()
-
-                    if (key0 === 'state') {
-                        local[key] = STATE[key1]
+                    if (path[0] === 'global') {
+                        local = VALUE[path[1]]
+                        id = path[1]
+                        path = path.slice(1)
+                        path[0] = 'value'
                     }
 
-                    else if (key0 === 'value') {
-
-                        if (key1[0] === 'data') {
-
-                            key1 = key1.slice(1)
-                            var length
-                            if (key1.slice(-1)[0] === 'length') {
-                                key1 = key1.slice(0, -1)
-                                length = true
-                            }
-                            var data = derive(STATE[local.Data], [...local.derivations, ...key1])[0]
-                            local[key] = data
-                            if (length) local[key] = data.length
-
-                        }
-                        else if (key1[0] === 'Data') {
-
-                            key1 = key1.slice(1)
-                            var length
-                            if (key1.slice(-1)[0] === 'length') {
-                                key1 = key1.slice(0, -1)
-                                length = true
-                            }
-                            var data = derive(STATE[local.Data], key1)[0]
-                            local[key] = data
-                            if (length) local[key] = data.length
-
-                        }
-                        else if (key1[0] === 'length') {
-                            local[key] = local.length
-                        }
-                        else {
-
-                            local[key] = key1.reduce((o, k, i) => {
-
-                                if (k === 'parent') {
-                                    
-                                    var parent = o.parent
-                                    if (o.type === 'Input') parent = VALUE[parent].parent
-                                    return VALUE[parent]
-
-                                } else if (k === 'next' || k === 'nextSibling') {
-
-                                    var nextSibling = o.element.nextSibling
-                                    var id = nextSibling.id
-
-                                    return VALUE[id]
-
-                                } else if (k === 'prev' || k === 'prevSibling') {
-
-                                    var previousSibling = o.element.previousSibling
-                                    var id = previousSibling.id
-
-                                    return VALUE[id]
-
-                                } else if (k === 'firstChild') {
-
-                                    var firstChild = o.element.children[0]
-                                    return VALUE[firstChild.id]
-                                    
-                                } else if (k === 'secondChild') {
-
-                                    var secondChild = o.element.children[1] ? o.element.children[1] : o.element.children[0]
-                                    return VALUE[secondChild.id]
-
-                                } else if (k === 'lastChild') {
-
-                                    var lastChild = o.element.children[o.element.children.length - 1]
-                                    return VALUE[lastChild.id]
-
-                                } else if (k === 'INPUT') {
-
-                                    var inputComps = [...o.element.getElementsByTagName(k)]
-                                    inputComps = inputComps.map(comp => VALUE[comp.id])
-                                    if (inputComps.length === 0) return inputComps[0]
-                                    else return inputComps
-
-                                } else if (k === 'findIdByData') {
-
-                                    var id = o.find(id => local.data === VALUE[id].text)
-                                    if (id) return id
-                                    else return id
-                                }
-
-                                return o[k]
-
-                            }, clone(local))
-
-                        }
-                    }
+                    local[keygen] = reducer({ VALUE, STATE, id, params: { path, value }, e })
                 }
 
-                approval = local[key] > value
+                approval = local[keygen] > value
+                delete local[keygen]
             }
         } else return approval
     })

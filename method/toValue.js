@@ -1,11 +1,9 @@
-const { clone } = require("./clone")
-const { toPath } = require("./toKey")
+const { toPath } = require("./toPath")
 const { generate } = require("./generate")
 const { reducer } = require("./reducer")
 
 const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
     
-    const { toParam } = require("./toParam")
     const { toApproval } = require("./toApproval")
 
     var local = VALUE[id], minus, plus, times, division
@@ -15,99 +13,23 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         
     // destructure []
     if (value) value = toPath({ VALUE, STATE, string: value, e, id })
-
+    
     // auto space
     if (value === '&nbsp') value = '&nbsp;'
     
     if (value && value.charAt(0) === '[' && value.charAt(value.length - 1) === ']') {
 
         value = value.slice(1, value.length - 1)
-
-        var open = value.split('[')
-
-        // check if [] is a key not an array => do not split at this point
-        if (open.length > 1) {
-            var newOpen = []
-
-            open.map((o, i) => {
-                if (i > 0 && open[i - 1].slice(-1) !== ',') {
-
-                    newOpen[newOpen.length - 1] += `[${o}`
-
-                } else newOpen.push(o)
-            })
-
-            open = newOpen
-        }
-
-        var k = generate(), isArray = open[1]
-        value = []
-
+        value = value.split(',').map(value => toValue({ VALUE, STATE, id, e, params: { value, params } }))
+        value = value.filter(value => value)
         
-        if (open[0]) {
-            
-            open[0] = open[0].split(',')
-            open[0].map(open => {
-                if (open) {
-
-                    // const.
-                    if (open.split('.')[0] === 'const') {
-                        open = open.split('.').slice(1).join('.')
-                        return value.push(open)
-                    }
-
-                    // .flat()
-                    var flat = open.includes('.flat()')
-                    if (flat) open = open.split('.flat()')[0]
-
-                    var val = toParam({ VALUE, STATE, string: `${k}=${open}`, id, e })[k]
-                    flat ? value.push(...val) : value.push(val)
-                }
-            })
-        }
-        
-        // an array value
-        if (isArray) {
-
-            open = open.slice(1)
-            open.map(open => {
-
-                var close = open.split(']')
-                value.push(toParam({ VALUE, STATE, string: `${k}=[${close[0]}]`, id, e })[k])
-
-                if (close[1]) {
-                    close[1] = close[1].split(',')
-                    close[1].map(close => {
-                        if (close) {
-
-                            // const.
-                            if (close.split('.')[0] === 'const') {
-                                close = close.split('.').slice(1).join('.')
-                                value.push(close)
-                            }
-
-                            // .flat()
-                            var flat = close.includes('.flat()')
-                            if (flat) close = close.split('.flat()')[0]
-
-                            var val = toParam({ VALUE, STATE, string: `${k}=${close}`, id, e })[k]
-                            flat ? value.push(...val) : value.push(val)
-                        }
-                    })
-                }
-            })
-            
-            value = value.filter(value => value)
-        }
-
-
     } else {
 
         // id
         if (value && value.includes('::')) {
 
             var newId = value.split('::')[1]
-            id = toValue({ VALUE, STATE, id, params: { value: newId }, e })
+            id = toValue({ VALUE, STATE, id, params: { value: newId, params }, e })
             value = value.split('::')[0]
 
         }
@@ -149,26 +71,23 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         if (plus) {
 
             value = value.split('++')[0]
-            plus = toValue({ VALUE, STATE, id, params: { value: plus }, e })
+            plus = toValue({ VALUE, STATE, id, params: { params, value: plus }, e })
 
         } else if (minus) {
 
             value = value.split('--')[0]
-            minus = toValue({ VALUE, STATE, id, params: { value: minus }, e })
+            minus = toValue({ VALUE, STATE, id, params: { params, value: minus }, e })
 
         } else if (times) {
 
             value = value.split('**')[0]
-            times = toValue({ VALUE, STATE, id, params: { value: times }, e })
+            times = toValue({ VALUE, STATE, id, params: { params, value: times }, e })
 
         } else if (division) {
 
             value = value.split('÷÷')[0]
-            division = toValue({ VALUE, STATE, id, params: { value: division }, e })
+            division = toValue({ VALUE, STATE, id, params: { params, value: division }, e })
         }
-
-        // __dirname
-        //if (value === 'uploadsApi') value = require("path").resolve(plus)
 
         var path = typeof value === 'string' ? value.split('.') : []
         
@@ -188,45 +107,16 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         else if (value.includes('%20')) value = value.split('%20').join(' ')
         else if (value.includes('JSON.parse')) value = JSON.parse(value.split('JSON.parse(')[1].slice(0, -1))
         else if (value.includes('JSON.stringify')) value = JSON.stringify(value.split('JSON.stringify(')[1].slice(0, -1))
-        else if (path.length > 1) {
+        else if (path[1]) {
 
             if (path[0] === 'global') {
-                
                 local = VALUE[path[1]]
-                path = path.slice(2)
-                path.unshift('value')
+                id = path[1]
+                path = path.slice(1)
+                path[0] = 'value'
             }
-
-            if (path[0] === 'value' || path[0] === 'state' || path[0] === 'e' || path[0] === 'params') {
-
-                var object = path[0] === 'value' ? clone(local) 
-                : path[0] === 'state' ? clone(STATE[path[1]]) 
-                : path[0] === 'params' ? clone(params) 
-                : path[0] === 'e' && e
-                
-                if (path[0] === 'state') path = path.slice(2)
-                else path = path.slice(1)
-
-                value = reducer({ VALUE, STATE, id, params: { path, object } })
-                
-            } else if (path[0] === 'const') {
-                value = value.split('const.')[1]
-
-            } else if (path[0] === 'encoded') {
-                value = STATE.encoded[path[1]]
-
-            } else if (path[0] === 'generate') {
-
-                if (path[1] === 'capitalize') value = generate().toUpperCase()
-                else value = generate()
-
-            } else if (path[path.length - 1] === 'parent') {
-
-                var element = VALUE[path[0]]
-                if (!element) value = path[0]
-                else value = element.parent
-            }
-
+            
+            value = reducer({ VALUE, STATE, id, params: { path, value, params }, e })
         }
 
         if (plus) value = value + plus
@@ -235,7 +125,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         else if (division) value = value / division
 
     }
-
+    
     return value
 }
 

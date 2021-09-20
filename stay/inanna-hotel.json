@@ -20,15 +20,37 @@
       "icon": {}
     }
   ],
-  "type": "Historic House Hotel",
+  "type": "Hotel",
   "country": {
     "en": "Syria"
   },
   "rate": "4.5",
-  "address": "bab sharqi, next to the Mariamite church",
+  "address": "Bab sharqi, next to the Mariamite church",
   "contact-number": {
-    "Telephone": "00963-967960960",
-    "Yazan Orfali": "00963-955116041"
+    "Yazan Orfali Manager": "00963-955116041",
+    "Hotel Telephone": "00963-967960960"
   },
-  "image": []
+  "image": [
+    "api/image/1631704819443-Kfpma.jpeg",
+    "api/image/1631704867892-I3aWj.jpeg",
+    "api/image/1631704882793-wNj5k.jpeg",
+    "api/image/1631718703739-7gr6I.jpeg"
+  ],
+  "classification": {
+    "clientele": {
+      "en": "Business or commercial Hotels"
+    },
+    "location": {
+      "en": "Downtown Hotel"
+    },
+    "ownership": {
+      "en": "Independent Hotels"
+    },
+    "service": {
+      "en": "Budget/Economy Hotels"
+    },
+    "size": {
+      "en": "Small hotel"
+    }
+  }
 }

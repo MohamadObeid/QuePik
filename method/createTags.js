@@ -5,7 +5,7 @@ const { createComponent } = require("./createComponent")
 const { toTag } = require("./toTag")
 const { isEqual } = require("./isEqual")
 
-const actions = ['flicker']
+const autoActions = ['flicker']
 
 const createTags = ({ VALUE, STATE, id }) => {
     
@@ -14,7 +14,7 @@ const createTags = ({ VALUE, STATE, id }) => {
     var local = VALUE[id]
     if (!local) return
 
-    if (Array.isArray(local.data) && local.data.length > 0) {
+    if (local.mapType && Array.isArray(local.data) && local.data.length > 0) {
 
         local.length = local.data.length || 1
         var $ = clone(local)
@@ -29,7 +29,6 @@ const createTags = ({ VALUE, STATE, id }) => {
                 var index = local.data.findIndex(el => isEqual(el, unmount))
                 if (index !== -1) local.data.splice(index, 1)
             })
-            console.log(local.unmount, toUnmount, local.data);
         }
         
         return $.data.map((data, index) => {
@@ -50,7 +49,7 @@ const createTags = ({ VALUE, STATE, id }) => {
             var local = VALUE[id]
 
             // execute onload actions
-            actions.map(action => {
+            autoActions.map(action => {
                 if (local[action]) {
                     local.actions = toArray(local.actions)
                     local.actions.push(action)
@@ -91,7 +90,87 @@ const createTags = ({ VALUE, STATE, id }) => {
                 var local = VALUE[id]
                 
                 // execute onload actions
-                actions.map(action => {
+                autoActions.map(action => {
+                    if (local[action]) {
+                        local.actions = toArray(local.actions)
+                        local.actions.push(action)
+                    }
+                })
+                
+                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
+                return toTag({ STATE, VALUE, id })
+
+            }).join('')
+        }
+    }
+
+    if (local.lang && !local.templated && !local.duplicated) {
+        var langs = Object.keys(clone(local.data || {}))
+
+        if (langs.length > 0) {
+            
+            local.length = langs.length
+            var $ = clone(local)
+            delete VALUE[id]
+            
+            return langs.map(lang => {
+
+                var id = generate()
+                var local = clone($)
+
+                local.id = id
+                local.lang = lang
+
+                VALUE[id] = local
+                
+                // components
+                componentModifier({ VALUE, STATE, id })
+                createComponent({ VALUE, STATE, id })
+                
+                var local = VALUE[id]
+                
+                // execute onload actions
+                autoActions.map(action => {
+                    if (local[action]) {
+                        local.actions = toArray(local.actions)
+                        local.actions.push(action)
+                    }
+                })
+                
+                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
+                return toTag({ STATE, VALUE, id })
+
+            }).join('')
+        }
+    }
+
+    if (local.currency && !local.templated && !local.duplicated) {
+        var currencies = Object.keys(clone(local.data || {}))
+
+        if (currencies.length > 0) {
+            
+            local.length = currencies.length
+            var $ = clone(local)
+            delete VALUE[id]
+            
+            return currencies.map(currency => {
+
+                var id = generate()
+                var local = clone($)
+
+                local.id = id
+                local.currency = currency
+
+                VALUE[id] = local
+                
+                // components
+                componentModifier({ VALUE, STATE, id })
+                createComponent({ VALUE, STATE, id })
+                
+                var local = VALUE[id]
+                
+                // execute onload actions
+                autoActions.map(action => {
                     if (local[action]) {
                         local.actions = toArray(local.actions)
                         local.actions.push(action)
@@ -121,7 +200,7 @@ const createTags = ({ VALUE, STATE, id }) => {
     componentModifier({ VALUE, STATE, id })
 
     // execute onload actions
-    actions.map(action => {
+    autoActions.map(action => {
         if (local[action]) {
             local.actions = toArray(local.actions)
             local.actions.push(action)
@@ -155,8 +234,8 @@ const componentModifier = ({ VALUE, STATE, id }) => {
         local.input = local.input || {}
         local.input.style = local.input.style || {}
         local.input.style.height = 'fit-content'
-        local.style.minHeight = '4rem',
-        local.input.style.minHeight = '2.5rem'
+        // local.style.minHeight = '4rem',
+        // local.input.style.minHeight = '2.5rem'
     }
 
     // input

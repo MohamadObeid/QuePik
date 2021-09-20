@@ -1,6 +1,6 @@
 {
     "file-name": "admin-assets-list",
-    "type": "View?value.Data;state.asset-list-grid-display=grid;state.asset-list-table-display=none;state.asset-list-Data=state.asset.values",
+    "type": "View?value.Data;state.asset-list-grid-display=grid;state.asset-list-table-display=none;state.asset-list-Data=state.asset.values()",
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
         "children": [{
@@ -38,7 +38,7 @@
                 },
                 "controls": [{
                     "event": "keyup>>200",
-                    "actions": "filter?filter.backup=state.asset.values;filter.path=name.en;filter.Data=asset-list-Data;filter.value=e.target.value;filter.update=global.asset-list.1stChild.id<<global.asset-list.1stChild.element.style.display=grid;filter.update=global.asset-list.2ndChild.2ndChild.id<<global.asset-list.2ndChild.element.style.display=grid"
+                    "actions": "filter?filter.backup=state.asset.values();filter.path=name.en;filter.Data=asset-list-Data;filter.value=e.target.value;filter.update=global.asset-list.1stChild.id<<global.asset-list.1stChild.element.style.display=grid;filter.update=global.asset-list.2ndChild.2ndChild.id<<global.asset-list.2ndChild.element.style.display=grid"
                 }]
             }, {
                 "type": "View?class=flex-box",
@@ -64,7 +64,7 @@
             "children": [{
                 "type": "View?style.display=state.asset-list-grid-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
-                    "type": "View?class=flex-box;Data=asset-list-Data;data=state.asset-list-Data",
+                    "type": "[View]?class=flex-box;Data=asset-list-Data;data=state.asset-list-Data",
                     "style": {
                         "borderRadius": ".75rem",
                         "border": "1px solid #ddd",
@@ -78,7 +78,7 @@
                     "controls": [{
                         "actions": "createControls?controls.type=auto-style;controls.id=[value.id,value.1stChild.id]" 
                     }, {
-                        "actions": "createControls?controls.type=mini-window;controls.view=asset?value.data.file-name!=language!=unit!=currency!=country"
+                        "actions": "createControls?controls.type=mini-window;controls.view=asset?value.data.file-name!=language!=unit!=currency!=country!=asesiyet-lbet!=my-love"
                     }],
                     "children": [{
                         "type": "Text?text=value.data.name.en<<value.data.name;style.fontSize=1.3rem;style.after.color=#ee384e;style.transition=color .1s"
@@ -112,7 +112,7 @@
                             "type": "Text?text=Options;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                             "controls": {
                                 "event": "click", 
-                                "actions": "sort;update::value.parent.parent.next.id?sort.path=options.length;sort.Data=asset-list-Data"
+                                "actions": "sort;update::value.parent.parent.next.id?sort.path=options.length();sort.Data=asset-list-Data"
                             }
                         }]
                     }, {
@@ -121,17 +121,17 @@
                 }, {
                     "type": "View?style.display=grid;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
                     "children": [{
-                        "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;Data=asset-list-Data;data=state.asset-list-Data;style.borderBottom=1px solid #eee;style.padding=0 1rem",
+                        "type": "[View]?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;Data=asset-list-Data;data=state.asset-list-Data;style.borderBottom=1px solid #eee;style.padding=0 1rem",
                         "children": [{
                             "type": "Text?text=value.data.name.en<<value.data.name;style.fontSize=1.4rem"
                         }, {
                             "type": "Text?text=value.data.file-name;style.fontSize=1.4rem"
                         }, {
-                            "type": "Text?text=value.data.options.length<<value.data.options;style.fontSize=1.4rem"
+                            "type": "Text?text=value.data.options.length()<<value.data.options;style.fontSize=1.4rem"
                         }, {
                             "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%",
                             "children": [{
-                                "type": "Icon?class=flex-box;icon.name=bi-three-dots;auto-style;actionlist.placement=left<<value.data.file-name!=language!=unit!=currency!=country",
+                                "type": "Icon?class=flex-box;icon.name=bi-three-dots;auto-style;actionlist.placement=left<<value.data.file-name!=language!=unit!=currency!=country!=asesiyet-lbet!=my-love",
                                 "style": {
                                     "cursor": "pointer",
                                     "color": "#116dff",

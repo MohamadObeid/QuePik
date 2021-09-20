@@ -14,7 +14,7 @@ const Input = (component) => {
     component.input.style = component.input.style || {}
 
     component = toComponent(component)
-    var { id, input, model, droplist, readonly, style, controls, icon, 
+    var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
         placeholder, textarea, filterable, clearable, removable, msg,
         duplicatable, lang, unit, currency, google, key, note, edit } = component
 
@@ -67,9 +67,11 @@ const Input = (component) => {
                 alignItems: 'center',
                 width: '100%',
                 maxWidth: '100%',
+                minHeight: style.minHeight || '4rem',
                 position: 'relative',
                 backgroundColor: '#fff',
-                height: '4rem',
+                height: 'fit-content',
+                minHeight: '4rem',
                 borderRadius: '0.25rem',
                 transition: '0.2s',
                 overflow: 'hidden',
@@ -105,6 +107,7 @@ const Input = (component) => {
                 droplist,
                 filterable,
                 placeholder,
+                duplicated,
                 templated: true,
                 'placeholder-ar': component['placeholer-ar'],
                 style: {
@@ -123,7 +126,7 @@ const Input = (component) => {
                     ...input.style
                 },
                 controls: [...controls, {
-                    actions: 'resizeInput'
+                    actions: 'resize'
                 }, {
                     event: `keyup??value.data;e.key=Enter;${duplicatable}`,
                     actions: `duplicate::${id}`
@@ -133,11 +136,11 @@ const Input = (component) => {
             }, {
                 type: `View?class=flex-box;style.alignSelf=flex-start;style.minWidth=fit-content;style.height=${style.height || '4rem'}`,
                 children: [{
-                    type: `Icon?icon.name=bi-caret-down-fill;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem?const.${droplist}::${id}-input`
+                    type: `Icon?icon.name=bi-caret-down-fill;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem?droplist::${id}-input`
                 }, {
                     type: `Text?text=${note};style.color=#666;style.fontSize=1.3rem;style.padding=.5rem?const.${note}`
                 }, {
-                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,${key}>>input];auto-style?const.${key}`,
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,${key}>>input];auto-style;duplicated=${duplicated}?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -148,7 +151,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,asset.currency.options.name.en.flat()];auto-style?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,asset.currency.options.map().name.en].flat();auto-style;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -159,7 +162,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,asset.unit.options.name.en.flat()];auto-style?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,asset.unit.options.map().name.en].flat();auto-style?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -171,7 +174,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data`
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.name.en.flat()];droplist.lang;auto-style?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.map().name.en].flat();droplist.lang;auto-style;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -187,7 +190,7 @@ const Input = (component) => {
                         event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
-                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;droplist.items=[Enter google icon type>>readonly,[Icon type>>readonly,outlined,rounded,sharp,twoTone]];auto-style?const.${google}`,
+                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type>>readonly,outlined,rounded,sharp,twoTone];droplist.items=[Enter google icon type>>readonly,state.google-items];auto-style?const.${google}`,
                 }, {
                     type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;auto-style?${clearable}||${removable}`,
                     style: {

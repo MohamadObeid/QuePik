@@ -1,23 +1,58 @@
 const { derive } = require("./derive")
+const { generate } = require("./generate")
 const { toArray } = require("./toArray")
+const { capitalize } = require("./capitalize")
+const { toCode } = require("./toCode")
 
-const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) => {
+const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, e }) => {
+    const { toValue } = require("./toValue")
+    const { execute } = require("./execute")
 
-    var local = VALUE[id]
-    var breakRequest
+    var local = VALUE[id], breakRequest
+
+    if (path[1]) path = toCode({ VALUE, STATE, id, string: path.join('.'), e }).split('.')
+    
+    if (!object) {
+        
+        object = path[0] === 'value' ? VALUE[id]
+        : path[0] === 'state' ? STATE 
+        : path[0] === 'e' ? e
+        : path[0] === 'params' ? params
+        : false
+        
+        if (!object) {
+            
+            if (path[0].includes('coded')) 
+            object = toValue({ VALUE, STATE, id, params: { value: STATE.codes[path[0]], params }, e })
+
+            else if (path.join('.').includes(','))
+            return object = toValue({ VALUE, STATE, id, params: { value: `[${path.join('.')}]`, params }, e })
+
+            else if (path[0] === 'action')
+            return execute({ VALUE, STATE, id, actions: path[1], params, e })
+        }
+
+        if (object) path = path.slice(1)
+        else return path.join('.')
+    }
+    
     var lastIndex = path.length - 1
-
+    
     var answer = path.reduce((o, k, i) => {
                     
         // break method
-        if (breakRequest) return
+        if (breakRequest === true || breakRequest === i) return o
+
+        if (!o) return o
         
         // set Value
         if (key && i === lastIndex) return o[k] = value
 
-        if (!o) return o
+        else if (k.includes('coded-')) {
 
-        if (k === 'data') {
+            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: STATE.codes[k].split('.'), object: o, params } })
+
+        } else if (k === 'data') {
 
             answer = derive(STATE[local.Data], local.derivations)[0]
 
@@ -88,11 +123,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) 
 
             answer = o.find(id => local.data === VALUE[id].text)
 
-        } else if (k === 'keys') {
+        } else if (k === 'keys()') {
             
             answer = Object.keys(o)
 
-        } else if (k === 'values') {
+        } else if (k === 'values()') {
             
             answer = Object.values(o)
 
@@ -100,6 +135,18 @@ const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) 
             
             answer = o.toLowerCase()
 
+        } else if (k === 'generate()') {
+            
+            answer = generate()
+
+        } else if (k === 'includes()') {
+            
+            answer = o.includes(value)
+            
+        } else if (k === 'capitalize()') {
+            
+            answer = capitalize(o)
+            
         } else if (k === 'length()') {
             
             answer = o.length
@@ -107,6 +154,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) 
         } else if (k === 'flat()') {
             
             answer = Array.isArray(o) ? o.flat() : o
+            
+        } else if (k === 'map()') {
+            
+            breakRequest = true
+            answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: path.slice(i + 1), object: o, value, key, params }, e }) )
 
         } else if (k === '1stIndex()' || k === 'firstIndex()') {
             
@@ -151,36 +203,6 @@ const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) 
             else o[k] = {}
 
         } else answer = o[k]
-        
-        // create an inner reducer
-        if (Array.isArray(o) && isNaN(k) && answer === undefined) {
-
-            var keys = path.slice(i - path.length)
-
-            var flat = o.includes('flat()')
-
-            // reduce every element in array
-            var valueO = o.map(newO => {
-                return reducer({ VALUE, STATE, id, params: { path: keys, object: newO }})
-            })
-
-            if (flat) valueO = valueO.flat()
-
-            // create a template object
-            var templateO = {}
-
-            // slice the current key
-            keys = keys.slice(0, i)
-
-            // create an object to work for the rest keys for reduce
-            keys.reduce((o, k, i) => {
-                if (i === keys.length - 1) return templateO[k] = valueO
-                return o[k] = {}
-            }, templateO)
-            if (keys.length === 0) templateO = valueO
-            
-            answer = templateO
-        }
         
         return answer
 

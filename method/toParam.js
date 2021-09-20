@@ -1,7 +1,6 @@
-const { toPath } = require("./toKey")
+const { toPath } = require("./toPath")
 const { toArray } = require("./toArray")
 const { toValue } = require("./toValue")
-const { clone } = require("./clone")
 const { reducer } = require("./reducer")
 
 const toParam = ({ VALUE, STATE, string, e, id }) => {
@@ -9,9 +8,9 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
     const { toApproval } = require("./toApproval")
 
     var localId = id
-
+    
     if (typeof string !== 'string' || !string) return string || {}
-    var params = {}
+    var params = { await: [] }
 
     string.split(';').map(param => {
 
@@ -36,6 +35,12 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
             }
         }
 
+        // await
+        if (key.includes('await.')) {
+            var awaiter = param.split('await.')[1]
+            return params.await.push(awaiter)
+        }
+
         value = toValue({ VALUE, STATE, id, e, params: { value, params } })
         
         // condition not approved
@@ -55,7 +60,7 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
             key = key.split('::')[0]
 
             // id
-            id = toValue({ VALUE, STATE, id, params: { value: newId }, e })
+            id = toValue({ VALUE, STATE, id, params: { value: newId, params }, e })
         }
         
         // conditions
@@ -71,29 +76,24 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
         var local = VALUE[id]
         if (!local) return
 
-        keys = key.split('.')
+        var path = typeof key === 'string' ? key.split('.') : []
         
         // object structure
-        if (keys && keys.length > 1) {
-            
-            // mount state & value without using setState & setData
-            if (keys[0] === 'state' || keys[0] === 'value') {
-                
-                var object = keys[0] === 'state' ? STATE : (keys[0] === 'value' && local)
-                var keys = keys.slice(1)
+        if (path && path.length > 1) {
 
-                reducer({ VALUE, STATE, id, params: { path: keys, value, key, object } })
-            }
+            // mount state & value
+            if (path[0] === 'state' || path[0] === 'value' || path[0] === 'params' || path[0] === 'e' || path[0] === 'action')
+            reducer({ VALUE, STATE, id, params: { path, value, key, params } })
 
-            else keys.reduce((obj, key, index) => {
+            else path.reduce((obj, key, index) => {
 
                 if (obj[key] !== undefined) {
 
-                    if (index === keys.length - 1) {
+                    if (index === path.length - 1) {
                         
                         // if key=value exists => mount the existing to local, then mount the new value to params
-                        keys.reduce((o, k, i) => {
-                            if (i === keys.length  - 1) return o[k] = value
+                        path.reduce((o, k, i) => {
+                            if (i === path.length  - 1) return o[k] = value
                             return o[k] || {}
                         }, VALUE[id])
 
@@ -103,7 +103,7 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
 
                 } else {
 
-                    if (index === keys.length - 1) return obj[key] = value
+                    if (index === path.length - 1) return obj[key] = value
                     else obj[key] = {}
 
                 }

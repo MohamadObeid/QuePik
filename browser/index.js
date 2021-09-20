@@ -732,7 +732,7 @@ VALUE.root.element = root
 
 starter({ VALUE, STATE, id: 'root' })
 
-},{"../method/starter":69}],5:[function(require,module,exports){
+},{"../method/starter":75}],5:[function(require,module,exports){
 const { toString } = require('../method/toString')
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
@@ -814,7 +814,7 @@ const Button = (component) => {
 }
 
 module.exports = {Button}
-},{"../method/generate":49,"../method/toComponent":75,"../method/toString":79}],6:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":83,"../method/toString":87}],6:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -860,7 +860,7 @@ const Checkbox = (component) => {
 }
 
 module.exports = { Checkbox }
-},{"../method/generate":49,"../method/toComponent":75}],7:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":83}],7:[function(require,module,exports){
 const { generate } = require("../method/generate")
 const { toComponent } = require("../method/toComponent")
 
@@ -922,7 +922,7 @@ const Header = (component) => {
 }
 
 module.exports = {Header}
-},{"../method/generate":49,"../method/toComponent":75}],8:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":83}],8:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 
 const Input = (component) => {
@@ -939,7 +939,7 @@ const Input = (component) => {
     component.input.style = component.input.style || {}
 
     component = toComponent(component)
-    var { id, input, model, droplist, readonly, style, controls, icon, 
+    var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
         placeholder, textarea, filterable, clearable, removable, msg,
         duplicatable, lang, unit, currency, google, key, note, edit } = component
 
@@ -992,9 +992,11 @@ const Input = (component) => {
                 alignItems: 'center',
                 width: '100%',
                 maxWidth: '100%',
+                minHeight: style.minHeight || '4rem',
                 position: 'relative',
                 backgroundColor: '#fff',
-                height: '4rem',
+                height: 'fit-content',
+                minHeight: '4rem',
                 borderRadius: '0.25rem',
                 transition: '0.2s',
                 overflow: 'hidden',
@@ -1030,6 +1032,7 @@ const Input = (component) => {
                 droplist,
                 filterable,
                 placeholder,
+                duplicated,
                 templated: true,
                 'placeholder-ar': component['placeholer-ar'],
                 style: {
@@ -1048,7 +1051,7 @@ const Input = (component) => {
                     ...input.style
                 },
                 controls: [...controls, {
-                    actions: 'resizeInput'
+                    actions: 'resize'
                 }, {
                     event: `keyup??value.data;e.key=Enter;${duplicatable}`,
                     actions: `duplicate::${id}`
@@ -1058,11 +1061,11 @@ const Input = (component) => {
             }, {
                 type: `View?class=flex-box;style.alignSelf=flex-start;style.minWidth=fit-content;style.height=${style.height || '4rem'}`,
                 children: [{
-                    type: `Icon?icon.name=bi-caret-down-fill;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem?const.${droplist}::${id}-input`
+                    type: `Icon?icon.name=bi-caret-down-fill;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem?droplist::${id}-input`
                 }, {
                     type: `Text?text=${note};style.color=#666;style.fontSize=1.3rem;style.padding=.5rem?const.${note}`
                 }, {
-                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,${key}>>input];auto-style?const.${key}`,
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,${key}>>input];auto-style;duplicated=${duplicated}?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1073,7 +1076,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,asset.currency.options.name.en.flat()];auto-style?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,asset.currency.options.map().name.en].flat();auto-style;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1084,7 +1087,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,asset.unit.options.name.en.flat()];auto-style?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,asset.unit.options.map().name.en].flat();auto-style?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1096,7 +1099,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data`
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.name.en.flat()];droplist.lang;auto-style?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.map().name.en].flat();droplist.lang;auto-style;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1112,7 +1115,7 @@ const Input = (component) => {
                         event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
-                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;droplist.items=[Enter google icon type>>readonly,[Icon type>>readonly,outlined,rounded,sharp,twoTone]];auto-style?const.${google}`,
+                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type>>readonly,outlined,rounded,sharp,twoTone];droplist.items=[Enter google icon type>>readonly,state.google-items];auto-style?const.${google}`,
                 }, {
                     type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;auto-style?${clearable}||${removable}`,
                     style: {
@@ -1140,7 +1143,7 @@ const Input = (component) => {
 }
 
 module.exports = {Input}
-},{"../method/toComponent":75}],9:[function(require,module,exports){
+},{"../method/toComponent":83}],9:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -1149,10 +1152,10 @@ const Item = (component) => {
     component.icon = component.icon || {}
     component.chevron = component.chevron || {}
     component = toComponent(component)
-    var { model, state, style, icon, text, tooltip, chevron, controls } = component
+    var { model, state, style, icon, text, tooltip, chevron, controls, readonly, borderMarker, data } = component
 
-    component.borderMarker = component.borderMarker !== undefined ? component.borderMarker : true
-    component.readonly = component.readonly !== undefined ? component.readonly : false
+    borderMarker = borderMarker !== undefined ? borderMarker : true
+    readonly = readonly !== undefined ? readonly : false
 
     var id = component.id || generate()
 
@@ -1253,14 +1256,14 @@ const Item = (component) => {
                 justifyContent: 'flex-start',
                 width: '100%',
                 minHeight: '3.3rem',
-                cursor: !component.readonly ? 'pointer' : 'initial',
+                cursor: !readonly ? 'pointer' : 'initial',
                 marginBottom: '1px',
                 borderRadius: '0.5rem',
                 padding: '0.9rem',
-                borderBottom: !component.readonly ? 'initial' : '1px solid #eee',
+                borderBottom: !readonly ? 'initial' : '1px solid #eee',
                 pointerEvents: 'fill',
                 ...style,
-                after: component.readonly ? {} : {
+                after: readonly ? {} : {
                     backgroundColor: '#eee',
                     ...style.after,
                 },
@@ -1270,9 +1273,9 @@ const Item = (component) => {
                 type: `Icon?id=${id}-icon?const.${icon.name}`,
                 style: {
                     display: icon ? 'flex' : 'none',
-                    color: !component.readonly ? style.color || '#444' : '#333',
-                    fontSize: !component.readonly ? style.fontSize || '1.4rem' : '1.6rem',
-                    fontWeight: !component.readonly ? 'initial' : 'bolder',
+                    color: !readonly ? style.color || '#444' : '#333',
+                    fontSize: !readonly ? style.fontSize || '1.4rem' : '1.6rem',
+                    fontWeight: !readonly ? 'initial' : 'bolder',
                     marginRight: '1rem',
                     ...(icon.style || {}),
                     after: {
@@ -1281,11 +1284,11 @@ const Item = (component) => {
                     }
                 }
             }, {
-                type: `Text?text=${text};id=${id}-text`,
+                type: `Text?text=${text};id=${id}-text;`,
                 style: {
                     fontSize: style.fontSize || '1.4rem',
-                    color: !component.readonly ? style.color || '#444' : '#333',
-                    fontWeight: !component.readonly ? 'initial' : 'bolder',
+                    color: !readonly ? style.color || '#444' : '#333',
+                    fontWeight: !readonly ? 'initial' : 'bolder',
                     userSelect: 'none',
                     textAlign: 'left',
                     after: {
@@ -1304,7 +1307,7 @@ const Item = (component) => {
 }
 
 module.exports = {Item}
-},{"../method/generate":49,"../method/toComponent":75}],10:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":83}],10:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const List = (component) => {
@@ -1377,7 +1380,7 @@ const List = (component) => {
 }
 
 module.exports = {List}
-},{"../method/toComponent":75}],11:[function(require,module,exports){
+},{"../method/toComponent":83}],11:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -1503,7 +1506,7 @@ const Rate = (component) => {
 }
 
 module.exports = { Rate }
-},{"../method/generate":49,"../method/toComponent":75}],12:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":83}],12:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const SearchBox = (component) => {
@@ -1611,7 +1614,7 @@ const SearchBox = (component) => {
 }
 
 module.exports = {SearchBox}
-},{"../method/toComponent":75}],13:[function(require,module,exports){
+},{"../method/toComponent":83}],13:[function(require,module,exports){
 const { generate } = require('../method/generate')
 const {toComponent} = require('../method/toComponent')
 
@@ -1638,7 +1641,7 @@ const Switch = (component) => {
 }
 
 module.exports = {Switch}
-},{"../method/generate":49,"../method/toComponent":75}],14:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":83}],14:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const Upload = (component) => {
@@ -1668,7 +1671,7 @@ const Upload = (component) => {
 }
 
 module.exports = {Upload}
-},{"../method/toComponent":75}],15:[function(require,module,exports){
+},{"../method/toComponent":83}],15:[function(require,module,exports){
 const {Button} = require('./Button')
 const {Input} = require('./Input')
 const {Item} = require('./Item')
@@ -1714,7 +1717,7 @@ module.exports = ({ params = {}, id }) => {
         ]
     }]
 }
-},{"../method/generate":49}],18:[function(require,module,exports){
+},{"../method/generate":52}],18:[function(require,module,exports){
 const { toArray } = require("../method/toArray");
 
 module.exports = ({ VALUE, id, params = {} }) => {
@@ -1730,7 +1733,7 @@ module.exports = ({ VALUE, id, params = {} }) => {
         actions: `resetStyles???${controls.id.join(';')}`
     }]
 }
-},{"../method/toArray":74}],19:[function(require,module,exports){
+},{"../method/toArray":80}],19:[function(require,module,exports){
 module.exports = ({ params, id }) => {
     var controls = params.controls
     
@@ -1788,7 +1791,7 @@ module.exports = ({ VALUE, params, id }) => {
         ]
     }]
 }
-},{"../method/generate":49}],23:[function(require,module,exports){
+},{"../method/generate":52}],23:[function(require,module,exports){
 module.exports = ({params}) => {
     var controls = params.controls
     return [{
@@ -1850,7 +1853,7 @@ const {textarea} = require('./textarea')
 const {save} = require('./save')
 const {erase} = require('./erase')
 const {toValue} = require('./toValue')
-const {toPath} = require('./toKey')
+const {toPath} = require('./toPath')
 const {reducer} = require('./reducer')
 const {toStyle} = require('./toStyle')
 const {preventDefault} = require('./preventDefault')
@@ -1861,9 +1864,17 @@ const {setData} = require("./setData")
 const {defaultInputHandler} = require('./defaultInputHandler')
 const {createActions} = require('./createActions')
 const {blur} = require('./blur')
+const {fill} = require('./fill')
+const {toAwait} = require('./toAwait')
+const {close} = require('./close')
+const {pause} = require('./pause')
+const {play} = require('./play')
+const {actionNote} = require('./actionNote')
+const {toCode} = require('./toCode')
+const {isPath} = require('./isPath')
 const {capitalize} = require('./capitalize')
 const {setStyle, resetStyles, toggleStyles, mountAfterStyles} = require('./style')
-const {resizeInput, dimensions} = require('./resize')
+const {resize, dimensions} = require('./resize')
 const {createData, clearData, removeData} = require('./data')
 
 const _method = {
@@ -1871,15 +1882,44 @@ const _method = {
     getParam, isArabic, isEqual, merge, overflow, addEventListener, setState,
     toApproval, toComponent, toId, toParam, toString, update, execute, removeIds,
     createDocument, toArray, generate, createElement, controls, route, textarea,
-    setStyle, resetStyles, toggleStyles, mountAfterStyles, resizeInput, dimensions,
+    setStyle, resetStyles, toggleStyles, mountAfterStyles, resize, dimensions,
     createData, setData, clearData, removeData, setContent, starter, createComponent,
-    setPosition, droplist, filter, createView, createActions, flicker, blur,
-    createControls, remove, defaultInputHandler, focus, sort, log, save, erase, 
-    toPath, toValue, reducer, preventDefault, toStyle, toTag, capitalize
+    setPosition, droplist, filter, createView, createActions, flicker, blur, toAwait,
+    createControls, remove, defaultInputHandler, focus, sort, log, save, erase, toCode,
+    toPath, toValue, reducer, preventDefault, toStyle, toTag, capitalize, fill, actionNote,
+    pause, play, close, isPath
 }
 
 module.exports = _method
-},{"./blur":26,"./capitalize":27,"./clearValues":28,"./clone":29,"./controls":30,"./createActions":31,"./createComponent":32,"./createControls":33,"./createDocument":34,"./createElement":35,"./createView":37,"./data":38,"./defaultInputHandler":39,"./derive":40,"./droplist":41,"./duplicate":42,"./erase":43,"./event":44,"./execute":45,"./filter":46,"./flicker":47,"./focus":48,"./generate":49,"./getJsonFiles":50,"./getParam":51,"./isArabic":52,"./isEqual":53,"./log":54,"./merge":55,"./overflow":56,"./preventDefault":57,"./reducer":58,"./remove":59,"./resize":61,"./route":62,"./save":63,"./search":64,"./setContent":65,"./setData":66,"./setPosition":67,"./sort":68,"./starter":69,"./state":70,"./style":71,"./textarea":72,"./toApproval":73,"./toArray":74,"./toComponent":75,"./toId":76,"./toKey":77,"./toParam":78,"./toString":79,"./toStyle":80,"./toTag":81,"./toValue":82,"./update":83}],26:[function(require,module,exports){
+},{"./actionNote":26,"./blur":27,"./capitalize":28,"./clearValues":29,"./clone":30,"./close":31,"./controls":32,"./createActions":33,"./createComponent":34,"./createControls":35,"./createDocument":36,"./createElement":37,"./createView":39,"./data":40,"./defaultInputHandler":41,"./derive":42,"./droplist":43,"./duplicate":44,"./erase":45,"./event":46,"./execute":47,"./fill":48,"./filter":49,"./flicker":50,"./focus":51,"./generate":52,"./getJsonFiles":53,"./getParam":54,"./isArabic":55,"./isEqual":56,"./isPath":57,"./log":58,"./merge":59,"./overflow":60,"./pause":61,"./play":62,"./preventDefault":63,"./reducer":64,"./remove":65,"./resize":67,"./route":68,"./save":69,"./search":70,"./setContent":71,"./setData":72,"./setPosition":73,"./sort":74,"./starter":75,"./state":76,"./style":77,"./textarea":78,"./toApproval":79,"./toArray":80,"./toAwait":81,"./toCode":82,"./toComponent":83,"./toId":84,"./toParam":85,"./toPath":86,"./toString":87,"./toStyle":88,"./toTag":89,"./toValue":90,"./update":91}],26:[function(require,module,exports){
+const actionNote = ({ VALUE, params }) => {
+
+    var actionNote = VALUE['action-note']
+    var actionNoteText = VALUE['action-note-text']
+
+    var note = params.note
+    if (!note) return
+
+    clearTimeout(actionNote['note-timer'])
+
+    actionNote.element.style.transition = 'initial'
+    actionNote.element.style.transform = 'translateY(-200%)'
+
+    actionNoteText.element.innerHTML = note
+
+    actionNote.element.style.left = 'center'
+    actionNote.element.style.transition = 'transform .2s'
+    actionNote.element.style.transform = 'translateY(0)'
+
+    const myFn = () => { 
+        actionNote.element.style.transform = 'translateY(-200%)'
+    }
+
+    actionNote['note-timer'] = setTimeout(myFn, 5000)
+}
+
+module.exports = {actionNote}
+},{}],27:[function(require,module,exports){
 const blur = ({ VALUE, id }) => {
     
     var local = VALUE[id]
@@ -1899,13 +1939,13 @@ const blur = ({ VALUE, id }) => {
 }
 
 module.exports = {blur}
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 const capitalize = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 module.exports = { capitalize }
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 const { clone } = require("./clone")
 
 const clearValues = (obj) => {
@@ -1948,46 +1988,23 @@ const clearValues = (obj) => {
 }
 
 module.exports = {clearValues}
-},{"./clone":29}],29:[function(require,module,exports){
+},{"./clone":30}],30:[function(require,module,exports){
 const clone = (obj) => {
     
-    // if (isElement(obj)) return obj
-
-    /*if (Array.isArray(obj)) {
-
-        copy = []
-        obj.map((value, index) => {
-
-            if (typeof value === "object") copy[index] = clone(value)
-            else copy[index] = value
-        })
-
-    } else {
-
-        copy = obj.constructor()
-        Object.entries(obj).map(([key, value]) => {
-            copy[key] = value
-        })
-
-    }*/
-
     var copy 
     if (typeof obj !== 'object') copy = obj
     else if (Array.isArray(obj)) copy = obj.map(obj => clone(obj))
     else {
-      var element, target
+      var element
 
       if (obj.element) element = obj.element
-      if (obj.target) target = obj.target
 
       copy = JSON.parse(JSON.stringify(obj))
-
+      
       if (element) copy.element = element
-      if (target) copy.target = target
     }
 
     return copy
-     
 }
 
 const isElement = (obj) => {
@@ -2006,7 +2023,15 @@ const isElement = (obj) => {
   }
 
 module.exports = {clone}
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
+const close = ({ VALUE, id }) => {
+    var local = VALUE[id]
+    clearTimeout(local['note-timer'])
+    local.element.style.transform = 'translateY(-200%)'
+}
+
+module.exports = {close}
+},{}],32:[function(require,module,exports){
 const { toArray } = require("./toArray")
 
 const controls = ({ VALUE, STATE, controls, id }) => {
@@ -2043,7 +2068,7 @@ const setControls = ({ VALUE, id, params }) => {
 }
 
 module.exports = {controls, setControls}
-},{"./event":44,"./execute":45,"./toArray":74,"./watch":84}],31:[function(require,module,exports){
+},{"./event":46,"./execute":47,"./toArray":80,"./watch":92}],33:[function(require,module,exports){
 const _control = require('../control/_control')
 
 const createActions = ({ VALUE, STATE, params, id }) => {
@@ -2057,7 +2082,7 @@ const createActions = ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {createActions}
-},{"../control/_control":16,"./execute":45}],32:[function(require,module,exports){
+},{"../control/_control":16,"./execute":47}],34:[function(require,module,exports){
 const { clone } = require("./clone")
 const { generate } = require("./generate")
 const { toApproval } = require("./toApproval")
@@ -2107,7 +2132,7 @@ module.exports = {
         VALUE[id] = local
     }
 }
-},{"../component/_component":15,"./clone":29,"./generate":49,"./toApproval":73,"./toParam":78}],33:[function(require,module,exports){
+},{"../component/_component":15,"./clone":30,"./generate":52,"./toApproval":79,"./toParam":85}],35:[function(require,module,exports){
 const {controls} = require("./controls")
 const _control = require('../control/_control')
 
@@ -2123,7 +2148,7 @@ const createControls = ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {createControls}
-},{"../control/_control":16,"./controls":30}],34:[function(require,module,exports){
+},{"../control/_control":16,"./controls":32}],36:[function(require,module,exports){
 const { createElement } = require("./createElement")
 const { getJsonFiles } = require("./getJsonFiles")
 const _page = require('../page/_page')
@@ -2132,7 +2157,7 @@ const createDocument = (page) => {
     var innerHTML = '', STATE = {}, VALUE = {}
     
     // get assets & views
-    STATE = { asset: getJsonFiles('asset'), view: getJsonFiles('view') }
+    STATE = { asset: getJsonFiles('asset'), view: getJsonFiles('view'), codes: {} }
 
     // body
     var id = 'body'
@@ -2179,7 +2204,7 @@ const createDocument = (page) => {
 }
 
 module.exports = {createDocument}
-},{"../page/_page":112,"./createElement":35,"./getJsonFiles":50}],35:[function(require,module,exports){
+},{"../page/_page":120,"./createElement":37,"./getJsonFiles":53}],37:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toParam } = require("./toParam")
 const { toApproval } = require("./toApproval")
@@ -2208,7 +2233,11 @@ const createElement = ({ STATE, VALUE, id }) => {
     var params = local.type.split('?')[1] 
     var conditions = local.type.split('?')[2]
 
-    // type
+    // [type]
+    if (type.slice(0, 1) === '[' && type.slice(-1) === ']') {
+        type = type.slice(1).slice(0, -1)
+        local.mapType = true
+    }
     local.type = type
 
     // parent
@@ -2333,7 +2362,7 @@ const createElement = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {createElement}
-},{"./clone":29,"./createTags":36,"./derive":40,"./generate":49,"./merge":55,"./toApproval":73,"./toParam":78}],36:[function(require,module,exports){
+},{"./clone":30,"./createTags":38,"./derive":42,"./generate":52,"./merge":59,"./toApproval":79,"./toParam":85}],38:[function(require,module,exports){
 const { clone } = require("./clone")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2341,7 +2370,7 @@ const { createComponent } = require("./createComponent")
 const { toTag } = require("./toTag")
 const { isEqual } = require("./isEqual")
 
-const actions = ['flicker']
+const autoActions = ['flicker']
 
 const createTags = ({ VALUE, STATE, id }) => {
     
@@ -2350,7 +2379,7 @@ const createTags = ({ VALUE, STATE, id }) => {
     var local = VALUE[id]
     if (!local) return
 
-    if (Array.isArray(local.data) && local.data.length > 0) {
+    if (local.mapType && Array.isArray(local.data) && local.data.length > 0) {
 
         local.length = local.data.length || 1
         var $ = clone(local)
@@ -2365,7 +2394,6 @@ const createTags = ({ VALUE, STATE, id }) => {
                 var index = local.data.findIndex(el => isEqual(el, unmount))
                 if (index !== -1) local.data.splice(index, 1)
             })
-            console.log(local.unmount, toUnmount, local.data);
         }
         
         return $.data.map((data, index) => {
@@ -2386,7 +2414,7 @@ const createTags = ({ VALUE, STATE, id }) => {
             var local = VALUE[id]
 
             // execute onload actions
-            actions.map(action => {
+            autoActions.map(action => {
                 if (local[action]) {
                     local.actions = toArray(local.actions)
                     local.actions.push(action)
@@ -2427,7 +2455,87 @@ const createTags = ({ VALUE, STATE, id }) => {
                 var local = VALUE[id]
                 
                 // execute onload actions
-                actions.map(action => {
+                autoActions.map(action => {
+                    if (local[action]) {
+                        local.actions = toArray(local.actions)
+                        local.actions.push(action)
+                    }
+                })
+                
+                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
+                return toTag({ STATE, VALUE, id })
+
+            }).join('')
+        }
+    }
+
+    if (local.lang && !local.templated && !local.duplicated) {
+        var langs = Object.keys(clone(local.data || {}))
+
+        if (langs.length > 0) {
+            
+            local.length = langs.length
+            var $ = clone(local)
+            delete VALUE[id]
+            
+            return langs.map(lang => {
+
+                var id = generate()
+                var local = clone($)
+
+                local.id = id
+                local.lang = lang
+
+                VALUE[id] = local
+                
+                // components
+                componentModifier({ VALUE, STATE, id })
+                createComponent({ VALUE, STATE, id })
+                
+                var local = VALUE[id]
+                
+                // execute onload actions
+                autoActions.map(action => {
+                    if (local[action]) {
+                        local.actions = toArray(local.actions)
+                        local.actions.push(action)
+                    }
+                })
+                
+                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
+                return toTag({ STATE, VALUE, id })
+
+            }).join('')
+        }
+    }
+
+    if (local.currency && !local.templated && !local.duplicated) {
+        var currencies = Object.keys(clone(local.data || {}))
+
+        if (currencies.length > 0) {
+            
+            local.length = currencies.length
+            var $ = clone(local)
+            delete VALUE[id]
+            
+            return currencies.map(currency => {
+
+                var id = generate()
+                var local = clone($)
+
+                local.id = id
+                local.currency = currency
+
+                VALUE[id] = local
+                
+                // components
+                componentModifier({ VALUE, STATE, id })
+                createComponent({ VALUE, STATE, id })
+                
+                var local = VALUE[id]
+                
+                // execute onload actions
+                autoActions.map(action => {
                     if (local[action]) {
                         local.actions = toArray(local.actions)
                         local.actions.push(action)
@@ -2457,7 +2565,7 @@ const createTags = ({ VALUE, STATE, id }) => {
     componentModifier({ VALUE, STATE, id })
 
     // execute onload actions
-    actions.map(action => {
+    autoActions.map(action => {
         if (local[action]) {
             local.actions = toArray(local.actions)
             local.actions.push(action)
@@ -2491,8 +2599,8 @@ const componentModifier = ({ VALUE, STATE, id }) => {
         local.input = local.input || {}
         local.input.style = local.input.style || {}
         local.input.style.height = 'fit-content'
-        local.style.minHeight = '4rem',
-        local.input.style.minHeight = '2.5rem'
+        // local.style.minHeight = '4rem',
+        // local.input.style.minHeight = '2.5rem'
     }
 
     // input
@@ -2512,7 +2620,7 @@ const componentModifier = ({ VALUE, STATE, id }) => {
 }
 
 module.exports = {createTags}
-},{"./clone":29,"./createComponent":32,"./execute":45,"./generate":49,"./isEqual":53,"./toArray":74,"./toTag":81}],37:[function(require,module,exports){
+},{"./clone":30,"./createComponent":34,"./execute":47,"./generate":52,"./isEqual":56,"./toArray":80,"./toTag":89}],39:[function(require,module,exports){
 const { update } = require("./update")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2569,7 +2677,7 @@ const createView = ({ STATE, VALUE, params ={}, id }) => {
 }
 
 module.exports = {createView}
-},{"./clone":29,"./generate":49,"./toArray":74,"./update":83}],38:[function(require,module,exports){
+},{"./clone":30,"./generate":52,"./toArray":80,"./update":91}],40:[function(require,module,exports){
 const { setContent } = require("./setContent")
 const { setData } = require("./setData")
 
@@ -2618,9 +2726,9 @@ const removeData = ({ STATE, VALUE, id, params = {} }) => {
 }
 
 module.exports = {createData, setData, clearData, removeData}
-},{"./setContent":65,"./setData":66}],39:[function(require,module,exports){
+},{"./setContent":71,"./setData":72}],41:[function(require,module,exports){
 const { setData } = require("./data")
-const { resizeInput } = require("./resize")
+const { resize } = require("./resize")
 const { isArabic } = require("./isArabic")
 const { generate } = require("./generate")
 
@@ -2649,7 +2757,6 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
                 var data = { value }
                 setData({ STATE, VALUE, params: { data }, id })
             }
-            console.log('1', local, local.element.checked);
         }
 
         return local.element.addEventListener('change', myFn)
@@ -2700,17 +2807,6 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
             
             return STATE.file = { file, "file-name": fileName }
 
-            /*var length = Object.entries(value).length
-            
-            if (length === 0) return
-            else if (length === 1) value = `${fileName}.${fileType}`
-            else if (length > 1) {
-                value = []
-                Object.entries(e.target.files).map(([key, val]) => {
-                    value.push(val.name)
-                })
-            }*/
-
         } else local.element.value = value
         
         // rating input 
@@ -2728,7 +2824,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         }
 
         // resize
-        resizeInput({ VALUE, id })
+        resize({ VALUE, id })
 
         // arabic values
         isArabic({ VALUE, params: { value }, id })
@@ -2742,11 +2838,11 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
     })
     
     // resize
-    resizeInput({ VALUE, id })
+    resize({ VALUE, id })
 }
 
 module.exports = {defaultInputHandler}
-},{"./data":38,"./generate":49,"./isArabic":52,"./resize":61}],40:[function(require,module,exports){
+},{"./data":40,"./generate":52,"./isArabic":55,"./resize":67}],42:[function(require,module,exports){
 const { merge } = require("./merge")
 
 const derive = (data, keys, fullDerivation, defaultData, writable) => {
@@ -2803,13 +2899,12 @@ const derive = (data, keys, fullDerivation, defaultData, writable) => {
 
 
 module.exports = {derive}
-},{"./merge":55}],41:[function(require,module,exports){
+},{"./merge":59}],43:[function(require,module,exports){
 const { update } = require('./update')
-const { filter } = require('./filter')
 const { clone } = require('./clone')
 const { derive } = require('./derive')
-const { generate } = require('./generate')
-const { toParam } = require('./toParam')
+const { toValue } = require('./toValue')
+const { isPath } = require('./isPath')
 
 const droplist = ({ VALUE, STATE, id, e }) => {
 
@@ -2827,26 +2922,27 @@ const droplist = ({ VALUE, STATE, id, e }) => {
     // path
     if (local.droplist.path) dropList.derivations.push(...local.droplist.path.split('.'))
 
-    // input components => focus
+    // input id
     var input_id
-    if (local.lang || local.unit || local.currency || local.key) input_id = VALUE[local.parent].element.previousSibling.id
+    if (local.lang || local.unit || local.currency || local.key) 
+    input_id = VALUE[local.parent].element.previousSibling.id
     
-    // dynamic item
-    var flat
+    // dynamic items
+    if (typeof items === 'string') items = items.split(',')
     items = items.map(item => {
-        if (typeof item === 'string' && item.split('.')[1]) {
 
-            var k = generate()
-            flat = item.includes('.flat()')
-            item = toParam({ VALUE, STATE, id, string: `${k}=${item}`, e })[k]
-            return item
+        if (typeof item === 'string' && isPath({ params: { path: item } })) 
+            return toValue({ VALUE, STATE, id, params: { value: item }, e })
 
-        } return item
+        return item
     })
-    if (flat) items = items.flat()
 
-
+    // filter undefinds
     items = items.filter(item => item)
+
+    // flat
+    if (local.droplist['flat()']) items = items.flat()
+
     var parent = VALUE[local.parent].parent
     
     if (items.length > 0) dropList.children = clone(items).map(item => {
@@ -2860,32 +2956,32 @@ const droplist = ({ VALUE, STATE, id, e }) => {
             item = item[0]
 
         } else if (Array.isArray(item)) {
-
+            
             input = true
             droplist = true
         }
         
         if (input && !readonly) {
             return {
-                type: `Input?featured;clearable;${local.key ? `edit=${parent};` : ''}${droplist ? `readonly;droplist.items=[${item}];droplist.positioner=${dropList.positioner};data=${derive(STATE[local.Data], local.derivations)[0]};` : ''}${local.key ? `input.value=value.path::${input_id};` : `input.value=${item};`}style.backgroundColor=#f0f0f0`,
-                controls: [!droplist ? {
-                    event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${VALUE[input_id].derivations.slice(0, -1).join(',')},e.target.value||${local.key}];state[value.Data][value.derivations::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?value.key::${id};value.path::${input_id}!=e.target.value`
-                }: {}]
+                type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${local.key ? `input.value=value.path::${input_id};edit=${parent};` : `input.value=${item};`}${droplist ? `readonly;droplist.items=[${item}];droplist.positioner=${dropList.positioner};data=${derive(STATE[local.Data], local.derivations)[0]};` : ''}`,
+                controls: [{
+                    event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},e.target.value||${local.key}];state[value.Data][value.derivations::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`
+                }]
             }
         }
 
         return {
             type: `Item?text=${item};readonly=${readonly}`,
             controls: [{
-                event: `click?value.element.${isInput ? 'value' : 'innerHTML'}::${id}=${item};state[value.Data][value.derivations]<<!const.${local.lang}=${item}?!readonly;state.droplist=${id}`,
+                event: `click?value.element.${isInput ? 'value' : 'innerHTML'}::${id}=${item};value.data::${id}=${item};state[value.Data][value.derivations]<<!const.${local.lang}=${item};action.resize::${id}?!readonly;state.droplist=${id}`,
                 actions: [
 
-                    // for lang droplist                // setData for new lang                    // delete last lang value from main Data                         // reset derivations for input                                                              // reset path for input                                 // if input lang is different from new lang
-                    `setData;focus::${input_id}?data.path=${item};data.value=value.data::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id};value.path::${input_id}!=${item}`,
+                    // for lang & currency droplists
+                    `setData;focus::${input_id}?data.path=${item};data.value=value.data::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=${item}`,
 
                     // data = free
-                    `setData::${input_id}?data.value=free?const.${item}=free`,
-                    `setData::${input_id}?data.value=''?const.${item}!=free;value.data=free`,
+                    `setData::${input_id}?data.value=free?${input_id};const.${item}=free`,
+                    `setData::${input_id}?data.value=''?${input_id};const.${item}!=free;value.data=free`,
                     
                     `focus::${input_id}`,
                 ]
@@ -2893,27 +2989,32 @@ const droplist = ({ VALUE, STATE, id, e }) => {
         }
     })
     
+    /*dropList.children = [{
+        type: `[Item]?data=[${items}]`,
+        controls: [{
+            event: `click?value.element.${isInput ? 'value' : 'innerHTML'}::${id}=value.data;state[value.Data][value.derivations]<<!const.${local.lang}=value.data?!readonly;state.droplist=${id}`,
+            actions: [
+
+                // for lang & currency droplists
+                `setData;focus::${input_id}?data.path=value.data;data.value=value.data::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},value.data];value.path::${input_id}=value.data?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=value.data`,
+
+                // data = free
+                `setData::${input_id}?data.value=free?const.value.data=free`,
+                `setData::${input_id}?data.value=''?const.value.data!=free;value.data=free`,
+                
+                `focus::${input_id}`,
+            ]
+        }]
+    }]*/
+
     dropList.positioner = id
     dropList.turnoff = true
     
     update({ VALUE, STATE, id: 'droplist' })
-
-    
-    if (dropList.filterable) {
-        // get input value for filter
-        var value = local.element.value
-
-        if (!value) {
-            value = local.getElementsByTagName('INPUT')[0]
-            if (value) value = value.value
-        }
-
-        if (value) filter({ VALUE, STATE, params: { value }, id: 'droplist' })
-    }
 }
 
 module.exports = {droplist}
-},{"./clone":29,"./derive":40,"./filter":46,"./generate":49,"./toParam":78,"./update":83}],42:[function(require,module,exports){
+},{"./clone":30,"./derive":42,"./isPath":57,"./toValue":90,"./update":91}],44:[function(require,module,exports){
 const { clearValues } = require('./clearValues')
 const { clone } = require('./clone')
 const { toArray } = require('./toArray')
@@ -2952,13 +3053,28 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
             keys.pop()
         }
 
-        var language
+        var language, currency
 
         keys.reduce((o, k, i) => {
 
             if (i === keys.length - 1) {
 
-                if (local.lang) {
+                if (local.currency) {
+
+                    var currencies = []
+                    Object.entries(o[k]).map(([k, v]) => {
+                        currencies.push(k)
+                    })
+
+                    var random = []
+                    STATE.asset.currency.options.map(currency => {
+                        if (!currencies.includes(currency.name.en)) random.push(currency.name.en)
+                    })
+
+                    currency = random[0]
+                    o[k][currency] = ''
+
+                } else if (local.lang) {
 
                     var langs = []
                     Object.entries(o[k]).map(([k, v]) => {
@@ -3014,8 +3130,16 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
     VALUE[id].derivations = [...local.derivations]
 
     var local = VALUE[id]
+    local.duplicated = true
 
-    if (VALUE[localID].lang) {
+    if (VALUE[localID].currency) {
+
+        var type = local.type.split('currency=')[0]
+        type += local.type.split('currency=')[1].slice(2)
+        type += `;currency=${currency}`
+        local.type = type
+
+    } else if (VALUE[localID].lang) {
 
         var type = local.type.split('lang=')[0]
         type += local.type.split('lang=')[1].slice(2)
@@ -3076,7 +3200,7 @@ const duplicates = ({ STATE, VALUE, params, id }) => {
 }
 
 module.exports = {duplicate, duplicates}
-},{"./clearValues":28,"./clone":29,"./createElement":35,"./derive":40,"./focus":48,"./generate":49,"./isEqual":53,"./removeDuplicates":60,"./starter":69,"./toArray":74}],43:[function(require,module,exports){
+},{"./clearValues":29,"./clone":30,"./createElement":37,"./derive":42,"./focus":51,"./generate":52,"./isEqual":56,"./removeDuplicates":66,"./starter":75,"./toArray":80}],45:[function(require,module,exports){
 const axios = require('axios')
 const { update } = require('./update')
 
@@ -3099,7 +3223,7 @@ const erase = async ({ VALUE, STATE, id, params = {} }) => {
 }
 
 module.exports = { erase }
-},{"./update":83,"axios":85}],44:[function(require,module,exports){
+},{"./update":91,"axios":93}],46:[function(require,module,exports){
 const { toApproval } = require('./toApproval')
 const { toId } = require('./toId')
 const { getParam } = require('./getParam')
@@ -3203,7 +3327,7 @@ const defaultEventHandler = ({ VALUE, id }) => {
 }
 
 module.exports = {addEventListener, defaultEventHandler}
-},{"./clone":29,"./execute":45,"./generate":49,"./getParam":51,"./toApproval":73,"./toId":76,"./toParam":78}],45:[function(require,module,exports){
+},{"./clone":30,"./execute":47,"./generate":52,"./getParam":54,"./toApproval":79,"./toId":84,"./toParam":85}],47:[function(require,module,exports){
 
 const { toApproval } = require("./toApproval")
 const { toArray } = require("./toArray")
@@ -3213,22 +3337,22 @@ const { toId } = require("./toId")
 const { generate } = require("./generate")
 const _method = require("./_method")
 
-const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
+const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) => {
 
-    var local = VALUE[id]
+    var local = VALUE[id], awaiter = [], _params = params
     if (!local) return
     if (controls) actions = controls.actions
     local.break = false
 
     // execute actions
     toArray(actions).map(_action => {
-
+        
         // stop after actions
         if (local.break) return
 
         var approved = true
         var actions = _action.split('?')
-        var params = actions[1]
+        var params = _params || actions[1]
         var conditions = actions[2]
         var idList = actions[3]
 
@@ -3239,11 +3363,11 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
 
             var name = action.split('::')[0]
 
-            // action>timer
+            // action>>timer
             var timer = name.split('>>')[1] || 0
             name = name.split('>>')[0]
 
-            // approval => note: essential for break::do no remove
+            // approval => note: essential for break::do not remove
             approved = toApproval({ VALUE, STATE, string: conditions, params, id })
             if (!approved) return
 
@@ -3259,6 +3383,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
                 if (!approved) return
 
                 // params
+                if (typeof params === 'string') 
                 params = toParam({ VALUE, STATE, string: params, e, id })
 
                 // id's
@@ -3266,7 +3391,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
 
                 // action::id
                 var actionid = action.split('::')[1];
-
+                
                 (actionid ? [actionid] : idList).map(id => {
 
                     // id = value.path
@@ -3279,6 +3404,21 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
                     // component doesnot exist
                     if (!id || !VALUE[id]) return
                     
+                    var keys = name.split('.')
+                    if (keys.length > 1) keys.map((k, i) => {
+
+                        if (i === keys.length - 1) return name = k
+                        if (k === 'async') {
+
+                            params.asyncer = true
+                            params.awaiter = awaiter
+                            
+                        } else if (k === 'await') {
+                            
+                            params.awaiter = true
+                            return awaiter.push(action.split('await.')[1])
+                        }
+                    })
 
                     if (!_method[name]) return
                     _method[name]({ VALUE, STATE, controls, params, e, id })
@@ -3294,7 +3434,63 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
 }
 
 module.exports = {execute}
-},{"./_method":25,"./generate":49,"./getParam":51,"./toApproval":73,"./toArray":74,"./toId":76,"./toParam":78}],46:[function(require,module,exports){
+},{"./_method":25,"./generate":52,"./getParam":54,"./toApproval":79,"./toArray":80,"./toId":84,"./toParam":85}],48:[function(require,module,exports){
+module.exports = {
+    fill: ({ VALUE, STATE, id }) => {
+        var local = VALUE[id], ratio
+
+        if (local.element) {
+
+            if (local.type !== 'Image') {
+
+                var imageEls = [...local.element.getElementsByTagName('IMG')]
+                if (imageEls.length === 0) return
+
+            } else imageEls = [local.element]
+            
+            setTimeout(() => {
+                imageEls.map(el => {
+
+                    var local = VALUE[el.id]
+                    if (!local.element.src.split('/')[4]) return 
+
+                    var parentWidth = VALUE[local.parent].element.clientWidth
+                    var parentHeight = VALUE[local.parent].element.clientHeight
+
+                    var width = local.element.offsetWidth
+                    var height = local.element.offsetHeight
+                    
+                    if (( width/parentWidth <=1 && width/parentWidth > 0.99 && height > parentHeight) 
+                        || ( height/parentHeight <=1 && height/parentHeight > 0.99 && width > parentWidth)) return
+
+                    local.element.style.maxWidth = '100%'
+                    local.element.style.maxHeight = '100%'
+
+                    var width = local.element.offsetWidth
+                    var height = local.element.offsetHeight
+
+                    if (width/parentWidth < 0.99) {
+
+                        local.element.style.width = parentWidth + 'px'
+                        if (width) ratio = (parentWidth - width) / width
+                        local.element.style.maxHeight = 'initial'
+                        local.element.style.height = height + ratio * height + 'px'
+
+                    } else if (height/parentHeight < 0.99) {
+
+                        local.element.style.height = parentHeight + 'px'
+                        if (height) ratio = (parentHeight - height) / height
+                        local.element.style.maxWidth = 'initial'
+                        local.element.style.width = width + ratio * width + 'px'
+
+                    }
+                })
+            } , 500)
+
+        }
+    }
+}
+},{}],49:[function(require,module,exports){
 const {update} = require('./update')
 
 const filter = ({ VALUE, STATE, params = {}, id }) => {
@@ -3321,7 +3517,7 @@ const filter = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {filter}
-},{"./update":83}],47:[function(require,module,exports){
+},{"./update":91}],50:[function(require,module,exports){
 const { setControls } = require("./controls")
 const { setStyle } = require("./style")
 
@@ -3341,7 +3537,7 @@ module.exports = {
         setControls({ VALUE, STATE, id, params: { controls }})
     }
 }
-},{"./controls":30,"./style":71}],48:[function(require,module,exports){
+},{"./controls":32,"./style":77}],51:[function(require,module,exports){
 const focus = ({ VALUE, id }) => {
     
     var local = VALUE[id]
@@ -3366,7 +3562,7 @@ const focus = ({ VALUE, id }) => {
 }
 
 module.exports = {focus}
-},{}],49:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
 const generate = (length) => {
@@ -3380,7 +3576,7 @@ const generate = (length) => {
 }
 
 module.exports = {generate}
-},{}],50:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 (function (process){(function (){
 const path = require('path')
 const fs = require('fs')
@@ -3404,7 +3600,7 @@ const getJsonFiles = (folder, fileName) => {
 
 module.exports = { getJsonFiles }
 }).call(this)}).call(this,require('_process'))
-},{"_process":3,"fs":1,"path":2}],51:[function(require,module,exports){
+},{"_process":3,"fs":1,"path":2}],54:[function(require,module,exports){
 const getParam = (string, param, defValue) => {
     if (!string) return defValue
     if (!string.includes('?')) return defValue
@@ -3423,7 +3619,7 @@ const getParam = (string, param, defValue) => {
 }
 
 module.exports = {getParam}
-},{}],52:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var arabic = /[\u0600-\u06FF\u0750-\u077F]/
 
 const isArabic = (value) => {
@@ -3451,7 +3647,7 @@ const isArabic = (value) => {
 }
 
 module.exports = {isArabic}
-},{}],53:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 const isEqual = function (value, other) {
     //if (value === undefined || other === undefined) return false
 
@@ -3527,13 +3723,26 @@ const isEqual = function (value, other) {
 };
 
 module.exports = {isEqual}
-},{}],54:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
+module.exports = {
+    isPath: ({ VALUE, STATE, id, e, params: { path } }) => {
+        path = path.split('.')
+
+        if (path.length === 1 || path.length === 0) return false
+        else if (/\d/.test(path[0]) 
+            || /\s/.test(path[0]) 
+            || path[1] && (path[1].includes('rem') || path[1].includes('px'))
+        ) return false
+        return true
+    }
+}
+},{}],58:[function(require,module,exports){
 const log = ({params}) => {
     console.log(params.log);
 }
 
 module.exports = {log}
-},{}],55:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 
 const { toArray } = require("./toArray")
 const { clone } = require("./clone")
@@ -3593,7 +3802,7 @@ const override = (obj1, obj2) => {
 }
 
 module.exports = {merge, override}
-},{"./clone":29,"./toArray":74}],56:[function(require,module,exports){
+},{"./clone":30,"./toArray":80}],60:[function(require,module,exports){
 const overflow = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
@@ -3643,33 +3852,86 @@ const overflow = ({ VALUE, params, id }) => {
 }
 
 module.exports = {overflow}
-},{}],57:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
+const pause = ({ VALUE, id }) => {
+    var local = VALUE[id]
+    clearTimeout(local['note-timer'])
+}
+
+module.exports = {pause}
+},{}],62:[function(require,module,exports){
+const play = ({ VALUE, id }) => {
+    var local = VALUE[id]
+    const myFn = () => { 
+        local.element.style.transform = 'translateY(-200%)'
+    }
+
+    local['note-timer'] = setTimeout(myFn, 5000)
+}
+
+module.exports = {play}
+},{}],63:[function(require,module,exports){
 const preventDefault = ({e}) => {
     e.preventDefault()
 }
 
 module.exports = {preventDefault}
-},{}],58:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 const { derive } = require("./derive")
+const { generate } = require("./generate")
 const { toArray } = require("./toArray")
+const { capitalize } = require("./capitalize")
+const { toCode } = require("./toCode")
 
-const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) => {
+const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, e }) => {
+    const { toValue } = require("./toValue")
+    const { execute } = require("./execute")
 
-    var local = VALUE[id]
-    var breakRequest
+    var local = VALUE[id], breakRequest
+
+    if (path[1]) path = toCode({ VALUE, STATE, id, string: path.join('.'), e }).split('.')
+    
+    if (!object) {
+        
+        object = path[0] === 'value' ? VALUE[id]
+        : path[0] === 'state' ? STATE 
+        : path[0] === 'e' ? e
+        : path[0] === 'params' ? params
+        : false
+        
+        if (!object) {
+            
+            if (path[0].includes('coded')) 
+            object = toValue({ VALUE, STATE, id, params: { value: STATE.codes[path[0]], params }, e })
+
+            else if (path.join('.').includes(','))
+            return object = toValue({ VALUE, STATE, id, params: { value: `[${path.join('.')}]`, params }, e })
+
+            else if (path[0] === 'action')
+            return execute({ VALUE, STATE, id, actions: path[1], params, e })
+        }
+
+        if (object) path = path.slice(1)
+        else return path.join('.')
+    }
+    
     var lastIndex = path.length - 1
-
+    
     var answer = path.reduce((o, k, i) => {
                     
         // break method
-        if (breakRequest) return
+        if (breakRequest === true || breakRequest === i) return o
+
+        if (!o) return o
         
         // set Value
         if (key && i === lastIndex) return o[k] = value
 
-        if (!o) return o
+        else if (k.includes('coded-')) {
 
-        if (k === 'data') {
+            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: STATE.codes[k].split('.'), object: o, params } })
+
+        } else if (k === 'data') {
 
             answer = derive(STATE[local.Data], local.derivations)[0]
 
@@ -3740,11 +4002,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) 
 
             answer = o.find(id => local.data === VALUE[id].text)
 
-        } else if (k === 'keys') {
+        } else if (k === 'keys()') {
             
             answer = Object.keys(o)
 
-        } else if (k === 'values') {
+        } else if (k === 'values()') {
             
             answer = Object.values(o)
 
@@ -3752,6 +4014,18 @@ const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) 
             
             answer = o.toLowerCase()
 
+        } else if (k === 'generate()') {
+            
+            answer = generate()
+
+        } else if (k === 'includes()') {
+            
+            answer = o.includes(value)
+            
+        } else if (k === 'capitalize()') {
+            
+            answer = capitalize(o)
+            
         } else if (k === 'length()') {
             
             answer = o.length
@@ -3759,6 +4033,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) 
         } else if (k === 'flat()') {
             
             answer = Array.isArray(o) ? o.flat() : o
+            
+        } else if (k === 'map()') {
+            
+            breakRequest = true
+            answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: path.slice(i + 1), object: o, value, key, params }, e }) )
 
         } else if (k === '1stIndex()' || k === 'firstIndex()') {
             
@@ -3804,36 +4083,6 @@ const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) 
 
         } else answer = o[k]
         
-        // create an inner reducer
-        if (Array.isArray(o) && isNaN(k) && answer === undefined) {
-
-            var keys = path.slice(i - path.length)
-
-            var flat = o.includes('flat()')
-
-            // reduce every element in array
-            var valueO = o.map(newO => {
-                return reducer({ VALUE, STATE, id, params: { path: keys, object: newO }})
-            })
-
-            if (flat) valueO = valueO.flat()
-
-            // create a template object
-            var templateO = {}
-
-            // slice the current key
-            keys = keys.slice(0, i)
-
-            // create an object to work for the rest keys for reduce
-            keys.reduce((o, k, i) => {
-                if (i === keys.length - 1) return templateO[k] = valueO
-                return o[k] = {}
-            }, templateO)
-            if (keys.length === 0) templateO = valueO
-            
-            answer = templateO
-        }
-        
         return answer
 
     }, object)
@@ -3842,7 +4091,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, object, value, key }, e }) 
 }
 
 module.exports = { reducer }
-},{"./derive":40,"./toArray":74}],59:[function(require,module,exports){
+},{"./capitalize":28,"./derive":42,"./execute":47,"./generate":52,"./toArray":80,"./toCode":82,"./toValue":90}],65:[function(require,module,exports){
 const { removeIds } = require("./update")
 const { clone } = require("./clone")
 
@@ -3930,7 +4179,7 @@ const resetDerivations = ({ VALUE, id, index }) => {
 }
 
 module.exports = {remove}
-},{"./clone":29,"./update":83}],60:[function(require,module,exports){
+},{"./clone":30,"./update":91}],66:[function(require,module,exports){
 const removeDuplicates = (object) => {
 
     if (typeof object === 'string' || typeof object === 'number' || !object) return object
@@ -3948,11 +4197,12 @@ const removeDuplicates = (object) => {
 }
 
 module.exports = {removeDuplicates}
-},{}],61:[function(require,module,exports){
-const resizeInput = ({ VALUE, id }) => {
+},{}],67:[function(require,module,exports){
+const resize = ({ VALUE, id }) => {
+
     var local = VALUE[id]
     if (!local) return
-
+    
     if (local.type !== 'Input') return
 
     var results = dimensions({ VALUE, id })
@@ -3963,8 +4213,24 @@ const resizeInput = ({ VALUE, id }) => {
 
         if (local.element) {
 
-            local.element.style.width = results.width + 'px'
-            if (local.templated) VALUE[local.parent].element.style.width = results.width + 'px'
+            if (!local.style || (local.style && !local.style.minWidth)) 
+                local.element.style.width = results.width + 'px'
+
+            else if (converter(local.style.minWidth) > results.width) {
+                local.element.style.width = local.style.minWidth
+            } else local.element.style.width = results.width + 'px'
+
+            // templated
+            if (local.templated) {
+                var local = VALUE[VALUE[id].parent]
+
+                if (!local.style || (local.style && !local.style.minWidth))
+                    local.element.style.width = results.width + 'px'
+                    
+                else if (converter(local.style.minWidth) > results.width) {
+                    local.element.style.width = local.style.minWidth
+                } else local.element.style.width = results.width + 'px'
+            }
 
         } else results.width + 'px'
 
@@ -3975,9 +4241,25 @@ const resizeInput = ({ VALUE, id }) => {
     if (height === 'fit-content') {
 
         if (local.element) {
+            
+            if (!local.style || (local.style && !local.style.minHeight))
+                local.element.style.height = results.height + 'px'
 
-            local.element.style.height = results.height + 'px'
-            if (local.templated) VALUE[local.parent].element.style.height = results.height + 'px'
+            else if (converter(local.style.minHeight) > results.height) {
+                local.element.style.height = local.style.minHeight
+            } else local.element.style.height = results.height + 'px'
+
+            // templated
+            if (local.templated) {
+                var local = VALUE[VALUE[id].parent]
+                
+                if (!local.style || (local.style && !local.style.minHeight))
+                    local.element.style.height = results.height + 'px'
+
+                else if (converter(local.style.minHeight) > results.height) {
+                    local.element.style.height = local.style.minHeight
+                } else local.element.style.height = results.height + 'px'
+            }
 
         } else results.height + 'px'
 
@@ -4025,8 +4307,14 @@ const dimensions = ({ VALUE, id, params = {} }) => {
     return lResult
 }
 
-module.exports = {resizeInput, dimensions}
-},{}],62:[function(require,module,exports){
+const converter = (dimension) => {
+    if (!dimension) return 0
+    if (dimension.includes('rem')) return parseFloat(dimension) * 10
+    if (dimension.includes('px')) return parseFloat(dimension)
+}
+
+module.exports = {resize, dimensions}
+},{}],68:[function(require,module,exports){
 
 const { starter } = require('./starter')
 //const { search } = require("./search")
@@ -4105,11 +4393,9 @@ export const pushRoute = ({ params }) => {
 }*/
 
 module.exports = {route}
-},{"./starter":69}],63:[function(require,module,exports){
+},{"./starter":75}],69:[function(require,module,exports){
 const axios = require('axios')
-const { reducer } = require('./reducer')
-const { toPath } = require('./toKey')
-const { update } = require('./update')
+const { toAwait } = require('./toAwait')
 
 const save = async ({ VALUE, STATE, params = {}, id, e }) => {
 
@@ -4121,39 +4407,19 @@ const save = async ({ VALUE, STATE, params = {}, id, e }) => {
 
     var { data: { data, message, success } } = await axios.post(`/api/${save.api}`, save.data)
 
+    local.saved = { data, message, success }
+
     STATE[save.api] = STATE[save.api] || {}
     STATE[save.api][data['file-name']] = data
-
-    if (save.path) {
-
-        var value = data
-        if (save.value) {
-
-            var path = toPath({ VALUE, STATE, e, id, string: save.value }).split('.').slice(1)
-            value = reducer({ VALUE, STATE, id, e, params: { object: value, path } })
-        }
-
-        var path = toPath({ VALUE, STATE, e, id, string: save.path }).split('.').slice(1)
-        reducer({ VALUE, STATE, id, e, params: { object: STATE, path, value, key: save.path } })
-
-    }
-
-    if (save.state && STATE[save.state]) {
-
-        var exist = STATE[save.state].find(el => el['file-name'] === data['file-name'])
-
-        if (exist) exist = data
-        else STATE[save.state].push(data)
-
-    }
     
-    if (save.update) update({ VALUE, STATE, id: save.update })
+    // awaits
+    toAwait({ VALUE, STATE, id, e, params })
 
     console.log(data, message, success)
 }
 
 module.exports = { save }
-},{"./reducer":58,"./toKey":77,"./update":83,"axios":85}],64:[function(require,module,exports){
+},{"./toAwait":81,"axios":93}],70:[function(require,module,exports){
 const axios = require('axios')
 const { update } = require('./update')
 
@@ -4175,7 +4441,7 @@ module.exports = {
         console.log(data, message, success)
     }
 }
-},{"./update":83,"axios":85}],65:[function(require,module,exports){
+},{"./update":91,"axios":93}],71:[function(require,module,exports){
 const { isArabic } = require("./isArabic")
 
 const setContent = ({ VALUE, STATE, params = {}, id }) => {
@@ -4197,7 +4463,7 @@ const setContent = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {setContent}
-},{"./isArabic":52}],66:[function(require,module,exports){
+},{"./isArabic":55}],72:[function(require,module,exports){
 const { clone } = require("./clone")
 const { derive } = require("./derive")
 const { setContent } = require("./setContent")
@@ -4240,7 +4506,7 @@ const setData = ({ STATE, VALUE, params = {}, id }) => {
 }
 
 module.exports = {setData}
-},{"./clone":29,"./derive":40,"./setContent":65}],67:[function(require,module,exports){
+},{"./clone":30,"./derive":42,"./setContent":71}],73:[function(require,module,exports){
 const setPosition = ({ VALUE, params, id }) => {
     var {position} = params
 
@@ -4335,7 +4601,8 @@ const setPosition = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setPosition}
-},{}],68:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
+const { reducer } = require('./reducer')
 const { update } = require('./update')
 
 const sort = ({ VALUE, STATE, params = {}, id }) => {
@@ -4353,10 +4620,10 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
     
     data.sort((a, b) => {
 
-        a = path.reduce((o, k) => o[k], a)
+        a = reducer({ VALUE, STATE, id, params: { path, object: a } })
         if (a !== undefined) a = a.toString()
 
-        b = path.reduce((o, k) => o[k], b)
+        b = reducer({ VALUE, STATE, id, params: { path, object: b } })
         if (b !== undefined) b = b.toString()
         
         if (options.sort === 'ascending') {
@@ -4379,8 +4646,9 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {sort}
-},{"./update":83}],69:[function(require,module,exports){
+},{"./reducer":64,"./update":91}],75:[function(require,module,exports){
 const autoControls = ['auto-style', 'toggle-style', 'droplist', 'actionlist']
+const autoActions = ['fill']
 
 const starter = ({ STATE, VALUE, id }) => {
     
@@ -4424,6 +4692,9 @@ const starter = ({ STATE, VALUE, id }) => {
         createControls({ VALUE, STATE, id, params }) 
         
     })
+
+    // auto actions
+    autoActions.map(action => local[action] && require("./_method")[action]({ VALUE, STATE, id }))
     
     // execute controls
     if (local.controls) controls({ VALUE, STATE, id })
@@ -4441,7 +4712,7 @@ const starter = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {starter}
-},{"./controls":30,"./createControls":33,"./defaultInputHandler":39,"./event":44,"./isArabic":52,"./style":71}],70:[function(require,module,exports){
+},{"./_method":25,"./controls":32,"./createControls":35,"./defaultInputHandler":41,"./event":46,"./isArabic":55,"./style":77}],76:[function(require,module,exports){
 const setState = ({ STATE, params,  }) => {
 
     // push states to route
@@ -4457,8 +4728,8 @@ const setState = ({ STATE, params,  }) => {
 }
 
 module.exports = {setState}
-},{}],71:[function(require,module,exports){
-const {resizeInput, dimensions} = require('./resize')
+},{}],77:[function(require,module,exports){
+const {resize} = require('./resize')
 
 const setStyle = ({ VALUE, params = {}, id }) => {
 
@@ -4483,36 +4754,38 @@ const setStyle = ({ VALUE, params = {}, id }) => {
 
             // value = width || height
             if (value) {
-                if (value.includes('width') && key.includes('height')) {
+                if (value === 'width' || value.includes('width/')) {
 
                     var divide = value.split('/')[1]
-                    var multiply = value.split('*')[1]
                     value = local.element.clientWidth
-                    if (divide) value = value / divide
-                    if (multiply) value = value * multiply
+                    if (divide) value = value / parseFloat(divide)
 
                     value += 'px'
 
-                } else if (value.includes('height') && key.includes('width')) {
+                } else if (value === 'height' || value.includes('height/')) {
 
                     var divide = value.split('/')[1]
-                    var multiply = value.split('*')[1]
                     value = local.element.clientHeight
-                    if (divide) value = value / divide
-                    if (multiply) value = value * multiply
+                    if (divide) value = value / parseFloat(divide)
 
                     value += 'px'
+
+                } else if (key === 'left' && value === 'center') {
+
+                    var width = local.element.offsetWidth
+                    var parentWidth = VALUE[local.parent].element.clientWidth
+
+                    value = parentWidth/2 - width/2 + 'px'
                 }
             }
 
-            //VAR.style[key] = value
             if (local.element) local.element.style[key] = value
             else local.style[key] = value
 
         }
 
         if (timer) local[key + '-timer'] = setTimeout(style, timer); else style()
-        if (key === 'width') resizeInput({ VALUE, id })
+        if (key === 'width') resize({ VALUE, id })
     })
 }
 
@@ -4562,7 +4835,7 @@ const mountAfterStyles = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setStyle, resetStyles, toggleStyles, mountAfterStyles}
-},{"./resize":61}],72:[function(require,module,exports){
+},{"./resize":67}],78:[function(require,module,exports){
 const textarea = ({ VALUE, id }) => {
     var local = VALUE[id]
     if (!local) return
@@ -4589,18 +4862,17 @@ const textarea = ({ VALUE, id }) => {
 }
 
 module.exports = { textarea }
-},{}],73:[function(require,module,exports){
-const { derive } = require("./derive")
+},{}],79:[function(require,module,exports){
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
 const { generate } = require("./generate")
 const { duplicates } = require("./duplicate")
-const { clone } = require("./clone")
 const { overflow } = require("./overflow")
 const { getParam } = require("./getParam")
-const { toId } = require("./toId")
 const { toValue } = require("./toValue")
 const { reducer } = require("./reducer")
+const { toPath } = require("./toPath")
+const { clone } = require("./clone")
 
 const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
     var mainId = id
@@ -4760,40 +5032,28 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 var local = VALUE[id]
                 if (!local) return approval = false
 
-                if (key === 'false' || key === 'undefined') local[keygen] = false
-                else if (key === 'true') local[keygen] = true
-                else if (key.includes('.')) {
+                // to path
+                key = toPath({ VALUE, STATE, id, string: key, e })
+                var path = typeof key === 'string' ? key.split('.') : []
+
+                // const
+                if (path[0] === 'const') {
+                        
+                    if (path[1] === 'false' || path[1] === 'undefined' || path[1] === '') local[keygen] = false
+                    else local[keygen] = path.slice(1).join('.')
                     
-                    var key0 = key.split('.')[0]
-                    var key1 = key.split(`${key0}.`)[1]
-                    if (key1 !== undefined) key1 = key1.split('.')
+                } else if (key === 'false' || key === 'undefined') local[keygen] = false
+                else if (key === 'true') local[keygen] = true
+                else if (path[1]) {
 
-                    if (key0 === 'global') {
-                        key0 = 'value'
-                        local = VALUE[key1[0]]
-                        key1 = key1.slice(1)
+                    if (path[0] === 'global') {
+                        local = VALUE[path[1]]
+                        id = path[1]
+                        path = path.slice(1)
+                        path[0] = 'value'
                     }
 
-                    if (key0 === 'value' || key0 === 'state' || key0 === 'e') {
-
-                        var object = key0 === 'value' ? clone(local) : key0 === 'e' && clone(e)
-    
-                        if (key0 === 'state') {
-    
-                            object = clone(STATE[key1[0]])
-                            key1 = key1.slice(1)
-    
-                        }
-                        
-                        local[keygen] = reducer({ VALUE, STATE, id, params: { path: key1, object }, e })
-                    }
-
-                    else if (key0 === 'const') {
-                        
-                        if (key1[0] === 'false' || key1[0] === 'undefined' || key1[0] === '') local[keygen] = false
-                        else local[keygen] = key1.join('.')
-                        
-                    }
+                    local[keygen] = reducer({ VALUE, STATE, id, params: { path, value }, e })
 
                 } else if (key === 'isArabic') {
 
@@ -4871,115 +5131,24 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 var local = VALUE[id]
                 if (!local) return approval = false
 
-                if (key === 'length') {
+                // to path
+                key = toPath({ VALUE, STATE, id, string: key, e })
+                var path = typeof key === 'string' ? key.split('.') : []
 
-                    if (!local.element.parentElement) return approval = false
-                    return approval = local.element.parentElement.children.length > value
+                if (path[1]) {
 
-                } else if (key.includes('.')) {
-
-                    var key0 = key.split('.')[0]
-                    var key1 = key.split(`${key0}.`)[1]
-                    if (key1) key1 = key1.split('.')
-                    key = generate()
-
-                    if (key0 === 'state') {
-                        local[key] = STATE[key1]
+                    if (path[0] === 'global') {
+                        local = VALUE[path[1]]
+                        id = path[1]
+                        path = path.slice(1)
+                        path[0] = 'value'
                     }
 
-                    else if (key0 === 'value') {
-
-                        if (key1[0] === 'data') {
-
-                            key1 = key1.slice(1)
-                            var length
-                            if (key1.slice(-1)[0] === 'length') {
-                                key1 = key1.slice(0, -1)
-                                length = true
-                            }
-                            var data = derive(STATE[local.Data], [...local.derivations, ...key1])[0]
-                            local[key] = data
-                            if (length) local[key] = data.length
-
-                        }
-                        else if (key1[0] === 'Data') {
-
-                            key1 = key1.slice(1)
-                            var length
-                            if (key1.slice(-1)[0] === 'length') {
-                                key1 = key1.slice(0, -1)
-                                length = true
-                            }
-                            var data = derive(STATE[local.Data], key1)[0]
-                            local[key] = data
-                            if (length) local[key] = data.length
-
-                        }
-                        else if (key1[0] === 'length') {
-                            local[key] = local.length
-                        }
-                        else {
-
-                            local[key] = key1.reduce((o, k, i) => {
-
-                                if (k === 'parent') {
-                                    
-                                    var parent = o.parent
-                                    if (o.type === 'Input') parent = VALUE[parent].parent
-                                    return VALUE[parent]
-
-                                } else if (k === 'next' || k === 'nextSibling') {
-
-                                    var nextSibling = o.element.nextSibling
-                                    var id = nextSibling.id
-
-                                    return VALUE[id]
-
-                                } else if (k === 'prev' || k === 'prevSibling') {
-
-                                    var previousSibling = o.element.previousSibling
-                                    var id = previousSibling.id
-
-                                    return VALUE[id]
-
-                                } else if (k === 'firstChild') {
-
-                                    var firstChild = o.element.children[0]
-                                    return VALUE[firstChild.id]
-                                    
-                                } else if (k === 'secondChild') {
-
-                                    var secondChild = o.element.children[1] ? o.element.children[1] : o.element.children[0]
-                                    return VALUE[secondChild.id]
-
-                                } else if (k === 'lastChild') {
-
-                                    var lastChild = o.element.children[o.element.children.length - 1]
-                                    return VALUE[lastChild.id]
-
-                                } else if (k === 'INPUT') {
-
-                                    var inputComps = [...o.element.getElementsByTagName(k)]
-                                    inputComps = inputComps.map(comp => VALUE[comp.id])
-                                    if (inputComps.length === 0) return inputComps[0]
-                                    else return inputComps
-
-                                } else if (k === 'findIdByData') {
-
-                                    var id = o.find(id => local.data === VALUE[id].text)
-                                    if (id) return id
-                                    else return id
-                                }
-
-                                return o[k]
-
-                            }, clone(local))
-
-                        }
-                    }
+                    local[keygen] = reducer({ VALUE, STATE, id, params: { path, value }, e })
                 }
 
-                approval = local[key] > value
+                approval = local[keygen] > value
+                delete local[keygen]
             }
         } else return approval
     })
@@ -4988,13 +5157,73 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
 }
 
 module.exports = {toApproval}
-},{"./clone":29,"./derive":40,"./duplicate":42,"./generate":49,"./getParam":51,"./isArabic":52,"./isEqual":53,"./overflow":56,"./reducer":58,"./toId":76,"./toValue":82}],74:[function(require,module,exports){
+},{"./clone":30,"./duplicate":44,"./generate":52,"./getParam":54,"./isArabic":55,"./isEqual":56,"./overflow":60,"./reducer":64,"./toPath":86,"./toValue":90}],80:[function(require,module,exports){
 const toArray = (data) => {
     return data !== undefined ? (Array.isArray(data) ? data : [data]) : []
 }
 
 module.exports = {toArray}
-},{}],75:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
+module.exports = {
+    toAwait: ({ VALUE, STATE, id, e, params = {} }) => {
+        if (!params.asyncer)  return
+
+        const { execute } = require("./execute")
+        const { toParam } = require("./toParam")
+
+        if (params.await && params.await.length > 0)
+        toParam({ VALUE, STATE, id, e, string: params.await.join(';') })
+        
+        if (params.awaiter) execute({ VALUE, STATE, id, e, actions: params.awaiter, params })
+        
+    }
+}
+},{"./execute":47,"./toParam":85}],82:[function(require,module,exports){
+const { generate } = require("./generate")
+
+const toCode = ({ VALUE, STATE, string, e, id }) => {
+
+    var open = '[', close = ']'
+    var keys = string.split(open)
+
+    if (keys.length === 1) return string
+
+    if (keys[1]) {
+
+        var key = `coded-${generate()}`
+        var subKey = keys[1].split(close)
+
+        // ex. [ [ [] [] ] ]
+        while (subKey[0] === keys[1] && keys[2] !== undefined) {
+
+            keys[1] += `${open}${keys[2]}`
+            if (keys[2]) keys[1] = toCode({ VALUE, STATE, string: keys[1], e, id })
+            keys.splice(2, 1)
+            subKey = keys[1].split(close)
+            
+        }
+
+        STATE.codes[key] = subKey[0]
+        var value = key
+
+        var before = keys[0]
+        subKey = subKey.slice(1)
+        keys = keys.slice(2)
+        var after = keys.join(open) ? `${open}${keys.join(open)}` : ''
+        
+        string = `${before}${value}${subKey.join(close)}${after}`
+    }
+    
+    if (string.split(open)[1]) string = toCode({ VALUE, STATE, string, e, id })
+
+    // encode round brackets
+    // string = toCode({ VALUE, STATE, string, e, id, roundBrackets: true })
+
+    return string
+}
+
+module.exports = { toCode }
+},{"./generate":52}],83:[function(require,module,exports){
 const { generate } = require('./generate')
 const { toArray } = require('./toArray')
 
@@ -5033,32 +5262,177 @@ const toComponent = (obj) => {
 }
 
 module.exports = {toComponent}
-},{"./generate":49,"./toArray":74}],76:[function(require,module,exports){
+},{"./generate":52,"./toArray":80}],84:[function(require,module,exports){
 const { clone } = require("./clone");
 const { toValue } = require("./toValue");
 
 const toId = ({ VALUE, STATE, id, string, e }) => {
     if (typeof string === 'object') return string
-    if (string) string = clone(string.split(';').map(newId => toValue({ VALUE, STATE, id, params: { value: newId }, e }) ).flat())
+    
+    if (string) string = string.split(';').map(newId => toValue({ VALUE, STATE, id, params: { value: newId }, e })).flat()
     else string = [id]
     
+    if (string) string = clone(string)
     return string
 }
 
 module.exports = {toId}
-},{"./clone":29,"./toValue":82}],77:[function(require,module,exports){
+},{"./clone":30,"./toValue":90}],85:[function(require,module,exports){
+const { toPath } = require("./toPath")
+const { toArray } = require("./toArray")
+const { toValue } = require("./toValue")
+const { reducer } = require("./reducer")
+
+const toParam = ({ VALUE, STATE, string, e, id }) => {
+
+    const { toApproval } = require("./toApproval")
+
+    var localId = id
+    
+    if (typeof string !== 'string' || !string) return string || {}
+    var params = { await: [] }
+
+    string.split(';').map(param => {
+
+        var key, value, id = localId, local = VALUE[localId]
+
+        if (param.includes('=')) {
+
+            var keys = param.split('=')
+            key = keys[0]
+            value = param.substring(key.length + 1)
+            
+        } else {
+
+            key = param
+
+            // !key;
+            if (key.includes('!')) {
+
+                if (key.split('!')[0]) key = key.split('!')[0]
+                else key = key.split('!')[1]
+                value = false
+            }
+        }
+
+        // await
+        if (key.includes('await.')) {
+            var awaiter = param.split('await.')[1]
+            return params.await.push(awaiter)
+        }
+
+        value = toValue({ VALUE, STATE, id, e, params: { value, params } })
+        
+        // condition not approved
+        if (value === '*return*') return
+        
+        id = localId
+        
+        var keys = typeof key === 'string' ? key.split('.') : []
+
+        // keys from brackets to dots
+        key = toPath({ VALUE, STATE, string: key, e, id })
+
+        // id
+        if (key && key.includes('::')) {
+
+            var newId = key.split('::')[1]
+            key = key.split('::')[0]
+
+            // id
+            id = toValue({ VALUE, STATE, id, params: { value: newId, params }, e })
+        }
+        
+        // conditions
+        if (key && key.includes('<<')) {
+
+            var condition = key.split('<<')[1]
+            var approved = toApproval({ STATE, VALUE, id, e, string: condition })
+            if (!approved) return
+            key = key.split('<<')[0]
+            
+        }
+        
+        var local = VALUE[id]
+        if (!local) return
+
+        var path = typeof key === 'string' ? key.split('.') : []
+        
+        // object structure
+        if (path && path.length > 1) {
+
+            // mount state & value
+            if (path[0] === 'state' || path[0] === 'value' || path[0] === 'params' || path[0] === 'e' || path[0] === 'action')
+            reducer({ VALUE, STATE, id, params: { path, value, key, params } })
+
+            else path.reduce((obj, key, index) => {
+
+                if (obj[key] !== undefined) {
+
+                    if (index === path.length - 1) {
+                        
+                        // if key=value exists => mount the existing to local, then mount the new value to params
+                        path.reduce((o, k, i) => {
+                            if (i === path.length  - 1) return o[k] = value
+                            return o[k] || {}
+                        }, VALUE[id])
+
+                        return obj[key] = value
+
+                    }
+
+                } else {
+
+                    if (index === path.length - 1) return obj[key] = value
+                    else obj[key] = {}
+
+                }
+
+                return obj[key]
+            }, params)
+
+        } else {
+
+            if (params[key]) {
+
+                params[key] = toArray(params[key])
+                params[key].push(value)
+
+            } else params[key] = value
+        }
+    })
+    
+    return params
+}
+
+function addDays(theDate, days) {
+    return new Date(theDate.getTime() + days * 24 * 60 * 60 * 1000);
+}
+
+module.exports = {toParam}
+},{"./reducer":64,"./toApproval":79,"./toArray":80,"./toPath":86,"./toValue":90}],86:[function(require,module,exports){
 const { generate } = require("./generate")
 
 const toPath = ({ VALUE, STATE, string, e, id }) => {
 
     const { toParam } = require("./toParam")
 
-    var keys = [], k = generate()
-    keys = string.split('[')
+    var keys = [], k = generate(), _keys = string.split('[')
 
     // is array
-    if (!keys[0]) return string
+    if (!_keys[0] || _keys.length === 1) return string
 
+    // key1.[key2].
+    _keys.map((k, i) => {
+        if (i === 0) keys.push(k)
+        else if (keys[i - 1].slice(-1) === '.') {
+            keys[i - 1] += `[${k}`
+        } else keys.push(k)
+    })
+
+    // is array
+    if (!keys[0] || keys.length === 1) return string
+    
     if (keys[1]) {
 
         var subKey = keys[1].split(']')
@@ -5094,140 +5468,7 @@ const toPath = ({ VALUE, STATE, string, e, id }) => {
 }
 
 module.exports = { toPath }
-},{"./generate":49,"./toParam":78}],78:[function(require,module,exports){
-const { toPath } = require("./toKey")
-const { toArray } = require("./toArray")
-const { toValue } = require("./toValue")
-const { clone } = require("./clone")
-const { reducer } = require("./reducer")
-
-const toParam = ({ VALUE, STATE, string, e, id }) => {
-
-    const { toApproval } = require("./toApproval")
-
-    var localId = id
-
-    if (typeof string !== 'string' || !string) return string || {}
-    var params = {}
-
-    string.split(';').map(param => {
-
-        var key, value, id = localId, local = VALUE[localId]
-
-        if (param.includes('=')) {
-
-            var keys = param.split('=')
-            key = keys[0]
-            value = param.substring(key.length + 1)
-            
-        } else {
-
-            key = param
-
-            // !key;
-            if (key.includes('!')) {
-
-                if (key.split('!')[0]) key = key.split('!')[0]
-                else key = key.split('!')[1]
-                value = false
-            }
-        }
-
-        value = toValue({ VALUE, STATE, id, e, params: { value, params } })
-        
-        // condition not approved
-        if (value === '*return*') return
-        
-        id = localId
-        
-        var keys = typeof key === 'string' ? key.split('.') : []
-
-        // keys from brackets to dots
-        key = toPath({ VALUE, STATE, string: key, e, id })
-
-        // id
-        if (key && key.includes('::')) {
-
-            var newId = key.split('::')[1]
-            key = key.split('::')[0]
-
-            // id
-            id = toValue({ VALUE, STATE, id, params: { value: newId }, e })
-        }
-        
-        // conditions
-        if (key && key.includes('<<')) {
-
-            var condition = key.split('<<')[1]
-            var approved = toApproval({ STATE, VALUE, id, e, string: condition })
-            if (!approved) return
-            key = key.split('<<')[0]
-            
-        }
-        
-        var local = VALUE[id]
-        if (!local) return
-
-        keys = key.split('.')
-        
-        // object structure
-        if (keys && keys.length > 1) {
-            
-            // mount state & value without using setState & setData
-            if (keys[0] === 'state' || keys[0] === 'value') {
-                
-                var object = keys[0] === 'state' ? STATE : (keys[0] === 'value' && local)
-                var keys = keys.slice(1)
-
-                reducer({ VALUE, STATE, id, params: { path: keys, value, key, object } })
-            }
-
-            else keys.reduce((obj, key, index) => {
-
-                if (obj[key] !== undefined) {
-
-                    if (index === keys.length - 1) {
-                        
-                        // if key=value exists => mount the existing to local, then mount the new value to params
-                        keys.reduce((o, k, i) => {
-                            if (i === keys.length  - 1) return o[k] = value
-                            return o[k] || {}
-                        }, VALUE[id])
-
-                        return obj[key] = value
-
-                    }
-
-                } else {
-
-                    if (index === keys.length - 1) return obj[key] = value
-                    else obj[key] = {}
-
-                }
-
-                return obj[key]
-            }, params)
-
-        } else {
-
-            if (params[key]) {
-
-                params[key] = toArray(params[key])
-                params[key].push(value)
-
-            } else params[key] = value
-        }
-    })
-    
-    return params
-}
-
-function addDays(theDate, days) {
-    return new Date(theDate.getTime() + days * 24 * 60 * 60 * 1000);
-}
-
-module.exports = {toParam}
-},{"./clone":29,"./reducer":58,"./toApproval":73,"./toArray":74,"./toKey":77,"./toValue":82}],79:[function(require,module,exports){
+},{"./generate":52,"./toParam":85}],87:[function(require,module,exports){
 const toString = (object) => {
     if (!object) return ''
 
@@ -5254,7 +5495,7 @@ const toString = (object) => {
 }
 
 module.exports = {toString}
-},{}],80:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 module.exports = {
     toStyle: ({ VALUE, STATE, id }) => {
         var local = VALUE[id]
@@ -5302,7 +5543,7 @@ module.exports = {
         return style
     }
 }
-},{}],81:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 const { toStyle } = require("./toStyle")
 const { toArray } = require("./toArray")
 const { generate } = require("./generate")
@@ -5403,15 +5644,13 @@ module.exports = {
         return tag
     }
 }
-},{"./clone":29,"./createElement":35,"./generate":49,"./toArray":74,"./toStyle":80,"path":2}],82:[function(require,module,exports){
-const { clone } = require("./clone")
-const { toPath } = require("./toKey")
+},{"./clone":30,"./createElement":37,"./generate":52,"./toArray":80,"./toStyle":88,"path":2}],90:[function(require,module,exports){
+const { toPath } = require("./toPath")
 const { generate } = require("./generate")
 const { reducer } = require("./reducer")
 
 const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
     
-    const { toParam } = require("./toParam")
     const { toApproval } = require("./toApproval")
 
     var local = VALUE[id], minus, plus, times, division
@@ -5421,99 +5660,23 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         
     // destructure []
     if (value) value = toPath({ VALUE, STATE, string: value, e, id })
-
+    
     // auto space
     if (value === '&nbsp') value = '&nbsp;'
     
     if (value && value.charAt(0) === '[' && value.charAt(value.length - 1) === ']') {
 
         value = value.slice(1, value.length - 1)
-
-        var open = value.split('[')
-
-        // check if [] is a key not an array => do not split at this point
-        if (open.length > 1) {
-            var newOpen = []
-
-            open.map((o, i) => {
-                if (i > 0 && open[i - 1].slice(-1) !== ',') {
-
-                    newOpen[newOpen.length - 1] += `[${o}`
-
-                } else newOpen.push(o)
-            })
-
-            open = newOpen
-        }
-
-        var k = generate(), isArray = open[1]
-        value = []
-
+        value = value.split(',').map(value => toValue({ VALUE, STATE, id, e, params: { value, params } }))
+        value = value.filter(value => value)
         
-        if (open[0]) {
-            
-            open[0] = open[0].split(',')
-            open[0].map(open => {
-                if (open) {
-
-                    // const.
-                    if (open.split('.')[0] === 'const') {
-                        open = open.split('.').slice(1).join('.')
-                        return value.push(open)
-                    }
-
-                    // .flat()
-                    var flat = open.includes('.flat()')
-                    if (flat) open = open.split('.flat()')[0]
-
-                    var val = toParam({ VALUE, STATE, string: `${k}=${open}`, id, e })[k]
-                    flat ? value.push(...val) : value.push(val)
-                }
-            })
-        }
-        
-        // an array value
-        if (isArray) {
-
-            open = open.slice(1)
-            open.map(open => {
-
-                var close = open.split(']')
-                value.push(toParam({ VALUE, STATE, string: `${k}=[${close[0]}]`, id, e })[k])
-
-                if (close[1]) {
-                    close[1] = close[1].split(',')
-                    close[1].map(close => {
-                        if (close) {
-
-                            // const.
-                            if (close.split('.')[0] === 'const') {
-                                close = close.split('.').slice(1).join('.')
-                                value.push(close)
-                            }
-
-                            // .flat()
-                            var flat = close.includes('.flat()')
-                            if (flat) close = close.split('.flat()')[0]
-
-                            var val = toParam({ VALUE, STATE, string: `${k}=${close}`, id, e })[k]
-                            flat ? value.push(...val) : value.push(val)
-                        }
-                    })
-                }
-            })
-            
-            value = value.filter(value => value)
-        }
-
-
     } else {
 
         // id
         if (value && value.includes('::')) {
 
             var newId = value.split('::')[1]
-            id = toValue({ VALUE, STATE, id, params: { value: newId }, e })
+            id = toValue({ VALUE, STATE, id, params: { value: newId, params }, e })
             value = value.split('::')[0]
 
         }
@@ -5555,26 +5718,23 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         if (plus) {
 
             value = value.split('++')[0]
-            plus = toValue({ VALUE, STATE, id, params: { value: plus }, e })
+            plus = toValue({ VALUE, STATE, id, params: { params, value: plus }, e })
 
         } else if (minus) {
 
             value = value.split('--')[0]
-            minus = toValue({ VALUE, STATE, id, params: { value: minus }, e })
+            minus = toValue({ VALUE, STATE, id, params: { params, value: minus }, e })
 
         } else if (times) {
 
             value = value.split('**')[0]
-            times = toValue({ VALUE, STATE, id, params: { value: times }, e })
+            times = toValue({ VALUE, STATE, id, params: { params, value: times }, e })
 
         } else if (division) {
 
             value = value.split('÷÷')[0]
-            division = toValue({ VALUE, STATE, id, params: { value: division }, e })
+            division = toValue({ VALUE, STATE, id, params: { params, value: division }, e })
         }
-
-        // __dirname
-        //if (value === 'uploadsApi') value = require("path").resolve(plus)
 
         var path = typeof value === 'string' ? value.split('.') : []
         
@@ -5594,45 +5754,16 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         else if (value.includes('%20')) value = value.split('%20').join(' ')
         else if (value.includes('JSON.parse')) value = JSON.parse(value.split('JSON.parse(')[1].slice(0, -1))
         else if (value.includes('JSON.stringify')) value = JSON.stringify(value.split('JSON.stringify(')[1].slice(0, -1))
-        else if (path.length > 1) {
+        else if (path[1]) {
 
             if (path[0] === 'global') {
-                
                 local = VALUE[path[1]]
-                path = path.slice(2)
-                path.unshift('value')
+                id = path[1]
+                path = path.slice(1)
+                path[0] = 'value'
             }
-
-            if (path[0] === 'value' || path[0] === 'state' || path[0] === 'e' || path[0] === 'params') {
-
-                var object = path[0] === 'value' ? clone(local) 
-                : path[0] === 'state' ? clone(STATE[path[1]]) 
-                : path[0] === 'params' ? clone(params) 
-                : path[0] === 'e' && e
-                
-                if (path[0] === 'state') path = path.slice(2)
-                else path = path.slice(1)
-
-                value = reducer({ VALUE, STATE, id, params: { path, object } })
-                
-            } else if (path[0] === 'const') {
-                value = value.split('const.')[1]
-
-            } else if (path[0] === 'encoded') {
-                value = STATE.encoded[path[1]]
-
-            } else if (path[0] === 'generate') {
-
-                if (path[1] === 'capitalize') value = generate().toUpperCase()
-                else value = generate()
-
-            } else if (path[path.length - 1] === 'parent') {
-
-                var element = VALUE[path[0]]
-                if (!element) value = path[0]
-                else value = element.parent
-            }
-
+            
+            value = reducer({ VALUE, STATE, id, params: { path, value, params }, e })
         }
 
         if (plus) value = value + plus
@@ -5641,12 +5772,12 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         else if (division) value = value / division
 
     }
-
+    
     return value
 }
 
 module.exports = { toValue }
-},{"./clone":29,"./generate":49,"./reducer":58,"./toApproval":73,"./toKey":77,"./toParam":78}],83:[function(require,module,exports){
+},{"./generate":52,"./reducer":64,"./toApproval":79,"./toPath":86}],91:[function(require,module,exports){
 const { generate } = require("./generate")
 const { starter } = require("./starter")
 const { toArray } = require("./toArray")
@@ -5710,7 +5841,7 @@ const removeIds = ({ VALUE, id }) => {
 }
 
 module.exports = {update, removeIds}
-},{"./clone":29,"./createElement":35,"./generate":49,"./starter":69,"./toArray":74}],84:[function(require,module,exports){
+},{"./clone":30,"./createElement":37,"./generate":52,"./starter":75,"./toArray":80}],92:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toApproval } = require("./toApproval")
 const { isEqual } = require("./isEqual")
@@ -5798,9 +5929,9 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {watch}
-},{"./clone":29,"./data":38,"./execute":45,"./generate":49,"./isEqual":53,"./toApproval":73,"./toParam":78}],85:[function(require,module,exports){
+},{"./clone":30,"./data":40,"./execute":47,"./generate":52,"./isEqual":56,"./toApproval":79,"./toParam":85}],93:[function(require,module,exports){
 module.exports = require('./lib/axios');
-},{"./lib/axios":87}],86:[function(require,module,exports){
+},{"./lib/axios":95}],94:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5981,7 +6112,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"../core/buildFullPath":93,"../core/createError":94,"./../core/settle":98,"./../helpers/buildURL":102,"./../helpers/cookies":104,"./../helpers/isURLSameOrigin":107,"./../helpers/parseHeaders":109,"./../utils":111}],87:[function(require,module,exports){
+},{"../core/buildFullPath":101,"../core/createError":102,"./../core/settle":106,"./../helpers/buildURL":110,"./../helpers/cookies":112,"./../helpers/isURLSameOrigin":115,"./../helpers/parseHeaders":117,"./../utils":119}],95:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -6039,7 +6170,7 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
-},{"./cancel/Cancel":88,"./cancel/CancelToken":89,"./cancel/isCancel":90,"./core/Axios":91,"./core/mergeConfig":97,"./defaults":100,"./helpers/bind":101,"./helpers/isAxiosError":106,"./helpers/spread":110,"./utils":111}],88:[function(require,module,exports){
+},{"./cancel/Cancel":96,"./cancel/CancelToken":97,"./cancel/isCancel":98,"./core/Axios":99,"./core/mergeConfig":105,"./defaults":108,"./helpers/bind":109,"./helpers/isAxiosError":114,"./helpers/spread":118,"./utils":119}],96:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6060,7 +6191,7 @@ Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
 
-},{}],89:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 'use strict';
 
 var Cancel = require('./Cancel');
@@ -6119,14 +6250,14 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-},{"./Cancel":88}],90:[function(require,module,exports){
+},{"./Cancel":96}],98:[function(require,module,exports){
 'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
 
-},{}],91:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6223,7 +6354,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = Axios;
 
-},{"../helpers/buildURL":102,"./../utils":111,"./InterceptorManager":92,"./dispatchRequest":95,"./mergeConfig":97}],92:[function(require,module,exports){
+},{"../helpers/buildURL":110,"./../utils":119,"./InterceptorManager":100,"./dispatchRequest":103,"./mergeConfig":105}],100:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6277,7 +6408,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 
 module.exports = InterceptorManager;
 
-},{"./../utils":111}],93:[function(require,module,exports){
+},{"./../utils":119}],101:[function(require,module,exports){
 'use strict';
 
 var isAbsoluteURL = require('../helpers/isAbsoluteURL');
@@ -6299,7 +6430,7 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
   return requestedURL;
 };
 
-},{"../helpers/combineURLs":103,"../helpers/isAbsoluteURL":105}],94:[function(require,module,exports){
+},{"../helpers/combineURLs":111,"../helpers/isAbsoluteURL":113}],102:[function(require,module,exports){
 'use strict';
 
 var enhanceError = require('./enhanceError');
@@ -6319,7 +6450,7 @@ module.exports = function createError(message, config, code, request, response) 
   return enhanceError(error, config, code, request, response);
 };
 
-},{"./enhanceError":96}],95:[function(require,module,exports){
+},{"./enhanceError":104}],103:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6400,7 +6531,7 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
-},{"../cancel/isCancel":90,"../defaults":100,"./../utils":111,"./transformData":99}],96:[function(require,module,exports){
+},{"../cancel/isCancel":98,"../defaults":108,"./../utils":119,"./transformData":107}],104:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6444,7 +6575,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   return error;
 };
 
-},{}],97:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -6533,7 +6664,7 @@ module.exports = function mergeConfig(config1, config2) {
   return config;
 };
 
-},{"../utils":111}],98:[function(require,module,exports){
+},{"../utils":119}],106:[function(require,module,exports){
 'use strict';
 
 var createError = require('./createError');
@@ -6560,7 +6691,7 @@ module.exports = function settle(resolve, reject, response) {
   }
 };
 
-},{"./createError":94}],99:[function(require,module,exports){
+},{"./createError":102}],107:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6582,7 +6713,7 @@ module.exports = function transformData(data, headers, fns) {
   return data;
 };
 
-},{"./../utils":111}],100:[function(require,module,exports){
+},{"./../utils":119}],108:[function(require,module,exports){
 (function (process){(function (){
 'use strict';
 
@@ -6684,7 +6815,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 }).call(this)}).call(this,require('_process'))
-},{"./adapters/http":86,"./adapters/xhr":86,"./helpers/normalizeHeaderName":108,"./utils":111,"_process":3}],101:[function(require,module,exports){
+},{"./adapters/http":94,"./adapters/xhr":94,"./helpers/normalizeHeaderName":116,"./utils":119,"_process":3}],109:[function(require,module,exports){
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -6697,7 +6828,7 @@ module.exports = function bind(fn, thisArg) {
   };
 };
 
-},{}],102:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6769,7 +6900,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
-},{"./../utils":111}],103:[function(require,module,exports){
+},{"./../utils":119}],111:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6785,7 +6916,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
     : baseURL;
 };
 
-},{}],104:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6840,7 +6971,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":111}],105:[function(require,module,exports){
+},{"./../utils":119}],113:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6856,7 +6987,7 @@ module.exports = function isAbsoluteURL(url) {
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 };
 
-},{}],106:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6869,7 +7000,7 @@ module.exports = function isAxiosError(payload) {
   return (typeof payload === 'object') && (payload.isAxiosError === true);
 };
 
-},{}],107:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6939,7 +7070,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":111}],108:[function(require,module,exports){
+},{"./../utils":119}],116:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -6953,7 +7084,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
-},{"../utils":111}],109:[function(require,module,exports){
+},{"../utils":119}],117:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7008,7 +7139,7 @@ module.exports = function parseHeaders(headers) {
   return parsed;
 };
 
-},{"./../utils":111}],110:[function(require,module,exports){
+},{"./../utils":119}],118:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7037,7 +7168,7 @@ module.exports = function spread(callback) {
   };
 };
 
-},{}],111:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 'use strict';
 
 var bind = require('./helpers/bind');
@@ -7390,7 +7521,7 @@ module.exports = {
   stripBOM: stripBOM
 };
 
-},{"./helpers/bind":101}],112:[function(require,module,exports){
+},{"./helpers/bind":109}],120:[function(require,module,exports){
 const {admin} = require('./admin')
 const {home} = require('./home')
 const {public} = require('./public')
@@ -7398,21 +7529,21 @@ const {public} = require('./public')
 module.exports = {
     admin, home, public
 }
-},{"./admin":113,"./home":114,"./public":115}],113:[function(require,module,exports){
+},{"./admin":121,"./home":122,"./public":123}],121:[function(require,module,exports){
 const admin = {
     views: ['admin-navbar', 'admin']
 }
 
 module.exports = {admin}
-},{}],114:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 const home = {
     views: ['navbar']
 }
 
 module.exports = {home}
-},{}],115:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 const public = {
-    views: ['droplist', 'mini-window', 'actionlist']
+    views: ['droplist', 'mini-window', 'actionlist', 'action-note']
 }
 
 module.exports = {public}

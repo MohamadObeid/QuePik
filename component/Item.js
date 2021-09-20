@@ -6,10 +6,10 @@ const Item = (component) => {
     component.icon = component.icon || {}
     component.chevron = component.chevron || {}
     component = toComponent(component)
-    var { model, state, style, icon, text, tooltip, chevron, controls } = component
+    var { model, state, style, icon, text, tooltip, chevron, controls, readonly, borderMarker, data } = component
 
-    component.borderMarker = component.borderMarker !== undefined ? component.borderMarker : true
-    component.readonly = component.readonly !== undefined ? component.readonly : false
+    borderMarker = borderMarker !== undefined ? borderMarker : true
+    readonly = readonly !== undefined ? readonly : false
 
     var id = component.id || generate()
 
@@ -110,14 +110,14 @@ const Item = (component) => {
                 justifyContent: 'flex-start',
                 width: '100%',
                 minHeight: '3.3rem',
-                cursor: !component.readonly ? 'pointer' : 'initial',
+                cursor: !readonly ? 'pointer' : 'initial',
                 marginBottom: '1px',
                 borderRadius: '0.5rem',
                 padding: '0.9rem',
-                borderBottom: !component.readonly ? 'initial' : '1px solid #eee',
+                borderBottom: !readonly ? 'initial' : '1px solid #eee',
                 pointerEvents: 'fill',
                 ...style,
-                after: component.readonly ? {} : {
+                after: readonly ? {} : {
                     backgroundColor: '#eee',
                     ...style.after,
                 },
@@ -127,9 +127,9 @@ const Item = (component) => {
                 type: `Icon?id=${id}-icon?const.${icon.name}`,
                 style: {
                     display: icon ? 'flex' : 'none',
-                    color: !component.readonly ? style.color || '#444' : '#333',
-                    fontSize: !component.readonly ? style.fontSize || '1.4rem' : '1.6rem',
-                    fontWeight: !component.readonly ? 'initial' : 'bolder',
+                    color: !readonly ? style.color || '#444' : '#333',
+                    fontSize: !readonly ? style.fontSize || '1.4rem' : '1.6rem',
+                    fontWeight: !readonly ? 'initial' : 'bolder',
                     marginRight: '1rem',
                     ...(icon.style || {}),
                     after: {
@@ -138,11 +138,11 @@ const Item = (component) => {
                     }
                 }
             }, {
-                type: `Text?text=${text};id=${id}-text`,
+                type: `Text?text=${text};id=${id}-text;`,
                 style: {
                     fontSize: style.fontSize || '1.4rem',
-                    color: !component.readonly ? style.color || '#444' : '#333',
-                    fontWeight: !component.readonly ? 'initial' : 'bolder',
+                    color: !readonly ? style.color || '#444' : '#333',
+                    fontWeight: !readonly ? 'initial' : 'bolder',
                     userSelect: 'none',
                     textAlign: 'left',
                     after: {

@@ -1,4 +1,4 @@
-const {resizeInput, dimensions} = require('./resize')
+const {resize} = require('./resize')
 
 const setStyle = ({ VALUE, params = {}, id }) => {
 
@@ -23,36 +23,38 @@ const setStyle = ({ VALUE, params = {}, id }) => {
 
             // value = width || height
             if (value) {
-                if (value.includes('width') && key.includes('height')) {
+                if (value === 'width' || value.includes('width/')) {
 
                     var divide = value.split('/')[1]
-                    var multiply = value.split('*')[1]
                     value = local.element.clientWidth
-                    if (divide) value = value / divide
-                    if (multiply) value = value * multiply
+                    if (divide) value = value / parseFloat(divide)
 
                     value += 'px'
 
-                } else if (value.includes('height') && key.includes('width')) {
+                } else if (value === 'height' || value.includes('height/')) {
 
                     var divide = value.split('/')[1]
-                    var multiply = value.split('*')[1]
                     value = local.element.clientHeight
-                    if (divide) value = value / divide
-                    if (multiply) value = value * multiply
+                    if (divide) value = value / parseFloat(divide)
 
                     value += 'px'
+
+                } else if (key === 'left' && value === 'center') {
+
+                    var width = local.element.offsetWidth
+                    var parentWidth = VALUE[local.parent].element.clientWidth
+
+                    value = parentWidth/2 - width/2 + 'px'
                 }
             }
 
-            //VAR.style[key] = value
             if (local.element) local.element.style[key] = value
             else local.style[key] = value
 
         }
 
         if (timer) local[key + '-timer'] = setTimeout(style, timer); else style()
-        if (key === 'width') resizeInput({ VALUE, id })
+        if (key === 'width') resize({ VALUE, id })
     })
 }
 

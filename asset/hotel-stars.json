@@ -1,59 +1,59 @@
 {
-    "name": {
-      "en": "Hotel Stars"
+  "name": {
+    "en": "Hotel Star"
+  },
+  "icon": {
+    "name": "star_outline",
+    "google": true,
+    "type": "outlined"
+  },
+  "options": [
+    {
+      "name": {
+        "en": "One Star"
+      },
+      "description": {
+        "en": "A guest can expect a small hotel operated and managed by the owner and family. The ambience as more personal and the guest rooms with basic amenities. The restaurant would be at a walking distance. There would be a small commercial area and a nearby public transportation hub"
+      },
+      "icon": {}
     },
-    "icon": {
-      "name": "star_outline",
-      "google": true,
-      "type": "outlined"
+    {
+      "name": {
+        "en": "Two Star"
+      },
+      "description": {
+        "en": "These hotels are mostly part of a chain of hotels that offer consistent quality but limited amenities. They are either small or medium size hotels with a phone and TV. They lack the convenience of room service, but provide a small on-site restaurant at a walking distance within the hotel premises"
+      },
+      "icon": {}
     },
-    "options": [
-      {
-        "name": {
-          "en": "One Star"
-        },
-        "description": {
-          "en": "A guest can expect a small hotel operated and managed by the owner and family. The ambience as more personal and the guest rooms with basic amenities. The restaurant would be at a walking distance. There would be a small commercial area and a nearby public transportation hub"
-        },
-        "icon": {}
+    {
+      "name": {
+        "en": "Three Star"
       },
-      {
-        "name": {
-          "en": "Two Star"
-        },
-        "description": {
-          "en": "These hotels are mostly part of a chain of hotels that offer consistent quality but limited amenities. They are either small or medium size hotels with a phone and TV. They lack the convenience of room service, but provide a small on-site restaurant at a walking distance within the hotel premises"
-        },
-        "icon": {}
+      "description": {
+        "en": "These hotels are usually located near a major business center, express way, and/or shopping area. The rooms are clean and spacious rooms, and decorative lobbies. An on-site restaurant offers all meals such as breakfast, lunch, and dinner. The facilities such as valet and room service, fitness center, and a swimming pool are also available"
       },
-      {
-        "name": {
-          "en": "Three Star"
-        },
-        "description": {
-          "en": "These hotels are usually located near a major business center, express way, and/or shopping area. The rooms are clean and spacious rooms, and decorative lobbies. An on-site restaurant offers all meals such as breakfast, lunch, and dinner. The facilities such as valet and room service, fitness center, and a swimming pool are also available"
-        },
-        "icon": {}
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Four Star"
       },
-      {
-        "name": {
-          "en": "Four Star"
-        },
-        "description": {
-          "en": "This hotel would be large, often standing as a part of a cluster of similar hotels with a formal appearance and very good services. The hotel would be located in the prime area of the city around shopping, dining, and entertainment joints. The guest can expect furnished and clean rooms, restaurants, room service, valet parking, and a fitness center within the hotel premises"
-        },
-        "icon": {}
+      "description": {
+        "en": "This hotel would be large, often standing as a part of a cluster of similar hotels with a formal appearance and very good services. The hotel would be located in the prime area of the city around shopping, dining, and entertainment joints. The guest can expect furnished and clean rooms, restaurants, room service, valet parking, and a fitness center within the hotel premises"
       },
-      {
-        "name": {
-          "en": "Five Star"
-        },
-        "description": {
-          "en": "This hotel would be large and luxurious, which offers the highest degree of room and personal service. It is built with beautiful architecture, and is managed keeping elegance and style in mind. The guest rooms are equipped with high quality linens, TV, bathtubs, and special outside view from the room. The hotel provides multiple eating joints in its premises such as coffee shops, restaurants, poolside snack joint, and bar. They also provide 24X7 room service, valet service, and personal protection service"
-        },
-        "icon": {}
-      }
-    ],
-    "file-name": "hotel-stars",
-    "description": {}
-  }
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Five Star"
+      },
+      "description": {
+        "en": "This hotel would be large and luxurious, which offers the highest degree of room and personal service. It is built with beautiful architecture, and is managed keeping elegance and style in mind. The guest rooms are equipped with high quality linens, TV, bathtubs, and special outside view from the room. The hotel provides multiple eating joints in its premises such as coffee shops, restaurants, poolside snack joint, and bar. They also provide 24X7 room service, valet service, and personal protection service"
+      },
+      "icon": {}
+    }
+  ],
+  "file-name": "hotel-stars",
+  "description": {}
+}

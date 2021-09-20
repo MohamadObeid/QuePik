@@ -1,7 +1,5 @@
 const axios = require('axios')
-const { reducer } = require('./reducer')
-const { toPath } = require('./toKey')
-const { update } = require('./update')
+const { toAwait } = require('./toAwait')
 
 const save = async ({ VALUE, STATE, params = {}, id, e }) => {
 
@@ -13,33 +11,13 @@ const save = async ({ VALUE, STATE, params = {}, id, e }) => {
 
     var { data: { data, message, success } } = await axios.post(`/api/${save.api}`, save.data)
 
+    local.saved = { data, message, success }
+
     STATE[save.api] = STATE[save.api] || {}
     STATE[save.api][data['file-name']] = data
-
-    if (save.path) {
-
-        var value = data
-        if (save.value) {
-
-            var path = toPath({ VALUE, STATE, e, id, string: save.value }).split('.').slice(1)
-            value = reducer({ VALUE, STATE, id, e, params: { object: value, path } })
-        }
-
-        var path = toPath({ VALUE, STATE, e, id, string: save.path }).split('.').slice(1)
-        reducer({ VALUE, STATE, id, e, params: { object: STATE, path, value, key: save.path } })
-
-    }
-
-    if (save.state && STATE[save.state]) {
-
-        var exist = STATE[save.state].find(el => el['file-name'] === data['file-name'])
-
-        if (exist) exist = data
-        else STATE[save.state].push(data)
-
-    }
     
-    if (save.update) update({ VALUE, STATE, id: save.update })
+    // awaits
+    toAwait({ VALUE, STATE, id, e, params })
 
     console.log(data, message, success)
 }

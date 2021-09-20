@@ -26,7 +26,11 @@ const createElement = ({ STATE, VALUE, id }) => {
     var params = local.type.split('?')[1] 
     var conditions = local.type.split('?')[2]
 
-    // type
+    // [type]
+    if (type.slice(0, 1) === '[' && type.slice(-1) === ']') {
+        type = type.slice(1).slice(0, -1)
+        local.mapType = true
+    }
     local.type = type
 
     // parent

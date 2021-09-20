@@ -36,13 +36,28 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
             keys.pop()
         }
 
-        var language
+        var language, currency
 
         keys.reduce((o, k, i) => {
 
             if (i === keys.length - 1) {
 
-                if (local.lang) {
+                if (local.currency) {
+
+                    var currencies = []
+                    Object.entries(o[k]).map(([k, v]) => {
+                        currencies.push(k)
+                    })
+
+                    var random = []
+                    STATE.asset.currency.options.map(currency => {
+                        if (!currencies.includes(currency.name.en)) random.push(currency.name.en)
+                    })
+
+                    currency = random[0]
+                    o[k][currency] = ''
+
+                } else if (local.lang) {
 
                     var langs = []
                     Object.entries(o[k]).map(([k, v]) => {
@@ -98,8 +113,16 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
     VALUE[id].derivations = [...local.derivations]
 
     var local = VALUE[id]
+    local.duplicated = true
 
-    if (VALUE[localID].lang) {
+    if (VALUE[localID].currency) {
+
+        var type = local.type.split('currency=')[0]
+        type += local.type.split('currency=')[1].slice(2)
+        type += `;currency=${currency}`
+        local.type = type
+
+    } else if (VALUE[localID].lang) {
 
         var type = local.type.split('lang=')[0]
         type += local.type.split('lang=')[1].slice(2)

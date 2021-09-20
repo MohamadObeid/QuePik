@@ -40,7 +40,7 @@ const postApi = (req, res) => {
 
         // file path
         var filePath = `./${folder}/${fileName}.${fileType}`
-        var data = { "file-name": `${fileName}.${fileType}` }
+        var data = { "file-name": `api/${folder}/${fileName}.${fileType}` }
         
         fs.writeFileSync(filePath, base64Data, 'base64')
         return res.send({ data, success: true, message: `${capitalize(dataType)} saved successfuly!` })

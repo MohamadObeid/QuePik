@@ -1,42 +1,19 @@
 const clone = (obj) => {
     
-    // if (isElement(obj)) return obj
-
-    /*if (Array.isArray(obj)) {
-
-        copy = []
-        obj.map((value, index) => {
-
-            if (typeof value === "object") copy[index] = clone(value)
-            else copy[index] = value
-        })
-
-    } else {
-
-        copy = obj.constructor()
-        Object.entries(obj).map(([key, value]) => {
-            copy[key] = value
-        })
-
-    }*/
-
     var copy 
     if (typeof obj !== 'object') copy = obj
     else if (Array.isArray(obj)) copy = obj.map(obj => clone(obj))
     else {
-      var element, target
+      var element
 
       if (obj.element) element = obj.element
-      if (obj.target) target = obj.target
 
       copy = JSON.parse(JSON.stringify(obj))
-
+      
       if (element) copy.element = element
-      if (target) copy.target = target
     }
 
     return copy
-     
 }
 
 const isElement = (obj) => {

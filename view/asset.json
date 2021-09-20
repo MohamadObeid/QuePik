@@ -39,7 +39,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "save;setStyle::mini-window?save.api=asset;save.data=state[value.Data];save.state=asset-list-Data;save.update=asset-list;style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::asset-list;await.setStyle::mini-window;await.actionNote;async.save?note=Asset saved successfully!;save.api=asset;save.data=state[value.Data];await.state.asset-list-Data[state[value.Data].file-name]=state[value.Data];style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -66,7 +66,7 @@
                 "children": [{
                     "type": "Label?text=Parent;style.fontSize=1.4rem;style.marginBottom=.75rem"
                 }, {
-                    "type": "Input?featured;clearable;readonly;icon.name=link;icon.google;icon.outlined;style.backgroundColor=#f0f0f0;path=parent;droplist.items=[Asset>>readonly,state.asset.keys.flat()]"
+                    "type": "Input?featured;clearable;readonly;icon.name=link;icon.google;icon.outlined;style.backgroundColor=#f0f0f0;path=parent;droplist.items=[Asset>>readonly,state.asset.keys()].flat()"
                 }]
             }]
         }, {
@@ -85,17 +85,17 @@
                 "children": [{
                     "type": "View?style.display=grid;style.gap=1rem",
                     "children": [{
-                        "type": "Input?textarea;featured;lang=en;icon=value.data.icon<<value.data;style.backgroundColor=#f0f0f0;path=name"
+                        "type": "[Input]?textarea;featured;lang=en;icon=value.data.icon<<value.data;style.backgroundColor=#f0f0f0;path=name"
                     }]
                 }, {
-                    "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;lang=en;path=description;input.style.height=fit-content;style.minHeight=4rem;input.style.minHeight=2.5rem"
+                    "type": "[Input]?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;lang=en;path=description;input.style.height=fit-content;style.minHeight=4rem;input.style.minHeight=2.5rem"
                 }, {
                     "type": "Input?textarea;featured;google;style.backgroundColor=#f0f0f0;path=icon"
                 }, {
                     "type": "Icon?class=flex-box;icon.name=bi-trash;auto-style;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
                     "controls": {
                         "event": "click",
-                        "actions": "remove::value.parent.id??value.parent.length>1"
+                        "actions": "remove::value.parent.id??value.parent.element.children.length()>1"
                     }
                 }]
             }]
@@ -111,7 +111,7 @@
         }, {
             "type": "View?style.display=grid;style.gap=1rem;style.width=100%",
             "children": [{
-                "type": "View?style.display=grid;style.alignItems=flex-start;style.gridTemplateColumns=3fr 6fr 3fr 2rem;style.gap=1rem;style.width=100%;path=options;data=[{}]<<!value.data.options",
+                "type": "[View]?style.display=grid;style.alignItems=flex-start;style.gridTemplateColumns=3fr 6fr 3fr 2rem;style.gap=1rem;style.width=100%;path=options;data=[{}]<<!value.data.options",
                 "children": [{
                     "type": "Input?textarea;featured;lang=en;path=name;icon=value.data.icon;style.backgroundColor=#f0f0f0",
                     "controls": [{
@@ -126,7 +126,7 @@
                     "type": "Icon?class=flex-box;icon.name=bi-trash;auto-style;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
                     "controls": {
                         "event": "click",
-                        "actions": "remove??value.parent.length>1?value.parent.id"
+                        "actions": "remove::value.parent.id??value.parent.element.children.length()>1"
                     }
                 }]
             }]
@@ -150,7 +150,7 @@
             "children": [{
                 "type": "View?style.margin=.5rem 0;style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr",
                 "children": [{
-                    "type": "Input?textarea;featured;key=key;originalKeys=[options,name,description,icon,file-name,parent];style.backgroundColor=#f0f0f0"
+                    "type": "[Input]?textarea;featured;key=key;originalKeys=[options,name,description,icon,file-name,parent];style.backgroundColor=#f0f0f0"
                 }]
             }]
         }]

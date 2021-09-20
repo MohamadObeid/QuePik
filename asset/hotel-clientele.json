@@ -1,0 +1,124 @@
+{
+  "name": {
+    "en": "Hotel Clientele"
+  },
+  "description": {
+    "en": "Classification on the basis of Clientele"
+  },
+  "icon": {
+    "name": "face",
+    "google": true,
+    "type": "outlined"
+  },
+  "options": [
+    {
+      "name": {
+        "en": "Business or commercial Hotels"
+      },
+      "description": {
+        "en": "Designed to cater to the business traveller,\ncommercial hotels are generally situated in the city centre. These hotels provide high standard rooms and amenities situated in the city centre. These hotels provide high standard rooms and amenities, along with high speed internet connectivity, business centres, and conference halls. They also provide in-house secretarial services, as well as facilities such as letter drafting, typing, and fax and photocopying of document for the convenience of their guest. The guest\namenities at commercial hotels may include complimentary newspapers, morning coffee, cable television and access to channelled music and movies. The duration of guest stay is generally very short at these hotels. The occupancy level is higher during the weekdays and slightly lower during weekends. These\nhotels are also known as downtown hotels"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Transient Hotels"
+      },
+      "description": {
+        "en": "Transient hotels cater to the needs of people who are on the move and need a stopover en route their journey. Located in the close proximity of ports of entry, such as sea port, airport, and major railway station, these hotels\nare normally patronised by transient travellers. They have round –the –clock operational room service and coffee shop, and all the facilities of a commercial hotels. Transient hotels are usually 5 stars, and their target market  includes business clientele, airline passengers with overnight travel layovers or cancelled\nflights, and airline personnel. The occupancy rate is usually very high, sometimes more than 100 percent, as room can be sold more than ones on a given date"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Boutique hotels"
+      },
+      "description": {
+        "en": "These are very small and expensive hotels and mainly cater for elite class. They are different from the hotels in that each room has a distinct personality. Though the hotel is small but still it has more number of restaurants.\nEach restaurant is decorated keeping in view a theme and food served, the uniform of the staff, the menu, even the way of welcoming the guest commemorates with the theme"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Residential Hotels"
+      },
+      "description": {
+        "en": "As the name suggest, residential hotels provide accommodation for longer duration. These hotels are generally patronised by\npeople who are on a temporary official deputation to a city where they do not have their own residential accommodation. Guest stay for a minimum period of one month and up to two years. The services offered by these hotels are modest"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Suite Hotels"
+      },
+      "description": {
+        "en": "Suite hotels provide the highest level of personalized services to guest. The guest rooms generally comprise a living area, compact kitchenette, complete with refrigerator and a microwave, a bedroom attached with a bathroom, and sometimes even a dance floor. The facilities are highly\ncustomized and may include valet services, personalized guest stationery, high speed internet connection, and in-room safety locker facility. These hotels are patronized by affluent people and tourist who are found of luxury"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Bed & Breakfast Hotel"
+      },
+      "description": {
+        "en": "A European concept, bed & breakfast hotels are lodging establishment generally operated in large family residence. These range from houses with a few rooms converted into overnight facilities to small commercial buildings with twenty to thirty guestrooms. The owner usually lives on the premises and is responsible for serving breakfast to guest. Guest is accommodated in bedrooms and breakfast is served in the rooms or sometimes in the dining room. The bathroom may be attached to the guest rooms or may be on a sharing basis. As the tariff is generally lower than a full-service hotel at these properties, they are suitable for budget travellers"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Casino Hotels"
+      },
+      "description": {
+        "en": "Casino hotels provide gambling facilities, such as Luxor hotel and casino in Las Vegas. These Hotels attract the clients by promoting gambling, arranging extravagant floor shows, and some may also provide charter flight\nservices to its clients. They have state-of-the-art gambling facilities, along with the specialities restaurants, bars, round the clock room services, well appointed and furnished rooms for its guest. Nowadays, these hotels are also attracting the MICE (meetings, incentives, conference and exhibitions) segments"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Conference Centres"
+      },
+      "description": {
+        "en": "The word conference means „a meeting, sometimes lasting for several days, in which people, with a common interest participates in discussions or listen to lecturers to obtain information‟. Thus, a conference centre is a hotel which caters to the needs of a conference delegation. These hotels provide rooms to delegates of conferences, a conference hall with the desired seating configuration for the meeting, food and beverage requirements during and after the conferences and other requirements, such as flip charts, white board with markers, and overhead projector with screen, computer, and public address system. These are large hotels, having more than 400 guest rooms. The services provided are of the highest standards. Normally conferences are charged as packages, which include accommodation and meetings facilities"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Green hotel"
+      },
+      "description": {
+        "en": "Green Hotels are environmentally-friendly properties whose managers are eager to institute programs that save water, save energy and reduce solid waste. The basic definition of a green hotel is an environmentally responsible lodging that follows the practices of green living"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Heritage Hotel"
+      },
+      "description": {
+        "en": "A recent addition to the hotel industry, in the country, heritage hotels are properties set in small forts, palaces, or havelis, the mansions of erstwhile royal and aristocratic families. They have added a new dimension to cultural tourism. In a heritage hotel, a visitor is offered rooms that have their own history, is served traditional cuisine toned down to the requirements of international palates, is entertained by folk artistes, can participates in activities that allow a glimpse into the heritage of the region, and can bask in an atmosphere that lives and breathes of the past. This category covers hotels in residences, havelis, hunting lodges, castles or forts and palaces built during 1935-1950"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Heritage Classic Hotel"
+      },
+      "description": {
+        "en": "This category covers hotels in residences, havelis, hunting lodges, castles or forts and palaces built prior to 1935 but after 1920"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Heritage Grand Hotel"
+      },
+      "description": {
+        "en": "This category covers hotels in residences, havelis, hunting lodges, castles or forts and palaces built prior to 1920"
+      },
+      "icon": {}
+    }
+  ],
+  "file-name": "hotel-clientele"
+}

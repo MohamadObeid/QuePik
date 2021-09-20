@@ -17,7 +17,7 @@
         "pointerEvents": "none",
         "zIndex": "-1",
         "after": {
-            "zIndex": "999",
+            "zIndex": "4",
             "transform": "scale(1)",
             "opacity": "1",
             "pointerEvents": "auto"

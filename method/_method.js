@@ -39,7 +39,7 @@ const {textarea} = require('./textarea')
 const {save} = require('./save')
 const {erase} = require('./erase')
 const {toValue} = require('./toValue')
-const {toPath} = require('./toKey')
+const {toPath} = require('./toPath')
 const {reducer} = require('./reducer')
 const {toStyle} = require('./toStyle')
 const {preventDefault} = require('./preventDefault')
@@ -50,9 +50,17 @@ const {setData} = require("./setData")
 const {defaultInputHandler} = require('./defaultInputHandler')
 const {createActions} = require('./createActions')
 const {blur} = require('./blur')
+const {fill} = require('./fill')
+const {toAwait} = require('./toAwait')
+const {close} = require('./close')
+const {pause} = require('./pause')
+const {play} = require('./play')
+const {actionNote} = require('./actionNote')
+const {toCode} = require('./toCode')
+const {isPath} = require('./isPath')
 const {capitalize} = require('./capitalize')
 const {setStyle, resetStyles, toggleStyles, mountAfterStyles} = require('./style')
-const {resizeInput, dimensions} = require('./resize')
+const {resize, dimensions} = require('./resize')
 const {createData, clearData, removeData} = require('./data')
 
 const _method = {
@@ -60,11 +68,12 @@ const _method = {
     getParam, isArabic, isEqual, merge, overflow, addEventListener, setState,
     toApproval, toComponent, toId, toParam, toString, update, execute, removeIds,
     createDocument, toArray, generate, createElement, controls, route, textarea,
-    setStyle, resetStyles, toggleStyles, mountAfterStyles, resizeInput, dimensions,
+    setStyle, resetStyles, toggleStyles, mountAfterStyles, resize, dimensions,
     createData, setData, clearData, removeData, setContent, starter, createComponent,
-    setPosition, droplist, filter, createView, createActions, flicker, blur,
-    createControls, remove, defaultInputHandler, focus, sort, log, save, erase, 
-    toPath, toValue, reducer, preventDefault, toStyle, toTag, capitalize
+    setPosition, droplist, filter, createView, createActions, flicker, blur, toAwait,
+    createControls, remove, defaultInputHandler, focus, sort, log, save, erase, toCode,
+    toPath, toValue, reducer, preventDefault, toStyle, toTag, capitalize, fill, actionNote,
+    pause, play, close, isPath
 }
 
 module.exports = _method

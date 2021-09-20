@@ -6,7 +6,7 @@ const createDocument = (page) => {
     var innerHTML = '', STATE = {}, VALUE = {}
     
     // get assets & views
-    STATE = { asset: getJsonFiles('asset'), view: getJsonFiles('view') }
+    STATE = { asset: getJsonFiles('asset'), view: getJsonFiles('view'), codes: {} }
 
     // body
     var id = 'body'

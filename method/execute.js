@@ -7,22 +7,22 @@ const { toId } = require("./toId")
 const { generate } = require("./generate")
 const _method = require("./_method")
 
-const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
+const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) => {
 
-    var local = VALUE[id]
+    var local = VALUE[id], awaiter = [], _params = params
     if (!local) return
     if (controls) actions = controls.actions
     local.break = false
 
     // execute actions
     toArray(actions).map(_action => {
-
+        
         // stop after actions
         if (local.break) return
 
         var approved = true
         var actions = _action.split('?')
-        var params = actions[1]
+        var params = _params || actions[1]
         var conditions = actions[2]
         var idList = actions[3]
 
@@ -33,11 +33,11 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
 
             var name = action.split('::')[0]
 
-            // action>timer
+            // action>>timer
             var timer = name.split('>>')[1] || 0
             name = name.split('>>')[0]
 
-            // approval => note: essential for break::do no remove
+            // approval => note: essential for break::do not remove
             approved = toApproval({ VALUE, STATE, string: conditions, params, id })
             if (!approved) return
 
@@ -53,6 +53,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
                 if (!approved) return
 
                 // params
+                if (typeof params === 'string') 
                 params = toParam({ VALUE, STATE, string: params, e, id })
 
                 // id's
@@ -60,7 +61,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
 
                 // action::id
                 var actionid = action.split('::')[1];
-
+                
                 (actionid ? [actionid] : idList).map(id => {
 
                     // id = value.path
@@ -73,6 +74,21 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly }) => {
                     // component doesnot exist
                     if (!id || !VALUE[id]) return
                     
+                    var keys = name.split('.')
+                    if (keys.length > 1) keys.map((k, i) => {
+
+                        if (i === keys.length - 1) return name = k
+                        if (k === 'async') {
+
+                            params.asyncer = true
+                            params.awaiter = awaiter
+                            
+                        } else if (k === 'await') {
+                            
+                            params.awaiter = true
+                            return awaiter.push(action.split('await.')[1])
+                        }
+                    })
 
                     if (!_method[name]) return
                     _method[name]({ VALUE, STATE, controls, params, e, id })

@@ -6,7 +6,7 @@
   "scripts": {
     "server": "node app.js",
     "browser": "cd browser && browserify browser.js > index.js",
-    "project": "npm-run-all --parallel server browser"
+    "p": "npm-run-all --parallel server browser"
   },
   "author": "",
   "license": "ISC",

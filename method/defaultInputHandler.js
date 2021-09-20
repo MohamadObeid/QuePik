@@ -1,5 +1,5 @@
 const { setData } = require("./data")
-const { resizeInput } = require("./resize")
+const { resize } = require("./resize")
 const { isArabic } = require("./isArabic")
 const { generate } = require("./generate")
 
@@ -28,7 +28,6 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
                 var data = { value }
                 setData({ STATE, VALUE, params: { data }, id })
             }
-            console.log('1', local, local.element.checked);
         }
 
         return local.element.addEventListener('change', myFn)
@@ -79,17 +78,6 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
             
             return STATE.file = { file, "file-name": fileName }
 
-            /*var length = Object.entries(value).length
-            
-            if (length === 0) return
-            else if (length === 1) value = `${fileName}.${fileType}`
-            else if (length > 1) {
-                value = []
-                Object.entries(e.target.files).map(([key, val]) => {
-                    value.push(val.name)
-                })
-            }*/
-
         } else local.element.value = value
         
         // rating input 
@@ -107,7 +95,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         }
 
         // resize
-        resizeInput({ VALUE, id })
+        resize({ VALUE, id })
 
         // arabic values
         isArabic({ VALUE, params: { value }, id })
@@ -121,7 +109,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
     })
     
     // resize
-    resizeInput({ VALUE, id })
+    resize({ VALUE, id })
 }
 
 module.exports = {defaultInputHandler}

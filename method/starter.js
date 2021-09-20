@@ -1,4 +1,5 @@
 const autoControls = ['auto-style', 'toggle-style', 'droplist', 'actionlist']
+const autoActions = ['fill']
 
 const starter = ({ STATE, VALUE, id }) => {
     
@@ -42,6 +43,9 @@ const starter = ({ STATE, VALUE, id }) => {
         createControls({ VALUE, STATE, id, params }) 
         
     })
+
+    // auto actions
+    autoActions.map(action => local[action] && require("./_method")[action]({ VALUE, STATE, id }))
     
     // execute controls
     if (local.controls) controls({ VALUE, STATE, id })

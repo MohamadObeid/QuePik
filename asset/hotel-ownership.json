@@ -1,0 +1,79 @@
+{
+  "name": {
+    "en": "Hotel Ownership"
+  },
+  "description": {
+    "en": "Classification on the basis of Ownership"
+  },
+  "icon": {
+    "name": "copyright",
+    "google": true,
+    "type": "outlined"
+  },
+  "options": [
+    {
+      "name": {
+        "en": "Independent Hotels"
+      },
+      "description": {
+        "en": "These hotels are on ownership basis and do not have any affiliation or contract through any other property. And also they do not have any tie up with any other hotels with regards to policy, procedures and financial obligation. The advantages in this type of hotel is that they need not maintain a particular image and they are not bound to maintain any set targets, but can independently adopt quickly to the changing trends. They are usually autonomous"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Chains"
+      },
+      "description": {
+        "en": "When one hotel realizes that they can offer the same services in other cities, chains of the same hotel are opened in those places. Hotel chain is an enterprise that administrates, through a unique management a number of hotels located in different areas. They can be total or partial owners of the hotel and they manage their administration, marketing and promotion. This gives them the advantages of a large central organisation providing reservation systems, management‟s aids, financial strength, expertise, manpower, specialities, merchandises and promotional help"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Management Contracts"
+      },
+      "description": {
+        "en": "It is a contract between the owner of the property and a hotel operator (management contractor) by which the owner employs the operator as an agent to assume the full responsibilities for operating and managing the hotel. The operator can be a hotel chain with reputed name and market image ,such as Hilton ,Sheraton ,best western ,choice hospitality, etc"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Franchise"
+      },
+      "description": {
+        "en": "It is the authorization given by a company to another company or individual to sell its unique product /services and use its trademark according to the guidelines given by former, for a specified time, and a specified place. Under it the owner operates as a member of the chain, utilizing the brand image, name, and goodwill and obtaining for a certain fee. Some of the franchising companies are Holiday Inn, Choice international, Ramada"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Referral Groups"
+      },
+      "description": {
+        "en": "It consists of independent hotel which have grouped together for some common purpose. Though the properties in the referral group may be different from each other but there is sufficient consistency in the quality of service to satisfy guest expectations. The member hotels recommend guest to other member hotels. Some examples are Best Western international, one of the largest hotel chains, is the best example of referral groups"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Time –Share Hotels"
+      },
+      "description": {
+        "en": "A new concept of ownership also called vacation ownership or holiday ownership concepts, mushrooming up in resorts areas like hills, beaches, forest. As the name suggest, it entails purchasing a tourist accommodation at a popular destination for a particular time slot in a year which can be week or weeks. Each room or suite is owned by several people who will schedule their visits well in advance with the management office to ensure that the room or suites is available or rent a unit to other vacationers if they cannot avail the facility. It is fully furnished rooms with kitchenettes may have a dining hall with a bar. More desirable the season, the higher the timeshare fee. The price of the property will depend on the week, one intends to buy. The guest can choose the peak seasons, semi peak seasons or lean seasons. It is also required to pay an annual contribution towards the maintenance of apartments and public areas, electricity, gas, water, safety, insurance etc. The owner can also rent out the unit through management"
+      },
+      "icon": {}
+    },
+    {
+      "name": {
+        "en": "Condominium"
+      },
+      "description": {
+        "en": "Condominium units also called as Condo are purchased outright and owned by the guest as second homes. Condominium hotels have single owners instead of multiple owners sharing the hotel. In condominium hotels, the owner informs the management company when they would occupy the unit. The management company is free to rent the unit for the remainder of the year, and this revenue goes to the owner. Owner purchases a unit and has full right of an unit he has purchased and shares the cost common to the complex such as takes, insurance, Maintenance, and upkeep of public areas including swimming, pool, health, clubs, parking, security, air conditioning, health, cable, broadband etc. Each owner can occupy or sell his unit independently but is required to follow the rules and regulations laid by the management. In some cases the management can help the owner in renting out the properties. They take full responsibility of the owner‟s unit‟s safety and also pay to the owner a major portion of the rent earned from renting out. Usually the management request the owner to rent out in case of major conferences. The management earns a major portion by renting out conferences hall and from catering"
+      },
+      "icon": {}
+    }
+  ],
+  "file-name": "hotel-ownership"
+}

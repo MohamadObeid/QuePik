@@ -4,12 +4,22 @@ const toPath = ({ VALUE, STATE, string, e, id }) => {
 
     const { toParam } = require("./toParam")
 
-    var keys = [], k = generate()
-    keys = string.split('[')
+    var keys = [], k = generate(), _keys = string.split('[')
 
     // is array
-    if (!keys[0]) return string
+    if (!_keys[0] || _keys.length === 1) return string
 
+    // key1.[key2].
+    _keys.map((k, i) => {
+        if (i === 0) keys.push(k)
+        else if (keys[i - 1].slice(-1) === '.') {
+            keys[i - 1] += `[${k}`
+        } else keys.push(k)
+    })
+
+    // is array
+    if (!keys[0] || keys.length === 1) return string
+    
     if (keys[1]) {
 
         var subKey = keys[1].split(']')

@@ -1,3 +1,4 @@
+const { reducer } = require('./reducer')
 const { update } = require('./update')
 
 const sort = ({ VALUE, STATE, params = {}, id }) => {
@@ -15,10 +16,10 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
     
     data.sort((a, b) => {
 
-        a = path.reduce((o, k) => o[k], a)
+        a = reducer({ VALUE, STATE, id, params: { path, object: a } })
         if (a !== undefined) a = a.toString()
 
-        b = path.reduce((o, k) => o[k], b)
+        b = reducer({ VALUE, STATE, id, params: { path, object: b } })
         if (b !== undefined) b = b.toString()
         
         if (options.sort === 'ascending') {
