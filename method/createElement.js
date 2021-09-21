@@ -96,7 +96,7 @@ const createElement = ({ STATE, VALUE, id }) => {
         delete local.path
         delete local.data
     }
-
+    
     // path
     var path = typeof local.path === 'string' && local.path !== '' ? local.path.split('.') : []
     if (path.length > 0) {

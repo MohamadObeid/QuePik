@@ -6,7 +6,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
     
     const { toApproval } = require("./toApproval")
 
-    var local = VALUE[id], minus, plus, times, division
+    var local = VALUE[id], minus = [], plus = [], times = [], division = []
     
     // return const value
     if (value && value.split('const.')[1] && !value.split('const.')[0] ) return value.split('const.')[1]
@@ -35,7 +35,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         }
 
         var local = VALUE[id]
-        if (!local) return value
+        // if (!local) return value
         
         // value1 || value2 || value3
         if (value && value.includes('||')) {
@@ -62,31 +62,44 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         }
 
         if (value) {
-            minus = value.split('--')[1]
-            plus = value.split('++')[1]
-            times = value.split('**')[1]
-            division = value.split('÷÷')[1] // hold Alt + 0247
-        }
 
-        if (plus) {
+            minus = value.split('--')
+            plus = value.split('++')
+            times = value.split('**')
+            division = value.split('÷÷') // hold Alt + 0247
 
-            value = value.split('++')[0]
-            plus = toValue({ VALUE, STATE, id, params: { params, value: plus }, e })
+            if (plus.length > 1) {
 
-        } else if (minus) {
+                value = plus[0]
+                plus.shift()
+                plus = plus.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
 
-            value = value.split('--')[0]
-            minus = toValue({ VALUE, STATE, id, params: { params, value: minus }, e })
+            } else if (minus.length > 1) {
 
-        } else if (times) {
+                value = minus[0]
+                minus.shift()
+                minus = minus.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
 
-            value = value.split('**')[0]
-            times = toValue({ VALUE, STATE, id, params: { params, value: times }, e })
+            } else if (times.length > 1) {
 
-        } else if (division) {
+                value = times[0]
+                times.shift()
+                times = times.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
 
-            value = value.split('÷÷')[0]
-            division = toValue({ VALUE, STATE, id, params: { params, value: division }, e })
+            } else if (division.length > 1) {
+
+                value = division[0]
+                division.shift()
+                division = division.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
+            
+            } else {
+                
+                plus.shift()
+                minus.shift()
+                times.shift()
+                division.shift()
+            }
+            
         }
 
         var path = typeof value === 'string' ? value.split('.') : []
@@ -107,22 +120,20 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         else if (value.includes('%20')) value = value.split('%20').join(' ')
         else if (value.includes('JSON.parse')) value = JSON.parse(value.split('JSON.parse(')[1].slice(0, -1))
         else if (value.includes('JSON.stringify')) value = JSON.stringify(value.split('JSON.stringify(')[1].slice(0, -1))
-        else if (path[1]) {
+        else if (path[1]) value = reducer({ VALUE, STATE, id, params: { path, value, params }, e })
 
-            if (path[0] === 'global') {
-                local = VALUE[path[1]]
-                id = path[1]
-                path = path.slice(1)
-                path[0] = 'value'
-            }
+        if (plus.length > 0) {
+            plus.map(plus => value += plus)
             
-            value = reducer({ VALUE, STATE, id, params: { path, value, params }, e })
-        }
+        } else if (minus.length > 0) {
+            minus.map(minus => value -= minus)
 
-        if (plus) value = value + plus
-        else if (minus) value = value - minus
-        else if (times) value = value * times
-        else if (division) value = value / division
+        } else if (times.length > 0) {
+            times.map(times => value *= times)
+
+        } else if (division.length > 0) {
+            division.map(division => division /= plus)
+        }
 
     }
     

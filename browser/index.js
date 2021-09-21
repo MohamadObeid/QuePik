@@ -1053,10 +1053,10 @@ const Input = (component) => {
                 controls: [...controls, {
                     actions: 'resize'
                 }, {
-                    event: `keyup??value.data;e.key=Enter;${duplicatable}`,
+                    event: `keyup??value.data();e.key=Enter;${duplicatable}`,
                     actions: `duplicate::${id}`
                 }, {
-                    event: `input?value.element.value=''?value.data=free`,
+                    event: `input?value.element.value=''?value.data()=free`,
                 }]
             }, {
                 type: `View?class=flex-box;style.alignSelf=flex-start;style.minWidth=fit-content;style.height=${style.height || '4rem'}`,
@@ -1076,7 +1076,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,asset.currency.options.map().name.en].flat();auto-style;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,state.asset.currency.options.map().name.en].flat();auto-style;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1087,7 +1087,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,asset.unit.options.map().name.en].flat();auto-style?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,state.asset.unit.options.map().name.en].flat();auto-style?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1097,7 +1097,7 @@ const Input = (component) => {
                         transition: 'color .2s',
                         after: { color: '#0d6efd' }
                     },
-                    actions: `setData?data.value=${unit}?!value.data`
+                    actions: `setData?data.value=${unit}?!value.data()`
                 }, {
                     type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.map().name.en].flat();droplist.lang;auto-style;duplicated=${duplicated}?const.${lang}`,
                     style: {
@@ -1129,7 +1129,7 @@ const Input = (component) => {
                         event: 'click',
                         actions: [
                             // remove element
-                            `remove::${id}??${removable};${clearable ? `value.length::${id}>1;!value.data::${id}-input` : ''}`,
+                            `remove::${id}??${removable};${clearable ? `value.length::${id}>1;!value.data()::${id}-input` : ''}`,
                             // clear data
                             `removeData;focus>>50??${clearable}?${id}-input`,
                             // for key
@@ -1705,7 +1705,7 @@ module.exports = ({ params = {}, id }) => {
     return [{
         event: `click`,
         actions: [
-            `setState?state.actionlist-mouseenter;state.${state}=value.data;value.Data::actionlist=${state};value.data::actionlist=value.data`,
+            `setState?state.actionlist-mouseenter;state.${state}=value.data();value.Data::actionlist=${state};value.data::actionlist=value.data()`,
             `setPosition?position.id=actionlist;position.placement=${controls.placement || 'bottom'};position.distance=${controls.distance}`,
             `mountAfterStyles;update???actionlist`,
         ]
@@ -1786,7 +1786,7 @@ module.exports = ({ VALUE, params, id }) => {
     return [{
         event: 'click',
         actions: [
-            `createView?state.${state}=value.data;value.Data::mini-window-view=undefined<<!value.data;value.Data::mini-window-view=${state}<<value.data;view=${controls.view}??mini-window-view`,
+            `createView?state.${state}=value.data();value.Data::mini-window-view=undefined<<!value.data();value.Data::mini-window-view=${state}<<value.data();view=${controls.view}??mini-window-view`,
             `setStyle?style.display=flex;style.opacity=1>>25??mini-window`
         ]
     }]
@@ -1806,8 +1806,8 @@ module.exports = ({ VALUE, params, id }) => {
     return [{
         event: `click??global.${controls.id}.view!=${controls.view}`,
         actions: [
-            `resetStyles;mountAfterStyles>>400???global.${controls.id}.parent.id`,
-            `createView>>250?value.Data::${controls.id}=value.data;view=${controls.view}??${controls.id}`,
+            `resetStyles;mountAfterStyles>>400???global.${controls.id}.parent().id`,
+            `createView>>250?value.Data::${controls.id}=value.data();view=${controls.view}??${controls.id}`,
         ]
     }]
 }
@@ -1957,7 +1957,7 @@ const clearValues = (obj) => {
 
     if (Array.isArray(obj)) {
         newObj = []
-        obj.map((element, index) => {
+        if (obj.length > 0) obj.map((element, index) => {
 
             if (typeof element === 'object') {
                 newObj[index] = clearValues(element)
@@ -1972,7 +1972,7 @@ const clearValues = (obj) => {
         
         if (Array.isArray(value)) {
             newObj[key] = []
-            value.map((element, index) => {
+            if (value.length > 0) value.map((element, index) => {
 
                 if (typeof element === 'object') {
                     newObj[key][index] = clearValues(element)
@@ -1983,7 +1983,7 @@ const clearValues = (obj) => {
         else if (typeof value === 'object') newObj[key] = clearValues(value)
         else newObj[key] = ''
     })
-
+    
     return newObj
 }
 
@@ -2303,7 +2303,7 @@ const createElement = ({ STATE, VALUE, id }) => {
         delete local.path
         delete local.data
     }
-
+    
     // path
     var path = typeof local.path === 'string' && local.path !== '' ? local.path.split('.') : []
     if (path.length > 0) {
@@ -2977,7 +2977,7 @@ const droplist = ({ VALUE, STATE, id, e }) => {
                 actions: [
 
                     // for lang & currency droplists
-                    `setData;focus::${input_id}?data.path=${item};data.value=value.data::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=${item}`,
+                    `setData;focus::${input_id}?data.path=${item};data.value=value.data()::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=${item}`,
 
                     // data = free
                     `setData::${input_id}?data.value=free?${input_id};const.${item}=free`,
@@ -2988,24 +2988,6 @@ const droplist = ({ VALUE, STATE, id, e }) => {
             }]
         }
     })
-    
-    /*dropList.children = [{
-        type: `[Item]?data=[${items}]`,
-        controls: [{
-            event: `click?value.element.${isInput ? 'value' : 'innerHTML'}::${id}=value.data;state[value.Data][value.derivations]<<!const.${local.lang}=value.data?!readonly;state.droplist=${id}`,
-            actions: [
-
-                // for lang & currency droplists
-                `setData;focus::${input_id}?data.path=value.data;data.value=value.data::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},value.data];value.path::${input_id}=value.data?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=value.data`,
-
-                // data = free
-                `setData::${input_id}?data.value=free?const.value.data=free`,
-                `setData::${input_id}?data.value=''?const.value.data!=free;value.data=free`,
-                
-                `focus::${input_id}`,
-            ]
-        }]
-    }]*/
 
     dropList.positioner = id
     dropList.turnoff = true
@@ -3158,7 +3140,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
         // local.key
 
     } else local.derivations[local.derivations.length - 1] = length
-    
+
     // create element => append child
     var newcontent = document.createElement('div')
     newcontent.innerHTML = createElement({ STATE, VALUE, id })
@@ -3335,20 +3317,23 @@ const { toParam } = require("./toParam")
 const { getParam } = require("./getParam")
 const { toId } = require("./toId")
 const { generate } = require("./generate")
+const { toValue } = require("./toValue")
+const { toAwait } = require("./toAwait")
 const _method = require("./_method")
 
 const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) => {
 
-    var local = VALUE[id], awaiter = [], _params = params
-    if (!local) return
+    var local = VALUE[id], awaiter = [], _params = params, localId = id
+    // if (!local) return
+
     if (controls) actions = controls.actions
-    local.break = false
+    if (local) local.break = false
 
     // execute actions
     toArray(actions).map(_action => {
         
         // stop after actions
-        if (local.break) return
+        if (local && local.break) return
 
         var approved = true
         var actions = _action.split('?')
@@ -3373,68 +3358,75 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
 
             // reset
             var reset = getParam(_action, 'reset', false)
-            local.break = getParam(_action, 'break', false)
+            if (local) local.break = getParam(_action, 'break', false)
             if (reset) clearTimeout(local[`${name}-timer`])
             
             const myFn = () => {
-
+                
                 // approval
                 approved = toApproval({ VALUE, STATE, string: conditions, params, id })
                 if (!approved) return
 
                 // params
-                if (typeof params === 'string') 
                 params = toParam({ VALUE, STATE, string: params, e, id })
-
+                
                 // id's
                 idList = toId({ VALUE, STATE, id, string: idList, e })
 
                 // action::id
-                var actionid = action.split('::')[1];
+                var actionid = action.split('::')[1]
+                if (actionid) actionid = toValue({ VALUE, STATE, params: { value: actionid, params }, id, e })
                 
-                (actionid ? [actionid] : idList).map(id => {
+                // action
+                var keys = name.split('.')
+                if (keys.length > 1) keys.map((k, i) => {
+
+                    if (i === keys.length - 1) return name = k
+                    if (k === 'async') {
+
+                        params.asyncer = true
+                        
+                    } else if (k === 'await') {
+                        
+                        params.awaiter = true
+                        awaiter.push(action.split('await.')[1])
+                    }
+                })
+                
+                
+                if (_method[name] && (!params.awaiter || params.asyncer)) 
+                (actionid ? toArray(actionid) : idList).map(id => {
 
                     // id = value.path
                     if (id.includes('.')) {
 
                         var k = generate()
-                        id = toParam({ VALUE, STATE, string: `${k}=${id}`, e, id: local.id })[k]
+                        id = toParam({ VALUE, STATE, string: `${k}=${id}`, e, id: localId })[k]
                     }
 
-                    // component doesnot exist
+                    // component does not exist
                     if (!id || !VALUE[id]) return
-                    
-                    var keys = name.split('.')
-                    if (keys.length > 1) keys.map((k, i) => {
 
-                        if (i === keys.length - 1) return name = k
-                        if (k === 'async') {
-
-                            params.asyncer = true
-                            params.awaiter = awaiter
-                            
-                        } else if (k === 'await') {
-                            
-                            params.awaiter = true
-                            return awaiter.push(action.split('await.')[1])
-                        }
-                    })
-
-                    if (!_method[name]) return
+                    if (params.asyncer) params.awaiter = awaiter
                     _method[name]({ VALUE, STATE, controls, params, e, id })
+                    
+                    // asyncer
+                    //if (_method[name].constructor.name !== 'AsyncFunction') 
+                    toAwait({ VALUE, STATE, id, e, params })
                 })
 
             }
 
             if (instantly) return myFn()
-            local[`${name}-timer`] = setTimeout(myFn, timer)
+            if (local) local[`${name}-timer`] = setTimeout(myFn, timer)
+            else setTimeout(myFn, timer)
         })
     })
     
 }
 
 module.exports = {execute}
-},{"./_method":25,"./generate":52,"./getParam":54,"./toApproval":79,"./toArray":80,"./toId":84,"./toParam":85}],48:[function(require,module,exports){
+},{"./_method":25,"./generate":52,"./getParam":54,"./toApproval":79,"./toArray":80,"./toAwait":81,"./toId":84,"./toParam":85,"./toValue":90}],48:[function(require,module,exports){
 module.exports = {
     fill: ({ VALUE, STATE, id }) => {
         var local = VALUE[id], ratio
@@ -3877,19 +3869,26 @@ const preventDefault = ({e}) => {
 
 module.exports = {preventDefault}
 },{}],64:[function(require,module,exports){
-const { derive } = require("./derive")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { capitalize } = require("./capitalize")
 const { toCode } = require("./toCode")
 
 const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, e }) => {
+
     const { toValue } = require("./toValue")
     const { execute } = require("./execute")
 
     var local = VALUE[id], breakRequest
 
     if (path[1]) path = toCode({ VALUE, STATE, id, string: path.join('.'), e }).split('.')
+    
+    if (path[0] === 'global') {
+        local = VALUE[path[1]]
+        id = path[1]
+        path = path.slice(1)
+        path[0] = 'value'
+    }
     
     if (!object) {
         
@@ -3899,7 +3898,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         : path[0] === 'params' ? params
         : false
         
-        if (!object) {
+        if (!object && path[0]) {
             
             if (path[0].includes('coded')) 
             object = toValue({ VALUE, STATE, id, params: { value: STATE.codes[path[0]], params }, e })
@@ -3918,6 +3917,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
     var lastIndex = path.length - 1
     
     var answer = path.reduce((o, k, i) => {
+        if (!isNaN(k)) k = k + ''
                     
         // break method
         if (breakRequest === true || breakRequest === i) return o
@@ -3927,35 +3927,45 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         // set Value
         if (key && i === lastIndex) return o[k] = value
 
-        else if (k.includes('coded-')) {
+        else if (k.includes('coded()')) {
 
             answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: STATE.codes[k].split('.'), object: o, params } })
 
-        } else if (k === 'data') {
+        } else if (k === 'data()') {
 
-            answer = derive(STATE[local.Data], local.derivations)[0]
+            breakRequest = true
+            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: [...local.derivations, ...path.slice(i + 1)], object: STATE[local.Data], params } })
 
-        } else if (k === 'parent') {
+        } else if (k === 'Data()') {
+
+            answer = STATE[local.Data]
+            
+        } else if (k === 'derive()') {
+
+            breakRequest = true
+            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: [...local.derivations, ...path.slice(i + 1)], object: o, params } })
+
+        } else if (k === 'parent()') {
 
             var parent = o.parent
             if (o.templated) parent = VALUE[parent].parent
             answer = VALUE[parent]
 
-        } else if (k === 'next' || k === 'nextSibling') {
+        } else if (k === 'next()' || k === 'nextSibling()') {
 
             var element = o.templated ? VALUE[o.parent].element : o.element
             var nextSibling = element.nextSibling
             var _id = nextSibling.id
             answer = VALUE[_id]
 
-        } else if (k === 'prev' || k === 'prevSibling') {
+        } else if (k === 'prev()' || k === 'prevSibling()') {
 
             var element = o.templated ? VALUE[o.parent].element : o.element
             var previousSibling = element.previousSibling
             var _id = previousSibling.id
             answer = VALUE[_id]
 
-        } else if (k === '1stChild') {
+        } else if (k === '1stChild()') {
             
             var _id = o.element.children[0].id
             if (VALUE[_id].component === 'Input') {
@@ -3964,7 +3974,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = VALUE[_id]
             
-        } else if (k === '2ndChild') {
+        } else if (k === '2ndChild()') {
             
             var _id = (o.element.children[1] || o.element.children[0]).id
             if (VALUE[_id].component === 'Input') {
@@ -3973,7 +3983,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = VALUE[_id]
 
-        } else if (k === '3rdChild') {
+        } else if (k === '3rdChild()') {
 
             var _id = (o.element.children[2] || o.element.children[1] || o.element.children[0]).id
             if (VALUE[_id].component === 'Input') {
@@ -3982,7 +3992,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = VALUE[_id]
 
-        } else if (k === 'lastChild') {
+        } else if (k === 'lastChild()') {
 
             var _id = o.element.children[o.element.children.length - 1].id
             if (VALUE[_id].component === 'Input') {
@@ -3991,17 +4001,19 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = VALUE[_id]
 
-        } else if (k === 'INPUT') {
+        } else if (k === 'children()') {
 
-            var inputComps = [...o.element.getElementsByTagName(k)]
-            inputComps = inputComps.map(comp => VALUE[comp.id])
-            if (inputComps.length === 0) answer = inputComps[0]
-            else answer = inputComps
+            answer = [...o.element.children].map(el => {
+                
+                var id = el.id
+                if (VALUE[id].component === 'Input') {
 
-        } else if (k === 'findIdByData') {
+                    var _id = VALUE[_id].element.getElementsByTagName('INPUT')[0].id
+                    return VALUE[_id]
 
-            answer = o.find(id => local.data === VALUE[id].text)
-
+                } else return VALUE[id]
+            })
+            
         } else if (k === 'keys()') {
             
             answer = Object.keys(o)
@@ -4038,7 +4050,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             breakRequest = true
             answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: path.slice(i + 1), object: o, value, key, params }, e }) )
-
+console.log(answer, value);
         } else if (k === '1stIndex()' || k === 'firstIndex()') {
             
             answer = o[0]
@@ -4055,7 +4067,23 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = o[o.length - 1]
 
-        } else if (k === 'value()') {
+        } else if (k === 'parseFloat()') {
+            
+            answer = parseFloat(o)
+
+        } else if (k === 'parseInt()') {
+            
+            answer = parseInt(o)
+
+        } else if (k === 'stringify()') {
+            
+            answer = JSON.stringify(o)
+
+        }else if (k === 'parse()') {
+            
+            answer = JSON.parse(o)
+
+        }  else if (k === 'value()') {
             
             answer = VALUE[o]
 
@@ -4091,7 +4119,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 }
 
 module.exports = { reducer }
-},{"./capitalize":28,"./derive":42,"./execute":47,"./generate":52,"./toArray":80,"./toCode":82,"./toValue":90}],65:[function(require,module,exports){
+},{"./capitalize":28,"./execute":47,"./generate":52,"./toArray":80,"./toCode":82,"./toValue":90}],65:[function(require,module,exports){
 const { removeIds } = require("./update")
 const { clone } = require("./clone")
 
@@ -4184,7 +4212,10 @@ const removeDuplicates = (object) => {
 
     if (typeof object === 'string' || typeof object === 'number' || !object) return object
 
-    if (Array.isArray(object)) return object = [removeDuplicates(object[0])]
+    if (Array.isArray(object)) {
+        if (object.length === 0) return []
+        return object = [removeDuplicates(object[0])]
+    }
 
     if (typeof object === 'object') {
 
@@ -4206,7 +4237,7 @@ const resize = ({ VALUE, id }) => {
     if (local.type !== 'Input') return
 
     var results = dimensions({ VALUE, id })
-
+    
     // for width
     var width = local.style.width
     if (width === 'fit-content') {
@@ -4413,7 +4444,7 @@ const save = async ({ VALUE, STATE, params = {}, id, e }) => {
     STATE[save.api][data['file-name']] = data
     
     // awaits
-    toAwait({ VALUE, STATE, id, e, params })
+    //toAwait({ VALUE, STATE, id, e, params })
 
     console.log(data, message, success)
 }
@@ -4872,7 +4903,6 @@ const { getParam } = require("./getParam")
 const { toValue } = require("./toValue")
 const { reducer } = require("./reducer")
 const { toPath } = require("./toPath")
-const { clone } = require("./clone")
 
 const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
     var mainId = id
@@ -5046,13 +5076,6 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 else if (key === 'true') local[keygen] = true
                 else if (path[1]) {
 
-                    if (path[0] === 'global') {
-                        local = VALUE[path[1]]
-                        id = path[1]
-                        path = path.slice(1)
-                        path[0] = 'value'
-                    }
-
                     local[keygen] = reducer({ VALUE, STATE, id, params: { path, value }, e })
 
                 } else if (key === 'isArabic') {
@@ -5070,7 +5093,7 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
 
                     local[keygen] = overflow({ VALUE, id })[0]
                     
-                } else local[keygen] = clone(local[key])
+                } else local[keygen] = local[key]
 
                 if (plus) value = value + plus
                 if (minus) value = value - minus
@@ -5137,13 +5160,6 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
 
                 if (path[1]) {
 
-                    if (path[0] === 'global') {
-                        local = VALUE[path[1]]
-                        id = path[1]
-                        path = path.slice(1)
-                        path[0] = 'value'
-                    }
-
                     local[keygen] = reducer({ VALUE, STATE, id, params: { path, value }, e })
                 }
 
@@ -5157,7 +5173,7 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
 }
 
 module.exports = {toApproval}
-},{"./clone":30,"./duplicate":44,"./generate":52,"./getParam":54,"./isArabic":55,"./isEqual":56,"./overflow":60,"./reducer":64,"./toPath":86,"./toValue":90}],80:[function(require,module,exports){
+},{"./duplicate":44,"./generate":52,"./getParam":54,"./isArabic":55,"./isEqual":56,"./overflow":60,"./reducer":64,"./toPath":86,"./toValue":90}],80:[function(require,module,exports){
 const toArray = (data) => {
     return data !== undefined ? (Array.isArray(data) ? data : [data]) : []
 }
@@ -5175,7 +5191,6 @@ module.exports = {
         toParam({ VALUE, STATE, id, e, string: params.await.join(';') })
         
         if (params.awaiter) execute({ VALUE, STATE, id, e, actions: params.awaiter, params })
-        
     }
 }
 },{"./execute":47,"./toParam":85}],82:[function(require,module,exports){
@@ -5190,7 +5205,7 @@ const toCode = ({ VALUE, STATE, string, e, id }) => {
 
     if (keys[1]) {
 
-        var key = `coded-${generate()}`
+        var key = `coded()${generate()}`
         var subKey = keys[1].split(close)
 
         // ex. [ [ [] [] ] ]
@@ -5352,9 +5367,6 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
             key = key.split('<<')[0]
             
         }
-        
-        var local = VALUE[id]
-        if (!local) return
 
         var path = typeof key === 'string' ? key.split('.') : []
         
@@ -5362,7 +5374,7 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
         if (path && path.length > 1) {
 
             // mount state & value
-            if (path[0] === 'state' || path[0] === 'value' || path[0] === 'params' || path[0] === 'e' || path[0] === 'action')
+            if (path[0] === 'state' || path[0] === 'value' || path[0] === 'params' || path[0] === 'e' || path[0] === 'action' || path[0] === 'global')
             reducer({ VALUE, STATE, id, params: { path, value, key, params } })
 
             else path.reduce((obj, key, index) => {
@@ -5653,7 +5665,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
     
     const { toApproval } = require("./toApproval")
 
-    var local = VALUE[id], minus, plus, times, division
+    var local = VALUE[id], minus = [], plus = [], times = [], division = []
     
     // return const value
     if (value && value.split('const.')[1] && !value.split('const.')[0] ) return value.split('const.')[1]
@@ -5682,7 +5694,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         }
 
         var local = VALUE[id]
-        if (!local) return value
+        // if (!local) return value
         
         // value1 || value2 || value3
         if (value && value.includes('||')) {
@@ -5709,31 +5721,44 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         }
 
         if (value) {
-            minus = value.split('--')[1]
-            plus = value.split('++')[1]
-            times = value.split('**')[1]
-            division = value.split('÷÷')[1] // hold Alt + 0247
-        }
 
-        if (plus) {
+            minus = value.split('--')
+            plus = value.split('++')
+            times = value.split('**')
+            division = value.split('÷÷') // hold Alt + 0247
 
-            value = value.split('++')[0]
-            plus = toValue({ VALUE, STATE, id, params: { params, value: plus }, e })
+            if (plus.length > 1) {
 
-        } else if (minus) {
+                value = plus[0]
+                plus.shift()
+                plus = plus.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
 
-            value = value.split('--')[0]
-            minus = toValue({ VALUE, STATE, id, params: { params, value: minus }, e })
+            } else if (minus.length > 1) {
 
-        } else if (times) {
+                value = minus[0]
+                minus.shift()
+                minus = minus.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
 
-            value = value.split('**')[0]
-            times = toValue({ VALUE, STATE, id, params: { params, value: times }, e })
+            } else if (times.length > 1) {
 
-        } else if (division) {
+                value = times[0]
+                times.shift()
+                times = times.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
 
-            value = value.split('÷÷')[0]
-            division = toValue({ VALUE, STATE, id, params: { params, value: division }, e })
+            } else if (division.length > 1) {
+
+                value = division[0]
+                division.shift()
+                division = division.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
+            
+            } else {
+                
+                plus.shift()
+                minus.shift()
+                times.shift()
+                division.shift()
+            }
+            
         }
 
         var path = typeof value === 'string' ? value.split('.') : []
@@ -5754,22 +5779,20 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         else if (value.includes('%20')) value = value.split('%20').join(' ')
         else if (value.includes('JSON.parse')) value = JSON.parse(value.split('JSON.parse(')[1].slice(0, -1))
         else if (value.includes('JSON.stringify')) value = JSON.stringify(value.split('JSON.stringify(')[1].slice(0, -1))
-        else if (path[1]) {
+        else if (path[1]) value = reducer({ VALUE, STATE, id, params: { path, value, params }, e })
 
-            if (path[0] === 'global') {
-                local = VALUE[path[1]]
-                id = path[1]
-                path = path.slice(1)
-                path[0] = 'value'
-            }
+        if (plus.length > 0) {
+            plus.map(plus => value += plus)
             
-            value = reducer({ VALUE, STATE, id, params: { path, value, params }, e })
-        }
+        } else if (minus.length > 0) {
+            minus.map(minus => value -= minus)
 
-        if (plus) value = value + plus
-        else if (minus) value = value - minus
-        else if (times) value = value * times
-        else if (division) value = value / division
+        } else if (times.length > 0) {
+            times.map(times => value *= times)
+
+        } else if (division.length > 0) {
+            division.map(division => division /= plus)
+        }
 
     }
     

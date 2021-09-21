@@ -9,7 +9,7 @@ const toCode = ({ VALUE, STATE, string, e, id }) => {
 
     if (keys[1]) {
 
-        var key = `coded-${generate()}`
+        var key = `coded()${generate()}`
         var subKey = keys[1].split(close)
 
         // ex. [ [ [] [] ] ]

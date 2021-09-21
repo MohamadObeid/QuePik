@@ -128,10 +128,10 @@ const Input = (component) => {
                 controls: [...controls, {
                     actions: 'resize'
                 }, {
-                    event: `keyup??value.data;e.key=Enter;${duplicatable}`,
+                    event: `keyup??value.data();e.key=Enter;${duplicatable}`,
                     actions: `duplicate::${id}`
                 }, {
-                    event: `input?value.element.value=''?value.data=free`,
+                    event: `input?value.element.value=''?value.data()=free`,
                 }]
             }, {
                 type: `View?class=flex-box;style.alignSelf=flex-start;style.minWidth=fit-content;style.height=${style.height || '4rem'}`,
@@ -151,7 +151,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,asset.currency.options.map().name.en].flat();auto-style;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,state.asset.currency.options.map().name.en].flat();auto-style;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -162,7 +162,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,asset.unit.options.map().name.en].flat();auto-style?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,state.asset.unit.options.map().name.en].flat();auto-style?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -172,7 +172,7 @@ const Input = (component) => {
                         transition: 'color .2s',
                         after: { color: '#0d6efd' }
                     },
-                    actions: `setData?data.value=${unit}?!value.data`
+                    actions: `setData?data.value=${unit}?!value.data()`
                 }, {
                     type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.map().name.en].flat();droplist.lang;auto-style;duplicated=${duplicated}?const.${lang}`,
                     style: {
@@ -204,7 +204,7 @@ const Input = (component) => {
                         event: 'click',
                         actions: [
                             // remove element
-                            `remove::${id}??${removable};${clearable ? `value.length::${id}>1;!value.data::${id}-input` : ''}`,
+                            `remove::${id}??${removable};${clearable ? `value.length::${id}>1;!value.data()::${id}-input` : ''}`,
                             // clear data
                             `removeData;focus>>50??${clearable}?${id}-input`,
                             // for key

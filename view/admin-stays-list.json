@@ -38,13 +38,13 @@
                 },
                 "controls": [{
                     "event": "keyup>>200??state.stay-list-Data",
-                    "actions": "filter?filter.backup=state.stay.values();filter.path=name.en;filter.Data=stay-list-Data;filter.value=e.target.value;filter.update=global.stay-list-view.1stChild.id<<global.stay-list-view.1stChild.element.style.display=grid;filter.update=global.stay-list-view.2ndChild.2ndChild.id<<global.stay-list-view.2ndChild.element.style.display=grid"
+                    "actions": "filter?filter.backup=state.stay.values();filter.path=name.en;filter.Data=stay-list-Data;filter.value=e.target.value;filter.update=global.stay-list-view.1stChild().id<<global.stay-list-view.1stChild().element.style.display=grid;filter.update=global.stay-list-view.2ndChild().2ndChild().id<<global.stay-list-view.2ndChild().element.style.display=grid"
                 }]
             }, {
                 "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
                 "controls": {
                     "event": "click??state.stay-list-Data", 
-                    "actions": "sort?sort.path=name.en;sort.Data=stay-list-Data;sort.update=global.stay-list.1stChild.id<<global.stay-list.1stChild.element.style.display=grid;sort.update=global.stay-list.2ndChild.2ndChild.id<<global.stay-list.2ndChild.element.style.display=grid"
+                    "actions": "sort?sort.path=name.en;sort.Data=stay-list-Data;sort.update=global.stay-list.1stChild().id<<global.stay-list.1stChild().element.style.display=grid;sort.update=global.stay-list.2ndChild().2ndChild().id<<global.stay-list.2ndChild().element.style.display=grid"
                 }
             }, {
                 "type": "Button?text=Collection;icon.name=bi-ui-checks-grid;droplist.items=[Collections>>readonly]"
@@ -59,9 +59,9 @@
                 "controls": {
                     "event": "click", 
                     "actions": [
-                        "setStyle::global.stay-list-view.1stChild.id?style.display=none<<global.stay-list-view.1stChild.element.style.display=grid;style.display=grid>>50<<global.stay-list-view.1stChild.element.style.display=none",
-                        "setStyle::global.stay-list-view.2ndChild.id?style.display=none<<global.stay-list-view.2ndChild.element.style.display=grid;style.display=grid>>50<<global.stay-list-view.2ndChild.element.style.display=none",
-                        "?state.stay-list-grid-view-display=global.stay-list-view.1stChild.element.style.display;state.stay-list-table-view-display=global.stay-list-view.2ndChild.element.style.display"
+                        "setStyle::global.stay-list-view.1stChild().id?style.display=none<<global.stay-list-view.1stChild().element.style.display=grid;style.display=grid>>50<<global.stay-list-view.1stChild().element.style.display=none",
+                        "setStyle::global.stay-list-view.2ndChild().id?style.display=none<<global.stay-list-view.2ndChild().element.style.display=grid;style.display=grid>>50<<global.stay-list-view.2ndChild().element.style.display=none",
+                        "?state.stay-list-grid-view-display=global.stay-list-view.1stChild().element.style.display;state.stay-list-table-view-display=global.stay-list-view.2ndChild().element.style.display"
                     ]
                 }
             }]
@@ -82,12 +82,12 @@
                         }
                     },
                     "controls": [{
-                        "actions": "createControls?controls.type=auto-style;controls.id=[value.id,value.1stChild.id]" 
+                        "actions": "createControls?controls.type=auto-style;controls.id=[value.id,value.1stChild().id]" 
                     }, {
                         "actions": "createControls?controls.type=mini-window;controls.view=stay"
                     }],
                     "children": [{
-                        "type": "Text?text=value.data.name.en<<value.data.name;style.fontSize=1.3rem;style.after.color=#ee384e;style.transition=color .1s"
+                        "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.3rem;style.after.color=#ee384e;style.transition=color .1s"
                     }]
                 }]
             }, {
@@ -100,7 +100,7 @@
                             "type": "Text?text=Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                             "controls": {
                                 "event": "click", 
-                                "actions": "sort?sort.path=name.en;sort.Data=stay-list-Data;sort.update=value.parent.parent.next.id?state.stay-list-Data"
+                                "actions": "sort?sort.path=name.en;sort.Data=stay-list-Data;sort.update=value.parent().parent().next().id?state.stay-list-Data"
                             }
                         }]
                     }, {
@@ -109,7 +109,7 @@
                             "type": "Text?text=City;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                             "controls": {
                                 "event": "click", 
-                                "actions": "sort?sort.path=city.en;sort.Data=stay-list-Data;sort.update=value.parent.parent.next.id?state.stay-list-Data"
+                                "actions": "sort?sort.path=city.en;sort.Data=stay-list-Data;sort.update=value.parent().parent().next().id?state.stay-list-Data"
                             }
                         }]
                     }, {
@@ -118,7 +118,7 @@
                             "type": "Text?text=Stars;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                             "controls": {
                                 "event": "click", 
-                                "actions": "sort?sort.path=stars;sort.Data=stay-list-Data;sort.update=value.parent.parent.next.id?state.stay-list-Data"
+                                "actions": "sort?sort.path=stars;sort.Data=stay-list-Data;sort.update=value.parent().parent().next().id?state.stay-list-Data"
                             }
                         }]
                     }, {
@@ -129,11 +129,11 @@
                     "children": [{
                         "type": "[View]?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;Data=stay-list-Data;data=state.stay-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem?state.stay",
                         "children": [{
-                            "type": "Text?text=value.data.name.en<<value.data.name;style.fontSize=1.4rem"
+                            "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.4rem"
                         }, {
-                            "type": "Text?text=value.data.city.en<<value.data.city;style.fontSize=1.4rem"
+                            "type": "Text?text=value.data().city.en<<value.data().city;style.fontSize=1.4rem"
                         }, {
-                            "type": "Text?text=value.data.stars;style.fontSize=1.4rem"
+                            "type": "Text?text=value.data().stars;style.fontSize=1.4rem"
                         }, {
                             "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%",
                             "children": [{

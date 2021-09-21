@@ -7,7 +7,6 @@ const { getParam } = require("./getParam")
 const { toValue } = require("./toValue")
 const { reducer } = require("./reducer")
 const { toPath } = require("./toPath")
-const { clone } = require("./clone")
 
 const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
     var mainId = id
@@ -181,13 +180,6 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 else if (key === 'true') local[keygen] = true
                 else if (path[1]) {
 
-                    if (path[0] === 'global') {
-                        local = VALUE[path[1]]
-                        id = path[1]
-                        path = path.slice(1)
-                        path[0] = 'value'
-                    }
-
                     local[keygen] = reducer({ VALUE, STATE, id, params: { path, value }, e })
 
                 } else if (key === 'isArabic') {
@@ -205,7 +197,7 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
 
                     local[keygen] = overflow({ VALUE, id })[0]
                     
-                } else local[keygen] = clone(local[key])
+                } else local[keygen] = local[key]
 
                 if (plus) value = value + plus
                 if (minus) value = value - minus
@@ -271,13 +263,6 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 var path = typeof key === 'string' ? key.split('.') : []
 
                 if (path[1]) {
-
-                    if (path[0] === 'global') {
-                        local = VALUE[path[1]]
-                        id = path[1]
-                        path = path.slice(1)
-                        path[0] = 'value'
-                    }
 
                     local[keygen] = reducer({ VALUE, STATE, id, params: { path, value }, e })
                 }

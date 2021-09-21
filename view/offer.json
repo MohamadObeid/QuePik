@@ -37,7 +37,7 @@
                         "type": "Icon?icon.name=bi-x;style.fontSize=2.2rem;style.cursor=pointer",
                         "controls": {
                             "event": "click",
-                            "actions": "remove::value.parent.parent.id??value.length::value.parent.parent.id>1"
+                            "actions": "remove::value.parent().parent().id??value.length::value.parent().parent().id>1"
                         }
                     }]
                 }, {
@@ -49,8 +49,8 @@
                         }, {
                             "type": "Input?featured;tt;!clearable;!removable;style.backgroundColor=#f0f0f0;path=type;data=Discount;droplist.items=[Offers:readonly,Discount,Sale Price,Free Shipping,Buy X Get Y Free,Cash Back,Earn Points]",
                             "controls": {
-                                "watch": "value.data??value.parent.parent.parent.index=0",
-                                "actions": "createActions?type=item;state=offer-item;id=value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData??value.parent.parent.parent.parent.prev.prev.childrenSiblings.findIdByData"
+                                "watch": "value.data()??value.parent().parent().parent().index=0",
+                                "actions": "createActions?type=item;state=offer-item;id=value.parent().parent().parent().parent().prev().prev().childrenSiblings.findIdByData??value.parent().parent().parent().parent().prev().prev().childrenSiblings.findIdByData"
                             }
                         }]
                     }, {
@@ -87,14 +87,14 @@
                     }, {
                         "type": "Switch",
                         "controls": [{
-                            "event": "load?value.element.checked=true?value.data.validity.starting-date"
+                            "event": "load?value.element.checked=true?value.data().validity.starting-date"
                         }, {
                             "event": "change",
                             "actions": [
-                                "setData;setContent::value.parent.next.next.1stChild.2ndChild.id?content.value=date.today;data.value=date.today;data.path=validity.starting-date?value.element.checked",
-                                "setData;setContent::value.parent.next.next.2ndChild.2ndChild.id?content.value=date.today.+4;data.value=date.today.+4;data.path=validity.ending-date?value.element.checked",
-                                "setStyle?style.display=grid?value.element.checked?value.parent.next.next.id",
-                                "setStyle::value.parent.next.next.id;removeData?style.display=none;path=validity?!value.element.checked"
+                                "setData;setContent::value.parent().next().next().1stChild().2ndChild().id?content.value=date.today;data.value=date.today;data.path=validity.starting-date?value.element.checked",
+                                "setData;setContent::value.parent().next().next().2ndChild().2ndChild().id?content.value=date.today.+4;data.value=date.today.+4;data.path=validity.ending-date?value.element.checked",
+                                "setStyle?style.display=grid?value.element.checked?value.parent().next().next().id",
+                                "setStyle::value.parent().next()().next().id;removeData?style.display=none;path=validity?!value.element.checked"
                             ]
                         }]
                     }]
@@ -102,7 +102,7 @@
                     "type": "Text?class=divider"
                 }, {
                     "type": "View?style.display=none;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%;path=validity",
-                    "actions": "setStyle?style.display=grid?value.data.starting-date",
+                    "actions": "setStyle?style.display=grid?value.data().starting-date",
                     "children": [{
 
                         "type": "View?class=flex-start-column",
@@ -127,15 +127,15 @@
                     }, {
                         "type": "Switch",
                         "controls": [{
-                            "event": "load?value.element.checked=true?value.data.code.code"
+                            "event": "load?value.element.checked=true?value.data().code.code"
                         }, {
                             "event": "change",
                             "actions": [
-                                "setData;setContent::value.parent.next.next.1stChild.2ndChild.id?content.value=generate;data.value=generate;data.path=code.code?value.element.checked",
-                                "setData;setContent::value.parent.next.next.2ndChild.2ndChild.id?content.value=20;data.value=20;data.path=code.total-uses?value.element.checked",
-                                "setData;setContent::value.parent.next.next.3rdChild.2ndChild.id?content.value=1;data.value=1;data.path=code.allowed-uses-per-user?value.element.checked",
-                                "setStyle?style.display=grid?value.element.checked?value.parent.next.next.id",
-                                "setStyle::value.parent.next.next.id;removeData?style.display=none;path=code?!value.element.checked"
+                                "setData;setContent::value.parent().next().next().1stChild().2ndChild().id?content.value=generate;data.value=generate;data.path=code.code?value.element.checked",
+                                "setData;setContent::value.parent().next().next().2ndChild().2ndChild().id?content.value=20;data.value=20;data.path=code.total-uses?value.element.checked",
+                                "setData;setContent::value.parent().next().next().3rdChild().2ndChild().id?content.value=1;data.value=1;data.path=code.allowed-uses-per-user?value.element.checked",
+                                "setStyle?style.display=grid?value.element.checked?value.parent().next().next().id",
+                                "setStyle::value.parent().next().next().id;removeData?style.display=none;path=code?!value.element.checked"
                             ]
                         }]
                     }]
@@ -143,7 +143,7 @@
                     "type": "Text?class=divider"
                 }, {
                     "type": "View?style.display=none;style.gridTemplateColumns=1fr 1fr 1fr;style.gap=1rem;style.width=100%;path=code",
-                    "actions": "setStyle?style.display=grid?value.data.code",
+                    "actions": "setStyle?style.display=grid?value.data().code",
                     "children": [{
                         
                         "type": "View?class=flex-start-column",
@@ -178,7 +178,7 @@
                 "type": "Icon?icon.name=bi-plus-circle-fill;style.fontSize=2rem;style.margin=0 1rem;style.color=#444;style.cursor=pointer",
                 "controls": [{
                     "event": "click",
-                    "actions": "duplicate;focus>>100???value.parent.prev.1stChild.id"
+                    "actions": "duplicate;focus>>100???value.parent().prev().1stChild().id"
                 }]
             }, {
                 "type": "Text?text=Add More Offers;style.fontSize=1.4rem;style.color=#444"

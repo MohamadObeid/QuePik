@@ -5,20 +5,23 @@ const { toParam } = require("./toParam")
 const { getParam } = require("./getParam")
 const { toId } = require("./toId")
 const { generate } = require("./generate")
+const { toValue } = require("./toValue")
+const { toAwait } = require("./toAwait")
 const _method = require("./_method")
 
 const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) => {
 
-    var local = VALUE[id], awaiter = [], _params = params
-    if (!local) return
+    var local = VALUE[id], awaiter = [], _params = params, localId = id
+    // if (!local) return
+
     if (controls) actions = controls.actions
-    local.break = false
+    if (local) local.break = false
 
     // execute actions
     toArray(actions).map(_action => {
         
         // stop after actions
-        if (local.break) return
+        if (local && local.break) return
 
         var approved = true
         var actions = _action.split('?')
@@ -43,61 +46,68 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
 
             // reset
             var reset = getParam(_action, 'reset', false)
-            local.break = getParam(_action, 'break', false)
+            if (local) local.break = getParam(_action, 'break', false)
             if (reset) clearTimeout(local[`${name}-timer`])
             
             const myFn = () => {
-
+                
                 // approval
                 approved = toApproval({ VALUE, STATE, string: conditions, params, id })
                 if (!approved) return
 
                 // params
-                if (typeof params === 'string') 
                 params = toParam({ VALUE, STATE, string: params, e, id })
-
+                
                 // id's
                 idList = toId({ VALUE, STATE, id, string: idList, e })
 
                 // action::id
-                var actionid = action.split('::')[1];
+                var actionid = action.split('::')[1]
+                if (actionid) actionid = toValue({ VALUE, STATE, params: { value: actionid, params }, id, e })
                 
-                (actionid ? [actionid] : idList).map(id => {
+                // action
+                var keys = name.split('.')
+                if (keys.length > 1) keys.map((k, i) => {
+
+                    if (i === keys.length - 1) return name = k
+                    if (k === 'async') {
+
+                        params.asyncer = true
+                        
+                    } else if (k === 'await') {
+                        
+                        params.awaiter = true
+                        awaiter.push(action.split('await.')[1])
+                    }
+                })
+                
+                
+                if (_method[name] && (!params.awaiter || params.asyncer)) 
+                (actionid ? toArray(actionid) : idList).map(id => {
 
                     // id = value.path
                     if (id.includes('.')) {
 
                         var k = generate()
-                        id = toParam({ VALUE, STATE, string: `${k}=${id}`, e, id: local.id })[k]
+                        id = toParam({ VALUE, STATE, string: `${k}=${id}`, e, id: localId })[k]
                     }
 
-                    // component doesnot exist
+                    // component does not exist
                     if (!id || !VALUE[id]) return
-                    
-                    var keys = name.split('.')
-                    if (keys.length > 1) keys.map((k, i) => {
 
-                        if (i === keys.length - 1) return name = k
-                        if (k === 'async') {
-
-                            params.asyncer = true
-                            params.awaiter = awaiter
-                            
-                        } else if (k === 'await') {
-                            
-                            params.awaiter = true
-                            return awaiter.push(action.split('await.')[1])
-                        }
-                    })
-
-                    if (!_method[name]) return
+                    if (params.asyncer) params.awaiter = awaiter
                     _method[name]({ VALUE, STATE, controls, params, e, id })
+                    
+                    // asyncer
+                    //if (_method[name].constructor.name !== 'AsyncFunction') 
+                    toAwait({ VALUE, STATE, id, e, params })
                 })
 
             }
 
             if (instantly) return myFn()
-            local[`${name}-timer`] = setTimeout(myFn, timer)
+            if (local) local[`${name}-timer`] = setTimeout(myFn, timer)
+            else setTimeout(myFn, timer)
         })
     })
     

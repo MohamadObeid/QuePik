@@ -9,7 +9,7 @@ const clearValues = (obj) => {
 
     if (Array.isArray(obj)) {
         newObj = []
-        obj.map((element, index) => {
+        if (obj.length > 0) obj.map((element, index) => {
 
             if (typeof element === 'object') {
                 newObj[index] = clearValues(element)
@@ -24,7 +24,7 @@ const clearValues = (obj) => {
         
         if (Array.isArray(value)) {
             newObj[key] = []
-            value.map((element, index) => {
+            if (value.length > 0) value.map((element, index) => {
 
                 if (typeof element === 'object') {
                     newObj[key][index] = clearValues(element)
@@ -35,7 +35,7 @@ const clearValues = (obj) => {
         else if (typeof value === 'object') newObj[key] = clearValues(value)
         else newObj[key] = ''
     })
-
+    
     return newObj
 }
 

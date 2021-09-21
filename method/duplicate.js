@@ -141,7 +141,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
         // local.key
 
     } else local.derivations[local.derivations.length - 1] = length
-    
+
     // create element => append child
     var newcontent = document.createElement('div')
     newcontent.innerHTML = createElement({ STATE, VALUE, id })

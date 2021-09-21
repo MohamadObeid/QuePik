@@ -6,7 +6,7 @@ const resize = ({ VALUE, id }) => {
     if (local.type !== 'Input') return
 
     var results = dimensions({ VALUE, id })
-
+    
     // for width
     var width = local.style.width
     if (width === 'fit-content') {

@@ -72,9 +72,6 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
             key = key.split('<<')[0]
             
         }
-        
-        var local = VALUE[id]
-        if (!local) return
 
         var path = typeof key === 'string' ? key.split('.') : []
         
@@ -82,7 +79,7 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
         if (path && path.length > 1) {
 
             // mount state & value
-            if (path[0] === 'state' || path[0] === 'value' || path[0] === 'params' || path[0] === 'e' || path[0] === 'action')
+            if (path[0] === 'state' || path[0] === 'value' || path[0] === 'params' || path[0] === 'e' || path[0] === 'action' || path[0] === 'global')
             reducer({ VALUE, STATE, id, params: { path, value, key, params } })
 
             else path.reduce((obj, key, index) => {

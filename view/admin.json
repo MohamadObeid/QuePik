@@ -19,9 +19,11 @@
             "padding": "2.5rem 3rem",
             "flexDirection": "column",
             "transform": "translateY(-110%)",
+            "opacity": "0",
             "position": "fixed",
             "after": {
-                "transform": "translateY(0)"
+                "transform": "translateY(0)",
+                "opacity": "1"
             }
         },
         "children": [{

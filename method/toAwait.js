@@ -9,6 +9,5 @@ module.exports = {
         toParam({ VALUE, STATE, id, e, string: params.await.join(';') })
         
         if (params.awaiter) execute({ VALUE, STATE, id, e, actions: params.awaiter, params })
-        
     }
 }

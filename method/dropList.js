@@ -75,7 +75,7 @@ const droplist = ({ VALUE, STATE, id, e }) => {
                 actions: [
 
                     // for lang & currency droplists
-                    `setData;focus::${input_id}?data.path=${item};data.value=value.data::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=${item}`,
+                    `setData;focus::${input_id}?data.path=${item};data.value=value.data()::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=${item}`,
 
                     // data = free
                     `setData::${input_id}?data.value=free?${input_id};const.${item}=free`,
@@ -86,24 +86,6 @@ const droplist = ({ VALUE, STATE, id, e }) => {
             }]
         }
     })
-    
-    /*dropList.children = [{
-        type: `[Item]?data=[${items}]`,
-        controls: [{
-            event: `click?value.element.${isInput ? 'value' : 'innerHTML'}::${id}=value.data;state[value.Data][value.derivations]<<!const.${local.lang}=value.data?!readonly;state.droplist=${id}`,
-            actions: [
-
-                // for lang & currency droplists
-                `setData;focus::${input_id}?data.path=value.data;data.value=value.data::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},value.data];value.path::${input_id}=value.data?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=value.data`,
-
-                // data = free
-                `setData::${input_id}?data.value=free?const.value.data=free`,
-                `setData::${input_id}?data.value=''?const.value.data!=free;value.data=free`,
-                
-                `focus::${input_id}`,
-            ]
-        }]
-    }]*/
 
     dropList.positioner = id
     dropList.turnoff = true

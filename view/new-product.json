@@ -326,7 +326,7 @@
                                         "controls": [{
                                             "event": "click",
                                             "actions": [
-                                                "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
+                                                "remove::value.parent().parent().id??value.length::value.parent().parent().id>1",
                                                 "focus>>100::state.spec-dup-input"
                                             ]
                                         }]
@@ -453,7 +453,7 @@
                                         "controls": [{
                                             "event": "click",
                                             "actions": [
-                                                "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
+                                                "remove::value.parent().parent().id??value.length::value.parent().parent().id>1",
                                                 "focus>>100::state.options-input"
                                             ]
                                         }]
@@ -730,7 +730,7 @@
                                 "controls": [{
                                     "event": "click",
                                     "actions": [
-                                        "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
+                                        "remove::value.parent().parent().id??value.length::value.parent().parent().id>1",
                                         "focus>>100::state.inventory-input"
                                     ]
                                 }]
@@ -945,7 +945,7 @@
                                 "controls": [{
                                     "event": "click",
                                     "actions": [
-                                        "remove::value.parent.parent.id??value.length::value.parent.parent.id>1",
+                                        "remove::value.parent().parent().id??value.length::value.parent().parent().id>1",
                                         "focus>>100::state.pricing-input"
                                     ]
                                 }]

@@ -37,7 +37,7 @@
             }], 
             "controls": { 
                 "event": "click",
-                "actions": "setStyle::value.2ndChild.id?style.transform=rotate(180deg)<<value.2ndChild.element.style.transform=rotate(0deg);style.transform=rotate(0deg)<<value.2ndChild.element.style.transform=rotate(180deg)" 
+                "actions": "setStyle::value.2ndChild().id?style.transform=rotate(180deg)<<value.2ndChild().element.style.transform=rotate(0deg);style.transform=rotate(0deg)<<value.2ndChild().element.style.transform=rotate(180deg)" 
             }
         }, {
             "type": "Text?style.width=1px;style.backgroundColor=#ddd;style.height=3rem;style.margin=0 2rem"
