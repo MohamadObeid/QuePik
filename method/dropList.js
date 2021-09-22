@@ -63,7 +63,7 @@ const droplist = ({ VALUE, STATE, id, e }) => {
             return {
                 type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${local.key ? `input.value=value.path::${input_id};edit=${parent};` : `input.value=${item};`}${droplist ? `readonly;droplist.items=[${item}];droplist.positioner=${dropList.positioner};data=${derive(STATE[local.Data], local.derivations)[0]};` : ''}`,
                 controls: [{
-                    event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},e.target.value||${local.key}];state[value.Data][value.derivations::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`
+                    event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};state[value.Data][value.derivations::${input_id}].delete();value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},e.target.value||${local.key}];state[value.Data][value.derivations::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`
                 }]
             }
         }
@@ -75,7 +75,7 @@ const droplist = ({ VALUE, STATE, id, e }) => {
                 actions: [
 
                     // for lang & currency droplists
-                    `setData;focus::${input_id}?data.path=${item};data.value=value.data()::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=${item}`,
+                    `setData;focus::${input_id}?data.path=${item};data.value=value.data()::${input_id};state[value.Data][value.derivations::${input_id}].delete();value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=${item}`,
 
                     // data = free
                     `setData::${input_id}?data.value=free?${input_id};const.${item}=free`,

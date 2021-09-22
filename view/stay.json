@@ -15,7 +15,7 @@
         }, {
             "type": "View?class=flex-box;style.marginLeft=auto",
             "children": [{
-                "type": "Icon?class=flex-box;icon.name=bi-three-dots;auto-style;actionlist",
+                "type": "Icon?class=flex-box;icon.name=bi-three-dots;hoverable;actionlist",
                 "style": {
                     "cursor": "pointer",
                     "color": "#116dff",
@@ -37,7 +37,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::stay-list-view;await.setStyle::mini-window;await.actionNote;async.save?note=Stay saved successfully!;save.api=stay;save.data=state[value.Data];await.state.stay-list-Data[state[value.Data].file-name]=state[value.Data];style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::stay-list-view;await.setStyle::mini-window;await.note;async.save?note=Stay saved successfully!;save.api=stay;save.data=value.data();await.state.stay-list-Data[value.data().file-name]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -222,8 +222,8 @@
                         "controls": {
                             "event": "input>>200",
                             "actions": [
-                                "await.fill::value.parent().parent().id;await.actionNote;async.save?note=Image uploaded succefully!;save.data=state.file;save.api=image;await.state[value.Data].image[state[value.Data].image.length()]=value.saved.data.file-name;await.state.zzz=state[value.Data].image.length();await.value.parent().element.children[state.zzz--2].id.value().1stChild().element.src=state[value.Data].image[value.derivations.lastIndex()]<<state.zzz!=1;await.value.parent().prev().1stChild().element.src=state[value.Data].image[value.derivations.lastIndex()]<<state.zzz=1;await.value.path=image[state.zzz];await.value.derivations=[image,state.zzz]?state[value.Data].image.length()!=4",
-                                "actionNote?note=Reached maximum image limit!?state[value.Data].image.length()=4"
+                                "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.api=image;await.value.data()=value.saved.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()].id.value().1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
+                                "note?note=Reached maximum image limit!?value.derivations.lastIndex()=3"
                             ]
                         }
                     }]
@@ -242,17 +242,17 @@
                     "children": [{
                         "type": "Text?class=flex-box;label;text=Room;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontWeight=bolder;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0"
                     }, {
-                        "type": "Text?flicker;class=flex-box;label;text=value.derivations.lastIndex()++1;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontWeight=bolder;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0"
+                        "type": "Text?flicker;class=flex-box;label;text=value.derivations.lastIndex()++1;text=#++params.text;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontWeight=bolder;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0"
                     }]
                 }, {
                     "type": "View?flicker;style.display=flex;style.gap=1rem;style.position=absolute;style.right=1rem;style.top=-2.2rem",
                     "children": [{
-                        "type": "Icon?class=flex-box pointer;icon.name=bi-plus-lg;style.after.color=#116dff;auto-style;style.fontWeight=bolder;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0",
+                        "type": "Icon?class=flex-box pointer;icon.name=bi-plus-lg;style.after.color=#116dff;hoverable;style.fontWeight=bolder;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0",
                         "controls": [{
                             "event": "click?action.duplicate::value.parent().parent().id"
                         }]
                     }, {
-                        "type": "Icon?class=flex-box pointer;icon.name=bi-trash;style.after.color=red;auto-style;style.fontWeight=bolder;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0",
+                        "type": "Icon?class=flex-box pointer;icon.name=bi-trash;style.after.color=red;hoverable;style.fontWeight=bolder;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0",
                         "controls": [{
                             "event": "click??state.Data().rooms.length()>1",
                             "actions": "remove::value.parent().parent().id;update::global.room-info.children().map().1stChild().id"
@@ -278,9 +278,9 @@
                         "children": [{
                             "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=name;lang=en"
                         }, {
-                            "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Room Types>>readonly,state.asset.room-type.options.map().name.en].flat()"
+                            "type": "Input?textarea;featured;readonly;clearable;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Room Types>>readonly,state.asset.room-type.options.map().name.en].flat()"
                         }, {
-                            "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=bathroom-type;droplist.items=[Bathroom Type>>readonly,With Toilet Seat, Without Toilet Seat]"
+                            "type": "Input?textarea;featured;readonly;clearable;style.backgroundColor=#f0f0f0;path=bathroom-type;droplist.items=[Bathroom Type>>readonly,With Toilet Seat, Without Toilet Seat]"
                         }, {
                             "type": "Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=area;unit=m2"
                         }, {
@@ -292,7 +292,10 @@
                             "type": "Text?label;text=Description;style.fontSize=1.4rem;style.textAlign=left"
                         }]
                     }, {
-                        "type": "Input?textarea;path=description;featured;duplicatable;clearable;lang=en;style.backgroundColor=#f0f0f0;style.width=100%;style.minHeight=15rem;style.marginBottom=2rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+                        "type": "View?style.display=grid;style.gap=1rem;style.marginBottom=2rem",
+                        "children": [{
+                            "type": "Input?textarea;path=description;featured;duplicatable;clearable;lang=en;style.backgroundColor=#f0f0f0;style.width=100%;style.minHeight=15rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+                        }]
                     }, {
                         "type": "Text?class=flex-start;text=Images;style.marginTop=1rem;style.fontSize=1.4rem"
                     }, {
@@ -328,8 +331,8 @@
                                     "controls": {
                                         "event": "input>>200",
                                         "actions": [
-                                            "await.fill::value.parent().parent().id;await.actionNote;async.save?note=Image uploaded succefully!;save.data=state.file;save.api=image;await.state[value.Data].image[state[value.Data].image.length()]=value.saved.data.file-name;await.state.zzz=state[value.Data].image.length();await.value.parent().element.children[state.zzz--2].id.value().1stChild().element.src=state[value.Data].image[value.derivations.lastIndex()]<<state.zzz!=1;await.value.parent().prev().1stChild().element.src=state[value.Data].image[value.derivations.lastIndex()]<<state.zzz=1;await.value.path=image[state.zzz];await.value.derivations=[image,state.zzz]?state[value.Data].image.length()!=4",
-                                            "actionNote?note=Reached maximum image limit!?state[value.Data].image.length()=4"
+                                            "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.api=image;await.value.data()=value.saved.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()--1].id.value().1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
+                                            "note?note=Reached maximum image limit!?value.derivations.lastIndex()=3"
                                         ]
                                     }
                                 }]

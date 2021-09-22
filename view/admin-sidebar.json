@@ -1,15 +1,17 @@
 {
     "file-name": "admin-sidebar",
-    "type": "View?toChildren.state=side-bar-item;toChildren.featured;toChildren.icon.style.fontSize=2.2rem;toChildren.icon.style.color=#555;toChildren.icon.google;toChildren.icon.outlined",
+    "type": "View?toChildren.featured;toChildren.icon.style.fontSize=2.2rem;toChildren.icon.style.color=#555;toChildren.icon.google;toChildren.icon.outlined",
     "style": {
         "padding": "0.5rem 0.2rem",
         "boxShadow": "0px 0px 5px 0px #888",
         "clipPath": "inset(0 -5px 0 0)",
         "width": "17%",
         "position": "fixed",
-        "height": "90%",
-        "display": "display",
-        "flexDirection": "column"
+        "height": "calc(100% - 6.5rem)",
+        "top": "6.5rem",
+        "bottom": "0",
+        "flexDirection": "column",
+        "overflowY": "auto"
     },
     "children": [{
         "type": "Item?text=Dashboard;icon.name=space_dashboard;chevron.style.display=none;mountOnLoad"
@@ -18,8 +20,7 @@
     }, {
         "type": "Item?text=Bookings;icon.name=library_books"
     }, {
-        "type": "Item?text=Stays;icon.name=hotel",
-        "controls": { "actions": "createControls?controls.type=toggle-view;controls.id=admin-view;controls.view=admin-stays-list" }
+        "type": "Item?text=Stays;icon.name=hotel;viewToggler.id=admin-view;viewToggler.view=admin-stays-list"
     }, {
         "type": "Item?text=Tours;icon.name=festival"
     }, {
@@ -29,8 +30,7 @@
     }, {
         "type": "Item?text=Collections;icon.name=category"
     }, {
-        "type": "Item?text=Assets;icon.name=web_asset",
-        "controls": { "actions": "createControls?controls.type=toggle-view;controls.id=admin-view;controls.view=admin-assets-list" }
+        "type": "Item?text=Assets;icon.name=web_asset;viewToggler.id=admin-view;viewToggler.view=admin-assets-list"
     }, {
         "type": "Item?text=Inbox;icon.name=question_answer"
     }, {

@@ -12,7 +12,9 @@
   },
   "stars": "Five Star",
   "file-name": "inanna-hotel",
-  "description": {},
+  "description": {
+    "en": "Old historical hotel"
+  },
   "options": [
     {
       "name": {},
@@ -38,7 +40,7 @@
   ],
   "classification": {
     "clientele": {
-      "en": "Business or commercial Hotels"
+      "en": "Heritage Hotel"
     },
     "location": {
       "en": "Downtown Hotel"
@@ -52,5 +54,50 @@
     "size": {
       "en": "Small hotel"
     }
-  }
+  },
+  "capacity": {
+    "lobby": {
+      "unit": "pax",
+      "amount": 50
+    },
+    "restaurant": {
+      "unit": "seat",
+      "amount": 0
+    },
+    "floor": {
+      "unit": "floor",
+      "amount": 2
+    },
+    "room": {
+      "unit": "room",
+      "amount": 26
+    },
+    "bed": {
+      "unit": "bed",
+      "amount": 60
+    }
+  },
+  "rooms": [
+    {
+      "name": {
+        "en": "Double Room"
+      },
+      "area": {
+        "unit": "m2",
+        "amount": 30
+      },
+      "total-rooms": {
+        "unit": "room",
+        "amount": 8
+      },
+      "description": {
+        "en": "Very nice room"
+      },
+      "image": [
+        "api/image/1632337345504-HBNlr.jpeg"
+      ],
+      "type": "Double Room",
+      "bathroom-type": "With Toilet Seat"
+    }
+  ]
 }

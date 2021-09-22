@@ -1,10 +1,7 @@
-const { generate } = require("./generate")
-
 const toPath = ({ VALUE, STATE, string, e, id }) => {
 
-    const { toParam } = require("./toParam")
-
-    var keys = [], k = generate(), _keys = string.split('[')
+    const { toValue } = require("./toValue")
+    var keys = [], _keys = string.split('[')
 
     // is array
     if (!_keys[0] || _keys.length === 1) return string
@@ -33,8 +30,8 @@ const toPath = ({ VALUE, STATE, string, e, id }) => {
             subKey = keys[1].split(']')
             
         }
-
-        var value = toParam({ VALUE, STATE, string: `${k}=${subKey[0]}`, e, id })[k]
+        
+        var value = toValue({ VALUE, STATE, params: { value: subKey[0] }, e, id })
 
         var before = keys[0]
         subKey = subKey.slice(1)

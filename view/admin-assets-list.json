@@ -76,7 +76,7 @@
                         }
                     },
                     "controls": [{
-                        "actions": "createControls?controls.type=auto-style;controls.id=[value.id,value.1stChild().id]" 
+                        "actions": "createControls?controls.type=hoverable;controls.id=[value.id,value.1stChild().id]" 
                     }, {
                         "actions": "createControls?controls.type=mini-window;controls.view=asset?value.data().file-name!=language!=unit!=currency!=country!=asesiyet-lbet"
                     }],
@@ -131,7 +131,7 @@
                         }, {
                             "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%",
                             "children": [{
-                                "type": "Icon?class=flex-box;icon.name=bi-three-dots;auto-style;actionlist.placement=left<<value.data().file-name!=language!=unit!=currency!=country!=asesiyet-lbet!=my-love",
+                                "type": "Icon?class=flex-box;icon.name=bi-three-dots;hoverable;actionlist.placement=left<<value.data().file-name!=language!=unit!=currency!=country!=asesiyet-lbet!=my-love",
                                 "style": {
                                     "cursor": "pointer",
                                     "color": "#116dff",

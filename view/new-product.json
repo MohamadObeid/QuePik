@@ -32,7 +32,7 @@
                 }]
             }, {
                 "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
-                "controls": [{ "actions": "createControls?controls.type=toggle-view;controls.id=admin-view;controls.view=stays" }]
+                "controls": [{ "actions": "createControls?controls.type=viewToggler;controls.id=admin-view;controls.view=stays" }]
             }, {
                 "type": "Button?icon.name=bi-check2-square;text=Save"
             }]

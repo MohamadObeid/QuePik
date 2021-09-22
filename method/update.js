@@ -10,6 +10,8 @@ const update = ({ STATE, VALUE, id }) => {
     if (!local) return
     if (!local.element) return
     
+    //VALUE.body.element.style.pointerEvents = 'none'
+
     // remove id from VALUE
     removeIds({ VALUE, id })
     local.element.style.opacity = '0'
@@ -35,6 +37,8 @@ const update = ({ STATE, VALUE, id }) => {
             var id = child.id
             starter({ STATE, VALUE, id })
         })
+
+        //VALUE.body.element.style.pointerEvents = 'auto'
         
     }, 25)
 }

@@ -17,7 +17,7 @@
         }, {
             "type": "View?class=flex-box;style.marginLeft=auto",
             "children": [{
-                "type": "Icon?class=flex-box;icon.name=bi-three-dots;auto-style;actionlist",
+                "type": "Icon?class=flex-box;icon.name=bi-three-dots;hoverable;actionlist",
                 "style": {
                     "cursor": "pointer",
                     "color": "#116dff",
@@ -39,7 +39,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::asset-list;await.setStyle::mini-window;await.actionNote;async.save?note=Asset saved successfully!;save.api=asset;save.data=state[value.Data];await.state.asset-list-Data[state[value.Data].file-name]=state[value.Data];style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::asset-list;await.setStyle::mini-window;await.note;async.save?note=Asset saved successfully!;save.api=asset;save.data=state[value.Data];await.state.asset-list-Data[state[value.Data].file-name]=state[value.Data];style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -92,7 +92,7 @@
                 }, {
                     "type": "Input?textarea;featured;google;style.backgroundColor=#f0f0f0;path=icon"
                 }, {
-                    "type": "Icon?class=flex-box;icon.name=bi-trash;auto-style;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
+                    "type": "Icon?class=flex-box;icon.name=bi-trash;hoverable;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
                     "controls": {
                         "event": "click",
                         "actions": "remove::value.parent().id??value.parent().element.children.length()>1"
@@ -123,7 +123,7 @@
                 }, {
                     "type": "Input?textarea;featured;google;style.backgroundColor=#f0f0f0;path=icon"
                 }, {
-                    "type": "Icon?class=flex-box;icon.name=bi-trash;auto-style;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
+                    "type": "Icon?class=flex-box;icon.name=bi-trash;hoverable;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
                     "controls": {
                         "event": "click",
                         "actions": "remove::value.parent().id??value.parent().element.children.length()>1"

@@ -9,7 +9,7 @@ const { toValue } = require("./toValue")
 const { toAwait } = require("./toAwait")
 const _method = require("./_method")
 
-const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) => {
+const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
 
     var local = VALUE[id], awaiter = [], _params = params, localId = id
     // if (!local) return
@@ -37,11 +37,11 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
             var name = action.split('::')[0]
 
             // action>>timer
-            var timer = name.split('>>')[1] || 0
+            var timer = parseFloat(name.split('>>')[1] || 0)
             name = name.split('>>')[0]
 
             // approval => note: essential for break::do not remove
-            approved = toApproval({ VALUE, STATE, string: conditions, params, id })
+            approved = toApproval({ VALUE, STATE, string: conditions, params, id, e })
             if (!approved) return
 
             // reset
@@ -52,9 +52,9 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
             const myFn = () => {
                 
                 // approval
-                approved = toApproval({ VALUE, STATE, string: conditions, params, id })
+                approved = toApproval({ VALUE, STATE, string: conditions, params, id, e })
                 if (!approved) return
-
+                
                 // params
                 params = toParam({ VALUE, STATE, string: params, e, id })
                 
@@ -83,11 +83,14 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
                 
                 
                 if (_method[name] && (!params.awaiter || params.asyncer)) 
-                (actionid ? toArray(actionid) : idList).map(id => {
+                
+                (actionid ? toArray(actionid) : idList).map(async id => {
+
+                    if (typeof id !== 'string') return
 
                     // id = value.path
-                    if (id.includes('.')) {
-
+                    if (id.indexOf('.') > -1) {
+                        
                         var k = generate()
                         id = toParam({ VALUE, STATE, string: `${k}=${id}`, e, id: localId })[k]
                     }
@@ -96,7 +99,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
                     if (!id || !VALUE[id]) return
 
                     if (params.asyncer) params.awaiter = awaiter
-                    _method[name]({ VALUE, STATE, controls, params, e, id })
+                    await _method[name]({ VALUE, STATE, controls, params, e, id })
                     
                     // asyncer
                     //if (_method[name].constructor.name !== 'AsyncFunction') 
@@ -104,10 +107,11 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
                 })
 
             }
-
-            if (instantly) return myFn()
-            if (local) local[`${name}-timer`] = setTimeout(myFn, timer)
-            else setTimeout(myFn, timer)
+            
+            if (timer) {
+                if (local) local[`${name}-timer`] = setTimeout(myFn, timer)
+                else setTimeout(myFn, timer)
+            } else myFn()
         })
     })
     

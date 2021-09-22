@@ -6,7 +6,8 @@ const Item = (component) => {
     component.icon = component.icon || {}
     component.chevron = component.chevron || {}
     component = toComponent(component)
-    var { model, state, style, icon, text, tooltip, chevron, controls, readonly, borderMarker, data } = component
+
+    var { model, state, style, icon, text, tooltip, chevron, controls, readonly, borderMarker } = component
 
     borderMarker = borderMarker !== undefined ? borderMarker : true
     readonly = readonly !== undefined ? readonly : false
@@ -17,7 +18,8 @@ const Item = (component) => {
         return {
             ...component,
             class: 'flex-box item',
-            type: 'View',
+            component: 'Item',
+            type: 'View?touchableOpacity',
             tooltip,
             style: {
                 position: 'relative',
@@ -103,7 +105,8 @@ const Item = (component) => {
         return {
             ...component,
             class: 'flex-box item',
-            type: 'View',
+            component: 'Item',
+            type: 'View?touchableOpacity',
             tooltip,
             style: {
                 position: 'relative',

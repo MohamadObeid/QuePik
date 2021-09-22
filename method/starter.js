@@ -1,4 +1,5 @@
-const autoControls = ['auto-style', 'toggle-style', 'droplist', 'actionlist']
+const { toArray } = require("./toArray")
+const control = require('../control/control')
 const autoActions = ['fill']
 
 const starter = ({ STATE, VALUE, id }) => {
@@ -6,7 +7,6 @@ const starter = ({ STATE, VALUE, id }) => {
     const { defaultEventHandler } = require("./event")
     const { setStyle } = require("./style")
     const { controls } = require('./controls')
-    const { createControls } = require("./createControls")
     const { defaultInputHandler } = require("./defaultInputHandler")
     const { isArabic } = require("./isArabic")
 
@@ -36,12 +36,11 @@ const starter = ({ STATE, VALUE, id }) => {
     if (local.style) setStyle({ VALUE, STATE, id, params: {style: local.style} })
 
     // lunch auto controls
-    autoControls.map(type => {
+    Object.entries(control).map(([type, control]) => {
 
         if (!local[type]) return
-        var params = { controls: { type, ...local[type] } }
-        createControls({ VALUE, STATE, id, params }) 
-        
+        local.controls = toArray(local.controls)
+        local.controls.push(...control({ VALUE, STATE, id, params: { controls: local[type] } }))
     })
 
     // auto actions

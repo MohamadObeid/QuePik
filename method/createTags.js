@@ -197,8 +197,6 @@ const createTags = ({ VALUE, STATE, id }) => {
     var local = VALUE[id]
     local.length = 1
 
-    componentModifier({ VALUE, STATE, id })
-
     // execute onload actions
     autoActions.map(action => {
         if (local[action]) {
@@ -248,9 +246,15 @@ const componentModifier = ({ VALUE, STATE, id }) => {
         if (local.defaultValue !== undefined) local.input.defaultValue = local.defaultValue
     }
 
-    // image
-    else if (local.type === 'Image') {
-        local.src = local.src || local.data || ''
+    else if (local.type === 'Item') {
+        var parent = VALUE[local.parent]
+
+        if (local.index === 0) {
+
+            local.state = generate()
+            parent.state = local.state
+
+        } else local.state = parent.state
     }
 }
 

@@ -72,23 +72,35 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
 
                 value = plus[0]
                 plus.shift()
-                plus = plus.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
-
-            } else if (minus.length > 1) {
-
-                value = minus[0]
                 minus.shift()
+                times.shift()
+                division.shift()
+                plus = plus.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
+                
+            } else if (minus.length > 1) {
+                
+                value = minus[0]
+                plus.shift()
+                minus.shift()
+                times.shift()
+                division.shift()
                 minus = minus.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
-
+                
             } else if (times.length > 1) {
 
                 value = times[0]
+                plus.shift()
+                minus.shift()
                 times.shift()
+                division.shift()
                 times = times.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
 
             } else if (division.length > 1) {
 
                 value = division[0]
+                plus.shift()
+                minus.shift()
+                times.shift()
                 division.shift()
                 division = division.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
             
@@ -101,7 +113,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
             }
             
         }
-
+        
         var path = typeof value === 'string' ? value.split('.') : []
         
         /* value */

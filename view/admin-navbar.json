@@ -7,14 +7,12 @@
         "position": "sticky",
         "top": "0",
         "backgroundColor": "#fff",
-        "boxShadow": "0 0 6px rgba(33, 33, 33, 0.431)"
+        "boxShadow": "0 0 6px rgba(33, 33, 33, 0.431)",
+        "height": "6.5rem",
+        "padding": "1rem"
     },
     "children": [{
-        "type": "View?class=flex-box",
-        "style": {
-            "backgroundColor": "#fff",
-            "padding": "1rem"
-        },
+        "type": "View?class=flex-box;style.backgroundColor=#fff",
         "children": [{
             "type": "Text?link=/;text=digiTrip",
             "style": {
@@ -42,7 +40,7 @@
         }, {
             "type": "Text?style.width=1px;style.backgroundColor=#ddd;style.height=3rem;style.margin=0 2rem"
         }, {
-            "type": "Icon?icon.name=bi-heart;auto-style",
+            "type": "Icon?icon.name=bi-heart;hoverable",
             "style": {
                 "color": "#666",
                 "fontSize": "1.8rem",
@@ -51,7 +49,7 @@
                 "after": { "color": "#116dff" }
             }
         }, {
-            "type": "Icon?icon.name=bi-translate;auto-style",
+            "type": "Icon?icon.name=bi-translate;hoverable",
             "style": {
                 "color": "#666",
                 "fontSize": "1.8rem",
@@ -60,7 +58,7 @@
                 "after": { "color": "#116dff" }
             }
         }, {
-            "type": "Text?text=USD;auto-style",
+            "type": "Text?text=USD;hoverable",
             "style": {
                 "color": "#666",
                 "fontSize": "1.4rem",

@@ -2,6 +2,7 @@ const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { capitalize } = require("./capitalize")
 const { toCode } = require("./toCode")
+const { isEqual } = require("./isEqual")
 
 const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, e }) => {
 
@@ -54,11 +55,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         if (!o) return o
         
         // set Value
-        if (key && i === lastIndex) return o[k] = value
 
-        else if (k.includes('coded()')) {
+        if (k.includes('coded()')) {
 
-            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: STATE.codes[k].split('.'), object: o, params } })
+            var _id = generate()
+            VALUE[_id] = o
+            answer = toValue({ VALUE, STATE, id: _id, e, params: { value: STATE.codes[k], params } })
+            delete VALUE[_id]
 
         } else if (k === 'data()') {
 
@@ -179,23 +182,27 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             breakRequest = true
             answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: path.slice(i + 1), object: o, value, key, params }, e }) )
-console.log(answer, value);
+
         } else if (k === '1stIndex()' || k === 'firstIndex()') {
             
+            if (value !== undefined && key) o[0] = value
             answer = o[0]
 
         } else if (k === '2ndIndex()' || k === 'secondIndex()') {
             
+            if (value !== undefined && key) o[1] = value
             answer = o[1]
 
         } else if (k === '3rdIndex()' || k === 'thirdIndex()') {
             
+            if (value !== undefined && key) o[2] = value
             answer = o[2]
 
         } else if (k === 'lastIndex()') {
-            
-            answer = o[o.length - 1]
 
+            if (value !== undefined && key) o[o.length - 1] = value
+            answer = o[o.length - 1]
+            
         } else if (k === 'parseFloat()') {
             
             answer = parseFloat(o)
@@ -208,13 +215,44 @@ console.log(answer, value);
             
             answer = JSON.stringify(o)
 
-        }else if (k === 'parse()') {
+        } else if (k === 'parse()') {
             
             answer = JSON.parse(o)
 
-        }  else if (k === 'value()') {
+        } else if (k === 'preventDefault()') {
             
+            answer = e.preventDefault()
+
+        } else if (k === 'value()') {
+
             answer = VALUE[o]
+
+        } else if (k === 'isChildOf()') {
+            
+            breakRequest = true
+            var el = reducer({ VALUE, STATE, id, params: { path: path.slice(i + 1), value, key, params }, e })
+            answer = isEqual(el, o)
+
+        } else if (k === 'isChildOfId()') {
+            
+            breakRequest = true
+            var id = reducer({ VALUE, STATE, id, params: { path: path.slice(i + 1), value, key, params }, e })
+            var ids = Object.keys(getDeepChildren({ VALUE, id }))
+            answer = ids.find(_id => _id === o)
+
+        } else if (k === 'allChildren()') { // all values of local element and children elements in object formula
+            
+            answer = getDeepChildren({ VALUE, id })
+
+        } else if (k === 'addClass()') {
+            
+            breakRequest = true
+            answer = o.classList.add(path.slice(i + 1).join('.'))
+
+        } else if (k === 'removeClass()') {
+            
+            breakRequest = true
+            answer = o.classList.remove(path.slice(i + 1).join('.'))
 
         } else if (k === 'length' && !local.length && i === 0) {
             
@@ -224,17 +262,21 @@ console.log(answer, value);
 
             breakRequest = true
             local.controls = toArray(local.controls) || []
-            return local.controls.push({
-                event: `load?${key}=JSON.parse(${JSON.stringify(value)})`
+            if (value !== undefined) return local.controls.push({
+                event: `load?${key}=${value}`
             })
             
-        } else if (i === lastIndex - 1 && path[lastIndex] === 'delete') {
+        } else if (i === lastIndex - 1 && path[lastIndex] === 'delete()') {
             
             breakRequest = true
             return delete o[k]
 
+        } else if (key && i === lastIndex) {
+            
+            return o[k] = value
+
         } else if (!o[k] && key) {
-                
+            
             if (!isNaN(path[i + 1])) o[k] = []
             else o[k] = {}
 
@@ -245,6 +287,20 @@ console.log(answer, value);
     }, object)
     
     return answer
+}
+
+const getDeepChildren = ({ VALUE, id }) => {
+    var all = { [id]: VALUE[id] }
+    
+    if ([...VALUE[id].element.children].length > 0) 
+        ([...VALUE[id].element.children]).map(el => {
+
+            if ([...VALUE[el.id].element.children].length > 0) 
+                all = { ...all, ...getDeepChildren({ VALUE, id }) }
+
+            else all[el.id] = VALUE[el.id]
+        })
+    return all
 }
 
 module.exports = { reducer }

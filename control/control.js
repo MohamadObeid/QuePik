@@ -3,8 +3,9 @@ module.exports = {
     "list": require('./list'),
     "droplist": require('./droplist'),
     "actionlist": require('./actionlist'),
-    "auto-style": require('./auto-style'),
+    "hoverable": require('./hoverable'),
     "mini-window": require('./mini-window'),
     "toggle-style": require('./toggle-style'),
-    "toggle-view": require('./toggle-view'),
+    "viewToggler": require('./viewToggler'),
+    "touchableOpacity": require('./touchableOpacity'),
 }

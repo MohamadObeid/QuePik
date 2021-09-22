@@ -19,7 +19,7 @@ const Button = (component) => {
     return {
         ...component,
         class: 'flex-box button',
-        type: 'View',
+        type: 'View?touchableOpacity',
         id,
         tooltip,
         style: {

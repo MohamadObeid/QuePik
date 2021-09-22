@@ -33,13 +33,10 @@ const remove = ({ STATE, VALUE, params, id }) => {
                 o.splice(k, 1)
 
             // name: { en: val1, ar: val2, ... }
-            } else if (local.lang || local.key) {
+            } else if (local.component === 'Input') {
 
-                var input = local.element.getElementsByTagName('INPUT')[0]
-                if (!input) input = local.element.getElementsByTagName('TEXTAREA')[0]
-                var key = VALUE[input.id].path
-                if (o[k][key]) return delete o[k][key]
-                else return
+                var key = VALUE[`${id}-input`].path
+                return delete o[k][key]
 
             } else return delete o[k]
 

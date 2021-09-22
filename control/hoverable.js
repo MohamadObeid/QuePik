@@ -2,7 +2,7 @@ const { toArray } = require("../method/toArray");
 
 module.exports = ({ VALUE, id, params = {} }) => {
     
-    var controls = params.controls
+    var controls = typeof params.controls === 'object' ? params.controls : {}
     controls.id = toArray(controls.id || id)
     
     return [{

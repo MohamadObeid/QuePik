@@ -70,7 +70,7 @@
             "children": [{
                 "type": "View?style.display=state.stay-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
-                    "type": "[View]?class=flex-box;Data=stay-list-Data;data=state.stay-list-Data?state.stay",
+                    "type": "[View]?class=flex-box;Data=stay-list-Data;data=state.stay-list-Data;touchableOpacity?state.stay",
                     "style": {
                         "borderRadius": ".75rem",
                         "border": "1px solid #ddd",
@@ -82,7 +82,7 @@
                         }
                     },
                     "controls": [{
-                        "actions": "createControls?controls.type=auto-style;controls.id=[value.id,value.1stChild().id]" 
+                        "actions": "createControls?controls.type=hoverable;controls.id=[value.id,value.1stChild().id]" 
                     }, {
                         "actions": "createControls?controls.type=mini-window;controls.view=stay"
                     }],
@@ -137,7 +137,7 @@
                         }, {
                             "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%",
                             "children": [{
-                                "type": "Icon?class=flex-box;icon.name=bi-three-dots;auto-style;actionlist.placement=left",
+                                "type": "Icon?class=flex-box;icon.name=bi-three-dots;hoverable;actionlist.placement=left",
                                 "style": {
                                     "cursor": "pointer",
                                     "color": "#116dff",

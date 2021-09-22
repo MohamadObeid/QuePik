@@ -108,15 +108,7 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
                 return obj[key]
             }, params)
 
-        } else {
-
-            if (params[key]) {
-
-                params[key] = toArray(params[key])
-                params[key].push(value)
-
-            } else params[key] = value
-        }
+        } else params[key] = value
     })
     
     return params

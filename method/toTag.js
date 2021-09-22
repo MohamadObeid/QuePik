@@ -33,6 +33,7 @@ module.exports = {
         }
 
         var value = local.data || (local.input && local.input.value) || ''
+        if (local.type === 'Image') local.src = local.src || local.data || ''
         
         if (local.type === 'View')
         tag = `<div class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</div>`

@@ -732,7 +732,7 @@ VALUE.root.element = root
 
 starter({ VALUE, STATE, id: 'root' })
 
-},{"../method/starter":75}],5:[function(require,module,exports){
+},{"../method/starter":76}],5:[function(require,module,exports){
 const { toString } = require('../method/toString')
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
@@ -754,7 +754,7 @@ const Button = (component) => {
     return {
         ...component,
         class: 'flex-box button',
-        type: 'View',
+        type: 'View?touchableOpacity',
         id,
         tooltip,
         style: {
@@ -814,7 +814,7 @@ const Button = (component) => {
 }
 
 module.exports = {Button}
-},{"../method/generate":52,"../method/toComponent":83,"../method/toString":87}],6:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":84,"../method/toString":88}],6:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -860,7 +860,7 @@ const Checkbox = (component) => {
 }
 
 module.exports = { Checkbox }
-},{"../method/generate":52,"../method/toComponent":83}],7:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":84}],7:[function(require,module,exports){
 const { generate } = require("../method/generate")
 const { toComponent } = require("../method/toComponent")
 
@@ -922,7 +922,7 @@ const Header = (component) => {
 }
 
 module.exports = {Header}
-},{"../method/generate":52,"../method/toComponent":83}],8:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":84}],8:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 
 const Input = (component) => {
@@ -1065,7 +1065,7 @@ const Input = (component) => {
                 }, {
                     type: `Text?text=${note};style.color=#666;style.fontSize=1.3rem;style.padding=.5rem?const.${note}`
                 }, {
-                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,${key}>>input];auto-style;duplicated=${duplicated}?const.${key}`,
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,${key}>>input];hoverable;duplicated=${duplicated}?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1076,7 +1076,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,state.asset.currency.options.map().name.en].flat();auto-style;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,state.asset.currency.options.map().name.en].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1087,7 +1087,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,state.asset.unit.options.map().name.en].flat();auto-style?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,state.asset.unit.options.map().name.en].flat();hoverable?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1099,7 +1099,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data()`
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.map().name.en].flat();droplist.lang;auto-style;duplicated=${duplicated}?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.map().name.en].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1115,12 +1115,11 @@ const Input = (component) => {
                         event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
-                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type>>readonly,outlined,rounded,sharp,twoTone];droplist.items=[Enter google icon type>>readonly,state.google-items];auto-style?const.${google}`,
+                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type>>readonly,outlined,rounded,sharp,twoTone];droplist.items=[Enter google icon type>>readonly,state.google-items];hoverable?const.${google}`,
                 }, {
-                    type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;auto-style?${clearable}||${removable}`,
+                    type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;hoverable?${clearable}||${removable}`,
                     style: {
                         fontSize: '2rem',
-                        padding: '.25rem',
                         color: '#444',
                         cursor: 'pointer',
                         after: { color: 'red' }
@@ -1143,7 +1142,7 @@ const Input = (component) => {
 }
 
 module.exports = {Input}
-},{"../method/toComponent":83}],9:[function(require,module,exports){
+},{"../method/toComponent":84}],9:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -1152,7 +1151,8 @@ const Item = (component) => {
     component.icon = component.icon || {}
     component.chevron = component.chevron || {}
     component = toComponent(component)
-    var { model, state, style, icon, text, tooltip, chevron, controls, readonly, borderMarker, data } = component
+
+    var { model, state, style, icon, text, tooltip, chevron, controls, readonly, borderMarker } = component
 
     borderMarker = borderMarker !== undefined ? borderMarker : true
     readonly = readonly !== undefined ? readonly : false
@@ -1163,7 +1163,8 @@ const Item = (component) => {
         return {
             ...component,
             class: 'flex-box item',
-            type: 'View',
+            component: 'Item',
+            type: 'View?touchableOpacity',
             tooltip,
             style: {
                 position: 'relative',
@@ -1249,7 +1250,8 @@ const Item = (component) => {
         return {
             ...component,
             class: 'flex-box item',
-            type: 'View',
+            component: 'Item',
+            type: 'View?touchableOpacity',
             tooltip,
             style: {
                 position: 'relative',
@@ -1307,7 +1309,7 @@ const Item = (component) => {
 }
 
 module.exports = {Item}
-},{"../method/generate":52,"../method/toComponent":83}],10:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":84}],10:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const List = (component) => {
@@ -1380,7 +1382,7 @@ const List = (component) => {
 }
 
 module.exports = {List}
-},{"../method/toComponent":83}],11:[function(require,module,exports){
+},{"../method/toComponent":84}],11:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -1506,7 +1508,7 @@ const Rate = (component) => {
 }
 
 module.exports = { Rate }
-},{"../method/generate":52,"../method/toComponent":83}],12:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":84}],12:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const SearchBox = (component) => {
@@ -1516,23 +1518,9 @@ const SearchBox = (component) => {
 
     return {
         ...component,
-        type: 'View',
-        style: {
-            flex: '1',
-            margin: '0 1rem',
-            height: '4.5rem',
-        },
+        type: 'View?style.flex=1;style.margin=0 1rem;style.height=4.5rem',
         children: [{
-            type: 'View?class=overlay;id=search-mini-page-overlay',
-            style: {
-                zIndex: '-1',
-                transition: '0.2s',
-                display: 'none',
-                after: {
-                    opacity: '1>>50',
-                    display: 'flex'
-                }
-            },
+            type: 'View?class=overlay;id=search-mini-page-overlay;style.zIndex=-1;style.transition=.2s;style.display=none;style.after.opacity=1>>50;style.after.display=flex;style.after.zIndex=1',
             controls: [{
                 event: 'click',
                 actions: [
@@ -1555,7 +1543,7 @@ const SearchBox = (component) => {
                     backgroundColor: '#fff',
                     boxShadow: '0 0 6px rgba(33, 33, 33, 0.431)',
                     position: 'absolute',
-                    width: '60rem',
+                    zIndex: '2'
                 }
             },
             children: [{
@@ -1587,9 +1575,6 @@ const SearchBox = (component) => {
                     controls: [{
                         event: 'focusin',
                         actions: 'mountAfterStyles???search-mini-page-overlay;search-mini-page;search-mini-page-results'
-                    }, {
-                        event: 'input',
-                        actions: ''
                     }]
                 }]
             }, {
@@ -1614,7 +1599,7 @@ const SearchBox = (component) => {
 }
 
 module.exports = {SearchBox}
-},{"../method/toComponent":83}],13:[function(require,module,exports){
+},{"../method/toComponent":84}],13:[function(require,module,exports){
 const { generate } = require('../method/generate')
 const {toComponent} = require('../method/toComponent')
 
@@ -1641,7 +1626,7 @@ const Switch = (component) => {
 }
 
 module.exports = {Switch}
-},{"../method/generate":52,"../method/toComponent":83}],14:[function(require,module,exports){
+},{"../method/generate":52,"../method/toComponent":84}],14:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const Upload = (component) => {
@@ -1671,7 +1656,7 @@ const Upload = (component) => {
 }
 
 module.exports = {Upload}
-},{"../method/toComponent":83}],15:[function(require,module,exports){
+},{"../method/toComponent":84}],15:[function(require,module,exports){
 const {Button} = require('./Button')
 const {Input} = require('./Input')
 const {Item} = require('./Item')
@@ -1685,17 +1670,6 @@ const {Rate} = require('./Rate')
 
 module.exports = { Input, Button, Item, List, Upload, Header, Switch, SearchBox, Checkbox, Rate }
 },{"./Button":5,"./Checkbox":6,"./Header":7,"./Input":8,"./Item":9,"./List":10,"./Rate":11,"./SearchBox":12,"./Switch":13,"./Upload":14}],16:[function(require,module,exports){
-module.exports = {
-    "item": require('./item'),
-    "list": require('./list'),
-    "droplist": require('./droplist'),
-    "actionlist": require('./actionlist'),
-    "auto-style": require('./auto-style'),
-    "mini-window": require('./mini-window'),
-    "toggle-style": require('./toggle-style'),
-    "toggle-view": require('./toggle-view'),
-}
-},{"./actionlist":17,"./auto-style":18,"./droplist":19,"./item":20,"./list":21,"./mini-window":22,"./toggle-style":23,"./toggle-view":24}],17:[function(require,module,exports){
 const { generate } = require("../method/generate")
 
 module.exports = ({ params = {}, id }) => {
@@ -1717,12 +1691,42 @@ module.exports = ({ params = {}, id }) => {
         ]
     }]
 }
-},{"../method/generate":52}],18:[function(require,module,exports){
+},{"../method/generate":52}],17:[function(require,module,exports){
+module.exports = {
+    "item": require('./item'),
+    "list": require('./list'),
+    "droplist": require('./droplist'),
+    "actionlist": require('./actionlist'),
+    "hoverable": require('./hoverable'),
+    "mini-window": require('./mini-window'),
+    "toggle-style": require('./toggle-style'),
+    "viewToggler": require('./viewToggler'),
+    "touchableOpacity": require('./touchableOpacity'),
+}
+},{"./actionlist":16,"./droplist":18,"./hoverable":19,"./item":20,"./list":21,"./mini-window":22,"./toggle-style":23,"./touchableOpacity":24,"./viewToggler":25}],18:[function(require,module,exports){
+const { generate } = require("../method/generate")
+
+module.exports = ({ STATE, params, id }) => {
+    var controls = params.controls
+    var state = generate()
+    STATE[state] = controls.style
+    
+    return [{
+        event: `click?state.droplist=${controls.id || id}`,
+        actions: [
+            `resetStyles?break?value.element.style.opacity::droplist=1;global.droplist.positioner=${id}?droplist`,
+            `resetStyles::droplist;droplist::${controls.id || id}?${controls.path ? `;path=${controls.path}` : ''}`,
+            `setPosition;mountAfterStyles::droplist?position.id=droplist;position.positioner=${controls.positioner || `${id}`};position.placement=${controls.placement || 'bottom'};position.distance=${controls.distance}`,
+            `setStyle?style=state.${state}?${params.style}?droplist`,
+        ]
+    }]
+}
+},{"../method/generate":52}],19:[function(require,module,exports){
 const { toArray } = require("../method/toArray");
 
 module.exports = ({ VALUE, id, params = {} }) => {
     
-    var controls = params.controls
+    var controls = typeof params.controls === 'object' ? params.controls : {}
     controls.id = toArray(controls.id || id)
     
     return [{
@@ -1733,24 +1737,7 @@ module.exports = ({ VALUE, id, params = {} }) => {
         actions: `resetStyles???${controls.id.join(';')}`
     }]
 }
-},{"../method/toArray":80}],19:[function(require,module,exports){
-module.exports = ({ params, id }) => {
-    var controls = params.controls
-    
-    return [{
-        event: `click?state.droplist=${controls.id || id}`,
-        actions: [
-            `resetStyles?break?value.element.style.opacity::droplist=1;global.droplist.positioner=${id}?droplist`,
-            `resetStyles::droplist;droplist::${controls.id || id}?${controls.path ? `;path=${controls.path}` : ''}`,
-            `setPosition;mountAfterStyles::droplist?position.id=droplist;position.positioner=${controls.positioner || `${id}`};position.placement=${controls.placement || 'bottom'};position.distance=${controls.distance}`,
-            `setStyle?style=JSON.parse(${JSON.stringify(params.style)})?${params.style}?droplist`,
-        ]
-    }/*, {
-        event: 'Input',
-        actions: 'setState?state.droplist-filter=value.input;state.droplist-element=value.element'
-    }*/]
-}
-},{}],20:[function(require,module,exports){
+},{"../method/toArray":81}],20:[function(require,module,exports){
 module.exports = ({ params }) => ([
     `setData?data.value=value.text`,
     `resetStyles?value.mountOnLoad::state.${params.state}.0=false??state.${params.state}`,
@@ -1786,7 +1773,7 @@ module.exports = ({ VALUE, params, id }) => {
     return [{
         event: 'click',
         actions: [
-            `createView?state.${state}=value.data();value.Data::mini-window-view=undefined<<!value.data();value.Data::mini-window-view=${state}<<value.data();view=${controls.view}??mini-window-view`,
+            `createView?state.${state}=value.data();value.Data.delete()::mini-window-view<<!value.data();value.Data::mini-window-view=${state}<<value.data();view=${controls.view}??mini-window-view`,
             `setStyle?style.display=flex;style.opacity=1>>25??mini-window`
         ]
     }]
@@ -1800,6 +1787,27 @@ module.exports = ({params}) => {
     }]
 }
 },{}],24:[function(require,module,exports){
+module.exports = ({ VALUE, id, params = {} }) => {
+
+    if (VALUE[id].element.style.transition)
+    VALUE[id].element.style.transition += ', opacity .2s'
+    else VALUE[id].element.style.transition = 'opacity .2s'
+
+    return [{
+        event: 'mousedown?global.body.element.addClass().unselectable',
+        actions: `setStyle?style.opacity=.5`
+    }, {
+        event: 'mouseup?global.body.element.removeClass().unselectable',
+        actions: `setStyle?style.opacity=1`
+    }, {
+        event: 'mouseleave',
+        actions: `setStyle?style.opacity=1`
+    }, {
+        event: 'mouseenter',
+        actions: `setStyle?style.opacity=1?value.mousedown`
+    }]
+}
+},{}],25:[function(require,module,exports){
 module.exports = ({ VALUE, params, id }) => {
     var controls = params.controls
     
@@ -1811,7 +1819,7 @@ module.exports = ({ VALUE, params, id }) => {
         ]
     }]
 }
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 const {clearValues} = require('./clearValues')
 const {clone} = require('./clone')
 const {derive} = require('./derive')
@@ -1869,7 +1877,7 @@ const {toAwait} = require('./toAwait')
 const {close} = require('./close')
 const {pause} = require('./pause')
 const {play} = require('./play')
-const {actionNote} = require('./actionNote')
+const {note} = require('./note')
 const {toCode} = require('./toCode')
 const {isPath} = require('./isPath')
 const {capitalize} = require('./capitalize')
@@ -1886,40 +1894,12 @@ const _method = {
     createData, setData, clearData, removeData, setContent, starter, createComponent,
     setPosition, droplist, filter, createView, createActions, flicker, blur, toAwait,
     createControls, remove, defaultInputHandler, focus, sort, log, save, erase, toCode,
-    toPath, toValue, reducer, preventDefault, toStyle, toTag, capitalize, fill, actionNote,
+    toPath, toValue, reducer, preventDefault, toStyle, toTag, capitalize, fill, note,
     pause, play, close, isPath
 }
 
 module.exports = _method
-},{"./actionNote":26,"./blur":27,"./capitalize":28,"./clearValues":29,"./clone":30,"./close":31,"./controls":32,"./createActions":33,"./createComponent":34,"./createControls":35,"./createDocument":36,"./createElement":37,"./createView":39,"./data":40,"./defaultInputHandler":41,"./derive":42,"./droplist":43,"./duplicate":44,"./erase":45,"./event":46,"./execute":47,"./fill":48,"./filter":49,"./flicker":50,"./focus":51,"./generate":52,"./getJsonFiles":53,"./getParam":54,"./isArabic":55,"./isEqual":56,"./isPath":57,"./log":58,"./merge":59,"./overflow":60,"./pause":61,"./play":62,"./preventDefault":63,"./reducer":64,"./remove":65,"./resize":67,"./route":68,"./save":69,"./search":70,"./setContent":71,"./setData":72,"./setPosition":73,"./sort":74,"./starter":75,"./state":76,"./style":77,"./textarea":78,"./toApproval":79,"./toArray":80,"./toAwait":81,"./toCode":82,"./toComponent":83,"./toId":84,"./toParam":85,"./toPath":86,"./toString":87,"./toStyle":88,"./toTag":89,"./toValue":90,"./update":91}],26:[function(require,module,exports){
-const actionNote = ({ VALUE, params }) => {
-
-    var actionNote = VALUE['action-note']
-    var actionNoteText = VALUE['action-note-text']
-
-    var note = params.note
-    if (!note) return
-
-    clearTimeout(actionNote['note-timer'])
-
-    actionNote.element.style.transition = 'initial'
-    actionNote.element.style.transform = 'translateY(-200%)'
-
-    actionNoteText.element.innerHTML = note
-
-    actionNote.element.style.left = 'center'
-    actionNote.element.style.transition = 'transform .2s'
-    actionNote.element.style.transform = 'translateY(0)'
-
-    const myFn = () => { 
-        actionNote.element.style.transform = 'translateY(-200%)'
-    }
-
-    actionNote['note-timer'] = setTimeout(myFn, 5000)
-}
-
-module.exports = {actionNote}
-},{}],27:[function(require,module,exports){
+},{"./blur":27,"./capitalize":28,"./clearValues":29,"./clone":30,"./close":31,"./controls":32,"./createActions":33,"./createComponent":34,"./createControls":35,"./createDocument":36,"./createElement":37,"./createView":39,"./data":40,"./defaultInputHandler":41,"./derive":42,"./droplist":43,"./duplicate":44,"./erase":45,"./event":46,"./execute":47,"./fill":48,"./filter":49,"./flicker":50,"./focus":51,"./generate":52,"./getJsonFiles":53,"./getParam":54,"./isArabic":55,"./isEqual":56,"./isPath":57,"./log":58,"./merge":59,"./note":60,"./overflow":61,"./pause":62,"./play":63,"./preventDefault":64,"./reducer":65,"./remove":66,"./resize":68,"./route":69,"./save":70,"./search":71,"./setContent":72,"./setData":73,"./setPosition":74,"./sort":75,"./starter":76,"./state":77,"./style":78,"./textarea":79,"./toApproval":80,"./toArray":81,"./toAwait":82,"./toCode":83,"./toComponent":84,"./toId":85,"./toParam":86,"./toPath":87,"./toString":88,"./toStyle":89,"./toTag":90,"./toValue":91,"./update":92}],27:[function(require,module,exports){
 const blur = ({ VALUE, id }) => {
     
     var local = VALUE[id]
@@ -2068,21 +2048,21 @@ const setControls = ({ VALUE, id, params }) => {
 }
 
 module.exports = {controls, setControls}
-},{"./event":46,"./execute":47,"./toArray":80,"./watch":92}],33:[function(require,module,exports){
-const _control = require('../control/_control')
+},{"./event":46,"./execute":47,"./toArray":81,"./watch":93}],33:[function(require,module,exports){
+const control = require('../control/control')
 
 const createActions = ({ VALUE, STATE, params, id }) => {
     
     const { execute } = require('./execute')
     
     if (!params.type) return
-    var actions = _control[params.type]({ VALUE, STATE, params, id })
+    var actions = control[params.type]({ VALUE, STATE, params, id })
 
     execute({ VALUE, STATE, actions, id })
 }
 
 module.exports = {createActions}
-},{"../control/_control":16,"./execute":47}],34:[function(require,module,exports){
+},{"../control/control":17,"./execute":47}],34:[function(require,module,exports){
 const { clone } = require("./clone")
 const { generate } = require("./generate")
 const { toApproval } = require("./toApproval")
@@ -2132,23 +2112,23 @@ module.exports = {
         VALUE[id] = local
     }
 }
-},{"../component/_component":15,"./clone":30,"./generate":52,"./toApproval":79,"./toParam":85}],35:[function(require,module,exports){
-const {controls} = require("./controls")
-const _control = require('../control/_control')
+},{"../component/_component":15,"./clone":30,"./generate":52,"./toApproval":80,"./toParam":86}],35:[function(require,module,exports){
+const { controls } = require("./controls")
+const control = require('../control/control')
 
 const createControls = ({ VALUE, STATE, params, id }) => {
     
     var local = VALUE[id]
     if (!local) return
     
-    var exists = Object.entries(_control).find(([key]) => key === params.controls.type)
+    var exists = Object.entries(control).find(([key]) => key === params.controls.type)
     if (!exists) return
     
-    controls({ VALUE, STATE, id, controls: _control[params.controls.type]({ VALUE, STATE, params, id }) })
+    controls({ VALUE, STATE, id, controls: control[params.controls.type]({ VALUE, STATE, params, id }) })
 }
 
 module.exports = {createControls}
-},{"../control/_control":16,"./controls":32}],36:[function(require,module,exports){
+},{"../control/control":17,"./controls":32}],36:[function(require,module,exports){
 const { createElement } = require("./createElement")
 const { getJsonFiles } = require("./getJsonFiles")
 const _page = require('../page/_page')
@@ -2204,7 +2184,7 @@ const createDocument = (page) => {
 }
 
 module.exports = {createDocument}
-},{"../page/_page":120,"./createElement":37,"./getJsonFiles":53}],37:[function(require,module,exports){
+},{"../page/_page":121,"./createElement":37,"./getJsonFiles":53}],37:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toParam } = require("./toParam")
 const { toApproval } = require("./toApproval")
@@ -2362,7 +2342,7 @@ const createElement = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {createElement}
-},{"./clone":30,"./createTags":38,"./derive":42,"./generate":52,"./merge":59,"./toApproval":79,"./toParam":85}],38:[function(require,module,exports){
+},{"./clone":30,"./createTags":38,"./derive":42,"./generate":52,"./merge":59,"./toApproval":80,"./toParam":86}],38:[function(require,module,exports){
 const { clone } = require("./clone")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2562,8 +2542,6 @@ const createTags = ({ VALUE, STATE, id }) => {
     var local = VALUE[id]
     local.length = 1
 
-    componentModifier({ VALUE, STATE, id })
-
     // execute onload actions
     autoActions.map(action => {
         if (local[action]) {
@@ -2613,14 +2591,20 @@ const componentModifier = ({ VALUE, STATE, id }) => {
         if (local.defaultValue !== undefined) local.input.defaultValue = local.defaultValue
     }
 
-    // image
-    else if (local.type === 'Image') {
-        local.src = local.src || local.data || ''
+    else if (local.type === 'Item') {
+        var parent = VALUE[local.parent]
+
+        if (local.index === 0) {
+
+            local.state = generate()
+            parent.state = local.state
+
+        } else local.state = parent.state
     }
 }
 
 module.exports = {createTags}
-},{"./clone":30,"./createComponent":34,"./execute":47,"./generate":52,"./isEqual":56,"./toArray":80,"./toTag":89}],39:[function(require,module,exports){
+},{"./clone":30,"./createComponent":34,"./execute":47,"./generate":52,"./isEqual":56,"./toArray":81,"./toTag":90}],39:[function(require,module,exports){
 const { update } = require("./update")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2677,7 +2661,7 @@ const createView = ({ STATE, VALUE, params ={}, id }) => {
 }
 
 module.exports = {createView}
-},{"./clone":30,"./generate":52,"./toArray":80,"./update":91}],40:[function(require,module,exports){
+},{"./clone":30,"./generate":52,"./toArray":81,"./update":92}],40:[function(require,module,exports){
 const { setContent } = require("./setContent")
 const { setData } = require("./setData")
 
@@ -2726,7 +2710,7 @@ const removeData = ({ STATE, VALUE, id, params = {} }) => {
 }
 
 module.exports = {createData, setData, clearData, removeData}
-},{"./setContent":71,"./setData":72}],41:[function(require,module,exports){
+},{"./setContent":72,"./setData":73}],41:[function(require,module,exports){
 const { setData } = require("./data")
 const { resize } = require("./resize")
 const { isArabic } = require("./isArabic")
@@ -2842,7 +2826,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {defaultInputHandler}
-},{"./data":40,"./generate":52,"./isArabic":55,"./resize":67}],42:[function(require,module,exports){
+},{"./data":40,"./generate":52,"./isArabic":55,"./resize":68}],42:[function(require,module,exports){
 const { merge } = require("./merge")
 
 const derive = (data, keys, fullDerivation, defaultData, writable) => {
@@ -2965,7 +2949,7 @@ const droplist = ({ VALUE, STATE, id, e }) => {
             return {
                 type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${local.key ? `input.value=value.path::${input_id};edit=${parent};` : `input.value=${item};`}${droplist ? `readonly;droplist.items=[${item}];droplist.positioner=${dropList.positioner};data=${derive(STATE[local.Data], local.derivations)[0]};` : ''}`,
                 controls: [{
-                    event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},e.target.value||${local.key}];state[value.Data][value.derivations::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`
+                    event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};state[value.Data][value.derivations::${input_id}].delete();value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},e.target.value||${local.key}];state[value.Data][value.derivations::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`
                 }]
             }
         }
@@ -2977,7 +2961,7 @@ const droplist = ({ VALUE, STATE, id, e }) => {
                 actions: [
 
                     // for lang & currency droplists
-                    `setData;focus::${input_id}?data.path=${item};data.value=value.data()::${input_id};state[value.Data][value.derivations::${input_id}].delete;value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=${item}`,
+                    `setData;focus::${input_id}?data.path=${item};data.value=value.data()::${input_id};state[value.Data][value.derivations::${input_id}].delete();value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id};value.path::${input_id}!=${item}`,
 
                     // data = free
                     `setData::${input_id}?data.value=free?${input_id};const.${item}=free`,
@@ -2996,7 +2980,7 @@ const droplist = ({ VALUE, STATE, id, e }) => {
 }
 
 module.exports = {droplist}
-},{"./clone":30,"./derive":42,"./isPath":57,"./toValue":90,"./update":91}],44:[function(require,module,exports){
+},{"./clone":30,"./derive":42,"./isPath":57,"./toValue":91,"./update":92}],44:[function(require,module,exports){
 const { clearValues } = require('./clearValues')
 const { clone } = require('./clone')
 const { toArray } = require('./toArray')
@@ -3182,7 +3166,7 @@ const duplicates = ({ STATE, VALUE, params, id }) => {
 }
 
 module.exports = {duplicate, duplicates}
-},{"./clearValues":29,"./clone":30,"./createElement":37,"./derive":42,"./focus":51,"./generate":52,"./isEqual":56,"./removeDuplicates":66,"./starter":75,"./toArray":80}],45:[function(require,module,exports){
+},{"./clearValues":29,"./clone":30,"./createElement":37,"./derive":42,"./focus":51,"./generate":52,"./isEqual":56,"./removeDuplicates":67,"./starter":76,"./toArray":81}],45:[function(require,module,exports){
 const axios = require('axios')
 const { update } = require('./update')
 
@@ -3205,7 +3189,7 @@ const erase = async ({ VALUE, STATE, id, params = {} }) => {
 }
 
 module.exports = { erase }
-},{"./update":91,"axios":93}],46:[function(require,module,exports){
+},{"./update":92,"axios":94}],46:[function(require,module,exports){
 const { toApproval } = require('./toApproval')
 const { toId } = require('./toId')
 const { getParam } = require('./getParam')
@@ -3309,7 +3293,7 @@ const defaultEventHandler = ({ VALUE, id }) => {
 }
 
 module.exports = {addEventListener, defaultEventHandler}
-},{"./clone":30,"./execute":47,"./generate":52,"./getParam":54,"./toApproval":79,"./toId":84,"./toParam":85}],47:[function(require,module,exports){
+},{"./clone":30,"./execute":47,"./generate":52,"./getParam":54,"./toApproval":80,"./toId":85,"./toParam":86}],47:[function(require,module,exports){
 
 const { toApproval } = require("./toApproval")
 const { toArray } = require("./toArray")
@@ -3321,7 +3305,7 @@ const { toValue } = require("./toValue")
 const { toAwait } = require("./toAwait")
 const _method = require("./_method")
 
-const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) => {
+const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
 
     var local = VALUE[id], awaiter = [], _params = params, localId = id
     // if (!local) return
@@ -3349,11 +3333,11 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
             var name = action.split('::')[0]
 
             // action>>timer
-            var timer = name.split('>>')[1] || 0
+            var timer = parseFloat(name.split('>>')[1] || 0)
             name = name.split('>>')[0]
 
             // approval => note: essential for break::do not remove
-            approved = toApproval({ VALUE, STATE, string: conditions, params, id })
+            approved = toApproval({ VALUE, STATE, string: conditions, params, id, e })
             if (!approved) return
 
             // reset
@@ -3364,9 +3348,9 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
             const myFn = () => {
                 
                 // approval
-                approved = toApproval({ VALUE, STATE, string: conditions, params, id })
+                approved = toApproval({ VALUE, STATE, string: conditions, params, id, e })
                 if (!approved) return
-
+                
                 // params
                 params = toParam({ VALUE, STATE, string: params, e, id })
                 
@@ -3395,11 +3379,14 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
                 
                 
                 if (_method[name] && (!params.awaiter || params.asyncer)) 
-                (actionid ? toArray(actionid) : idList).map(id => {
+                
+                (actionid ? toArray(actionid) : idList).map(async id => {
+
+                    if (typeof id !== 'string') return
 
                     // id = value.path
-                    if (id.includes('.')) {
-
+                    if (id.indexOf('.') > -1) {
+                        
                         var k = generate()
                         id = toParam({ VALUE, STATE, string: `${k}=${id}`, e, id: localId })[k]
                     }
@@ -3408,7 +3395,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
                     if (!id || !VALUE[id]) return
 
                     if (params.asyncer) params.awaiter = awaiter
-                    _method[name]({ VALUE, STATE, controls, params, e, id })
+                    await _method[name]({ VALUE, STATE, controls, params, e, id })
                     
                     // asyncer
                     //if (_method[name].constructor.name !== 'AsyncFunction') 
@@ -3416,17 +3403,18 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, instantly, params }) 
                 })
 
             }
-
-            if (instantly) return myFn()
-            if (local) local[`${name}-timer`] = setTimeout(myFn, timer)
-            else setTimeout(myFn, timer)
+            
+            if (timer) {
+                if (local) local[`${name}-timer`] = setTimeout(myFn, timer)
+                else setTimeout(myFn, timer)
+            } else myFn()
         })
     })
     
 }
 
 module.exports = {execute}
-},{"./_method":25,"./generate":52,"./getParam":54,"./toApproval":79,"./toArray":80,"./toAwait":81,"./toId":84,"./toParam":85,"./toValue":90}],48:[function(require,module,exports){
+},{"./_method":26,"./generate":52,"./getParam":54,"./toApproval":80,"./toArray":81,"./toAwait":82,"./toId":85,"./toParam":86,"./toValue":91}],48:[function(require,module,exports){
 module.exports = {
     fill: ({ VALUE, STATE, id }) => {
         var local = VALUE[id], ratio
@@ -3509,7 +3497,7 @@ const filter = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {filter}
-},{"./update":91}],50:[function(require,module,exports){
+},{"./update":92}],50:[function(require,module,exports){
 const { setControls } = require("./controls")
 const { setStyle } = require("./style")
 
@@ -3529,7 +3517,7 @@ module.exports = {
         setControls({ VALUE, STATE, id, params: { controls }})
     }
 }
-},{"./controls":32,"./style":77}],51:[function(require,module,exports){
+},{"./controls":32,"./style":78}],51:[function(require,module,exports){
 const focus = ({ VALUE, id }) => {
     
     var local = VALUE[id]
@@ -3794,7 +3782,34 @@ const override = (obj1, obj2) => {
 }
 
 module.exports = {merge, override}
-},{"./clone":30,"./toArray":80}],60:[function(require,module,exports){
+},{"./clone":30,"./toArray":81}],60:[function(require,module,exports){
+const note = ({ VALUE, params }) => {
+
+    var note = VALUE['action-note']
+    var noteText = VALUE['action-note-text']
+
+    if (!params.note) return
+
+    clearTimeout(note['note-timer'])
+    
+    note.element.style.transition = 'initial'
+    note.element.style.transform = 'translateY(-200%)'
+
+    noteText.element.innerHTML = params.note
+
+    note.element.style.left = 'center'
+    note.element.style.transition = 'transform .2s'
+    note.element.style.transform = 'translateY(0)'
+
+    const myFn = () => { 
+        note.element.style.transform = 'translateY(-200%)'
+    }
+
+    note['note-timer'] = setTimeout(myFn, 5000)
+}
+
+module.exports = {note}
+},{}],61:[function(require,module,exports){
 const overflow = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
@@ -3844,14 +3859,14 @@ const overflow = ({ VALUE, params, id }) => {
 }
 
 module.exports = {overflow}
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 const pause = ({ VALUE, id }) => {
     var local = VALUE[id]
     clearTimeout(local['note-timer'])
 }
 
 module.exports = {pause}
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 const play = ({ VALUE, id }) => {
     var local = VALUE[id]
     const myFn = () => { 
@@ -3862,17 +3877,18 @@ const play = ({ VALUE, id }) => {
 }
 
 module.exports = {play}
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 const preventDefault = ({e}) => {
     e.preventDefault()
 }
 
 module.exports = {preventDefault}
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { capitalize } = require("./capitalize")
 const { toCode } = require("./toCode")
+const { isEqual } = require("./isEqual")
 
 const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, e }) => {
 
@@ -3925,11 +3941,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         if (!o) return o
         
         // set Value
-        if (key && i === lastIndex) return o[k] = value
 
-        else if (k.includes('coded()')) {
+        if (k.includes('coded()')) {
 
-            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: STATE.codes[k].split('.'), object: o, params } })
+            var _id = generate()
+            VALUE[_id] = o
+            answer = toValue({ VALUE, STATE, id: _id, e, params: { value: STATE.codes[k], params } })
+            delete VALUE[_id]
 
         } else if (k === 'data()') {
 
@@ -4050,23 +4068,27 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             breakRequest = true
             answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: path.slice(i + 1), object: o, value, key, params }, e }) )
-console.log(answer, value);
+
         } else if (k === '1stIndex()' || k === 'firstIndex()') {
             
+            if (value !== undefined && key) o[0] = value
             answer = o[0]
 
         } else if (k === '2ndIndex()' || k === 'secondIndex()') {
             
+            if (value !== undefined && key) o[1] = value
             answer = o[1]
 
         } else if (k === '3rdIndex()' || k === 'thirdIndex()') {
             
+            if (value !== undefined && key) o[2] = value
             answer = o[2]
 
         } else if (k === 'lastIndex()') {
-            
-            answer = o[o.length - 1]
 
+            if (value !== undefined && key) o[o.length - 1] = value
+            answer = o[o.length - 1]
+            
         } else if (k === 'parseFloat()') {
             
             answer = parseFloat(o)
@@ -4079,13 +4101,44 @@ console.log(answer, value);
             
             answer = JSON.stringify(o)
 
-        }else if (k === 'parse()') {
+        } else if (k === 'parse()') {
             
             answer = JSON.parse(o)
 
-        }  else if (k === 'value()') {
+        } else if (k === 'preventDefault()') {
             
+            answer = e.preventDefault()
+
+        } else if (k === 'value()') {
+
             answer = VALUE[o]
+
+        } else if (k === 'isChildOf()') {
+            
+            breakRequest = true
+            var el = reducer({ VALUE, STATE, id, params: { path: path.slice(i + 1), value, key, params }, e })
+            answer = isEqual(el, o)
+
+        } else if (k === 'isChildOfId()') {
+            
+            breakRequest = true
+            var id = reducer({ VALUE, STATE, id, params: { path: path.slice(i + 1), value, key, params }, e })
+            var ids = Object.keys(getDeepChildren({ VALUE, id }))
+            answer = ids.find(_id => _id === o)
+
+        } else if (k === 'allChildren()') { // all values of local element and children elements in object formula
+            
+            answer = getDeepChildren({ VALUE, id })
+
+        } else if (k === 'addClass()') {
+            
+            breakRequest = true
+            answer = o.classList.add(path.slice(i + 1).join('.'))
+
+        } else if (k === 'removeClass()') {
+            
+            breakRequest = true
+            answer = o.classList.remove(path.slice(i + 1).join('.'))
 
         } else if (k === 'length' && !local.length && i === 0) {
             
@@ -4095,17 +4148,21 @@ console.log(answer, value);
 
             breakRequest = true
             local.controls = toArray(local.controls) || []
-            return local.controls.push({
-                event: `load?${key}=JSON.parse(${JSON.stringify(value)})`
+            if (value !== undefined) return local.controls.push({
+                event: `load?${key}=${value}`
             })
             
-        } else if (i === lastIndex - 1 && path[lastIndex] === 'delete') {
+        } else if (i === lastIndex - 1 && path[lastIndex] === 'delete()') {
             
             breakRequest = true
             return delete o[k]
 
+        } else if (key && i === lastIndex) {
+            
+            return o[k] = value
+
         } else if (!o[k] && key) {
-                
+            
             if (!isNaN(path[i + 1])) o[k] = []
             else o[k] = {}
 
@@ -4118,8 +4175,22 @@ console.log(answer, value);
     return answer
 }
 
+const getDeepChildren = ({ VALUE, id }) => {
+    var all = { [id]: VALUE[id] }
+    
+    if ([...VALUE[id].element.children].length > 0) 
+        ([...VALUE[id].element.children]).map(el => {
+
+            if ([...VALUE[el.id].element.children].length > 0) 
+                all = { ...all, ...getDeepChildren({ VALUE, id }) }
+
+            else all[el.id] = VALUE[el.id]
+        })
+    return all
+}
+
 module.exports = { reducer }
-},{"./capitalize":28,"./execute":47,"./generate":52,"./toArray":80,"./toCode":82,"./toValue":90}],65:[function(require,module,exports){
+},{"./capitalize":28,"./execute":47,"./generate":52,"./isEqual":56,"./toArray":81,"./toCode":83,"./toValue":91}],66:[function(require,module,exports){
 const { removeIds } = require("./update")
 const { clone } = require("./clone")
 
@@ -4155,13 +4226,10 @@ const remove = ({ STATE, VALUE, params, id }) => {
                 o.splice(k, 1)
 
             // name: { en: val1, ar: val2, ... }
-            } else if (local.lang || local.key) {
+            } else if (local.component === 'Input') {
 
-                var input = local.element.getElementsByTagName('INPUT')[0]
-                if (!input) input = local.element.getElementsByTagName('TEXTAREA')[0]
-                var key = VALUE[input.id].path
-                if (o[k][key]) return delete o[k][key]
-                else return
+                var key = VALUE[`${id}-input`].path
+                return delete o[k][key]
 
             } else return delete o[k]
 
@@ -4207,7 +4275,7 @@ const resetDerivations = ({ VALUE, id, index }) => {
 }
 
 module.exports = {remove}
-},{"./clone":30,"./update":91}],66:[function(require,module,exports){
+},{"./clone":30,"./update":92}],67:[function(require,module,exports){
 const removeDuplicates = (object) => {
 
     if (typeof object === 'string' || typeof object === 'number' || !object) return object
@@ -4228,7 +4296,7 @@ const removeDuplicates = (object) => {
 }
 
 module.exports = {removeDuplicates}
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 const resize = ({ VALUE, id }) => {
 
     var local = VALUE[id]
@@ -4323,12 +4391,12 @@ const dimensions = ({ VALUE, id, params = {} }) => {
 
 
     if (pStyle.width === '100%') lDiv.style.width = local.element.clientWidth + 'px'
-    lDiv.style.width = (lDiv.clientWidth - 0.5) + 'px'
+    lDiv.style.width = (lDiv.clientWidth) + 'px'
 
     lDiv.innerHTML = pText
 
     var lResult = {
-        width: lDiv.clientWidth + 0.5,
+        width: lDiv.clientWidth,
         height: lDiv.clientHeight
     }
 
@@ -4345,7 +4413,7 @@ const converter = (dimension) => {
 }
 
 module.exports = {resize, dimensions}
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 
 const { starter } = require('./starter')
 //const { search } = require("./search")
@@ -4424,7 +4492,7 @@ export const pushRoute = ({ params }) => {
 }*/
 
 module.exports = {route}
-},{"./starter":75}],69:[function(require,module,exports){
+},{"./starter":76}],70:[function(require,module,exports){
 const axios = require('axios')
 const { toAwait } = require('./toAwait')
 
@@ -4450,7 +4518,7 @@ const save = async ({ VALUE, STATE, params = {}, id, e }) => {
 }
 
 module.exports = { save }
-},{"./toAwait":81,"axios":93}],70:[function(require,module,exports){
+},{"./toAwait":82,"axios":94}],71:[function(require,module,exports){
 const axios = require('axios')
 const { update } = require('./update')
 
@@ -4472,7 +4540,7 @@ module.exports = {
         console.log(data, message, success)
     }
 }
-},{"./update":91,"axios":93}],71:[function(require,module,exports){
+},{"./update":92,"axios":94}],72:[function(require,module,exports){
 const { isArabic } = require("./isArabic")
 
 const setContent = ({ VALUE, STATE, params = {}, id }) => {
@@ -4494,7 +4562,7 @@ const setContent = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {setContent}
-},{"./isArabic":55}],72:[function(require,module,exports){
+},{"./isArabic":55}],73:[function(require,module,exports){
 const { clone } = require("./clone")
 const { derive } = require("./derive")
 const { setContent } = require("./setContent")
@@ -4537,7 +4605,7 @@ const setData = ({ STATE, VALUE, params = {}, id }) => {
 }
 
 module.exports = {setData}
-},{"./clone":30,"./derive":42,"./setContent":71}],73:[function(require,module,exports){
+},{"./clone":30,"./derive":42,"./setContent":72}],74:[function(require,module,exports){
 const setPosition = ({ VALUE, params, id }) => {
     var {position} = params
 
@@ -4632,7 +4700,7 @@ const setPosition = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setPosition}
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 const { reducer } = require('./reducer')
 const { update } = require('./update')
 
@@ -4677,8 +4745,9 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {sort}
-},{"./reducer":64,"./update":91}],75:[function(require,module,exports){
-const autoControls = ['auto-style', 'toggle-style', 'droplist', 'actionlist']
+},{"./reducer":65,"./update":92}],76:[function(require,module,exports){
+const { toArray } = require("./toArray")
+const control = require('../control/control')
 const autoActions = ['fill']
 
 const starter = ({ STATE, VALUE, id }) => {
@@ -4686,7 +4755,6 @@ const starter = ({ STATE, VALUE, id }) => {
     const { defaultEventHandler } = require("./event")
     const { setStyle } = require("./style")
     const { controls } = require('./controls')
-    const { createControls } = require("./createControls")
     const { defaultInputHandler } = require("./defaultInputHandler")
     const { isArabic } = require("./isArabic")
 
@@ -4716,12 +4784,11 @@ const starter = ({ STATE, VALUE, id }) => {
     if (local.style) setStyle({ VALUE, STATE, id, params: {style: local.style} })
 
     // lunch auto controls
-    autoControls.map(type => {
+    Object.entries(control).map(([type, control]) => {
 
         if (!local[type]) return
-        var params = { controls: { type, ...local[type] } }
-        createControls({ VALUE, STATE, id, params }) 
-        
+        local.controls = toArray(local.controls)
+        local.controls.push(...control({ VALUE, STATE, id, params: { controls: local[type] } }))
     })
 
     // auto actions
@@ -4743,7 +4810,7 @@ const starter = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {starter}
-},{"./_method":25,"./controls":32,"./createControls":35,"./defaultInputHandler":41,"./event":46,"./isArabic":55,"./style":77}],76:[function(require,module,exports){
+},{"../control/control":17,"./_method":26,"./controls":32,"./defaultInputHandler":41,"./event":46,"./isArabic":55,"./style":78,"./toArray":81}],77:[function(require,module,exports){
 const setState = ({ STATE, params,  }) => {
 
     // push states to route
@@ -4759,7 +4826,7 @@ const setState = ({ STATE, params,  }) => {
 }
 
 module.exports = {setState}
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 const {resize} = require('./resize')
 
 const setStyle = ({ VALUE, params = {}, id }) => {
@@ -4866,7 +4933,7 @@ const mountAfterStyles = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setStyle, resetStyles, toggleStyles, mountAfterStyles}
-},{"./resize":67}],78:[function(require,module,exports){
+},{"./resize":68}],79:[function(require,module,exports){
 const textarea = ({ VALUE, id }) => {
     var local = VALUE[id]
     if (!local) return
@@ -4893,7 +4960,7 @@ const textarea = ({ VALUE, id }) => {
 }
 
 module.exports = { textarea }
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
 const { generate } = require("./generate")
@@ -5101,6 +5168,7 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 if (division) value = value / division
                 
                 if (!local) return approval = false
+                
                 if (value === undefined) approval = notEqual ? !local[keygen] : local[keygen]
                 else {
                     if (value === 'undefined') value = undefined
@@ -5173,27 +5241,36 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
 }
 
 module.exports = {toApproval}
-},{"./duplicate":44,"./generate":52,"./getParam":54,"./isArabic":55,"./isEqual":56,"./overflow":60,"./reducer":64,"./toPath":86,"./toValue":90}],80:[function(require,module,exports){
+},{"./duplicate":44,"./generate":52,"./getParam":54,"./isArabic":55,"./isEqual":56,"./overflow":61,"./reducer":65,"./toPath":87,"./toValue":91}],81:[function(require,module,exports){
 const toArray = (data) => {
     return data !== undefined ? (Array.isArray(data) ? data : [data]) : []
 }
 
 module.exports = {toArray}
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
+const { clone } = require("./clone")
+
 module.exports = {
     toAwait: ({ VALUE, STATE, id, e, params = {} }) => {
         if (!params.asyncer)  return
 
+        var awaiter = clone(params.awaiter)
+        var await = clone(params.await)
+
+        delete params.asyncer
+        delete params.awaiter
+        delete params.await
+        
         const { execute } = require("./execute")
         const { toParam } = require("./toParam")
 
-        if (params.await && params.await.length > 0)
-        toParam({ VALUE, STATE, id, e, string: params.await.join(';') })
+        if (await && await.length > 0)
+        toParam({ VALUE, STATE, id, e, string: await.join(';') })
         
-        if (params.awaiter) execute({ VALUE, STATE, id, e, actions: params.awaiter, params })
+        if (awaiter) execute({ VALUE, STATE, id, e, actions: awaiter, params })
     }
 }
-},{"./execute":47,"./toParam":85}],82:[function(require,module,exports){
+},{"./clone":30,"./execute":47,"./toParam":86}],83:[function(require,module,exports){
 const { generate } = require("./generate")
 
 const toCode = ({ VALUE, STATE, string, e, id }) => {
@@ -5238,7 +5315,7 @@ const toCode = ({ VALUE, STATE, string, e, id }) => {
 }
 
 module.exports = { toCode }
-},{"./generate":52}],83:[function(require,module,exports){
+},{"./generate":52}],84:[function(require,module,exports){
 const { generate } = require('./generate')
 const { toArray } = require('./toArray')
 
@@ -5277,7 +5354,7 @@ const toComponent = (obj) => {
 }
 
 module.exports = {toComponent}
-},{"./generate":52,"./toArray":80}],84:[function(require,module,exports){
+},{"./generate":52,"./toArray":81}],85:[function(require,module,exports){
 const { clone } = require("./clone");
 const { toValue } = require("./toValue");
 
@@ -5292,7 +5369,7 @@ const toId = ({ VALUE, STATE, id, string, e }) => {
 }
 
 module.exports = {toId}
-},{"./clone":30,"./toValue":90}],85:[function(require,module,exports){
+},{"./clone":30,"./toValue":91}],86:[function(require,module,exports){
 const { toPath } = require("./toPath")
 const { toArray } = require("./toArray")
 const { toValue } = require("./toValue")
@@ -5403,15 +5480,7 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
                 return obj[key]
             }, params)
 
-        } else {
-
-            if (params[key]) {
-
-                params[key] = toArray(params[key])
-                params[key].push(value)
-
-            } else params[key] = value
-        }
+        } else params[key] = value
     })
     
     return params
@@ -5422,14 +5491,11 @@ function addDays(theDate, days) {
 }
 
 module.exports = {toParam}
-},{"./reducer":64,"./toApproval":79,"./toArray":80,"./toPath":86,"./toValue":90}],86:[function(require,module,exports){
-const { generate } = require("./generate")
-
+},{"./reducer":65,"./toApproval":80,"./toArray":81,"./toPath":87,"./toValue":91}],87:[function(require,module,exports){
 const toPath = ({ VALUE, STATE, string, e, id }) => {
 
-    const { toParam } = require("./toParam")
-
-    var keys = [], k = generate(), _keys = string.split('[')
+    const { toValue } = require("./toValue")
+    var keys = [], _keys = string.split('[')
 
     // is array
     if (!_keys[0] || _keys.length === 1) return string
@@ -5458,8 +5524,8 @@ const toPath = ({ VALUE, STATE, string, e, id }) => {
             subKey = keys[1].split(']')
             
         }
-
-        var value = toParam({ VALUE, STATE, string: `${k}=${subKey[0]}`, e, id })[k]
+        
+        var value = toValue({ VALUE, STATE, params: { value: subKey[0] }, e, id })
 
         var before = keys[0]
         subKey = subKey.slice(1)
@@ -5480,7 +5546,7 @@ const toPath = ({ VALUE, STATE, string, e, id }) => {
 }
 
 module.exports = { toPath }
-},{"./generate":52,"./toParam":85}],87:[function(require,module,exports){
+},{"./toValue":91}],88:[function(require,module,exports){
 const toString = (object) => {
     if (!object) return ''
 
@@ -5507,7 +5573,7 @@ const toString = (object) => {
 }
 
 module.exports = {toString}
-},{}],88:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 module.exports = {
     toStyle: ({ VALUE, STATE, id }) => {
         var local = VALUE[id]
@@ -5555,7 +5621,7 @@ module.exports = {
         return style
     }
 }
-},{}],89:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 const { toStyle } = require("./toStyle")
 const { toArray } = require("./toArray")
 const { generate } = require("./generate")
@@ -5591,6 +5657,7 @@ module.exports = {
         }
 
         var value = local.data || (local.input && local.input.value) || ''
+        if (local.type === 'Image') local.src = local.src || local.data || ''
         
         if (local.type === 'View')
         tag = `<div class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</div>`
@@ -5656,7 +5723,7 @@ module.exports = {
         return tag
     }
 }
-},{"./clone":30,"./createElement":37,"./generate":52,"./toArray":80,"./toStyle":88,"path":2}],90:[function(require,module,exports){
+},{"./clone":30,"./createElement":37,"./generate":52,"./toArray":81,"./toStyle":89,"path":2}],91:[function(require,module,exports){
 const { toPath } = require("./toPath")
 const { generate } = require("./generate")
 const { reducer } = require("./reducer")
@@ -5731,23 +5798,35 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
 
                 value = plus[0]
                 plus.shift()
-                plus = plus.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
-
-            } else if (minus.length > 1) {
-
-                value = minus[0]
                 minus.shift()
+                times.shift()
+                division.shift()
+                plus = plus.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
+                
+            } else if (minus.length > 1) {
+                
+                value = minus[0]
+                plus.shift()
+                minus.shift()
+                times.shift()
+                division.shift()
                 minus = minus.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
-
+                
             } else if (times.length > 1) {
 
                 value = times[0]
+                plus.shift()
+                minus.shift()
                 times.shift()
+                division.shift()
                 times = times.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
 
             } else if (division.length > 1) {
 
                 value = division[0]
+                plus.shift()
+                minus.shift()
+                times.shift()
                 division.shift()
                 division = division.map(value => toValue({ VALUE, STATE, id, params: { params, value }, e }))
             
@@ -5760,7 +5839,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
             }
             
         }
-
+        
         var path = typeof value === 'string' ? value.split('.') : []
         
         /* value */
@@ -5800,7 +5879,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
 }
 
 module.exports = { toValue }
-},{"./generate":52,"./reducer":64,"./toApproval":79,"./toPath":86}],91:[function(require,module,exports){
+},{"./generate":52,"./reducer":65,"./toApproval":80,"./toPath":87}],92:[function(require,module,exports){
 const { generate } = require("./generate")
 const { starter } = require("./starter")
 const { toArray } = require("./toArray")
@@ -5813,6 +5892,8 @@ const update = ({ STATE, VALUE, id }) => {
     if (!local) return
     if (!local.element) return
     
+    //VALUE.body.element.style.pointerEvents = 'none'
+
     // remove id from VALUE
     removeIds({ VALUE, id })
     local.element.style.opacity = '0'
@@ -5838,6 +5919,8 @@ const update = ({ STATE, VALUE, id }) => {
             var id = child.id
             starter({ STATE, VALUE, id })
         })
+
+        //VALUE.body.element.style.pointerEvents = 'auto'
         
     }, 25)
 }
@@ -5864,7 +5947,7 @@ const removeIds = ({ VALUE, id }) => {
 }
 
 module.exports = {update, removeIds}
-},{"./clone":30,"./createElement":37,"./generate":52,"./starter":75,"./toArray":80}],92:[function(require,module,exports){
+},{"./clone":30,"./createElement":37,"./generate":52,"./starter":76,"./toArray":81}],93:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toApproval } = require("./toApproval")
 const { isEqual } = require("./isEqual")
@@ -5952,9 +6035,9 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {watch}
-},{"./clone":30,"./data":40,"./execute":47,"./generate":52,"./isEqual":56,"./toApproval":79,"./toParam":85}],93:[function(require,module,exports){
+},{"./clone":30,"./data":40,"./execute":47,"./generate":52,"./isEqual":56,"./toApproval":80,"./toParam":86}],94:[function(require,module,exports){
 module.exports = require('./lib/axios');
-},{"./lib/axios":95}],94:[function(require,module,exports){
+},{"./lib/axios":96}],95:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6135,7 +6218,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"../core/buildFullPath":101,"../core/createError":102,"./../core/settle":106,"./../helpers/buildURL":110,"./../helpers/cookies":112,"./../helpers/isURLSameOrigin":115,"./../helpers/parseHeaders":117,"./../utils":119}],95:[function(require,module,exports){
+},{"../core/buildFullPath":102,"../core/createError":103,"./../core/settle":107,"./../helpers/buildURL":111,"./../helpers/cookies":113,"./../helpers/isURLSameOrigin":116,"./../helpers/parseHeaders":118,"./../utils":120}],96:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -6193,7 +6276,7 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
-},{"./cancel/Cancel":96,"./cancel/CancelToken":97,"./cancel/isCancel":98,"./core/Axios":99,"./core/mergeConfig":105,"./defaults":108,"./helpers/bind":109,"./helpers/isAxiosError":114,"./helpers/spread":118,"./utils":119}],96:[function(require,module,exports){
+},{"./cancel/Cancel":97,"./cancel/CancelToken":98,"./cancel/isCancel":99,"./core/Axios":100,"./core/mergeConfig":106,"./defaults":109,"./helpers/bind":110,"./helpers/isAxiosError":115,"./helpers/spread":119,"./utils":120}],97:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6214,7 +6297,7 @@ Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
 
-},{}],97:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 'use strict';
 
 var Cancel = require('./Cancel');
@@ -6273,14 +6356,14 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-},{"./Cancel":96}],98:[function(require,module,exports){
+},{"./Cancel":97}],99:[function(require,module,exports){
 'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
 
-},{}],99:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6377,7 +6460,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = Axios;
 
-},{"../helpers/buildURL":110,"./../utils":119,"./InterceptorManager":100,"./dispatchRequest":103,"./mergeConfig":105}],100:[function(require,module,exports){
+},{"../helpers/buildURL":111,"./../utils":120,"./InterceptorManager":101,"./dispatchRequest":104,"./mergeConfig":106}],101:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6431,7 +6514,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 
 module.exports = InterceptorManager;
 
-},{"./../utils":119}],101:[function(require,module,exports){
+},{"./../utils":120}],102:[function(require,module,exports){
 'use strict';
 
 var isAbsoluteURL = require('../helpers/isAbsoluteURL');
@@ -6453,7 +6536,7 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
   return requestedURL;
 };
 
-},{"../helpers/combineURLs":111,"../helpers/isAbsoluteURL":113}],102:[function(require,module,exports){
+},{"../helpers/combineURLs":112,"../helpers/isAbsoluteURL":114}],103:[function(require,module,exports){
 'use strict';
 
 var enhanceError = require('./enhanceError');
@@ -6473,7 +6556,7 @@ module.exports = function createError(message, config, code, request, response) 
   return enhanceError(error, config, code, request, response);
 };
 
-},{"./enhanceError":104}],103:[function(require,module,exports){
+},{"./enhanceError":105}],104:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6554,7 +6637,7 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
-},{"../cancel/isCancel":98,"../defaults":108,"./../utils":119,"./transformData":107}],104:[function(require,module,exports){
+},{"../cancel/isCancel":99,"../defaults":109,"./../utils":120,"./transformData":108}],105:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6598,7 +6681,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   return error;
 };
 
-},{}],105:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -6687,7 +6770,7 @@ module.exports = function mergeConfig(config1, config2) {
   return config;
 };
 
-},{"../utils":119}],106:[function(require,module,exports){
+},{"../utils":120}],107:[function(require,module,exports){
 'use strict';
 
 var createError = require('./createError');
@@ -6714,7 +6797,7 @@ module.exports = function settle(resolve, reject, response) {
   }
 };
 
-},{"./createError":102}],107:[function(require,module,exports){
+},{"./createError":103}],108:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6736,7 +6819,7 @@ module.exports = function transformData(data, headers, fns) {
   return data;
 };
 
-},{"./../utils":119}],108:[function(require,module,exports){
+},{"./../utils":120}],109:[function(require,module,exports){
 (function (process){(function (){
 'use strict';
 
@@ -6838,7 +6921,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 }).call(this)}).call(this,require('_process'))
-},{"./adapters/http":94,"./adapters/xhr":94,"./helpers/normalizeHeaderName":116,"./utils":119,"_process":3}],109:[function(require,module,exports){
+},{"./adapters/http":95,"./adapters/xhr":95,"./helpers/normalizeHeaderName":117,"./utils":120,"_process":3}],110:[function(require,module,exports){
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -6851,7 +6934,7 @@ module.exports = function bind(fn, thisArg) {
   };
 };
 
-},{}],110:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6923,7 +7006,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
-},{"./../utils":119}],111:[function(require,module,exports){
+},{"./../utils":120}],112:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6939,7 +7022,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
     : baseURL;
 };
 
-},{}],112:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6994,7 +7077,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":119}],113:[function(require,module,exports){
+},{"./../utils":120}],114:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7010,7 +7093,7 @@ module.exports = function isAbsoluteURL(url) {
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 };
 
-},{}],114:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7023,7 +7106,7 @@ module.exports = function isAxiosError(payload) {
   return (typeof payload === 'object') && (payload.isAxiosError === true);
 };
 
-},{}],115:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7093,7 +7176,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":119}],116:[function(require,module,exports){
+},{"./../utils":120}],117:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -7107,7 +7190,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
-},{"../utils":119}],117:[function(require,module,exports){
+},{"../utils":120}],118:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7162,7 +7245,7 @@ module.exports = function parseHeaders(headers) {
   return parsed;
 };
 
-},{"./../utils":119}],118:[function(require,module,exports){
+},{"./../utils":120}],119:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7191,7 +7274,7 @@ module.exports = function spread(callback) {
   };
 };
 
-},{}],119:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 'use strict';
 
 var bind = require('./helpers/bind');
@@ -7544,7 +7627,7 @@ module.exports = {
   stripBOM: stripBOM
 };
 
-},{"./helpers/bind":109}],120:[function(require,module,exports){
+},{"./helpers/bind":110}],121:[function(require,module,exports){
 const {admin} = require('./admin')
 const {home} = require('./home')
 const {public} = require('./public')
@@ -7552,19 +7635,19 @@ const {public} = require('./public')
 module.exports = {
     admin, home, public
 }
-},{"./admin":121,"./home":122,"./public":123}],121:[function(require,module,exports){
+},{"./admin":122,"./home":123,"./public":124}],122:[function(require,module,exports){
 const admin = {
     views: ['admin-navbar', 'admin']
 }
 
 module.exports = {admin}
-},{}],122:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 const home = {
     views: ['navbar']
 }
 
 module.exports = {home}
-},{}],123:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 const public = {
     views: ['droplist', 'mini-window', 'actionlist', 'action-note']
 }

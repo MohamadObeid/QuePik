@@ -205,6 +205,7 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
                 if (division) value = value / division
                 
                 if (!local) return approval = false
+                
                 if (value === undefined) approval = notEqual ? !local[keygen] : local[keygen]
                 else {
                     if (value === 'undefined') value = undefined

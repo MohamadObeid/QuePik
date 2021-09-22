@@ -55,7 +55,7 @@ const {toAwait} = require('./toAwait')
 const {close} = require('./close')
 const {pause} = require('./pause')
 const {play} = require('./play')
-const {actionNote} = require('./actionNote')
+const {note} = require('./note')
 const {toCode} = require('./toCode')
 const {isPath} = require('./isPath')
 const {capitalize} = require('./capitalize')
@@ -72,7 +72,7 @@ const _method = {
     createData, setData, clearData, removeData, setContent, starter, createComponent,
     setPosition, droplist, filter, createView, createActions, flicker, blur, toAwait,
     createControls, remove, defaultInputHandler, focus, sort, log, save, erase, toCode,
-    toPath, toValue, reducer, preventDefault, toStyle, toTag, capitalize, fill, actionNote,
+    toPath, toValue, reducer, preventDefault, toStyle, toTag, capitalize, fill, note,
     pause, play, close, isPath
 }
 
