@@ -43,6 +43,20 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
             return params.await.push(awaiter)
         }
 
+            
+        // lunch auto controls
+        if (controls[key]) {
+            
+            if (local.status === 'loading') {
+
+                return local.controls = toArray(local.controls).push({
+                    event: `load?${param}`
+                })
+            }
+            
+            return controls[key]({ VALUE, STATE, id, params: { controls: params[key] }, e })
+        }
+
         value = toValue({ VALUE, STATE, id, e, params: { value, params } })
         
         // condition not approved
@@ -113,22 +127,6 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
             key = path[0]
 
         } else params[key] = value
-
-            
-        // lunch auto controls
-        if (controls[key]) {
-            
-            if (local.status === 'loading') {
-
-                var k = generate()
-                STATE[k] = params[key]
-                return local.controls = toArray(local.controls).push({
-                    event: `load?${key}=state.${k}`
-                })
-            }
-            
-            return controls[key]({ VALUE, STATE, id, params: { controls: params[key] }, e })
-        }
     })
     
     return params
