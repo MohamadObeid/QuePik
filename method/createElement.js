@@ -5,6 +5,7 @@ const { override } = require("./merge")
 const { clone } = require("./clone")
 const { derive } = require("./derive")
 const { createTags } = require("./createTags")
+const { reducer } = require("./reducer")
 
 const createElement = ({ STATE, VALUE, id }) => {
 
@@ -50,6 +51,9 @@ const createElement = ({ STATE, VALUE, id }) => {
     // derivations
     local.derivations = local.derivations || [...(parent.derivations || [])]
 
+    // status
+    local.status = 'loading'
+
     // first mount of local
     VALUE[id] = local
 
@@ -74,8 +78,8 @@ const createElement = ({ STATE, VALUE, id }) => {
         
         if (params.data && (!local.Data || params.Data)) {
             
+            local.Data = local.Data || generate()
             var state = local.Data
-            if (!state) state = local.Data = generate()
             STATE[state] = clone(local.data || STATE[state])
             STATE[`${state}-options`] = STATE[`${state}-options`] || {}
 
@@ -83,15 +87,11 @@ const createElement = ({ STATE, VALUE, id }) => {
 
     } else params = {}
 
-    // pass to children
-    if (parent.toChildren) {
+    // pass values To Children
+    if (parent.passToChildren) local = override(local, parent.passToChildren)
 
-        if (typeof parent.toChildren === 'string')
-        parent.toChildren = toParam({ VALUE, STATE, string: parent.toChildren, id })
-        local = override(local, parent.toChildren)
-    }
-
-    if (local.duplicating) {
+    // duplicated element
+    if (local.duplicatedElement) {
 
         delete local.path
         delete local.data
@@ -109,15 +109,15 @@ const createElement = ({ STATE, VALUE, id }) => {
             
         }
 
-        // convert string numbers paths to num
+        // convert string numbers to num
         path = path.map(k => { 
             if (!isNaN(k)) k = parseFloat(k) 
             return k
         })
 
-        // push path to a data array and derivations last element is not an index
+        // push 0 to derivations for array data
         if (isNaN(path[0])) {
-            var data = derive(STATE[parent.Data], parent.derivations)[0]
+            var data = derive(STATE[local.Data], parent.derivations)[0]
             if (Array.isArray(data)) local.derivations.push(0)
         }
 
@@ -125,33 +125,13 @@ const createElement = ({ STATE, VALUE, id }) => {
     }
     
     
-    // data (turnoff is do not mount data)
-    var data, isArray, derivations = clone(local.derivations)
-    if (parent.turnoff || local.turnoff) { data = local.data || ''; local.turnoff = true }                                // params cz local.data is inherited from parent which is not default
-    else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, clone(params.data), true) }
-    
-    if (isArray) {
-        
-        innerHTML = data.map((data, index) => {
+    // data
+    var data, derivations = clone(local.derivations)
+    if (parent.unDeriveData || local.unDeriveData) { data = local.data || ''; local.unDeriveData = true }                                // params cz local.data is inherited from parent which is not default
+    else [data, derivations] = derive(STATE[local.Data], local.derivations, clone(params.data), true)
 
-            var keys = clone(derivations)
-            keys.push(index, ...path)
-            
-            // data
-            var [data, derivations] = derive(STATE[local.Data], keys, false, local.data, true)
-            VALUE[id] = { ...local, id, data, derivations }
-
-            return createTags({ VALUE, STATE, id })
-
-        }).join('')
-
-    } else {
-
-        VALUE[id] = { ...local, data, derivations }
-        innerHTML = createTags({ VALUE, STATE, id })
-    }
-        
-    return innerHTML
+    VALUE[id] = { ...local, data, derivations }
+    return createTags({ VALUE, STATE, id })
 }
 
 module.exports = {createElement}

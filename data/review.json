@@ -1,0 +1,33 @@
+[
+  {
+    "id": "review-01",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "user": "user-01",
+    "description": "I liked the service, thank you Ahmad!",
+    "service": "service-01",
+    "rate": "4.5",
+    "replies": ["review-02"]
+  },
+  {
+    "id": "review-02",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "user": "user-02",
+    "description": "Thank you dear, you are welcome!",
+    "service": "service-01"
+  },
+  {
+    "id": "review-03",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "user": "user-03",
+    "description": "Very bad salon!",
+    "provider": "provider-01",
+    "status": "blocked"
+  },
+  {
+    "id": "review-04",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "user": "user-04",
+    "description": "Best Massage & Spa resort!",
+    "provider": "provider-02"
+  }
+]

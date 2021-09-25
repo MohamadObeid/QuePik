@@ -1,0 +1,48 @@
+[
+  {
+    "id": "service-01",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "name": "Indian Massage",
+    "category": "category-01",
+    "description": "An indian massage",
+    "duration": "1hr",
+    "provider": "provider-01",
+    "home-service-availability": true,
+    "status": "available",
+    "note": "",
+    "price": {
+      "lbp": "200,000"
+    },
+    "offer": "offer-01",
+    "reviews": ["review-07", "review-08", "review-09"],
+    "bookings-accepted-at-same-time": "1",
+    "images": [
+      "image/service-01.jpeg",
+      "image/service-02.jpeg",
+      "image/service-03.jpeg"
+    ]
+  },
+  {
+    "id": "service-02",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "name": "Hair Cur",
+    "category": "category-02",
+    "description": "Any hair cut design",
+    "duration": "15min",
+    "provider": "provider-02",
+    "home-service-availability": false,
+    "status": "available",
+    "note": "",
+    "price": {
+      "lbp": "25,000"
+    },
+    "offer": "offer-02",
+    "reviews": [],
+    "bookings-accepted-at-same-time": "2",
+    "images": [
+      "image/service-04.jpeg",
+      "image/service-05.jpeg",
+      "image/service-06.jpeg"
+    ]
+  }
+]

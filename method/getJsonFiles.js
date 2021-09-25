@@ -5,8 +5,8 @@ const getJsonFiles = (folder, fileName) => {
 
     var files = {}
     var folderPath = path.join(process.cwd(), folder)
-
-    if (fileName) return fs.readFileSync(path.join(folderPath, fileName))
+    
+    if (fileName) return JSON.parse(fs.readFileSync(path.join(folderPath, fileName)))
     
     fs.readdirSync(folderPath).forEach(fileName => {
     

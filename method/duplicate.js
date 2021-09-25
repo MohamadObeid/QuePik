@@ -108,7 +108,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
     VALUE[id] = clone(VALUE[local.parent].children[local.index])
     VALUE[id].id = id
     VALUE[id].parent = local.parent
-    VALUE[id].duplicating = true
+    VALUE[id].duplicatedElement = true
     VALUE[id].index = local.index
     VALUE[id].derivations = [...local.derivations]
 
@@ -168,7 +168,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 const duplicates = ({ STATE, VALUE, params, id }) => {
     var local = VALUE[id]
 
-    var [data] = derive(STATE[local.Data], local.derivations), exists
+    var data = derive(STATE[local.Data], local.derivations)[0], exists
     if (!params.data) return false
 
     data = toArray(data)

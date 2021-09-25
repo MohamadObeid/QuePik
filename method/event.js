@@ -49,7 +49,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
                 local[`${code}${event}-timer`] = setTimeout(() => {
 
                     var events = controls.event.split('?')
-                    
+                    if (events[0] === 'load') console.log(controls.event);
                     // VALUE[id] doesnot exist
                     if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
                     

@@ -1,10 +1,7 @@
 {
-    "type": "List?id=actionlist;toChildren.icon.google;toChildren.icon.outlined;toChildren.icon.style.fontSize=1.7rem",
+    "type": "List?id=actionlist;passToChildren.icon.google;passToChildren.icon.outlined;passToChildren.icon.style.fontSize=1.7rem",
     "children": [{
-        "type": "Item?text=Edit;icon.name=edit;id=action-list-edit",
-        "controls": {
-            "actions": "createControls?controls.type=mini-window;controls.view=asset"
-        }
+        "type": "Item?text=Edit;icon.name=edit;id=action-list-edit;miniWindow.view=asset"
     }, {
         "type": "Item?text=Show;text=Hide<<!value.data().hidden;icon.name=visibility_off;id=action-list-hide",
         "tooltip": "Hide from store?maxWidth=25rem"
@@ -19,8 +16,8 @@
         "controls": {
             "event": "click",
             "actions": [
-                "erase;resetStyles::actionlist?erase.api=asset;erase.data=value.data();erase.update=asset-list;erase.state=asset-list-Data;",
-                "setStyle::mini-window;update::assets-data?style.display=none>>200;style.opacity=0?global.mini-window.element.style.display!=none"
+                "erase;resetStyles::actionlist?erase.path=asset;erase.data=value.data();erase.update=asset-list;erase.state=asset-list-Data;",
+                "setStyle::miniWindow;update::assets-data?style.display=none>>200;style.opacity=0?global.miniWindow.element.style.display!=none"
             ]
         }
     }]

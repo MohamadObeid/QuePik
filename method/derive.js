@@ -1,19 +1,11 @@
-const { merge } = require("./merge")
-
-const derive = (data, keys, fullDerivation, defaultData, writable) => {
-    
-    var derivedData = data
-    var isArray = false
+const derive = (data, keys, defaultData, editable) => {
 
     if (!Array.isArray(keys)) keys = keys.split('.')
     
-    derivedData = keys.reduce((o, k, i) => {
-        if (isArray) return o
-
-        if (k === 'merge()') return merge(o)
+    data = keys.reduce((o, k, i) => {
 
         // path doesnot exist => create path
-        if (writable && typeof o[k] !== 'object') {
+        if (editable && typeof o[k] !== 'object') {
 
             if (i < keys.length - 1) {
                 if (!isNaN(keys[i + 1])) o[k] = []
@@ -41,15 +33,13 @@ const derive = (data, keys, fullDerivation, defaultData, writable) => {
             if (fullDerivation) o = o.map(o => derive(o, keys.slice(i), true)[0])
             else keys = keys.slice(0, i) || []
 
-            isArray = true
             return o
         }
 
         return o[k]
     }, data)
     
-        // do not touch isArray...
-    return [derivedData, keys, isArray]
+    return [data, keys]
 }
 
 

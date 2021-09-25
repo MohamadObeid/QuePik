@@ -1,27 +1,15 @@
-const { toString } = require('../method/toString')
 const { toComponent } = require('../method/toComponent')
-const { generate } = require('../method/generate')
 
 const Button = (component) => {
     
     component.icon = component.icon || {}
     component = toComponent(component)
-    var { style, tooltip, icon, controls, text } = component
-    var id = component.id || generate()
-
-    // for search inputs
-    if (component.search.query) {
-        component.state = component.search.state
-        component.query = toString(component.search)
-        component.searchable = true
-    }
+    var { style, icon, controls, text, id } = component
     
     return {
         ...component,
-        class: 'flex-box button',
-        type: 'View?touchableOpacity',
+        type: 'View?class=flex-box;touchableOpacity',
         id,
-        tooltip,
         style: {
             border: '1px solid #e0e0e0',
             borderRadius: '.75rem',
@@ -64,11 +52,7 @@ const Button = (component) => {
                 }
             }
         }],
-        controls: [...controls,
-           /*{
-            event: 'click',
-            actions: 'ripple'
-        }, */{
+        controls: [...controls, {
             event: 'mouseenter',
             actions: `mountAfterStyles???${id};${id}-text;${id}-icon`
         }, {

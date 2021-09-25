@@ -8,11 +8,11 @@ const { isEqual } = require("./isEqual")
 const autoActions = ['flicker']
 
 const createTags = ({ VALUE, STATE, id }) => {
-    
-    const { execute } = require("./execute")
 
     var local = VALUE[id]
     if (!local) return
+
+    local.length = 1
 
     if (local.mapType && Array.isArray(local.data) && local.data.length > 0) {
 
@@ -41,24 +41,8 @@ const createTags = ({ VALUE, STATE, id }) => {
             local.id = id
 
             VALUE[id] = local
-            
-            // components
-            componentModifier({ VALUE, STATE, id })
-            createComponent({ VALUE, STATE, id })
-            
-            var local = VALUE[id]
 
-            // execute onload actions
-            autoActions.map(action => {
-                if (local[action]) {
-                    local.actions = toArray(local.actions)
-                    local.actions.push(action)
-                }
-            })
-
-            if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
-
-            return toTag({ STATE, VALUE, id })
+            return createTag({ VALUE, STATE, id })
 
         }).join('')
     }
@@ -80,25 +64,9 @@ const createTags = ({ VALUE, STATE, id }) => {
 
                 local.id = id
                 local.key = key
-
                 VALUE[id] = local
-                
-                // components
-                componentModifier({ VALUE, STATE, id })
-                createComponent({ VALUE, STATE, id })
-                
-                var local = VALUE[id]
-                
-                // execute onload actions
-                autoActions.map(action => {
-                    if (local[action]) {
-                        local.actions = toArray(local.actions)
-                        local.actions.push(action)
-                    }
-                })
-                
-                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
-                return toTag({ STATE, VALUE, id })
+
+                return createTag({ VALUE, STATE, id })
 
             }).join('')
         }
@@ -122,23 +90,8 @@ const createTags = ({ VALUE, STATE, id }) => {
                 local.lang = lang
 
                 VALUE[id] = local
-                
-                // components
-                componentModifier({ VALUE, STATE, id })
-                createComponent({ VALUE, STATE, id })
-                
-                var local = VALUE[id]
-                
-                // execute onload actions
-                autoActions.map(action => {
-                    if (local[action]) {
-                        local.actions = toArray(local.actions)
-                        local.actions.push(action)
-                    }
-                })
-                
-                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
-                return toTag({ STATE, VALUE, id })
+
+                return createTag({ VALUE, STATE, id })
 
             }).join('')
         }
@@ -162,41 +115,26 @@ const createTags = ({ VALUE, STATE, id }) => {
                 local.currency = currency
 
                 VALUE[id] = local
-                
-                // components
-                componentModifier({ VALUE, STATE, id })
-                createComponent({ VALUE, STATE, id })
-                
-                var local = VALUE[id]
-                
-                // execute onload actions
-                autoActions.map(action => {
-                    if (local[action]) {
-                        local.actions = toArray(local.actions)
-                        local.actions.push(action)
-                    }
-                })
-                
-                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
-                return toTag({ STATE, VALUE, id })
+
+                return createTag({ VALUE, STATE, id })
 
             }).join('')
         }
     }
 
-    // push index 0 to deriv for data = []
-    if (Array.isArray(local.data) && local.data.length === 0) {
-        local.derivations = [...local.derivations, 0]
-        local.data = undefined
-    }
+    return createTag({ VALUE, STATE, id })
+}
 
+const createTag = ({ VALUE, STATE, id }) => {
+    
+    const { execute } = require("./execute")
+                
     // components
     componentModifier({ VALUE, STATE, id })
     createComponent({ VALUE, STATE, id })
     
     var local = VALUE[id]
-    local.length = 1
-
+    
     // execute onload actions
     autoActions.map(action => {
         if (local[action]) {
@@ -205,13 +143,11 @@ const createTags = ({ VALUE, STATE, id }) => {
         }
     })
     
-    // execute onload actions
-    if (local.actions) execute({ VALUE, STATE, id, actions: local.actions, instantly: true })
-    
+    if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
     return toTag({ STATE, VALUE, id })
 }
 
-const componentModifier = ({ VALUE, STATE, id }) => {
+const componentModifier = ({ VALUE, id }) => {
     var local = VALUE[id]
     
     // icon
@@ -232,8 +168,6 @@ const componentModifier = ({ VALUE, STATE, id }) => {
         local.input = local.input || {}
         local.input.style = local.input.style || {}
         local.input.style.height = 'fit-content'
-        // local.style.minHeight = '4rem',
-        // local.input.style.minHeight = '2.5rem'
     }
 
     // input

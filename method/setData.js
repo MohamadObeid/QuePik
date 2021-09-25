@@ -29,13 +29,14 @@ const setData = ({ STATE, VALUE, params = {}, id }) => {
     var keys = [...derivations, ...path]
     
     // set value
-    var value = derive(STATE[local.Data], keys, true, defValue, true)[0]
+    var value = derive(STATE[local.Data], keys, defValue, true)[0]
     local.data = value
     
     if (local.input && local.input.type === 'file') return
 
     // setContent
     var content = data.content || value
+    
     setContent({ VALUE, params: { content: { value: content } }, id })
 }
 

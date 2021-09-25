@@ -87,13 +87,14 @@ module.exports = {
     
         // linkable
         if (local.link) {
-    
-            tag = `<a href=${local.link}>${tag}</a>`
-            local.controls = toArray(local.controls) || []
-            local.controls.push({
+            
+            var id = generate()
+            tag = `<a id=${id} href=${local.link}>${tag}</a>`
+            toArray(local.controls).push({
                 event: 'click',
                 actions: `route?route=${local.link}`
             })
+            VALUE[id] = {}
         }
         
         return tag

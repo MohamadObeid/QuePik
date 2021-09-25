@@ -1,5 +1,4 @@
 const express = require("express")
-const _page = require('./page/_page')
 const { getApi, postApi, deleteApi } = require("./method/api")
 const { createDocument } = require('./method/createDocument')
 
@@ -36,14 +35,11 @@ app.get('*', (req, res) => {
   // api
   if (path[1] === 'api') return getApi(req, res)
 
-  // home page
-  if (!page) page = 'home'
-  
-  // respond
-  if (_page[page]) res.send(createDocument(_page[page]))
-
   // favicon
-  else if (page === 'favicon.ico') res.status(204).send('')
+  if (page === 'favicon.ico') return res.status(204).send('')
+
+  // respond
+  return res.send(createDocument(page))
 })
 
 app.listen(5000, () => {

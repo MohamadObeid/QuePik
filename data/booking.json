@@ -1,0 +1,98 @@
+[
+  {
+    "id": "booking-01",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "service": "service-01",
+    "user": "user-01",
+    "date": "25-9-2021",
+    "time": "08:30 - 09:00",
+    "provider": "provider-01",
+    "status": "Closed",
+    "note": "",
+    "payment": {
+      "amount": {
+        "net": {
+          "lbp": "200,000"
+        },
+        "discount": {
+          "lbp": "15,000"
+        },
+        "payable": {
+          "lbp": "185,000"
+        }
+      },
+      "status": "unCollected"
+    },
+    "offer": "offer-01"
+  },
+  {
+    "id": "booking-02",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "service": "service-02",
+    "user": "user-02",
+    "date": "26-9-2021",
+    "time": "10:30 - 11:00",
+    "status": "Pending confirmation",
+    "note": "I want spiky hair cut",
+    "payment": {
+      "amount": {
+        "net": {
+          "lbp": "25,000"
+        },
+        "discount": {
+          "lbp": "2,000"
+        },
+        "payable": {
+          "lbp": "23,000"
+        }
+      },
+      "status": "Collected"
+    }
+  },
+  {
+    "id": "booking-03",
+    "creation-date": "23-10-2021T10:59:26Z",
+    "service": "service-01",
+    "user": "user-03",
+    "data": "26-10-2021",
+    "time": "10:30 - 11:00",
+    "status": "Canceled",
+    "payment": {
+      "amount": {
+        "net": {
+          "lbp": "200,000"
+        },
+        "discount": {
+          "lbp": "5,000"
+        },
+        "payable": {
+          "lbp": "195,000"
+        }
+      },
+      "status": "Canceled"
+    }
+  },
+  {
+    "id": "booking-04",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "service": "service-01",
+    "user": "user-01",
+    "data": "27-9-2021",
+    "time": "15:30 - 16:00",
+    "status": "Confirmed",
+    "payment": {
+      "amount": {
+        "net": {
+          "lbp": "25,000"
+        },
+        "discount": {
+          "lbp": "5,000"
+        },
+        "payable": {
+          "lbp": "20,000"
+        }
+      },
+      "status": "unCollected"
+    }
+  }
+]

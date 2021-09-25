@@ -1,73 +1,18 @@
 {
     "file-name": "admin-navbar",
-    "type": "View",
-    "style": {
-        "zIndex": "2",
-        "width": "100%",
-        "position": "sticky",
-        "top": "0",
-        "backgroundColor": "#fff",
-        "boxShadow": "0 0 6px rgba(33, 33, 33, 0.431)",
-        "height": "6.5rem",
-        "padding": "1rem"
-    },
+    "type": "View?class=box-shadow;style.zIndex=2;style.width=100%;style.position=sticky;style.top=0;style.backgroundColor=#fff;style.height=6.5rem;style.padding=1rem",
     "children": [{
         "type": "View?class=flex-box;style.backgroundColor=#fff",
         "children": [{
-            "type": "Text?link=/;text=digiTrip",
-            "style": {
-                "fontSize": "2.9rem",
-                "fontWeight": "900",
-                "color": "#ee384e",
-                "margin": "0 1rem",
-                "cursor": "pointer"
-            }
+            "type": "Text?class=pointer;text=QuePik;style.fontSize=2.9rem;style.fontWeight=900;style.color=#ee384e;style.margin=0 1rem"
         }, {
-            "type": "SearchBox?placeholder=Search for hotel, city, attraction, restaurant..."
+            "type": "SearchBox?placeholder=Search for booking, provider, service, category..."
         }, {
-            "type": "Text?style.width=1px;style.backgroundColor=#ddd;style.height=3rem;style.marginRight=2rem"
+            "type": "Icon?class=pointer;icon.name=bi-heart;hoverable;style.color=#666;style.fontSize=1.8rem;style.marginRight=3rem;style.after.color=#116dff"
         }, {
-            "type": "View?class=flex-box;style.cursor=pointer",
-            "children": [{
-                "type": "Text?text=My Bookings;style.marginRight=1rem;style.fontSize=1.4rem"
-            }, {
-                "type": "Icon?icon.name=bi-chevron-down;style.fontSize=1.6rem;style.transform=rotate(0deg);style.transition=transform .2s"
-            }], 
-            "controls": { 
-                "event": "click",
-                "actions": "setStyle::value.2ndChild().id?style.transform=rotate(180deg)<<value.2ndChild().element.style.transform=rotate(0deg);style.transform=rotate(0deg)<<value.2ndChild().element.style.transform=rotate(180deg)" 
-            }
+            "type": "Icon?class=pointer;icon.name=bi-translate;hoverable;style.color=#666;style.fontSize=1.8rem;style.marginRight=3rem;style.after.color=#116dff"
         }, {
-            "type": "Text?style.width=1px;style.backgroundColor=#ddd;style.height=3rem;style.margin=0 2rem"
-        }, {
-            "type": "Icon?icon.name=bi-heart;hoverable",
-            "style": {
-                "color": "#666",
-                "fontSize": "1.8rem",
-                "marginRight": "3rem",
-                "cursor": "pointer",
-                "after": { "color": "#116dff" }
-            }
-        }, {
-            "type": "Icon?icon.name=bi-translate;hoverable",
-            "style": {
-                "color": "#666",
-                "fontSize": "1.8rem",
-                "marginRight": "3rem",
-                "cursor": "pointer",
-                "after": { "color": "#116dff" }
-            }
-        }, {
-            "type": "Text?text=USD;hoverable",
-            "style": {
-                "color": "#666",
-                "fontSize": "1.4rem",
-                "marginRight": "3rem",
-                "cursor": "pointer",
-                "after": { "color": "#116dff" }
-            }
-        }, {
-            "type": "Button?link=/signin;text=Sign in | up;icon.name=bi-person;icon.style.fontSize=2.4rem;tooltip=Free Sign Up"
+            "type": "Button?link=/profile;text=My Profile;icon.name=bi-person;icon.style.fontSize=2.4rem"
         }]
     }]
 }

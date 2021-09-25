@@ -1,21 +1,21 @@
 {
-    "file-name": "admin-stays-list",
-    "type": "View?Data;state.stay-list-grid-view-display=grid;state.stay-list-table-view-display=none",
-    "controls": { "actions": "search?search.path=stay;search.update=stay-list-view;search.state=stay-list-Data" },
+    "file-name": "admin-user-list",
+    "type": "View?Data;state.user-list-grid-view-display=grid;state.user-list-table-view-display=none",
+    "controls": {
+        "actions": "await.update::user-list-view;async.search?search.path=data/booking.json;await.state.user-list-Data=value.search.data" 
+    },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
         "children": [{
-            "type": "Text?text=Stay List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
+            "type": "Text?text=User List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
         }, {
             "type": "View?class=flex-box",
             "children": [{
-                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem",
-                "tooltip": "Import multiple products to store at once"
+                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
-                "tooltip": "Export all products to a CSV file"
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Add New Stay;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=stay"
+                "type": "Button?text=Add New User;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=user"
             }]
         }]
     }, {
@@ -34,14 +34,14 @@
                     "marginRight": "1rem"
                 },
                 "controls": [{
-                    "event": "keyup>>200??state.stay-list-Data",
-                    "actions": "filter?filter.backup=state.stay.values();filter.path=name.en;filter.Data=stay-list-Data;filter.value=e.target.value;filter.update=global.stay-list-view.1stChild().id<<global.stay-list-view.1stChild().element.style.display=grid;filter.update=global.stay-list-view.2ndChild().2ndChild().id<<global.stay-list-view.2ndChild().element.style.display=grid"
+                    "event": "keyup>>200??state.user-list-Data",
+                    "actions": "filter?filter.backup=state.user.values();filter.path=name.en;filter.Data=user-list-Data;filter.value=e.target.value;filter.update=global.user-list-view.1stChild().id<<global.user-list-view.1stChild().element.style.display=grid;filter.update=global.user-list-view.2ndChild().2ndChild().id<<global.user-list-view.2ndChild().element.style.display=grid"
                 }]
             }, {
                 "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
                 "controls": {
-                    "event": "click??state.stay-list-Data", 
-                    "actions": "sort?sort.path=name.en;sort.Data=stay-list-Data;sort.update=global.stay-list.1stChild().id<<global.stay-list.1stChild().element.style.display=grid;sort.update=global.stay-list.2ndChild().2ndChild().id<<global.stay-list.2ndChild().element.style.display=grid"
+                    "event": "click??state.user-list-Data", 
+                    "actions": "sort?sort.path=name.en;sort.Data=user-list-Data;sort.update=global.user-list.1stChild().id<<global.user-list.1stChild().element.style.display=grid;sort.update=global.user-list.2ndChild().2ndChild().id<<global.user-list.2ndChild().element.style.display=grid"
                 }
             }, {
                 "type": "Button?text=Collection;icon.name=bi-ui-checks-grid;droplist.items=[Collections>>readonly]"
@@ -56,18 +56,18 @@
                 "controls": {
                     "event": "click", 
                     "actions": [
-                        "setStyle::global.stay-list-view.1stChild().id?style.display=none<<global.stay-list-view.1stChild().element.style.display=grid;style.display=grid>>50<<global.stay-list-view.1stChild().element.style.display=none",
-                        "setStyle::global.stay-list-view.2ndChild().id?style.display=none<<global.stay-list-view.2ndChild().element.style.display=grid;style.display=grid>>50<<global.stay-list-view.2ndChild().element.style.display=none",
-                        "?state.stay-list-grid-view-display=global.stay-list-view.1stChild().element.style.display;state.stay-list-table-view-display=global.stay-list-view.2ndChild().element.style.display"
+                        "setStyle::global.user-list-view.1stChild().id?style.display=none<<global.user-list-view.1stChild().element.style.display=grid;style.display=grid>>50<<global.user-list-view.1stChild().element.style.display=none",
+                        "setStyle::global.user-list-view.2ndChild().id?style.display=none<<global.user-list-view.2ndChild().element.style.display=grid;style.display=grid>>50<<global.user-list-view.2ndChild().element.style.display=none",
+                        "?state.user-list-grid-view-display=global.user-list-view.1stChild().element.style.display;state.user-list-table-view-display=global.user-list-view.2ndChild().element.style.display"
                     ]
                 }
             }]
         }, {
-            "type": "View?id=stay-list-view;style.display=flex;style.flexDirection=column;style.width=100%",
+            "type": "View?id=user-list-view;style.display=flex;style.flexDirection=column;style.width=100%",
             "children": [{
-                "type": "View?style.display=state.stay-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
+                "type": "View?style.display=state.user-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
-                    "type": "[View]?class=flex-box;Data=stay-list-Data;data=state.stay-list-Data;touchableOpacity;hoverable.id=[value.id,value.1stChild().id];miniWindow.view=stay?state.stay",
+                    "type": "[View]?class=flex-box;Data=user-list-Data;touchableOpacity;hoverable.id=[value.id,value.1stChild().id];miniWindow.view=user?state.user-list-Data",
                     "style": {
                         "borderRadius": ".75rem",
                         "border": "1px solid #ddd",
@@ -79,11 +79,11 @@
                         }
                     },
                     "children": [{
-                        "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.3rem;style.after.color=#ee384e;style.transition=color .1s"
+                        "type": "Text?text=value.data.date;style.fontSize=1.3rem;style.after.color=#ee384e;style.transition=color .1s"
                     }]
                 }]
             }, {
-                "type": "View?style.display=state.stay-list-table-view-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
+                "type": "View?style.display=state.user-list-table-view-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
                 "children": [{
                     "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem",
                     "children": [{
@@ -92,7 +92,7 @@
                             "type": "Text?text=Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                             "controls": {
                                 "event": "click", 
-                                "actions": "sort?sort.path=name.en;sort.Data=stay-list-Data;sort.update=value.parent().parent().next().id?state.stay-list-Data"
+                                "actions": "sort?sort.path=name.en;sort.Data=user-list-Data;sort.update=value.parent().parent().next().id?state.user-list-Data"
                             }
                         }]
                     }, {
@@ -101,7 +101,7 @@
                             "type": "Text?text=City;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                             "controls": {
                                 "event": "click", 
-                                "actions": "sort?sort.path=city.en;sort.Data=stay-list-Data;sort.update=value.parent().parent().next().id?state.stay-list-Data"
+                                "actions": "sort?sort.path=city.en;sort.Data=user-list-Data;sort.update=value.parent().parent().next().id?state.user-list-Data"
                             }
                         }]
                     }, {
@@ -110,7 +110,7 @@
                             "type": "Text?text=Stars;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                             "controls": {
                                 "event": "click", 
-                                "actions": "sort?sort.path=stars;sort.Data=stay-list-Data;sort.update=value.parent().parent().next().id?state.stay-list-Data"
+                                "actions": "sort?sort.path=stars;sort.Data=user-list-Data;sort.update=value.parent().parent().next().id?state.user-list-Data"
                             }
                         }]
                     }, {
@@ -119,7 +119,7 @@
                 }, {
                     "type": "View?style.display=grid;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
                     "children": [{
-                        "type": "[View]?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;Data=stay-list-Data;data=state.stay-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem?state.stay",
+                        "type": "[View]?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;Data=user-list-Data;data=state.user-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem?state.user",
                         "children": [{
                             "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.4rem"
                         }, {

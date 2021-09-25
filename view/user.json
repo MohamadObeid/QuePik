@@ -1,5 +1,5 @@
 {
-    "file-name": "stay",
+    "file-name": "user",
     "type": "View?style.padding=2rem;data={}<<!value.data()",
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem",
@@ -11,7 +11,7 @@
                 "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
             }]
         }, {
-            "type": "Text?text=Create New Stay;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
+            "type": "Text?text=Create New user;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
         }, {
             "type": "View?class=flex-box;style.marginLeft=auto",
             "children": [{
@@ -37,7 +37,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::stay-list-view;await.setStyle::miniWindow;await.note;async.save?note=Stay save successfully!;save.path=stay;save.data=value.data();await.state.stay-list-Data[value.data().file-name]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::user-list-view;await.setStyle::miniWindow;await.note;async.save?note=User saved successfully!;save.path=user;save.data=value.data();await.state.user-list-Data[value.data().file-name]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -63,7 +63,7 @@
                 "children": [{
                     "type": "Input?featured;icon.name=description;icon.google;icon.outlined;style.backgroundColor=#f0f0f0;path=file-name"
                 }, {
-                    "type": "Input?featured;clearable;readonly;icon.name=link;icon.google;icon.outlined;style.backgroundColor=#f0f0f0;path=parent;droplist.items=[Stays>>readonly,state.stay.keys()].flat()"
+                    "type": "Input?featured;clearable;readonly;icon.name=link;icon.google;icon.outlined;style.backgroundColor=#f0f0f0;path=parent;droplist.items=[users>>readonly,state.user.keys()].flat()"
                 }, {
                     "type": "Input?textarea;featured;google;style.backgroundColor=#f0f0f0;path=icon"
                 }]

@@ -9,15 +9,12 @@ const save = async ({ VALUE, STATE, params = {}, id, e }) => {
     var save = params.save
     if (!save.data['file-name']) return
 
-    var { data: { data, message, success } } = await axios.post(`/api/${save.api}`, save.data)
+    var { data: { data, message, success } } = await axios.post(`/api/${save.path}`, save.data)
 
-    local.saved = { data, message, success }
+    local.save = { data, message, success }
 
-    STATE[save.api] = STATE[save.api] || {}
-    STATE[save.api][data['file-name']] = data
-    
-    // awaits
-    //toAwait({ VALUE, STATE, id, e, params })
+    STATE[save.path] = STATE[save.path] || {}
+    STATE[save.path][data['file-name']] = data
 
     console.log(data, message, success)
 }

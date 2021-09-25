@@ -89,9 +89,6 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
             // reset Data
             setData({ STATE, VALUE, params: { data: { value } }, id })
-            
-            // remove value from data
-            //if (value === '') return removeData({ VALUE, STATE, id })
         }
 
         // resize

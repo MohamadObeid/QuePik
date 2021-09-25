@@ -1,6 +1,6 @@
 {
     "file-name": "admin-sidebar",
-    "type": "View?toChildren.featured;toChildren.icon.style.fontSize=2.2rem;toChildren.icon.style.color=#555;toChildren.icon.google;toChildren.icon.outlined",
+    "type": "View?passToChildren.featured;passToChildren.icon.style.fontSize=2.2rem;passToChildren.icon.google;passToChildren.icon.outlined;passToChildren.viewToggler.id=admin-view",
     "style": {
         "padding": "0.5rem 0.2rem",
         "boxShadow": "0px 0px 5px 0px #888",
@@ -14,26 +14,26 @@
         "overflowY": "auto"
     },
     "children": [{
-        "type": "Item?text=Dashboard;icon.name=space_dashboard;chevron.style.display=none;mountOnLoad"
+        "type": "Item?text=Dashboard;icon.name=space_dashboard;mountOnLoad"
     }, {
-        "type": "Item?text=Customers;icon.name=people_alt"
+        "type": "Item?text=Users;icon.name=people_alt;viewToggler.view=admin-user-list"
     }, {
-        "type": "Item?text=Bookings;icon.name=library_books"
+        "type": "Item?text=Providers;icon.name=badge;viewToggler.view=admin-provider-list"
     }, {
-        "type": "Item?text=Stays;icon.name=hotel;viewToggler.id=admin-view;viewToggler.view=admin-stays-list"
+        "type": "Item?text=Services;icon.name=spa;viewToggler.view=admin-service-list"
     }, {
-        "type": "Item?text=Tours;icon.name=festival"
+        "type": "Item?text=Categories;icon.name=category;viewToggler.view=admin-category-list"
     }, {
-        "type": "Item?text=Airport Transfer;icon.name=local_taxi"
+        "type": "Item?text=Bookings;icon.name=fact_check;viewToggler.view=admin-booking-list"
     }, {
-        "type": "Item?text=Travel Insurance;icon.name=health_and_safety"
+        "type": "Item?text=Reviews;icon.name=reviews;viewToggler.view=admin-review-list"
     }, {
-        "type": "Item?text=Collections;icon.name=category"
+        "type": "Item?text=Collections;icon.name=apps;viewToggler.view=admin-collection-list"
     }, {
-        "type": "Item?text=Assets;icon.name=web_asset;viewToggler.id=admin-view;viewToggler.view=admin-assets-list"
+        "type": "Item?text=Assets;icon.name=web_asset;viewToggler.view=admin-asset-list"
     }, {
-        "type": "Item?text=Inbox;icon.name=question_answer"
+        "type": "Item?text=Gallery;icon.name=collections;viewToggler.view=admin-gallery-list"
     }, {
-        "type": "Item?text=Settings;icon.name=settings"
+        "type": "Item?text=Settings;icon.name=settings;viewToggler.view=admin-setting-list"
     }]
 }

@@ -1,0 +1,15 @@
+{
+    "file-name": "admin-view",
+    "type": "View?style.display=flex;style.width=100%;style.height=100%;style.overflowY=auto",
+    "children": [{
+        "type": "View?style.height=calc(100% - 6.5rem)",
+        "children": [{
+            "view": "admin-sidebar"
+        }, {
+            "type": "View?value.element.style.transition=transform .2s;style.width=83%;style.height=calc(100% - 6.5rem);style.overflowY=auto;style.marginLeft=17%;style.padding=2.5rem 3rem;style.flexDirection=column;style.transform=translateY(-110%);style.opacity=0;style.position=fixed;style.after.transform=translateY(0);style.after.opacity=1",
+            "children": [{
+                "type": "View?id=admin-view"
+            }]
+        }]
+    }]
+}

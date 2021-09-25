@@ -14,10 +14,7 @@
                 "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
                 "tooltip": "Export all products to a CSV file"
             }, {
-                "type": "Button?text=Add New Asset;icon.name=bi-plus;style.marginRight=1rem",
-                "controls": [{
-                    "actions": "createControls?controls.type=mini-window;controls.view=asset"
-                }]
+                "type": "Button?text=Add New Asset;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=asset"
             }]
         }]
     }, {
@@ -64,7 +61,7 @@
             "children": [{
                 "type": "View?style.display=state.asset-list-grid-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
-                    "type": "[View]?class=flex-box;Data=asset-list-Data;data=state.asset-list-Data",
+                    "type": "[View]?class=flex-box;Data=asset-list-Data;data=state.asset-list-Data;hoverable.id=[value.id,value.1stChild().id];miniWindow.view=asset",
                     "style": {
                         "borderRadius": ".75rem",
                         "border": "1px solid #ddd",
@@ -75,11 +72,6 @@
                             "border": "1px solid #ee384e"
                         }
                     },
-                    "controls": [{
-                        "actions": "createControls?controls.type=hoverable;controls.id=[value.id,value.1stChild().id]" 
-                    }, {
-                        "actions": "createControls?controls.type=mini-window;controls.view=asset?value.data().file-name!=language!=unit!=currency!=country!=asesiyet-lbet"
-                    }],
                     "children": [{
                         "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.3rem;style.after.color=#ee384e;style.transition=color .1s"
                     }]

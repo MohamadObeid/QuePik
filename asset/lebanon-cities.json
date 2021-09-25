@@ -1,0 +1,147 @@
+{
+  "id": "asset-02",
+  "name": {
+    "en": "Lebanon Cities"
+  },
+  "icon": {
+    "name": "flag",
+    "google": true,
+    "type": "outlined"
+  },
+  "options": [
+    {
+      "name": {
+        "en": "Tripoli"
+      }
+    },
+    {
+      "name": {
+        "en": "Beirut"
+      }
+    },
+    {
+      "name": {
+        "en": "Sidon"
+      }
+    },
+    {
+      "name": {
+        "en": "Tyre"
+      }
+    },
+    {
+      "name": {
+        "en": "Jounie"
+      }
+    },
+    {
+      "name": {
+        "en": "Zahle"
+      }
+    },
+    {
+      "name": {
+        "en": "Nabatiye"
+      }
+    },
+    {
+      "name": {
+        "en": "Baalbek"
+      }
+    },
+    {
+      "name": {
+        "en": "Amioun"
+      }
+    },
+    {
+      "name": {
+        "en": "Baabda"
+      }
+    },
+    {
+      "name": {
+        "en": "Marjayoun"
+      }
+    },
+    {
+      "name": {
+        "en": "Jdaidet el Matn"
+      }
+    },
+    {
+      "name": {
+        "en": "Zgharta"
+      }
+    },
+    {
+      "name": {
+        "en": "Aaley"
+      }
+    },
+    {
+      "name": {
+        "en": "Jbail"
+      }
+    },
+    {
+      "name": {
+        "en": "Sir ed Danniye"
+      }
+    },
+    {
+      "name": {
+        "en": "Halba"
+      }
+    },
+    {
+      "name": {
+        "en": "Bent Jbail"
+      }
+    },
+    {
+      "name": {
+        "en": "Jezzîne"
+      }
+    },
+    {
+      "name": {
+        "en": "Batroun"
+      }
+    },
+    {
+      "name": {
+        "en": "Hasbaiya"
+      }
+    },
+    {
+      "name": {
+        "en": "Joubb Jannine"
+      }
+    },
+    {
+      "name": {
+        "en": "Beit ed Dine"
+      }
+    },
+    {
+      "name": {
+        "en": "El Hermel"
+      }
+    },
+    {
+      "name": {
+        "en": "Rachaiya el Ouadi"
+      }
+    },
+    {
+      "name": {
+        "en": "Bcharre"
+      }
+    }
+  ],
+  "file-name": "lebanon",
+  "parent": "country",
+  "description": {},
+  "country": "Lebanon"
+}

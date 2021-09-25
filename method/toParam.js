@@ -1,7 +1,9 @@
 const { toPath } = require("./toPath")
-const { toArray } = require("./toArray")
 const { toValue } = require("./toValue")
 const { reducer } = require("./reducer")
+const { generate } = require("./generate")
+const { toArray } = require("./toArray")
+const controls = require('../control/control')
 
 const toParam = ({ VALUE, STATE, string, e, id }) => {
 
@@ -108,7 +110,25 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
                 return obj[key]
             }, params)
 
+            key = path[0]
+
         } else params[key] = value
+
+            
+        // lunch auto controls
+        if (controls[key]) {
+            
+            if (local.status === 'loading') {
+
+                var k = generate()
+                STATE[k] = params[key]
+                return local.controls = toArray(local.controls).push({
+                    event: `load?${key}=state.${k}`
+                })
+            }
+            
+            return controls[key]({ VALUE, STATE, id, params: { controls: params[key] }, e })
+        }
     })
     
     return params

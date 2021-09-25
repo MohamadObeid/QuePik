@@ -3,7 +3,7 @@ const { toComponent } = require("../method/toComponent")
 const List = (component) => {
 
     component = toComponent(component)
-    var { id, model, style, children, controls, toChildren } = component
+    var { id, model, style, children, controls, passToChildren } = component
 
     component.placement = component.placement || ''
     component.distance = component.distance || '15'
@@ -11,7 +11,7 @@ const List = (component) => {
     if (model === 'classic')
         return {
             ...component,
-            toChildren: '',
+            passToChildren: '',
             class: `box-shadow list flex-box`,
             type: 'View',
             style: {
@@ -45,7 +45,7 @@ const List = (component) => {
                     borderRadius: '0.5rem',
                     zIndex: '1'
                 },
-                toChildren,
+                passToChildren,
                 children,
             }, {
                 class: 'box-shadow list-fin',

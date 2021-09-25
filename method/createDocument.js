@@ -1,12 +1,16 @@
 const { createElement } = require("./createElement")
 const { getJsonFiles } = require("./getJsonFiles")
-const _page = require('../page/_page')
 
 const createDocument = (page) => {
     var innerHTML = '', STATE = {}, VALUE = {}
     
     // get assets & views
-    STATE = { asset: getJsonFiles('asset'), view: getJsonFiles('view'), codes: {} }
+    STATE = {
+        asset: getJsonFiles('asset'),
+        view: getJsonFiles('view'),
+        page: getJsonFiles('page'),
+        codes: {}
+    }
 
     // body
     var id = 'body'
@@ -20,12 +24,15 @@ const createDocument = (page) => {
     VALUE[id].type = 'View'
     VALUE[id].children = []
     VALUE[id].parent = 'body'
+
+    //
+    if (!STATE.page[page]) return 'Hello'
     
     // push page views to root
-    page.views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
+    STATE.page[page].views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
 
     // push public views to root
-    _page.public.views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
+    STATE.page.public.views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
     
     // create html
     innerHTML = createElement({ STATE, VALUE, id })
@@ -36,13 +43,11 @@ const createDocument = (page) => {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>digiTrip</title>
+        <title>QuePik</title>
         <link rel="stylesheet" href="index.css" />
         <link rel="stylesheet" href="rate.css" />
-        <link href="https://css.gg/trash.css" rel="stylesheet" />
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     </head>
-    
     <body>
         ${innerHTML}
         <script id="STATE" type="application/json">${JSON.stringify(STATE)}</script>

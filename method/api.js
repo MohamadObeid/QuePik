@@ -7,7 +7,7 @@ const getApi = (req, res) => {
     var path = req.url.split('/')
     var folder = path[2]
     var fileName = path[3]
-
+    
     if (folder === 'image')
     return res.sendFile(require('path').join(process.cwd(), folder, fileName))
 
@@ -43,7 +43,7 @@ const postApi = (req, res) => {
         var data = { "file-name": `api/${folder}/${fileName}.${fileType}` }
         
         fs.writeFileSync(filePath, base64Data, 'base64')
-        return res.send({ data, success: true, message: `${capitalize(dataType)} saved successfuly!` })
+        return res.send({ data, success: true, message: `${capitalize(dataType)} save successfuly!` })
     }
 
     // file path

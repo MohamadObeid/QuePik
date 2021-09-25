@@ -26,12 +26,6 @@ const toComponent = (obj) => {
     obj.featured = obj.featured && 'featured'
     obj.model = obj.model || obj.featured || 'classic'
 
-    // search
-    obj.search = obj.search || {}
-
-    // sort
-    obj.sort = obj.sort || {}
-
     return obj
 }
 

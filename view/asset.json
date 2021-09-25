@@ -6,11 +6,9 @@
         "children": [{
             "type": "View?class=flex-box?value.data().name",
             "children": [{
-                "type": "Text?text=Edit",
-                "style": { "fontSize": "1.8rem", "color": "#444", "fontWeight": "500"}
+                "type": "Text?text=Edit?style.text=1.8rem;style.fontWeight=500"
             }, {
-                "type": "Text?text=value.data().name.en<<value.data().name",
-                "style": { "fontSize": "1.8rem", "color": "#444", "fontWeight": "500", "margin": "0 .5rem" }
+                "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
             }]
         }, {
             "type": "Text?text=Create New Asset;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
@@ -33,13 +31,13 @@
                 "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
                 "controls": [{
                     "event": "click",
-                    "actions": "setStyle::mini-window?style.display=none>>200;style.opacity=0"
+                    "actions": "setStyle::miniWindow?style.display=none>>200;style.opacity=0"
                 }]
             }, {
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::asset-list;await.setStyle::mini-window;await.note;async.save?note=Asset saved successfully!;save.api=asset;save.data=state[value.Data];await.state.asset-list-Data[state[value.Data].file-name]=state[value.Data];style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::asset-list;await.setStyle::miniWindow;await.note;async.save?note=Asset save successfully!;save.path=asset;save.data=state[value.Data];await.state.asset-list-Data[state[value.Data].file-name]=state[value.Data];style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]

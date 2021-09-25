@@ -1,8 +1,8 @@
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
-const { capitalize } = require("./capitalize")
 const { toCode } = require("./toCode")
 const { isEqual } = require("./isEqual")
+const { capitalize } = require("./capitalize")
 
 const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, e }) => {
 
@@ -67,6 +67,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             breakRequest = true
             answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: [...local.derivations, ...path.slice(i + 1)], object: STATE[local.Data], params } })
+            if (i === lastIndex) {
+                local.data = answer
+                delete local['data()']
+            }
 
         } else if (k === 'Data()') {
 
@@ -254,11 +258,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             breakRequest = true
             answer = o.classList.remove(path.slice(i + 1).join('.'))
 
-        } else if (k === 'length' && !local.length && i === 0) {
-            
-            answer = VALUE[local.parent].element.children.length
-
-        } else if (k === 'element' && !o[k]) {
+        } else if (k === 'element' && local.status === 'loading') {
 
             breakRequest = true
             local.controls = toArray(local.controls) || []
@@ -266,6 +266,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 event: `load?${key}=${value}`
             })
             
+        } else if (k === 'length' && !local.length && i === 0) {
+            
+            answer = VALUE[local.parent].element.children.length
+
         } else if (i === lastIndex - 1 && path[lastIndex] === 'delete()') {
             
             breakRequest = true
@@ -291,6 +295,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
 const getDeepChildren = ({ VALUE, id }) => {
     var all = { [id]: VALUE[id] }
+    if (!VALUE[id]) return {}
     
     if ([...VALUE[id].element.children].length > 0) 
         ([...VALUE[id].element.children]).map(el => {

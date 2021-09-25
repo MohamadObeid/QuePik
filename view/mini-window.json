@@ -1,5 +1,5 @@
 {
-    "type": "View?id=mini-window;class=flex-box",
+    "type": "View?id=miniWindow;class=flex-box",
     "style": {
         "position": "absolute",
         "top": "0",
@@ -16,11 +16,9 @@
         "type": "View?style.height=70%;style.width=60%;style.overflowY=auto;style.borderRadius=.5rem;style.backgroundColor=#fff",
         "children": { "type": "View?id=mini-window-view" },
         "controls": [{
-            "event": "mouseenter",
-            "actions": "setState?state.mini-window-view-mouseenter"
+            "event": "mouseenter?state.mini-window-view-mouseenter"
         }, {
-            "event": "mouseleave",
-            "actions": "setState?state.mini-window-view-mouseenter=false"
+            "event": "mouseleave?state.mini-window-view-mouseenter=false"
         }]
     }],
     "controls": [{

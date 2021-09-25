@@ -732,31 +732,19 @@ VALUE.root.element = root
 
 starter({ VALUE, STATE, id: 'root' })
 
-},{"../method/starter":76}],5:[function(require,module,exports){
-const { toString } = require('../method/toString')
+},{"../method/starter":75}],5:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
-const { generate } = require('../method/generate')
 
 const Button = (component) => {
     
     component.icon = component.icon || {}
     component = toComponent(component)
-    var { style, tooltip, icon, controls, text } = component
-    var id = component.id || generate()
-
-    // for search inputs
-    if (component.search.query) {
-        component.state = component.search.state
-        component.query = toString(component.search)
-        component.searchable = true
-    }
+    var { style, icon, controls, text, id } = component
     
     return {
         ...component,
-        class: 'flex-box button',
-        type: 'View?touchableOpacity',
+        type: 'View?class=flex-box;touchableOpacity',
         id,
-        tooltip,
         style: {
             border: '1px solid #e0e0e0',
             borderRadius: '.75rem',
@@ -799,11 +787,7 @@ const Button = (component) => {
                 }
             }
         }],
-        controls: [...controls,
-           /*{
-            event: 'click',
-            actions: 'ripple'
-        }, */{
+        controls: [...controls, {
             event: 'mouseenter',
             actions: `mountAfterStyles???${id};${id}-text;${id}-icon`
         }, {
@@ -814,7 +798,7 @@ const Button = (component) => {
 }
 
 module.exports = {Button}
-},{"../method/generate":52,"../method/toComponent":84,"../method/toString":88}],6:[function(require,module,exports){
+},{"../method/toComponent":83}],6:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -860,7 +844,7 @@ const Checkbox = (component) => {
 }
 
 module.exports = { Checkbox }
-},{"../method/generate":52,"../method/toComponent":84}],7:[function(require,module,exports){
+},{"../method/generate":51,"../method/toComponent":83}],7:[function(require,module,exports){
 const { generate } = require("../method/generate")
 const { toComponent } = require("../method/toComponent")
 
@@ -922,7 +906,7 @@ const Header = (component) => {
 }
 
 module.exports = {Header}
-},{"../method/generate":52,"../method/toComponent":84}],8:[function(require,module,exports){
+},{"../method/generate":51,"../method/toComponent":83}],8:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 
 const Input = (component) => {
@@ -1142,7 +1126,7 @@ const Input = (component) => {
 }
 
 module.exports = {Input}
-},{"../method/toComponent":84}],9:[function(require,module,exports){
+},{"../method/toComponent":83}],9:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -1309,13 +1293,13 @@ const Item = (component) => {
 }
 
 module.exports = {Item}
-},{"../method/generate":52,"../method/toComponent":84}],10:[function(require,module,exports){
+},{"../method/generate":51,"../method/toComponent":83}],10:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const List = (component) => {
 
     component = toComponent(component)
-    var { id, model, style, children, controls, toChildren } = component
+    var { id, model, style, children, controls, passToChildren } = component
 
     component.placement = component.placement || ''
     component.distance = component.distance || '15'
@@ -1323,7 +1307,7 @@ const List = (component) => {
     if (model === 'classic')
         return {
             ...component,
-            toChildren: '',
+            passToChildren: '',
             class: `box-shadow list flex-box`,
             type: 'View',
             style: {
@@ -1357,7 +1341,7 @@ const List = (component) => {
                     borderRadius: '0.5rem',
                     zIndex: '1'
                 },
-                toChildren,
+                passToChildren,
                 children,
             }, {
                 class: 'box-shadow list-fin',
@@ -1382,7 +1366,7 @@ const List = (component) => {
 }
 
 module.exports = {List}
-},{"../method/toComponent":84}],11:[function(require,module,exports){
+},{"../method/toComponent":83}],11:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 const { generate } = require('../method/generate')
 
@@ -1508,7 +1492,7 @@ const Rate = (component) => {
 }
 
 module.exports = { Rate }
-},{"../method/generate":52,"../method/toComponent":84}],12:[function(require,module,exports){
+},{"../method/generate":51,"../method/toComponent":83}],12:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const SearchBox = (component) => {
@@ -1599,7 +1583,7 @@ const SearchBox = (component) => {
 }
 
 module.exports = {SearchBox}
-},{"../method/toComponent":84}],13:[function(require,module,exports){
+},{"../method/toComponent":83}],13:[function(require,module,exports){
 const { generate } = require('../method/generate')
 const {toComponent} = require('../method/toComponent')
 
@@ -1626,7 +1610,7 @@ const Switch = (component) => {
 }
 
 module.exports = {Switch}
-},{"../method/generate":52,"../method/toComponent":84}],14:[function(require,module,exports){
+},{"../method/generate":51,"../method/toComponent":83}],14:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent")
 
 const Upload = (component) => {
@@ -1656,7 +1640,7 @@ const Upload = (component) => {
 }
 
 module.exports = {Upload}
-},{"../method/toComponent":84}],15:[function(require,module,exports){
+},{"../method/toComponent":83}],15:[function(require,module,exports){
 const {Button} = require('./Button')
 const {Input} = require('./Input')
 const {Item} = require('./Item')
@@ -1691,19 +1675,18 @@ module.exports = ({ params = {}, id }) => {
         ]
     }]
 }
-},{"../method/generate":52}],17:[function(require,module,exports){
+},{"../method/generate":51}],17:[function(require,module,exports){
 module.exports = {
     "item": require('./item'),
     "list": require('./list'),
     "droplist": require('./droplist'),
     "actionlist": require('./actionlist'),
     "hoverable": require('./hoverable'),
-    "mini-window": require('./mini-window'),
-    "toggle-style": require('./toggle-style'),
+    "miniWindow": require('./miniWindow'),
     "viewToggler": require('./viewToggler'),
     "touchableOpacity": require('./touchableOpacity'),
 }
-},{"./actionlist":16,"./droplist":18,"./hoverable":19,"./item":20,"./list":21,"./mini-window":22,"./toggle-style":23,"./touchableOpacity":24,"./viewToggler":25}],18:[function(require,module,exports){
+},{"./actionlist":16,"./droplist":18,"./hoverable":19,"./item":20,"./list":21,"./miniWindow":22,"./touchableOpacity":23,"./viewToggler":24}],18:[function(require,module,exports){
 const { generate } = require("../method/generate")
 
 module.exports = ({ STATE, params, id }) => {
@@ -1721,7 +1704,7 @@ module.exports = ({ STATE, params, id }) => {
         ]
     }]
 }
-},{"../method/generate":52}],19:[function(require,module,exports){
+},{"../method/generate":51}],19:[function(require,module,exports){
 const { toArray } = require("../method/toArray");
 
 module.exports = ({ VALUE, id, params = {} }) => {
@@ -1737,7 +1720,7 @@ module.exports = ({ VALUE, id, params = {} }) => {
         actions: `resetStyles???${controls.id.join(';')}`
     }]
 }
-},{"../method/toArray":81}],20:[function(require,module,exports){
+},{"../method/toArray":80}],20:[function(require,module,exports){
 module.exports = ({ params }) => ([
     `setData?data.value=value.text`,
     `resetStyles?value.mountOnLoad::state.${params.state}.0=false??state.${params.state}`,
@@ -1774,19 +1757,11 @@ module.exports = ({ VALUE, params, id }) => {
         event: 'click',
         actions: [
             `createView?state.${state}=value.data();value.Data.delete()::mini-window-view<<!value.data();value.Data::mini-window-view=${state}<<value.data();view=${controls.view}??mini-window-view`,
-            `setStyle?style.display=flex;style.opacity=1>>25??mini-window`
+            `setStyle?style.display=flex;style.opacity=1>>25??miniWindow`
         ]
     }]
 }
-},{"../method/generate":52}],23:[function(require,module,exports){
-module.exports = ({params}) => {
-    var controls = params.controls
-    return [{
-        event: 'click',
-        actions: `toggleStyles::${controls.id || 'value.id'}`
-    }]
-}
-},{}],24:[function(require,module,exports){
+},{"../method/generate":51}],23:[function(require,module,exports){
 module.exports = ({ VALUE, id, params = {} }) => {
 
     if (VALUE[id].element.style.transition)
@@ -1807,7 +1782,7 @@ module.exports = ({ VALUE, id, params = {} }) => {
         actions: `setStyle?style.opacity=1?value.mousedown`
     }]
 }
-},{}],25:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports = ({ VALUE, params, id }) => {
     var controls = params.controls
     
@@ -1819,7 +1794,7 @@ module.exports = ({ VALUE, params, id }) => {
         ]
     }]
 }
-},{}],26:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 const {clearValues} = require('./clearValues')
 const {clone} = require('./clone')
 const {derive} = require('./derive')
@@ -1899,7 +1874,7 @@ const _method = {
 }
 
 module.exports = _method
-},{"./blur":27,"./capitalize":28,"./clearValues":29,"./clone":30,"./close":31,"./controls":32,"./createActions":33,"./createComponent":34,"./createControls":35,"./createDocument":36,"./createElement":37,"./createView":39,"./data":40,"./defaultInputHandler":41,"./derive":42,"./droplist":43,"./duplicate":44,"./erase":45,"./event":46,"./execute":47,"./fill":48,"./filter":49,"./flicker":50,"./focus":51,"./generate":52,"./getJsonFiles":53,"./getParam":54,"./isArabic":55,"./isEqual":56,"./isPath":57,"./log":58,"./merge":59,"./note":60,"./overflow":61,"./pause":62,"./play":63,"./preventDefault":64,"./reducer":65,"./remove":66,"./resize":68,"./route":69,"./save":70,"./search":71,"./setContent":72,"./setData":73,"./setPosition":74,"./sort":75,"./starter":76,"./state":77,"./style":78,"./textarea":79,"./toApproval":80,"./toArray":81,"./toAwait":82,"./toCode":83,"./toComponent":84,"./toId":85,"./toParam":86,"./toPath":87,"./toString":88,"./toStyle":89,"./toTag":90,"./toValue":91,"./update":92}],27:[function(require,module,exports){
+},{"./blur":26,"./capitalize":27,"./clearValues":28,"./clone":29,"./close":30,"./controls":31,"./createActions":32,"./createComponent":33,"./createControls":34,"./createDocument":35,"./createElement":36,"./createView":38,"./data":39,"./defaultInputHandler":40,"./derive":41,"./droplist":42,"./duplicate":43,"./erase":44,"./event":45,"./execute":46,"./fill":47,"./filter":48,"./flicker":49,"./focus":50,"./generate":51,"./getJsonFiles":52,"./getParam":53,"./isArabic":54,"./isEqual":55,"./isPath":56,"./log":57,"./merge":58,"./note":59,"./overflow":60,"./pause":61,"./play":62,"./preventDefault":63,"./reducer":64,"./remove":65,"./resize":67,"./route":68,"./save":69,"./search":70,"./setContent":71,"./setData":72,"./setPosition":73,"./sort":74,"./starter":75,"./state":76,"./style":77,"./textarea":78,"./toApproval":79,"./toArray":80,"./toAwait":81,"./toCode":82,"./toComponent":83,"./toId":84,"./toParam":85,"./toPath":86,"./toString":87,"./toStyle":88,"./toTag":89,"./toValue":90,"./update":91}],26:[function(require,module,exports){
 const blur = ({ VALUE, id }) => {
     
     var local = VALUE[id]
@@ -1919,13 +1894,13 @@ const blur = ({ VALUE, id }) => {
 }
 
 module.exports = {blur}
-},{}],28:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 const capitalize = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 module.exports = { capitalize }
-},{}],29:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 const { clone } = require("./clone")
 
 const clearValues = (obj) => {
@@ -1968,7 +1943,7 @@ const clearValues = (obj) => {
 }
 
 module.exports = {clearValues}
-},{"./clone":30}],30:[function(require,module,exports){
+},{"./clone":29}],29:[function(require,module,exports){
 const clone = (obj) => {
     
     var copy 
@@ -2003,7 +1978,7 @@ const isElement = (obj) => {
   }
 
 module.exports = {clone}
-},{}],31:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 const close = ({ VALUE, id }) => {
     var local = VALUE[id]
     clearTimeout(local['note-timer'])
@@ -2011,7 +1986,7 @@ const close = ({ VALUE, id }) => {
 }
 
 module.exports = {close}
-},{}],32:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 const { toArray } = require("./toArray")
 
 const controls = ({ VALUE, STATE, controls, id }) => {
@@ -2048,7 +2023,7 @@ const setControls = ({ VALUE, id, params }) => {
 }
 
 module.exports = {controls, setControls}
-},{"./event":46,"./execute":47,"./toArray":81,"./watch":93}],33:[function(require,module,exports){
+},{"./event":45,"./execute":46,"./toArray":80,"./watch":92}],32:[function(require,module,exports){
 const control = require('../control/control')
 
 const createActions = ({ VALUE, STATE, params, id }) => {
@@ -2062,7 +2037,7 @@ const createActions = ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {createActions}
-},{"../control/control":17,"./execute":47}],34:[function(require,module,exports){
+},{"../control/control":17,"./execute":46}],33:[function(require,module,exports){
 const { clone } = require("./clone")
 const { generate } = require("./generate")
 const { toApproval } = require("./toApproval")
@@ -2112,7 +2087,7 @@ module.exports = {
         VALUE[id] = local
     }
 }
-},{"../component/_component":15,"./clone":30,"./generate":52,"./toApproval":80,"./toParam":86}],35:[function(require,module,exports){
+},{"../component/_component":15,"./clone":29,"./generate":51,"./toApproval":79,"./toParam":85}],34:[function(require,module,exports){
 const { controls } = require("./controls")
 const control = require('../control/control')
 
@@ -2128,16 +2103,20 @@ const createControls = ({ VALUE, STATE, params, id }) => {
 }
 
 module.exports = {createControls}
-},{"../control/control":17,"./controls":32}],36:[function(require,module,exports){
+},{"../control/control":17,"./controls":31}],35:[function(require,module,exports){
 const { createElement } = require("./createElement")
 const { getJsonFiles } = require("./getJsonFiles")
-const _page = require('../page/_page')
 
 const createDocument = (page) => {
     var innerHTML = '', STATE = {}, VALUE = {}
     
     // get assets & views
-    STATE = { asset: getJsonFiles('asset'), view: getJsonFiles('view'), codes: {} }
+    STATE = {
+        asset: getJsonFiles('asset'),
+        view: getJsonFiles('view'),
+        page: getJsonFiles('page'),
+        codes: {}
+    }
 
     // body
     var id = 'body'
@@ -2151,12 +2130,15 @@ const createDocument = (page) => {
     VALUE[id].type = 'View'
     VALUE[id].children = []
     VALUE[id].parent = 'body'
+
+    //
+    if (!STATE.page[page]) return 'Hello'
     
     // push page views to root
-    page.views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
+    STATE.page[page].views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
 
     // push public views to root
-    _page.public.views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
+    STATE.page.public.views.map(view => STATE.view[view] && VALUE[id].children.push(STATE.view[view]))
     
     // create html
     innerHTML = createElement({ STATE, VALUE, id })
@@ -2167,13 +2149,11 @@ const createDocument = (page) => {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>digiTrip</title>
+        <title>QuePik</title>
         <link rel="stylesheet" href="index.css" />
         <link rel="stylesheet" href="rate.css" />
-        <link href="https://css.gg/trash.css" rel="stylesheet" />
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     </head>
-    
     <body>
         ${innerHTML}
         <script id="STATE" type="application/json">${JSON.stringify(STATE)}</script>
@@ -2184,7 +2164,7 @@ const createDocument = (page) => {
 }
 
 module.exports = {createDocument}
-},{"../page/_page":121,"./createElement":37,"./getJsonFiles":53}],37:[function(require,module,exports){
+},{"./createElement":36,"./getJsonFiles":52}],36:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toParam } = require("./toParam")
 const { toApproval } = require("./toApproval")
@@ -2192,6 +2172,7 @@ const { override } = require("./merge")
 const { clone } = require("./clone")
 const { derive } = require("./derive")
 const { createTags } = require("./createTags")
+const { reducer } = require("./reducer")
 
 const createElement = ({ STATE, VALUE, id }) => {
 
@@ -2237,6 +2218,9 @@ const createElement = ({ STATE, VALUE, id }) => {
     // derivations
     local.derivations = local.derivations || [...(parent.derivations || [])]
 
+    // status
+    local.status = 'loading'
+
     // first mount of local
     VALUE[id] = local
 
@@ -2261,8 +2245,8 @@ const createElement = ({ STATE, VALUE, id }) => {
         
         if (params.data && (!local.Data || params.Data)) {
             
+            local.Data = local.Data || generate()
             var state = local.Data
-            if (!state) state = local.Data = generate()
             STATE[state] = clone(local.data || STATE[state])
             STATE[`${state}-options`] = STATE[`${state}-options`] || {}
 
@@ -2270,15 +2254,11 @@ const createElement = ({ STATE, VALUE, id }) => {
 
     } else params = {}
 
-    // pass to children
-    if (parent.toChildren) {
+    // pass values To Children
+    if (parent.passToChildren) local = override(local, parent.passToChildren)
 
-        if (typeof parent.toChildren === 'string')
-        parent.toChildren = toParam({ VALUE, STATE, string: parent.toChildren, id })
-        local = override(local, parent.toChildren)
-    }
-
-    if (local.duplicating) {
+    // duplicated element
+    if (local.duplicatedElement) {
 
         delete local.path
         delete local.data
@@ -2296,15 +2276,15 @@ const createElement = ({ STATE, VALUE, id }) => {
             
         }
 
-        // convert string numbers paths to num
+        // convert string numbers to num
         path = path.map(k => { 
             if (!isNaN(k)) k = parseFloat(k) 
             return k
         })
 
-        // push path to a data array and derivations last element is not an index
+        // push 0 to derivations for array data
         if (isNaN(path[0])) {
-            var data = derive(STATE[parent.Data], parent.derivations)[0]
+            var data = derive(STATE[local.Data], parent.derivations)[0]
             if (Array.isArray(data)) local.derivations.push(0)
         }
 
@@ -2312,37 +2292,17 @@ const createElement = ({ STATE, VALUE, id }) => {
     }
     
     
-    // data (turnoff is do not mount data)
-    var data, isArray, derivations = clone(local.derivations)
-    if (parent.turnoff || local.turnoff) { data = local.data || ''; local.turnoff = true }                                // params cz local.data is inherited from parent which is not default
-    else { [data, derivations, isArray] = derive(STATE[local.Data], local.derivations, false, clone(params.data), true) }
-    
-    if (isArray) {
-        
-        innerHTML = data.map((data, index) => {
+    // data
+    var data, derivations = clone(local.derivations)
+    if (parent.unDeriveData || local.unDeriveData) { data = local.data || ''; local.unDeriveData = true }                                // params cz local.data is inherited from parent which is not default
+    else [data, derivations] = derive(STATE[local.Data], local.derivations, clone(params.data), true)
 
-            var keys = clone(derivations)
-            keys.push(index, ...path)
-            
-            // data
-            var [data, derivations] = derive(STATE[local.Data], keys, false, local.data, true)
-            VALUE[id] = { ...local, id, data, derivations }
-
-            return createTags({ VALUE, STATE, id })
-
-        }).join('')
-
-    } else {
-
-        VALUE[id] = { ...local, data, derivations }
-        innerHTML = createTags({ VALUE, STATE, id })
-    }
-        
-    return innerHTML
+    VALUE[id] = { ...local, data, derivations }
+    return createTags({ VALUE, STATE, id })
 }
 
 module.exports = {createElement}
-},{"./clone":30,"./createTags":38,"./derive":42,"./generate":52,"./merge":59,"./toApproval":80,"./toParam":86}],38:[function(require,module,exports){
+},{"./clone":29,"./createTags":37,"./derive":41,"./generate":51,"./merge":58,"./reducer":64,"./toApproval":79,"./toParam":85}],37:[function(require,module,exports){
 const { clone } = require("./clone")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2353,11 +2313,11 @@ const { isEqual } = require("./isEqual")
 const autoActions = ['flicker']
 
 const createTags = ({ VALUE, STATE, id }) => {
-    
-    const { execute } = require("./execute")
 
     var local = VALUE[id]
     if (!local) return
+
+    local.length = 1
 
     if (local.mapType && Array.isArray(local.data) && local.data.length > 0) {
 
@@ -2386,24 +2346,8 @@ const createTags = ({ VALUE, STATE, id }) => {
             local.id = id
 
             VALUE[id] = local
-            
-            // components
-            componentModifier({ VALUE, STATE, id })
-            createComponent({ VALUE, STATE, id })
-            
-            var local = VALUE[id]
 
-            // execute onload actions
-            autoActions.map(action => {
-                if (local[action]) {
-                    local.actions = toArray(local.actions)
-                    local.actions.push(action)
-                }
-            })
-
-            if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
-
-            return toTag({ STATE, VALUE, id })
+            return createTag({ VALUE, STATE, id })
 
         }).join('')
     }
@@ -2425,25 +2369,9 @@ const createTags = ({ VALUE, STATE, id }) => {
 
                 local.id = id
                 local.key = key
-
                 VALUE[id] = local
-                
-                // components
-                componentModifier({ VALUE, STATE, id })
-                createComponent({ VALUE, STATE, id })
-                
-                var local = VALUE[id]
-                
-                // execute onload actions
-                autoActions.map(action => {
-                    if (local[action]) {
-                        local.actions = toArray(local.actions)
-                        local.actions.push(action)
-                    }
-                })
-                
-                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
-                return toTag({ STATE, VALUE, id })
+
+                return createTag({ VALUE, STATE, id })
 
             }).join('')
         }
@@ -2467,23 +2395,8 @@ const createTags = ({ VALUE, STATE, id }) => {
                 local.lang = lang
 
                 VALUE[id] = local
-                
-                // components
-                componentModifier({ VALUE, STATE, id })
-                createComponent({ VALUE, STATE, id })
-                
-                var local = VALUE[id]
-                
-                // execute onload actions
-                autoActions.map(action => {
-                    if (local[action]) {
-                        local.actions = toArray(local.actions)
-                        local.actions.push(action)
-                    }
-                })
-                
-                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
-                return toTag({ STATE, VALUE, id })
+
+                return createTag({ VALUE, STATE, id })
 
             }).join('')
         }
@@ -2507,41 +2420,26 @@ const createTags = ({ VALUE, STATE, id }) => {
                 local.currency = currency
 
                 VALUE[id] = local
-                
-                // components
-                componentModifier({ VALUE, STATE, id })
-                createComponent({ VALUE, STATE, id })
-                
-                var local = VALUE[id]
-                
-                // execute onload actions
-                autoActions.map(action => {
-                    if (local[action]) {
-                        local.actions = toArray(local.actions)
-                        local.actions.push(action)
-                    }
-                })
-                
-                if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
-                return toTag({ STATE, VALUE, id })
+
+                return createTag({ VALUE, STATE, id })
 
             }).join('')
         }
     }
 
-    // push index 0 to deriv for data = []
-    if (Array.isArray(local.data) && local.data.length === 0) {
-        local.derivations = [...local.derivations, 0]
-        local.data = undefined
-    }
+    return createTag({ VALUE, STATE, id })
+}
 
+const createTag = ({ VALUE, STATE, id }) => {
+    
+    const { execute } = require("./execute")
+                
     // components
     componentModifier({ VALUE, STATE, id })
     createComponent({ VALUE, STATE, id })
     
     var local = VALUE[id]
-    local.length = 1
-
+    
     // execute onload actions
     autoActions.map(action => {
         if (local[action]) {
@@ -2550,13 +2448,11 @@ const createTags = ({ VALUE, STATE, id }) => {
         }
     })
     
-    // execute onload actions
-    if (local.actions) execute({ VALUE, STATE, id, actions: local.actions, instantly: true })
-    
+    if (local.actions) execute({ VALUE, STATE, actions: local.actions, id })
     return toTag({ STATE, VALUE, id })
 }
 
-const componentModifier = ({ VALUE, STATE, id }) => {
+const componentModifier = ({ VALUE, id }) => {
     var local = VALUE[id]
     
     // icon
@@ -2577,8 +2473,6 @@ const componentModifier = ({ VALUE, STATE, id }) => {
         local.input = local.input || {}
         local.input.style = local.input.style || {}
         local.input.style.height = 'fit-content'
-        // local.style.minHeight = '4rem',
-        // local.input.style.minHeight = '2.5rem'
     }
 
     // input
@@ -2604,7 +2498,7 @@ const componentModifier = ({ VALUE, STATE, id }) => {
 }
 
 module.exports = {createTags}
-},{"./clone":30,"./createComponent":34,"./execute":47,"./generate":52,"./isEqual":56,"./toArray":81,"./toTag":90}],39:[function(require,module,exports){
+},{"./clone":29,"./createComponent":33,"./execute":46,"./generate":51,"./isEqual":55,"./toArray":80,"./toTag":89}],38:[function(require,module,exports){
 const { update } = require("./update")
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
@@ -2661,7 +2555,7 @@ const createView = ({ STATE, VALUE, params ={}, id }) => {
 }
 
 module.exports = {createView}
-},{"./clone":30,"./generate":52,"./toArray":81,"./update":92}],40:[function(require,module,exports){
+},{"./clone":29,"./generate":51,"./toArray":80,"./update":91}],39:[function(require,module,exports){
 const { setContent } = require("./setContent")
 const { setData } = require("./setData")
 
@@ -2710,7 +2604,7 @@ const removeData = ({ STATE, VALUE, id, params = {} }) => {
 }
 
 module.exports = {createData, setData, clearData, removeData}
-},{"./setContent":72,"./setData":73}],41:[function(require,module,exports){
+},{"./setContent":71,"./setData":72}],40:[function(require,module,exports){
 const { setData } = require("./data")
 const { resize } = require("./resize")
 const { isArabic } = require("./isArabic")
@@ -2802,9 +2696,6 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
             // reset Data
             setData({ STATE, VALUE, params: { data: { value } }, id })
-            
-            // remove value from data
-            //if (value === '') return removeData({ VALUE, STATE, id })
         }
 
         // resize
@@ -2826,23 +2717,15 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {defaultInputHandler}
-},{"./data":40,"./generate":52,"./isArabic":55,"./resize":68}],42:[function(require,module,exports){
-const { merge } = require("./merge")
-
-const derive = (data, keys, fullDerivation, defaultData, writable) => {
-    
-    var derivedData = data
-    var isArray = false
+},{"./data":39,"./generate":51,"./isArabic":54,"./resize":67}],41:[function(require,module,exports){
+const derive = (data, keys, defaultData, editable) => {
 
     if (!Array.isArray(keys)) keys = keys.split('.')
     
-    derivedData = keys.reduce((o, k, i) => {
-        if (isArray) return o
-
-        if (k === 'merge()') return merge(o)
+    data = keys.reduce((o, k, i) => {
 
         // path doesnot exist => create path
-        if (writable && typeof o[k] !== 'object') {
+        if (editable && typeof o[k] !== 'object') {
 
             if (i < keys.length - 1) {
                 if (!isNaN(keys[i + 1])) o[k] = []
@@ -2870,20 +2753,18 @@ const derive = (data, keys, fullDerivation, defaultData, writable) => {
             if (fullDerivation) o = o.map(o => derive(o, keys.slice(i), true)[0])
             else keys = keys.slice(0, i) || []
 
-            isArray = true
             return o
         }
 
         return o[k]
     }, data)
     
-        // do not touch isArray...
-    return [derivedData, keys, isArray]
+    return [data, keys]
 }
 
 
 module.exports = {derive}
-},{"./merge":59}],43:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 const { update } = require('./update')
 const { clone } = require('./clone')
 const { derive } = require('./derive')
@@ -2931,7 +2812,7 @@ const droplist = ({ VALUE, STATE, id, e }) => {
     
     if (items.length > 0) dropList.children = clone(items).map(item => {
         
-        var readonly = false, input = false, droplist
+        var readonly = false, input = false, droplist, itemList = []
         if (typeof item === 'string') {
 
             item = item.split('>>')
@@ -2941,13 +2822,15 @@ const droplist = ({ VALUE, STATE, id, e }) => {
 
         } else if (Array.isArray(item)) {
             
+            itemList = clone(item)
+            item = itemList.find(item => !item.includes('readonly'))
             input = true
             droplist = true
         }
         
         if (input && !readonly) {
             return {
-                type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${local.key ? `input.value=value.path::${input_id};edit=${parent};` : `input.value=${item};`}${droplist ? `readonly;droplist.items=[${item}];droplist.positioner=${dropList.positioner};data=${derive(STATE[local.Data], local.derivations)[0]};` : ''}`,
+                type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${local.key ? `input.value=value.path::${input_id};edit=${parent};` : `input.value=${item};`}${droplist ? `readonly;droplist.items=[${itemList}];droplist.positioner=${dropList.positioner};data=${derive(STATE[local.Data], local.derivations)[0]};` : ''}`,
                 controls: [{
                     event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};state[value.Data][value.derivations::${input_id}].delete();value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},e.target.value||${local.key}];state[value.Data][value.derivations::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`
                 }]
@@ -2974,13 +2857,13 @@ const droplist = ({ VALUE, STATE, id, e }) => {
     })
 
     dropList.positioner = id
-    dropList.turnoff = true
+    dropList.unDeriveData = true
     
     update({ VALUE, STATE, id: 'droplist' })
 }
 
 module.exports = {droplist}
-},{"./clone":30,"./derive":42,"./isPath":57,"./toValue":91,"./update":92}],44:[function(require,module,exports){
+},{"./clone":29,"./derive":41,"./isPath":56,"./toValue":90,"./update":91}],43:[function(require,module,exports){
 const { clearValues } = require('./clearValues')
 const { clone } = require('./clone')
 const { toArray } = require('./toArray')
@@ -3091,7 +2974,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
     VALUE[id] = clone(VALUE[local.parent].children[local.index])
     VALUE[id].id = id
     VALUE[id].parent = local.parent
-    VALUE[id].duplicating = true
+    VALUE[id].duplicatedElement = true
     VALUE[id].index = local.index
     VALUE[id].derivations = [...local.derivations]
 
@@ -3151,7 +3034,7 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 const duplicates = ({ STATE, VALUE, params, id }) => {
     var local = VALUE[id]
 
-    var [data] = derive(STATE[local.Data], local.derivations), exists
+    var data = derive(STATE[local.Data], local.derivations)[0], exists
     if (!params.data) return false
 
     data = toArray(data)
@@ -3166,7 +3049,7 @@ const duplicates = ({ STATE, VALUE, params, id }) => {
 }
 
 module.exports = {duplicate, duplicates}
-},{"./clearValues":29,"./clone":30,"./createElement":37,"./derive":42,"./focus":51,"./generate":52,"./isEqual":56,"./removeDuplicates":67,"./starter":76,"./toArray":81}],45:[function(require,module,exports){
+},{"./clearValues":28,"./clone":29,"./createElement":36,"./derive":41,"./focus":50,"./generate":51,"./isEqual":55,"./removeDuplicates":66,"./starter":75,"./toArray":80}],44:[function(require,module,exports){
 const axios = require('axios')
 const { update } = require('./update')
 
@@ -3178,9 +3061,9 @@ const erase = async ({ VALUE, STATE, id, params = {} }) => {
     var erase = params.erase
     if (!erase.data['file-name']) return
 
-    var { data: { data, message, success } } = await axios.delete(`/api/${erase.api}`, { data: erase.data })
+    var { data: { data, message, success } } = await axios.delete(`/api/${erase.path}`, { data: erase.data })
 
-    delete STATE[erase.api][data['file-name']]
+    delete STATE[erase.path][data['file-name']]
     
     if (erase.state) STATE[erase.state] = STATE[erase.state].filter(file => file['file-name'] !== data['file-name'])
     if (erase.update) update({ VALUE, STATE, id: erase.update })
@@ -3189,7 +3072,7 @@ const erase = async ({ VALUE, STATE, id, params = {} }) => {
 }
 
 module.exports = { erase }
-},{"./update":92,"axios":94}],46:[function(require,module,exports){
+},{"./update":91,"axios":93}],45:[function(require,module,exports){
 const { toApproval } = require('./toApproval')
 const { toId } = require('./toId')
 const { getParam } = require('./getParam')
@@ -3241,7 +3124,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
                 local[`${code}${event}-timer`] = setTimeout(() => {
 
                     var events = controls.event.split('?')
-                    
+                    if (events[0] === 'load') console.log(controls.event);
                     // VALUE[id] doesnot exist
                     if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
                     
@@ -3293,7 +3176,7 @@ const defaultEventHandler = ({ VALUE, id }) => {
 }
 
 module.exports = {addEventListener, defaultEventHandler}
-},{"./clone":30,"./execute":47,"./generate":52,"./getParam":54,"./toApproval":80,"./toId":85,"./toParam":86}],47:[function(require,module,exports){
+},{"./clone":29,"./execute":46,"./generate":51,"./getParam":53,"./toApproval":79,"./toId":84,"./toParam":85}],46:[function(require,module,exports){
 
 const { toApproval } = require("./toApproval")
 const { toArray } = require("./toArray")
@@ -3414,7 +3297,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
 }
 
 module.exports = {execute}
-},{"./_method":26,"./generate":52,"./getParam":54,"./toApproval":80,"./toArray":81,"./toAwait":82,"./toId":85,"./toParam":86,"./toValue":91}],48:[function(require,module,exports){
+},{"./_method":25,"./generate":51,"./getParam":53,"./toApproval":79,"./toArray":80,"./toAwait":81,"./toId":84,"./toParam":85,"./toValue":90}],47:[function(require,module,exports){
 module.exports = {
     fill: ({ VALUE, STATE, id }) => {
         var local = VALUE[id], ratio
@@ -3470,7 +3353,7 @@ module.exports = {
         }
     }
 }
-},{}],49:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 const {update} = require('./update')
 
 const filter = ({ VALUE, STATE, params = {}, id }) => {
@@ -3497,7 +3380,7 @@ const filter = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {filter}
-},{"./update":92}],50:[function(require,module,exports){
+},{"./update":91}],49:[function(require,module,exports){
 const { setControls } = require("./controls")
 const { setStyle } = require("./style")
 
@@ -3517,7 +3400,7 @@ module.exports = {
         setControls({ VALUE, STATE, id, params: { controls }})
     }
 }
-},{"./controls":32,"./style":78}],51:[function(require,module,exports){
+},{"./controls":31,"./style":77}],50:[function(require,module,exports){
 const focus = ({ VALUE, id }) => {
     
     var local = VALUE[id]
@@ -3542,7 +3425,7 @@ const focus = ({ VALUE, id }) => {
 }
 
 module.exports = {focus}
-},{}],52:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
 const generate = (length) => {
@@ -3556,7 +3439,7 @@ const generate = (length) => {
 }
 
 module.exports = {generate}
-},{}],53:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 (function (process){(function (){
 const path = require('path')
 const fs = require('fs')
@@ -3565,8 +3448,8 @@ const getJsonFiles = (folder, fileName) => {
 
     var files = {}
     var folderPath = path.join(process.cwd(), folder)
-
-    if (fileName) return fs.readFileSync(path.join(folderPath, fileName))
+    
+    if (fileName) return JSON.parse(fs.readFileSync(path.join(folderPath, fileName)))
     
     fs.readdirSync(folderPath).forEach(fileName => {
     
@@ -3580,7 +3463,7 @@ const getJsonFiles = (folder, fileName) => {
 
 module.exports = { getJsonFiles }
 }).call(this)}).call(this,require('_process'))
-},{"_process":3,"fs":1,"path":2}],54:[function(require,module,exports){
+},{"_process":3,"fs":1,"path":2}],53:[function(require,module,exports){
 const getParam = (string, param, defValue) => {
     if (!string) return defValue
     if (!string.includes('?')) return defValue
@@ -3599,7 +3482,7 @@ const getParam = (string, param, defValue) => {
 }
 
 module.exports = {getParam}
-},{}],55:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var arabic = /[\u0600-\u06FF\u0750-\u077F]/
 
 const isArabic = (value) => {
@@ -3627,7 +3510,7 @@ const isArabic = (value) => {
 }
 
 module.exports = {isArabic}
-},{}],56:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 const isEqual = function (value, other) {
     //if (value === undefined || other === undefined) return false
 
@@ -3703,7 +3586,7 @@ const isEqual = function (value, other) {
 };
 
 module.exports = {isEqual}
-},{}],57:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 module.exports = {
     isPath: ({ VALUE, STATE, id, e, params: { path } }) => {
         path = path.split('.')
@@ -3716,13 +3599,13 @@ module.exports = {
         return true
     }
 }
-},{}],58:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 const log = ({params}) => {
     console.log(params.log);
 }
 
 module.exports = {log}
-},{}],59:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 
 const { toArray } = require("./toArray")
 const { clone } = require("./clone")
@@ -3782,7 +3665,7 @@ const override = (obj1, obj2) => {
 }
 
 module.exports = {merge, override}
-},{"./clone":30,"./toArray":81}],60:[function(require,module,exports){
+},{"./clone":29,"./toArray":80}],59:[function(require,module,exports){
 const note = ({ VALUE, params }) => {
 
     var note = VALUE['action-note']
@@ -3809,7 +3692,7 @@ const note = ({ VALUE, params }) => {
 }
 
 module.exports = {note}
-},{}],61:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 const overflow = ({ VALUE, params, id }) => {
     var local = VALUE[id]
 
@@ -3859,14 +3742,14 @@ const overflow = ({ VALUE, params, id }) => {
 }
 
 module.exports = {overflow}
-},{}],62:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 const pause = ({ VALUE, id }) => {
     var local = VALUE[id]
     clearTimeout(local['note-timer'])
 }
 
 module.exports = {pause}
-},{}],63:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 const play = ({ VALUE, id }) => {
     var local = VALUE[id]
     const myFn = () => { 
@@ -3877,18 +3760,18 @@ const play = ({ VALUE, id }) => {
 }
 
 module.exports = {play}
-},{}],64:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 const preventDefault = ({e}) => {
     e.preventDefault()
 }
 
 module.exports = {preventDefault}
-},{}],65:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
-const { capitalize } = require("./capitalize")
 const { toCode } = require("./toCode")
 const { isEqual } = require("./isEqual")
+const { capitalize } = require("./capitalize")
 
 const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, e }) => {
 
@@ -3953,6 +3836,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             breakRequest = true
             answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: [...local.derivations, ...path.slice(i + 1)], object: STATE[local.Data], params } })
+            if (i === lastIndex) {
+                local.data = answer
+                delete local['data()']
+            }
 
         } else if (k === 'Data()') {
 
@@ -4140,11 +4027,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             breakRequest = true
             answer = o.classList.remove(path.slice(i + 1).join('.'))
 
-        } else if (k === 'length' && !local.length && i === 0) {
-            
-            answer = VALUE[local.parent].element.children.length
-
-        } else if (k === 'element' && !o[k]) {
+        } else if (k === 'element' && local.status === 'loading') {
 
             breakRequest = true
             local.controls = toArray(local.controls) || []
@@ -4152,6 +4035,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 event: `load?${key}=${value}`
             })
             
+        } else if (k === 'length' && !local.length && i === 0) {
+            
+            answer = VALUE[local.parent].element.children.length
+
         } else if (i === lastIndex - 1 && path[lastIndex] === 'delete()') {
             
             breakRequest = true
@@ -4177,6 +4064,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
 const getDeepChildren = ({ VALUE, id }) => {
     var all = { [id]: VALUE[id] }
+    if (!VALUE[id]) return {}
     
     if ([...VALUE[id].element.children].length > 0) 
         ([...VALUE[id].element.children]).map(el => {
@@ -4190,7 +4078,7 @@ const getDeepChildren = ({ VALUE, id }) => {
 }
 
 module.exports = { reducer }
-},{"./capitalize":28,"./execute":47,"./generate":52,"./isEqual":56,"./toArray":81,"./toCode":83,"./toValue":91}],66:[function(require,module,exports){
+},{"./capitalize":27,"./execute":46,"./generate":51,"./isEqual":55,"./toArray":80,"./toCode":82,"./toValue":90}],65:[function(require,module,exports){
 const { removeIds } = require("./update")
 const { clone } = require("./clone")
 
@@ -4275,7 +4163,7 @@ const resetDerivations = ({ VALUE, id, index }) => {
 }
 
 module.exports = {remove}
-},{"./clone":30,"./update":92}],67:[function(require,module,exports){
+},{"./clone":29,"./update":91}],66:[function(require,module,exports){
 const removeDuplicates = (object) => {
 
     if (typeof object === 'string' || typeof object === 'number' || !object) return object
@@ -4296,7 +4184,7 @@ const removeDuplicates = (object) => {
 }
 
 module.exports = {removeDuplicates}
-},{}],68:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 const resize = ({ VALUE, id }) => {
 
     var local = VALUE[id]
@@ -4413,7 +4301,7 @@ const converter = (dimension) => {
 }
 
 module.exports = {resize, dimensions}
-},{}],69:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 
 const { starter } = require('./starter')
 //const { search } = require("./search")
@@ -4492,7 +4380,7 @@ export const pushRoute = ({ params }) => {
 }*/
 
 module.exports = {route}
-},{"./starter":76}],70:[function(require,module,exports){
+},{"./starter":75}],69:[function(require,module,exports){
 const axios = require('axios')
 const { toAwait } = require('./toAwait')
 
@@ -4504,23 +4392,19 @@ const save = async ({ VALUE, STATE, params = {}, id, e }) => {
     var save = params.save
     if (!save.data['file-name']) return
 
-    var { data: { data, message, success } } = await axios.post(`/api/${save.api}`, save.data)
+    var { data: { data, message, success } } = await axios.post(`/api/${save.path}`, save.data)
 
-    local.saved = { data, message, success }
+    local.save = { data, message, success }
 
-    STATE[save.api] = STATE[save.api] || {}
-    STATE[save.api][data['file-name']] = data
-    
-    // awaits
-    //toAwait({ VALUE, STATE, id, e, params })
+    STATE[save.path] = STATE[save.path] || {}
+    STATE[save.path][data['file-name']] = data
 
     console.log(data, message, success)
 }
 
 module.exports = { save }
-},{"./toAwait":82,"axios":94}],71:[function(require,module,exports){
+},{"./toAwait":81,"axios":93}],70:[function(require,module,exports){
 const axios = require('axios')
-const { update } = require('./update')
 
 module.exports = {
     search: async ({ VALUE, STATE, id, params }) => {
@@ -4530,17 +4414,17 @@ module.exports = {
 
         var search = params.search
         
-        var { data: { data, message, success } } = await axios.get(`/api/${search.api}`)
+        var { data: { data, message, success } } = await axios.get(`/api/${search.path}`)
 
-        STATE[search.api] = { ...(STATE[search.api] || {}), ...data }
+        local.search = { data, message, success }
 
-        if (search.state) STATE[search.state] = Object.entries(data).map(([k, v]) => v)
-        if (search.update) update({ VALUE, STATE, id: search.update })
+        STATE[search.path] = STATE[search.path] || {}
+        STATE[search.path][data['file-name']] = data
 
         console.log(data, message, success)
     }
 }
-},{"./update":92,"axios":94}],72:[function(require,module,exports){
+},{"axios":93}],71:[function(require,module,exports){
 const { isArabic } = require("./isArabic")
 
 const setContent = ({ VALUE, STATE, params = {}, id }) => {
@@ -4562,7 +4446,7 @@ const setContent = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {setContent}
-},{"./isArabic":55}],73:[function(require,module,exports){
+},{"./isArabic":54}],72:[function(require,module,exports){
 const { clone } = require("./clone")
 const { derive } = require("./derive")
 const { setContent } = require("./setContent")
@@ -4594,18 +4478,19 @@ const setData = ({ STATE, VALUE, params = {}, id }) => {
     var keys = [...derivations, ...path]
     
     // set value
-    var value = derive(STATE[local.Data], keys, true, defValue, true)[0]
+    var value = derive(STATE[local.Data], keys, defValue, true)[0]
     local.data = value
     
     if (local.input && local.input.type === 'file') return
 
     // setContent
     var content = data.content || value
+    
     setContent({ VALUE, params: { content: { value: content } }, id })
 }
 
 module.exports = {setData}
-},{"./clone":30,"./derive":42,"./setContent":72}],74:[function(require,module,exports){
+},{"./clone":29,"./derive":41,"./setContent":71}],73:[function(require,module,exports){
 const setPosition = ({ VALUE, params, id }) => {
     var {position} = params
 
@@ -4700,7 +4585,7 @@ const setPosition = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setPosition}
-},{}],75:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 const { reducer } = require('./reducer')
 const { update } = require('./update')
 
@@ -4745,9 +4630,7 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
 }
 
 module.exports = {sort}
-},{"./reducer":65,"./update":92}],76:[function(require,module,exports){
-const { toArray } = require("./toArray")
-const control = require('../control/control')
+},{"./reducer":64,"./update":91}],75:[function(require,module,exports){
 const autoActions = ['fill']
 
 const starter = ({ STATE, VALUE, id }) => {
@@ -4763,6 +4646,9 @@ const starter = ({ STATE, VALUE, id }) => {
     
     local.element = document.getElementById(id)
     if (!local.element) return delete VALUE[id]
+
+    // status
+    local.status = 'mounting'
     
     /* Defaults must start before controls */
     
@@ -4783,14 +4669,6 @@ const starter = ({ STATE, VALUE, id }) => {
     // setStyles
     if (local.style) setStyle({ VALUE, STATE, id, params: {style: local.style} })
 
-    // lunch auto controls
-    Object.entries(control).map(([type, control]) => {
-
-        if (!local[type]) return
-        local.controls = toArray(local.controls)
-        local.controls.push(...control({ VALUE, STATE, id, params: { controls: local[type] } }))
-    })
-
     // auto actions
     autoActions.map(action => local[action] && require("./_method")[action]({ VALUE, STATE, id }))
     
@@ -4810,7 +4688,7 @@ const starter = ({ STATE, VALUE, id }) => {
 }
 
 module.exports = {starter}
-},{"../control/control":17,"./_method":26,"./controls":32,"./defaultInputHandler":41,"./event":46,"./isArabic":55,"./style":78,"./toArray":81}],77:[function(require,module,exports){
+},{"./_method":25,"./controls":31,"./defaultInputHandler":40,"./event":45,"./isArabic":54,"./style":77}],76:[function(require,module,exports){
 const setState = ({ STATE, params,  }) => {
 
     // push states to route
@@ -4826,7 +4704,7 @@ const setState = ({ STATE, params,  }) => {
 }
 
 module.exports = {setState}
-},{}],78:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 const {resize} = require('./resize')
 
 const setStyle = ({ VALUE, params = {}, id }) => {
@@ -4933,7 +4811,7 @@ const mountAfterStyles = ({ VALUE, params, id }) => {
 }
 
 module.exports = {setStyle, resetStyles, toggleStyles, mountAfterStyles}
-},{"./resize":68}],79:[function(require,module,exports){
+},{"./resize":67}],78:[function(require,module,exports){
 const textarea = ({ VALUE, id }) => {
     var local = VALUE[id]
     if (!local) return
@@ -4960,7 +4838,7 @@ const textarea = ({ VALUE, id }) => {
 }
 
 module.exports = { textarea }
-},{}],80:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 const { isArabic } = require("./isArabic")
 const { isEqual } = require("./isEqual")
 const { generate } = require("./generate")
@@ -5241,13 +5119,13 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
 }
 
 module.exports = {toApproval}
-},{"./duplicate":44,"./generate":52,"./getParam":54,"./isArabic":55,"./isEqual":56,"./overflow":61,"./reducer":65,"./toPath":87,"./toValue":91}],81:[function(require,module,exports){
+},{"./duplicate":43,"./generate":51,"./getParam":53,"./isArabic":54,"./isEqual":55,"./overflow":60,"./reducer":64,"./toPath":86,"./toValue":90}],80:[function(require,module,exports){
 const toArray = (data) => {
     return data !== undefined ? (Array.isArray(data) ? data : [data]) : []
 }
 
 module.exports = {toArray}
-},{}],82:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 const { clone } = require("./clone")
 
 module.exports = {
@@ -5270,7 +5148,7 @@ module.exports = {
         if (awaiter) execute({ VALUE, STATE, id, e, actions: awaiter, params })
     }
 }
-},{"./clone":30,"./execute":47,"./toParam":86}],83:[function(require,module,exports){
+},{"./clone":29,"./execute":46,"./toParam":85}],82:[function(require,module,exports){
 const { generate } = require("./generate")
 
 const toCode = ({ VALUE, STATE, string, e, id }) => {
@@ -5315,7 +5193,7 @@ const toCode = ({ VALUE, STATE, string, e, id }) => {
 }
 
 module.exports = { toCode }
-},{"./generate":52}],84:[function(require,module,exports){
+},{"./generate":51}],83:[function(require,module,exports){
 const { generate } = require('./generate')
 const { toArray } = require('./toArray')
 
@@ -5344,17 +5222,11 @@ const toComponent = (obj) => {
     obj.featured = obj.featured && 'featured'
     obj.model = obj.model || obj.featured || 'classic'
 
-    // search
-    obj.search = obj.search || {}
-
-    // sort
-    obj.sort = obj.sort || {}
-
     return obj
 }
 
 module.exports = {toComponent}
-},{"./generate":52,"./toArray":81}],85:[function(require,module,exports){
+},{"./generate":51,"./toArray":80}],84:[function(require,module,exports){
 const { clone } = require("./clone");
 const { toValue } = require("./toValue");
 
@@ -5369,11 +5241,13 @@ const toId = ({ VALUE, STATE, id, string, e }) => {
 }
 
 module.exports = {toId}
-},{"./clone":30,"./toValue":91}],86:[function(require,module,exports){
+},{"./clone":29,"./toValue":90}],85:[function(require,module,exports){
 const { toPath } = require("./toPath")
-const { toArray } = require("./toArray")
 const { toValue } = require("./toValue")
 const { reducer } = require("./reducer")
+const { generate } = require("./generate")
+const { toArray } = require("./toArray")
+const controls = require('../control/control')
 
 const toParam = ({ VALUE, STATE, string, e, id }) => {
 
@@ -5480,7 +5354,25 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
                 return obj[key]
             }, params)
 
+            key = path[0]
+
         } else params[key] = value
+
+            
+        // lunch auto controls
+        if (controls[key]) {
+            
+            if (local.status === 'loading') {
+
+                var k = generate()
+                STATE[k] = params[key]
+                return local.controls = toArray(local.controls).push({
+                    event: `load?${key}=state.${k}`
+                })
+            }
+            
+            return controls[key]({ VALUE, STATE, id, params: { controls: params[key] }, e })
+        }
     })
     
     return params
@@ -5491,7 +5383,7 @@ function addDays(theDate, days) {
 }
 
 module.exports = {toParam}
-},{"./reducer":65,"./toApproval":80,"./toArray":81,"./toPath":87,"./toValue":91}],87:[function(require,module,exports){
+},{"../control/control":17,"./generate":51,"./reducer":64,"./toApproval":79,"./toArray":80,"./toPath":86,"./toValue":90}],86:[function(require,module,exports){
 const toPath = ({ VALUE, STATE, string, e, id }) => {
 
     const { toValue } = require("./toValue")
@@ -5546,7 +5438,7 @@ const toPath = ({ VALUE, STATE, string, e, id }) => {
 }
 
 module.exports = { toPath }
-},{"./toValue":91}],88:[function(require,module,exports){
+},{"./toValue":90}],87:[function(require,module,exports){
 const toString = (object) => {
     if (!object) return ''
 
@@ -5573,7 +5465,7 @@ const toString = (object) => {
 }
 
 module.exports = {toString}
-},{}],89:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 module.exports = {
     toStyle: ({ VALUE, STATE, id }) => {
         var local = VALUE[id]
@@ -5621,7 +5513,7 @@ module.exports = {
         return style
     }
 }
-},{}],90:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 const { toStyle } = require("./toStyle")
 const { toArray } = require("./toArray")
 const { generate } = require("./generate")
@@ -5711,19 +5603,20 @@ module.exports = {
     
         // linkable
         if (local.link) {
-    
-            tag = `<a href=${local.link}>${tag}</a>`
-            local.controls = toArray(local.controls) || []
-            local.controls.push({
+            
+            var id = generate()
+            tag = `<a id=${id} href=${local.link}>${tag}</a>`
+            toArray(local.controls).push({
                 event: 'click',
                 actions: `route?route=${local.link}`
             })
+            VALUE[id] = {}
         }
         
         return tag
     }
 }
-},{"./clone":30,"./createElement":37,"./generate":52,"./toArray":81,"./toStyle":89,"path":2}],91:[function(require,module,exports){
+},{"./clone":29,"./createElement":36,"./generate":51,"./toArray":80,"./toStyle":88,"path":2}],90:[function(require,module,exports){
 const { toPath } = require("./toPath")
 const { generate } = require("./generate")
 const { reducer } = require("./reducer")
@@ -5879,7 +5772,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
 }
 
 module.exports = { toValue }
-},{"./generate":52,"./reducer":65,"./toApproval":80,"./toPath":87}],92:[function(require,module,exports){
+},{"./generate":51,"./reducer":64,"./toApproval":79,"./toPath":86}],91:[function(require,module,exports){
 const { generate } = require("./generate")
 const { starter } = require("./starter")
 const { toArray } = require("./toArray")
@@ -5947,7 +5840,7 @@ const removeIds = ({ VALUE, id }) => {
 }
 
 module.exports = {update, removeIds}
-},{"./clone":30,"./createElement":37,"./generate":52,"./starter":76,"./toArray":81}],93:[function(require,module,exports){
+},{"./clone":29,"./createElement":36,"./generate":51,"./starter":75,"./toArray":80}],92:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toApproval } = require("./toApproval")
 const { isEqual } = require("./isEqual")
@@ -6035,9 +5928,9 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {watch}
-},{"./clone":30,"./data":40,"./execute":47,"./generate":52,"./isEqual":56,"./toApproval":80,"./toParam":86}],94:[function(require,module,exports){
+},{"./clone":29,"./data":39,"./execute":46,"./generate":51,"./isEqual":55,"./toApproval":79,"./toParam":85}],93:[function(require,module,exports){
 module.exports = require('./lib/axios');
-},{"./lib/axios":96}],95:[function(require,module,exports){
+},{"./lib/axios":95}],94:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6218,7 +6111,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"../core/buildFullPath":102,"../core/createError":103,"./../core/settle":107,"./../helpers/buildURL":111,"./../helpers/cookies":113,"./../helpers/isURLSameOrigin":116,"./../helpers/parseHeaders":118,"./../utils":120}],96:[function(require,module,exports){
+},{"../core/buildFullPath":101,"../core/createError":102,"./../core/settle":106,"./../helpers/buildURL":110,"./../helpers/cookies":112,"./../helpers/isURLSameOrigin":115,"./../helpers/parseHeaders":117,"./../utils":119}],95:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -6276,7 +6169,7 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
-},{"./cancel/Cancel":97,"./cancel/CancelToken":98,"./cancel/isCancel":99,"./core/Axios":100,"./core/mergeConfig":106,"./defaults":109,"./helpers/bind":110,"./helpers/isAxiosError":115,"./helpers/spread":119,"./utils":120}],97:[function(require,module,exports){
+},{"./cancel/Cancel":96,"./cancel/CancelToken":97,"./cancel/isCancel":98,"./core/Axios":99,"./core/mergeConfig":105,"./defaults":108,"./helpers/bind":109,"./helpers/isAxiosError":114,"./helpers/spread":118,"./utils":119}],96:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6297,7 +6190,7 @@ Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
 
-},{}],98:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 'use strict';
 
 var Cancel = require('./Cancel');
@@ -6356,14 +6249,14 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-},{"./Cancel":97}],99:[function(require,module,exports){
+},{"./Cancel":96}],98:[function(require,module,exports){
 'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
 
-},{}],100:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6460,7 +6353,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = Axios;
 
-},{"../helpers/buildURL":111,"./../utils":120,"./InterceptorManager":101,"./dispatchRequest":104,"./mergeConfig":106}],101:[function(require,module,exports){
+},{"../helpers/buildURL":110,"./../utils":119,"./InterceptorManager":100,"./dispatchRequest":103,"./mergeConfig":105}],100:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6514,7 +6407,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 
 module.exports = InterceptorManager;
 
-},{"./../utils":120}],102:[function(require,module,exports){
+},{"./../utils":119}],101:[function(require,module,exports){
 'use strict';
 
 var isAbsoluteURL = require('../helpers/isAbsoluteURL');
@@ -6536,7 +6429,7 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
   return requestedURL;
 };
 
-},{"../helpers/combineURLs":112,"../helpers/isAbsoluteURL":114}],103:[function(require,module,exports){
+},{"../helpers/combineURLs":111,"../helpers/isAbsoluteURL":113}],102:[function(require,module,exports){
 'use strict';
 
 var enhanceError = require('./enhanceError');
@@ -6556,7 +6449,7 @@ module.exports = function createError(message, config, code, request, response) 
   return enhanceError(error, config, code, request, response);
 };
 
-},{"./enhanceError":105}],104:[function(require,module,exports){
+},{"./enhanceError":104}],103:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6637,7 +6530,7 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
-},{"../cancel/isCancel":99,"../defaults":109,"./../utils":120,"./transformData":108}],105:[function(require,module,exports){
+},{"../cancel/isCancel":98,"../defaults":108,"./../utils":119,"./transformData":107}],104:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6681,7 +6574,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   return error;
 };
 
-},{}],106:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -6770,7 +6663,7 @@ module.exports = function mergeConfig(config1, config2) {
   return config;
 };
 
-},{"../utils":120}],107:[function(require,module,exports){
+},{"../utils":119}],106:[function(require,module,exports){
 'use strict';
 
 var createError = require('./createError');
@@ -6797,7 +6690,7 @@ module.exports = function settle(resolve, reject, response) {
   }
 };
 
-},{"./createError":103}],108:[function(require,module,exports){
+},{"./createError":102}],107:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6819,7 +6712,7 @@ module.exports = function transformData(data, headers, fns) {
   return data;
 };
 
-},{"./../utils":120}],109:[function(require,module,exports){
+},{"./../utils":119}],108:[function(require,module,exports){
 (function (process){(function (){
 'use strict';
 
@@ -6921,7 +6814,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 }).call(this)}).call(this,require('_process'))
-},{"./adapters/http":95,"./adapters/xhr":95,"./helpers/normalizeHeaderName":117,"./utils":120,"_process":3}],110:[function(require,module,exports){
+},{"./adapters/http":94,"./adapters/xhr":94,"./helpers/normalizeHeaderName":116,"./utils":119,"_process":3}],109:[function(require,module,exports){
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -6934,7 +6827,7 @@ module.exports = function bind(fn, thisArg) {
   };
 };
 
-},{}],111:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7006,7 +6899,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
-},{"./../utils":120}],112:[function(require,module,exports){
+},{"./../utils":119}],111:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7022,7 +6915,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
     : baseURL;
 };
 
-},{}],113:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7077,7 +6970,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":120}],114:[function(require,module,exports){
+},{"./../utils":119}],113:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7093,7 +6986,7 @@ module.exports = function isAbsoluteURL(url) {
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 };
 
-},{}],115:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7106,7 +6999,7 @@ module.exports = function isAxiosError(payload) {
   return (typeof payload === 'object') && (payload.isAxiosError === true);
 };
 
-},{}],116:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7176,7 +7069,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":120}],117:[function(require,module,exports){
+},{"./../utils":119}],116:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -7190,7 +7083,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
-},{"../utils":120}],118:[function(require,module,exports){
+},{"../utils":119}],117:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7245,7 +7138,7 @@ module.exports = function parseHeaders(headers) {
   return parsed;
 };
 
-},{"./../utils":120}],119:[function(require,module,exports){
+},{"./../utils":119}],118:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7274,7 +7167,7 @@ module.exports = function spread(callback) {
   };
 };
 
-},{}],120:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 'use strict';
 
 var bind = require('./helpers/bind');
@@ -7627,30 +7520,4 @@ module.exports = {
   stripBOM: stripBOM
 };
 
-},{"./helpers/bind":110}],121:[function(require,module,exports){
-const {admin} = require('./admin')
-const {home} = require('./home')
-const {public} = require('./public')
-
-module.exports = {
-    admin, home, public
-}
-},{"./admin":122,"./home":123,"./public":124}],122:[function(require,module,exports){
-const admin = {
-    views: ['admin-navbar', 'admin']
-}
-
-module.exports = {admin}
-},{}],123:[function(require,module,exports){
-const home = {
-    views: ['navbar']
-}
-
-module.exports = {home}
-},{}],124:[function(require,module,exports){
-const public = {
-    views: ['droplist', 'mini-window', 'actionlist', 'action-note']
-}
-
-module.exports = {public}
-},{}]},{},[4]);
+},{"./helpers/bind":109}]},{},[4]);

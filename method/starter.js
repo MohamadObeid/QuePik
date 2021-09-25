@@ -1,5 +1,3 @@
-const { toArray } = require("./toArray")
-const control = require('../control/control')
 const autoActions = ['fill']
 
 const starter = ({ STATE, VALUE, id }) => {
@@ -15,6 +13,9 @@ const starter = ({ STATE, VALUE, id }) => {
     
     local.element = document.getElementById(id)
     if (!local.element) return delete VALUE[id]
+
+    // status
+    local.status = 'mounting'
     
     /* Defaults must start before controls */
     
@@ -34,14 +35,6 @@ const starter = ({ STATE, VALUE, id }) => {
 
     // setStyles
     if (local.style) setStyle({ VALUE, STATE, id, params: {style: local.style} })
-
-    // lunch auto controls
-    Object.entries(control).map(([type, control]) => {
-
-        if (!local[type]) return
-        local.controls = toArray(local.controls)
-        local.controls.push(...control({ VALUE, STATE, id, params: { controls: local[type] } }))
-    })
 
     // auto actions
     autoActions.map(action => local[action] && require("./_method")[action]({ VALUE, STATE, id }))

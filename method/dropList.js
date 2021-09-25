@@ -45,7 +45,7 @@ const droplist = ({ VALUE, STATE, id, e }) => {
     
     if (items.length > 0) dropList.children = clone(items).map(item => {
         
-        var readonly = false, input = false, droplist
+        var readonly = false, input = false, droplist, itemList = []
         if (typeof item === 'string') {
 
             item = item.split('>>')
@@ -55,13 +55,15 @@ const droplist = ({ VALUE, STATE, id, e }) => {
 
         } else if (Array.isArray(item)) {
             
+            itemList = clone(item)
+            item = itemList.find(item => !item.includes('readonly'))
             input = true
             droplist = true
         }
         
         if (input && !readonly) {
             return {
-                type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${local.key ? `input.value=value.path::${input_id};edit=${parent};` : `input.value=${item};`}${droplist ? `readonly;droplist.items=[${item}];droplist.positioner=${dropList.positioner};data=${derive(STATE[local.Data], local.derivations)[0]};` : ''}`,
+                type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${local.key ? `input.value=value.path::${input_id};edit=${parent};` : `input.value=${item};`}${droplist ? `readonly;droplist.items=[${itemList}];droplist.positioner=${dropList.positioner};data=${derive(STATE[local.Data], local.derivations)[0]};` : ''}`,
                 controls: [{
                     event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};state[value.Data][value.derivations::${input_id}].delete();value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(',')},e.target.value||${local.key}];state[value.Data][value.derivations::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`
                 }]
@@ -88,7 +90,7 @@ const droplist = ({ VALUE, STATE, id, e }) => {
     })
 
     dropList.positioner = id
-    dropList.turnoff = true
+    dropList.unDeriveData = true
     
     update({ VALUE, STATE, id: 'droplist' })
 }

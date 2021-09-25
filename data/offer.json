@@ -1,0 +1,45 @@
+[
+  {
+    "id": "offer-01",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "name": "Summer offer",
+    "type": "percentage",
+    "discount": {
+      "%": "7.5"
+    },
+    "start-date": "23-9-2021T08:00",
+    "end-date": "26-9-2021T16:00",
+    "availabe-amount": 20,
+    "code": "summer-discount",
+    "service": "service-01",
+    "status": "active"
+  },
+  {
+    "id": "offer-02",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "name": "Black Discount",
+    "type": "amount",
+    "discount": {
+      "lbp": "5,000"
+    },
+    "start-date": "27-9-2021T10:00",
+    "end-date": "27-10-2021T10:00",
+    "code": "12345",
+    "service": "service-01",
+    "status": "active"
+  },
+  {
+    "id": "offer-03",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "name": "New Discount",
+    "type": "amount",
+    "discount": {
+      "lbp": "2,000"
+    },
+    "start-date": "27-9-2021T10:00",
+    "end-date": "27-10-2021T10:00",
+    "code": "12345",
+    "service": "service-02",
+    "status": "active"
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "id": "collection-01",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "type": "image",
+    "name": "Carousel",
+    "image": "/image/collection-01.jpeg",
+    "content-id": ["carousel-01", "carousel-02", "carousel-03"],
+    "description": "Home screen carousel images"
+  },
+  {
+    "id": "collection-02",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "type": "category",
+    "name": "Categories",
+    "image": "/image/collection-02.jpeg",
+    "content": [
+      "category-01",
+      "category-02",
+      "category-03",
+      "category-04",
+      "category-05",
+      "category-06",
+      "category-07"
+    ],
+    "description": "Home screen Categories"
+  },
+  {
+    "id": "collection-03",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "type": "service",
+    "name": "Featured Services",
+    "image": "/image/collection-03.jpeg",
+    "content": ["service-01", "service-02", "service-03"],
+    "description": "Home screen featured services"
+  },
+  {
+    "id": "collection-04",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "type": "service",
+    "name": "Only For You",
+    "image": "/image/collection-04.jpeg",
+    "content": ["service-01", "service-02", "service-03", "service-04"],
+    "description": "Promoted Services"
+  }
+]

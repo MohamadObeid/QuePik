@@ -1,0 +1,61 @@
+[
+  {
+    "id": "user-01",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "first-name": "George",
+    "last-name": "Washington",
+    "phone-number": "03-123456",
+    "address": "Beirut, downtown, Zeytunah, building, floor",
+    "location": {
+      "latitude": "33.888630",
+      "longitude": "35.495480"
+    },
+    "password": "12345",
+    "email": "washington@gmail.com",
+    "favorite": {
+      "providers": ["provider-01"],
+      "services": ["service-01", "service-02"]
+    },
+    "bookings": ["booking-01"],
+    "status": "active"
+  },
+  {
+    "id": "user-03",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "first-name": "Christina",
+    "last-name": "Abi Lameh",
+    "phone-number": "71-123456",
+    "address": "Baabda, near starbucks",
+    "location": {
+      "latitude": "33.888630",
+      "longitude": "35.495480"
+    },
+    "password": "12345",
+    "email": "christina@gmail.com",
+    "favorite": {
+      "services": ["service-02"]
+    },
+    "bookings": ["booking-02"],
+    "status": "active"
+  },
+  {
+    "id": "user-02",
+    "creation-date": "23-9-2021T10:59:26Z",
+    "first-name": "Fadi",
+    "last-name": "Ismail",
+    "phone-number": "70-123456",
+    "address": "Beirut, Hamrah street",
+    "location": {
+      "latitude": "33.888630",
+      "longitude": "35.495480"
+    },
+    "password": "12345",
+    "email": "ismail@gmail.com",
+    "favorite": {
+      "providers": ["provider-02", "provider-03"],
+      "services": ["service-03", "service-01"]
+    },
+    "bookings": ["booking-03"],
+    "status": "active"
+  }
+]

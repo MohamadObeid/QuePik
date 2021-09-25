@@ -1,91 +1,100 @@
 {
-    "name": { "en": "Discount Terms" },
-    "icon": {
-      "name": "local_offer",
-      "google": true,
-      "type": "outlined"
+  "id": "asset-04",
+  "name": { "en": "Discount Terms" },
+  "icon": {
+    "name": "local_offer",
+    "google": true,
+    "type": "outlined"
+  },
+  "options": [
+    {
+      "name": { "en": "Accumulation Discounts" },
+      "description": { "en": "Discounts for large purchases" }
     },
-    "options": [
-      {
-        "icon": {},
-        "name": { "en": "Accumulation Discounts" },
-        "description": { "en": "Discounts for large purchases" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Coupons" },
-        "description": { "en": "These have certain terms, such as a certain quantity has to be purchased or if the customer is past a certain age" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Disability Discount" },
-        "description": { "en": "Offer to customers with a disability" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Discount Card" },
-        "description": { "en": "Issuing cards that give certain customers or any customer a discount" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Student Discount" },
-        "description": { "en": "Usually given to students, but may go to educators" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Employee Discount" },
-        "description": { "en": "Offered to employees" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Military Discount" },
-        "description": { "en": "Offered to members of the military and family members" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Partial Payment Discount" },
-        "description": { "en": "When a seller needs cash flow, he may offer a partial discount" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Cash Payment Discount" },
-        "description": { "en": "Some retailers give customers a lower price if they pay with cash. This saves the fee the retailer pays on credit cards" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Prompt Payment Discount" },
-        "description": { "en": "The wholesaler or manufacturer gives a discount to the retailer at the list price or catalogue price. This sometimes applies to promotions" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Cash Back" },
-        "description": { "en": "A refund mailed to the purchaser after a purchase" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Sliding Scale" },
-        "description": { "en": "This discount is calculated on a person's ability to pay. This is common with non-profit organizations" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Seasonal Discount" },
-        "description": { "en": "Usually this is given during a slack period when sales are down" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Kid Discount" },
-        "description": { "en": "This covers free or discounted prices for children under a certain age. There is usually a requirement that an adult pay full price" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Trade Discount" },
-        "description": { "en": "Payments for functions such as shelf stocking, warehousing or shipping" }
-      },
-      {
-        "icon": {},
-        "name": { "en": "Trade-in Credit" },
-        "description": { "en": "A discount for something that is returned" }
+    {
+      "name": { "en": "Coupons" },
+      "description": {
+        "en": "These have certain terms, such as a certain quantity has to be purchased or if the customer is past a certain age"
       }
-    ],
-    "file-name": "discount-terms"
-  }
+    },
+    {
+      "name": { "en": "Disability Discount" },
+      "description": { "en": "Offer to customers with a disability" }
+    },
+    {
+      "name": { "en": "Discount Card" },
+      "description": {
+        "en": "Issuing cards that give certain customers or any customer a discount"
+      }
+    },
+    {
+      "name": { "en": "Student Discount" },
+      "description": {
+        "en": "Usually given to students, but may go to educators"
+      }
+    },
+    {
+      "name": { "en": "Employee Discount" },
+      "description": { "en": "Offered to employees" }
+    },
+    {
+      "name": { "en": "Military Discount" },
+      "description": {
+        "en": "Offered to members of the military and family members"
+      }
+    },
+    {
+      "name": { "en": "Partial Payment Discount" },
+      "description": {
+        "en": "When a seller needs cash flow, he may offer a partial discount"
+      }
+    },
+    {
+      "name": { "en": "Cash Payment Discount" },
+      "description": {
+        "en": "Some retailers give customers a lower price if they pay with cash. This saves the fee the retailer pays on credit cards"
+      }
+    },
+    {
+      "name": { "en": "Prompt Payment Discount" },
+      "description": {
+        "en": "The wholesaler or manufacturer gives a discount to the retailer at the list price or catalogue price. This sometimes applies to promotions"
+      }
+    },
+    {
+      "name": { "en": "Cash Back" },
+      "description": {
+        "en": "A refund mailed to the purchaser after a purchase"
+      }
+    },
+    {
+      "name": { "en": "Sliding Scale" },
+      "description": {
+        "en": "This discount is calculated on a person's ability to pay. This is common with non-profit organizations"
+      }
+    },
+    {
+      "name": { "en": "Seasonal Discount" },
+      "description": {
+        "en": "Usually this is given during a slack period when sales are down"
+      }
+    },
+    {
+      "name": { "en": "Kid Discount" },
+      "description": {
+        "en": "This covers free or discounted prices for children under a certain age. There is usually a requirement that an adult pay full price"
+      }
+    },
+    {
+      "name": { "en": "Trade Discount" },
+      "description": {
+        "en": "Payments for functions such as shelf stocking, warehousing or shipping"
+      }
+    },
+    {
+      "name": { "en": "Trade-in Credit" },
+      "description": { "en": "A discount for something that is returned" }
+    }
+  ],
+  "file-name": "discount-terms"
+}
