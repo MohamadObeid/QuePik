@@ -27,7 +27,7 @@
                 "placeholder": "Search by name, category, provider, offer...",
                 "controls": {
                     "event": "keyup>>200??state.service-list-Data",
-                    "actions": "await.update::global.service-list-view.1stChild().id<<global.service-list-view.1stChild().element.style.display=grid;await.update::global.service-list-view.2ndChild().2ndChild().id<<global.service-list-view.2ndChild().element.style.display=grid;async.filter?filter.backup=state.service.clone();filter.path=[name,category.name,description,provider.name,offer.name];filter.Data=service-list-Data;filter.value=e.target.value"
+                    "actions": "await.update::global.service-list-view.1stChild().id<<global.service-list-view.1stChild().element.style.display=grid;await.update::global.service-list-view.2ndChild().2ndChild().id<<global.service-list-view.2ndChild().element.style.display=grid;async.filter?filter.backup=state.service.clone();filter.path=[name,category.name,description,provider.name,offer.name,price.lbp];filter.Data=service-list-Data;filter.value=e.target.value"
                 }
             }, {
                 "type": "View?class=flex-box",

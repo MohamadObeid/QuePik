@@ -4117,7 +4117,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = e.preventDefault()
 
-        } else if (k === 'value') {
+        } else if (k === '()') {
 
             answer = VALUE[o]
 
