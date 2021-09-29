@@ -1,5 +1,6 @@
 const { removeIds } = require("./update")
 const { clone } = require("./clone")
+const { reducer } = require("./reducer")
 
 const remove = ({ STATE, VALUE, params, id }) => {
 
@@ -12,38 +13,16 @@ const remove = ({ STATE, VALUE, params, id }) => {
     var path = params.path ? params.path('.') : []
     
     // convert string numbers paths to num
-    if (path.length > 0) 
-    path = path.map(k => {
+    if (path.length > 0) path = path.map(k => {
         if (!isNaN(k)) k = parseFloat(k) 
         return k
     })
 
     if (params.path) keys.push(...path)
+    keys.push('delete()')
 
-    if (keys.length === 0) {
-        
-        // local.parent.children.splice([keys[keys.length - 1]], 1)
-
-    } else keys.reduce((o, k, i) => {
-
-        if (i === keys.length - 1) {
-
-            if (Array.isArray(o)) {
-
-                o.splice(k, 1)
-
-            // name: { en: val1, ar: val2, ... }
-            } else if (local.component === 'Input') {
-
-                var key = VALUE[`${id}-input`].path
-                return delete o[k][key]
-
-            } else return delete o[k]
-
-        }
-        return o[k]
-
-    }, STATE[local.Data])
+    // delete 
+    reducer({ VALUE, STATE, id, params: { path: keys, object: STATE[local.Data] } })
 
     removeIds({ VALUE, id })
     

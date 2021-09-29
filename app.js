@@ -33,7 +33,11 @@ app.get('*', (req, res) => {
   var page = path[1]
   
   // api
-  if (path[1] === 'api') return getApi(req, res)
+  if (page === 'api') return getApi(req, res)
+
+  // image
+  if (path[2] === 'image')
+  return res.sendFile(require('path').join(process.cwd(), path[2], path[3]))
 
   // favicon
   if (page === 'favicon.ico') return res.status(204).send('')

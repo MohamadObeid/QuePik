@@ -17,6 +17,7 @@ const createTags = ({ VALUE, STATE, id }) => {
     if (local.mapType && Array.isArray(local.data) && local.data.length > 0) {
 
         local.length = local.data.length || 1
+        
         var $ = clone(local)
         delete VALUE[id]
 
@@ -37,11 +38,11 @@ const createTags = ({ VALUE, STATE, id }) => {
             var local = clone($)
 
             local.derivations = [...local.derivations, index]
+            local.mapIndex = index
             local.data = data
             local.id = id
 
             VALUE[id] = local
-
             return createTag({ VALUE, STATE, id })
 
         }).join('')
@@ -57,13 +58,14 @@ const createTags = ({ VALUE, STATE, id }) => {
             var $ = clone(local)
             delete VALUE[id]
             
-            return keys.map(key => {
+            return keys.map((key, index) => {
 
                 var id = generate()
                 var local = clone($)
 
                 local.id = id
                 local.key = key
+                local.mapIndex = index
                 VALUE[id] = local
 
                 return createTag({ VALUE, STATE, id })
@@ -81,13 +83,14 @@ const createTags = ({ VALUE, STATE, id }) => {
             var $ = clone(local)
             delete VALUE[id]
             
-            return langs.map(lang => {
+            return langs.map((lang, index) => {
 
                 var id = generate()
                 var local = clone($)
 
                 local.id = id
                 local.lang = lang
+                local.mapIndex = index
 
                 VALUE[id] = local
 
@@ -106,13 +109,14 @@ const createTags = ({ VALUE, STATE, id }) => {
             var $ = clone(local)
             delete VALUE[id]
             
-            return currencies.map(currency => {
+            return currencies.map((currency, index) => {
 
                 var id = generate()
                 var local = clone($)
 
                 local.id = id
                 local.currency = currency
+                local.mapIndex = index
 
                 VALUE[id] = local
 
@@ -173,6 +177,7 @@ const componentModifier = ({ VALUE, id }) => {
     // input
     else if (local.type === 'Input') {
         local.input = local.input || {}
+        
         if (local.checked !== undefined) local.input.checked = local.checked
         if (local.max !== undefined) local.input.max = local.max
         if (local.min !== undefined) local.input.min = local.min

@@ -7,19 +7,17 @@ const Item = (component) => {
     component.chevron = component.chevron || {}
     component = toComponent(component)
 
-    var { model, state, style, icon, text, tooltip, chevron, controls, readonly, borderMarker } = component
+    var { id, model, state, style, icon, text, tooltip, chevron, controls, readonly, borderMarker } = component
 
     borderMarker = borderMarker !== undefined ? borderMarker : true
     readonly = readonly !== undefined ? readonly : false
-
-    var id = component.id || generate()
 
     if (model === 'featured')
         return {
             ...component,
             class: 'flex-box item',
             component: 'Item',
-            type: 'View?touchableOpacity',
+            type: `View?touchableOpacity;hoverable.id=[${id},${id}-icon,${id}-text,${id}-chevron];hoverable.mountonload`,
             tooltip,
             style: {
                 position: 'relative',
@@ -84,20 +82,14 @@ const Item = (component) => {
             }],
             controls: [...controls,
             {
-                actions: `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountOnLoad?state.${state}`
+                actions: `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountonload?state.${state}`
             }, {
                 event: `click??state.${state}=undefined||state.${state}.0!=${id}`,
                 actions: [
                     `setData?data.value=value.text`,
-                    `resetStyles?value.mountOnLoad::state.${state}.0=false??state.${state}`,
-                    `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron];value.mountOnLoad::state.${state}.0??state.${state}`,
+                    `resetStyles?value.mountonload::state.${state}.0=false??state.${state}`,
+                    `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron];value.mountonload::state.${state}.0??state.${state}`,
                 ]
-            }, {
-                event: 'mouseenter',
-                actions: `mountAfterStyles???${id};${id}-icon;${id}-text;${id}-chevron`
-            }, {
-                event: 'mouseleave',
-                actions: `resetStyles??!mountOnLoad?${id};${id}-icon;${id}-text;${id}-chevron`
             }]
         }
 
@@ -158,7 +150,7 @@ const Item = (component) => {
                 actions: `mountAfterStyles???${id};${id}-icon;${id}-text`
             }, {
                 event: 'mouseleave',
-                actions: `resetStyles??!mountOnLoad?${id};${id}-icon;${id}-text`
+                actions: `resetStyles??!mountonload?${id};${id}-icon;${id}-text`
             }]
         }
 }

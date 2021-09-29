@@ -28,6 +28,7 @@ module.exports = {
                 else if (k === 'alignItems') k = 'align-items'
                 else if (k === 'alignSelf') k = 'align-self'
                 else if (k === 'justifyContent') k = 'justify-content'
+                else if (k === 'justifySelf') k = 'justify-self'
                 else if (k === 'userSelect') k = 'user-select'
                 else if (k === 'textAlign') k = 'text-align'
                 else if (k === 'pointerEvents') k = 'pointer-events'

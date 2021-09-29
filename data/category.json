@@ -1,40 +1,45 @@
 [
   {
     "id": "category-01",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "name": "Hair",
+    "status": "active",
     "image": "/image/cateogry-01.jpeg",
     "description": "Hair Styles",
     "head-category": ""
   },
   {
     "id": "category-02",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "name": "Massage",
+    "status": "active",
     "image": "/image/cateogry-02.jpeg",
     "description": "Types of Massages",
     "head-category": ""
   },
   {
     "id": "category-03",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "name": "Solarium",
+    "status": "active",
     "image": "/image/cateogry-03.jpeg",
     "description": "Sunroom, a room built largely of glass to afford exposure to the sun",
     "head-category": ""
   },
   {
     "id": "category-04",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "name": "Facial",
+    "status": "active",
     "image": "/image/cateogry-04.jpeg",
     "description": "A facial is a family of skin care treatments for the face",
     "head-category": ""
   },
   {
     "id": "category-05",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "name": "Eyebrow",
+    "status": "active",
     "image": "/image/cateogry-05.jpeg",
     "description": "Eyebrow Care",
     "head-category": "3"

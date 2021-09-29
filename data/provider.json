@@ -1,7 +1,7 @@
 [
   {
     "id": "provider-01",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "type": "Beauty Salon",
     "name": "Nevelin",
     "images": [
@@ -10,18 +10,22 @@
       "/image/provider-03.jpeg"
     ],
     "phone-number": "01-123456",
+    "user": {
+      "id": "user-01",
+      "name": "George Washington"
+    },
     "status": "active",
     "address": "Beirut, Hamrah street, Test building, ground floor",
+    "description": "A high service salon",
+    "note": "Kindly set bookings a day before!",
     "owner": {
       "name": "George",
       "phone-number": "03-123456"
     },
-    "user": "user-01",
     "location": {
       "latitude": "33.888630",
       "longitude": "35.495480"
     },
-    "description": "A high service salon",
     "work-time": {
       "Monday": "08:00T18:00",
       "Tuesday": "08:00T18:00",
@@ -30,14 +34,27 @@
       "Friday": "08:00T18:00",
       "Saturday": "08:00T18:00"
     },
-    "servies": ["service-01", "service-02", "service-03"],
-    "reviews": ["review-01", "review-02", "review-03"],
-    "note": "Kindly set bookings a day before!",
-    "facilities": {}
+    "services": [
+      {
+        "id": "service-01",
+        "name": "Indian Massage"
+      },
+      {
+        "id": "service-02",
+        "name": "Hair Cut"
+      }
+    ],
+    "reviews": [
+      "review-01",
+      "review-02",
+      "review-03"
+    ],
+    "facilities": {},
+    "email": "test@gmail.com"
   },
   {
     "id": "provider-02",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "type": "Massage & Spa",
     "name": "Rest Home",
     "images": [
@@ -46,13 +63,16 @@
       "/image/provider-06.jpeg"
     ],
     "phone-number": "01-123456",
-    "status": "inActive",
+    "status": "inactive",
     "address": "Beirut, Jomaizeh street",
     "owner": {
       "name": "Fadi",
       "phone-number": "70-123456"
     },
-    "user": "user-02",
+    "user": {
+      "id": "user-02",
+      "name": "Fadi Ismail"
+    },
     "location": {
       "latitude": "33.888630",
       "longitude": "35.495480"
@@ -67,8 +87,12 @@
       "Saturday": "08:00T18:00",
       "Sunday": "08:00T18:00"
     },
-    "servies": ["service-04", "service-05", "service-06"],
-    "reviews": ["review-04", "review-05", "review-06"],
+    "services": [],
+    "reviews": [
+      "review-04",
+      "review-05",
+      "review-06"
+    ],
     "note": "",
     "facilities": {}
   }

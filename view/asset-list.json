@@ -61,7 +61,7 @@
             "children": [{
                 "type": "View?style.display=state.asset-list-grid-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
-                    "type": "[View]?class=flex-box;Data=asset-list-Data;data=state.asset-list-Data;hoverable.id=[value.id,value.1stChild().id];miniWindow.view=asset",
+                    "type": "[View]?class=flex-box;Data=asset-list-Data;data=state.asset-list-Data",
                     "style": {
                         "borderRadius": ".75rem",
                         "border": "1px solid #ddd",
@@ -71,6 +71,10 @@
                         "after": {
                             "border": "1px solid #ee384e"
                         }
+                    },
+                    "controls": {
+                        "event": "load",
+                        "actions": "toControls?hoverable.id=[value.id,value.1stChild().id];miniWindow.view=asset"
                     },
                     "children": [{
                         "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.3rem;style.after.color=#ee384e;style.transition=color .1s"

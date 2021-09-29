@@ -11,7 +11,7 @@ const _method = require("./_method")
 
 const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
 
-    var local = VALUE[id], awaiter = [], _params = params, localId = id
+    var local = VALUE[id], _params = params, localId = id
     // if (!local) return
 
     if (controls) actions = controls.actions
@@ -19,7 +19,8 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
 
     // execute actions
     toArray(actions).map(_action => {
-        
+        var awaiter = [], asyncer
+
         // stop after actions
         if (local && local.break) return
 
@@ -32,7 +33,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
         actions = actions[0].split(';')
 
         // action does not exist
-        actions.map(action => {
+        actions.map((action, index) => {
 
             var name = action.split('::')[0]
 
@@ -73,6 +74,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
                     if (k === 'async') {
 
                         params.asyncer = true
+                        asyncer = true
                         
                     } else if (k === 'await') {
                         
@@ -81,11 +83,10 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
                     }
                 })
                 
-                
-                if (_method[name] && (!params.awaiter || params.asyncer)) 
+                if (_method[name] && (!params.awaiter || params.asyncer || index === actions.length - 1 )) 
                 
                 (actionid ? toArray(actionid) : idList).map(async id => {
-
+                    
                     if (typeof id !== 'string') return
 
                     // id = value.path
@@ -101,9 +102,15 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
                     if (params.asyncer) params.awaiter = awaiter
                     await _method[name]({ VALUE, STATE, controls, params, e, id })
                     
-                    // asyncer
-                    //if (_method[name].constructor.name !== 'AsyncFunction') 
+                    // await params
                     toAwait({ VALUE, STATE, id, e, params })
+
+                    // no asyncer
+                    if (!asyncer && awaiter.length > 0 && index === actions.length - 1) {
+                        params.asyncer = true
+                        params.awaiter = awaiter
+                        toAwait({ VALUE, STATE, id, e, params })
+                    }
                 })
 
             }

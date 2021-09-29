@@ -13,7 +13,7 @@ module.exports = {
         var style = toStyle({ STATE, VALUE, id })
         
         // innerHTML
-        var text = (typeof local.data !== 'object' && local.data) || local.text || ''
+        var text = local.text || (typeof local.data !== 'object' && local.data) || ''
         var innerHTML = text
         var checked = local.input && local.input.type === 'radio' && parseFloat(local.data) === parseFloat(local.input.defaultValue)
         
@@ -31,8 +31,8 @@ module.exports = {
         
             }).join('')
         }
-
-        var value = local.data || (local.input && local.input.value) || ''
+        
+        var value = (local.input && local.input.value) !== undefined ? local.input.value : (local.data || '')
         if (local.type === 'Image') local.src = local.src || local.data || ''
         
         if (local.type === 'View')
@@ -78,8 +78,8 @@ module.exports = {
         tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ''}' ${local.readonly ? 'readonly' : ''} ${local.maxlength || ''}>${local.data || local.input.value || ''}</textarea>`
         
         else if (local.type === 'Input') {
-        if (local.textarea) tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ''}' ${local.readonly ? 'readonly' : ''} ${local.maxlength || ''}>${local.data || local.input.value || ''}</textarea>`
-        else tag = `<input class='${local.class}' id='${local.id}' style='${style}' ${local.input.name ? `name="${local.input.name}"` : ''} ${local.input.accept ? `accept="${local.input.accept}/*"` : ''} type='${local.input.type || 'text'}' ${local.placeholder ? `placeholder="${local.placeholder}"` : ''} ${value ? `value="${value}"` : ''} ${local.readonly ? 'readonly' : ''} ${local.input.min ? `min="${local.input.min}"` : ''} ${local.input.max ? `max="${local.input.max}"` : ''} ${local.input.defaultValue ? `defaultValue="${local.input.defaultValue}"` : ''} ${checked ? "checked" : ''}/>`
+        if (local.textarea) tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ''}' ${local.readonly ? 'readonly' : ''} ${local.maxlength || ''}>${value}</textarea>`
+        else tag = `<input class='${local.class}' id='${local.id}' style='${style}' ${local.input.name ? `name="${local.input.name}"` : ''} ${local.input.accept ? `accept="${local.input.accept}/*"` : ''} type='${local.input.type || 'text'}' ${local.placeholder ? `placeholder="${local.placeholder}"` : ''} ${value !== undefined ? `value="${value}"` : ''} ${local.readonly ? 'readonly' : ''} ${local.input.min ? `min="${local.input.min}"` : ''} ${local.input.max ? `max="${local.input.max}"` : ''} ${local.input.defaultValue ? `defaultValue="${local.input.defaultValue}"` : ''} ${checked ? "checked" : ''}/>`
         }
         
         else if (local.type === 'Paragraph')

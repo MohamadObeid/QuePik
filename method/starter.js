@@ -1,4 +1,6 @@
 const autoActions = ['fill']
+const control = require('../control/control')
+const { toArray } = require('./toArray')
 
 const starter = ({ STATE, VALUE, id }) => {
     
@@ -9,7 +11,7 @@ const starter = ({ STATE, VALUE, id }) => {
     const { isArabic } = require("./isArabic")
 
     var local = VALUE[id]
-    if (!local) return
+    if (!local) return delete VALUE[id]
     
     local.element = document.getElementById(id)
     if (!local.element) return delete VALUE[id]
@@ -38,6 +40,15 @@ const starter = ({ STATE, VALUE, id }) => {
 
     // auto actions
     autoActions.map(action => local[action] && require("./_method")[action]({ VALUE, STATE, id }))
+            
+    // lunch auto controls
+    Object.entries(control).map(([type, control]) => {
+        if (local[type]) {
+
+            local.controls = toArray(local.controls)
+            local.controls.push( ...control({ VALUE, STATE, id, params: { controls: local[type] } }) )
+        }
+    })
     
     // execute controls
     if (local.controls) controls({ VALUE, STATE, id })

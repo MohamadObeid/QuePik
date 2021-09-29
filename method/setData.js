@@ -1,5 +1,5 @@
 const { clone } = require("./clone")
-const { derive } = require("./derive")
+const { reducer } = require("./reducer")
 const { setContent } = require("./setContent")
 
 const setData = ({ STATE, VALUE, params = {}, id }) => {
@@ -29,7 +29,7 @@ const setData = ({ STATE, VALUE, params = {}, id }) => {
     var keys = [...derivations, ...path]
     
     // set value
-    var value = derive(STATE[local.Data], keys, defValue, true)[0]
+    var value = reducer({ VALUE, STATE, id, params: { object: STATE[local.Data], path: keys, value: defValue, key: true } })
     local.data = value
     
     if (local.input && local.input.type === 'file') return

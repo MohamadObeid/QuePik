@@ -1,5 +1,5 @@
 const clone = (obj) => {
-    
+  
     var copy 
     if (typeof obj !== 'object') copy = obj
     else if (Array.isArray(obj)) copy = obj.map(obj => clone(obj))

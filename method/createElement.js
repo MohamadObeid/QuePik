@@ -9,7 +9,6 @@ const { reducer } = require("./reducer")
 
 const createElement = ({ STATE, VALUE, id }) => {
 
-    var innerHTML = ''
     var local = VALUE[id]
     var parent = VALUE[local.parent]
 
@@ -30,7 +29,7 @@ const createElement = ({ STATE, VALUE, id }) => {
     // [type]
     if (type.slice(0, 1) === '[' && type.slice(-1) === ']') {
         type = type.slice(1).slice(0, -1)
-        local.mapType = true
+        if (!local.duplicatedElement) local.mapType = true
     }
     local.type = type
 
@@ -85,6 +84,10 @@ const createElement = ({ STATE, VALUE, id }) => {
 
         }
 
+        if (params.Data) {
+            STATE[`${params.Data}-options`] = STATE[`${params.Data}-options`] || {}
+        }
+
     } else params = {}
 
     // pass values To Children
@@ -117,20 +120,29 @@ const createElement = ({ STATE, VALUE, id }) => {
 
         // push 0 to derivations for array data
         if (isNaN(path[0])) {
-            var data = derive(STATE[local.Data], parent.derivations)[0]
+            var data = reducer({
+                VALUE, STATE, id, params: {
+                    path: parent.derivations, value: params.data, object: STATE[local.Data] 
+                } 
+            })
             if (Array.isArray(data)) local.derivations.push(0)
         }
 
         local.derivations.push(...path)
     }
-    
-    
-    // data
-    var data, derivations = clone(local.derivations)
-    if (parent.unDeriveData || local.unDeriveData) { data = local.data || ''; local.unDeriveData = true }                                // params cz local.data is inherited from parent which is not default
-    else [data, derivations] = derive(STATE[local.Data], local.derivations, clone(params.data), true)
 
-    VALUE[id] = { ...local, data, derivations }
+    // data
+    if (parent.unDeriveData || local.unDeriveData) {
+
+        local.data = local.data || ''
+        local.unDeriveData = true 
+
+    } else local.data = reducer({
+        VALUE, STATE, id, params: { 
+            path: local.derivations, value: params.data, key: true, object: STATE[local.Data] 
+        } 
+    })
+    
     return createTags({ VALUE, STATE, id })
 }
 

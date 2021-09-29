@@ -2,355 +2,134 @@
     "file-name": "user",
     "type": "View?style.padding=2rem;data={}<<!value.data()",
     "children": [{
-        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem",
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=user-++generate()<<!value.data().id",
         "children": [{
-            "type": "View?class=flex-box?value.data().name",
+            "type": "View?class=flex-box?value.data().first-name||value.data().last-name",
             "children": [{
                 "type": "Text?text=Edit;style.fontSize=1.8rem;fontWeight=500"
             }, {
-                "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
+                "type": "Text?text=value.data().first-name;style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
+            }, {
+                "type": "Text?text=value.data().last-name;style.fontSize=1.8rem;style.fontWeight=500"
             }]
         }, {
-            "type": "Text?text=Create New user;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
+            "type": "Text?text=Create New user;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().first-name"
         }, {
             "type": "View?class=flex-box;style.marginLeft=auto",
             "children": [{
-                "type": "Icon?class=flex-box;icon.name=bi-three-dots;hoverable;actionlist",
-                "style": {
-                    "cursor": "pointer",
-                    "color": "#116dff",
-                    "fontSize": "2.5rem",
-                    "height": "4rem",
-                    "width": "4rem",
-                    "borderRadius": "4rem",
-                    "transition": "all 0.2s",
-                    "marginRight": "1rem",
-                    "after": { "backgroundColor": "#eee" }
-                }
+                "type": "Icon?class=flex-box;icon.name=bi-three-dots;style.color=#116dff;style.fontSize=2.5rem;style.height=4rem;style.width=4rem;style.borderRadius=4rem;style.transition=all .2s;style.marginRight=1rem;style.after.backgroundColor=#eee;hoverable;actionlist"
             }, {
                 "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
                 "controls": [{
                     "event": "click",
-                    "actions": "setStyle::miniWindow?style.display=none>>200;style.opacity=0"
+                    "actions": "setStyle::mini-window?style.display=none>>200;style.opacity=0"
                 }]
             }, {
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::user-list-view;await.setStyle::miniWindow;await.note;async.save?note=User saved successfully!;save.path=user;save.data=value.data();await.state.user-list-Data[value.data().file-name]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::user-list-view;await.setStyle::mini-window;await.note;async.save?note=User saved successfully!;save.path=data/user;save.data=value.data();await.state.user-list-Data.findById()[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
     }, {
         "type": "View?style.border=1px solid #eee;style.borderRadius=.5rem;style.padding=2rem;style.display=flex;style.flexDirection=column",
         "children": [{
-            "type": "Text?label;text=General Info;style.marginTop=1rem;style.fontSize=1.5rem;style.fontWeight=bolder;style.textAlign=left"
-        }, {
-            "type": "View?class=divider;style.marginTop=1rem;style.width=100%;style.marginBottom=3rem"
-        }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=3fr 3fr 3fr 3fr;style.gap=1rem;style.width=100%",
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
-                "type": "Text?label;text=File Name;style.fontSize=1.4rem;style.textAlign=left"
+                "type": "Text?class=left;label;text=First Name;style.fontSize=1.4rem"
             }, {
-                "type": "Text?label;text=Parent;style.fontSize=1.4rem;style.textAlign=left"
+                "type": "Text?class=left;label;text=Last Name;style.fontSize=1.4rem"
             }, {
-                "type": "Text?label;text=Icon;style.fontSize=1.4rem;style.textAlign=left"
+                "type": "Text?class=left;label;text=User ID;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Creation Date;style.fontSize=1.4rem"
             }]
         }, {
-            "type": "View?style.display=grid;style.gap=1rem;style.marginBottom=2rem",
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
             "children": [{
-                "type": "View?style.display=grid;style.gridTemplateColumns=3fr 3fr 3fr 3fr;style.gap=1rem",
+                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
                 "children": [{
-                    "type": "Input?featured;icon.name=description;icon.google;icon.outlined;style.backgroundColor=#f0f0f0;path=file-name"
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=first-name"
                 }, {
-                    "type": "Input?featured;clearable;readonly;icon.name=link;icon.google;icon.outlined;style.backgroundColor=#f0f0f0;path=parent;droplist.items=[users>>readonly,state.user.keys()].flat()"
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=last-name"
                 }, {
-                    "type": "Input?textarea;featured;google;style.backgroundColor=#f0f0f0;path=icon"
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=id"
+                }, {
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().toDate()<<!value.data().creation-date;path=creation-date;input.style.color=#666",
+                    "controls": {
+                        "event": "load?value.element.value=value.data().split().T.join(). "
+                    }
                 }]
             }]
         }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=3fr 1.8fr 1.8fr 5fr;style.gap=1rem;style.width=100%",
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 2fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
-                "type": "Text?label;text=Name;style.fontSize=1.4rem;style.textAlign=left"
+                "type": "Text?class=left;label;text=Phone Number;style.fontSize=1.4rem"
             }, {
-                "type": "Text?label;text=Type;style.fontSize=1.4rem;style.textAlign=left"
+                "type": "Text?class=left;label;text=Email;style.fontSize=1.4rem"
             }, {
-                "type": "Text?label;text=Stars;style.fontSize=1.4rem;style.textAlign=left"
+                "type": "Text?class=left;label;text=Password;style.fontSize=1.4rem"
             }, {
-                "type": "Text?label;text=Contact Number;style.fontSize=1.4rem;style.textAlign=left"
+                "type": "Text?class=left;label;text=Status;style.fontSize=1.4rem"
             }]
         }, {
-            "type": "View?style.display=grid;style.marginBottom=2rem;style.gap=1rem",
+            "type": "View?style.display=grid;style.gridTemplateColumns=1fr 2fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
             "children": [{
-                "type": "View?style.display=grid;style.gridTemplateColumns=3fr 1.8fr 1.8fr 5fr;style.gap=1rem",
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=phone-number"
+            }, {
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=email"
+            }, {
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;value.date().password=generate()<<value.data().password;path=password"
+            }, {
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=status;droplist.items=[Status>>readonly,active,inactive,blocked]"
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Address;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+            "children": [{
+                "type": "View?style.display=grid;style.gap=1rem",
+                "children": {
+                    "type": "[Input]?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=address"
+                }
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Favorite Providers;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Favorite Services;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Bookings;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Total Bookings;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
+            "children": [{
+                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.alignItems=start",
                 "children": [{
-                    "type": "View?style.display=grid;style.gap=1rem",
-                    "children": [{
-                        "type": "Input?textarea;featured;duplicatable;lang=en;icon=value.data().icon<<value.data();style.backgroundColor=#f0f0f0;path=name"
-                    }]
+                    "type": "View?style.display=grid;style.gap=.5rem",
+                    "children": {
+                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=favorite.providers.map().[name]<<value.data.favorite.providers;path=favorite.providers<<!value.data.favorite.providers"
+                    }
                 }, {
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Hotel type>>readonly,state.asset.hotel-type.options.map().name.en].flat()"
+                    "type": "View?style.display=grid;style.gap=.5rem",
+                    "children": {
+                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=favorite.services.map().[name]<<value.data.favorite.services;path=favorite.services<<!value.data.favorite.services"
+                    }
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=stars;droplist.items=[Stars>>readonly,state.asset.hotel-stars.options.map().name.en].flat()"
+                    "type": "View?style.display=grid;style.gap=.5rem",
+                    "children": {
+                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=bookings"
+                    }
                 }, {
-                    "type": "View?style.display=grid;style.gap=1rem",
-                    "children": [{
-                        "type": "Input?featured;duplicatable;clearable;style.backgroundColor=#f0f0f0;path=contact-number;input.type=tel;key=phone holder;originalKeys=[]"
-                    }]
+                    "type": "Input?textarea;featured;readonly;path=bookings.length()<<value.data().bookings;input.value=0<<!value.data().bookings;style.backgroundColor=#f0f0f0"
                 }]
-            }]
-        }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=3fr 3fr 6fr;style.gap=1rem;style.width=100%",
-            "children": [{
-                "type": "Text?label;text=Country;style.fontSize=1.4rem;style.textAlign=left"
-            }, {
-                "type": "Text?label;text=City;style.fontSize=1.4rem;style.textAlign=left"
-            }, {
-                "type": "Text?label;text=Address;style.fontSize=1.4rem;style.textAlign=left"
-            }]
-        }, {
-            "type": "View?style.display=grid;style.gap=1rem;style.marginBottom=2rem",
-            "children": [{
-                "type": "View?style.display=grid;style.gridTemplateColumns=3fr 3fr 6fr;style.gap=1rem",
-                "children": [{
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=country.en;droplist.items=[Country>>readonly,state.asset.country.options.map().name.en].flat()"
-                }, {
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=city.en;droplist.items=[City>>readonly,const.state.asset[state[value.Data].country.en.toLowerCase()].options.map().name.en<<state.asset[state[value.Data].country.en.toLowerCase()]];droplist.flat()"
-                }, {
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=address"
-                }]
-            }]
-        }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=6fr 3fr 3fr 3fr;style.gap=1rem;style.width=100%",
-            "children": [{
-                "type": "Text?label;text=Description;style.fontSize=1.4rem;style.textAlign=left"
-            }]
-        }, {
-            "type": "Input?textarea;path=description;featured;duplicatable;clearable;lang=en;style.backgroundColor=#f0f0f0;style.width=100%;style.minHeight=15rem;style.marginBottom=2rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
-        }, {
-            "type": "Text?label;text=Hotel Classification;style.marginTop=1rem;style.fontSize=1.5rem;style.fontWeight=bolder;style.textAlign=left"
-        }, {
-            "type": "View?class=divider;style.marginTop=1rem;style.width=100%;style.marginBottom=3rem"
-        }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
-            "children": [{
-                "type": "Text?label;text=By Clientele;style.fontSize=1.4rem;style.textAlign=left"
-            }, {
-                "type": "Text?label;text=By Location;style.fontSize=1.4rem;style.textAlign=left"
-            }, {
-                "type": "Text?label;text=By Ownership;style.fontSize=1.4rem;style.textAlign=left"
-            }, {
-                "type": "Text?label;text=By Service;style.fontSize=1.4rem;style.textAlign=left"
-            }, {
-                "type": "Text?label;text=By Size;style.fontSize=1.4rem;style.textAlign=left"
-            }]
-        }, {
-            "type": "View?style.marginBottom=2rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr;style.gap=1rem;path=classification",
-            "children": [{
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=clientele.en;droplist.items=[Hotel Clientele>>readonly,state.asset.hotel-clientele.options.map().name.en].flat()"
-            }, {
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=location.en;droplist.items=[Hotel Location>>readonly,state.asset.hotel-location.options.map().name.en].flat()"
-            }, {
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=ownership.en;droplist.items=[Hotel Ownership>>readonly,state.asset.hotel-ownership.options.map().name.en].flat()"
-            }, {
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=service.en;droplist.items=[Hotel Service>>readonly,state.asset.hotel-services.options.map().name.en].flat()"
-            }, {
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=size.en;droplist.items=[Hotel Size>>readonly,state.asset.hotel-sizes.options.map().name.en].flat()"
-            }]
-        }, {
-            "type": "Text?label;text=Hotel Facilities Capacity;style.marginTop=1rem;style.fontSize=1.5rem;style.fontWeight=bolder;style.textAlign=left"
-        }, {
-            "type": "View?class=divider;style.marginTop=1rem;style.width=100%;style.marginBottom=3rem"
-        }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
-            "children": [{
-                "type": "Text?label;text=Lobby;style.fontSize=1.4rem;style.textAlign=left"
-            }, {
-                "type": "Text?label;text=Restaurant;style.fontSize=1.4rem;style.textAlign=left"
-            }, {
-                "type": "Text?label;text=Floors;style.fontSize=1.4rem;style.textAlign=left"
-            }, {
-                "type": "Text?label;text=Rooms;style.fontSize=1.4rem;style.textAlign=left"
-            }, {
-                "type": "Text?label;text=Beds;style.fontSize=1.4rem;style.textAlign=left"
-            }]
-        }, {
-            "type": "View?style.marginBottom=2rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr;style.gap=1rem;path=capacity",
-            "children": [{
-                "type": "Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=lobby;unit=pax"
-            }, {
-                "type": "Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=restaurant;unit=seat"
-            }, {
-                "type": "Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=floor;unit=floor"
-            }, {
-                "type": "Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=room;unit=room"
-            }, {
-                "type": "Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=bed;unit=bed"
-            }]
-        }, {
-            "type": "Text?label;text=Images;style.marginTop=1rem;style.fontSize=1.5rem;style.fontWeight=bolder;style.textAlign=left"
-        }, {
-            "type": "View?class=divider;style.marginTop=1rem;style.width=100%;style.marginBottom=3rem"
-        }, {
-            "type": "View?style.display=grid;style.gap=1rem;style.marginBottom=2rem",
-            "children": [{
-                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;state[value.Data].image=[]<<!value.data().image",
-                "children": [{
-                    "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
-                    "children": [{
-                        "type": "Image?src=value.data().image.0<<value.data().image.0;path=image.0;fill"
-                    }]
-                }, {
-                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem",
-                    "children": [{
-                        "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
-                        "children": [{
-                            "type": "Image?src=value.data().image.1<<value.data().image.1;path=image.1;fill"
-                        }]
-                    }, {
-                        "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
-                        "children": [{
-                            "type": "Image?src=value.data().image.2<<value.data().image.2;path=image.2;fill"
-                        }]
-                    }, {
-                        "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
-                        "children": [{
-                            "type": "Image?src=value.data().image.3<<value.data().image.3;path=image.3;fill"
-                        }]
-                    }, {
-                        "type": "Input?featured;path=image[value.data().image.length()];style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
-                        "controls": {
-                            "event": "input>>200",
-                            "actions": [
-                                "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()].id.value().1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
-                                "note?note=Reached maximum image limit!?value.derivations.lastIndex()=3"
-                            ]
-                        }
-                    }]
-                }]
-            }]
-        }, {
-            "type": "Text?label;text=Rooms Info;style.marginTop=1rem;style.fontSize=1.5rem;style.fontWeight=bolder;style.textAlign=left"
-        }, {
-            "type": "View?class=divider;style.marginTop=1rem;style.width=100%;style.marginBottom=3rem"
-        }, {
-            "type": "View?id=room-info;style.display=grid;style.gap=2rem",
-            "children": [{
-                "type": "[View]?style.marginBottom=1rem;style.width=100%;path=rooms;data=[];style.position=relative",
-                "children": [{
-                    "type": "View?flicker;style.display=flex;style.gap=1rem;style.position=absolute;style.left=1rem;style.top=-2.2rem",
-                    "children": [{
-                        "type": "Text?class=flex-box;label;text=Room;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontWeight=bolder;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0"
-                    }, {
-                        "type": "Text?flicker;class=flex-box;label;text=value.derivations.lastIndex()++1;text=#++params.text;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontWeight=bolder;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0"
-                    }]
-                }, {
-                    "type": "View?flicker;style.display=flex;style.gap=1rem;style.position=absolute;style.right=1rem;style.top=-2.2rem",
-                    "children": [{
-                        "type": "Icon?class=flex-box pointer;icon.name=bi-plus-lg;style.after.color=#116dff;hoverable;style.fontWeight=bolder;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0",
-                        "controls": [{
-                            "event": "click?action.duplicate::value.parent().parent().id"
-                        }]
-                    }, {
-                        "type": "Icon?class=flex-box pointer;icon.name=bi-trash;style.after.color=red;hoverable;style.fontWeight=bolder;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0",
-                        "controls": [{
-                            "event": "click??state.Data().rooms.length()>1",
-                            "actions": "remove::value.parent().parent().id;update::global.room-info.children().map().1stChild().id"
-                        }]
-                    }]
-                }, {
-                    "type": "View?style.border=1px solid #eee;style.borderRadius=.5rem;style.padding=2rem",
-                    "children": [{
-                        "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
-                        "children": [{
-                            "type": "Text?label;text=Name;style.fontSize=1.4rem;style.textAlign=left"
-                        }, {
-                            "type": "Text?label;text=Type;style.fontSize=1.4rem;style.textAlign=left"
-                        }, {
-                            "type": "Text?label;text=Bathroom Type;style.fontSize=1.4rem;style.textAlign=left"
-                        }, {
-                            "type": "Text?label;text=Area;style.fontSize=1.4rem;style.textAlign=left"
-                        }, {
-                            "type": "Text?label;text=Total Rooms Av.;style.fontSize=1.4rem;style.textAlign=left"
-                        }]
-                    }, {
-                        "type": "View?style.marginBottom=2rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr;style.gap=1rem",
-                        "children": [{
-                            "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=name;lang=en"
-                        }, {
-                            "type": "Input?textarea;featured;readonly;clearable;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Room Types>>readonly,state.asset.room-type.options.map().name.en].flat()"
-                        }, {
-                            "type": "Input?textarea;featured;readonly;clearable;style.backgroundColor=#f0f0f0;path=bathroom-type;droplist.items=[Bathroom Type>>readonly,With Toilet Seat, Without Toilet Seat]"
-                        }, {
-                            "type": "Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=area;unit=m2"
-                        }, {
-                            "type": "Input?featured;input.type=number;style.backgroundColor=#f0f0f0;path=total-rooms;unit=room"
-                        }]
-                    }, {
-                        "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=6fr 3fr 3fr 3fr;style.gap=1rem;style.width=100%",
-                        "children": [{
-                            "type": "Text?label;text=Description;style.fontSize=1.4rem;style.textAlign=left"
-                        }]
-                    }, {
-                        "type": "View?style.display=grid;style.gap=1rem;style.marginBottom=2rem",
-                        "children": [{
-                            "type": "Input?textarea;path=description;featured;duplicatable;clearable;lang=en;style.backgroundColor=#f0f0f0;style.width=100%;style.minHeight=15rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
-                        }]
-                    }, {
-                        "type": "Text?class=flex-start;text=Images;style.marginTop=1rem;style.fontSize=1.4rem"
-                    }, {
-                        "type": "View?class=divider;style.marginTop=1rem;style.width=100%"
-                    }, {
-                        "type": "View?style.display=grid;style.gap=1rem;style.marginBottom=2rem",
-                        "children": [{
-                            "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;value.data().image=[]<<!value.data().image",
-                            "children": [{
-                                "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
-                                "children": [{
-                                    "type": "Image?src=value.data().image.0<<value.data().image.0;path=image.0;fill"
-                                }]
-                            }, {
-                                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem",
-                                "children": [{
-                                    "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
-                                    "children": [{
-                                        "type": "Image?src=value.data().image.1<<value.data().image.1;path=image.1;fill"
-                                    }]
-                                }, {
-                                    "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
-                                    "children": [{
-                                        "type": "Image?src=value.data().image.2<<value.data().image.2;path=image.2;fill"
-                                    }]
-                                }, {
-                                    "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
-                                    "children": [{
-                                        "type": "Image?src=value.data().image.3<<value.data().image.3;path=image.3;fill"
-                                    }]
-                                }, {
-                                    "type": "Input?featured;path=image[value.data().image.length()];style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
-                                    "controls": {
-                                        "event": "input>>200",
-                                        "actions": [
-                                            "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()--1].id.value().1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
-                                            "note?note=Reached maximum image limit!?value.derivations.lastIndex()=3"
-                                        ]
-                                    }
-                                }]
-                            }]
-                        }]
-                    }]
-                }]
-            }]
-        }, {
-            "type": "View?class=flex-start;style.marginTop=2rem",
-            "children": [{
-                "type": "Icon?class=align-center;icon.name=bi-plus-circle-fill;style.fontSize=2rem;style.margin=0 1rem;style.cursor=pointer",
-                "controls": [{
-                    "event": "click",
-                    "actions": "duplicate::value.parent().prev().1stChild().id"
-                }]
-            }, {
-                "type": "Text?text=Add More Rooms;style.fontSize=1.4rem;style.color=#444"
             }]
         }]
     }]

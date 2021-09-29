@@ -20,9 +20,9 @@ const postApi = (req, res) => {
     var path = req.url.split('/')
     var folder = path[2]
     var file = req.body
-    var fileName = file['file-name']
+    var fileName = path[3] || file['file-name']
     var fileType = 'json'
-
+    
     // create folder if it doesnot exist
     if(!fs.existsSync(folder)) fs.mkdirSync(folder)
 
@@ -44,15 +44,23 @@ const postApi = (req, res) => {
         
         fs.writeFileSync(filePath, base64Data, 'base64')
         return res.send({ data, success: true, message: `${capitalize(dataType)} save successfuly!` })
-    }
+    }    
 
     // file path
     var filePath = `./${folder}/${fileName}.${fileType}`
+
+    if (file.id) {
+
+        var files = getJsonFiles(folder, `${fileName}.${fileType}`)
+        var index = files.findIndex(_file => _file.id === file.id)
+        if (index > -1) files[index] = file
+        else files.push(file)
+        
+        fs.writeFileSync(filePath, JSON.stringify(files, null, 2))
     
-    fs.writeFileSync(filePath, JSON.stringify(file, null, 2))
+    } else fs.writeFileSync(filePath, JSON.stringify(file, null, 2))
     
-    fileName = file.name.en
-    res.send({ data: file, success: true, message: `${fileName} edited successfuly!` })
+    res.send({ data: file, success: true, message: `${capitalize(fileName)} edited successfuly!` })
 }
 
 const deleteApi = (req, res) => {

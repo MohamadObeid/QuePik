@@ -8,7 +8,7 @@ const controls = ({ VALUE, STATE, controls, id }) => {
 
     var local = VALUE[id]
 
-    // controls coming from createControls action
+    // controls coming from toControls action
     controls = controls || local.controls
 
     controls && toArray(controls).map(controls => {

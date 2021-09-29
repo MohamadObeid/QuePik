@@ -14,7 +14,7 @@ const {toParam} = require('./toParam')
 const {toString} = require('./toString')
 const {update, removeIds} = require('./update')
 const {createDocument} = require('./createDocument')
-const {createControls} = require('./createControls')
+const {toControls} = require('./toControls')
 const {toArray} = require('./toArray')
 const {generate} = require('./generate')
 const {createElement} = require('./createElement')
@@ -71,7 +71,7 @@ const _method = {
     setStyle, resetStyles, toggleStyles, mountAfterStyles, resize, dimensions,
     createData, setData, clearData, removeData, setContent, starter, createComponent,
     setPosition, droplist, filter, createView, createActions, flicker, blur, toAwait,
-    createControls, remove, defaultInputHandler, focus, sort, log, save, erase, toCode,
+    toControls, remove, defaultInputHandler, focus, sort, log, save, erase, toCode,
     toPath, toValue, reducer, preventDefault, toStyle, toTag, capitalize, fill, note,
     pause, play, close, isPath
 }

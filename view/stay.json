@@ -31,13 +31,13 @@
                 "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
                 "controls": [{
                     "event": "click",
-                    "actions": "setStyle::miniWindow?style.display=none>>200;style.opacity=0"
+                    "actions": "setStyle::mini-window?style.display=none>>200;style.opacity=0"
                 }]
             }, {
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::stay-list-view;await.setStyle::miniWindow;await.note;async.save?note=Stay save successfully!;save.path=stay;save.data=value.data();await.state.stay-list-Data[value.data().file-name]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::stay-list-view;await.setStyle::mini-window;await.note;async.save?note=Stay save successfully!;save.path=stay;save.data=value.data();await.state.stay-list-Data[value.data().file-name]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -89,9 +89,9 @@
                         "type": "Input?textarea;featured;duplicatable;lang=en;icon=value.data().icon<<value.data();style.backgroundColor=#f0f0f0;path=name"
                     }]
                 }, {
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Hotel type>>readonly,state.asset.hotel-type.options.map().name.en].flat()"
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Hotel type>>readonly,state.asset.hotel-type.options.map().[name.en]].flat()"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=stars;droplist.items=[Stars>>readonly,state.asset.hotel-stars.options.map().name.en].flat()"
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=stars;droplist.items=[Stars>>readonly,state.asset.hotel-stars.options.map().[name.en]].flat()"
                 }, {
                     "type": "View?style.display=grid;style.gap=1rem",
                     "children": [{
@@ -113,9 +113,9 @@
             "children": [{
                 "type": "View?style.display=grid;style.gridTemplateColumns=3fr 3fr 6fr;style.gap=1rem",
                 "children": [{
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=country.en;droplist.items=[Country>>readonly,state.asset.country.options.map().name.en].flat()"
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=country.en;droplist.items=[Country>>readonly,state.asset.country.options.map().[name.en]].flat()"
                 }, {
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=city.en;droplist.items=[City>>readonly,const.state.asset[state[value.Data].country.en.toLowerCase()].options.map().name.en<<state.asset[state[value.Data].country.en.toLowerCase()]];droplist.flat()"
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=city.en;droplist.items=[City>>readonly,const.state.asset[state[value.Data].country.en.toLowerCase()].options.map().[name.en]<<state.asset[state[value.Data].country.en.toLowerCase()]];droplist.flat()"
                 }, {
                     "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=address"
                 }]
@@ -147,15 +147,15 @@
         }, {
             "type": "View?style.marginBottom=2rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr;style.gap=1rem;path=classification",
             "children": [{
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=clientele.en;droplist.items=[Hotel Clientele>>readonly,state.asset.hotel-clientele.options.map().name.en].flat()"
+                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=clientele.en;droplist.items=[Hotel Clientele>>readonly,state.asset.hotel-clientele.options.map().[name.en]].flat()"
             }, {
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=location.en;droplist.items=[Hotel Location>>readonly,state.asset.hotel-location.options.map().name.en].flat()"
+                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=location.en;droplist.items=[Hotel Location>>readonly,state.asset.hotel-location.options.map().[name.en]].flat()"
             }, {
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=ownership.en;droplist.items=[Hotel Ownership>>readonly,state.asset.hotel-ownership.options.map().name.en].flat()"
+                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=ownership.en;droplist.items=[Hotel Ownership>>readonly,state.asset.hotel-ownership.options.map().[name.en]].flat()"
             }, {
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=service.en;droplist.items=[Hotel Service>>readonly,state.asset.hotel-services.options.map().name.en].flat()"
+                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=service.en;droplist.items=[Hotel Service>>readonly,state.asset.hotel-services.options.map().[name.en]].flat()"
             }, {
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=size.en;droplist.items=[Hotel Size>>readonly,state.asset.hotel-sizes.options.map().name.en].flat()"
+                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=size.en;droplist.items=[Hotel Size>>readonly,state.asset.hotel-sizes.options.map().[name.en]].flat()"
             }]
         }, {
             "type": "Text?label;text=Hotel Facilities Capacity;style.marginTop=1rem;style.fontSize=1.5rem;style.fontWeight=bolder;style.textAlign=left"
@@ -222,7 +222,7 @@
                         "controls": {
                             "event": "input>>200",
                             "actions": [
-                                "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()].id.value().1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
+                                "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()].id.value.1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
                                 "note?note=Reached maximum image limit!?value.derivations.lastIndex()=3"
                             ]
                         }
@@ -255,7 +255,7 @@
                         "type": "Icon?class=flex-box pointer;icon.name=bi-trash;style.after.color=red;hoverable;style.fontWeight=bolder;style.borderTop=1px solid #eee;style.borderRight=1px solid #eee;style.borderLeft=1px solid #eee;style.fontSize=1.4rem;style.height=2.2rem;style.padding=0 .5rem;style.borderRadius=.75rem .75rem 0 0",
                         "controls": [{
                             "event": "click??state.Data().rooms.length()>1",
-                            "actions": "remove::value.parent().parent().id;update::global.room-info.children().map().1stChild().id"
+                            "actions": "remove::value.parent().parent().id;update::global.room-info.children().map().[1stChild().id]"
                         }]
                     }]
                 }, {
@@ -278,7 +278,7 @@
                         "children": [{
                             "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=name;lang=en"
                         }, {
-                            "type": "Input?textarea;featured;readonly;clearable;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Room Types>>readonly,state.asset.room-type.options.map().name.en].flat()"
+                            "type": "Input?textarea;featured;readonly;clearable;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Room Types>>readonly,state.asset.room-type.options.map().[name.en]].flat()"
                         }, {
                             "type": "Input?textarea;featured;readonly;clearable;style.backgroundColor=#f0f0f0;path=bathroom-type;droplist.items=[Bathroom Type>>readonly,With Toilet Seat, Without Toilet Seat]"
                         }, {
@@ -331,7 +331,7 @@
                                     "controls": {
                                         "event": "input>>200",
                                         "actions": [
-                                            "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()--1].id.value().1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
+                                            "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()--1].id.value.1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
                                             "note?note=Reached maximum image limit!?value.derivations.lastIndex()=3"
                                         ]
                                     }

@@ -1,20 +1,33 @@
 [
   {
     "id": "service-01",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "name": "Indian Massage",
-    "category": "category-01",
+    "category": {
+      "id": "category-02",
+      "name": "Massage"
+    },
     "description": "An indian massage",
     "duration": "1hr",
-    "provider": "provider-01",
+    "provider": {
+      "id": "provider-01",
+      "name": "Nevelin"
+    },
     "home-service-availability": true,
-    "status": "available",
+    "status": "active",
     "note": "",
     "price": {
       "lbp": "200,000"
     },
-    "offer": "offer-01",
-    "reviews": ["review-07", "review-08", "review-09"],
+    "offer": {
+      "id": "offer-01",
+      "name": "Summer offer"
+    },
+    "reviews": [
+      "review-07",
+      "review-08",
+      "review-09"
+    ],
     "bookings-accepted-at-same-time": "1",
     "images": [
       "image/service-01.jpeg",
@@ -24,19 +37,28 @@
   },
   {
     "id": "service-02",
-    "creation-date": "23-9-2021T10:59:26Z",
-    "name": "Hair Cur",
-    "category": "category-02",
+    "creation-date": "23-9-2021T10:59:26",
+    "name": "Hair Cut",
+    "category": {
+      "id": "category-01",
+      "name": "Hair"
+    },
     "description": "Any hair cut design",
     "duration": "15min",
-    "provider": "provider-02",
+    "provider": {
+      "id": "provider-02",
+      "name": "Rest Home"
+    },
     "home-service-availability": false,
-    "status": "available",
+    "status": "active",
     "note": "",
     "price": {
       "lbp": "25,000"
     },
-    "offer": "offer-02",
+    "offer": {
+      "id": "offer-02",
+      "name": "Black Discount"
+    },
     "reviews": [],
     "bookings-accepted-at-same-time": "2",
     "images": [

@@ -1,7 +1,7 @@
 [
   {
     "id": "collection-01",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "type": "image",
     "name": "Carousel",
     "image": "/image/collection-01.jpeg",
@@ -10,7 +10,7 @@
   },
   {
     "id": "collection-02",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "type": "category",
     "name": "Categories",
     "image": "/image/collection-02.jpeg",
@@ -27,7 +27,7 @@
   },
   {
     "id": "collection-03",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "type": "service",
     "name": "Featured Services",
     "image": "/image/collection-03.jpeg",
@@ -36,7 +36,7 @@
   },
   {
     "id": "collection-04",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "type": "service",
     "name": "Only For You",
     "image": "/image/collection-04.jpeg",

@@ -46,10 +46,10 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 
             var myFn = (e) => {
 
-                local[`${code}${event}-timer`] = setTimeout(() => {
+                local[`${code}${event}-timer`] = setTimeout(async () => {
 
                     var events = controls.event.split('?')
-                    if (events[0] === 'load') console.log(controls.event);
+                    
                     // VALUE[id] doesnot exist
                     if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
                     
@@ -60,7 +60,10 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
                     // params
                     params = toParam({ VALUE, STATE, string: events[1], e, id })
                     
-                    if (controls.actions) execute({ VALUE, STATE, controls, e, id: mainID })
+                    if (controls.actions) await execute({ VALUE, STATE, controls, e, id: mainID })
+                    
+                    // await params
+                    if (params.await) toParam({ VALUE, STATE, id, e, string: params.await.join(';') })
                 
                 }, timer)
             }
@@ -69,7 +72,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
             if (event === 'load') myFn({ target: VALUE[id].element })
             
             // elements
-            return VALUE[id].element.addEventListener(event, myFn, { once })
+            VALUE[id].element.addEventListener(event, myFn)
         })
     })
 }

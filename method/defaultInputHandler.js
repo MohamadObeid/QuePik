@@ -49,7 +49,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
         var value = e.target.value
 
-        // for number inputs, strings are rejecteds
+        // for number inputs, strings are rejected
         if (local.input && local.input.type === 'number') {
 
             value = parseFloat(value)
@@ -63,6 +63,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         if (local.input.type === 'file') {
 
             value = e.target.files
+            if (value.length === 0) return
             
             // add files to state for saving
             const readFile = (file) => {
@@ -84,12 +85,8 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         if (local.class.includes('rating__input')) {
             value = local.element.getAttribute('defaultValue')
         }
-
-        if (local.Data && local.derivations[0] != '') {
-
-            // reset Data
-            setData({ STATE, VALUE, params: { data: { value } }, id })
-        }
+        
+        if (local.Data) setData({ STATE, VALUE, params: { data: { value } }, id })
 
         // resize
         resize({ VALUE, id })

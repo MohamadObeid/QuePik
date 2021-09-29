@@ -1,4 +1,5 @@
 const {resize} = require('./resize')
+const { toArray } = require('./toArray')
 
 const setStyle = ({ VALUE, params = {}, id }) => {
 
@@ -53,7 +54,10 @@ const setStyle = ({ VALUE, params = {}, id }) => {
 
         }
 
-        if (timer) local[key + '-timer'] = setTimeout(style, timer); else style()
+        if (timer) {
+            local[`${key}-timer`] = setTimeout(style, timer)
+        } else style()
+        
         if (key === 'width') resize({ VALUE, id })
     })
 }
@@ -62,7 +66,7 @@ const resetStyles = ({ VALUE, params, id }) => {
     
     var local = VALUE[id]
     if (!local.style || !local.style.after) return
-
+    
     local.afterStylesMounted = false
 
     params = { style: {} }
@@ -74,7 +78,6 @@ const resetStyles = ({ VALUE, params, id }) => {
     })
 
     setStyle({ VALUE, params, id })
-    
 }
 
 const toggleStyles = ({ VALUE, params, id }) => {
@@ -85,6 +88,7 @@ const toggleStyles = ({ VALUE, params, id }) => {
 };
 
 const mountAfterStyles = ({ VALUE, params, id }) => {
+    
     var local = VALUE[id]
     if (!local.style || !local.style.after) return
 
@@ -97,9 +101,17 @@ const mountAfterStyles = ({ VALUE, params, id }) => {
             timer = value.split('>>')[1]
             value = value.split('>>')[0]
         }
-        local[key + '-timer'] = setTimeout(
-            () => local.element.style[key] = value, timer
-        )
+
+        if (timer) local[key + '-timer'] = setTimeout(() => local.element.style[key] = value, timer) 
+        else {
+            if (local.element) local.element.style[key] = value
+            else {
+                local.controls = toArray(local.controls)
+                local.controls.push({
+                    event: `load?value.element.style.${key}=${value}`
+                })
+            }
+        }
     })
 }
 

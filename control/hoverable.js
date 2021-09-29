@@ -7,9 +7,9 @@ module.exports = ({ VALUE, id, params = {} }) => {
     
     return [{
         event: 'mouseenter',
-        actions: `mountAfterStyles???${controls.id.join(';')}`
+        actions: `mountAfterStyles::[${controls.id}]`
     }, {
         event: 'mouseleave',
-        actions: `resetStyles???${controls.id.join(';')}`
+        actions: `resetStyles::[${controls.id}]??${controls.mountonload ? '!mountonload' : true}`
     }]
 }

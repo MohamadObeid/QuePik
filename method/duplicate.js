@@ -81,13 +81,19 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
                     o[k] = toArray(o[k])
                     i = o[k].length - 1
 
-                    if (isNaN(local.derivations[local.derivations.length - 1])) local.derivations.push(0)
-                    o[k].push(clone(local.pushData || o[k][i] || ''))
+                    if (isNaN(local.derivations[local.derivations.length - 1])) {
 
-                    if (!params.keepValues) {
-                        var i = o[k].length - 1
-                        o[k][i] = removeDuplicates(clearValues(o[k][i]))
+                        local.derivations.push(0)
+                        var index = local.derivations.length - 1
+                        var children = [...local.element.children]
+                        
+                        // update length
+                        children.map(child => VALUE[child.id].derivations.splice(index, 0, 0))
                     }
+                    
+                    o[k].push(clone(local.pushData || o[k][i] || ''))
+                    var index = o[k].length - 1
+                    o[k][index] = removeDuplicates(clearValues(o[k][index]))
                 }
             }
 
@@ -102,9 +108,10 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
 
     }
 
-    var length = local.length || 1
+    var length = local.length !== undefined ? local.length : 1
     var id = generate()
-    
+
+    VALUE[local.parent].children = toArray(VALUE[local.parent].children)
     VALUE[id] = clone(VALUE[local.parent].children[local.index])
     VALUE[id].id = id
     VALUE[id].parent = local.parent
@@ -141,6 +148,26 @@ const duplicate = ({ VALUE, STATE, params = {}, id }) => {
         // local.key
 
     } else local.derivations[local.derivations.length - 1] = length
+
+    // [type]
+    if (local.type.slice(0, 1) === '[') {
+        
+        local.type = local.type.slice(1)
+        var type = local.type.split(']')
+        local.type = type[0] + local.type.split(']').slice(1)
+
+    }
+
+    // path
+    if (local.type.includes('path=')) {
+        
+        var type = local.type.split('path=')
+        local.type = type[0]
+        type = type[1].split(';').slice(1)
+        local.type += type
+        
+    }
+    
 
     // create element => append child
     var newcontent = document.createElement('div')

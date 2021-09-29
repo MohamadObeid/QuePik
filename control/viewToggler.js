@@ -1,4 +1,4 @@
-module.exports = ({ VALUE, params, id }) => {
+module.exports = ({ VALUE, params = {}, id }) => {
     var controls = params.controls
     
     return [{

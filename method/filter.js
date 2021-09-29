@@ -1,26 +1,50 @@
-const {update} = require('./update')
+const { toArray } = require('./toArray')
 
-const filter = ({ VALUE, STATE, params = {}, id }) => {
+const filter = ({ VALUE, STATE, params = {}, id, e }) => {
+
     var local = VALUE[id]
     if (!local) return
     
     var filter = params.filter || {}
     var Data = filter.Data || local.Data
     var options = STATE[`${Data}-options`]
+
+    var path = toArray(filter.path)
+    path = path.map(path => path.split('.'))
+    
     var backup = filter.backup
-    var path = (filter.path || '').split('.')
     var value = filter.value
     
-    if (options.filter === value) return
-    options.filter = value
-    
-    // no value
-    if (value === '' || value === undefined) STATE[Data] = backup
-    else STATE[Data] = backup.filter(data => 
-        path.reduce((o, k, i) => o[k], data).toString().toLowerCase().includes(value.toLowerCase())
-    )
+    console.log(filter);
 
-    if (filter.update) update({ VALUE, STATE, id: filter.update })
+    if (options.filter === value) return options.filter = value
+
+    // reset backup filter options
+    options.filter = value
+
+    // empty value
+    if (value === undefined) return STATE[Data] = backup
+    if (value === '') return STATE[Data] = backup
+    
+    // remove spaces
+    value = value.split(' ').join('').toLowerCase()
+    
+    var data = []
+    data.push(...backup.filter(data => 
+        path.map(path => path
+
+            .reduce((o, k) => o[k], data)
+            .toString()
+            .toLowerCase()
+            .split(' ')
+            .join('')
+
+        )
+        .join('')
+        .includes(value)
+    ))
+
+    STATE[Data] = data
 }
 
 module.exports = {filter}

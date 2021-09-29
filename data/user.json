@@ -1,9 +1,10 @@
 [
   {
     "id": "user-01",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "first-name": "George",
     "last-name": "Washington",
+    "name": "George Washington",
     "phone-number": "03-123456",
     "address": "Beirut, downtown, Zeytunah, building, floor",
     "location": {
@@ -13,17 +14,29 @@
     "password": "12345",
     "email": "washington@gmail.com",
     "favorite": {
-      "providers": ["provider-01"],
-      "services": ["service-01", "service-02"]
+      "providers": [{
+        "id": "provider-01",
+        "name": "Nevelin"
+      }],
+      "services": [{
+        "id": "service-01",
+        "name": "Indian Massage"
+      }, {
+        "id": "service-02",
+        "name": "Hair Cut"
+      }]
     },
-    "bookings": ["booking-01"],
+    "bookings": [
+      "booking-01"
+    ],
     "status": "active"
   },
   {
     "id": "user-03",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "first-name": "Christina",
     "last-name": "Abi Lameh",
+    "name": "Christina Abi Lameh",
     "phone-number": "71-123456",
     "address": "Baabda, near starbucks",
     "location": {
@@ -33,16 +46,22 @@
     "password": "12345",
     "email": "christina@gmail.com",
     "favorite": {
-      "services": ["service-02"]
+      "services": [{
+        "id": "service-01",
+        "name": "Indian Massage"
+      }]
     },
-    "bookings": ["booking-02"],
+    "bookings": [
+      "booking-02"
+    ],
     "status": "active"
   },
   {
     "id": "user-02",
-    "creation-date": "23-9-2021T10:59:26Z",
+    "creation-date": "23-9-2021T10:59:26",
     "first-name": "Fadi",
     "last-name": "Ismail",
+    "name": "Fadi Ismail",
     "phone-number": "70-123456",
     "address": "Beirut, Hamrah street",
     "location": {
@@ -52,10 +71,18 @@
     "password": "12345",
     "email": "ismail@gmail.com",
     "favorite": {
-      "providers": ["provider-02", "provider-03"],
-      "services": ["service-03", "service-01"]
+      "providers": [{
+        "id": "provider-01",
+        "name": "Nevelin"
+      }, {
+        "id": "provider-02",
+        "name": "Rest Home"
+      }],
+      "services": []
     },
-    "bookings": ["booking-03"],
+    "bookings": [
+      "booking-03"
+    ],
     "status": "active"
   }
 ]

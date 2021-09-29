@@ -10,19 +10,20 @@ const Input = (component) => {
     // input
     component.input = component.input || { type: 'text'}
     component.input.type = component.input.type || 'text'
-    component.input.value = component.input.value || ''
     component.input.style = component.input.style || {}
 
     component = toComponent(component)
     var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
-        placeholder, textarea, filterable, clearable, removable, msg,
-        duplicatable, lang, unit, currency, google, key, note, edit } = component
+        placeholder, textarea, filterable, clearable, removable, msg, day,
+        duplicatable, lang, unit, currency, google, key, note, edit, minlength } = component
 
     duplicatable = duplicatable !== undefined ? (duplicatable === false ? false : true) : false
     clearable = clearable !== undefined ? (clearable === false ? false : true) : false
     removable = removable !== undefined ? (removable === false ? false : true) : false
     if (duplicatable) removable = true
 
+    if (minlength === undefined) minlength = 1
+    
     // upload input styles
     var uploadInputStyle = input.type === 'file'
     ? {
@@ -33,6 +34,8 @@ const Input = (component) => {
         cursor: 'pointer',
     } : {}
     
+    var path = `${unit ? `path=amount` :  currency ? `path=${currency}` : day ? `path=${day}` : lang ? `path=${lang}` : google ? `path=name` : key ? `path=${key}` : ''}`
+
     if (model === 'classic') {
         return {
             ...component,
@@ -96,11 +99,10 @@ const Input = (component) => {
                     textOverflow: 'ellipsis',
                     overflow: 'hidden',
                     fontSize: '1.3rem',
-                    //position: 'absolute',
                     maxWidth: '95%',
                 }
             }, {
-                type: `Input?id=${id}-input;${unit ? `path=amount` :  currency ? `path=${currency}` : lang ? `path=${lang}` : google ? `path=name` : key ? `path=${key}` : ''}`,
+                type: `Input?id=${id}-input;${path}`,
                 input,
                 textarea,
                 readonly,
@@ -151,7 +153,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,state.asset.currency.options.map().name.en].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,state.asset.currency.options.map().[name.en]].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -162,7 +164,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,state.asset.unit.options.map().name.en].flat();hoverable?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,state.asset.unit.options.map().[name.en]].flat();hoverable?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -174,7 +176,18 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data()`
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.map().name.en].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
+                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items=[Days of Week>>readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
+                    style: {
+                        fontSize: '1.3rem',
+                        color: '#666',
+                        cursor: 'pointer',
+                        padding: '.25rem',
+                        borderRadius: '.25rem',
+                        transition: 'color .2s',
+                        after: { color: '#0d6efd' }
+                    }
+                }, {
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.map().[name.en]].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -203,7 +216,7 @@ const Input = (component) => {
                         event: 'click',
                         actions: [
                             // remove element
-                            `remove::${id}??${removable};${clearable ? `value.length::${id}>1;!value.data()::${id}-input` : ''}`,
+                            `remove::${id}??${removable};${clearable ? `value.length::${id}>${minlength};!value.data()::${id}-input` : ''}`,
                             // clear data
                             `removeData;focus>>50??${clearable}?${id}-input`,
                             // for key

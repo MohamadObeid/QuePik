@@ -120,15 +120,19 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         if (typeof value === 'boolean') { }
         else if (!isNaN(value)) value = parseFloat(value)
         else if (value === undefined || value === 'generate') value = generate()
+        else if (path[0].includes('()')) value = reducer({ VALUE, STATE, id, e, params: { path, params, object: VALUE } })
         else if (value === 'undefined') value = false
         else if (value === 'input') value = local && local.element.value
         else if (value === 'false') value = false
         else if (value === 'true') value = true
-        else if (value === 'string' || value === `''`) value = ''
-        else if (value === 'object' || value === '{}') value = {}
-        else if (value === 'array' || value === '[]') value = []
-        else if (value === '[{}]') value = [{}]
-        else if (value === '[string]') value = ['']
+        //else if (value === 'string' || value === `''`) value = ''
+        //else if (value === 'object' || value === '{}') value = {}
+        //else if (value === 'array' || value === '[]') value = []
+        //else if (value === '[{}]') value = [{}]
+        //else if (value === '[string]') value = ['']
+        else if (value === "''") value = ''
+        else if (value === '{}') value = {}
+        else if (value === '[]') value = []
         else if (value.includes('%20')) value = value.split('%20').join(' ')
         else if (value.includes('JSON.parse')) value = JSON.parse(value.split('JSON.parse(')[1].slice(0, -1))
         else if (value.includes('JSON.stringify')) value = JSON.stringify(value.split('JSON.stringify(')[1].slice(0, -1))

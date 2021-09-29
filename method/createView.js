@@ -4,8 +4,7 @@ const { toArray } = require("./toArray")
 const { removeIds } = require("./update")
 const { clone } = require("./clone")
 
-const createView = ({ STATE, VALUE, params ={}, id }) => {
-
+const createView = ({ STATE, VALUE, params = {}, id }) => {
     var local
 
     // append view to root
@@ -42,13 +41,12 @@ const createView = ({ STATE, VALUE, params ={}, id }) => {
     var view = params.view
 
     if (!view) return
-    // if (local.view === view) return
     
     // local.view = view
     if (!STATE.view[view]) return
 
     local.children = toArray(clone(STATE.view[view]))
-    
+
     // update
     update({ VALUE, STATE, id })
 }

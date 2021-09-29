@@ -341,11 +341,12 @@ i {
   --border-hover: #9898a3;
   --active: #6e7bf2;
   --active-tick: #fff;
-  display: block;
   width: 18px;
   height: 18px;
   cursor: pointer;
   position: relative;
+  align-self: center;
+  align-items: center;
   -webkit-tap-highlight-color: transparent;
 }
 .checkbox svg {
@@ -419,4 +420,14 @@ html {
 
 textarea {
   overflow-y: hidden
+}
+
+.dots {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.left {
+  text-align: left;
 }

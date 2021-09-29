@@ -1,5 +1,5 @@
 {
-    "type": "View?id=miniWindow;class=flex-box",
+    "type": "View?id=mini-window;class=flex-box",
     "style": {
         "position": "absolute",
         "top": "0",
@@ -14,7 +14,9 @@
     },
     "children": [{
         "type": "View?style.height=70%;style.width=60%;style.overflowY=auto;style.borderRadius=.5rem;style.backgroundColor=#fff",
-        "children": { "type": "View?id=mini-window-view" },
+        "children": { 
+            "type": "View?id=mini-window-view" 
+        },
         "controls": [{
             "event": "mouseenter?state.mini-window-view-mouseenter"
         }, {

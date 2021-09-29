@@ -1,7 +1,6 @@
 const { toPath } = require("./toPath")
 const { toValue } = require("./toValue")
 const { reducer } = require("./reducer")
-const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const controls = require('../control/control')
 
@@ -41,20 +40,6 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
         if (key.includes('await.')) {
             var awaiter = param.split('await.')[1]
             return params.await.push(awaiter)
-        }
-
-            
-        // lunch auto controls
-        if (controls[key]) {
-            
-            if (local.status === 'loading') {
-
-                return local.controls = toArray(local.controls).push({
-                    event: `load?${param}`
-                })
-            }
-            
-            return controls[key]({ VALUE, STATE, id, params: { controls: params[key] }, e })
         }
 
         value = toValue({ VALUE, STATE, id, e, params: { value, params } })

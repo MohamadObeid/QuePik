@@ -28,14 +28,6 @@ const derive = (data, keys, defaultData, editable) => {
 
         if (o === undefined) return undefined
 
-        if (Array.isArray(o) && isNaN(k)) {
-
-            if (fullDerivation) o = o.map(o => derive(o, keys.slice(i), true)[0])
-            else keys = keys.slice(0, i) || []
-
-            return o
-        }
-
         return o[k]
     }, data)
     
