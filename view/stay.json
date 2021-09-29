@@ -222,7 +222,7 @@
                         "controls": {
                             "event": "input>>200",
                             "actions": [
-                                "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()].id.value.1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
+                                "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()].id.().1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
                                 "note?note=Reached maximum image limit!?value.derivations.lastIndex()=3"
                             ]
                         }
@@ -331,7 +331,7 @@
                                     "controls": {
                                         "event": "input>>200",
                                         "actions": [
-                                            "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()--1].id.value.1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
+                                            "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children[value.derivations.lastIndex()--1].id.().1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1?value.derivations.lastIndex()!=3",
                                             "note?note=Reached maximum image limit!?value.derivations.lastIndex()=3"
                                         ]
                                     }
