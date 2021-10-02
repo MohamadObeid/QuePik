@@ -41,6 +41,8 @@ const removeData = ({ STATE, VALUE, id, params = {} }) => {
         return o[k]
     }, STATE[local.Data])
 
+    local.data = ''
+
     setContent({ VALUE, id })
     console.log('data removed', STATE[local.Data]);
 }

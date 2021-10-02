@@ -1,46 +1,90 @@
 [
   {
     "id": "collection-01",
+    "active": true,
     "creation-date": "23-9-2021T10:59:26",
     "type": "image",
     "name": "Carousel",
     "image": "/image/collection-01.jpeg",
-    "content-id": ["carousel-01", "carousel-02", "carousel-03"],
+    "content": [
+      { 
+        "id": "image-11", 
+        "name": "image11"
+      },
+      { 
+        "id": "image-12", 
+        "name": "image12"
+      },
+      { 
+        "id": "image-13", 
+        "name": "image13"
+      }
+    ],
     "description": "Home screen carousel images"
   },
   {
     "id": "collection-02",
-    "creation-date": "23-9-2021T10:59:26",
+    "active": true,
+    "creation-date": "24-9-2021T10:59:26",
     "type": "category",
     "name": "Categories",
     "image": "/image/collection-02.jpeg",
     "content": [
-      "category-01",
-      "category-02",
-      "category-03",
-      "category-04",
-      "category-05",
-      "category-06",
-      "category-07"
+      { 
+        "id": "category-01", 
+        "name": "Hair"
+      },
+      { 
+        "id": "category-02", 
+        "name": "Massage"
+      },
+      { 
+        "id": "category-03", 
+        "name": "Solarium"
+      },
+      { 
+        "id": "category-04", 
+        "name": "Face Care"
+      },
+      { 
+        "id": "category-05", 
+        "name": "Eyebrow"
+      }
     ],
     "description": "Home screen Categories"
   },
   {
     "id": "collection-03",
-    "creation-date": "23-9-2021T10:59:26",
+    "active": true,
+    "creation-date": "25-9-2021T10:59:26",
     "type": "service",
     "name": "Featured Services",
     "image": "/image/collection-03.jpeg",
-    "content": ["service-01", "service-02", "service-03"],
+    "content": [{ 
+      "id": "service-01", 
+      "name": "Indian Massage"
+    },
+    {
+      "id": "service-02", 
+      "name": "Hair Cut"
+    }],
     "description": "Home screen featured services"
   },
   {
     "id": "collection-04",
-    "creation-date": "23-9-2021T10:59:26",
+    "active": true,
+    "creation-date": "26-9-2021T10:59:26",
     "type": "service",
     "name": "Only For You",
     "image": "/image/collection-04.jpeg",
-    "content": ["service-01", "service-02", "service-03", "service-04"],
+    "content": [{ 
+      "id": "service-01", 
+      "name": "Indian Massage"
+    },
+    {
+      "id": "service-02", 
+      "name": "Hair Cut"
+    }],
     "description": "Promoted Services"
   }
 ]

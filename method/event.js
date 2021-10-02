@@ -1,9 +1,7 @@
 const { toApproval } = require('./toApproval')
 const { toId } = require('./toId')
-const { getParam } = require('./getParam')
 const { toParam } = require('./toParam')
 const { clone } = require('./clone')
-const { generate } = require('./generate')
 
 const events = ['click', 'mouseenter', 'mouseleave', 'mousedown', 'mouseup', 'touchstart', 'touchend']
 
@@ -14,16 +12,12 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
     var local = VALUE[id]
     var mainID = local.id
 
-    var events = controls.event.split('?')
-    var once = getParam(controls.event, 'once', false)
+    var events = controls.event.split('/?').join('_question').split('?')
     var _idList = toId({ VALUE, STATE, id, string: events[3] })
 
-    events = events[0].split(';')
+    events[0].split(';').map(event => {
 
-    events.map(event => {
-
-        var timer = 0
-        var code = generate()
+        var timer = 0, idList
 
         // action::id
         var eventid = event.split('::')[1]
@@ -39,16 +33,14 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 
         if (!event) return
 
-        clearTimeout(local[`${code}${event}-timer`])
+        clearTimeout(local[`${event}-timer`])
 
         // add event listener
         idList.map(id => {
 
             var myFn = (e) => {
 
-                local[`${code}${event}-timer`] = setTimeout(async () => {
-
-                    var events = controls.event.split('?')
+                local[`${event}-timer`] = setTimeout(async () => {
                     
                     // VALUE[id] doesnot exist
                     if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
@@ -63,7 +55,8 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
                     if (controls.actions) await execute({ VALUE, STATE, controls, e, id: mainID })
                     
                     // await params
-                    if (params.await) toParam({ VALUE, STATE, id, e, string: params.await.join(';') })
+                    if (params.await && params.await.length > 0) 
+                    toParam({ VALUE, STATE, id, e, string: params.await.join(';') })
                 
                 }, timer)
             }

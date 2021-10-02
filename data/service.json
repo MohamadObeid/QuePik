@@ -13,12 +13,18 @@
       "id": "provider-01",
       "name": "Nevelin"
     },
-    "home-service-availability": true,
-    "status": "active",
+    "home-service": {
+      "available": true,
+      "price": {
+        "lbp": "300,000"
+      }
+    },
+    "active": true,
     "note": "",
     "price": {
       "lbp": "200,000"
     },
+    "maximum-bookings-allowed-at-same-time": "1",
     "offer": {
       "id": "offer-01",
       "name": "Summer offer"
@@ -28,7 +34,6 @@
       "review-08",
       "review-09"
     ],
-    "bookings-accepted-at-same-time": "1",
     "images": [
       "image/service-01.jpeg",
       "image/service-02.jpeg",
@@ -49,22 +54,56 @@
       "id": "provider-02",
       "name": "Rest Home"
     },
-    "home-service-availability": false,
-    "status": "active",
+    "home-service": {
+      "available": true,
+      "price": {
+        "lbp": "50,000"
+      }
+    },
+    "active": true,
     "note": "",
     "price": {
       "lbp": "25,000"
     },
     "offer": {
-      "id": "offer-02",
-      "name": "Black Discount"
+      "id": "offer-03",
+      "name": "New Discount"
     },
     "reviews": [],
-    "bookings-accepted-at-same-time": "2",
+    "maximum-bookings-allowed-at-same-time": "2",
     "images": [
       "image/service-04.jpeg",
       "image/service-05.jpeg",
       "image/service-06.jpeg"
     ]
+  },
+  {
+    "id": "service-pcnTt",
+    "category": {
+      "name": "Beard",
+      "id": "category-06"
+    },
+    "creation-date": "1-9-2021T14:59:1",
+    "provider": {
+      "name": "Monzer",
+      "id": "provider-8hMAr"
+    },
+    "price": {
+      "lbp": 15000
+    },
+    "offer": {},
+    "home-service": {
+      "price": {
+        "lbp": "30000"
+      },
+      "available": true
+    },
+    "images": [],
+    "name": "Beard Cut",
+    "duration": "10min",
+    "maximum-bookings-allowed-at-same-time": "3",
+    "active": true,
+    "description": "Beard Cut",
+    "note": "The customer chooses the design desired"
   }
 ]

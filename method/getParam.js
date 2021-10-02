@@ -1,7 +1,9 @@
 const getParam = (string, param, defValue) => {
+
     if (!string) return defValue
     if (!string.includes('?')) return defValue
 
+    string = string.split('/?').join('_question')
     string = string.split('?')[1]
     if (!string) return defValue
 

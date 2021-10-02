@@ -1,0 +1,121 @@
+{
+    "file-name": "collection-list",
+    "type": "View?Data;state.collection-list-grid-view-display=grid;state.collection-list-table-view-display=none",
+    "controls": {
+        "actions": "await.update::collection-list-view;async.search?search.path=data/collection.json;await.state.collection-list-Data=value.search.data;await.state.collection=value.search.data" 
+    },
+    "children": [{
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
+        "children": [{
+            "type": "Text?text=Collection List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
+        }, {
+            "type": "View?class=flex-box",
+            "children": [{
+                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
+            }, {
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem"
+            }, {
+                "type": "Button?text=Add New Collection;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=collection"
+            }]
+        }]
+    }, {
+        "type": "View?style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee",
+        "children": [{
+            "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
+            "children": [{
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem",
+                "placeholder": "Search by id, name, description...",
+                "controls": {
+                    "event": "keyup>>200??state.collection-list-Data",
+                    "actions": "await.update::global.collection-list-view.1stChild().id<<global.collection-list-view.1stChild().element.style.display=grid;await.update::global.collection-list-view.2ndChild().2ndChild().id<<global.collection-list-view.2ndChild().element.style.display=grid;async.filter?filter.backup=state.collection.clone();filter.path=[id,name,description];filter.Data=collection-list-Data;filter.value=e.target.value"
+                }
+            }, {
+                "type": "View?class=flex-box",
+                "children": [{
+                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
+                    "controls": {
+                        "event": "click??state.collection-list-Data", 
+                        "actions": "await.update::global.collection-list-view.1stChild().id<<global.collection-list-view.1stChild().element.style.display=grid;await.update::global.collection-list-view.2ndChild().2ndChild().id<<global.collection-list-view.2ndChild().element.style.display=grid;async.sort?sort.path=creation-date;sort.Data=collection-list-Data"
+                    }
+                }, {
+                    "type": "Button?text=View;icon.name=bi-list-ul",
+                    "controls": {
+                        "event": "click?await.state.collection-list-grid-view-display=global.collection-list-view.1stChild().element.style.display;await.state.collection-list-table-view-display=global.collection-list-view.2ndChild().element.style.display", 
+                        "actions": [
+                            "update::global.collection-list-view.1stChild().id;setStyle::global.collection-list-view.1stChild().id?style.display=none<<global.collection-list-view.1stChild().element.style.display=grid;style.display=grid>>50<<global.collection-list-view.1stChild().element.style.display=none",
+                            "update::global.collection-list-view.2ndChild().id;setStyle::global.collection-list-view.2ndChild().id?style.display=none<<global.collection-list-view.2ndChild().element.style.display=grid;style.display=grid>>50<<global.collection-list-view.2ndChild().element.style.display=none"
+                        ]
+                    }
+                }]
+            }]
+        }, {
+            "type": "View?id=collection-list-view;style.display=flex;style.flexDirection=column;style.width=100%",
+            "children": [{
+                "type": "View?style.display=state.collection-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
+                "children": [{
+                    "type": "[View]?class=flex-box pointer;Data=collection-list-Data;touchableOpacity;style.padding=2rem;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.collection-list-Data;state.collection-list-Data.length()!=0",
+                    "controls": {
+                        "event": "load",
+                        "actions": "toControls?hoverable.id=[value.id,value.children().0.id];miniWindow.view=collection"
+                    },
+                    "children": [{
+                        "type": "Text?text=value.data.name;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
+                    }]
+                }]
+            }, {
+                "type": "View?style.display=state.collection-list-table-view-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
+                "children": [{
+                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 2fr 1fr;style.minHeight=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem",
+                    "children": [{
+                        "type": "Text?text=Active;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=active;sort.Data=collection-list-Data?state.collection-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=name;sort.Data=collection-list-Data?state.collection-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Type;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click", 
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=type;sort.Data=collection-list-Data?state.collection-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Description;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=description;sort.Data=collection-list-Data?state.collection-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
+                    }]
+                }, {
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr;flicker",
+                    "children": [{
+                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 2fr 1fr;style.minHeight=5.5rem;Data=collection-list-Data;data=state.collection-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.collection-list-Data;state.collection-list-Data.length()!=0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-circle<<!value.data.active;icon.name=bi-circle-fill<<value.data.active;style.fontSize=1.4rem;style.color=lime<<value.data.active;style.color=#ddd<<!value.data.active;style.textAlign=center"
+                        }, {
+                            "type": "Text?class=dots;text=value.data.name;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;text=value.data.type;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;text=value.data.description;style.fontSize=1.4rem"
+                        }, {
+                            "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%;style.marginRight=1rem",
+                            "children": [{
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=collection"
+                            }, {
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable"
+                            }]
+                        }]
+                    }]
+                }]
+            }]
+        }]
+    }]
+}

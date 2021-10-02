@@ -41,11 +41,11 @@ const resize = ({ VALUE, id }) => {
     if (height === 'fit-content') {
 
         if (local.element) {
-            
-            if (!local.style || (local.style && !local.style.minHeight))
+
+            if (!local.style || (local.style && !local.style.minHeight)) {
                 local.element.style.height = results.height + 'px'
 
-            else if (converter(local.style.minHeight) > results.height) {
+            } else if (converter(local.style.minHeight) > results.height) {
                 local.element.style.height = local.style.minHeight
             } else local.element.style.height = results.height + 'px'
 

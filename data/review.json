@@ -2,6 +2,7 @@
   {
     "id": "review-01",
     "creation-date": "23-9-2021T10:59:26",
+    "active": true,
     "user": {
       "id": "user-01",
       "name": "George Washington"
@@ -10,12 +11,12 @@
     "service": {
       "id": "service-01",
       "name": "Indian Massage"
-    },
-    "rate": "4.5"
+    }
   },
   {
     "id": "review-02",
-    "creation-date": "23-9-2021T10:59:26",
+    "creation-date": "24-9-2021T10:59:26",
+    "active": true,
     "user": {
       "id": "user-02",
       "name": "Fadi Ismail"
@@ -29,7 +30,8 @@
   },
   {
     "id": "review-03",
-    "creation-date": "23-9-2021T10:59:26",
+    "creation-date": "27-9-2021T10:59:26",
+    "active": true,
     "user": {
       "id": "user-03",
       "name": "Christina Abi Lameh"
@@ -43,7 +45,8 @@
   },
   {
     "id": "review-04",
-    "creation-date": "23-9-2021T10:59:26",
+    "creation-date": "26-9-2021T10:59:26",
+    "active": true,
     "user": {
       "id": "user-03",
       "name": "Christina Abi Lameh"

@@ -4,6 +4,8 @@ const { toCode } = require("./toCode")
 const { isEqual } = require("./isEqual")
 const { capitalize } = require("./capitalize")
 const { clone } = require("./clone")
+const { toNumber } = require("./toNumber")
+const { toPrice } = require("./toPrice")
 
 const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, e }) => {
 
@@ -31,7 +33,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         
         if (!object && path[0]) {
             
-            if (path[0].includes('coded')) 
+            if (path[0].includes('coded'))
             object = toValue({ VALUE, STATE, id, params: { value: STATE.codes[path[0]], params }, e })
 
             else if (path.join('.').includes(','))
@@ -50,10 +52,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
     var lastIndex = path.length - 1
     
     var answer = path.reduce((o, k, i) => {
+        
         if (!isNaN(k)) k = k + ''
                     
         // break method
-        if (breakRequest === true || breakRequest === i) return o
+        if (breakRequest === true || breakRequest <= i) return o
 
         if (!o) return o
         
@@ -144,13 +147,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = [...o.element.children].map(el => {
                 
-                var id = el.id
-                if (VALUE[id].component === 'Input') {
+                var _id = el.id
+                if (VALUE[_id].component === 'Input') {
 
-                    var _id = VALUE[_id].element.getElementsByTagName('INPUT')[0].id
-                    return VALUE[_id]
+                    var _id0 = VALUE[_id].element.getElementsByTagName('INPUT')[0].id
+                    return VALUE[_id0]
 
-                } else return VALUE[id]
+                } else return VALUE[_id]
             })
             
         } else if (k === 'clone()') {
@@ -188,7 +191,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'includes()') {
             
             breakRequest = i + 1
-            answer = o.includes(path[i +1])
+            answer = o.includes(path[i + 1])
             
         } else if (k === 'capitalize()') {
             
@@ -210,15 +213,51 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = Array.isArray(o) ? o.flat() : o
             
+        } else if (k === 'filterById()') {
+
+            var notEqual = false
+            breakRequest = i + 1
+
+            if (path[i + 1] === '!') {
+                breakRequest = i + 2
+                notEqual = true
+            }
+            
+            path[i + 1] = path[i + 2]
+            // get id
+            var _idList = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
+            _idList = toArray(_idList)
+            
+            if (notEqual) answer = o.filter(data => !_idList.find(id => data.id === id))
+            else answer = o.filter(data => _idList.find(id => data.id === id))
+            
         } else if (k === 'findById()') {
 
             breakRequest = i + 1
-            answer = o.find(data => data.id === path[i + 1])
+            // get id
+            var _id = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
+            
+            answer = o.find(data => data.id === _id)
+            
             if (!answer) {
-                o.push({ id : path.slice(i + 1) })
+                o.push({ id : _id })
                 answer = o[o.length - 1]
+                if (key && value && (i + 1 === lastIndex)) o[o.length - 1] = answer = value
             }
-            if (key && value && (i + 1 === lastIndex)) answer = value
+            
+        } else if (k === 'findByName()') {
+
+            breakRequest = i + 1
+            // get id
+            var name = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
+            
+            answer = o.find(data => data.name === name)
+            
+            if (!answer) {
+                o.push({ name })
+                answer = o[o.length - 1]
+                if (key && value && (i + 1 === lastIndex)) o[o.length - 1] = answer = value
+            }
             
         } else if (k === 'map()') {
             
@@ -236,24 +275,32 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 else answer = 0
             }
             
+        } else if (k === 'toPrice()') {
+            
+            answer = toPrice(o)
+
+        } else if (k === 'toNumber()') {
+
+            answer = toNumber(o)
+            
         } else if (k === '1stIndex()' || k === 'firstIndex()') {
             
-            if (value !== undefined && key) o[0] = value
+            if (value !== undefined && key) answer = o[0] = value
             answer = o[0]
 
         } else if (k === '2ndIndex()' || k === 'secondIndex()') {
             
-            if (value !== undefined && key) o[1] = value
+            if (value !== undefined && key) answer = o[1] = value
             answer = o[1]
 
         } else if (k === '3rdIndex()' || k === 'thirdIndex()') {
             
-            if (value !== undefined && key) o[2] = value
+            if (value !== undefined && key) answer = o[2] = value
             answer = o[2]
 
         } else if (k === 'lastIndex()') {
 
-            if (value !== undefined && key) o[o.length - 1] = value
+            if (value !== undefined && key) answer = o[o.length - 1] = value
             answer = o[o.length - 1]
             
         } else if (k === 'parseFloat()') {
@@ -307,9 +354,9 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'isChildOfId()') {
             
             breakRequest = i + 1
-            var id = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
-            var ids = Object.keys(getDeepChildren({ VALUE, id }))
-            answer = ids.find(_id => _id === o)
+            var _id = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
+            var _ids = Object.keys(getDeepChildren({ VALUE, id: _id }))
+            answer = _ids.find(_id => _id === o)
 
         } else if (k === 'allChildren()') { // all values of local element and children elements in object formula
             
@@ -352,16 +399,16 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             } else return delete o[k]
 
         } else if (key && value !== undefined && i === lastIndex) {
-            
-            return o[k] = value
+
+            answer = o[k] = value
 
         } else if (key && o[k] === undefined && i !== lastIndex) {
-            
-            if (!isNaN(path[i + 1])) o[k] = []
-            else o[k] = {}
+
+            if (!isNaN(path[i + 1])) answer = o[k] = []
+            else answer = o[k] = {}
 
         } else answer = o[k]
-        
+
         return answer
 
     }, object)

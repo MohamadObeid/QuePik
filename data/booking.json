@@ -2,97 +2,197 @@
   {
     "id": "booking-01",
     "creation-date": "23-9-2021T10:59:26",
-    "service": "service-01",
-    "user": "user-01",
-    "date": "25-9-2021",
-    "time": "08:30 - 09:00",
-    "provider": "provider-01",
-    "status": "Closed",
-    "note": "",
-    "payment": {
-      "amount": {
-        "net": {
-          "lbp": "200,000"
-        },
-        "discount": {
-          "lbp": "15,000"
-        },
-        "payable": {
-          "lbp": "185,000"
-        }
-      },
-      "status": "unCollected"
+    "date": "25-09-2021",
+    "time": "08:30T09:00",
+    "active": true,
+    "service": {
+      "id": "service-02",
+      "name": "Hair Cut"
     },
-    "offer": "offer-01"
+    "user": {
+      "id": "user-01",
+      "name": "George Washington"
+    },
+    "provider": {
+      "id": "provider-01",
+      "name": "Nevelin"
+    },
+    "note": "",
+    "admin-note": "",
+    "status": "closed",
+    "payment": {
+      "net": {
+        "lbp": "200,000"
+      },
+      "discount": {
+        "lbp": "15,000"
+      },
+      "payable": {
+        "lbp": "185,000"
+      },
+      "status": "uncollected"
+    }
   },
   {
     "id": "booking-02",
+    "active": true,
     "creation-date": "23-9-2021T10:59:26",
-    "service": "service-02",
-    "user": "user-02",
-    "date": "26-9-2021",
-    "time": "10:30 - 11:00",
-    "status": "Pending confirmation",
+    "service": {
+      "id": "service-01",
+      "name": "Indian Massage"
+    },
+    "user": {
+      "id": "user-02",
+      "name": "Fadi Ismail"
+    },
+    "provider": {
+      "id": "provider-02",
+      "name": "Rest Home"
+    },
+    "date": "26-09-2021",
+    "time": "10:30T11:00",
+    "status": "pending confirmation",
     "note": "I want spiky hair cut",
     "payment": {
-      "amount": {
-        "net": {
-          "lbp": "25,000"
-        },
-        "discount": {
-          "lbp": "2,000"
-        },
-        "payable": {
-          "lbp": "23,000"
-        }
+      "net": {
+        "lbp": "25,000"
       },
-      "status": "Collected"
+      "discount": {
+        "lbp": "2,000"
+      },
+      "payable": {
+        "lbp": "23,000"
+      },
+      "status": "collected"
     }
   },
   {
     "id": "booking-03",
-    "creation-date": "23-10-2021T10:59:26Z",
-    "service": "service-01",
-    "user": "user-03",
-    "data": "26-10-2021",
-    "time": "10:30 - 11:00",
-    "status": "Canceled",
+    "active": true,
+    "creation-date": "23-10-2021T10:59:26",
+    "service": {
+      "id": "service-01",
+      "name": "Indian Massage"
+    },
+    "user": {
+      "id": "user-03",
+      "name": "Christina Abi Lameh"
+    },
+    "provider": {
+      "id": "provider-02",
+      "name": "Rest Home"
+    },
+    "date": "24-10-2021",
+    "time": "10:30T11:00",
+    "status": "canceled",
     "payment": {
-      "amount": {
-        "net": {
-          "lbp": "200,000"
-        },
-        "discount": {
-          "lbp": "5,000"
-        },
-        "payable": {
-          "lbp": "195,000"
-        }
+      "net": {
+        "lbp": "200,000"
       },
-      "status": "Canceled"
+      "discount": {
+        "lbp": "5,000"
+      },
+      "payable": {
+        "lbp": "195,000"
+      },
+      "status": "canceled"
     }
   },
   {
     "id": "booking-04",
+    "active": true,
     "creation-date": "23-9-2021T10:59:26",
-    "service": "service-01",
-    "user": "user-01",
-    "data": "27-9-2021",
-    "time": "15:30 - 16:00",
-    "status": "Confirmed",
+    "service": {
+      "id": "service-01",
+      "name": "Indian Massage"
+    },
+    "user": {
+      "id": "user-02",
+      "name": "Fadi Ismail"
+    },
+    "provider": {
+      "id": "provider-02",
+      "name": "Rest Home"
+    },
+    "date": "27-09-2021",
+    "time": "15:30T16:00",
+    "status": "confirmed",
     "payment": {
-      "amount": {
-        "net": {
-          "lbp": "25,000"
-        },
-        "discount": {
-          "lbp": "5,000"
-        },
-        "payable": {
-          "lbp": "20,000"
-        }
+      "net": {
+        "lbp": "25,000"
       },
-      "status": "unCollected"
+      "discount": {
+        "lbp": "5,000"
+      },
+      "payable": {
+        "lbp": "20,000"
+      },
+      "status": "uncollected"
     }
+  },
+  {
+    "id": "booking-Zqwal",
+    "creation-date": "2-9-2021T1:9:32",
+    "user": {
+      "name": "Mohamad Obeid",
+      "id": "user-eWcLN"
+    },
+    "provider": {
+      "name": "Nevelin",
+      "id": "provider-01"
+    },
+    "active": true,
+    "status": "pending confirmation",
+    "payment": {
+      "status": "uncollected",
+      "net": {
+        "lbp": "25,000"
+      },
+      "discount": {
+        "lbp": "2,000"
+      },
+      "payable": {
+        "lbp": "23,000"
+      }
+    },
+    "date": "02-10-2021",
+    "time": "09:00T09:30",
+    "service": {
+      "name": "Hair Cut",
+      "id": "service-02"
+    }
+  },
+  {
+    "id": "booking-QylLV",
+    "creation-date": "2-9-2021T1:58:41",
+    "user": {
+      "name": "Sarah Hneino",
+      "id": "user-ECGli"
+    },
+    "provider": {
+      "name": "Nevelin",
+      "id": "provider-01"
+    },
+    "active": true,
+    "status": "confirmed",
+    "payment": {
+      "status": "uncollected",
+      "net": {
+        "lbp": "25,000"
+      },
+      "discount": {
+        "lbp": "2,000"
+      },
+      "payable": {
+        "lbp": "23,000"
+      }
+    },
+    "date": "02-10-2021",
+    "time": "15:00T15:30",
+    "service": {
+      "name": "Hair Cut",
+      "id": "service-02"
+    },
+    "note": "Ma3 brushing la sha3er"
   }
 ]

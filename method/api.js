@@ -1,5 +1,6 @@
 const { getJsonFiles } = require('./getJsonFiles')
 const { capitalize } = require('./capitalize')
+const { toParam } = require('./toParam')
 const fs = require('fs')
 
 const getApi = (req, res) => {
@@ -7,11 +8,13 @@ const getApi = (req, res) => {
     var path = req.url.split('/')
     var folder = path[2]
     var fileName = path[3]
+    var params = path[4]
+    if (params) params = toParam({ string: params })
     
     if (folder === 'image')
     return res.sendFile(require('path').join(process.cwd(), folder, fileName))
 
-    var files = getJsonFiles(folder, fileName)
+    var files = getJsonFiles(folder, fileName, params)
     return res.send({ data: files, success: true, message: `${capitalize(folder)} mounted successfuly!` })
 }
 
@@ -67,9 +70,19 @@ const deleteApi = (req, res) => {
 
     var path = req.url.split('/')
     var folder = path[2]
-    var file = req.body
-    var fileName = file['file-name']
-    var filePath = `./${folder}/${fileName}.json`
+    var fileName = path[3]
+    var params = path[4]
+    if (params) params = toParam({ string: params })
+
+    if (params.id) {
+        
+        var filePath = `./${folder}/${fileName}`
+        var data = getJsonFiles(folder, fileName) || []
+        data = data.filter(data => !params.id.find(id => data.id === id))
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2))
+
+        return res.send({ data, success: true, message: `Data deleted successfuly!` })
+    }
 
     fs.unlinkSync(filePath)
     

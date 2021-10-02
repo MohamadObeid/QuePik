@@ -7,14 +7,10 @@ module.exports = {
         if (!local) return
 
         var search = params.search
-        
-        var { data: { data, message, success } } = await axios.get(`/api/${search.path}`)
+        var { data: { data, message, success } } = await axios.get(`/api/${search.path}${search.id ? `/id=[${search.id}]` : ''}`)
 
         local.search = { data, message, success }
-
-        STATE[search.path] = STATE[search.path] || {}
-        STATE[search.path][data['file-name']] = data
-
+        
         console.log(data, message, success)
     }
 }

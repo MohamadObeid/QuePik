@@ -148,7 +148,8 @@ const toApproval = ({ STATE, VALUE, e, string, params, id }) => {
 
                 ///////////////////// value /////////////////////
                 
-                if (value) value = toValue({ VALUE, STATE, id: mainId, params: { value }, e })
+                if (value && value !== 'undefined' && value !== 'false') 
+                value = toValue({ VALUE, STATE, id: mainId, params: { value }, e })
 
                 ///////////////////// key /////////////////////
 

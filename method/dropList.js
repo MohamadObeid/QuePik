@@ -2,7 +2,6 @@ const { update } = require('./update')
 const { clone } = require('./clone')
 const { derive } = require('./derive')
 const { toValue } = require('./toValue')
-const { isPath } = require('./isPath')
 
 const droplist = ({ VALUE, STATE, id, e }) => {
 
@@ -26,28 +25,30 @@ const droplist = ({ VALUE, STATE, id, e }) => {
     input_id = VALUE[local.parent].element.previousSibling.id
     
     // dynamic items
-    if (typeof items === 'string') items = items.split(',')
-    items = items.map(item => {
+    if (typeof items === 'string') 
+    items = toValue({ VALUE, STATE, id, e, params: { value: items } })
+    /*items = items.map(item => {
 
         if (typeof item === 'string' && isPath({ params: { path: item } })) 
             return toValue({ VALUE, STATE, id, params: { value: item }, e })
 
         return item
-    })
-
+    })*/
+    
     // filter undefinds
-    items = items.filter(item => item)
+    items = items.filter(item => item !== undefined)
 
     // flat
-    if (local.droplist['flat()']) items = items.flat()
+    // if (local.droplist['flat()']) items = items.flat()
 
     var parent = VALUE[local.parent].parent
     
     if (items.length > 0) dropList.children = clone(items).map(item => {
         
         var readonly = false, input = false, droplist, itemList = []
-        if (typeof item === 'string') {
+        if (typeof item === 'string' || typeof item === 'boolean') {
 
+            item = item.toString()
             item = item.split('>>')
             readonly = item[1] === 'readonly'
             input = item[1] === 'input'
@@ -71,7 +72,7 @@ const droplist = ({ VALUE, STATE, id, e }) => {
         }
 
         return {
-            type: `Item?text=${item};readonly=${readonly}`,
+            type: `Item?text=const.${item};readonly=${readonly}`,
             controls: [{
                 event: `click?value.element.${isInput ? 'value' : 'innerHTML'}::${id}=${item};value.data::${id}=${item};state[value.Data][value.derivations]<<!const.${local.lang}=${item};action.resize::${id}?!readonly;state.droplist=${id}`,
                 actions: [

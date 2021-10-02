@@ -14,8 +14,9 @@ module.exports = {
         local = _component[local.type](local)
 
         // destructure type, params, & conditions from type
+        local.type = local.type.split('/?').join('_question')
         var type = local.type.split('?')[0]
-        var params = local.type.split('?')[1] 
+        var params = local.type.split('?')[1]
         var conditions = local.type.split('?')[2]
 
         // type

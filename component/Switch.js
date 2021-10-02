@@ -1,4 +1,3 @@
-const { generate } = require('../method/generate')
 const {toComponent} = require('../method/toComponent')
 
 const Switch = (component) => {
@@ -9,10 +8,9 @@ const Switch = (component) => {
         ...component,
         type: 'View',
         class: 'button-13',
-        id: generate(),
         controls: {},
         children: [{
-            type: `Input?input.type=checkbox;class=switch-checkbox;id=${component.id}`,
+            type: `Input?input.type=checkbox;class=switch-checkbox`,
             controls: [...component.controls]
         }, {
             type: 'View?class=knobs',

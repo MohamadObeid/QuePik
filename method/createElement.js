@@ -22,6 +22,7 @@ const createElement = ({ STATE, VALUE, id }) => {
     if (!local.type) return
 
     // destructure type, params, & conditions from type
+    local.type = local.type.split('/?').join('_question')
     var type = local.type.split('?')[0]
     var params = local.type.split('?')[1] 
     var conditions = local.type.split('?')[2]
@@ -139,7 +140,7 @@ const createElement = ({ STATE, VALUE, id }) => {
 
     } else local.data = reducer({
         VALUE, STATE, id, params: { 
-            path: local.derivations, value: params.data, key: true, object: STATE[local.Data] 
+            path: local.derivations, value: params.data, key: true, object: STATE[local.Data]
         } 
     })
     

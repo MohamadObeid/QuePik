@@ -25,6 +25,6 @@
     }],
     "controls": [{
         "event": "mousedown",
-        "actions": "setStyle?style.display=none>>200;style.opacity=0?!state.mini-window-view-mouseenter"
+        "actions": "setStyle;remove>>220::global.mini-window-view.element.children.0.id?style.display=none>>200;style.opacity=0?!state.mini-window-view-mouseenter"
     }]
 }

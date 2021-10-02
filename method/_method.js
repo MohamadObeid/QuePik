@@ -58,7 +58,9 @@ const {play} = require('./play')
 const {note} = require('./note')
 const {toCode} = require('./toCode')
 const {isPath} = require('./isPath')
+const {toNumber} = require('./toNumber')
 const {capitalize} = require('./capitalize')
+const {popup} = require('./popup')
 const {setStyle, resetStyles, toggleStyles, mountAfterStyles} = require('./style')
 const {resize, dimensions} = require('./resize')
 const {createData, clearData, removeData} = require('./data')
@@ -73,7 +75,7 @@ const _method = {
     setPosition, droplist, filter, createView, createActions, flicker, blur, toAwait,
     toControls, remove, defaultInputHandler, focus, sort, log, save, erase, toCode,
     toPath, toValue, reducer, preventDefault, toStyle, toTag, capitalize, fill, note,
-    pause, play, close, isPath
+    pause, play, close, isPath, toNumber, popup
 }
 
 module.exports = _method

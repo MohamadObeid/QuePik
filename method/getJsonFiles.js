@@ -1,21 +1,22 @@
 const path = require('path')
 const fs = require('fs')
 
-const getJsonFiles = (folder, fileName) => {
+const getJsonFiles = (folder, fileName, params = {}) => {
 
-    var files = {}
+    var data = {}
     var folderPath = path.join(process.cwd(), folder)
     
-    if (fileName) return JSON.parse(fs.readFileSync(path.join(folderPath, fileName)))
-    
-    fs.readdirSync(folderPath).forEach(fileName => {
+    if (fileName) data = JSON.parse(fs.readFileSync(path.join(folderPath, fileName)))
+    else fs.readdirSync(folderPath).forEach(fileName => {
     
         var file = fs.readFileSync(path.join(folderPath, fileName))
         fileName = fileName.split('.json')[0]
-        files[fileName] = JSON.parse(file)
+        data[fileName] = JSON.parse(file)
     })
     
-    return files
+    if (params.id) data = data.filter(data => params.id.find(id => id === data.id ))
+    
+    return data
 }
 
 module.exports = { getJsonFiles }

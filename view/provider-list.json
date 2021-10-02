@@ -27,7 +27,7 @@
                 "placeholder": "Search by name, type, address, phone number...",
                 "controls": {
                     "event": "keyup>>200??state.provider-list-Data",
-                    "actions": "await.update::global.provider-list-view.1stChild().id<<global.provider-list-view.1stChild().element.style.display=grid;await.update::global.provider-list-view.2ndChild().2ndChild().id<<global.provider-list-view.2ndChild().element.style.display=grid;async.filter?filter.backup=state.provider.clone();filter.path=[name];filter.Data=provider-list-Data;filter.value=e.target.value"
+                    "actions": "await.update::global.provider-list-view.1stChild().id<<global.provider-list-view.1stChild().element.style.display=grid;await.update::global.provider-list-view.2ndChild().2ndChild().id<<global.provider-list-view.2ndChild().element.style.display=grid;async.filter?filter.backup=state.provider.clone();filter.path=[name,phone-number,type,address,owner.name];filter.Data=provider-list-Data;filter.value=e.target.value"
                 }
             }, {
                 "type": "View?class=flex-box",
@@ -35,15 +35,15 @@
                     "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
                     "controls": {
                         "event": "click??state.provider-list-Data", 
-                        "actions": "await.update::global.provider-list-view.1stChild().id<<global.provider-list-view.1stChild().element.style.display=grid;await.update::global.provider-list-view.2ndChild().2ndChild().id<<global.provider-list-view.2ndChild().element.style.display=grid;async.sort?sort.path=name;sort.Data=provider-list-Data"
+                        "actions": "await.update::global.provider-list-view.1stChild().id<<global.provider-list-view.1stChild().element.style.display=grid;await.update::global.provider-list-view.2ndChild().2ndChild().id<<global.provider-list-view.2ndChild().element.style.display=grid;async.sort?sort.path=creation-date;sort.Data=provider-list-Data"
                     }
                 }, {
                     "type": "Button?text=View;icon.name=bi-list-ul",
                     "controls": {
                         "event": "click?await.state.provider-list-grid-view-display=global.provider-list-view.1stChild().element.style.display;await.state.provider-list-table-view-display=global.provider-list-view.2ndChild().element.style.display", 
                         "actions": [
-                            "setStyle::global.provider-list-view.1stChild().id?style.display=none<<global.provider-list-view.1stChild().element.style.display=grid;style.display=grid>>50<<global.provider-list-view.1stChild().element.style.display=none",
-                            "setStyle::global.provider-list-view.2ndChild().id?style.display=none<<global.provider-list-view.2ndChild().element.style.display=grid;style.display=grid>>50<<global.provider-list-view.2ndChild().element.style.display=none"
+                            "setStyle::global.provider-list-view.1stChild().id?style.display=none<<global.provider-list-view.1stChild().element.style.display=grid;style.display=grid<<global.provider-list-view.1stChild().element.style.display=none",
+                            "setStyle::global.provider-list-view.2ndChild().id?style.display=none<<global.provider-list-view.2ndChild().element.style.display=grid;style.display=grid<<global.provider-list-view.2ndChild().element.style.display=none"
                         ]
                     }
                 }]
@@ -74,7 +74,7 @@
                         "type": "Text?text=Active;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=status;sort.Data=provider-list-Data?state.provider-list-Data"
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=active;sort.Data=provider-list-Data?state.provider-list-Data"
                         }
                     }, {
                         "type": "Text?text=Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
@@ -112,9 +112,9 @@
                 }, {
                     "type": "View?style.display=grid;style.gridTemplateColumns=1fr;flicker",
                     "children": [{
-                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 2fr 1fr 1fr 2fr;style.minHeight=5.5rem;Data=provider-list-Data;data=state.provider-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable",
+                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 2fr 1fr 1fr 2fr;style.minHeight=5.5rem;Data=provider-list-Data;data=state.provider-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.provider-list-Data;state.provider-list-Data.length()!=0",
                         "children": [{
-                            "type": "Icon?icon.name=bi-circle<<value.data().status=inactive;icon.name=bi-circle-fill<<value.data().status!=inactive;style.fontSize=1.4rem;style.color=lime<<value.data().status=active;style.color=red<<value.data().status=blocked;style.color=#ddd<<value.data().status=inactive;style.textAlign=center"
+                            "type": "Icon?icon.name=bi-circle<<!value.data().active;icon.name=bi-circle-fill<<value.data().active;style.fontSize=1.4rem;style.color=lime<<value.data().active;style.color=#ddd<<!value.data().active;style.textAlign=center"
                         }, {
                             "type": "Text?class=dots;text=value.data().name;style.fontSize=1.4rem"
                         }, {

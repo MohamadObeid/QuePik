@@ -6,8 +6,6 @@ const remove = ({ STATE, VALUE, params, id }) => {
 
     var local = VALUE[id]
     if (!params) params = {}
-    
-    if (!STATE[local.Data]) return
 
     var keys = clone(local.derivations)
     var path = params.path ? params.path('.') : []
@@ -22,7 +20,7 @@ const remove = ({ STATE, VALUE, params, id }) => {
     keys.push('delete()')
 
     // delete 
-    reducer({ VALUE, STATE, id, params: { path: keys, object: STATE[local.Data] } })
+    if (keys.length > 0) reducer({ VALUE, STATE, id, params: { path: keys, object: STATE[local.Data] } })
 
     removeIds({ VALUE, id })
     

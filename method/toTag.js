@@ -32,7 +32,7 @@ module.exports = {
             }).join('')
         }
         
-        var value = (local.input && local.input.value) !== undefined ? local.input.value : (local.data || '')
+        var value = (local.input && local.input.value) !== undefined ? local.input.value : (local.data !== undefined ? local.data : '')
         if (local.type === 'Image') local.src = local.src || local.data || ''
         
         if (local.type === 'View')

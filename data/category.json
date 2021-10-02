@@ -3,45 +3,80 @@
     "id": "category-01",
     "creation-date": "23-9-2021T10:59:26",
     "name": "Hair",
-    "status": "active",
+    "active": true,
     "image": "/image/cateogry-01.jpeg",
-    "description": "Hair Styles",
-    "head-category": ""
+    "description": "Hair Styles"
   },
   {
     "id": "category-02",
     "creation-date": "23-9-2021T10:59:26",
     "name": "Massage",
-    "status": "active",
+    "active": true,
     "image": "/image/cateogry-02.jpeg",
-    "description": "Types of Massages",
-    "head-category": ""
+    "description": "Types of Massages"
   },
   {
     "id": "category-03",
     "creation-date": "23-9-2021T10:59:26",
     "name": "Solarium",
-    "status": "active",
+    "active": true,
     "image": "/image/cateogry-03.jpeg",
-    "description": "Sunroom, a room built largely of glass to afford exposure to the sun",
-    "head-category": ""
+    "description": "Sunroom, a room built largely of glass to afford exposure to the sun"
   },
   {
     "id": "category-04",
     "creation-date": "23-9-2021T10:59:26",
-    "name": "Facial",
-    "status": "active",
+    "name": "Face",
+    "active": true,
     "image": "/image/cateogry-04.jpeg",
-    "description": "A facial is a family of skin care treatments for the face",
-    "head-category": ""
+    "description": "A facial is a family of skin care treatments for the face"
   },
   {
     "id": "category-05",
     "creation-date": "23-9-2021T10:59:26",
     "name": "Eyebrow",
-    "status": "active",
+    "active": true,
     "image": "/image/cateogry-05.jpeg",
     "description": "Eyebrow Care",
-    "head-category": "3"
+    "head-category": {
+      "id": "category-04",
+      "name": "Face"
+    }
+  },
+  {
+    "id": "category-06",
+    "creation-date": "23-9-2021T10:59:26",
+    "name": "Beard",
+    "active": true,
+    "image": "/image/cateogry-06.jpeg",
+    "description": "Man Beard",
+    "head-category": {
+      "id": "category-04",
+      "name": "Face"
+    }
+  },
+  {
+    "id": "category-y94Wn",
+    "head-category": {},
+    "creation-date": "1-9-2021T16:55:53",
+    "active": true,
+    "images": [],
+    "category": {},
+    "name": "Laser",
+    "description": "Removes body hair"
+  },
+  {
+    "id": "category-tv6x6",
+    "head-category": {
+      "name": "Laser"
+    },
+    "creation-date": "1-9-2021T16:56:28",
+    "active": true,
+    "images": [],
+    "category": {
+      "id": "category-y94Wn"
+    },
+    "name": "Under Arms Laser",
+    "description": "remove under arms hair"
   }
 ]

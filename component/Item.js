@@ -53,14 +53,13 @@ const Item = (component) => {
                     },
                 }
             }, {
-                type: `Text?text=${text};id=${id}-text`,
+                type: `Text?text=const.${text};id=${id}-text`,
                 style: {
                     fontSize: style.fontSize || '1.4rem',
                     color: style.color || '#444',
                     userSelect: 'none',
                     after: {
                         color: style.after.color || '#ee384e',
-                        fontSize: style.after.fontSize || style.fontSize || '1.4rem',
                     }
                 },
             }, {
@@ -133,7 +132,7 @@ const Item = (component) => {
                     }
                 }
             }, {
-                type: `Text?text=${text};id=${id}-text;`,
+                type: `Text?text=const.${text};id=${id}-text;`,
                 style: {
                     fontSize: style.fontSize || '1.4rem',
                     color: !readonly ? style.color || '#444' : '#333',

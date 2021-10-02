@@ -1,5 +1,4 @@
 const axios = require('axios')
-const { update } = require('./update')
 
 const erase = async ({ VALUE, STATE, id, params = {} }) => {
 
@@ -7,15 +6,10 @@ const erase = async ({ VALUE, STATE, id, params = {} }) => {
     if (!local) return
 
     var erase = params.erase
-    if (!erase.data['file-name']) return
-
-    var { data: { data, message, success } } = await axios.delete(`/api/${erase.path}`, { data: erase.data })
-
-    delete STATE[erase.path][data['file-name']]
+    var { data: { data, message, success } } = await axios.delete(`/api/${erase.path}${erase.id ? `/id=[${erase.id}]` : ''}`)
     
-    if (erase.state) STATE[erase.state] = STATE[erase.state].filter(file => file['file-name'] !== data['file-name'])
-    if (erase.update) update({ VALUE, STATE, id: erase.update })
-    
+    local.erase = { data, message, success }
+
     console.log(data, message, success)
 }
 

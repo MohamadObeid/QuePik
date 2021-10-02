@@ -218,7 +218,7 @@ const Input = (component) => {
                             // remove element
                             `remove::${id}??${removable};${clearable ? `value.length::${id}>${minlength};!value.data()::${id}-input` : ''}`,
                             // clear data
-                            `removeData;focus>>50??${clearable}?${id}-input`,
+                            `removeData;focus>>50;resize??${clearable}?${id}-input`,
                             // for key
                             `focus::${id}-input?value.element.value::${id}-input='';value.element.innerHTML::${edit}-key=value.key::${edit}-key;value.path::${edit}-input=value.key::${edit}-key;value.derivations::${edit}-input=[value.derivations::${edit},value.key::${edit}-key];state[value.Data][value.derivations::${edit}-input]=value.element.value::${edit}-input?const.${edit}`
                         ]

@@ -57,6 +57,7 @@ const removeIds = ({ VALUE, id }) => {
         // clear time out
         Object.entries(VALUE[id]).map(([key, value]) => {
             if (key.includes('-timer')) setTimeout(() => clearTimeout(value), 1000)
+            if (key.includes('-watch')) clearTimeout(value)
         })
 
         removeIds({ VALUE, id })

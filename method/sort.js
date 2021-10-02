@@ -1,4 +1,5 @@
 const { reducer } = require('./reducer')
+const { toNumber } = require('./toNumber')
 
 const sort = ({ VALUE, STATE, params = {}, id }) => {
 
@@ -12,16 +13,65 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
     
     options.sort = options.sort === 'ascending' ? 'descending' : 'ascending'
     var path = (sort.path || '').split('.')
+    var isDate = false
     
     data.sort((a, b) => {
 
-        a = reducer({ VALUE, STATE, id, params: { path, object: a } })
-        if (a !== undefined) a = a.toString()
+        a = reducer({ VALUE, STATE, id, params: { path, object: a } }) || '!'
+        if (a !== undefined) {
+            a = a.toString()
 
-        b = reducer({ VALUE, STATE, id, params: { path, object: b } })
-        if (b !== undefined) b = b.toString()
+            // date
+            if (a.split('-')[2] && !isNaN(a.split('-')[2].split('T')[0])) {
+                var year = parseInt(a.split('-')[2].split('T')[0])
+                var month = parseInt(a.split('-')[1])
+                var day = parseInt(a.split('-')[0])
+                a = { year, month, day }
+                isDate = true
+            }
+
+            // number
+            else a = toNumber(a)
+        }
+
+        b = reducer({ VALUE, STATE, id, params: { path, object: b } }) || '!'
+        if (b !== undefined) {
+            b = b.toString()
+
+            // date
+            if (b.split('-')[2] && !isNaN(b.split('-')[2].split('T')[0])) {
+                var year = parseInt(b.split('-')[2].split('T')[0])
+                var month = parseInt(b.split('-')[1])
+                var day = parseInt(b.split('-')[0])
+                b = { year, month, day }
+                isDate = true
+            }
+            
+            // number
+            else b = toNumber(b)
+        }
         
         if (options.sort === 'ascending') {
+
+            if (isDate) {
+                if (b.year === a.year) {
+                    if (b.month === a.month) {
+                        
+                        if (a.day === b.day) return 0
+                        else if (a.day > b.day) return 1
+                        else return -1
+
+                    } else {
+                        
+                        if (a.month > b.month) return 1
+                        else return -1
+                    }
+                } else {
+                        
+                    if (a.year > b.year) return 1
+                    else return -1
+                }
+            }
 
             if (!isNaN(a)) return b - a
 
@@ -29,6 +79,26 @@ const sort = ({ VALUE, STATE, params = {}, id }) => {
             return a > b ? 1 : 0
 
         } else {
+
+            if (isDate) {
+                if (b.year === a.year) {
+                    if (b.month === a.month) {
+                        
+                        if (a.day === b.day) return 0
+                        else if (a.day < b.day) return 1
+                        else return -1
+
+                    } else {
+
+                        if (a.month < b.month) return 1
+                        else return -1
+                    }
+                } else {
+                        
+                    if (a.year < b.year) return 1
+                    else return -1
+                }
+            }
 
             if (!isNaN(a)) return a - b
 

@@ -42,8 +42,8 @@
                     "controls": {
                         "event": "click?await.state.service-list-grid-view-display=global.service-list-view.1stChild().element.style.display;await.state.service-list-table-view-display=global.service-list-view.2ndChild().element.style.display", 
                         "actions": [
-                            "setStyle::global.service-list-view.1stChild().id?style.display=none<<global.service-list-view.1stChild().element.style.display=grid;style.display=grid>>50<<global.service-list-view.1stChild().element.style.display=none",
-                            "setStyle::global.service-list-view.2ndChild().id?style.display=none<<global.service-list-view.2ndChild().element.style.display=grid;style.display=grid>>50<<global.service-list-view.2ndChild().element.style.display=none"
+                            "setStyle::global.service-list-view.1stChild().id?style.display=none<<global.service-list-view.1stChild().element.style.display=grid;style.display=grid<<global.service-list-view.1stChild().element.style.display=none",
+                            "setStyle::global.service-list-view.2ndChild().id?style.display=none<<global.service-list-view.2ndChild().element.style.display=grid;style.display=grid<<global.service-list-view.2ndChild().element.style.display=none"
                         ]
                     }
                 }]
@@ -61,7 +61,7 @@
                     "children": [{
                         "type": "Text?text=value.data.name;style.flexWrap=wrap;style.marginBottom=.7rem;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
                     }, {
-                        "type": "Text?text=value.data.provider.name;style.flexWrap=wrap;style.marginBottom=.7rem;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
+                        "type": "Text?text=value.data.provider.name;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
                     }]
                 }]
             }, {
@@ -72,7 +72,7 @@
                         "type": "Text?text=Active;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=status;sort.Data=service-list-Data?state.service-list-Data"
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=active;sort.Data=service-list-Data?state.service-list-Data"
                         }
                     }, {
                         "type": "Text?text=Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
@@ -110,9 +110,9 @@
                 }, {
                     "type": "View?style.display=grid;style.gridTemplateColumns=1fr;flicker",
                     "children": [{
-                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 2fr 1fr 1fr 2fr;style.minHeight=5.5rem;Data=service-list-Data;data=state.service-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable",
+                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 2fr 1fr 1fr 2fr;style.minHeight=5.5rem;Data=service-list-Data;data=state.service-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.service-list-Data;state.service-list-Data.length()!=0",
                         "children": [{
-                            "type": "Icon?icon.name=bi-circle<<value.data.status=inactive;icon.name=bi-circle-fill<<value.data.status!=inactive;style.fontSize=1.4rem;style.color=lime<<value.data.status=active;style.color=red<<value.data.status=blocked;style.color=#ddd<<value.data.status=inactive;style.textAlign=center"
+                            "type": "Icon?icon.name=bi-circle<<!value.data().active;icon.name=bi-circle-fill<<value.data().active;style.fontSize=1.4rem;style.color=lime<<value.data().active;style.color=#ddd<<!value.data().active;style.textAlign=center"
                         }, {
                             "type": "Text?class=dots;text=value.data.name;style.fontSize=1.4rem"
                         }, {

@@ -1,7 +1,7 @@
 [
   {
     "id": "provider-01",
-    "creation-date": "23-9-2021T10:59:26",
+    "creation-date": "25-9-2021T10:59:26",
     "type": "Beauty Salon",
     "name": "Nevelin",
     "images": [
@@ -14,7 +14,7 @@
       "id": "user-01",
       "name": "George Washington"
     },
-    "status": "active",
+    "active": true,
     "address": "Beirut, Hamrah street, Test building, ground floor",
     "description": "A high service salon",
     "note": "Kindly set bookings a day before!",
@@ -36,10 +36,6 @@
     },
     "services": [
       {
-        "id": "service-01",
-        "name": "Indian Massage"
-      },
-      {
         "id": "service-02",
         "name": "Hair Cut"
       }
@@ -54,6 +50,7 @@
   },
   {
     "id": "provider-02",
+    "active": false,
     "creation-date": "23-9-2021T10:59:26",
     "type": "Massage & Spa",
     "name": "Rest Home",
@@ -63,7 +60,6 @@
       "/image/provider-06.jpeg"
     ],
     "phone-number": "01-123456",
-    "status": "inactive",
     "address": "Beirut, Jomaizeh street",
     "owner": {
       "name": "Fadi",
@@ -87,7 +83,12 @@
       "Saturday": "08:00T18:00",
       "Sunday": "08:00T18:00"
     },
-    "services": [],
+    "services": [
+      {
+        "id": "service-01",
+        "name": "Indian Massage"
+      }
+    ],
     "reviews": [
       "review-04",
       "review-05",
@@ -95,5 +96,32 @@
     ],
     "note": "",
     "facilities": {}
+  },
+  {
+    "id": "provider-8hMAr",
+    "creation-date": "30-8-2021T1:44:38",
+    "user": {},
+    "owner": {
+      "name": "Hassan Monzer",
+      "phone-number": "71 257289"
+    },
+    "services": [],
+    "work-time": {
+      "Tuesday": "09:00T24:00",
+      "Wednesday": "09:00T24:00",
+      "Thursday": "09:00T24:00",
+      "Friday": "09:00T24:00",
+      "Saturday": "09:00T24:00",
+      "Sunday": "09:00T24:00"
+    },
+    "images": [],
+    "type": "Beauty Salon",
+    "name": "Monzer",
+    "phone-number": "01 026725",
+    "email": "komikbenim@gmail.com",
+    "active": true,
+    "address": "Beirut, Rweis, Near Sayid Shohada",
+    "description": "Beauty salon for men",
+    "note": "Love for all!"
   }
 ]

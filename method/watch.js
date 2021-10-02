@@ -1,9 +1,8 @@
-const { generate } = require("./generate")
 const { toApproval } = require("./toApproval")
-const { isEqual } = require("./isEqual")
 const { clone } = require("./clone")
 const { toParam } = require("./toParam")
-const { setData } = require("./data")
+const { toValue } = require("./toValue")
+const { isEqual } = require("./isEqual")
 
 const watch = ({ VALUE, STATE, controls, id }) => {
 
@@ -12,74 +11,45 @@ const watch = ({ VALUE, STATE, controls, id }) => {
     var local = VALUE[id]
     if (!local) return
 
-    var key = generate()
-    var watch = controls.watch.toString()
-    var names = watch.split('?')[0].split(';')
+    var watch = controls.watch.split('/?').join('_question')
 
-    // approval
-    var conditions = watch.split('?')[2] || true
-    var approved = toApproval({ VALUE, STATE, string: conditions, id })
-    if (!approved) return
+    watch.split('?')[0].split(';').map(name => {
 
-    names.map(name => {
-
-        // params
-        var params = watch.split('?')[1]
-        if (params) params = toParam({ VALUE, STATE, string: params, id })
-        else params = {}
-
-        var timer = 50
+        var timer = 500
         if (name.includes('>>')) {
             timer = name.split('>>')[1]
             name = name.split('>>')[0]
         }
 
-        // value
-        var value = name.split('.')[0] === 'value'
+        local[`${name}-watch`] = toValue({ VALUE, STATE, id, params: { value: name } })
 
-        // state
-        var state = name.split('.')[0] === 'state'
-        if (state) state = name.split('.')[1]
-        else state = name
-        if (state === 'true') state = false
+        const myFn = async () => {
+            if (!VALUE[id]) return clearInterval(local[`${name}-timer`])
+            
+            var value = toValue({ VALUE, STATE, id, params: { value: name } })
 
-        const myFn = () => {
-
-            if (value) {
-
-                value = toParam({ VALUE, STATE, string: `${key}=${name}`, id })[key]
-
-                if (value !== undefined && !isEqual(value, local[`${name}-watch`])) {
-
-                    if (value.nodeType === Node.ELEMENT_NODE) local[`${name}-watch`] = value
-                    else local[`${name}-watch`] = clone(value)
-
-                    if (name.split('.')[1] === 'data') setData({ VALUE, STATE, params: { data: { value } }, id })
-                    if (params.once) clearInterval(local[`${watch}-timer`])
-
-                    execute({ VALUE, STATE, controls, id })
-                }
-
-                // rewatch
-                value = true
-
-            } else if (state) {
-
-                if (STATE[state] !== undefined && !isEqual(STATE[state], local[`${name}-watch`])) {
-
-                    if (STATE[state].nodeType === Node.ELEMENT_NODE) local[`${name}-watch`] = STATE[state]
-                    else local[`${name}-watch`] = clone(STATE[state])
-
-                    if (params.once) STATE[state] = undefined
-                    execute({ VALUE, STATE, controls, id })
-                }
-
-            } else execute({ VALUE, STATE, controls, id })
+            if (value === undefined || isEqual(value, local[`${name}-watch`])) return
+            
+            local[`${name}-watch`] = clone(value)
+            
+            // approval
+            var approved = toApproval({ VALUE, STATE, id, string: watch.split('?')[2] })
+            if (!approved) return
+            
+            // params
+            params = toParam({ VALUE, STATE, id, string: watch.split('?')[1] })
+            
+            // once
+            if (params.once) clearInterval(local[`${name}-timer`])
+            if (controls.actions) await execute({ VALUE, STATE, controls, id })
+                
+            // await params
+            if (params.await) toParam({ VALUE, STATE, id, string: params.await.join(';') })
 
         }
 
-        if (local[`${watch}-timer`]) clearInterval(local[`${watch}-timer`])
-        local[`${watch}-timer`] = setInterval(myFn, timer)
+        if (local[`${name}-timer`]) clearInterval(local[`${name}-timer`])
+        local[`${name}-timer`] = setInterval(myFn, timer)
 
     })
 }

@@ -2,7 +2,7 @@ const { toPath } = require("./toPath")
 const { generate } = require("./generate")
 const { reducer } = require("./reducer")
 
-const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
+const toValue = ({ VALUE = {}, STATE, params: { value, params }, id, e }) => {
     
     const { toApproval } = require("./toApproval")
 
@@ -10,18 +10,24 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
     
     // return const value
     if (value && value.split('const.')[1] && !value.split('const.')[0] ) return value.split('const.')[1]
+    
+    // auto space
+    if (value === '&nbsp') return value = '&nbsp;'
+
+    // auto space
+    if (value && value.includes('_question')) value = value.split('_question').join('?')
+    
+    // space
+    if (value === ' ') return value = ' '
         
     // destructure []
     if (value) value = toPath({ VALUE, STATE, string: value, e, id })
     
-    // auto space
-    if (value === '&nbsp') value = '&nbsp;'
-    
-    if (value && value.charAt(0) === '[' && value.charAt(value.length - 1) === ']') {
+    if (value && value.charAt(0) === '[' && value.charAt(value.length - 1) === ']' && value.slice(1, value.length - 1)) {
 
         value = value.slice(1, value.length - 1)
         value = value.split(',').map(value => toValue({ VALUE, STATE, id, e, params: { value, params } }))
-        value = value.filter(value => value)
+        value = value.filter(value => value !== undefined)
         
     } else {
 
@@ -44,10 +50,10 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
             value = undefined
             
             values.map(val => {
-                if (value === undefined || value === '' || value === NaN || value === '*return*') 
+                if (value === undefined || value === '' || Number.isNaN(value) || value === '*return*') 
                 value = toValue({ VALUE, STATE, id, e, params: { value: val, params } })
             })
-            
+
             return value
         }
 
@@ -115,7 +121,7 @@ const toValue = ({ VALUE, STATE, params: { value, params }, id, e }) => {
         }
         
         var path = typeof value === 'string' ? value.split('.') : []
-        
+
         /* value */
         if (typeof value === 'boolean') { }
         else if (!isNaN(value)) value = parseFloat(value)

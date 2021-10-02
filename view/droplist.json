@@ -24,7 +24,7 @@
         }
     },
     "controls": [{
-        "event": "mouseleave;click::body??state.droplist;!e.target.id.isChildOfId().state.droplist",
-        "actions": "resetStyles>>200;blur>>200?state.droplist.delete()?!mouseenter;state.droplist;!e.target.id.isChildOfId().state.droplist"
+        "event": "mouseleave;click::body??state.droplist;!e.target.id.isChildOfId().[state.droplist]",
+        "actions": "resetStyles>>200;blur>>200?state.droplist.delete()?!mouseenter;state.droplist;!e.target.id.isChildOfId().[state.droplist]"
     }]
 }

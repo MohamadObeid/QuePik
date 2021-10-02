@@ -1,3 +1,3 @@
 {
-    "views": ["droplist", "mini-window", "actionlist", "action-note"]
+    "views": ["droplist", "mini-window", "actionlist", "action-note", "popup"]
 }

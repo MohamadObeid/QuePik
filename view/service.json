@@ -1,19 +1,27 @@
 {
-    "file-name": "provider",
+    "file-name": "service",
     "type": "View?style.padding=2rem;data={}<<!value.data()",
+    "controls": {
+        "event": "load",
+        "actions": [
+            "async.search?search.path=data/category.json;await.state.category=value.search.data?!state.category",
+            "async.search?search.path=data/provider.json;await.state.provider=value.search.data?!state.provider",
+            "async.search?search.path=data/offer.json;await.state.offer=value.search.data?!state.offer"
+        ]
+    },
     "children": [{
-        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=provider-++generate()<<!value.data().id",
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=service-++generate()<<!value.data.id",
         "children": [{
-            "type": "View?class=flex-box?value.data().name",
+            "type": "View?class=flex-box?value.data.name",
             "children": [{
                 "type": "Text?text=Edit;style.fontSize=1.8rem;fontWeight=500"
             }, {
-                "type": "Text?text=value.data().name.capitalize();style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
+                "type": "Text?text=value.data.name;style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
             }, {
-                "type": "Text?text=Provider;style.fontSize=1.8rem;fontWeight=500"
+                "type": "Text?text=Service;style.fontSize=1.8rem;style.fontWeight=500"
             }]
         }, {
-            "type": "Text?text=Create New Provider;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
+            "type": "Text?text=Create New Service;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
         }, {
             "type": "View?class=flex-box;style.marginLeft=auto",
             "children": [{
@@ -28,7 +36,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::provider-list-view;await.setStyle::mini-window;await.note;async.save?note=Provider saved successfully!;save.path=data/provider;save.data=value.data();await.state.provider-list-Data.findById()[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::service-list-view;await.setStyle::mini-window;await.note;async.save?note=Service saved successfully!;save.path=data/service;save.data=value.data();await.state.service-list-Data.findById()[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -39,9 +47,9 @@
             "children": [{
                 "type": "Text?class=left;label;text=Name;style.fontSize=1.4rem"
             }, {
-                "type": "Text?class=left;label;text=Type;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Category;style.fontSize=1.4rem"
             }, {
-                "type": "Text?class=left;label;text=Provider ID;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=service ID;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Creation Date;style.fontSize=1.4rem"
             }]
@@ -52,7 +60,10 @@
                 "children": [{
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=name"
                 }, {
-                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Provider Type>>readonly,Beauty Salon,Massage & Spa]"
+                    "type": "Input?textarea;featured;clearable;readonly;style.backgroundColor=#f0f0f0;path=category.name;droplist.items=const.[Category>>readonly,state.category.map().name].flat()",
+                    "controls": {
+                        "watch": "value.data()>>1000?value.Data().category.id=state.category.clone().findByName().[value.data()].id"
+                    }
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
                 }, {
@@ -63,39 +74,29 @@
                 }]
             }]
         }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 2fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
-                "type": "Text?class=left;label;text=Phone Number;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Provider;style.fontSize=1.4rem"
             }, {
-                "type": "Text?class=left;label;text=Email;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Duration;style.fontSize=1.4rem"
             }, {
-                "type": "Text?class=left;label;text=User;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Max. Bookings (30min);style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Active;style.fontSize=1.4rem"
             }]
         }, {
-            "type": "View?style.display=grid;style.gridTemplateColumns=1fr 2fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+            "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
             "children": [{
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=phone-number"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=provider.name;droplist.items=const.[provider>>readonly,state.provider.map().name].flat()",
+                "controls": {
+                    "watch": "value.data()>>1000?value.Data().provider.id=state.provider.clone().findByName().[value.data()].id"
+                }
             }, {
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=email"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=duration"
             }, {
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=user.name;droplist.items=[User List>>readonly,state.user.map().name].flat()"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=maximum-bookings-allowed-at-same-time"
             }, {
                 "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=active;data=true<<value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
-            }]
-        }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
-            "children": [{
-                "type": "Text?class=left;label;text=Address;style.fontSize=1.4rem"
-            }]
-        }, {
-            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
-            "children": [{
-                "type": "View?style.display=grid;style.gap=1rem",
-                "children": {
-                    "type": "[Input]?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=address"
-                }
             }]
         }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
@@ -114,11 +115,9 @@
         }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
-                "type": "Text?class=left;label;text=Owner Name;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Price;style.fontSize=1.4rem"
             }, {
-                "type": "Text?class=left;label;text=Owner Phone#;style.fontSize=1.4rem"
-            }, {
-                "type": "Text?class=left;label;text=Services;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Offer;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Reviews;style.fontSize=1.4rem"
             }]
@@ -127,13 +126,11 @@
             "children": [{
                 "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.alignItems=start",
                 "children": [{
-                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=owner.name"
+                    "type": "Input?textarea;featured;clearable;input.type=number;style.backgroundColor=#f0f0f0;path=price.lbp"
                 }, {
-                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=owner.phone-number"
-                }, {
-                    "type": "View?style.display=grid;style.gap=1rem;value.data().services=[]<<!value.data().services",
-                    "children": {
-                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=services.map().name<<value.data.path.services.length()!=0"
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=offer.name;droplist.items=const.[Offers>>readonly,state.offer.map().name].flat()",
+                    "controls": {
+                        "watch": "value.data()>>1000?value.Data().offer.id=state.offer.clone().findByName().[value.data()].id"
                     }
                 }, {
                     "type": "View?style.display=grid;style.gap=1rem",
@@ -143,34 +140,22 @@
                 }]
             }]
         }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gap=1rem;style.width=100%",
+            "type": "Text?class=flex-start;text=Home Service;style.marginTop=1rem;style.fontSize=1.4rem"
+        }, {
+            "type": "View?class=divider;style.marginTop=1rem;style.width=100%"
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
-                "type": "View?class=flex-box;style.justifyContent=flex-start",
-                "children": [{
-                    "type": "Text?class=left;label;text=Opening Time;style.fontSize=1.4rem"
-                }, {
-                    "type": "Text?class=left;style.marginLeft=.5rem;text=( Format: 00:00T24:59 );style.fontSize=1.2rem;style.color=#999"
-                }]
+                "type": "Text?class=left;label;text=Availability;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Price;style.fontSize=1.4rem"
             }]
         }, {
-            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem;style.width=100%",
+            "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
             "children": [{
-                "type": "View?style.display=grid;style.gap=1rem;path=work-time;style.gridTemplateColumns=1fr 1fr 1fr",
-                "children": [{
-                    "type": "Input?textarea;featured;clearable;day=Monday;style.backgroundColor=#f0f0f0"
-                }, {
-                    "type": "Input?textarea;featured;clearable;day=Tuesday;style.backgroundColor=#f0f0f0"
-                }, {
-                    "type": "Input?textarea;featured;clearable;day=Wednesday;style.backgroundColor=#f0f0f0"
-                }, {
-                    "type": "Input?textarea;featured;clearable;day=Thursday;style.backgroundColor=#f0f0f0"
-                }, {
-                    "type": "Input?textarea;featured;clearable;day=Friday;style.backgroundColor=#f0f0f0"
-                }, {
-                    "type": "Input?textarea;featured;clearable;day=Saturday;style.backgroundColor=#f0f0f0"
-                }, {
-                    "type": "Input?textarea;featured;clearable;day=Sunday;style.backgroundColor=#f0f0f0"
-                }]
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=home-service.available;data=false<<value.data().home-service.available=undefined;droplist.items=[Status>>readonly,true,false]"
+            }, {
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=home-service.price.lbp"
             }]
         }, {
             "type": "Text?class=flex-start;text=Images;style.marginTop=1rem;style.fontSize=1.4rem"

@@ -1,0 +1,169 @@
+{
+    "file-name": "booking",
+    "type": "View?style.padding=2rem;data={}<<!value.data()",
+    "controls": {
+        "event": "load",
+        "actions": [
+            "async.search?search.path=data/user.json;await.state.user=value.search.data?!state.user",
+            "async.search?search.path=data/provider.json;await.state.provider=value.search.data?!state.provider",
+            "async.search?search.path=data/service.json;await.state.service=value.search.data?!state.service"
+        ]
+    },
+    "children": [{
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=booking-++generate()<<!value.data().id",
+        "children": [{
+            "type": "View?class=flex-box?value.data().name",
+            "children": [{
+                "type": "Text?text=Edit;style.fontSize=1.8rem;fontWeight=500"
+            }, {
+                "type": "Text?text=value.data().name.capitalize();style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
+            }, {
+                "type": "Text?text=Booking;style.fontSize=1.8rem;fontWeight=500"
+            }]
+        }, {
+            "type": "Text?text=Create New Booking;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
+        }, {
+            "type": "View?class=flex-box;style.marginLeft=auto",
+            "children": [{
+                "type": "Icon?class=flex-box;icon.name=bi-three-dots;style.color=#116dff;style.fontSize=2.5rem;style.height=4rem;style.width=4rem;style.borderRadius=4rem;style.transition=all .2s;style.marginRight=1rem;style.after.backgroundColor=#eee;hoverable;actionlist"
+            }, {
+                "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
+                "controls": [{
+                    "event": "click",
+                    "actions": "setStyle::mini-window;remove>>220::global.mini-window-view.element.children.0.id?style.display=none>>200;style.opacity=0"
+                }]
+            }, {
+                "type": "Button?icon.name=bi-check2-square;text=Save",
+                "controls": [{
+                    "event": "click",
+                    "actions": "await.update::booking-list-view;await.setStyle::mini-window;await.note;await.log;async.save?await.log=state.booking-list-table-view-display;note=Booking saved successfully!;save.path=data/booking;save.data=value.data();await.state.booking-list-Data.findById()[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                }]
+            }]
+        }]
+    }, {
+        "type": "View?style.border=1px solid #eee;style.borderRadius=.5rem;style.padding=2rem;style.display=flex;style.flexDirection=column",
+        "children": [{
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Booking Date;style.fontSize=1.4rem"
+            }, {
+                "type": "View?class=flex-box;style.justifyContent=flex-start",
+                "children": [{
+                    "type": "Text?class=left;label;text=Booking Time;style.fontSize=1.4rem"
+                }]
+            }, {
+                "type": "Text?class=left;label;text=Booking ID;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Creation Date;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
+            "children": [{
+                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
+                "children": [{
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=date"
+                }, {
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=time"
+                }, {
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
+                }, {
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().toDate()<<!value.data().creation-date;path=creation-date",
+                    "controls": {
+                        "event": "load?value.element.value=value.data().split().T.join(). "
+                    }
+                }]
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=User;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Provider;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Service;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Active;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
+            "children": [{
+                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
+                "children": [{
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=user.name;droplist.items=const.[User List>>readonly,state.user.map().name].flat()",
+                    "controls": {
+                        "watch": "value.data()?value.Data().user.id=state.user.clone().findByName().[value.data()].id"
+                    }
+                }, {
+                    "type": "Input?id=provider-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=provider.name;droplist.items=const.[Provider List>>readonly,state.provider.map().name].flat()",
+                    "controls": [{
+                        "watch": "value.data()?value.Data().provider.id=state.provider.clone().findByName().[value.data()].id;value.Data().service.delete();value.Data().payment.net.lbp=0;value.Data().payment.payable.lbp=0;value.Data().payment.discount.lbp=0;value.element.value::service-input-input='';value.element.value::net-input-input=0;value.element.value::discount-input-input=0;value.element.value::payable-input-input=0",
+                        "actions": "async.search?t;search.path=data/service.json;search.id=state.provider.findById().[value.Data().provider.id].services.map().id;await.state.service-by-provider=value.search.data"
+                    }]
+                }, {
+                    "type": "Input?id=service-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=service.name;droplist.items=const.[Service List>>readonly,state.service-by-provider.map().name].flat()",
+                    "controls": {
+                        "watch": "value.data()?value.Data().service.id=state.service.clone().findByName().[value.data()].id"
+                    }
+                }, {
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;data=true<<value.data().active=undefined;path=active;droplist.items=[Status>>readonly,true,false]"
+                }]
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Status;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Payment Status;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+            "children": [{
+                "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;data=pending confirmation<<!value.data.status;path=status;droplist.items=[Booking Status>>readonly,pending confirmation,confirmed,closed,canceled,rejected]"
+            }, {
+                "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;data=uncollected<<!value.data.payment.status;path=payment.status;droplist.items=[Payment Status>>readonly,uncollected,collected,canceled,unpaid]"
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Net Price (lbp);style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Discount Gained (lbp);style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Payable (lbp);style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+            "children": [{
+                "type": "Input?id=net-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;data=0<<!value.Data().payment.net.lbp;path=payment.net.lbp",
+                "controls": {
+                    "watch": "value.Data().service.id?value.data()=state.service.findById().[value.Data().service.id].price.lbp;value.element.value=value.data()"
+                }
+            }, {
+                "type": "Input?id=discount-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;data=0<<!value.Data().payment.discount.lbp;path=payment.discount.lbp",
+                "controls": {
+                    "watch": "value.Data().service.id",
+                    "actions": "async.search?search.path=data/offer.json;search.id=state.service.findById().[value.Data().service.id].offer.id;await.value.data()=value.search.data.0.discount.lbp;await.value.element.value=value.data()?state.service.findById().[value.Data().service.id].offer.id"
+                }
+            }, {
+                "type": "Input?id=payable-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;data=0<<!value.Data().payment.payable.lbp;path=payment.payable.lbp",
+                "controls": {
+                    "watch": "value.Data().payment.discount.lbp;value.Data().payment.net.lbp?value.data()=state.service.clone().findById().[value.Data().service.id].price.lbp.toNumber()--value.Data().payment.discount.lbp.toNumber();value.data()=value.data().toPrice()||0;value.element.value=value.data()"
+                }
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Customer Note;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Admin Note;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+            "children": [{
+                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+            }, {
+                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=admin-note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+            }]
+        }]
+    }]
+}

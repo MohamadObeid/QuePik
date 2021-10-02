@@ -102,9 +102,11 @@ const mountAfterStyles = ({ VALUE, params, id }) => {
             value = value.split('>>')[0]
         }
 
-        if (timer) local[key + '-timer'] = setTimeout(() => local.element.style[key] = value, timer) 
+        var myFn = () => local.element.style[key] = value
+        
+        if (timer) local[`${key}-timer`] = setTimeout(myFn, timer) 
         else {
-            if (local.element) local.element.style[key] = value
+            if (local.element) myFn()
             else {
                 local.controls = toArray(local.controls)
                 local.controls.push({

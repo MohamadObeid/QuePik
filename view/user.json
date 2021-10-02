@@ -52,7 +52,10 @@
                 "children": [{
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=first-name"
                 }, {
-                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=last-name"
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=last-name",
+                    "controls": {
+                        "watch": "value.data();value.Data().first-name?value.Data().name=value.Data().first-name++ ++value.data();value.Data().name.split().undefined.join().''"
+                    }
                 }, {
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=id"
                 }, {
@@ -71,7 +74,7 @@
             }, {
                 "type": "Text?class=left;label;text=Password;style.fontSize=1.4rem"
             }, {
-                "type": "Text?class=left;label;text=Status;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Active;style.fontSize=1.4rem"
             }]
         }, {
             "type": "View?style.display=grid;style.gridTemplateColumns=1fr 2fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
@@ -82,7 +85,7 @@
             }, {
                 "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;value.date().password=generate()<<value.data().password;path=password"
             }, {
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=status;droplist.items=[Status>>readonly,active,inactive,blocked]"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active;droplist.items=[Status>>readonly,true,false]"
             }]
         }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
@@ -115,12 +118,12 @@
                 "children": [{
                     "type": "View?style.display=grid;style.gap=.5rem",
                     "children": {
-                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=favorite.providers.map().[name]<<value.data.favorite.providers;path=favorite.providers<<!value.data.favorite.providers"
+                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=favorite.providers.map().name<<value.data.favorite.providers;path=favorite.providers<<!value.data.favorite.providers"
                     }
                 }, {
                     "type": "View?style.display=grid;style.gap=.5rem",
                     "children": {
-                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=favorite.services.map().[name]<<value.data.favorite.services;path=favorite.services<<!value.data.favorite.services"
+                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=favorite.services.map().name<<value.data.favorite.services;path=favorite.services<<!value.data.favorite.services"
                     }
                 }, {
                     "type": "View?style.display=grid;style.gap=.5rem",

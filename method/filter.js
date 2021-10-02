@@ -14,8 +14,6 @@ const filter = ({ VALUE, STATE, params = {}, id, e }) => {
     
     var backup = filter.backup
     var value = filter.value
-    
-    console.log(filter);
 
     if (options.filter === value) return options.filter = value
 
@@ -23,8 +21,7 @@ const filter = ({ VALUE, STATE, params = {}, id, e }) => {
     options.filter = value
 
     // empty value
-    if (value === undefined) return STATE[Data] = backup
-    if (value === '') return STATE[Data] = backup
+    if (value === undefined || value === '') return STATE[Data] = backup
     
     // remove spaces
     value = value.split(' ').join('').toLowerCase()
@@ -38,7 +35,6 @@ const filter = ({ VALUE, STATE, params = {}, id, e }) => {
             .toLowerCase()
             .split(' ')
             .join('')
-
         )
         .join('')
         .includes(value)

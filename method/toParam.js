@@ -1,10 +1,8 @@
 const { toPath } = require("./toPath")
 const { toValue } = require("./toValue")
 const { reducer } = require("./reducer")
-const { toArray } = require("./toArray")
-const controls = require('../control/control')
 
-const toParam = ({ VALUE, STATE, string, e, id }) => {
+const toParam = ({ VALUE = {}, STATE, string, e, id }) => {
 
     const { toApproval } = require("./toApproval")
 
@@ -15,7 +13,7 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
 
     string.split(';').map(param => {
 
-        var key, value, id = localId, local = VALUE[localId]
+        var key, value, id = localId
 
         if (param.includes('=')) {
 
@@ -73,6 +71,15 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
             key = key.split('<<')[0]
             
         }
+        
+        // conditions
+        var timer
+        if (key && key.includes('>>')) {
+
+            timer = key.split('>>')[1]
+            key = key.split('>>')[0]
+            
+        }
 
         var path = typeof key === 'string' ? key.split('.') : []
         
@@ -80,10 +87,13 @@ const toParam = ({ VALUE, STATE, string, e, id }) => {
         if (path && path.length > 1) {
 
             // mount state & value
-            if (path[0] === 'state' || path[0] === 'value' || path[0] === 'params' || path[0] === 'e' || path[0] === 'action' || path[0] === 'global')
-            reducer({ VALUE, STATE, id, params: { path, value, key, params } })
+            if (path[0] === 'state' || path[0] === 'value' || path[0] === 'params' || path[0] === 'e' || path[0] === 'action' || path[0] === 'global') {
 
-            else path.reduce((obj, key, index) => {
+                var myFn = () => { reducer({ VALUE, STATE, id, params: { path, value, key, params } }) }
+                if (timer) setTimeout(myFn, timer)
+                else myFn()
+
+            } else path.reduce((obj, key, index) => {
 
                 if (obj[key] !== undefined) {
 

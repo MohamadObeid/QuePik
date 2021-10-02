@@ -24,6 +24,8 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
         // stop after actions
         if (local && local.break) return
 
+        _action = _action.split('/?').join('_question')
+
         var approved = true
         var actions = _action.split('?')
         var params = _params || actions[1]

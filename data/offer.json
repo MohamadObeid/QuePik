@@ -11,7 +11,7 @@
     "end-date": "26-9-2021T16:00",
     "availabe-amount": 20,
     "code": "summer-discount",
-    "status": "active"
+    "active": true
   },
   {
     "id": "offer-02",
@@ -24,7 +24,7 @@
     "start-date": "27-9-2021T10:00",
     "end-date": "27-10-2021T10:00",
     "code": "12345",
-    "status": "active"
+    "active": true
   },
   {
     "id": "offer-03",
@@ -37,6 +37,6 @@
     "start-date": "27-9-2021T10:00",
     "end-date": "27-10-2021T10:00",
     "code": "12345",
-    "status": "active"
+    "active": true
   }
 ]

@@ -35,15 +35,15 @@
                     "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
                     "controls": {
                         "event": "click??state.user-list-Data", 
-                        "actions": "await.update::global.user-list-view.1stChild().id<<global.user-list-view.1stChild().element.style.display=grid;await.update::global.user-list-view.2ndChild().2ndChild().id<<global.user-list-view.2ndChild().element.style.display=grid;async.sort?sort.path=first-name;sort.Data=user-list-Data"
+                        "actions": "await.update::global.user-list-view.1stChild().id<<global.user-list-view.1stChild().element.style.display=grid;await.update::global.user-list-view.2ndChild().2ndChild().id<<global.user-list-view.2ndChild().element.style.display=grid;async.sort?sort.path=creation-date;sort.Data=user-list-Data"
                     }
                 }, {
                     "type": "Button?text=View;icon.name=bi-list-ul",
                     "controls": {
                         "event": "click?await.state.user-list-grid-view-display=global.user-list-view.1stChild().element.style.display;await.state.user-list-table-view-display=global.user-list-view.2ndChild().element.style.display", 
                         "actions": [
-                            "setStyle::global.user-list-view.1stChild().id?style.display=none<<global.user-list-view.1stChild().element.style.display=grid;style.display=grid>>50<<global.user-list-view.1stChild().element.style.display=none",
-                            "setStyle::global.user-list-view.2ndChild().id?style.display=none<<global.user-list-view.2ndChild().element.style.display=grid;style.display=grid>>50<<global.user-list-view.2ndChild().element.style.display=none"
+                            "setStyle::global.user-list-view.1stChild().id?style.display=none<<global.user-list-view.1stChild().element.style.display=grid;style.display=grid<<global.user-list-view.1stChild().element.style.display=none",
+                            "setStyle::global.user-list-view.2ndChild().id?style.display=none<<global.user-list-view.2ndChild().element.style.display=grid;style.display=grid<<global.user-list-view.2ndChild().element.style.display=none"
                         ]
                     }
                 }]
@@ -77,7 +77,7 @@
                         "type": "Text?text=Active;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=status;sort.Data=user-list-Data?state.user-list-Data"
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=active;sort.Data=user-list-Data?state.user-list-Data"
                         }
                     }, {
                         "type": "Text?text=Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
@@ -109,9 +109,9 @@
                 }, {
                     "type": "View?style.display=grid;style.gridTemplateColumns=1fr;flicker",
                     "children": [{
-                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 2fr 1fr 1fr 2fr;style.minHeight=5.5rem;Data=user-list-Data;data=state.user-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable",
+                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 2fr 1fr 1fr 2fr;style.minHeight=5.5rem;Data=user-list-Data;data=state.user-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.user-list-Data;state.user-list-Data.length()!=0",
                         "children": [{
-                            "type": "Icon?icon.name=bi-circle<<value.data().status=inactive;icon.name=bi-circle-fill<<value.data().status!=inactive;style.fontSize=1.4rem;style.color=lime<<value.data().status=active;style.color=red<<value.data().status=blocked;style.color=#ddd<<value.data().status=inactive;style.textAlign=center"
+                            "type": "Icon?icon.name=bi-circle<<!value.data().active;icon.name=bi-circle-fill<<value.data().active;style.fontSize=1.4rem;style.color=lime<<value.data().active;style.color=#ddd<<!value.data().active;style.textAlign=center"
                         }, {
                             "type": "Text?class=dots;text=value.data().first-name++&nbsp++value.data().last-name;style.fontSize=1.4rem"
                         }, {

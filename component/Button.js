@@ -9,7 +9,6 @@ const Button = (component) => {
     return {
         ...component,
         type: 'View?class=flex-box;touchableOpacity',
-        id,
         style: {
             border: '1px solid #e0e0e0',
             borderRadius: '.75rem',

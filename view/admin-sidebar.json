@@ -32,8 +32,8 @@
     }, {
         "type": "Item?text=Assets;icon.name=web_asset;viewToggler.view=asset-list"
     }, {
-        "type": "Item?text=Gallery;icon.name=collections;viewToggler.view=gallery-list"
+        "type": "Item?text=Gallery;icon.name=collections;viewToggler.view=image-list"
     }, {
-        "type": "Item?text=Settings;icon.name=settings;viewToggler.view=setting-list"
+        "type": "Item?text=Settings;icon.name=settings;viewToggler.view=settings-list"
     }]
 }
