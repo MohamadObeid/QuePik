@@ -1,0 +1,21 @@
+{
+    "type": "View?class=box-shadow;id=popup;style.transform=scale(0.5);style.opacity=0;style.pointerEvents=none;style.position=fixed;style.padding=1rem;style.overflowY=auto;style.borderRadius=.5rem;style.backgroundColor=#fff;style.transition=opacity 0.1s, transform 0.1s, max-height 0.2s;style.zIndex=-1;style.after.zIndex=4;style.after.transform=scale(1);style.after.opacity=1;style.after.pointerEvents=auto",
+    "children": [{
+        "type": "Text?id=popup-text;style.fontWeight=bolder;text=Do you confirm/?;style.fontSize=1.4rem;style.padding=1rem 0.5rem"
+    }, {
+        "type": "View?class=flex-box;style.justifyContent=flex-end",
+        "children": [{
+            "type": "Button?id=popup-cancel;text=Cancel;style.after.border=1px solid red;icon.style.after.color=red;style.after.color=red;style.marginRight=.5rem;icon.style.margin=0;style.padding=.5rem;icon.name=bi-x;icon.style.fontSize=2rem",
+            "controls": {
+                "event": "click",
+                "actions": "resetStyles::popup"
+            }
+        }, {
+            "type": "Button?id=popup-confirm;text=Confirm;style.padding=.5rem;icon.style.margin=0;icon.name=bi-check;icon.style.fontSize=2rem"
+        }]
+    }],
+    "controls": [{
+        "event": "mouseleave;click::body??state.popup;!e.target.id.isChildOfId().[state.popup]",
+        "actions": "resetStyles>>200;blur>>200?state.popup.delete()?!mouseenter;state.popup;!e.target.id.isChildOfId().[state.popup]"
+    }]
+}

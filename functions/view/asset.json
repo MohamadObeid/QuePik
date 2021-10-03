@@ -1,0 +1,156 @@
+{
+    "file-name": "asset",
+    "type": "View?style.padding=2rem;data={}<<!value.data()",
+    "children": [{
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem",
+        "children": [{
+            "type": "View?class=flex-box?value.data().name",
+            "children": [{
+                "type": "Text?text=Edit?style.text=1.8rem;style.fontWeight=500"
+            }, {
+                "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
+            }]
+        }, {
+            "type": "Text?text=Create New Asset;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
+        }, {
+            "type": "View?class=flex-box;style.marginLeft=auto",
+            "children": [{
+                "type": "Icon?class=flex-box;icon.name=bi-three-dots;hoverable;actionlist",
+                "style": {
+                    "cursor": "pointer",
+                    "color": "#116dff",
+                    "fontSize": "2.5rem",
+                    "height": "4rem",
+                    "width": "4rem",
+                    "borderRadius": "4rem",
+                    "transition": "all 0.2s",
+                    "marginRight": "1rem",
+                    "after": { "backgroundColor": "#eee" }
+                }
+            }, {
+                "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
+                "controls": [{
+                    "event": "click",
+                    "actions": "setStyle::mini-window?style.display=none>>200;style.opacity=0"
+                }]
+            }, {
+                "type": "Button?icon.name=bi-check2-square;text=Save",
+                "controls": [{
+                    "event": "click",
+                    "actions": "await.update::asset-list;await.setStyle::mini-window;await.note;async.save?note=Asset save successfully!;save.path=asset;save.data=value.Data();await.state.asset-list-Data.[state.[value.Data].file-name]=state.[value.Data];style.display=none>>200;style.opacity=0"
+                }]
+            }]
+        }]
+    }, {
+        "type": "View",
+        "style": {
+            "border": "1px solid #eee",
+            "borderRadius": "0.5rem",
+            "padding": "1rem",
+            "display": "flex",
+            "flexDirection": "column"
+        },
+        "children": [{
+            "type": "View?style.marginBottom=2rem;style.display=grid;style.gridTemplateColumns=3fr 3fr 3fr 3fr 2rem;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "View?class=flex-start-column",
+                "children": [{
+                    "type": "Label?text=File Name;style.fontSize=1.4rem;style.marginBottom=.75rem"
+                }, {
+                    "type": "Input?featured;icon.name=description;icon.google;icon.outlined;style.backgroundColor=#f0f0f0;path=file-name"
+                }]
+            }, {
+                "type": "View?class=flex-start-column",
+                "children": [{
+                    "type": "Label?text=Parent;style.fontSize=1.4rem;style.marginBottom=.75rem"
+                }, {
+                    "type": "Input?featured;clearable;readonly;icon.name=link;icon.google;icon.outlined;style.backgroundColor=#f0f0f0;path=parent;droplist.items=[Asset>>readonly,state.asset.keys()].flat()"
+                }]
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=3fr 6fr 3fr 2rem;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Label?text=Name;style.fontSize=1.4rem;style.textAlign=left"
+            }, {
+                "type": "Label?text=Description;style.fontSize=1.4rem;style.textAlign=left"
+            }, {
+                "type": "Label?text=Icon;style.fontSize=1.4rem;style.textAlign=left"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.gap=1rem",
+            "children": [{
+                "type": "View?style.display=grid;style.gridTemplateColumns=3fr 6fr 3fr 2rem;style.gap=1rem",
+                "children": [{
+                    "type": "View?style.display=grid;style.gap=1rem",
+                    "children": [{
+                        "type": "[Input]?textarea;featured;lang=en;icon=value.data().icon<<value.data();style.backgroundColor=#f0f0f0;path=name"
+                    }]
+                }, {
+                    "type": "[Input]?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;lang=en;path=description;input.style.height=fit-content;style.minHeight=4rem;input.style.minHeight=2.5rem"
+                }, {
+                    "type": "Input?textarea;featured;google;style.backgroundColor=#f0f0f0;path=icon"
+                }, {
+                    "type": "Icon?class=flex-box;icon.name=bi-trash;hoverable;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
+                    "controls": {
+                        "event": "click",
+                        "actions": "remove::value.parent().id??value.parent().element.children.length()>1"
+                    }
+                }]
+            }]
+        }, {
+            "type": "View?style.marginTop=2rem;style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=3fr 6fr 3fr 2rem;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Label?text=Options;style.fontSize=1.4rem;style.textAlign=left"
+            }, {
+                "type": "Label?text=Description;style.fontSize=1.4rem;style.textAlign=left"
+            }, {
+                "type": "Label?text=Icon;style.fontSize=1.4rem;style.textAlign=left"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "[View]?style.display=grid;style.alignItems=flex-start;style.gridTemplateColumns=3fr 6fr 3fr 2rem;style.gap=1rem;style.width=100%;path=options;data=[{}]<<!value.data().options",
+                "children": [{
+                    "type": "Input?textarea;featured;lang=en;path=name;icon=value.data().icon;style.backgroundColor=#f0f0f0",
+                    "controls": [{
+                        "event": "keyup??e.key=Enter",
+                        "actions": "duplicate::value.parent().id"
+                    }]
+                }, {
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;lang=en;path=description"
+                }, {
+                    "type": "Input?textarea;featured;google;style.backgroundColor=#f0f0f0;path=icon"
+                }, {
+                    "type": "Icon?class=flex-box;icon.name=bi-trash;hoverable;style.justifyContent=flex-end;style.after.color=red;style.cursor=pointer;style.fontSize=1.8rem;style.height=4rem",
+                    "controls": {
+                        "event": "click",
+                        "actions": "remove::value.parent().id??value.parent().element.children.length()>1"
+                    }
+                }]
+            }]
+        }, {
+            "type": "View?style.display=flex;style.alignItems=center;style.marginTop=2rem",
+            "children": [{
+                "type": "Icon?class=align-center;icon.name=bi-plus-circle-fill;style.fontSize=2rem;style.margin=0 1rem;style.cursor=pointer",
+                "controls": [{
+                    "event": "click",
+                    "actions": "duplicate::value.parent().prev().1stChild().id"
+                }]
+            }, {
+                "type": "Text?text=Add More Options;style.fontSize=1.4rem;style.color=#444"
+            }]
+        }, {
+            "type": "View?class=divider"
+        }, {
+            "type": "Label?text=Additional Info;style.marginBottom=.75rem;style.fontSize=1.4rem;style.textAlign=left"
+        }, {
+            "type": "View?style.width=100%",
+            "children": [{
+                "type": "View?style.margin=.5rem 0;style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr",
+                "children": [{
+                    "type": "[Input]?textarea;featured;key=key;originalKeys=[options,name,description,icon,file-name,parent];style.backgroundColor=#f0f0f0"
+                }]
+            }]
+        }]
+    }]
+}

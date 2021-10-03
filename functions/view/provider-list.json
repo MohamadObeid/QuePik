@@ -1,0 +1,141 @@
+{
+    "file-name": "provider-list",
+    "type": "View?Data;state.provider-list-grid-view-display=grid;state.provider-list-table-view-display=none",
+    "controls": {
+        "actions": "await.update::provider-list-view;async.search?search.path=data/provider.json;await.state.provider-list-Data=value.search.data;await.state.provider=value.search.data" 
+    },
+    "children": [{
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
+        "children": [{
+            "type": "Text?text=Provider List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
+        }, {
+            "type": "View?class=flex-box",
+            "children": [{
+                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
+            }, {
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem"
+            }, {
+                "type": "Button?text=Add New Provider;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=provider"
+            }]
+        }]
+    }, {
+        "type": "View?style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee",
+        "children": [{
+            "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
+            "children": [{
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem",
+                "placeholder": "Search by name, type, address, phone number...",
+                "controls": {
+                    "event": "keyup>>200??state.provider-list-Data",
+                    "actions": "await.update::provider-list-view;async.filter?filter.backup=state.provider.clone();filter.path=[name,phone-number,type,address,owner.name];filter.Data=provider-list-Data;filter.value=e.target.value"
+                }
+            }, {
+                "type": "View?class=flex-box",
+                "children": [{
+                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
+                    "controls": {
+                        "event": "click??state.provider-list-Data", 
+                        "actions": "await.update::provider-list-view;async.sort?sort.path=creation-date;sort.Data=provider-list-Data"
+                    }
+                }, {
+                    "type": "Button?text=View;icon.name=bi-list-ul",
+                    "controls": {
+                        "event": "click?await.state.provider-list-grid-view-display=global.provider-list-view.1stChild().element.style.display;await.state.provider-list-table-view-display=global.provider-list-view.2ndChild().element.style.display", 
+                        "actions": [
+                            "setStyle::global.provider-list-view.1stChild().id?style.display=none<<global.provider-list-view.1stChild().element.style.display=grid;style.display=grid<<global.provider-list-view.1stChild().element.style.display=none",
+                            "setStyle::global.provider-list-view.2ndChild().id?style.display=none<<global.provider-list-view.2ndChild().element.style.display=grid;style.display=grid<<global.provider-list-view.2ndChild().element.style.display=none"
+                        ]
+                    }
+                }]
+            }]
+        }, {
+            "type": "View?id=provider-list-view;style.display=flex;style.flexDirection=column;style.width=100%",
+            "children": [{
+                "type": "View?style.display=state.provider-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
+                "children": [{
+                    "type": "[View]?class=flex-box pointer;Data=provider-list-Data;touchableOpacity;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.provider-list-Data;state.provider-list-Data.length()!=0",
+                    "controls": {
+                        "event": "load",
+                        "actions": "toControls?hoverable.id=[value.id,value.children().0.id,value.children().1.id,value.children().2.id];miniWindow.view=provider"
+                    },
+                    "children": [{
+                        "type": "Text?text=value.data.name;style.flexWrap=wrap;style.marginBottom=.7rem;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
+                    }, {
+                        "type": "Text?text=value.data.type;style.flexWrap=wrap;style.marginBottom=.7rem;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
+                    }, {
+                        "type": "Text?text=value.data.phone-number;style.fontSize=1.3rem;style.after.color=#ee384e;style.color=#666;style.transition=color .1s"
+                    }]
+                }]
+            }, {
+                "type": "View?style.display=state.provider-list-table-view-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
+                "children": [{
+                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 2fr 1fr 1fr 2fr;style.minHeight=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem",
+                    "children": [{
+                        "type": "Text?text=Active;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=active;sort.Data=provider-list-Data?state.provider-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Name;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=name;sort.Data=provider-list-Data?state.provider-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Type;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=type;sort.Data=provider-list-Data?state.provider-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Address;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click", 
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=address;sort.Data=provider-list-Data?state.provider-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Phone#;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click", 
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=phone-number;sort.Data=provider-list-Data?state.provider-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Services;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click", 
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=services.length();sort.Data=provider-list-Data?state.provider-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
+                    }]
+                }, {
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr;flicker",
+                    "children": [{
+                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 2fr 1fr 1fr 2fr;style.minHeight=5.5rem;Data=provider-list-Data;data=state.provider-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.provider-list-Data;state.provider-list-Data.length()!=0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-circle<<!value.data().active;icon.name=bi-circle-fill<<value.data().active;style.fontSize=1.4rem;style.color=lime<<value.data().active;style.color=#ddd<<!value.data().active;style.textAlign=center"
+                        }, {
+                            "type": "Text?class=dots;text=value.data().name;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;text=value.data().type;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;text=value.data().address<<value.data().address.type()=string;text=value.data().address.0<<value.data().address.type()=array;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;text=value.data().phone-number;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?text=value.data().services.length()<<value.data().services;style.fontSize=1.4rem"
+                        }, {
+                            "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%;style.marginRight=1rem",
+                            "children": [{
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=provider"
+                            }, {
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=data/provider.json;popup.update=provider-list-view;popup.note=Provider removed successfully!;popup.type=eraser"
+                            }]
+                        }]
+                    }]
+                }]
+            }]
+        }]
+    }]
+}

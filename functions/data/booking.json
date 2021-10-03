@@ -1,0 +1,133 @@
+[
+  {
+    "id": "booking-01",
+    "creation-date": "23-9-2021T10:59:26",
+    "date": "25-09-2021",
+    "time": "08:30T09:00",
+    "active": true,
+    "service": {
+      "id": "service-02",
+      "name": "Hair Cut"
+    },
+    "user": {
+      "id": "user-01",
+      "name": "George Washington"
+    },
+    "provider": {
+      "id": "provider-01",
+      "name": "Nevelin"
+    },
+    "note": "",
+    "admin-note": "",
+    "status": "closed",
+    "payment": {
+      "net": {
+        "lbp": "200,000"
+      },
+      "discount": {
+        "lbp": "15,000"
+      },
+      "payable": {
+        "lbp": "185,000"
+      },
+      "status": "uncollected"
+    }
+  },
+  {
+    "id": "booking-02",
+    "active": true,
+    "creation-date": "23-9-2021T10:59:26",
+    "service": {
+      "id": "service-01",
+      "name": "Indian Massage"
+    },
+    "user": {
+      "id": "user-02",
+      "name": "Fadi Ismail"
+    },
+    "provider": {
+      "id": "provider-02",
+      "name": "Rest Home"
+    },
+    "date": "26-09-2021",
+    "time": "10:30T11:00",
+    "status": "confirmed",
+    "note": "I want spiky hair cut",
+    "payment": {
+      "net": {
+        "lbp": "25,000"
+      },
+      "discount": {
+        "lbp": "2,000"
+      },
+      "payable": {
+        "lbp": "23,000"
+      },
+      "status": "collected"
+    }
+  },
+  {
+    "id": "booking-03",
+    "active": true,
+    "creation-date": "23-10-2021T10:59:26",
+    "service": {
+      "id": "service-01",
+      "name": "Indian Massage"
+    },
+    "user": {
+      "id": "user-03",
+      "name": "Christina Abi Lameh"
+    },
+    "provider": {
+      "id": "provider-02",
+      "name": "Rest Home"
+    },
+    "date": "24-10-2021",
+    "time": "10:30T11:00",
+    "status": "canceled",
+    "payment": {
+      "net": {
+        "lbp": "200,000"
+      },
+      "discount": {
+        "lbp": "5,000"
+      },
+      "payable": {
+        "lbp": "195,000"
+      },
+      "status": "canceled"
+    }
+  },
+  {
+    "id": "booking-vOoTf",
+    "creation-date": "3-9-2021T18:19:53",
+    "user": {
+      "name": "Sarah Hneino",
+      "id": "user-ECGli"
+    },
+    "provider": {
+      "name": "Nevelin",
+      "id": "provider-01"
+    },
+    "active": true,
+    "status": "confirmed",
+    "payment": {
+      "status": "uncollected",
+      "net": {
+        "lbp": "25,000"
+      },
+      "discount": {
+        "lbp": "2,000"
+      },
+      "payable": {
+        "lbp": "23,000"
+      }
+    },
+    "service": {
+      "name": "Hair Cut",
+      "id": "service-02"
+    },
+    "date": "03-10-2021",
+    "time": "18:30T19:00"
+  }
+]

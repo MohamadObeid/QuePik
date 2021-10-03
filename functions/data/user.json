@@ -1,0 +1,139 @@
+[
+  {
+    "id": "user-01",
+    "creation-date": "23-9-2021T10:59:26",
+    "first-name": "George",
+    "last-name": "Washington",
+    "name": "George Washington",
+    "phone-number": "03-123456",
+    "address": ["Beirut, downtown, Zeytunah, building, floor"],
+    "location": {
+      "latitude": "33.888630",
+      "longitude": "35.495480"
+    },
+    "password": "12345",
+    "email": "washington@gmail.com",
+    "favorite": {
+      "providers": [
+        {
+          "id": "provider-01",
+          "name": "Nevelin"
+        }
+      ],
+      "services": [
+        {
+          "id": "service-01",
+          "name": "Indian Massage"
+        },
+        {
+          "id": "service-02",
+          "name": "Hair Cut"
+        }
+      ]
+    },
+    "bookings": [
+      "booking-01"
+    ],
+    "active": true
+  },
+  {
+    "id": "user-03",
+    "creation-date": "23-9-2021T10:59:26",
+    "first-name": "Christina",
+    "last-name": "Abi Lameh",
+    "name": "Christina Abi Lameh",
+    "phone-number": "71-123456",
+    "address": ["Baabda, near starbucks"],
+    "location": {
+      "latitude": "33.888630",
+      "longitude": "35.495480"
+    },
+    "password": "12345",
+    "email": "christina@gmail.com",
+    "favorite": {
+      "services": [
+        {
+          "id": "service-01",
+          "name": "Indian Massage"
+        }
+      ]
+    },
+    "bookings": [
+      "booking-02"
+    ],
+    "active": true
+  },
+  {
+    "id": "user-02",
+    "creation-date": "23-9-2021T10:59:26",
+    "first-name": "Fadi",
+    "last-name": "Ismail",
+    "name": "Fadi Ismail",
+    "phone-number": "70-123456",
+    "address": ["Beirut, Hamrah street"],
+    "location": {
+      "latitude": "33.888630",
+      "longitude": "35.495480"
+    },
+    "password": "12345",
+    "email": "ismail@gmail.com",
+    "favorite": {
+      "providers": [
+        {
+          "id": "provider-01",
+          "name": "Nevelin"
+        },
+        {
+          "id": "provider-02",
+          "name": "Rest Home"
+        }
+      ],
+      "services": []
+    },
+    "bookings": [
+      "booking-03"
+    ],
+    "active": true
+  },
+  {
+    "id": "user-eWcLN",
+    "creation-date": "30-8-2021T2:1:16",
+    "favorite": {},
+    "first-name": "Mohamad",
+    "last-name": "Obeid",
+    "phone-number": "71 026725",
+    "email": "komikbenim@gmail.com",
+    "password": "12345",
+    "status": "active",
+    "address": ["Beirut, Qomatiyeh"],
+    "active": true,
+    "name": "Mohamad Obeid"
+  },
+  {
+    "id": "user-8WEmV",
+    "creation-date": "30-8-2021T2:2:34",
+    "favorite": {},
+    "first-name": "Milad",
+    "last-name": "Deraawi",
+    "phone-number": "70 377 167",
+    "password": "12345",
+    "status": "active",
+    "address": ["Baabda, Yarzeh", "Baabda, near starbucks"],
+    "email": "alderaawim@gmail.com",
+    "active": true,
+    "name": "Milad Deraawi"
+  },
+  {
+    "id": "user-ECGli",
+    "creation-date": "2-9-2021T1:56:21",
+    "active": true,
+    "favorite": {},
+    "first-name": "Sarah",
+    "name": "Sarah Hneino",
+    "last-name": "Hneino",
+    "phone-number": "81-026725",
+    "email": "sarahhneino55@gmail.com",
+    "password": "12345",
+    "address": ["Aley, Qomatiyeh, Near Em Khaled Market"]
+  }
+]
