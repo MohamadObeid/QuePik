@@ -142,7 +142,7 @@ const Input = (component) => {
                 }, {
                     type: `Text?text=${note};style.color=#666;style.fontSize=1.3rem;style.padding=.5rem?const.${note}`
                 }, {
-                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,${key}>>input];hoverable;duplicated=${duplicated}?const.${key}`,
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=const.[Enter a special key:>>readonly,${key}>>input];hoverable;duplicated=${duplicated}?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -153,7 +153,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,state.asset.currency.options.map().[name.en]].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=const.[Currencies>>readonly,state.asset.currency.options.map().[name.en]].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -164,7 +164,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,state.asset.unit.options.map().[name.en]].flat();hoverable?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=const.[Units>>readonly,state.asset.unit.options.map().[name.en]].flat();hoverable?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -176,7 +176,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data()`
                 }, {
-                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items=[Days of Week>>readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
+                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items=const.[Days of Week>>readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -187,7 +187,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     }
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.map().[name.en]].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=const.[Languages>>readonly,state.asset.language.options.map().[name.en]].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',

@@ -3,7 +3,10 @@
     "type": "View?style.padding=2rem;data={}<<!value.data()",
     "controls": {
         "event": "load",
-        "actions": "async.search?search.path=data/collection.json;await.state.collection=value.search.data?!state.collection"
+        "actions": [
+            "async.search?search.path=data/collection.json;await.state.collection=value.search.data?!state.collection",
+            "async.search?search.path=data/++[value.data.type].json;await.state.[value.data.type]=value.search.data?value.data.type;!state.[value.data.type]"
+        ]
     },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=collection-++generate()<<!value.data().id",
@@ -73,12 +76,25 @@
         }, {
             "type": "Text?class=flex-start;text=Content;style.marginBottom=.7rem;style.fontSize=1.4rem"
         }, {
-            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr",
+            "type": "View?style.display=grid;style.marginBottom=1rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().content=[]<<!value.Data().content",
             "children": [{
-                "type": "[Input]?textarea;featured;duplicatable;minlength=1;readonly;style.backgroundColor=#f0f0f0;path=content;data=[]<<value.data().content;droplist.items=const.[state.[value.Data().type].map().name].flat()",
+                "type": "[Input]?textarea;featured;duplicatable;readonly;style.backgroundColor=#f0f0f0;path=content;droplist.items=const.[[value.Data().type.capitalize()++ List].param().readonly,state.[value.Data().type].map().name].flat()",
+                "controls": [{
+                    "event": "load?value.derivations=value.derivations.push().name;value.element.value=value.data()"
+                }, {
+                    "watch": "value.data()?value.Data().content.[value.derivations.1].id=state.[value.Data().type].clone().findByName().[value.data()].id"
+                }]
+            }]
+        }, {
+            "type": "View?class=flex-box;style.justifyContent=flex-start;style.marginBottom=3rem",
+            "children": [{
+                "type": "Icon?class=pointer;icon.name=bi-patch-plus-fill;style.color=#444;style.after.color=#0d6efd;style.marginRight=.5rem",
                 "controls": {
-                    "watch": "value.data()?value.Data().content.[value.derivations.lastIndex()]=state.[value.Data().type].clone().findByName().[value.data()].id"
+                    "event": "click",
+                    "actions": "duplicate::value.parent().prev().1stChild().id?duplicate.path=content"
                 }
+            }, {
+                "type": "Text?text=Add more;style.fontSize=1.4rem"
             }]
         }, {
             "type": "Text?class=flex-start;text=Image;style.marginBottom=.7rem;style.fontSize=1.4rem"

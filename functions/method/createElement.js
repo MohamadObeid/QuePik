@@ -113,7 +113,7 @@ const createElement = ({STATE, VALUE, id}) => {
     });
 
     // push 0 to derivations for array data
-    if (isNaN(path[0])) {
+    /* if (isNaN(path[0])) {
       const data = reducer({
         VALUE,
         STATE,
@@ -125,7 +125,7 @@ const createElement = ({STATE, VALUE, id}) => {
         },
       });
       if (Array.isArray(data)) local.derivations.push(0);
-    }
+    } */
 
     local.derivations.push(...path);
   }

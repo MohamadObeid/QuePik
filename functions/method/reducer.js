@@ -14,7 +14,9 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
     var local = VALUE[id], breakRequest
 
+    console.log('1', path);
     if (path[1]) path = toCode({ VALUE, STATE, id, string: path.join('.'), e }).split('.')
+    console.log('2', path);
     
     if (path[0] === 'global') {
         local = VALUE[path[1]]
@@ -32,7 +34,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         : false
         
         if (!object && path[0]) {
-            
+
             if (path[0].includes('coded'))
             object = toValue({ VALUE, STATE, id, params: { value: STATE.codes[path[0]], params }, e })
 
@@ -41,6 +43,12 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             else if (path[0] === 'action')
             return execute({ VALUE, STATE, id, actions: path[1], params, e })
+
+            else if (path[0] === '[]') object = []
+
+            else if (path[0] === '{}') object = []
+
+            else if (path[0] === '[{}]') object = [{}]
 
             else if (path[0].includes('()')) object = VALUE
         }
@@ -64,10 +72,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
         if (k.includes('coded()')) {
 
-            var _id = generate()
-            VALUE[_id] = o
-            answer = toValue({ VALUE, STATE, id: _id, e, params: { value: `value.${STATE.codes[k]}`, params } })
-            delete VALUE[_id]
+            breakRequest = true
+            var newValue = toValue({ VALUE, STATE, id, e, params: { value: STATE.codes[k], params } })
+            newValue = [ ...newValue.toString().split('.'), ...path.slice(i + 1)]
+            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: newValue, object: o, params } })
+            
 
         } else if (k === 'data()') {
 
@@ -81,7 +90,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'Data()') {
 
             answer = STATE[local.Data]
-            
+
         } else if (k === 'derive()') {
 
             breakRequest = i + 1
@@ -156,6 +165,16 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 } else return VALUE[_id]
             })
             
+        } else if (k === 'param()') {
+            
+            breakRequest = i + 1
+            var param = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = o + '>>' + param
+            
+        } else if (k === 'toArray()') {
+            
+            answer = toArray(o)
+
         } else if (k === 'json') {
             
             answer = o + '.json'
@@ -167,6 +186,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'clone()') {
             
             answer = clone(o)
+
+        } else if (k === 'push()') {
+            
+            breakRequest = i + 1
+            var pushed = toValue({ VALUE, STATE, id, params: {value: path[i + 1], params}, e })
+            o.push(pushed)
+            answer = o
 
         } else if (k === 'keys()') {
             
@@ -318,6 +344,12 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             if (value !== undefined && key) answer = o[o.length - 1] = value
             answer = o[o.length - 1]
             
+        } else if (k === '!lastIndex()') {
+
+            o = o.slice(0, -1)
+            if (value !== undefined && key) o = value
+            answer = o
+            
         } else if (k === 'parseFloat()') {
             
             answer = parseFloat(o)
@@ -350,8 +382,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'join()') {
             
             breakRequest = i + 1
-            answer = o.join(path[i + 1])
-
+            var joiner = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1] || '', params} })
+            answer = o.join(joiner)
+            
+        } else if (k === 'clean()') {
+            
+            answer = o.filter(o => o !== undefined && !Number.isNaN(o) && o !== '')
+            
         } else if (k === 'preventDefault()') {
             
             answer = e.preventDefault()

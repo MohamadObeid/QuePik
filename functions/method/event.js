@@ -55,7 +55,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 
           // params
           params = toParam({ VALUE, STATE, string: events[1], e, id });
-
+          
           if (controls.actions)
             await execute({ VALUE, STATE, controls, e, id: mainID });
 

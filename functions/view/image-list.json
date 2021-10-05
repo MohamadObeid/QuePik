@@ -59,7 +59,7 @@
                         "actions": "toControls?hoverable.id=[value.id];miniWindow.view=image"
                     },
                     "children": [{
-                        "type": "Image?path=value.data.url;style.transition=.1s;style.height=100%;style.width=100%;fill"
+                        "type": "Image?src=value.Data().url;style.transition=.1s;style.height=100%;style.width=100%;fill"
                     }]
                 }]
             }, {

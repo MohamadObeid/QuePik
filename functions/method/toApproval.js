@@ -6,7 +6,7 @@ const {overflow} = require("./overflow");
 const {getParam} = require("./getParam");
 const {toValue} = require("./toValue");
 const {reducer} = require("./reducer");
-const {toPath} = require("./toPath");
+const {toCode} = require("./toCode");
 
 const toApproval = ({STATE, VALUE, e, string, params, id}) => {
   const mainId = id;
@@ -171,7 +171,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
         if (!local) return (approval = false);
 
         // to path
-        key = toPath({VALUE, STATE, id, string: key, e});
+        key = toCode({VALUE, STATE, id, string: key, e});
         var path = typeof key === "string" ? key.split(".") : [];
 
         // const
@@ -261,7 +261,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
         if (!local) return (approval = false);
 
         // to path
-        key = toPath({VALUE, STATE, id, string: key, e});
+        key = toCode({VALUE, STATE, id, string: key, e});
         var path = typeof key === "string" ? key.split(".") : [];
 
         if (path[1]) {

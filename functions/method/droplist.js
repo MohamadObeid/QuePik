@@ -25,11 +25,12 @@ const droplist = ({VALUE, STATE, id, e}) => {
   if (local.lang || local.unit || local.currency || local.key || local.day) {
     input_id = VALUE[local.parent].element.previousSibling.id;
   }
-
+console.log(items);
   // dynamic items
-  if (typeof items === "string") {
-    items = toValue({VALUE, STATE, id, e, params: {value: items}});
-  }
+  if (typeof items === "string")
+    items = toValue({VALUE, STATE, id, e, params: {value: items}})
+    console.log(items);
+  
   /* items = items.map(item => {
 
         if (typeof item === 'string' && isPath({ params: { path: item } }))
@@ -39,7 +40,7 @@ const droplist = ({VALUE, STATE, id, e}) => {
     })*/
 
   // filter undefinds
-  items = items.filter((item) => item !== undefined);
+  items = items.filter((item) => item !== undefined)
 
   // flat
   // if (local.droplist['flat()']) items = items.flat()
@@ -67,30 +68,10 @@ const droplist = ({VALUE, STATE, id, e}) => {
 
       if (input && !readonly) {
         return {
-          type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${
-            local.key ?
-              `input.value=value.path::${input_id};edit=${parent};` :
-              `input.value=${item};`
-          }${
-            droplist ?
-              `readonly;droplist.items=[${itemList}];droplist.positioner=${
-                dropList.positioner
-              };data=${derive(STATE[local.Data], local.derivations)[0]};` :
-              ""
-          }`,
-          controls: [
-            {
-              event: `keyup?value.element.innerHTML::${id}=e.target.value||${
-                local.key
-              };value.Data().[value.derivations::${input_id}].delete();value.derivations::${input_id}=[${
-                input_id && VALUE[input_id].derivations.slice(0, -1).join(",")
-              },e.target.value||${
-                local.key
-              }];value.Data().[value.derivations::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${
-                local.key
-              }?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`,
-            },
-          ],
+          type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${local.key ? `input.value=value.path::${input_id};edit=${parent};` : `input.value=${item};`}${droplist ? `readonly;droplist.items=[${itemList}];droplist.positioner=${dropList.positioner};data=value.data()::${id}` : ""}`,
+          controls: {
+            event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};value.Data().[value.derivations.join()._dot::${input_id}].delete();value.derivations::${input_id}=[value.derivations.!lastIndex().join()::${input_id},e.target.value||${local.key}];value.Data().[value.derivations.join()._dot::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`,
+          },
         };
       }
 

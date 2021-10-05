@@ -1068,7 +1068,7 @@ const Input = (component) => {
                 }, {
                     type: `Text?text=${note};style.color=#666;style.fontSize=1.3rem;style.padding=.5rem?const.${note}`
                 }, {
-                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=[Enter a special key:>>readonly,${key}>>input];hoverable;duplicated=${duplicated}?const.${key}`,
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=const.[Enter a special key:>>readonly,${key}>>input];hoverable;duplicated=${duplicated}?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1079,7 +1079,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=[Currencies>>readonly,state.asset.currency.options.map().[name.en]].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=const.[Currencies>>readonly,state.asset.currency.options.map().[name.en]].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1090,7 +1090,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=[Units>>readonly,state.asset.unit.options.map().[name.en]].flat();hoverable?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=const.[Units>>readonly,state.asset.unit.options.map().[name.en]].flat();hoverable?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1102,7 +1102,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data()`
                 }, {
-                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items=[Days of Week>>readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
+                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items=const.[Days of Week>>readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1113,7 +1113,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     }
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=[Languages>>readonly,state.asset.language.options.map().[name.en]].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=const.[Languages>>readonly,state.asset.language.options.map().[name.en]].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -2551,7 +2551,7 @@ const createElement = ({STATE, VALUE, id}) => {
     });
 
     // push 0 to derivations for array data
-    if (isNaN(path[0])) {
+    /* if (isNaN(path[0])) {
       const data = reducer({
         VALUE,
         STATE,
@@ -2563,7 +2563,7 @@ const createElement = ({STATE, VALUE, id}) => {
         },
       });
       if (Array.isArray(data)) local.derivations.push(0);
-    }
+    } */
 
     local.derivations.push(...path);
   }
@@ -2716,6 +2716,10 @@ const createTags = ({VALUE, STATE, id}) => {
     }
   }
 
+  if (local.mapType) {
+    local.mapIndex = 0
+    local.derivations.push(0)
+  }
   return createTag({VALUE, STATE, id});
 };
 
@@ -3058,11 +3062,12 @@ const droplist = ({VALUE, STATE, id, e}) => {
   if (local.lang || local.unit || local.currency || local.key || local.day) {
     input_id = VALUE[local.parent].element.previousSibling.id;
   }
-
+console.log(items);
   // dynamic items
-  if (typeof items === "string") {
-    items = toValue({VALUE, STATE, id, e, params: {value: items}});
-  }
+  if (typeof items === "string")
+    items = toValue({VALUE, STATE, id, e, params: {value: items}})
+    console.log(items);
+  
   /* items = items.map(item => {
 
         if (typeof item === 'string' && isPath({ params: { path: item } }))
@@ -3072,7 +3077,7 @@ const droplist = ({VALUE, STATE, id, e}) => {
     })*/
 
   // filter undefinds
-  items = items.filter((item) => item !== undefined);
+  items = items.filter((item) => item !== undefined)
 
   // flat
   // if (local.droplist['flat()']) items = items.flat()
@@ -3100,30 +3105,10 @@ const droplist = ({VALUE, STATE, id, e}) => {
 
       if (input && !readonly) {
         return {
-          type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${
-            local.key ?
-              `input.value=value.path::${input_id};edit=${parent};` :
-              `input.value=${item};`
-          }${
-            droplist ?
-              `readonly;droplist.items=[${itemList}];droplist.positioner=${
-                dropList.positioner
-              };data=${derive(STATE[local.Data], local.derivations)[0]};` :
-              ""
-          }`,
-          controls: [
-            {
-              event: `keyup?value.element.innerHTML::${id}=e.target.value||${
-                local.key
-              };value.Data().[value.derivations::${input_id}].delete();value.derivations::${input_id}=[${
-                input_id && VALUE[input_id].derivations.slice(0, -1).join(",")
-              },e.target.value||${
-                local.key
-              }];value.Data().[value.derivations::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${
-                local.key
-              }?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`,
-            },
-          ],
+          type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${local.key ? `input.value=value.path::${input_id};edit=${parent};` : `input.value=${item};`}${droplist ? `readonly;droplist.items=[${itemList}];droplist.positioner=${dropList.positioner};data=value.data()::${id}` : ""}`,
+          controls: {
+            event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};value.Data().[value.derivations.join()._dot::${input_id}].delete();value.derivations::${input_id}=[value.derivations.!lastIndex().join()::${input_id},e.target.value||${local.key}];value.Data().[value.derivations.join()._dot::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`,
+          },
         };
       }
 
@@ -3157,26 +3142,27 @@ const droplist = ({VALUE, STATE, id, e}) => {
 module.exports = {droplist};
 
 },{"./clone":30,"./derive":41,"./toValue":94,"./update":95}],43:[function(require,module,exports){
-const {clearValues} = require("./clearValues");
-const {clone} = require("./clone");
-const {toArray} = require("./toArray");
-const {derive} = require("./derive");
-const {isEqual} = require("./isEqual");
-const {removeDuplicates} = require("./removeDuplicates");
-const {generate} = require("./generate");
-const {focus} = require("./focus");
+var {clearValues} = require("./clearValues");
+var {clone} = require("./clone");
+var {toArray} = require("./toArray");
+var {derive} = require("./derive");
+var {isEqual} = require("./isEqual");
+var {removeDuplicates} = require("./removeDuplicates");
+var {generate} = require("./generate");
+var {focus} = require("./focus");
 
-const duplicate = ({VALUE, STATE, params = {}, id}) => {
-  const {createElement} = require("./createElement");
-  const {starter} = require("./starter");
+var duplicate = ({VALUE, STATE, params = {}, id}) => {
+  var {createElement} = require("./createElement");
+  var {starter} = require("./starter");
 
-  const localID = id;
+  let localID = id, path = []
   var local = VALUE[id];
 
   if (STATE[local.Data]) {
-    const keys = clone(local.derivations);
-    var index = params.index || 0;
-    let path = params.path ? params.path(".") : [];
+    var keys = clone(local.derivations);
+    var duplicate = params.duplicate
+    var index = duplicate.index || 0;
+    path = duplicate.path ? duplicate.path.split(".") : [];
 
     // convert string numbers paths to num
     if (path.length > 0) {
@@ -3186,7 +3172,7 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
       });
     }
 
-    if (params.path) keys.push(...path);
+    if (duplicate.path) keys = clone(path)
 
     // last index refers to data index => must be poped
     if (!isNaN(keys[keys.length - 1])) {
@@ -3199,7 +3185,7 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
     keys.reduce((o, k, i) => {
       if (i === keys.length - 1) {
         if (local.currency) {
-          const currencies = [];
+          var currencies = [];
           Object.entries(o[k]).map(([k, v]) => {
             currencies.push(k);
           });
@@ -3214,7 +3200,7 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
           currency = random[0];
           o[k][currency] = "";
         } else if (local.lang) {
-          const langs = [];
+          var langs = [];
           Object.entries(o[k]).map(([k, v]) => {
             langs.push(k);
           });
@@ -3233,9 +3219,10 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
           i = o[k].length - 1;
 
           if (isNaN(local.derivations[local.derivations.length - 1])) {
-            local.derivations.push(0);
+            if (path.length > 0) path.push(0)
+            else local.derivations.push(0);
             var index = local.derivations.length - 1;
-            const children = [...local.element.children];
+            var children = [...local.element.children];
 
             // update length
             children.map((child) =>
@@ -3252,11 +3239,11 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
       return o[k];
     }, STATE[local.Data]);
   } else {
-    var index = params.index || local.children.length - 1;
+    var index = duplicate.index || local.children.length - 1;
     local.children.push(local.children[index]);
   }
 
-  const length = local.length !== undefined ? local.length : 1;
+  var length = local.length !== undefined ? local.length : 1;
   var id = generate();
 
   VALUE[local.parent].children = toArray(VALUE[local.parent].children);
@@ -3265,7 +3252,7 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
   VALUE[id].parent = local.parent;
   VALUE[id].duplicatedElement = true;
   VALUE[id].index = local.index;
-  VALUE[id].derivations = [...local.derivations];
+  VALUE[id].derivations = (duplicate.path) ? duplicate.path.split('.') : [...local.derivations];
 
   var local = VALUE[id];
   local.duplicated = true;
@@ -3296,13 +3283,17 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
     local.type = type;
   } else if (VALUE[localID].key) {
     // local.key
-  } else local.derivations[local.derivations.length - 1] = length;
+  } else {
+    var lastIndex = local.derivations.length - 1
+    if (!isNaN(local.derivations[lastIndex])) local.derivations[lastIndex] = length;
+    else local.derivations.push(length)
+  }
 
   // [type]
   if (local.type.slice(0, 1) === "[") {
     local.type = local.type.slice(1);
     var type = local.type.split("]");
-    local.type = type[0] + local.type.split("]").slice(1);
+    local.type = type[0] + local.type.split("]").slice(1).join(']');
   }
 
   // path
@@ -3312,9 +3303,9 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
     type = type[1].split(";").slice(1);
     local.type += type;
   }
-
+  
   // create element => append child
-  const newcontent = document.createElement("div");
+  var newcontent = document.createElement("div");
   newcontent.innerHTML = createElement({STATE, VALUE, id});
 
   while (newcontent.firstChild) {
@@ -3327,7 +3318,7 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
 
   // update length
   [...VALUE[local.parent].element.children].map((child) => {
-    const id = child.id;
+    var id = child.id;
     VALUE[id].length = length + 1;
   });
 
@@ -3335,11 +3326,11 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
   focus({VALUE, STATE, id});
 };
 
-const duplicates = ({STATE, VALUE, params, id}) => {
-  const local = VALUE[id];
+var duplicates = ({STATE, VALUE, params, id}) => {
+  var local = VALUE[id];
 
-  let data = derive(STATE[local.Data], local.derivations)[0];
-  let exists;
+  var data = derive(STATE[local.Data], local.derivations)[0];
+  var exists;
   if (!params.data) return false;
 
   data = toArray(data);
@@ -3438,7 +3429,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 
           // params
           params = toParam({ VALUE, STATE, string: events[1], e, id });
-
+          
           if (controls.actions)
             await execute({ VALUE, STATE, controls, e, id: mainID });
 
@@ -4234,7 +4225,9 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
     var local = VALUE[id], breakRequest
 
+    console.log('1', path);
     if (path[1]) path = toCode({ VALUE, STATE, id, string: path.join('.'), e }).split('.')
+    console.log('2', path);
     
     if (path[0] === 'global') {
         local = VALUE[path[1]]
@@ -4252,7 +4245,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         : false
         
         if (!object && path[0]) {
-            
+
             if (path[0].includes('coded'))
             object = toValue({ VALUE, STATE, id, params: { value: STATE.codes[path[0]], params }, e })
 
@@ -4261,6 +4254,12 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             else if (path[0] === 'action')
             return execute({ VALUE, STATE, id, actions: path[1], params, e })
+
+            else if (path[0] === '[]') object = []
+
+            else if (path[0] === '{}') object = []
+
+            else if (path[0] === '[{}]') object = [{}]
 
             else if (path[0].includes('()')) object = VALUE
         }
@@ -4284,10 +4283,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
         if (k.includes('coded()')) {
 
-            var _id = generate()
-            VALUE[_id] = o
-            answer = toValue({ VALUE, STATE, id: _id, e, params: { value: `value.${STATE.codes[k]}`, params } })
-            delete VALUE[_id]
+            breakRequest = true
+            var newValue = toValue({ VALUE, STATE, id, e, params: { value: STATE.codes[k], params } })
+            newValue = [ ...newValue.toString().split('.'), ...path.slice(i + 1)]
+            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: newValue, object: o, params } })
+            
 
         } else if (k === 'data()') {
 
@@ -4301,7 +4301,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'Data()') {
 
             answer = STATE[local.Data]
-            
+
         } else if (k === 'derive()') {
 
             breakRequest = i + 1
@@ -4376,6 +4376,16 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 } else return VALUE[_id]
             })
             
+        } else if (k === 'param()') {
+            
+            breakRequest = i + 1
+            var param = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = o + '>>' + param
+            
+        } else if (k === 'toArray()') {
+            
+            answer = toArray(o)
+
         } else if (k === 'json') {
             
             answer = o + '.json'
@@ -4387,6 +4397,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'clone()') {
             
             answer = clone(o)
+
+        } else if (k === 'push()') {
+            
+            breakRequest = i + 1
+            var pushed = toValue({ VALUE, STATE, id, params: {value: path[i + 1], params}, e })
+            o.push(pushed)
+            answer = o
 
         } else if (k === 'keys()') {
             
@@ -4538,6 +4555,12 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             if (value !== undefined && key) answer = o[o.length - 1] = value
             answer = o[o.length - 1]
             
+        } else if (k === '!lastIndex()') {
+
+            o = o.slice(0, -1)
+            if (value !== undefined && key) o = value
+            answer = o
+            
         } else if (k === 'parseFloat()') {
             
             answer = parseFloat(o)
@@ -4570,8 +4593,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'join()') {
             
             breakRequest = i + 1
-            answer = o.join(path[i + 1])
-
+            var joiner = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1] || '', params} })
+            answer = o.join(joiner)
+            
+        } else if (k === 'clean()') {
+            
+            answer = o.filter(o => o !== undefined && !Number.isNaN(o) && o !== '')
+            
         } else if (k === 'preventDefault()') {
             
             answer = e.preventDefault()
@@ -4980,7 +5008,7 @@ module.exports = {
 
         var local = VALUE[id]
         if (!local) return
-        console.log(params);
+        
         var search = params.search
         var { data: { data, message, success } } = await axios.get(`/api/${search.path}${search.id ? `/id=[${search.id}]` : ''}`)
 
@@ -5086,6 +5114,9 @@ const setPosition = ({VALUE, params, id}) => {
   const list = VALUE[position.id].element;
   const fin = list.getElementsByClassName("list-fin")[0];
 
+  // set height to fit content
+  list.style.height = VALUE[list.id].style.height
+
   let top; let left; let bottom; let distance; let placement;
   const height = list.offsetHeight;
   const width = list.offsetWidth;
@@ -5154,20 +5185,36 @@ const setPosition = ({VALUE, params, id}) => {
   bottom = top + height;
 
   if (top - 10 < 0) {
+
     if (fin) fin.style.top = height / 2 - 5 - 10 + top + "px";
-    top = 10;
-  } else if (bottom + 10 > window.innerHeight) {
-    if (fin) {
-      fin.style.top =
-        height / 2 - (fin ? 5 : 0) + 10 + bottom - window.innerHeight + "px";
+
+    list.style.top = 10 + 'px'
+    list.style.bottom = (10 + height) + 'px'
+    
+    if (20 + height >= window.innerHeight) {
+      list.style.height = 'initial'
+      list.style.bottom = 10 + "px";
     }
-    top = window.innerHeight - 10 - height;
+
+  } else if (bottom + 10 > window.innerHeight) {
+
+    if (fin) fin.style.top = height / 2 - (fin ? 5 : 0) + 10 + bottom - window.innerHeight + "px";
+    
+    list.style.bottom = 10 + 'px'
+    list.style.top = (window.innerHeight - 10 - height) + 'px'
+    
+    if (window.innerHeight - 20 - height <= 0) {
+      list.style.height = 'initial'
+      list.style.top = 10 + "px";
+    }
+
   } else {
-    if (fin) fin.style.top = "unset";
+    list.style.top = top + 'px'
+    list.style.bottom = bottom
   }
 
-  list.style.top = top + "px";
   list.style.left = left + "px";
+  if (fin) fin.style.top = "unset";
 };
 
 module.exports = {setPosition};
@@ -5517,7 +5564,7 @@ const {overflow} = require("./overflow");
 const {getParam} = require("./getParam");
 const {toValue} = require("./toValue");
 const {reducer} = require("./reducer");
-const {toPath} = require("./toPath");
+const {toCode} = require("./toCode");
 
 const toApproval = ({STATE, VALUE, e, string, params, id}) => {
   const mainId = id;
@@ -5682,7 +5729,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
         if (!local) return (approval = false);
 
         // to path
-        key = toPath({VALUE, STATE, id, string: key, e});
+        key = toCode({VALUE, STATE, id, string: key, e});
         var path = typeof key === "string" ? key.split(".") : [];
 
         // const
@@ -5772,7 +5819,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
         if (!local) return (approval = false);
 
         // to path
-        key = toPath({VALUE, STATE, id, string: key, e});
+        key = toCode({VALUE, STATE, id, string: key, e});
         var path = typeof key === "string" ? key.split(".") : [];
 
         if (path[1]) {
@@ -5796,7 +5843,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
 
 module.exports = {toApproval};
 
-},{"./duplicate":43,"./generate":51,"./getParam":53,"./isArabic":54,"./isEqual":55,"./overflow":60,"./reducer":65,"./toPath":89,"./toValue":94}],81:[function(require,module,exports){
+},{"./duplicate":43,"./generate":51,"./getParam":53,"./isArabic":54,"./isEqual":55,"./overflow":60,"./reducer":65,"./toCode":83,"./toValue":94}],81:[function(require,module,exports){
 const toArray = (data) => {
   return data !== undefined ? (Array.isArray(data) ? data : [data]) : [];
 };
@@ -5819,7 +5866,7 @@ module.exports = {
 
     const {execute} = require("./execute");
     const {toParam} = require("./toParam");
-
+    
     if (await && await.length > 0) {
       toParam({VALUE, STATE, id, e, string: await.join(";")});
     }
@@ -5832,36 +5879,35 @@ module.exports = {
 const {generate} = require("./generate");
 
 const toCode = ({VALUE, STATE, string, e, id}) => {
-  const open = "[";
-  const close = "]";
-  let keys = string.split(open);
+  let keys = string.split('[');
 
   if (keys.length === 1) return string;
 
   if (keys[1]) {
     const key = `coded()${generate()}`;
-    let subKey = keys[1].split(close);
+    let subKey = keys[1].split(']');
 
     // ex. [ [ [] [] ] ]
     while (subKey[0] === keys[1] && keys[2] !== undefined) {
-      keys[1] += `${open}${keys[2]}`;
+      keys[1] += `${'['}${keys[2]}`;
       if (keys[2]) keys[1] = toCode({VALUE, STATE, string: keys[1], e, id});
       keys.splice(2, 1);
-      subKey = keys[1].split(close);
+      subKey = keys[1].split(']');
     }
 
+    if (subKey[0].includes(',')) subKey[0] = `[${subKey[0]}]`
     STATE.codes[key] = subKey[0];
     const value = key;
 
     const before = keys[0];
     subKey = subKey.slice(1);
     keys = keys.slice(2);
-    const after = keys.join(open) ? `${open}${keys.join(open)}` : "";
+    const after = keys.join('[') ? `${'['}${keys.join('[')}` : "";
 
-    string = `${before}${value}${subKey.join(close)}${after}`;
+    string = `${before}${value}${subKey.join(']')}${after}`;
   }
 
-  if (string.split(open)[1]) string = toCode({VALUE, STATE, string, e, id});
+  if (string.split('[')[1]) string = toCode({VALUE, STATE, string, e, id});
 
   // encode round brackets
   // string = toCode({ VALUE, STATE, string, e, id, roundBrackets: true })
@@ -5967,9 +6013,9 @@ module.exports = {
 };
 
 },{}],88:[function(require,module,exports){
-const {toPath} = require("./toPath");
 const {toValue} = require("./toValue");
 const {reducer} = require("./reducer");
+const { toCode } = require("./toCode");
 
 const toParam = ({VALUE = {}, STATE, string, e, id}) => {
   const {toApproval} = require("./toApproval");
@@ -6015,7 +6061,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
     var keys = typeof key === "string" ? key.split(".") : [];
 
     // keys from brackets to dots
-    key = toPath({VALUE, STATE, string: key, e, id});
+    key = toCode({VALUE, STATE, string: key, e, id});
 
     // id
     if (key && key.includes("::")) {
@@ -6093,9 +6139,9 @@ function addDays(theDate, days) {
 
 module.exports = {toParam};
 
-},{"./reducer":65,"./toApproval":80,"./toPath":89,"./toValue":94}],89:[function(require,module,exports){
-const toPath = ({VALUE, STATE, string, e, id}) => {/* 
-  const {toValue} = require("./toValue");
+},{"./reducer":65,"./toApproval":80,"./toCode":83,"./toValue":94}],89:[function(require,module,exports){
+const toPath = ({VALUE, STATE, string, e, id}) => {
+  /* const {toValue} = require("./toValue");
   let keys = [];
   const _keys = string.split("[");
 
@@ -6138,7 +6184,7 @@ const toPath = ({VALUE, STATE, string, e, id}) => {/*
     if (string.slice(-1) === ".") string = string.slice(0, -1);
   }
 
-  if (string.split("[")[1]) string = toPath({VALUE, STATE, string, e, id}); */
+  if (string.split("[")[1]) string = toPath({VALUE, STATE, string, e, id});  */
 
   return string;
 };
@@ -6386,7 +6432,6 @@ module.exports = {
 };
 
 },{"./clone":30,"./createElement":36,"./generate":51,"./toArray":81,"./toStyle":92,"path":2}],94:[function(require,module,exports){
-const {toPath} = require("./toPath");
 const {generate} = require("./generate");
 const {reducer} = require("./reducer");
 
@@ -6405,32 +6450,27 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
   }
 
   // auto space
+  if (value === "_dot") return (value = ".");
+
+  // auto space
   if (value === "&nbsp") return (value = "&nbsp;");
 
   // auto space
-  if (value && value.includes("_question")) {
+  if (value && value.includes("_question"))
     value = value.split("_question").join("?");
-  }
 
   // space
   if (value === " ") return (value = " ");
 
   // destructure []
-  if (value) value = toPath({VALUE, STATE, string: value, e, id});
+  //if (value) value = toCode({VALUE, STATE, string: value, e, id});
 
-  if (
-    value &&
-    value.charAt(0) === "[" &&
-    value.charAt(value.length - 1) === "]" &&
-    value.slice(1, value.length - 1)
-  ) {
-    value = value.slice(1, value.length - 1);
-    value = value
-        .split(",")
-        .map((value) =>
-          toValue({VALUE, STATE, id, e, params: {value, params}})
-        );
-    value = value.filter((value) => value !== undefined);
+  if ( value && value.charAt(0) === "[" && value.charAt(value.length - 1) === "]" && value.slice(1, value.length - 1) ) {
+    
+    value = value.slice(1, value.length - 1)
+    value = value.split(",").map((value) => toValue({VALUE, STATE, id, e, params: {value, params}}) )
+    value = value.filter((value) => value !== undefined && value !== '')
+    
   } else {
     // id
     if (value && value.includes("::")) {
@@ -6454,13 +6494,7 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
           Number.isNaN(value) ||
           value === "*return*"
         ) {
-          value = toValue({
-            VALUE,
-            STATE,
-            id,
-            e,
-            params: {value: val, params},
-          });
+          value = toValue({ VALUE, STATE, id, e, params: {value: val, params} })
         }
       });
 
@@ -6526,19 +6560,13 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
     }
 
     const path = typeof value === "string" ? value.split(".") : [];
-
+console.log(path);
     /* value */
     if (typeof value === "boolean") {
     } else if (!isNaN(value)) value = parseFloat(value);
     else if (value === undefined || value === "generate") value = generate();
     else if (path[0].includes("()")) {
-      value = reducer({
-        VALUE,
-        STATE,
-        id,
-        e,
-        params: {path, params, object: VALUE},
-      });
+      value = reducer({ VALUE, STATE, id, e, params: {path, params, object: VALUE} });
     } else if (value === "undefined") value = false;
     else if (value === "input") value = local && local.element.value;
     else if (value === "false") value = false;
@@ -6551,13 +6579,14 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
     else if (value === "''") value = "";
     else if (value === "{}") value = {};
     else if (value === "[]") value = [];
+    else if (value === '[{}]') value = [{}]
     else if (value.includes("%20")) value = value.split("%20").join(" ");
     else if (value.includes("JSON.parse")) {
       value = JSON.parse(value.split("JSON.parse(")[1].slice(0, -1));
     } else if (value.includes("JSON.stringify")) {
       value = JSON.stringify(value.split("JSON.stringify(")[1].slice(0, -1));
     } else if (path[1]) {
-      value = reducer({VALUE, STATE, id, params: {path, value, params}, e});
+      value = reducer({VALUE, STATE, id, params: { path, value, params }, e});
     }
 
     if (plus.length > 0) {
@@ -6576,7 +6605,7 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
 
 module.exports = {toValue};
 
-},{"./generate":51,"./reducer":65,"./toApproval":80,"./toPath":89}],95:[function(require,module,exports){
+},{"./generate":51,"./reducer":65,"./toApproval":80}],95:[function(require,module,exports){
 const {generate} = require("./generate");
 const {starter} = require("./starter");
 const {toArray} = require("./toArray");

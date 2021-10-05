@@ -13,7 +13,7 @@ module.exports = {
 
     const {execute} = require("./execute");
     const {toParam} = require("./toParam");
-
+    
     if (await && await.length > 0) {
       toParam({VALUE, STATE, id, e, string: await.join(";")});
     }

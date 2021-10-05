@@ -105,5 +105,36 @@
     "active": true,
     "description": "Beard Cut",
     "note": "The customer chooses the design desired"
+  },
+  {
+    "id": "service-reoMa",
+    "category": {
+      "name": "Face",
+      "id": "category-04"
+    },
+    "creation-date": "5-9-2021T1:29:31",
+    "provider": {
+      "name": "Nevelin",
+      "id": "provider-01"
+    },
+    "active": true,
+    "price": {
+      "lbp": 32000
+    },
+    "offer": {
+      "name": "Summer offer",
+      "id": "offer-01"
+    },
+    "reviews": [],
+    "home-service": {
+      "available": false,
+      "price": {}
+    },
+    "images": [],
+    "name": "Mascara",
+    "duration": "15min",
+    "maximum-bookings-allowed-at-same-time": "1",
+    "description": "das",
+    "note": "ffd"
   }
 ]

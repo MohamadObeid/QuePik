@@ -59,7 +59,7 @@
         }, {
             "type": "View?id=asset-list;style.display=flex;style.flexDirection=column;style.width=100%",
             "children": [{
-                "type": "View?style.display=state.asset-list-grid-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
+                "type": "View?style.display=state.asset-list-grid-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
                     "type": "[View]?class=flex-box;Data=asset-list-Data;data=state.asset-list-Data",
                     "style": {

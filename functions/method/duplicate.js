@@ -1,23 +1,24 @@
-const {clearValues} = require("./clearValues");
-const {clone} = require("./clone");
-const {toArray} = require("./toArray");
-const {derive} = require("./derive");
-const {isEqual} = require("./isEqual");
-const {removeDuplicates} = require("./removeDuplicates");
-const {generate} = require("./generate");
-const {focus} = require("./focus");
+var {clearValues} = require("./clearValues");
+var {clone} = require("./clone");
+var {toArray} = require("./toArray");
+var {derive} = require("./derive");
+var {isEqual} = require("./isEqual");
+var {removeDuplicates} = require("./removeDuplicates");
+var {generate} = require("./generate");
+var {focus} = require("./focus");
 
-const duplicate = ({VALUE, STATE, params = {}, id}) => {
-  const {createElement} = require("./createElement");
-  const {starter} = require("./starter");
+var duplicate = ({VALUE, STATE, params = {}, id}) => {
+  var {createElement} = require("./createElement");
+  var {starter} = require("./starter");
 
-  const localID = id;
+  let localID = id, path = []
   var local = VALUE[id];
 
   if (STATE[local.Data]) {
-    const keys = clone(local.derivations);
-    var index = params.index || 0;
-    let path = params.path ? params.path(".") : [];
+    var keys = clone(local.derivations);
+    var duplicate = params.duplicate
+    var index = duplicate.index || 0;
+    path = duplicate.path ? duplicate.path.split(".") : [];
 
     // convert string numbers paths to num
     if (path.length > 0) {
@@ -27,7 +28,7 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
       });
     }
 
-    if (params.path) keys.push(...path);
+    if (duplicate.path) keys = clone(path)
 
     // last index refers to data index => must be poped
     if (!isNaN(keys[keys.length - 1])) {
@@ -40,7 +41,7 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
     keys.reduce((o, k, i) => {
       if (i === keys.length - 1) {
         if (local.currency) {
-          const currencies = [];
+          var currencies = [];
           Object.entries(o[k]).map(([k, v]) => {
             currencies.push(k);
           });
@@ -55,7 +56,7 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
           currency = random[0];
           o[k][currency] = "";
         } else if (local.lang) {
-          const langs = [];
+          var langs = [];
           Object.entries(o[k]).map(([k, v]) => {
             langs.push(k);
           });
@@ -74,9 +75,10 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
           i = o[k].length - 1;
 
           if (isNaN(local.derivations[local.derivations.length - 1])) {
-            local.derivations.push(0);
+            if (path.length > 0) path.push(0)
+            else local.derivations.push(0);
             var index = local.derivations.length - 1;
-            const children = [...local.element.children];
+            var children = [...local.element.children];
 
             // update length
             children.map((child) =>
@@ -93,11 +95,11 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
       return o[k];
     }, STATE[local.Data]);
   } else {
-    var index = params.index || local.children.length - 1;
+    var index = duplicate.index || local.children.length - 1;
     local.children.push(local.children[index]);
   }
 
-  const length = local.length !== undefined ? local.length : 1;
+  var length = local.length !== undefined ? local.length : 1;
   var id = generate();
 
   VALUE[local.parent].children = toArray(VALUE[local.parent].children);
@@ -106,7 +108,7 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
   VALUE[id].parent = local.parent;
   VALUE[id].duplicatedElement = true;
   VALUE[id].index = local.index;
-  VALUE[id].derivations = [...local.derivations];
+  VALUE[id].derivations = (duplicate.path) ? duplicate.path.split('.') : [...local.derivations];
 
   var local = VALUE[id];
   local.duplicated = true;
@@ -137,13 +139,17 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
     local.type = type;
   } else if (VALUE[localID].key) {
     // local.key
-  } else local.derivations[local.derivations.length - 1] = length;
+  } else {
+    var lastIndex = local.derivations.length - 1
+    if (!isNaN(local.derivations[lastIndex])) local.derivations[lastIndex] = length;
+    else local.derivations.push(length)
+  }
 
   // [type]
   if (local.type.slice(0, 1) === "[") {
     local.type = local.type.slice(1);
     var type = local.type.split("]");
-    local.type = type[0] + local.type.split("]").slice(1);
+    local.type = type[0] + local.type.split("]").slice(1).join(']');
   }
 
   // path
@@ -153,9 +159,9 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
     type = type[1].split(";").slice(1);
     local.type += type;
   }
-
+  
   // create element => append child
-  const newcontent = document.createElement("div");
+  var newcontent = document.createElement("div");
   newcontent.innerHTML = createElement({STATE, VALUE, id});
 
   while (newcontent.firstChild) {
@@ -168,7 +174,7 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
 
   // update length
   [...VALUE[local.parent].element.children].map((child) => {
-    const id = child.id;
+    var id = child.id;
     VALUE[id].length = length + 1;
   });
 
@@ -176,11 +182,11 @@ const duplicate = ({VALUE, STATE, params = {}, id}) => {
   focus({VALUE, STATE, id});
 };
 
-const duplicates = ({STATE, VALUE, params, id}) => {
-  const local = VALUE[id];
+var duplicates = ({STATE, VALUE, params, id}) => {
+  var local = VALUE[id];
 
-  let data = derive(STATE[local.Data], local.derivations)[0];
-  let exists;
+  var data = derive(STATE[local.Data], local.derivations)[0];
+  var exists;
   if (!params.data) return false;
 
   data = toArray(data);

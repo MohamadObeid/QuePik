@@ -1,6 +1,6 @@
-const {toPath} = require("./toPath");
 const {toValue} = require("./toValue");
 const {reducer} = require("./reducer");
+const { toCode } = require("./toCode");
 
 const toParam = ({VALUE = {}, STATE, string, e, id}) => {
   const {toApproval} = require("./toApproval");
@@ -46,7 +46,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
     var keys = typeof key === "string" ? key.split(".") : [];
 
     // keys from brackets to dots
-    key = toPath({VALUE, STATE, string: key, e, id});
+    key = toCode({VALUE, STATE, string: key, e, id});
 
     // id
     if (key && key.includes("::")) {

@@ -1,5 +1,5 @@
-const toPath = ({VALUE, STATE, string, e, id}) => {/* 
-  const {toValue} = require("./toValue");
+const toPath = ({VALUE, STATE, string, e, id}) => {
+  /* const {toValue} = require("./toValue");
   let keys = [];
   const _keys = string.split("[");
 
@@ -42,7 +42,7 @@ const toPath = ({VALUE, STATE, string, e, id}) => {/*
     if (string.slice(-1) === ".") string = string.slice(0, -1);
   }
 
-  if (string.split("[")[1]) string = toPath({VALUE, STATE, string, e, id}); */
+  if (string.split("[")[1]) string = toPath({VALUE, STATE, string, e, id});  */
 
   return string;
 };

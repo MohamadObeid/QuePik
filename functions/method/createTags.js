@@ -122,6 +122,10 @@ const createTags = ({VALUE, STATE, id}) => {
     }
   }
 
+  if (local.mapType) {
+    local.mapIndex = 0
+    local.derivations.push(0)
+  }
   return createTag({VALUE, STATE, id});
 };
 

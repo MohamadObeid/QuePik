@@ -188,7 +188,7 @@
                             "type": "Image?src=value.data().images.3<<value.data().images.3;path=images.3;fill"
                         }]
                     }, {
-                        "type": "Input?id=img-uploader;featured;path=images.[value.data().images.length()];style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
+                        "type": "Input?id=img-uploader;featured;path=images.[value.Data().images.length()];style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
                         "controls": [{
                             "event": "input>>200",
                             "actions": "await.fill::value.parent().parent().id;await.note;async.save?value.element.disabled=true<<value.derivations.lastIndex()=3;note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children.[value.derivations.lastIndex()--1].id.().1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1;await.value.element.innerHTML::img-uploader-msg=Reached maximum limit!<<value.Data().images.length()=4?value.derivations.lastIndex()!=4"
