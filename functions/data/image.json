@@ -3,8 +3,9 @@
     "id": "image-01",
     "active": true,
     "creation-date": "23-9-2021T10:59:26",
-    "url": "image/category-01.jpeg",
-    "name": "image01"
+    "url": "image/category-01.jpg",
+    "name": "image01",
+    "description": "Inanna Hotel Lobby"
   },
   {
     "id": "image-02",

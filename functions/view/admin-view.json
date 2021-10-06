@@ -1,6 +1,10 @@
 {
     "file-name": "admin-view",
     "type": "View?style.display=flex;style.width=100%;style.height=100%;style.overflowY=auto",
+    "controls": {
+        "event": "load",
+        "actions": "async.search?search.path=data/asset.json;await.state.asset=value.search.data?!state.asset"
+    },
     "children": [{
         "type": "View?style.height=calc(100% - 6.5rem)",
         "children": [{

@@ -61,6 +61,7 @@ const {isPath} = require("./isPath");
 const {toNumber} = require("./toNumber");
 const {capitalize} = require("./capitalize");
 const {popup} = require("./popup");
+const {dateTimeFormater} = require("./dateTimeFormater");
 const {
   setStyle,
   resetStyles,
@@ -145,6 +146,7 @@ const _method = {
   isPath,
   toNumber,
   popup,
+  dateTimeFormater
 };
 
 module.exports = _method;

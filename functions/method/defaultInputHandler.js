@@ -49,7 +49,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
     // for number inputs, strings are rejected
     if (local.input && local.input.type === "number") {
       value = parseFloat(value);
-      if (isNaN(value) || local.data === "free") return;
+      if (isNaN(value) || local.data === "free") return local.input.value = value.slice(0, -1)
       if (local.input.min > value) value = local.input.min;
       else if (local.input.max < value) value = local.input.max;
       local.input.value = value;

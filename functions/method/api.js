@@ -1,20 +1,20 @@
-const {getJsonFiles} = require("./getJsonFiles");
-const {capitalize} = require("./capitalize");
-const {toParam} = require("./toParam");
-const fs = require("fs");
+var {getJsonFiles} = require("./getJsonFiles");
+var {capitalize} = require("./capitalize");
+var {toParam} = require("./toParam");
+var fs = require("fs");
 
-const getApi = (req, res) => {
-  const path = req.url.split("/");
-  const folder = path[2];
-  const fileName = path[3];
-  let params = path[4];
+var getApi = (req, res) => {
+  var path = req.url.split("/");
+  var folder = path[2];
+  var fileName = path[3];
+  var params = path[4];
   if (params) params = toParam({string: params});
 
   if (folder === "image") {
     return res.sendFile(require("path").join(process.cwd(), folder, fileName));
   }
 
-  const files = getJsonFiles(folder, fileName, params);
+  var files = getJsonFiles(folder, fileName, params);
   return res.send({
     data: files,
     success: true,
@@ -22,11 +22,11 @@ const getApi = (req, res) => {
   });
 };
 
-const postApi = (req, res) => {
-  const path = req.url.split("/");
-  const folder = path[2];
-  let file = req.body;
-  const fileName = path[3] || file["file-name"];
+var postApi = (req, res) => {
+  var file = req.body;
+  var path = req.url.split("/");
+  var folder = path[2];
+  var fileName = path[3]
   var fileType = "json";
 
   // create folder if it doesnot exist
@@ -35,27 +35,28 @@ const postApi = (req, res) => {
   if (folder === "image") {
     file = file.file;
 
-    // data type
-    const dataType = file.substring("data:".length, file.indexOf("/"));
-    // file type
+    // get data type
+    var dataType = file.substring("data:".length, file.indexOf("/"));
+    // get file type
     var fileType = file.substring(
         file.indexOf("/") + 1,
         file.indexOf(";base64")
     );
+    // get file name
+    var fileName = file['file-name']
     // Forming regex to extract base64 data of file.
-    const regex = new RegExp(`^data:${dataType}\/${fileType};base64,`, "gi");
+    var regex = new RegExp(`^data:${dataType}\/${fileType};base64,`, "gi");
     // Extract base64 data.
-    const base64Data = file.replace(regex, "");
-
+    var base64Data = file.replace(regex, "");
     // file path
-    var filePath = `./${folder}/${fileName}.${fileType}`;
-    const data = {"file-name": `api/${folder}/${fileName}.${fileType}`};
+    var filePath = `/${folder}/${fileName}.${fileType}`;
+    var data = {"url": filePath};
 
     fs.writeFileSync(filePath, base64Data, "base64");
     return res.send({
       data,
       success: true,
-      message: `${capitalize(dataType)} save successfuly!`,
+      message: `${capitalize(dataType)} saved successfuly!`,
     });
   }
 
@@ -63,8 +64,8 @@ const postApi = (req, res) => {
   var filePath = `./${folder}/${fileName}.${fileType}`;
 
   if (file.id) {
-    const files = getJsonFiles(folder, `${fileName}.${fileType}`);
-    const index = files.findIndex((_file) => _file.id === file.id);
+    var files = getJsonFiles(folder, `${fileName}.${fileType}`);
+    var index = files.findIndex((_file) => _file.id === file.id);
     if (index > -1) files[index] = file;
     else files.push(file);
 
@@ -78,16 +79,16 @@ const postApi = (req, res) => {
   });
 };
 
-const deleteApi = (req, res) => {
-  const path = req.url.split("/");
-  const folder = path[2];
-  let fileName = path[3];
-  let params = path[4];
+var deleteApi = (req, res) => {
+  var path = req.url.split("/");
+  var folder = path[2];
+  var fileName = path[3];
+  var params = path[4];
   if (params) params = toParam({string: params});
 
   if (params.id) {
     var filePath = `./${folder}/${fileName}`;
-    let data = getJsonFiles(folder, fileName) || [];
+    var data = getJsonFiles(folder, fileName) || [];
     data = data.filter((data) => !params.id.find((id) => data.id === id));
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 

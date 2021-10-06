@@ -14,7 +14,7 @@ const Input = (component) => {
 
     component = toComponent(component)
     var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
-        placeholder, textarea, filterable, clearable, removable, msg, day,
+        placeholder, textarea, filterable, clearable, removable, msg, day, disabled,
         duplicatable, lang, unit, currency, google, key, note, edit, minlength } = component
 
     duplicatable = duplicatable !== undefined ? (duplicatable === false ? false : true) : false
@@ -110,6 +110,7 @@ const Input = (component) => {
                 filterable,
                 placeholder,
                 duplicated,
+                disabled,
                 templated: true,
                 'placeholder-ar': component['placeholer-ar'],
                 style: {
@@ -153,7 +154,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=const.[Currencies>>readonly,state.asset.currency.options.map().[name.en]].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=const.[Currencies>>readonly,state.asset.findByName().Currency.options.map().name].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -164,7 +165,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=const.[Units>>readonly,state.asset.unit.options.map().[name.en]].flat();hoverable?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items=const.[Units>>readonly,state.asset.findByName().Unit.options.map().name].flat();hoverable?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -187,7 +188,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     }
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=const.[Languages>>readonly,state.asset.language.options.map().[name.en]].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=const.[Languages>>readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',

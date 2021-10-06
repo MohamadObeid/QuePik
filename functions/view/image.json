@@ -1,12 +1,8 @@
 {
-    "file-name": "asset",
+    "file-name": "image",
     "type": "View?style.padding=2rem;data={}<<!value.data()",
-    "controls": {
-        "event": "load",
-        "actions": "async.search?search.path=data/asset.json;await.state.asset=value.search.data?!state.asset"
-    },
     "children": [{
-        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=asset-++generate()<<!value.data().id",
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=image-++generate()<<!value.data().id",
         "children": [{
             "type": "View?class=flex-box?value.data().name",
             "children": [{
@@ -14,10 +10,10 @@
             }, {
                 "type": "Text?text=value.data().name.capitalize();style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
             }, {
-                "type": "Text?text=Asset;style.fontSize=1.8rem;fontWeight=500"
+                "type": "Text?text=Image;style.fontSize=1.8rem;fontWeight=500"
             }]
         }, {
-            "type": "Text?text=Create New Asset;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
+            "type": "Text?text=Create New Image;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
         }, {
             "type": "View?class=flex-box;style.marginLeft=auto",
             "children": [{
@@ -32,7 +28,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::asset-list-view;await.setStyle::mini-window;await.note;async.save?note=Asset saved successfully!;save.path=data/asset;save.data=value.data();await.state.asset.findById().[value.data().id]=value.data();await.state.asset-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::image-list-view;await.setStyle::mini-window;await.note;async.save?note=Image saved successfully!;save.path=data/image;save.data=value.data();await.state.image.findById().[value.data().id]=value.data();await.state.image-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -45,7 +41,7 @@
             }, {
                 "type": "Text?class=left;label;text=Active;style.fontSize=1.4rem"
             }, {
-                "type": "Text?class=left;label;text=asset ID;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=image ID;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Creation Date;style.fontSize=1.4rem"
             }]
@@ -67,35 +63,43 @@
                 }]
             }]
         }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=2fr 2fr;style.gap=1rem;style.width=100%",
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
                 "type": "Text?class=left;label;text=Description;style.fontSize=1.4rem"
-            }]
-        }, {
-            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=2fr 2fr;style.gap=1rem;style.marginBottom=3rem",
-            "children": [{
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
-            }]
-        }, {
-            "type": "Text?class=flex-start;text=Options;style.marginBottom=.7rem;style.fontSize=1.4rem"
-        }, {
-            "type": "View?style.display=grid;style.marginBottom=1rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().options=[]<<!value.Data().options",
-            "children": [{
-                "type": "[Input]?textarea;featured;removable;clearable;style.backgroundColor=#f0f0f0;path=options;flicker",
-                "controls": [{
-                    "event": "load?value.derivations=value.derivations.push().name;value.element.value=value.data()"
-                }]
-            }]
-        }, {
-            "type": "View?class=flex-box;style.justifyContent=flex-start;style.marginBottom=2rem",
-            "children": [{
-                "type": "Icon?class=pointer;icon.name=bi-patch-plus-fill;style.color=#444;style.after.color=#0d6efd;style.marginRight=.5rem",
-                "controls": {
-                    "event": "click",
-                    "actions": "duplicate::value.parent().prev().1stChild().id?duplicate.path=options?value.Data().options.0.name"
-                }
             }, {
-                "type": "Text?text=Add more;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Url;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+            "children": [{
+                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+            }, {
+                "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=url",
+                "controls": {
+                    "watch": "value.Data().url?value.element.value=value.Data().url"
+                }
+            }]
+        }, {
+            "type": "Text?class=flex-start;text=Image;style.marginBottom=.7rem;style.fontSize=1.4rem"
+        }, {
+            "type": "View?style.display=grid;style.gap=1rem;style.marginBottom=3rem",
+            "children": [{
+                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem",
+                "children": [{
+                    "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
+                    "children": [{
+                        "type": "Image?src=value.data.url;path=url;fill"
+                    }]
+                }, {
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem",
+                    "children": [{
+                        "type": "Input?id=img-uploader;featured;path=url;style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!<<!value.Data().url;msg=Reached maximum limit!<<value.Data().url;disabled<<value.Data().url;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
+                        "controls": [{
+                            "event": "input>>200",
+                            "actions": "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.url;await.value.parent().prev().1stChild().element.src=value.data();await.value.element.innerHTML::img-uploader-msg=Reached maximum limit!<<value.data()?!value.data()"
+                        }]
+                    }]
+                }]
             }]
         }]
     }]

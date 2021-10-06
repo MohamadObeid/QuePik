@@ -25,11 +25,10 @@ const droplist = ({VALUE, STATE, id, e}) => {
   if (local.lang || local.unit || local.currency || local.key || local.day) {
     input_id = VALUE[local.parent].element.previousSibling.id;
   }
-console.log(items);
+  
   // dynamic items
   if (typeof items === "string")
     items = toValue({VALUE, STATE, id, e, params: {value: items}})
-    console.log(items);
   
   /* items = items.map(item => {
 

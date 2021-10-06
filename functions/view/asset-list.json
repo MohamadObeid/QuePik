@@ -1,6 +1,13 @@
 {
-    "file-name": "admin-assets-list",
-    "type": "View?value.Data;state.asset-list-grid-display=grid;state.asset-list-table-display=none;state.asset-list-Data=state.asset.values()",
+    "file-name": "asset-list",
+    "type": "View?Data;state.asset-list-grid-view-display=grid;state.asset-list-table-view-display=none",
+    "controls": {
+        "event": "load",
+        "actions": [
+            "await.update::asset-list-view;async.search?search.path=data/asset.json;await.state.asset-list-Data=value.search.data;await.state.asset=value.search.data?!state.asset",
+            "update::asset-list-view?state.asset-list-Data=state.asset?state.asset"
+        ]
+    },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
         "children": [{
@@ -8,11 +15,9 @@
         }, {
             "type": "View?class=flex-box",
             "children": [{
-                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem",
-                "tooltip": "Import multiple products to store at once"
+                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
-                "tooltip": "Export all products to a CSV file"
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem"
             }, {
                 "type": "Button?text=Add New Asset;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=asset"
             }]
@@ -20,125 +25,96 @@
     }, {
         "type": "View?style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee",
         "children": [{
-            "type": "View?class=flex-box;style.justifyContent=space-between;style.paddingBottom=1rem;style.borderBottom=1px solid #eee",
+            "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
             "children": [{
-                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;placeholder-ar=...إبحث عن الإسم، الصنف، الماركة",
-                "placeholder": "Search by name, options, description...",
-                "style": {
-                    "height": "4rem",
-                    "backgroundColor": "#fff",
-                    "border": "1px solid #ddd",
-                    "color": "#666",
-                    "borderRadius": ".75rem",
-                    "marginRight": "1rem",
-                    "maxWidth": "50rem"
-                },
-                "controls": [{
-                    "event": "keyup>>200",
-                    "actions": "filter?filter.backup=state.asset.values();filter.path=name.en;filter.Data=asset-list-Data;filter.value=e.target.value;filter.update=global.asset-list.1stChild().id<<global.asset-list.1stChild().element.style.display=grid;filter.update=global.asset-list.2ndChild().2ndChild().id<<global.asset-list.2ndChild().element.style.display=grid"
-                }]
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem",
+                "placeholder": "Search by id, name, description...",
+                "controls": {
+                    "event": "keyup>>200??state.asset-list-Data",
+                    "actions": "await.update::asset-list-view;async.filter?filter.backup=state.asset.clone();filter.path=[id,name,description];filter.Data=asset-list-Data;filter.value=e.target.value"
+                }
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
                     "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
                     "controls": {
-                        "event": "click", 
-                        "actions": "sort?sort.path=name.en;sort.Data=asset-list-Data;sort.update=global.asset-list.1stChild().id<<global.asset-list.1stChild().element.style.display=grid;sort.update=global.asset-list.2ndChild().2ndChild().id<<global.asset-list.2ndChild().element.style.display=grid"
+                        "event": "click??state.asset-list-Data", 
+                        "actions": "await.update::asset-list-view;async.sort?sort.path=creation-date;sort.Data=asset-list-Data"
                     }
                 }, {
                     "type": "Button?text=View;icon.name=bi-list-ul",
                     "controls": {
-                        "event": "click",
+                        "event": "click?await.state.asset-list-grid-view-display=global.asset-list-view.1stChild().element.style.display;await.state.asset-list-table-view-display=global.asset-list-view.2ndChild().element.style.display", 
                         "actions": [
-                            "setStyle::global.asset-list.1stChild().id?style.display=none<<state.asset-list-grid-display=grid;style.display=grid<<state.asset-list-grid-display=none;state.asset-list-grid-display=params.style.display",
-                            "setStyle::global.asset-list.2ndChild().id?style.display=none<<state.asset-list-table-display=grid;style.display=grid<<state.asset-list-table-display=none;state.asset-list-table-display=params.style.display"
+                            "setStyle::global.asset-list-view.1stChild().id?style.display=none<<global.asset-list-view.1stChild().element.style.display=grid;style.display=grid<<global.asset-list-view.1stChild().element.style.display=none",
+                            "setStyle::global.asset-list-view.2ndChild().id?style.display=none<<global.asset-list-view.2ndChild().element.style.display=grid;style.display=grid<<global.asset-list-view.2ndChild().element.style.display=none"
                         ]
                     }
                 }]
             }]
         }, {
-            "type": "View?id=asset-list;style.display=flex;style.flexDirection=column;style.width=100%",
+            "type": "View?id=asset-list-view;style.display=flex;style.flexDirection=column;style.width=100%",
             "children": [{
-                "type": "View?style.display=state.asset-list-grid-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
+                "type": "View?style.display=state.asset-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
-                    "type": "[View]?class=flex-box;Data=asset-list-Data;data=state.asset-list-Data",
-                    "style": {
-                        "borderRadius": ".75rem",
-                        "border": "1px solid #ddd",
-                        "minHeight": "8rem",
-                        "cursor": "pointer",
-                        "transition": "border .1s",
-                        "after": {
-                            "border": "1px solid #ee384e"
-                        }
-                    },
+                    "type": "[View]?class=flex-box pointer;Data=asset-list-Data;touchableOpacity;style.padding=2rem;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.asset-list-Data;state.asset-list-Data.length()!=0",
                     "controls": {
                         "event": "load",
-                        "actions": "toControls?hoverable.id=[value.id,value.1stChild().id];miniWindow.view=asset"
+                        "actions": "toControls?hoverable.id=[value.id,value.children().0.id];miniWindow.view=asset"
                     },
                     "children": [{
-                        "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.3rem;style.after.color=#ee384e;style.transition=color .1s"
+                        "type": "Text?text=value.data.name;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
                     }]
                 }]
             }, {
-                "type": "View?style.display=state.asset-list-table-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
+                "type": "View?style.display=state.asset-list-table-view-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
                 "children": [{
-                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem",
+                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 2fr 1fr 1fr;style.minHeight=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem",
                     "children": [{
-                        "type": "View",
-                        "children": [{
-                            "type": "Text?text=Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
-                            "controls": {
-                                "event": "click", 
-                                "actions": "sort;update::value.parent().parent().next().id?sort.path=name.en;sort.Data=asset-list-Data"
-                            }
-                        }]
+                        "type": "Text?text=Active;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=active;sort.Data=asset-list-Data?state.asset-list-Data"
+                        }
                     }, {
-                        "type": "View",
-                        "children": [{
-                            "type": "Text?text=File Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
-                            "controls": {
-                                "event": "click", 
-                                "actions": "sort;update::value.parent().parent().next().id?sort.path=file-name;sort.Data=asset-list-Data"
-                            }
-                        }]
+                        "type": "Text?text=Name;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=name;sort.Data=asset-list-Data?state.asset-list-Data"
+                        }
                     }, {
-                        "type": "View",
-                        "children": [{
-                            "type": "Text?text=Options;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
-                            "controls": {
-                                "event": "click", 
-                                "actions": "sort;update::value.parent().parent().next().id?sort.path=options.length();sort.Data=asset-list-Data"
-                            }
-                        }]
+                        "type": "Text?text=Desctiption;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=description;sort.Data=asset-list-Data?state.asset-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Options;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;sort?sort.path=options.length;sort.Data=asset-list-Data?state.asset-list-Data"
+                        }
                     }, {
                         "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
                     }]
                 }, {
-                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr;flicker",
                     "children": [{
-                        "type": "[View]?style.display=grid;style.alignItems=center;style.gridTemplateColumns=1fr 1fr 1fr 2fr;style.height=5.5rem;Data=asset-list-Data;data=state.asset-list-Data;style.borderBottom=1px solid #eee;style.padding=0 1rem",
+                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 2fr 1fr 1fr;style.minHeight=5.5rem;Data=asset-list-Data;data=state.asset-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.asset-list-Data;state.asset-list-Data.length()!=0",
                         "children": [{
-                            "type": "Text?text=value.data().name.en<<value.data().name;style.fontSize=1.4rem"
+                            "type": "Icon?icon.name=bi-circle<<!value.data.active;icon.name=bi-circle-fill<<value.data.active;style.fontSize=1.4rem;style.color=lime<<value.data.active;style.color=#ddd<<!value.data.active;style.textAlign=center"
                         }, {
-                            "type": "Text?text=value.data().file-name;style.fontSize=1.4rem"
+                            "type": "Text?class=dots;text=value.data.name;style.fontSize=1.4rem"
                         }, {
-                            "type": "Text?text=value.data().options.length()<<value.data().options;style.fontSize=1.4rem"
+                            "type": "Text?class=dots;text=value.data.description;style.fontSize=1.4rem"
                         }, {
-                            "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%",
+                            "type": "Text?class=dots;text=value.data.options.length();style.fontSize=1.4rem"
+                        }, {
+                            "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%;style.marginRight=1rem",
                             "children": [{
-                                "type": "Icon?class=flex-box;icon.name=bi-three-dots;hoverable;actionlist.placement=left<<value.data().file-name!=language!=unit!=currency!=country!=asesiyet-lbet!=my-love",
-                                "style": {
-                                    "cursor": "pointer",
-                                    "color": "#116dff",
-                                    "fontSize": "2.5rem",
-                                    "height": "4rem",
-                                    "width": "4rem",
-                                    "borderRadius": "4rem",
-                                    "transition": "all 0.2s",
-                                    "marginRight": "1rem",
-                                    "after": { "backgroundColor": "#eee" }
-                                }
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=asset"
+                            }, {
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=data/asset.json;popup.update=asset-list-view;popup.note=Asset removed successfully!;popup.type=eraser;popup.text=Do you want to delete this asset/?"
                             }]
                         }]
                     }]

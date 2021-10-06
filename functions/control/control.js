@@ -5,6 +5,7 @@ module.exports = {
   droplist: require("./droplist"),
   actionlist: require("./actionlist"),
   hoverable: require("./hoverable"),
+  sorter: require("./sorter"),
   miniWindow: require("./miniWindow"),
   viewToggler: require("./viewToggler"),
   touchableOpacity: require("./touchableOpacity"),

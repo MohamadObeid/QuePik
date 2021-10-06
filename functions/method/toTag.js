@@ -33,7 +33,7 @@ module.exports = {
           })
           .join("");
     }
-
+    
     const value =
       (local.input && local.input.value) !== undefined ?
         local.input.value :
@@ -42,12 +42,11 @@ module.exports = {
         "";
     if (local.type === "Image") local.src = local.src || local.data || "";
 
+    
     if (local.type === "View") {
       tag = `<div class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</div>`;
     } else if (local.type === "Image") {
-      tag = `<img class='${local.class}' src='${path.resolve(
-          local.src
-      )}' alt='${local.src}' id='${local.id}' style='${style}'>`;
+      tag = `<img class='${local.class}' src='${local.src}' alt='${local.src}' id='${local.id}' style='${style}'>`;
     } else if (local.type === "Table") {
       tag = `<table class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</table>`;
     } else if (local.type === "Row") {
@@ -64,11 +63,7 @@ module.exports = {
       tag = `<span class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</span>`;
     } else if (local.type === "Text") {
       if (local.label) {
-        tag = `<label class='${local.class}' id='${
-          local.id
-        }' style='${style}' ${
-          local["aria-label"] ? `aria-label="${local["aria-label"]}"` : ""
-        } ${local.for ? `for="${local.for}"` : ""}>${innerHTML}</label>`;
+        tag = `<label class='${local.class}' id='${local.id}' style='${style}' ${local["aria-label"] ? `aria-label="${local["aria-label"]}"` : ""} ${local.for ? `for="${local.for}"` : ""}>${innerHTML}</label>`;
       } else if (local.h1) {
         tag = `<h1 class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</h1>`;
       } else if (local.h2) {
@@ -87,59 +82,17 @@ module.exports = {
         tag = `<p class='${local.class}' id='${local.id}' style='${style}'>${text}</p>`;
       }
     } else if (local.type === "Icon") {
-      tag = `<i class='material-icons${
-        local.outlined ?
-          "-outlined" :
-          local.rounded ?
-          "-round" :
-          local.sharp ?
-          "-sharp" :
-          local.twoTone ?
-          "-two-tone" :
-          ""
-      } ${local.class || ""} ${local.icon.name}' id='${
-        local.id
-      }' style='${style}'>${local.google ? local.icon.name : ""}</i>`;
+      tag = `<i class='material-icons${local.outlined ? "-outlined" : local.rounded ? "-round" : local.sharp ? "-sharp" : local.twoTone ? "-two-tone" : ""} ${local.class || ""} ${local.icon.name}' id='${local.id}' style='${style}'>${local.google ? local.icon.name : ""}</i>`;
     } else if (local.type === "Textarea") {
-      tag = `<textarea class='${local.class}' id='${
-        local.id
-      }' style='${style}' placeholder='${local.placeholder || ""}' ${
-        local.readonly ? "readonly" : ""
-      } ${local.maxlength || ""}>${
-        local.data || local.input.value || ""
-      }</textarea>`;
+      tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ""}' ${local.readonly ? "readonly" : ""} ${local.maxlength || ""}>${local.data || local.input.value || ""}</textarea>`;
     } else if (local.type === "Input") {
       if (local.textarea) {
-        tag = `<textarea class='${local.class}' id='${
-          local.id
-        }' style='${style}' placeholder='${local.placeholder || ""}' ${
-          local.readonly ? "readonly" : ""
-        } ${local.maxlength || ""}>${value}</textarea>`;
+        tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ""}' ${local.readonly ? "readonly" : ""} ${local.maxlength || ""}>${value}</textarea>`;
       } else {
-        tag = `<input class='${local.class}' id='${
-          local.id
-        }' style='${style}' ${
-          local.input.name ? `name="${local.input.name}"` : ""
-        } ${
-          local.input.accept ? `accept="${local.input.accept}/*"` : ""
-        } type='${local.input.type || "text"}' ${
-          local.placeholder ? `placeholder="${local.placeholder}"` : ""
-        } ${value !== undefined ? `value="${value}"` : ""} ${
-          local.readonly ? "readonly" : ""
-        } ${local.input.min ? `min="${local.input.min}"` : ""} ${
-          local.input.max ? `max="${local.input.max}"` : ""
-        } ${
-          local.input.defaultValue ?
-            `defaultValue="${local.input.defaultValue}"` :
-            ""
-        } ${checked ? "checked" : ""}/>`;
+        tag = `<input class='${local.class}' id='${local.id}' style='${style}' ${local.input.name ? `name="${local.input.name}"` : ""} ${local.input.accept ? `accept="${local.input.accept}/*"` : ""} type='${local.input.type || "text"}' ${local.placeholder ? `placeholder="${local.placeholder}"` : ""} ${value !== undefined ? `value="${value}"` : ""} ${local.readonly ? "readonly" : ""} ${local.input.min ? `min="${local.input.min}"` : ""} ${local.input.max ? `max="${local.input.max}"` : ""} ${local.input.defaultValue ? `defaultValue="${local.input.defaultValue}"` : ""} ${checked ? "checked" : ""} ${local.disabled ? "disabled" : ''}/>`;
       }
     } else if (local.type === "Paragraph") {
-      tag = `<textarea class='${local.class}' id='${
-        local.id
-      }' style='${style}' placeholder='${
-        local.placeholder || ""
-      }'>${text}</textarea>`;
+      tag = `<textarea class='${local.class}' id='${local.id}' style='${style}' placeholder='${local.placeholder || ""}'>${text}</textarea>`;
     }
 
     // linkable

@@ -3,16 +3,16 @@ const {toAwait} = require("./toAwait");
 const {toNumber} = require("./toNumber");
 
 const sort = ({VALUE, STATE, params = {}, id, e}) => {
-  const local = VALUE[id];
+  var local = VALUE[id];
   if (!local) return;
 
-  const sort = params.sort || {};
-  const Data = sort.Data || local.Data;
-  const options = STATE[`${Data}-options`];
-  const data = STATE[Data];
+  var sort = params.sort || {};
+  var Data = sort.Data || local.Data;
+  var options = STATE[`${Data}-options`];
+  var data = STATE[Data];
 
   options.sort = options.sort === "ascending" ? "descending" : "ascending";
-  const path = (sort.path || "").split(".");
+  var path = (sort.path || "").split(".");
   let isDate = false;
 
   data.sort((a, b) => {
@@ -55,6 +55,11 @@ const sort = ({VALUE, STATE, params = {}, id, e}) => {
       else if (b === "!") b = 0;
     }
 
+    if ((!isNaN(a) && isNaN(b)) || (!isNaN(b) && isNaN(a))) {
+      a = a.toString()
+      b = b.toString()
+    }
+
     if (options.sort === "ascending") {
       if (isDate) {
         if (b.year === a.year) {
@@ -72,7 +77,7 @@ const sort = ({VALUE, STATE, params = {}, id, e}) => {
         }
       }
 
-      if (!isNaN(a)) return b - a;
+      if (!isNaN(a) && !isNaN(b)) return b - a;
 
       if (a < b) return -1;
       return a > b ? 1 : 0;
@@ -93,7 +98,7 @@ const sort = ({VALUE, STATE, params = {}, id, e}) => {
         }
       }
 
-      if (!isNaN(a)) return a - b;
+      if (!isNaN(a) && !isNaN(b)) return a - b;
 
       if (b < a) return -1;
       return b > a ? 1 : 0;

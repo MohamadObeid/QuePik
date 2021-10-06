@@ -6,6 +6,7 @@ const { capitalize } = require("./capitalize")
 const { clone } = require("./clone")
 const { toNumber } = require("./toNumber")
 const { toPrice } = require("./toPrice")
+const { dateTimeFormater } = require('./dateTimeFormater')
 
 const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, e }) => {
 
@@ -14,9 +15,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
     var local = VALUE[id], breakRequest
 
-    console.log('1', path);
     if (path[1]) path = toCode({ VALUE, STATE, id, string: path.join('.'), e }).split('.')
-    console.log('2', path);
     
     if (path[0] === 'global') {
         local = VALUE[path[1]]
@@ -31,6 +30,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         : path[0] === 'state' ? STATE 
         : path[0] === 'e' ? e
         : path[0] === 'params' ? params
+        : path[0] === 'any' ? path[1]
         : false
         
         if (!object && path[0]) {
@@ -53,6 +53,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             else if (path[0].includes('()')) object = VALUE
         }
 
+        if (path[0] === 'any') path = path.slice(1)
         if (object) path = path.slice(1)
         else return path.join('.')
     }
@@ -171,6 +172,24 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             var param = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             answer = o + '>>' + param
             
+        } else if (k === 'add()') {
+            
+            breakRequest = i + 1
+            var toAdd = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = o + toAdd
+            
+        } else if (k === 'dateTimeFormater()') {
+            
+            var index = i + 1
+            var opposite = path[index] === '!'
+            if (opposite) {
+                breakRequest += 1
+                index += 1
+            }
+            breakRequest = index
+            var dateTime = toValue({ VALUE, STATE, id, e, params: {value: path[index], params} })
+            answer = dateTimeFormater({ VALUE, STATE, id, e, params: {dateTime, opposite} })
+
         } else if (k === 'toArray()') {
             
             answer = toArray(o)
@@ -297,6 +316,23 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             }
 
             var index = o.findIndex(data => data.name === name)
+            // last index & value
+            if (key && value && (i + 1 === lastIndex)) answer = o[index] = value
+            
+        } else if (k === 'findByNameEn()') {
+
+            breakRequest = i + 1
+            // get id
+            var name = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
+            
+            answer = o.find(data => data.name.en === name)
+            
+            if (!answer) {
+                o.push({ name: {en: name} })
+                answer = o[o.length - 1]
+            }
+
+            var index = o.findIndex(data => data.name.en === name)
             // last index & value
             if (key && value && (i + 1 === lastIndex)) answer = o[index] = value
             

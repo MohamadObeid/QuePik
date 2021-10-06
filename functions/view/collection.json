@@ -5,7 +5,7 @@
         "event": "load",
         "actions": [
             "async.search?search.path=data/collection.json;await.state.collection=value.search.data?!state.collection",
-            "async.search?search.path=data/++[value.data.type].json;await.state.[value.data.type]=value.search.data?value.data.type;!state.[value.data.type]"
+            "async.search?search.path=any.data/.add().[value.data.type].json;await.state.[value.data.type]=value.search.data?value.data.type;!state.[value.data.type]"
         ]
     },
     "children": [{
@@ -59,7 +59,7 @@
                 "children": [{
                     "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=name"
                 }, {
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Type>>readonly,category,image,offer,provider,service,user,booking]",
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Type List>>readonly,category,image,offer,provider,service,user,booking]",
                     "controls": {
                         "watch": "value.data()",
                         "actions": "async.search?search.path=data/++[value.data()].json;await.state.[value.data()]=value.search.data?!state.[value.data()]"
@@ -78,7 +78,7 @@
         }, {
             "type": "View?style.display=grid;style.marginBottom=1rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().content=[]<<!value.Data().content",
             "children": [{
-                "type": "[Input]?textarea;featured;duplicatable;readonly;style.backgroundColor=#f0f0f0;path=content;droplist.items=const.[[value.Data().type.capitalize()++ List].param().readonly,state.[value.Data().type].map().name].flat()",
+                "type": "[Input]?textarea;featured;duplicatable;readonly;style.backgroundColor=#f0f0f0;path=content;droplist.items=const.[value.Data().type.capitalize().add(). List.param().readonly,state.[value.Data().type].map().name].flat()",
                 "controls": [{
                     "event": "load?value.derivations=value.derivations.push().name;value.element.value=value.data()"
                 }, {

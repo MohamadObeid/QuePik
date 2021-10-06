@@ -32,10 +32,10 @@ app.get("*", (req, res) => {
 
   // api
   if (page === "api") return getApi(req, res);
-
+  if (page === "image") console.log(process.cwd(),require("path").join(process.cwd(), page, path[2]));
   // image
-  if (path[2] === "image") {
-    return res.sendFile(require("path").join(process.cwd(), path[2], path[3]));
+  if (page === "image") {
+    return res.sendFile(require("path").join(process.cwd(), page, path[2]));
   }
 
   // favicon

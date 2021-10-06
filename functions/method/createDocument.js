@@ -8,7 +8,6 @@ const createDocument = (page) => {
 
   // get assets & views
   STATE = {
-    asset: getJsonFiles("asset"),
     view: getJsonFiles("view"),
     page: getJsonFiles("page"),
     codes: {},
@@ -56,12 +55,8 @@ const createDocument = (page) => {
     </head>
     <body>
         ${innerHTML}
-        <script id="STATE" type="application/json">${JSON.stringify(
-      STATE
-  )}</script>
-        <script id="VALUE" type="application/json">${JSON.stringify(
-      VALUE
-  )}</script>
+        <script id="VALUE" type="application/json">${JSON.stringify(VALUE)}</script>
+        <script id="STATE" type="application/json">${JSON.stringify(STATE)}</script>
         <script src="index.js"></script>
     </body>
     </html>`;

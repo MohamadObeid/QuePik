@@ -3,6 +3,7 @@ const control = require("../control/control");
 const {toArray} = require("./toArray");
 
 const starter = ({STATE, VALUE, id}) => {
+  
   const {defaultEventHandler} = require("./event");
   const {setStyle} = require("./style");
   const {controls} = require("./controls");

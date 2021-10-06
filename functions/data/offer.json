@@ -3,7 +3,6 @@
     "id": "offer-01",
     "creation-date": "23-9-2021T10:59:26",
     "name": "Summer offer",
-    "type": "percentage",
     "discount": {
       "%": "7.5"
     },
@@ -17,7 +16,6 @@
     "id": "offer-02",
     "creation-date": "23-9-2021T10:59:26",
     "name": "Black Discount",
-    "type": "amount",
     "discount": {
       "lbp": "5,000"
     },
@@ -30,7 +28,6 @@
     "id": "offer-03",
     "creation-date": "23-9-2021T10:59:26",
     "name": "New Discount",
-    "type": "amount",
     "discount": {
       "lbp": "2,000"
     },

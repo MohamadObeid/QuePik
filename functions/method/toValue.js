@@ -10,6 +10,8 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
   let times = [];
   let division = [];
 
+  if (value && value.includes('coded()') && value.length === 12) value = STATE.codes[value]
+
   // return const value
   if (value && value.split("const.")[1] && !value.split("const.")[0]) {
     return value.split("const.")[1];
@@ -38,6 +40,7 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
     value = value.filter((value) => value !== undefined && value !== '')
     
   } else {
+
     // id
     if (value && value.includes("::")) {
       const newId = value.split("::")[1];
@@ -126,34 +129,25 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
     }
 
     const path = typeof value === "string" ? value.split(".") : [];
-console.log(path);
+
     /* value */
-    if (typeof value === "boolean") {
-    } else if (!isNaN(value)) value = parseFloat(value);
+    if (typeof value === "boolean") {}
+    else if (!isNaN(value)) value = parseFloat(value);
     else if (value === undefined || value === "generate") value = generate();
-    else if (path[0].includes("()")) {
-      value = reducer({ VALUE, STATE, id, e, params: {path, params, object: VALUE} });
-    } else if (value === "undefined") value = false;
+    else if (path[0].includes("()")) value = reducer({ VALUE, STATE, id, e, params: {path, params, object: VALUE} });
+    else if (value === "undefined") value = false;
     else if (value === "input") value = local && local.element.value;
     else if (value === "false") value = false;
     else if (value === "true") value = true;
-    // else if (value === 'string' || value === `''`) value = ''
-    // else if (value === 'object' || value === '{}') value = {}
-    // else if (value === 'array' || value === '[]') value = []
-    // else if (value === '[{}]') value = [{}]
-    // else if (value === '[string]') value = ['']
+    else if (value === "['']") value = ['']
     else if (value === "''") value = "";
     else if (value === "{}") value = {};
     else if (value === "[]") value = [];
     else if (value === '[{}]') value = [{}]
     else if (value.includes("%20")) value = value.split("%20").join(" ");
-    else if (value.includes("JSON.parse")) {
-      value = JSON.parse(value.split("JSON.parse(")[1].slice(0, -1));
-    } else if (value.includes("JSON.stringify")) {
-      value = JSON.stringify(value.split("JSON.stringify(")[1].slice(0, -1));
-    } else if (path[1]) {
-      value = reducer({VALUE, STATE, id, params: { path, value, params }, e});
-    }
+    else if (value.includes("JSON.parse")) value = JSON.parse(value.split("JSON.parse(")[1].slice(0, -1));
+    else if (value.includes("JSON.stringify")) value = JSON.stringify(value.split("JSON.stringify(")[1].slice(0, -1));
+    else if (path[1]) value = reducer({VALUE, STATE, id, params: { path, value, params }, e});
 
     if (plus.length > 0) {
       plus.map((plus) => (value += plus));

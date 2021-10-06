@@ -1,0 +1,404 @@
+[
+  {
+    "id": "asset-01",
+    "creation-date": "23-9-2021T10:59:26",
+    "active": true,
+    "name": "Currency",
+    "description": "Are world currencies",
+    "options": [
+      {
+        "name": "free"
+      },
+      {
+        "name": "%"
+      },
+      {
+        "name": "$"
+      },
+      {
+        "name": "lbp"
+      },
+      {
+        "name": "€"
+      }
+    ]
+  },
+  {
+    "id": "asset-02",
+    "active": true,
+    "name": "Language",
+    "description": "Are world languages",
+    "options": [
+      {
+        "name": "ar"
+      },
+      {
+        "name": "en"
+      },
+      {
+        "name": "fr"
+      }
+    ]
+  },
+  {
+    "id": "asset-03",
+    "creation-date": "23-9-2021T10:59:26",
+    "active": true,
+    "name": "Lebanon Cities",
+    "description": "Are cities of Lebanon country",
+    "options": [
+      {
+        "name": "Tripoli"
+      },
+      {
+        "name": "Beirut"
+      },
+      {
+        "name": "Sidon"
+      },
+      {
+        "name": "Tyre"
+      },
+      {
+        "name": "Jounie"
+      },
+      {
+        "name": "Zahle"
+      },
+      {
+        "name": "Nabatiye"
+      },
+      {
+        "name": "Baalbek"
+      },
+      {
+        "name": "Amioun"
+      },
+      {
+        "name": "Baabda"
+      },
+      {
+        "name": "Marjayoun"
+      },
+      {
+        "name": "Jdaidet el Matn"
+      },
+      {
+        "name": "Zgharta"
+      },
+      {
+        "name": "Aaley"
+      },
+      {
+        "name": "Jbail"
+      },
+      {
+        "name": "Sir ed Danniye"
+      },
+      {
+        "name": "Halba"
+      },
+      {
+        "name": "Bent Jbail"
+      },
+      {
+        "name": "Jezzîne"
+      },
+      {
+        "name": "Batroun"
+      },
+      {
+        "name": "Hasbaiya"
+      },
+      {
+        "name": "Joubb Jannine"
+      },
+      {
+        "name": "Beit ed Dine"
+      },
+      {
+        "name": "El Hermel"
+      },
+      {
+        "name": "Rachaiya el Ouadi"
+      },
+      {
+        "name": "Bcharre"
+      }
+    ],
+    "country": "Lebanon"
+  },
+  {
+    "id": "asset-04",
+    "creation-date": "23-9-2021T10:59:26",
+    "active": true,
+    "name": "Payment Methods",
+    "description": "Are methods available for customer to pay",
+    "options": [
+      {
+        "name": "Cash Debit"
+      },
+      {
+        "name": "Bank Transfer"
+      },
+      {
+        "name": "Cash"
+      },
+      {
+        "name": "Credit"
+      },
+      {
+        "name": "Check"
+      },
+      {
+        "name": "Credit Card"
+      },
+      {
+        "name": "PayPal"
+      },
+      {
+        "name": "Wire Transfer"
+      },
+      {
+        "name": "Banking Card"
+      }
+    ]
+  },
+  {
+    "id": "asset-05",
+    "creation-date": "23-9-2021T10:59:26",
+    "name": "Unit",
+    "active": true,
+    "description": "Units are used for measurement",
+    "options": [
+      {
+        "name": "unit"
+      },
+      {
+        "name": "item"
+      },
+      {
+        "name": "piece"
+      },
+      {
+        "name": "bag"
+      },
+      {
+        "name": "cartoon"
+      },
+      {
+        "name": "pack"
+      },
+      {
+        "name": "box"
+      },
+      {
+        "name": "pallet"
+      },
+      {
+        "name": "service"
+      },
+      {
+        "name": "ticket"
+      },
+      {
+        "name": "room"
+      },
+      {
+        "name": "bed"
+      },
+      {
+        "name": "pax"
+      },
+      {
+        "name": "floor"
+      },
+      {
+        "name": "seat"
+      },
+      {
+        "name": "way"
+      },
+      {
+        "name": "meal"
+      },
+      {
+        "name": "Length>>readonly"
+      },
+      {
+        "name": "mm"
+      },
+      {
+        "name": "cm"
+      },
+      {
+        "name": "dm"
+      },
+      {
+        "name": "m"
+      },
+      {
+        "name": "km"
+      },
+      {
+        "name": "ft"
+      },
+      {
+        "name": "in"
+      },
+      {
+        "name": "mi"
+      },
+      {
+        "name": "yd"
+      },
+      {
+        "name": "Volume>>readonly"
+      },
+      {
+        "name": "ft3"
+      },
+      {
+        "name": "in3"
+      },
+      {
+        "name": "mi3"
+      },
+      {
+        "name": "yd3"
+      },
+      {
+        "name": "cup"
+      },
+      {
+        "name": "gal"
+      },
+      {
+        "name": "mL"
+      },
+      {
+        "name": "L"
+      },
+      {
+        "name": "fl oz"
+      },
+      {
+        "name": "pt"
+      },
+      {
+        "name": "qt"
+      },
+      {
+        "name": "tbsp"
+      },
+      {
+        "name": "tspn"
+      },
+      {
+        "name": "Weight>>readonly"
+      },
+      {
+        "name": "mg"
+      },
+      {
+        "name": "g"
+      },
+      {
+        "name": "kg"
+      },
+      {
+        "name": "CD"
+      },
+      {
+        "name": "gr"
+      },
+      {
+        "name": "oz"
+      },
+      {
+        "name": "dwt"
+      },
+      {
+        "name": "lb"
+      },
+      {
+        "name": "st"
+      },
+      {
+        "name": "slug"
+      },
+      {
+        "name": "t"
+      },
+      {
+        "name": "Area>>readonly"
+      },
+      {
+        "name": "ha"
+      },
+      {
+        "name": "ft2"
+      },
+      {
+        "name": "m2"
+      },
+      {
+        "name": "km2"
+      },
+      {
+        "name": "in2"
+      },
+      {
+        "name": "yd2"
+      },
+      {
+        "name": "mi2"
+      },
+      {
+        "name": "Pressure>>readonly"
+      },
+      {
+        "name": "Pa"
+      },
+      {
+        "name": "Torr"
+      },
+      {
+        "name": "bar"
+      },
+      {
+        "name": "mb"
+      },
+      {
+        "name": "lbf/in2"
+      },
+      {
+        "name": "Time>>readonly"
+      },
+      {
+        "name": "day"
+      },
+      {
+        "name": "hr"
+      },
+      {
+        "name": "min"
+      },
+      {
+        "name": "yr"
+      },
+      {
+        "name": "Temperature>>readonly"
+      },
+      {
+        "name": "°C"
+      },
+      {
+        "name": "°F"
+      },
+      {
+        "name": "K"
+      }
+    ]
+  }
+]

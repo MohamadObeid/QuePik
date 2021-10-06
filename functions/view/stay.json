@@ -89,9 +89,9 @@
                         "type": "Input?textarea;featured;duplicatable;lang=en;icon=value.data().icon<<value.data();style.backgroundColor=#f0f0f0;path=name"
                     }]
                 }, {
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Hotel type>>readonly,state.asset.hotel-type.options.map().[name.en]].flat()"
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Hotel type>>readonly,state.asset.findByName().Hotel Type.options.map().name].flat()"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=stars;droplist.items=[Stars>>readonly,state.asset.hotel-stars.options.map().[name.en]].flat()"
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=stars;droplist.items=[Stars>>readonly,state.asset.findByName().Hotel Stars.options.map().name].flat()"
                 }, {
                     "type": "View?style.display=grid;style.gap=1rem",
                     "children": [{
@@ -113,9 +113,9 @@
             "children": [{
                 "type": "View?style.display=grid;style.gridTemplateColumns=3fr 3fr 6fr;style.gap=1rem",
                 "children": [{
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=country.en;droplist.items=[Country>>readonly,state.asset.country.options.map().[name.en]].flat()"
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=country.en;droplist.items=[Country>>readonly,state.asset.findByName().Country.options.map().[name.en]].flat()"
                 }, {
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=city.en;droplist.items=[City>>readonly,const.state.asset.[value.Data().country.en.toLowerCase()].options.map().[name.en]<<state.asset.[value.Data().country.en.toLowerCase()]];droplist.flat()"
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=city.en;droplist.items=[City>>readonly,const.state.asset.findByName().[value.Data().country.en.toLowerCase()].options.map().[name.en]<<state.asset.[value.Data().country.en.toLowerCase()]];droplist.flat()"
                 }, {
                     "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=address"
                 }]
