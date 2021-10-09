@@ -4,9 +4,9 @@
     "controls": {
         "event": "load",
         "actions": [
-            "async.search?search.path=data/user.json;await.state.user=value.search.data?!state.user",
-            "async.search?search.path=data/provider.json;await.state.provider=value.search.data?!state.provider",
-            "async.search?search.path=data/service.json;await.state.service=value.search.data?!state.service"
+            "async.search?search.path=user;await.state.user=value.search.data?!state.user",
+            "async.search?search.path=provider;await.state.provider=value.search.data?!state.provider",
+            "async.search?search.path=service;await.state.service=value.search.data?!state.service"
         ]
     },
     "children": [{
@@ -36,7 +36,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::booking-list-view;await.setStyle::mini-window;await.note;async.save?note=Booking saved successfully!;save.path=data/booking;save.data=value.data();await.state.booking.findById().[value.data().id]=value.data();await.state.booking-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::booking-list-view;await.setStyle::mini-window;await.note;async.save?note=Booking saved successfully!;save.path=booking;save.data=value.data();await.state.booking.findById().[value.data().id]=value.data();await.state.booking-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -97,7 +97,7 @@
                     "type": "Input?id=provider-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=provider.name;droplist.items=const.[Provider List>>readonly,state.provider.map().name].flat()",
                     "controls": [{
                         "watch": "value.data()?value.Data().provider.id=state.provider.clone().findByName().[value.data()].id;value.Data().service.delete();value.Data().payment.net.lbp=0;value.Data().payment.payable.lbp=0;value.Data().payment.discount.lbp=0;value.element.value::service-input-input='';value.element.value::net-input-input=0;value.element.value::discount-input-input=0;value.element.value::payable-input-input=0",
-                        "actions": "async.search?search.path=data/service.json;search.id=state.provider.clone().findById().[value.Data().provider.id].services.map().id;await.state.service-by-provider=value.search.data"
+                        "actions": "async.search?search.path=service;search.options.fields.id.equal=state.provider.clone().findById().[value.Data().provider.id].services.map().id;await.state.service-by-provider=value.search.data"
                     }]
                 }, {
                     "type": "Input?id=service-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=service.name;droplist.items=const.[Service List>>readonly,state.service-by-provider.map().name].flat()",
@@ -142,7 +142,7 @@
                 "type": "Input?id=discount-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;data=0<<!value.Data().payment.discount.lbp;path=payment.discount.lbp",
                 "controls": {
                     "watch": "value.Data().service.id",
-                    "actions": "async.search?search.path=data/offer.json;search.id=state.service.findById().[value.Data().service.id].offer.id;await.value.data()=value.search.data.0.discount.lbp;await.value.element.value=value.data()?state.service.findById().[value.Data().service.id].offer.id"
+                    "actions": "async.search?search.path=offer;search.options.fields.id.equals=state.service.findById().[value.Data().service.id].offer.id;await.value.data()=value.search.data.0.discount.lbp;await.value.element.value=value.data()?state.service.findById().[value.Data().service.id].offer.id"
                 }
             }, {
                 "type": "Input?id=payable-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;data=0<<!value.Data().payment.payable.lbp;path=payment.payable.lbp",

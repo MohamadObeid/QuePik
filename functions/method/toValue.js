@@ -20,6 +20,12 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
   // auto space
   if (value === "_dot") return (value = ".");
 
+  // =
+  if (value === "_equal") return (value = "=");
+
+  // =
+  if (value === "_equal_equal") return (value = "==");
+
   // auto space
   if (value === "&nbsp") return (value = "&nbsp;");
 

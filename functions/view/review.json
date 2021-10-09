@@ -3,7 +3,7 @@
     "type": "View?style.padding=2rem;data={}<<!value.data()",
     "controls": {
         "event": "load",
-        "actions": "async.search?search.path=data/review.json;await.state.review=value.search.data?!state.review"
+        "actions": "async.search?search.path=review;await.state.review=value.search.data?!state.review"
     },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=review-++generate()<<!value.data().id",
@@ -32,7 +32,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::review-list-view;await.setStyle::mini-window;await.note;async.save?note=Review saved successfully!;save.path=data/review;save.data=value.data();await.state.review.findById().[value.data().id]=value.data();await.state.review-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::review-list-view;await.setStyle::mini-window;await.note;async.save?note=Review saved successfully!;save.path=review;save.data=value.data();await.state.review.findById().[value.data().id]=value.data();await.state.review-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]

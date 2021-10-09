@@ -60,7 +60,10 @@ const {toCode} = require("./toCode");
 const {isPath} = require("./isPath");
 const {toNumber} = require("./toNumber");
 const {capitalize} = require("./capitalize");
+const {toFirebaseOperator} = require("./toFirebaseOperator");
 const {popup} = require("./popup");
+const {keys} = require("./keys");
+const {values} = require("./values");
 const {dateTimeFormater} = require("./dateTimeFormater");
 const {
   setStyle,
@@ -146,7 +149,10 @@ const _method = {
   isPath,
   toNumber,
   popup,
-  dateTimeFormater
+  dateTimeFormater,
+  keys,
+  values,
+  toFirebaseOperator
 };
 
 module.exports = _method;

@@ -9,7 +9,7 @@ const toString = (object) => {
       string += `${key}=[${value.join(",")}]`;
     } else if (typeof value === "object") {
       const path = toString(value).split(";");
-      string = path.map((path) => (path = `${key}.${path}`)).join(";");
+      string = path.map(path => `${key}.${path}`).join(";");
     } else string += `${key}=${value}`;
 
     if (index < length - 1) string += ";";

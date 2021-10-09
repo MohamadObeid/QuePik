@@ -11,12 +11,13 @@ const Input = (component) => {
     component.input = component.input || { type: 'text'}
     component.input.type = component.input.type || 'text'
     component.input.style = component.input.style || {}
-
+    
     component = toComponent(component)
     var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
         placeholder, textarea, filterable, clearable, removable, msg, day, disabled,
         duplicatable, lang, unit, currency, google, key, note, edit, minlength } = component
 
+    readonly = readonly ? true : false
     duplicatable = duplicatable !== undefined ? (duplicatable === false ? false : true) : false
     clearable = clearable !== undefined ? (clearable === false ? false : true) : false
     removable = removable !== undefined ? (removable === false ? false : true) : false
@@ -143,7 +144,7 @@ const Input = (component) => {
                 }, {
                     type: `Text?text=${note};style.color=#666;style.fontSize=1.3rem;style.padding=.5rem?const.${note}`
                 }, {
-                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=const.[Enter a special key:>>readonly,${key}>>input];hoverable;duplicated=${duplicated}?const.${key}`,
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items<<!${readonly}=const.[Enter a special key:>>readonly,${key}>>input];hoverable;duplicated=${duplicated}?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -154,7 +155,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=const.[Currencies>>readonly,state.asset.findByName().Currency.options.map().name].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items<<!${readonly}=const.[Currencies>>readonly,state.asset.findByName().Currency.options.map().name].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -165,7 +166,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=const.[Units>>readonly,state.asset.findByName().Unit.options.map().name].flat();hoverable?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items<<!${readonly}=const.[Units>>readonly,state.asset.findByName().Unit.options.map().name].flat();hoverable?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -177,7 +178,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data()`
                 }, {
-                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items=const.[Days of Week>>readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
+                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items<<!${readonly}=const.[Days of Week>>readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -188,7 +189,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     }
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=const.[Languages>>readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items<<!${readonly}=const.[Languages>>readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -204,7 +205,7 @@ const Input = (component) => {
                         event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
-                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type>>readonly,outlined,rounded,sharp,twoTone];droplist.items=[Enter google icon type>>readonly,state.google-items];hoverable?const.${google}`,
+                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type>>readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[Enter google icon type>>readonly,state.google-items];hoverable?const.${google}`,
                 }, {
                     type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;hoverable?${clearable}||${removable}`,
                     style: {

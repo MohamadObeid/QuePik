@@ -44,49 +44,29 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
       name = name.split(">>")[0];
 
       // approval => note: essential for break::do not remove
-      approved = toApproval({
-        VALUE,
-        STATE,
-        string: conditions,
-        params,
-        id,
-        e,
-      });
+      approved = toApproval({ VALUE, STATE, string: conditions, params, id, e });
       if (!approved) return;
 
       // reset
       var reset = getParam(_action, "reset", false);
-      if (local) local.break = getParam(_action, "break", false);
+      local.break = getParam(_action, "break", false);
       if (reset) clearTimeout(local[`${name}-timer`]);
 
       const myFn = () => {
         // approval
-        approved = toApproval({
-          VALUE,
-          STATE,
-          string: conditions,
-          params,
-          id,
-          e,
-        });
+        approved = toApproval({ VALUE, STATE, string: conditions, params, id, e })
         if (!approved) return;
 
         // params
-        params = toParam({ VALUE, STATE, string: params, e, id });
+        params = toParam({ VALUE, STATE, string: params, e, id })
 
         // id's
-        idList = toId({ VALUE, STATE, id, string: idList, e });
+        idList = toId({ VALUE, STATE, id, string: idList, e })
 
         // action::id
         var actionid = action.split("::")[1];
         if (actionid)
-          actionid = toValue({
-            VALUE,
-            STATE,
-            params: { value: actionid, params },
-            id,
-            e,
-          });
+          actionid = toValue({ VALUE, STATE, params: { value: actionid, params }, id, e });
 
         // action
         var keys = name.split(".");
@@ -110,16 +90,8 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
             if (typeof id !== "string") return;
 
             // id = value.path
-            if (id.indexOf(".") > -1) {
-              var k = generate();
-              id = toParam({
-                VALUE,
-                STATE,
-                string: `${k}=${id}`,
-                e,
-                id: localId,
-              })[k];
-            }
+            if (id.indexOf(".") > -1) 
+            id = toValue({ VALUE, STATE, params: { value: id }, e, id: localId })
 
             // component does not exist
             if (!id || !VALUE[id]) return;

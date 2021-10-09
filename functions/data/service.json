@@ -30,15 +30,18 @@
       "name": "Summer offer"
     },
     "reviews": [
-      "review-07",
-      "review-08",
-      "review-09"
+      "review-01",
+      "review-02",
+      "review-03"
     ],
     "images": [
       "image/service-01.jpeg",
       "image/service-02.jpeg",
       "image/service-03.jpeg"
-    ]
+    ],
+    "discount": {
+      "%": "7.5"
+    }
   },
   {
     "id": "service-02",
@@ -75,7 +78,10 @@
       "image/service-04.jpeg",
       "image/service-05.jpeg",
       "image/service-06.jpeg"
-    ]
+    ],
+    "discount": {
+      "lbp": "2,000"
+    }
   },
   {
     "id": "service-pcnTt",

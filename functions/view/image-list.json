@@ -2,7 +2,7 @@
     "file-name": "image-list",
     "type": "View?Data;state.image-list-grid-view-display=grid;state.image-list-table-view-display=none",
     "controls": {
-        "actions": "await.update::image-list-view;async.search?search.path=data/image.json;await.state.image-list-Data=value.search.data;await.state.image=value.search.data" 
+        "actions": "await.update::image-list-view;async.search?search.path=image;await.state.image-list-Data=value.search.data;await.state.image=value.search.data" 
     },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
@@ -113,7 +113,7 @@
                             "children": [{
                                 "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=image"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=data/image.json;popup.update=image-list-view;popup.note=Image removed successfully!;popup.type=eraser;popup.text=Do you want to delete this image/?"
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=image;popup.update=image-list-view;popup.note=Image removed successfully!;popup.type=eraser;popup.text=Do you want to delete this image/?"
                             }]
                         }]
                     }]

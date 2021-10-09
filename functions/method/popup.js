@@ -5,7 +5,6 @@ const popup = ({VALUE, STATE, id, params}) => {
   const local = VALUE[id];
 
   const popup = VALUE["popup"];
-  const popupText = VALUE["popup-text"];
   const popUp = local.popup;
 
   popup.Data = local.Data;

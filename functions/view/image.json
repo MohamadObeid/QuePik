@@ -28,7 +28,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::image-list-view;await.setStyle::mini-window;await.note;async.save?note=Image saved successfully!;save.path=data/image;save.data=value.data();await.state.image.findById().[value.data().id]=value.data();await.state.image-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::image-list-view;await.setStyle::mini-window;await.note;async.save?note=Image saved successfully!;save.path=image;save.data=value.data();await.state.image.findById().[value.data().id]=value.data();await.state.image-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]

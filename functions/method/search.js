@@ -1,5 +1,6 @@
 const axios = require('axios')
-const {toAwait} = require('./toAwait')
+const { toAwait } = require('./toAwait')
+const { toString } = require('./toString')
 
 module.exports = {
     search: async ({ VALUE, STATE, id, e, params }) => {
@@ -8,7 +9,7 @@ module.exports = {
         if (!local) return
         
         var search = params.search
-        var { data: { data, message, success } } = await axios.get(`/api/${search.path}${search.id ? `/id=[${search.id}]` : ''}`)
+        var { data: { data, message, success } } = await axios.get(`/api/${search.path}${search.options ? `/${toString(search.options)}` : ''}`)
 
         local.search = { data, message, success }
         

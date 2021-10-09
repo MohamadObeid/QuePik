@@ -2,7 +2,7 @@
     "file-name": "admin-user-list",
     "type": "View?Data;state.user-list-grid-view-display=grid;state.user-list-table-view-display=none",
     "controls": {
-        "actions": "await.update::user-list-view;async.search?search.path=data/user.json;await.state.user-list-Data=value.search.data;await.state.user=value.search.data" 
+        "actions": "await.update::user-list-view;async.search?search.path=user;await.state.user-list-Data=value.search.data;await.state.user=value.search.data" 
     },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
@@ -136,7 +136,7 @@
                             "children": [{
                                 "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=user"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=data/user.json;popup.update=user-list-view;popup.note=User removed successfully!;popup.type=eraser"
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=user;popup.update=user-list-view;popup.note=User removed successfully!;popup.type=eraser"
                             }]
                         }]
                     }]

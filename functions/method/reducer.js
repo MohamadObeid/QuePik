@@ -58,7 +58,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         else return path.join('.')
     }
     
-    var lastIndex = path.length - 1
+    var lastIndex = path.length - 1, opposite = false
     
     var answer = path.reduce((o, k, i) => {
         
@@ -166,33 +166,126 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 } else return VALUE[_id]
             })
             
+        } else if (k === '!') {
+
+            opposite = true
+            return answer = o
+
         } else if (k === 'param()') {
             
             breakRequest = i + 1
             var param = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             answer = o + '>>' + param
             
+        } else if (k === 'isEqual()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = isEqual(o, b)
+            
+        } else if (k === 'isNot()') {
+            
+            breakRequest = i + 1
+            var isNot = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = !isEqual(o, isNot)
+            
+        } else if (k === 'abs()') {
+            
+            o = o.toString()
+
+            var isPrice
+            if (o.includes(',')) isPrice = true
+            o = toNumber(o)
+
+            answer = Math.abs(o)
+            if (isPrice) answer = answer.toLocaleString()
+            
+        } else if (k === 'divide()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            
+            o = o.toString()
+            b = b.toString()
+
+            var isPrice
+            if (o.includes(',') || b.includes(',')) isPrice = true
+
+            b = toNumber(b)
+            o = toNumber(o)
+
+            answer = o / b
+            if (isPrice) answer = answer.toLocaleString()
+            
+        } else if (k === 'times()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            
+            o = o.toString()
+            b = b.toString()
+            
+            var isPrice
+            if (o.includes(',') || b.includes(',')) isPrice = true
+            
+            b = toNumber(b)
+            o = toNumber(o)
+
+            answer = o * b
+            if (isPrice) answer = answer.toLocaleString()
+            
         } else if (k === 'add()') {
             
             breakRequest = i + 1
-            var toAdd = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
-            answer = o + toAdd
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             
+            o = o.toString()
+            b = b.toString()
+            var space = o.slice(-1) === ' ' || b.slice(-1) === ' '
+            
+            var isPrice
+            if (o.includes(',') || b.includes(',')) isPrice = true
+            
+            b = toNumber(b)
+            o = toNumber(o)
+
+            answer = space ? o + ' ' + b : o + b
+            if (isPrice) answer = answer.toLocaleString()
+            
+        } else if (k === 'subs()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            
+            o = o.toString()
+            b = b.toString()
+            
+            var isPrice
+            if (o.includes(',') || b.includes(',')) isPrice = true
+            
+            b = toNumber(b)
+            o = toNumber(o)
+
+            if (!isNaN(o) && !isNaN(b)) answer = o - b
+            else answer = o.split(b)[0] + o.split(b)[1]
+            if (isPrice) answer = answer.toLocaleString()
+
         } else if (k === 'dateTimeFormater()') {
             
-            var index = i + 1
-            var opposite = path[index] === '!'
-            if (opposite) {
-                breakRequest += 1
-                index += 1
-            }
-            breakRequest = index
-            var dateTime = toValue({ VALUE, STATE, id, e, params: {value: path[index], params} })
-            answer = dateTimeFormater({ VALUE, STATE, id, e, params: {dateTime, opposite} })
+            answer = dateTimeFormater({ VALUE, STATE, id, e, params: {dateTime: o, opposite} })
+            opposite = false
 
         } else if (k === 'toArray()') {
             
             answer = toArray(o)
+
+        } else if (k === 'else()') {
+            
+            breakRequest = i + 1
+            var answer1 = o
+            var answer2 = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            if (!answer1) answer = answer2
+            else answer = answer1
 
         } else if (k === 'json') {
             
@@ -351,6 +444,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 if (index > -1) answer = index
                 else answer = 0
             }
+            
+        } else if (k === 'toPrice()') {
+            
+            answer = o = toPrice(toNumber(o))
             
         } else if (k === 'toPrice()') {
             

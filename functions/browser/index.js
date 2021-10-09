@@ -732,7 +732,7 @@ VALUE.root.element = root;
 
 starter({VALUE, STATE, id: "root"});
 
-},{"../method/starter":78}],5:[function(require,module,exports){
+},{"../method/starter":79}],5:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const Button = (component) => {
@@ -804,7 +804,7 @@ const Button = (component) => {
 
 module.exports = { Button };
 
-},{"../method/toComponent":86}],6:[function(require,module,exports){
+},{"../method/toComponent":87}],6:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 const { generate } = require("../method/generate");
 
@@ -852,7 +852,7 @@ const Checkbox = (component) => {
 
 module.exports = { Checkbox };
 
-},{"../method/generate":53,"../method/toComponent":86}],7:[function(require,module,exports){
+},{"../method/generate":53,"../method/toComponent":87}],7:[function(require,module,exports){
 const { generate } = require("../method/generate");
 const { toComponent } = require("../method/toComponent");
 
@@ -923,7 +923,7 @@ const Header = (component) => {
 
 module.exports = { Header };
 
-},{"../method/generate":53,"../method/toComponent":86}],8:[function(require,module,exports){
+},{"../method/generate":53,"../method/toComponent":87}],8:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 
 const Input = (component) => {
@@ -937,12 +937,13 @@ const Input = (component) => {
     component.input = component.input || { type: 'text'}
     component.input.type = component.input.type || 'text'
     component.input.style = component.input.style || {}
-
+    
     component = toComponent(component)
     var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
         placeholder, textarea, filterable, clearable, removable, msg, day, disabled,
         duplicatable, lang, unit, currency, google, key, note, edit, minlength } = component
 
+    readonly = readonly ? true : false
     duplicatable = duplicatable !== undefined ? (duplicatable === false ? false : true) : false
     clearable = clearable !== undefined ? (clearable === false ? false : true) : false
     removable = removable !== undefined ? (removable === false ? false : true) : false
@@ -1069,7 +1070,7 @@ const Input = (component) => {
                 }, {
                     type: `Text?text=${note};style.color=#666;style.fontSize=1.3rem;style.padding=.5rem?const.${note}`
                 }, {
-                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items=const.[Enter a special key:>>readonly,${key}>>input];hoverable;duplicated=${duplicated}?const.${key}`,
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items<<!${readonly}=const.[Enter a special key:>>readonly,${key}>>input];hoverable;duplicated=${duplicated}?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1080,7 +1081,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items=const.[Currencies>>readonly,state.asset.findByName().Currency.options.map().name].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items<<!${readonly}=const.[Currencies>>readonly,state.asset.findByName().Currency.options.map().name].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1091,7 +1092,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items=const.[Units>>readonly,state.asset.findByName().Unit.options.map().name].flat();hoverable?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items<<!${readonly}=const.[Units>>readonly,state.asset.findByName().Unit.options.map().name].flat();hoverable?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1103,7 +1104,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data()`
                 }, {
-                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items=const.[Days of Week>>readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
+                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items<<!${readonly}=const.[Days of Week>>readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1114,7 +1115,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     }
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items=const.[Languages>>readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items<<!${readonly}=const.[Languages>>readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1130,7 +1131,7 @@ const Input = (component) => {
                         event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
-                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type>>readonly,outlined,rounded,sharp,twoTone];droplist.items=[Enter google icon type>>readonly,state.google-items];hoverable?const.${google}`,
+                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type>>readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[Enter google icon type>>readonly,state.google-items];hoverable?const.${google}`,
                 }, {
                     type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;hoverable?${clearable}||${removable}`,
                     style: {
@@ -1157,7 +1158,7 @@ const Input = (component) => {
 }
 
 module.exports = {Input}
-},{"../method/toComponent":86}],9:[function(require,module,exports){
+},{"../method/toComponent":87}],9:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 const { generate } = require("../method/generate");
 
@@ -1343,7 +1344,7 @@ const Item = (component) => {
 
 module.exports = { Item };
 
-},{"../method/generate":53,"../method/toComponent":86}],10:[function(require,module,exports){
+},{"../method/generate":53,"../method/toComponent":87}],10:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const List = (component) => {
@@ -1421,7 +1422,7 @@ const List = (component) => {
 
 module.exports = { List };
 
-},{"../method/toComponent":86}],11:[function(require,module,exports){
+},{"../method/toComponent":87}],11:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 const { generate } = require("../method/generate");
 
@@ -1581,7 +1582,7 @@ const Rate = (component) => {
 
 module.exports = { Rate };
 
-},{"../method/generate":53,"../method/toComponent":86}],12:[function(require,module,exports){
+},{"../method/generate":53,"../method/toComponent":87}],12:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const SearchBox = (component) => {
@@ -1688,7 +1689,7 @@ const SearchBox = (component) => {
 
 module.exports = { SearchBox };
 
-},{"../method/toComponent":86}],13:[function(require,module,exports){
+},{"../method/toComponent":87}],13:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const Switch = (component) => {
@@ -1716,7 +1717,7 @@ const Switch = (component) => {
 
 module.exports = { Switch };
 
-},{"../method/toComponent":86}],14:[function(require,module,exports){
+},{"../method/toComponent":87}],14:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const Upload = (component) => {
@@ -1756,7 +1757,7 @@ const Upload = (component) => {
 
 module.exports = { Upload };
 
-},{"../method/toComponent":86}],15:[function(require,module,exports){
+},{"../method/toComponent":87}],15:[function(require,module,exports){
 const {Button} = require("./Button");
 const {Input} = require("./Input");
 const {Item} = require("./Item");
@@ -1871,7 +1872,7 @@ module.exports = ({VALUE, id, params = {}}) => {
   ];
 };
 
-},{"../method/toArray":83}],20:[function(require,module,exports){
+},{"../method/toArray":84}],20:[function(require,module,exports){
 module.exports = ({params}) => [
   "setData?data.value=value.text",
   `resetStyles?value.mountonload::state.${params.state}.0=false??state.${params.state}`,
@@ -1970,7 +1971,7 @@ module.exports = ({VALUE, id, params = {}}) => {
   ];
 };
 
-},{"../method/toArray":83}],25:[function(require,module,exports){
+},{"../method/toArray":84}],25:[function(require,module,exports){
 module.exports = ({VALUE, id, params = {}}) => {
   if (VALUE[id].element.style.transition) {
     VALUE[id].element.style.transition += ", opacity .2s";
@@ -2076,7 +2077,10 @@ const {toCode} = require("./toCode");
 const {isPath} = require("./isPath");
 const {toNumber} = require("./toNumber");
 const {capitalize} = require("./capitalize");
+const {toFirebaseOperator} = require("./toFirebaseOperator");
 const {popup} = require("./popup");
+const {keys} = require("./keys");
+const {values} = require("./values");
 const {dateTimeFormater} = require("./dateTimeFormater");
 const {
   setStyle,
@@ -2162,12 +2166,15 @@ const _method = {
   isPath,
   toNumber,
   popup,
-  dateTimeFormater
+  dateTimeFormater,
+  keys,
+  values,
+  toFirebaseOperator
 };
 
 module.exports = _method;
 
-},{"./blur":28,"./capitalize":29,"./clearValues":30,"./clone":31,"./close":32,"./controls":33,"./createActions":34,"./createComponent":35,"./createDocument":36,"./createElement":37,"./createView":39,"./data":40,"./dateTimeFormater":41,"./defaultInputHandler":42,"./derive":43,"./droplist":44,"./duplicate":45,"./erase":46,"./event":47,"./execute":48,"./fill":49,"./filter":50,"./flicker":51,"./focus":52,"./generate":53,"./getJsonFiles":54,"./getParam":55,"./isArabic":56,"./isEqual":57,"./isPath":58,"./log":59,"./merge":60,"./note":61,"./overflow":62,"./pause":63,"./play":64,"./popup":65,"./preventDefault":66,"./reducer":67,"./remove":68,"./resize":70,"./route":71,"./save":72,"./search":73,"./setContent":74,"./setData":75,"./setPosition":76,"./sort":77,"./starter":78,"./state":79,"./style":80,"./textarea":81,"./toApproval":82,"./toArray":83,"./toAwait":84,"./toCode":85,"./toComponent":86,"./toControls":87,"./toId":88,"./toNumber":89,"./toParam":90,"./toPath":91,"./toString":93,"./toStyle":94,"./toTag":95,"./toValue":96,"./update":97}],28:[function(require,module,exports){
+},{"./blur":28,"./capitalize":29,"./clearValues":30,"./clone":31,"./close":32,"./controls":33,"./createActions":34,"./createComponent":35,"./createDocument":36,"./createElement":37,"./createView":39,"./data":40,"./dateTimeFormater":41,"./defaultInputHandler":42,"./derive":43,"./droplist":44,"./duplicate":45,"./erase":46,"./event":47,"./execute":48,"./fill":49,"./filter":50,"./flicker":51,"./focus":52,"./generate":53,"./getJsonFiles":54,"./getParam":55,"./isArabic":56,"./isEqual":57,"./isPath":58,"./keys":59,"./log":60,"./merge":61,"./note":62,"./overflow":63,"./pause":64,"./play":65,"./popup":66,"./preventDefault":67,"./reducer":68,"./remove":69,"./resize":71,"./route":72,"./save":73,"./search":74,"./setContent":75,"./setData":76,"./setPosition":77,"./sort":78,"./starter":79,"./state":80,"./style":81,"./textarea":82,"./toApproval":83,"./toArray":84,"./toAwait":85,"./toCode":86,"./toComponent":87,"./toControls":88,"./toFirebaseOperator":89,"./toId":90,"./toNumber":91,"./toParam":92,"./toPath":93,"./toString":95,"./toStyle":96,"./toTag":97,"./toValue":98,"./update":99,"./values":100}],28:[function(require,module,exports){
 const blur = ({VALUE, id}) => {
   const local = VALUE[id];
   if (!local) return;
@@ -2321,7 +2328,7 @@ const setControls = ({VALUE, id, params}) => {
 
 module.exports = {controls, setControls};
 
-},{"./event":47,"./execute":48,"./toArray":83,"./watch":98}],34:[function(require,module,exports){
+},{"./event":47,"./execute":48,"./toArray":84,"./watch":101}],34:[function(require,module,exports){
 const control = require("../control/control");
 
 const createActions = ({VALUE, STATE, params, id}) => {
@@ -2382,7 +2389,7 @@ module.exports = {
   },
 };
 
-},{"../component/_component":15,"./clone":31,"./generate":53,"./toApproval":82,"./toParam":90}],36:[function(require,module,exports){
+},{"../component/_component":15,"./clone":31,"./generate":53,"./toApproval":83,"./toParam":92}],36:[function(require,module,exports){
 const {createElement} = require("./createElement");
 const {getJsonFiles} = require("./getJsonFiles");
 
@@ -2605,7 +2612,7 @@ const createElement = ({STATE, VALUE, id}) => {
 
 module.exports = {createElement};
 
-},{"./clone":31,"./createTags":38,"./generate":53,"./merge":60,"./reducer":67,"./toApproval":82,"./toParam":90}],38:[function(require,module,exports){
+},{"./clone":31,"./createTags":38,"./generate":53,"./merge":61,"./reducer":68,"./toApproval":83,"./toParam":92}],38:[function(require,module,exports){
 const {clone} = require("./clone");
 const {generate} = require("./generate");
 const {toArray} = require("./toArray");
@@ -2809,7 +2816,7 @@ const componentModifier = ({VALUE, id}) => {
 
 module.exports = {createTags};
 
-},{"./clone":31,"./createComponent":35,"./execute":48,"./generate":53,"./isEqual":57,"./toArray":83,"./toTag":95}],39:[function(require,module,exports){
+},{"./clone":31,"./createComponent":35,"./execute":48,"./generate":53,"./isEqual":57,"./toArray":84,"./toTag":97}],39:[function(require,module,exports){
 const {update} = require("./update");
 const {generate} = require("./generate");
 const {toArray} = require("./toArray");
@@ -2863,7 +2870,7 @@ const createView = ({STATE, VALUE, params = {}, id}) => {
 
 module.exports = {createView};
 
-},{"./clone":31,"./generate":53,"./toArray":83,"./update":97}],40:[function(require,module,exports){
+},{"./clone":31,"./generate":53,"./toArray":84,"./update":99}],40:[function(require,module,exports){
 const {setContent} = require("./setContent");
 const {setData} = require("./setData");
 
@@ -2912,7 +2919,7 @@ const removeData = ({STATE, VALUE, id, params = {}}) => {
 
 module.exports = {createData, setData, clearData, removeData};
 
-},{"./setContent":74,"./setData":75}],41:[function(require,module,exports){
+},{"./setContent":75,"./setData":76}],41:[function(require,module,exports){
 module.exports = {
     dateTimeFormater: ({ VALUE, STATE, id, e, params: {dateTime, opposite} }) => {
         
@@ -3038,7 +3045,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
 module.exports = { defaultInputHandler };
 
-},{"./data":40,"./generate":53,"./isArabic":56,"./resize":70}],43:[function(require,module,exports){
+},{"./data":40,"./generate":53,"./isArabic":56,"./resize":71}],43:[function(require,module,exports){
 const derive = (data, keys, defaultData, editable) => {
   if (!Array.isArray(keys)) keys = keys.split(".");
 
@@ -3175,7 +3182,7 @@ const droplist = ({VALUE, STATE, id, e}) => {
 
 module.exports = {droplist};
 
-},{"./clone":31,"./derive":43,"./toValue":96,"./update":97}],45:[function(require,module,exports){
+},{"./clone":31,"./derive":43,"./toValue":98,"./update":99}],45:[function(require,module,exports){
 var {clearValues} = require("./clearValues");
 var {clone} = require("./clone");
 var {toArray} = require("./toArray");
@@ -3380,21 +3387,17 @@ var duplicates = ({STATE, VALUE, params, id}) => {
 
 module.exports = {duplicate, duplicates};
 
-},{"./clearValues":30,"./clone":31,"./createElement":37,"./derive":43,"./focus":52,"./generate":53,"./isEqual":57,"./removeDuplicates":69,"./starter":78,"./toArray":83}],46:[function(require,module,exports){
+},{"./clearValues":30,"./clone":31,"./createElement":37,"./derive":43,"./focus":52,"./generate":53,"./isEqual":57,"./removeDuplicates":70,"./starter":79,"./toArray":84}],46:[function(require,module,exports){
 const axios = require("axios");
 const { toAwait } = require("./toAwait");
 
 const erase = async ({ VALUE, STATE, id, e, params = {} }) => {
   var local = VALUE[id];
   if (!local) return;
-
-  var erase = params.erase;
-  var {
-    data: { data, message, success },
-  } = await axios.delete(
-    `/api/${erase.path}${erase.id ? `/id=[${erase.id}]` : ""}`
-  );
-  console.log("here");
+  
+  var erase = params.erase
+  var { data: { data, message, success } } = await axios.delete(`/api/${erase.path}${erase.id ? `/id=${erase.id}` : ''}`)
+  
   local.erase = { data, message, success };
 
   console.log(data, message, success);
@@ -3405,7 +3408,7 @@ const erase = async ({ VALUE, STATE, id, e, params = {} }) => {
 
 module.exports = { erase };
 
-},{"./toAwait":84,"axios":99}],47:[function(require,module,exports){
+},{"./toAwait":85,"axios":102}],47:[function(require,module,exports){
 const { toApproval } = require("./toApproval");
 const { toId } = require("./toId");
 const { toParam } = require("./toParam");
@@ -3508,7 +3511,7 @@ const defaultEventHandler = ({ VALUE, id }) => {
 
 module.exports = { addEventListener, defaultEventHandler };
 
-},{"./clone":31,"./execute":48,"./toApproval":82,"./toId":88,"./toParam":90}],48:[function(require,module,exports){
+},{"./clone":31,"./execute":48,"./toApproval":83,"./toId":90,"./toParam":92}],48:[function(require,module,exports){
 const { toApproval } = require("./toApproval");
 const { toArray } = require("./toArray");
 const { toParam } = require("./toParam");
@@ -3555,49 +3558,29 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
       name = name.split(">>")[0];
 
       // approval => note: essential for break::do not remove
-      approved = toApproval({
-        VALUE,
-        STATE,
-        string: conditions,
-        params,
-        id,
-        e,
-      });
+      approved = toApproval({ VALUE, STATE, string: conditions, params, id, e });
       if (!approved) return;
 
       // reset
       var reset = getParam(_action, "reset", false);
-      if (local) local.break = getParam(_action, "break", false);
+      local.break = getParam(_action, "break", false);
       if (reset) clearTimeout(local[`${name}-timer`]);
 
       const myFn = () => {
         // approval
-        approved = toApproval({
-          VALUE,
-          STATE,
-          string: conditions,
-          params,
-          id,
-          e,
-        });
+        approved = toApproval({ VALUE, STATE, string: conditions, params, id, e })
         if (!approved) return;
 
         // params
-        params = toParam({ VALUE, STATE, string: params, e, id });
+        params = toParam({ VALUE, STATE, string: params, e, id })
 
         // id's
-        idList = toId({ VALUE, STATE, id, string: idList, e });
+        idList = toId({ VALUE, STATE, id, string: idList, e })
 
         // action::id
         var actionid = action.split("::")[1];
         if (actionid)
-          actionid = toValue({
-            VALUE,
-            STATE,
-            params: { value: actionid, params },
-            id,
-            e,
-          });
+          actionid = toValue({ VALUE, STATE, params: { value: actionid, params }, id, e });
 
         // action
         var keys = name.split(".");
@@ -3621,16 +3604,8 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
             if (typeof id !== "string") return;
 
             // id = value.path
-            if (id.indexOf(".") > -1) {
-              var k = generate();
-              id = toParam({
-                VALUE,
-                STATE,
-                string: `${k}=${id}`,
-                e,
-                id: localId,
-              })[k];
-            }
+            if (id.indexOf(".") > -1) 
+            id = toValue({ VALUE, STATE, params: { value: id }, e, id: localId })
 
             // component does not exist
             if (!id || !VALUE[id]) return;
@@ -3661,7 +3636,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
 
 module.exports = { execute };
 
-},{"./_method":27,"./generate":53,"./getParam":55,"./toApproval":82,"./toArray":83,"./toAwait":84,"./toId":88,"./toParam":90,"./toValue":96}],49:[function(require,module,exports){
+},{"./_method":27,"./generate":53,"./getParam":55,"./toApproval":83,"./toArray":84,"./toAwait":85,"./toId":90,"./toParam":92,"./toValue":98}],49:[function(require,module,exports){
 module.exports = {
   fill: ({VALUE, STATE, id}) => {
     const local = VALUE[id];
@@ -3771,17 +3746,16 @@ const filter = ({VALUE, STATE, params = {}, id, e}) => {
 
 module.exports = {filter};
 
-},{"./toArray":83,"./toAwait":84}],51:[function(require,module,exports){
+},{"./toArray":84,"./toAwait":85}],51:[function(require,module,exports){
 const {setControls} = require("./controls");
 const {setStyle} = require("./style");
 
 module.exports = {
   flicker: ({VALUE, id}) => {
-    const local = VALUE[id];
 
     let transition = VALUE[id].style.transition;
-    if (transition) transition += "opacity .2s";
-    transition = "opacity .2s";
+    if (transition) transition += "opacity .3s";
+    transition = "opacity .3s";
 
     setStyle({
       VALUE,
@@ -3796,7 +3770,7 @@ module.exports = {
   },
 };
 
-},{"./controls":33,"./style":80}],52:[function(require,module,exports){
+},{"./controls":33,"./style":81}],52:[function(require,module,exports){
 const focus = ({VALUE, id}) => {
   const local = VALUE[id];
   if (!local) return;
@@ -3869,7 +3843,10 @@ module.exports = {getJsonFiles};
 
 }).call(this)}).call(this,require('_process'))
 },{"_process":3,"fs":1,"path":2}],55:[function(require,module,exports){
+const { toParam } = require("./toParam");
+
 const getParam = (string, param, defValue) => {
+
   if (!string) return defValue;
   if (!string.includes("?")) return defValue;
 
@@ -3881,15 +3858,15 @@ const getParam = (string, param, defValue) => {
   string = string.find((el) => el.includes(param));
   if (!string) return defValue;
 
-  let value = string.split(param)[1];
-  if (!value) value = true;
+  let params = toParam({ string });
+  if (params[param]) value = params[param];
 
   return value;
 };
 
 module.exports = {getParam};
 
-},{}],56:[function(require,module,exports){
+},{"./toParam":92}],56:[function(require,module,exports){
 const arabic = /[\u0600-\u06FF\u0750-\u077F]/;
 
 const isArabic = (value) => {
@@ -4032,13 +4009,19 @@ module.exports = {
 };
 
 },{}],59:[function(require,module,exports){
+module.exports = {
+    keys: (object) => {
+        return Object.keys(object)
+    }
+}
+},{}],60:[function(require,module,exports){
 const log = ({params}) => {
   console.log(params.log);
 };
 
 module.exports = {log};
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 const {toArray} = require("./toArray");
 const {clone} = require("./clone");
 
@@ -4088,7 +4071,7 @@ const override = (obj1, obj2) => {
 
 module.exports = {merge, override};
 
-},{"./clone":31,"./toArray":83}],61:[function(require,module,exports){
+},{"./clone":31,"./toArray":84}],62:[function(require,module,exports){
 const note = ({VALUE, params}) => {
   const note = VALUE["action-note"];
   const noteText = VALUE["action-note-text"];
@@ -4115,7 +4098,7 @@ const note = ({VALUE, params}) => {
 
 module.exports = {note};
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 const overflow = ({VALUE, params, id}) => {
   const local = VALUE[id];
 
@@ -4171,7 +4154,7 @@ const overflow = ({VALUE, params, id}) => {
 
 module.exports = {overflow};
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 const pause = ({VALUE, id}) => {
   const local = VALUE[id];
   clearTimeout(local["note-timer"]);
@@ -4179,7 +4162,7 @@ const pause = ({VALUE, id}) => {
 
 module.exports = {pause};
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 const play = ({VALUE, id}) => {
   const local = VALUE[id];
   const myFn = () => {
@@ -4191,7 +4174,7 @@ const play = ({VALUE, id}) => {
 
 module.exports = {play};
 
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 const {controls} = require("./controls");
 const {update} = require("./update");
 
@@ -4199,7 +4182,6 @@ const popup = ({VALUE, STATE, id, params}) => {
   const local = VALUE[id];
 
   const popup = VALUE["popup"];
-  const popupText = VALUE["popup-text"];
   const popUp = local.popup;
 
   popup.Data = local.Data;
@@ -4235,14 +4217,14 @@ const popup = ({VALUE, STATE, id, params}) => {
 
 module.exports = {popup};
 
-},{"./controls":33,"./update":97}],66:[function(require,module,exports){
+},{"./controls":33,"./update":99}],67:[function(require,module,exports){
 const preventDefault = ({e}) => {
   e.preventDefault();
 };
 
 module.exports = {preventDefault};
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { toCode } = require("./toCode")
@@ -4303,7 +4285,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         else return path.join('.')
     }
     
-    var lastIndex = path.length - 1
+    var lastIndex = path.length - 1, opposite = false
     
     var answer = path.reduce((o, k, i) => {
         
@@ -4411,33 +4393,126 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 } else return VALUE[_id]
             })
             
+        } else if (k === '!') {
+
+            opposite = true
+            return answer = o
+
         } else if (k === 'param()') {
             
             breakRequest = i + 1
             var param = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             answer = o + '>>' + param
             
+        } else if (k === 'isEqual()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = isEqual(o, b)
+            
+        } else if (k === 'isNot()') {
+            
+            breakRequest = i + 1
+            var isNot = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = !isEqual(o, isNot)
+            
+        } else if (k === 'abs()') {
+            
+            o = o.toString()
+
+            var isPrice
+            if (o.includes(',')) isPrice = true
+            o = toNumber(o)
+
+            answer = Math.abs(o)
+            if (isPrice) answer = answer.toLocaleString()
+            
+        } else if (k === 'divide()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            
+            o = o.toString()
+            b = b.toString()
+
+            var isPrice
+            if (o.includes(',') || b.includes(',')) isPrice = true
+
+            b = toNumber(b)
+            o = toNumber(o)
+
+            answer = o / b
+            if (isPrice) answer = answer.toLocaleString()
+            
+        } else if (k === 'times()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            
+            o = o.toString()
+            b = b.toString()
+            
+            var isPrice
+            if (o.includes(',') || b.includes(',')) isPrice = true
+            
+            b = toNumber(b)
+            o = toNumber(o)
+
+            answer = o * b
+            if (isPrice) answer = answer.toLocaleString()
+            
         } else if (k === 'add()') {
             
             breakRequest = i + 1
-            var toAdd = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
-            answer = o + toAdd
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             
+            o = o.toString()
+            b = b.toString()
+            var space = o.slice(-1) === ' ' || b.slice(-1) === ' '
+            
+            var isPrice
+            if (o.includes(',') || b.includes(',')) isPrice = true
+            
+            b = toNumber(b)
+            o = toNumber(o)
+
+            answer = space ? o + ' ' + b : o + b
+            if (isPrice) answer = answer.toLocaleString()
+            
+        } else if (k === 'subs()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            
+            o = o.toString()
+            b = b.toString()
+            
+            var isPrice
+            if (o.includes(',') || b.includes(',')) isPrice = true
+            
+            b = toNumber(b)
+            o = toNumber(o)
+
+            if (!isNaN(o) && !isNaN(b)) answer = o - b
+            else answer = o.split(b)[0] + o.split(b)[1]
+            if (isPrice) answer = answer.toLocaleString()
+
         } else if (k === 'dateTimeFormater()') {
             
-            var index = i + 1
-            var opposite = path[index] === '!'
-            if (opposite) {
-                breakRequest += 1
-                index += 1
-            }
-            breakRequest = index
-            var dateTime = toValue({ VALUE, STATE, id, e, params: {value: path[index], params} })
-            answer = dateTimeFormater({ VALUE, STATE, id, e, params: {dateTime, opposite} })
+            answer = dateTimeFormater({ VALUE, STATE, id, e, params: {dateTime: o, opposite} })
+            opposite = false
 
         } else if (k === 'toArray()') {
             
             answer = toArray(o)
+
+        } else if (k === 'else()') {
+            
+            breakRequest = i + 1
+            var answer1 = o
+            var answer2 = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            if (!answer1) answer = answer2
+            else answer = answer1
 
         } else if (k === 'json') {
             
@@ -4596,6 +4671,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 if (index > -1) answer = index
                 else answer = 0
             }
+            
+        } else if (k === 'toPrice()') {
+            
+            answer = o = toPrice(toNumber(o))
             
         } else if (k === 'toPrice()') {
             
@@ -4765,7 +4844,7 @@ const getDeepChildren = ({ VALUE, id }) => {
 }
 
 module.exports = { reducer }
-},{"./capitalize":29,"./clone":31,"./dateTimeFormater":41,"./execute":48,"./generate":53,"./isEqual":57,"./toArray":83,"./toCode":85,"./toNumber":89,"./toPrice":92,"./toValue":96}],68:[function(require,module,exports){
+},{"./capitalize":29,"./clone":31,"./dateTimeFormater":41,"./execute":48,"./generate":53,"./isEqual":57,"./toArray":84,"./toCode":86,"./toNumber":91,"./toPrice":94,"./toValue":98}],69:[function(require,module,exports){
 const {removeIds} = require("./update");
 const {clone} = require("./clone");
 const {reducer} = require("./reducer");
@@ -4833,7 +4912,7 @@ const resetDerivations = ({VALUE, id, index}) => {
 
 module.exports = {remove};
 
-},{"./clone":31,"./reducer":67,"./update":97}],69:[function(require,module,exports){
+},{"./clone":31,"./reducer":68,"./update":99}],70:[function(require,module,exports){
 const removeDuplicates = (object) => {
   if (typeof object === "string" || typeof object === "number" || !object) {
     return object;
@@ -4855,7 +4934,7 @@ const removeDuplicates = (object) => {
 
 module.exports = {removeDuplicates};
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 const resize = ({VALUE, id}) => {
   var local = VALUE[id];
   if (!local) return;
@@ -4966,7 +5045,7 @@ const converter = (dimension) => {
 
 module.exports = {resize, dimensions};
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 const { starter } = require("./starter");
 //const { search } = require("./search")
 //const { setState } = require("./state")
@@ -5042,7 +5121,7 @@ export const pushRoute = ({ params }) => {
 
 module.exports = { route };
 
-},{"./starter":78}],72:[function(require,module,exports){
+},{"./starter":79}],73:[function(require,module,exports){
 const axios = require("axios");
 const { toAwait } = require("./toAwait");
 
@@ -5052,14 +5131,9 @@ const save = async ({ VALUE, STATE, params = {}, id, e }) => {
 
   var save = params.save;
 
-  var {
-    data: { data, message, success },
-  } = await axios.post(`/api/${save.path}`, save.data);
+  var { data: { data, message, success } } = await axios.post(`/api/${save.path}`, save.data)
 
   local.save = { data, message, success };
-
-  STATE[save.path] = STATE[save.path] || {};
-  STATE[save.path][data["file-name"]] = data;
 
   console.log(data, message, success);
 
@@ -5069,9 +5143,10 @@ const save = async ({ VALUE, STATE, params = {}, id, e }) => {
 
 module.exports = { save };
 
-},{"./toAwait":84,"axios":99}],73:[function(require,module,exports){
+},{"./toAwait":85,"axios":102}],74:[function(require,module,exports){
 const axios = require('axios')
-const {toAwait} = require('./toAwait')
+const { toAwait } = require('./toAwait')
+const { toString } = require('./toString')
 
 module.exports = {
     search: async ({ VALUE, STATE, id, e, params }) => {
@@ -5080,7 +5155,7 @@ module.exports = {
         if (!local) return
         
         var search = params.search
-        var { data: { data, message, success } } = await axios.get(`/api/${search.path}${search.id ? `/id=[${search.id}]` : ''}`)
+        var { data: { data, message, success } } = await axios.get(`/api/${search.path}${search.options ? `/${toString(search.options)}` : ''}`)
 
         local.search = { data, message, success }
         
@@ -5090,7 +5165,7 @@ module.exports = {
         toAwait({ VALUE, STATE, id, e, params })
     }
 }
-},{"./toAwait":84,"axios":99}],74:[function(require,module,exports){
+},{"./toAwait":85,"./toString":95,"axios":102}],75:[function(require,module,exports){
 const {isArabic} = require("./isArabic");
 
 const setContent = ({VALUE, STATE, params = {}, id}) => {
@@ -5121,7 +5196,7 @@ const setContent = ({VALUE, STATE, params = {}, id}) => {
 
 module.exports = {setContent};
 
-},{"./isArabic":56}],75:[function(require,module,exports){
+},{"./isArabic":56}],76:[function(require,module,exports){
 const {clone} = require("./clone");
 const {reducer} = require("./reducer");
 const {setContent} = require("./setContent");
@@ -5175,7 +5250,7 @@ const setData = ({STATE, VALUE, params = {}, id}) => {
 
 module.exports = {setData};
 
-},{"./clone":31,"./reducer":67,"./setContent":74}],76:[function(require,module,exports){
+},{"./clone":31,"./reducer":68,"./setContent":75}],77:[function(require,module,exports){
 const setPosition = ({VALUE, params, id}) => {
   const position = params.position;
   const element = VALUE[id].element;
@@ -5289,7 +5364,7 @@ const setPosition = ({VALUE, params, id}) => {
 
 module.exports = {setPosition};
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 const {reducer} = require("./reducer");
 const {toAwait} = require("./toAwait");
 const {toNumber} = require("./toNumber");
@@ -5403,7 +5478,7 @@ const sort = ({VALUE, STATE, params = {}, id, e}) => {
 
 module.exports = {sort};
 
-},{"./reducer":67,"./toAwait":84,"./toNumber":89}],78:[function(require,module,exports){
+},{"./reducer":68,"./toAwait":85,"./toNumber":91}],79:[function(require,module,exports){
 const autoActions = ["fill"];
 const control = require("../control/control");
 const {toArray} = require("./toArray");
@@ -5479,7 +5554,7 @@ const starter = ({STATE, VALUE, id}) => {
 
 module.exports = {starter};
 
-},{"../control/control":17,"./_method":27,"./controls":33,"./defaultInputHandler":42,"./event":47,"./isArabic":56,"./style":80,"./toArray":83}],79:[function(require,module,exports){
+},{"../control/control":17,"./_method":27,"./controls":33,"./defaultInputHandler":42,"./event":47,"./isArabic":56,"./style":81,"./toArray":84}],80:[function(require,module,exports){
 const setState = ({STATE, params}) => {
   // push states to route
   /* if (params.route) pushRoute({ params })
@@ -5493,7 +5568,7 @@ const setState = ({STATE, params}) => {
 
 module.exports = {setState};
 
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 const {resize} = require("./resize");
 const {toArray} = require("./toArray");
 
@@ -5603,7 +5678,7 @@ const mountAfterStyles = ({VALUE, params, id}) => {
 
 module.exports = {setStyle, resetStyles, toggleStyles, mountAfterStyles};
 
-},{"./resize":70,"./toArray":83}],81:[function(require,module,exports){
+},{"./resize":71,"./toArray":84}],82:[function(require,module,exports){
 const textarea = ({VALUE, id}) => {
   const local = VALUE[id];
   if (!local) return;
@@ -5631,7 +5706,7 @@ const textarea = ({VALUE, id}) => {
 
 module.exports = {textarea};
 
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 const {isArabic} = require("./isArabic");
 const {isEqual} = require("./isEqual");
 const {generate} = require("./generate");
@@ -5773,8 +5848,8 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
         // operator has !
         if (key.includes("!")) {
           if (key.split("!")[0]) {
-            key = key.split("!")[0];
             if (value) notEqual = true;
+            if (notEqual) key = key.split("!")[0];
           } else {
             // !key => study key without value
             value = undefined;
@@ -5817,13 +5892,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
           local[keygen] = false;
         } else if (key === "true") local[keygen] = true;
         else if (path[1]) {
-          local[keygen] = reducer({
-            VALUE,
-            STATE,
-            id,
-            params: {path, value},
-            e,
-          });
+          local[keygen] = reducer({ VALUE, STATE, id, params: {path, value}, e, });
         } else if (key === "isArabic") {
           const isInput = local.type === "Input" || local.type === "Textarea";
           const result = isArabic(
@@ -5919,14 +5988,14 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
 
 module.exports = {toApproval};
 
-},{"./duplicate":45,"./generate":53,"./getParam":55,"./isArabic":56,"./isEqual":57,"./overflow":62,"./reducer":67,"./toCode":85,"./toValue":96}],83:[function(require,module,exports){
+},{"./duplicate":45,"./generate":53,"./getParam":55,"./isArabic":56,"./isEqual":57,"./overflow":63,"./reducer":68,"./toCode":86,"./toValue":98}],84:[function(require,module,exports){
 const toArray = (data) => {
   return data !== undefined ? (Array.isArray(data) ? data : [data]) : [];
 };
 
 module.exports = {toArray};
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 const {clone} = require("./clone");
 
 module.exports = {
@@ -5951,7 +6020,7 @@ module.exports = {
   },
 };
 
-},{"./clone":31,"./execute":48,"./toParam":90}],85:[function(require,module,exports){
+},{"./clone":31,"./execute":48,"./toParam":92}],86:[function(require,module,exports){
 const {generate} = require("./generate");
 
 const toCode = ({VALUE, STATE, string, e, id}) => {
@@ -5993,7 +6062,7 @@ const toCode = ({VALUE, STATE, string, e, id}) => {
 
 module.exports = {toCode};
 
-},{"./generate":53}],86:[function(require,module,exports){
+},{"./generate":53}],87:[function(require,module,exports){
 const {generate} = require("./generate");
 const {toArray} = require("./toArray");
 
@@ -6026,7 +6095,7 @@ const toComponent = (obj) => {
 
 module.exports = {toComponent};
 
-},{"./generate":53,"./toArray":83}],87:[function(require,module,exports){
+},{"./generate":53,"./toArray":84}],88:[function(require,module,exports){
 const {controls} = require("./controls");
 const control = require("../control/control");
 
@@ -6052,7 +6121,22 @@ const toControls = ({VALUE, STATE, params, id}) => {
 
 module.exports = {toControls};
 
-},{"../control/control":17,"./controls":33}],88:[function(require,module,exports){
+},{"../control/control":17,"./controls":33}],89:[function(require,module,exports){
+module.exports = {
+    toFirebaseOperator: (string) => {
+        if (!string || string === 'equal' || string === 'equals' || string === 'equalsTo' || string === 'equalTo') return '=='
+        if (string === 'notEqual' || string === 'different') return '!='
+        if (string === 'greaterOrEqual' || string === 'greaterorequal') return '>='
+        if (string === 'lessOrEqual' || string === 'lessorequal') return '<='
+        if (string === 'lessthan' || string === 'lessThan') return '<'
+        if (string === 'greaterthan' || string === 'greaterThan') return '>'
+        if (string === 'contains' || string === 'contain') return 'array-contains'
+        if (string === '!contains' || string === 'doesnotContain' || string === 'doesnotcontain') return 'array-contains-any'
+        if (string === 'includes' || string === 'include') return 'in'
+        if (string === '!includes' || string === 'doesnotInclude' || string === 'doesnotinclude') return 'not-in'
+    }
+}
+},{}],90:[function(require,module,exports){
 const {clone} = require("./clone");
 const {toValue} = require("./toValue");
 
@@ -6074,56 +6158,53 @@ const toId = ({VALUE, STATE, id, string, e}) => {
 
 module.exports = {toId};
 
-},{"./clone":31,"./toValue":96}],89:[function(require,module,exports){
+},{"./clone":31,"./toValue":98}],91:[function(require,module,exports){
 module.exports = {
   toNumber: (string) => {
-    if (parseFloat(string) && !isNaN(string.charAt(0))) {
+    if (parseFloat(string) && (!isNaN(string.charAt(0)) || string.charAt(0) === '-')) {
       if (!isNaN(string.split(",").join(""))) {
         // is Price
         string = parseFloat(string.split(",").join(""));
-      }
+
+      } else if (parseFloat(string).length === string.length) parseFloat(string)
     }
 
     return string;
   },
 };
 
-},{}],90:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 const {toValue} = require("./toValue");
 const {reducer} = require("./reducer");
 const { toCode } = require("./toCode");
 
 const toParam = ({VALUE = {}, STATE, string, e, id}) => {
-  const {toApproval} = require("./toApproval");
+  var {toApproval} = require("./toApproval");
 
-  const localId = id;
+  var localId = id
 
   if (typeof string !== "string" || !string) return string || {};
-  const params = {await: []};
+  var params = {await: []};
 
   string.split(";").map((param) => {
     let key;
     let value;
     let id = localId;
-
+    
     if (param.includes("=")) {
       var keys = param.split("=");
       key = keys[0];
       value = param.substring(key.length + 1);
-    } else {
-      key = param;
 
-      // !key;
-      if (key.includes("!")) {
-        if (key.split("!")[0]) key = key.split("!")[0];
-        else key = key.split("!")[1];
-        value = false;
-      }
-    }
+    } else key = param
+    
+    
+    // break
+    if (params.break) return
 
     // await
     if (key.includes("await.")) {
-      const awaiter = param.split("await.")[1];
+      var awaiter = param.split("await.")[1];
       return params.await.push(awaiter);
     }
 
@@ -6141,7 +6222,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
 
     // id
     if (key && key.includes("::")) {
-      const newId = key.split("::")[1];
+      var newId = key.split("::")[1];
       key = key.split("::")[0];
 
       // id
@@ -6150,8 +6231,9 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
 
     // conditions
     if (key && key.includes("<<")) {
-      const condition = key.split("<<")[1];
-      const approved = toApproval({STATE, VALUE, id, e, string: condition});
+      
+      var condition = key.split("<<")[1];
+      var approved = toApproval({STATE, VALUE, id, e, string: condition});
       if (!approved) return;
       key = key.split("<<")[0];
     }
@@ -6163,7 +6245,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
       key = key.split(">>")[0];
     }
 
-    const path = typeof key === "string" ? key.split(".") : [];
+    var path = typeof key === "string" ? key.split(".") : [];
 
     // object structure
     if (path && path.length > 1) {
@@ -6176,7 +6258,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
         path[0] === "action" ||
         path[0] === "global"
       ) {
-        const myFn = () => {
+        var myFn = () => {
           reducer({VALUE, STATE, id, params: {path, value, key, params}});
         };
         if (timer) setTimeout(myFn, timer);
@@ -6215,7 +6297,7 @@ function addDays(theDate, days) {
 
 module.exports = {toParam};
 
-},{"./reducer":67,"./toApproval":82,"./toCode":85,"./toValue":96}],91:[function(require,module,exports){
+},{"./reducer":68,"./toApproval":83,"./toCode":86,"./toValue":98}],93:[function(require,module,exports){
 const toPath = ({VALUE, STATE, string, e, id}) => {
   /* const {toValue} = require("./toValue");
   let keys = [];
@@ -6267,14 +6349,14 @@ const toPath = ({VALUE, STATE, string, e, id}) => {
 
 module.exports = {toPath};
 
-},{}],92:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 module.exports = {
   toPrice: (string) => {
     return string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   },
 };
 
-},{}],93:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 const toString = (object) => {
   if (!object) return "";
 
@@ -6286,7 +6368,7 @@ const toString = (object) => {
       string += `${key}=[${value.join(",")}]`;
     } else if (typeof value === "object") {
       const path = toString(value).split(";");
-      string = path.map((path) => (path = `${key}.${path}`)).join(";");
+      string = path.map(path => `${key}.${path}`).join(";");
     } else string += `${key}=${value}`;
 
     if (index < length - 1) string += ";";
@@ -6297,7 +6379,7 @@ const toString = (object) => {
 
 module.exports = {toString};
 
-},{}],94:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 module.exports = {
   toStyle: ({VALUE, STATE, id}) => {
     const local = VALUE[id];
@@ -6347,7 +6429,7 @@ module.exports = {
   },
 };
 
-},{}],95:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 const {toStyle} = require("./toStyle");
 const {toArray} = require("./toArray");
 const {generate} = require("./generate");
@@ -6392,7 +6474,6 @@ module.exports = {
         "";
     if (local.type === "Image") local.src = local.src || local.data || "";
 
-    
     if (local.type === "View") {
       tag = `<div class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</div>`;
     } else if (local.type === "Image") {
@@ -6460,7 +6541,7 @@ module.exports = {
   },
 };
 
-},{"./clone":31,"./createElement":37,"./generate":53,"./toArray":83,"./toStyle":94,"path":2}],96:[function(require,module,exports){
+},{"./clone":31,"./createElement":37,"./generate":53,"./toArray":84,"./toStyle":96,"path":2}],98:[function(require,module,exports){
 const {generate} = require("./generate");
 const {reducer} = require("./reducer");
 
@@ -6482,6 +6563,12 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
 
   // auto space
   if (value === "_dot") return (value = ".");
+
+  // =
+  if (value === "_equal") return (value = "=");
+
+  // =
+  if (value === "_equal_equal") return (value = "==");
 
   // auto space
   if (value === "&nbsp") return (value = "&nbsp;");
@@ -6628,7 +6715,7 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
 
 module.exports = {toValue};
 
-},{"./generate":53,"./reducer":67,"./toApproval":82}],97:[function(require,module,exports){
+},{"./generate":53,"./reducer":68,"./toApproval":83}],99:[function(require,module,exports){
 const {generate} = require("./generate");
 const {starter} = require("./starter");
 const {toArray} = require("./toArray");
@@ -6693,7 +6780,13 @@ const removeIds = ({VALUE, id}) => {
 
 module.exports = {update, removeIds};
 
-},{"./clone":31,"./createElement":37,"./generate":53,"./starter":78,"./toArray":83}],98:[function(require,module,exports){
+},{"./clone":31,"./createElement":37,"./generate":53,"./starter":79,"./toArray":84}],100:[function(require,module,exports){
+module.exports = {
+    values: (object) => {
+        return Object.values(object)
+    }
+}
+},{}],101:[function(require,module,exports){
 const { toApproval } = require("./toApproval")
 const { clone } = require("./clone")
 const { toParam } = require("./toParam")
@@ -6724,8 +6817,8 @@ const watch = ({ VALUE, STATE, controls, id }) => {
             
             var value = toValue({ VALUE, STATE, id, params: { value: name } })
             
-            if (value === undefined || isEqual(value, local[`${name}-watch`])) return
-            
+            if ((value === undefined && local[`${name}-watch`] === undefined) || isEqual(value, local[`${name}-watch`])) return
+
             local[`${name}-watch`] = clone(value)
             
             // approval
@@ -6741,7 +6834,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
                 
             // await params
             if (params.await) toParam({ VALUE, STATE, id, string: params.await.join(';') })
-
+            if (local.once) clearInterval(local[`${name}-timer`])
         }
 
         if (local[`${name}-timer`]) clearInterval(local[`${name}-timer`])
@@ -6751,9 +6844,9 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {watch}
-},{"./clone":31,"./execute":48,"./isEqual":57,"./toApproval":82,"./toParam":90,"./toValue":96}],99:[function(require,module,exports){
+},{"./clone":31,"./execute":48,"./isEqual":57,"./toApproval":83,"./toParam":92,"./toValue":98}],102:[function(require,module,exports){
 module.exports = require('./lib/axios');
-},{"./lib/axios":101}],100:[function(require,module,exports){
+},{"./lib/axios":104}],103:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6944,7 +7037,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"../core/buildFullPath":107,"../core/createError":108,"./../core/settle":112,"./../helpers/buildURL":116,"./../helpers/cookies":118,"./../helpers/isURLSameOrigin":121,"./../helpers/parseHeaders":123,"./../utils":126}],101:[function(require,module,exports){
+},{"../core/buildFullPath":110,"../core/createError":111,"./../core/settle":115,"./../helpers/buildURL":119,"./../helpers/cookies":121,"./../helpers/isURLSameOrigin":124,"./../helpers/parseHeaders":126,"./../utils":129}],104:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -7002,7 +7095,7 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
-},{"./cancel/Cancel":102,"./cancel/CancelToken":103,"./cancel/isCancel":104,"./core/Axios":105,"./core/mergeConfig":111,"./defaults":114,"./helpers/bind":115,"./helpers/isAxiosError":120,"./helpers/spread":124,"./utils":126}],102:[function(require,module,exports){
+},{"./cancel/Cancel":105,"./cancel/CancelToken":106,"./cancel/isCancel":107,"./core/Axios":108,"./core/mergeConfig":114,"./defaults":117,"./helpers/bind":118,"./helpers/isAxiosError":123,"./helpers/spread":127,"./utils":129}],105:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7023,7 +7116,7 @@ Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
 
-},{}],103:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 'use strict';
 
 var Cancel = require('./Cancel');
@@ -7082,14 +7175,14 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-},{"./Cancel":102}],104:[function(require,module,exports){
+},{"./Cancel":105}],107:[function(require,module,exports){
 'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
 
-},{}],105:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7239,7 +7332,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = Axios;
 
-},{"../helpers/buildURL":116,"../helpers/validator":125,"./../utils":126,"./InterceptorManager":106,"./dispatchRequest":109,"./mergeConfig":111}],106:[function(require,module,exports){
+},{"../helpers/buildURL":119,"../helpers/validator":128,"./../utils":129,"./InterceptorManager":109,"./dispatchRequest":112,"./mergeConfig":114}],109:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7295,7 +7388,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 
 module.exports = InterceptorManager;
 
-},{"./../utils":126}],107:[function(require,module,exports){
+},{"./../utils":129}],110:[function(require,module,exports){
 'use strict';
 
 var isAbsoluteURL = require('../helpers/isAbsoluteURL');
@@ -7317,7 +7410,7 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
   return requestedURL;
 };
 
-},{"../helpers/combineURLs":117,"../helpers/isAbsoluteURL":119}],108:[function(require,module,exports){
+},{"../helpers/combineURLs":120,"../helpers/isAbsoluteURL":122}],111:[function(require,module,exports){
 'use strict';
 
 var enhanceError = require('./enhanceError');
@@ -7337,7 +7430,7 @@ module.exports = function createError(message, config, code, request, response) 
   return enhanceError(error, config, code, request, response);
 };
 
-},{"./enhanceError":110}],109:[function(require,module,exports){
+},{"./enhanceError":113}],112:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7421,7 +7514,7 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
-},{"../cancel/isCancel":104,"../defaults":114,"./../utils":126,"./transformData":113}],110:[function(require,module,exports){
+},{"../cancel/isCancel":107,"../defaults":117,"./../utils":129,"./transformData":116}],113:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7465,7 +7558,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   return error;
 };
 
-},{}],111:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -7554,7 +7647,7 @@ module.exports = function mergeConfig(config1, config2) {
   return config;
 };
 
-},{"../utils":126}],112:[function(require,module,exports){
+},{"../utils":129}],115:[function(require,module,exports){
 'use strict';
 
 var createError = require('./createError');
@@ -7581,7 +7674,7 @@ module.exports = function settle(resolve, reject, response) {
   }
 };
 
-},{"./createError":108}],113:[function(require,module,exports){
+},{"./createError":111}],116:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7605,7 +7698,7 @@ module.exports = function transformData(data, headers, fns) {
   return data;
 };
 
-},{"./../defaults":114,"./../utils":126}],114:[function(require,module,exports){
+},{"./../defaults":117,"./../utils":129}],117:[function(require,module,exports){
 (function (process){(function (){
 'use strict';
 
@@ -7743,7 +7836,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 }).call(this)}).call(this,require('_process'))
-},{"./adapters/http":100,"./adapters/xhr":100,"./core/enhanceError":110,"./helpers/normalizeHeaderName":122,"./utils":126,"_process":3}],115:[function(require,module,exports){
+},{"./adapters/http":103,"./adapters/xhr":103,"./core/enhanceError":113,"./helpers/normalizeHeaderName":125,"./utils":129,"_process":3}],118:[function(require,module,exports){
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -7756,7 +7849,7 @@ module.exports = function bind(fn, thisArg) {
   };
 };
 
-},{}],116:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7828,7 +7921,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
-},{"./../utils":126}],117:[function(require,module,exports){
+},{"./../utils":129}],120:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7844,7 +7937,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
     : baseURL;
 };
 
-},{}],118:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7899,7 +7992,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":126}],119:[function(require,module,exports){
+},{"./../utils":129}],122:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7915,7 +8008,7 @@ module.exports = function isAbsoluteURL(url) {
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 };
 
-},{}],120:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7928,7 +8021,7 @@ module.exports = function isAxiosError(payload) {
   return (typeof payload === 'object') && (payload.isAxiosError === true);
 };
 
-},{}],121:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7998,7 +8091,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":126}],122:[function(require,module,exports){
+},{"./../utils":129}],125:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -8012,7 +8105,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
-},{"../utils":126}],123:[function(require,module,exports){
+},{"../utils":129}],126:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -8067,7 +8160,7 @@ module.exports = function parseHeaders(headers) {
   return parsed;
 };
 
-},{"./../utils":126}],124:[function(require,module,exports){
+},{"./../utils":129}],127:[function(require,module,exports){
 'use strict';
 
 /**
@@ -8096,7 +8189,7 @@ module.exports = function spread(callback) {
   };
 };
 
-},{}],125:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 'use strict';
 
 var pkg = require('./../../package.json');
@@ -8203,7 +8296,7 @@ module.exports = {
   validators: validators
 };
 
-},{"./../../package.json":127}],126:[function(require,module,exports){
+},{"./../../package.json":130}],129:[function(require,module,exports){
 'use strict';
 
 var bind = require('./helpers/bind');
@@ -8554,30 +8647,35 @@ module.exports = {
   stripBOM: stripBOM
 };
 
-},{"./helpers/bind":115}],127:[function(require,module,exports){
+},{"./helpers/bind":118}],130:[function(require,module,exports){
 module.exports={
-  "_from": "axios@^0.21.1",
+  "_args": [
+    [
+      "axios@0.21.4",
+      "C:\\Users\\user\\Desktop\\Js\\QuePik CMS\\functions"
+    ]
+  ],
+  "_from": "axios@0.21.4",
   "_id": "axios@0.21.4",
   "_inBundle": false,
   "_integrity": "sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==",
   "_location": "/axios",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "axios@^0.21.1",
+    "raw": "axios@0.21.4",
     "name": "axios",
     "escapedName": "axios",
-    "rawSpec": "^0.21.1",
+    "rawSpec": "0.21.4",
     "saveSpec": null,
-    "fetchSpec": "^0.21.1"
+    "fetchSpec": "0.21.4"
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz",
-  "_shasum": "c67b90dc0568e5c1cf2b0b858c43ba28e2eda575",
-  "_spec": "axios@^0.21.1",
+  "_spec": "0.21.4",
   "_where": "C:\\Users\\user\\Desktop\\Js\\QuePik CMS\\functions",
   "author": {
     "name": "Matt Zabriskie"
@@ -8588,7 +8686,6 @@ module.exports={
   "bugs": {
     "url": "https://github.com/axios/axios/issues"
   },
-  "bundleDependencies": false,
   "bundlesize": [
     {
       "path": "./dist/axios.min.js",
@@ -8598,7 +8695,6 @@ module.exports={
   "dependencies": {
     "follow-redirects": "^1.14.0"
   },
-  "deprecated": false,
   "description": "Promise based HTTP client for the browser and node.js",
   "devDependencies": {
     "coveralls": "^3.0.0",

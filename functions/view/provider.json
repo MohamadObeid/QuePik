@@ -1,6 +1,10 @@
 {
     "file-name": "provider",
     "type": "View?style.padding=2rem;data={}<<!value.data()",
+    "controls": {
+        "event": "load",
+        "actions": "async.search?search.path=user;await.state.user=value.search.data"
+    },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=provider-++generate()<<!value.data().id",
         "children": [{
@@ -28,7 +32,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::provider-list-view;await.setStyle::mini-window;await.note;async.save?note=Provider saved successfully!;save.path=data/provider;save.data=value.data();await.state.provider.findById().[value.data().id]=value.data();await.state.provider-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::provider-list-view;await.setStyle::mini-window;await.note;async.save?note=Provider saved successfully!;save.path=provider;save.data=value.data();await.state.provider.findById().[value.data().id]=value.data();await.state.provider-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -52,7 +56,7 @@
                 "children": [{
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=name"
                 }, {
-                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Provider Type>>readonly,Beauty Salon,Massage & Spa]"
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=type;droplist.items=const.[Provider Type>>readonly,state.asset.findByName().Salon Type.options.map().name].flat()"
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
                 }, {
@@ -80,7 +84,10 @@
             }, {
                 "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=email"
             }, {
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=user.name;droplist.items=[User List>>readonly,state.user.map().name].flat()"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=user.name;droplist.items=const.[User List>>readonly,state.user.map().name].flat()",
+                "controls": {
+                    "watch": "value.data()?value.Data().user.id=state.user.clone().findByName().[value.data()].id"
+                }
             }, {
                 "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=active;data=true<<value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
             }]

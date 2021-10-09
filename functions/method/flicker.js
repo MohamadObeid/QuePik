@@ -3,11 +3,10 @@ const {setStyle} = require("./style");
 
 module.exports = {
   flicker: ({VALUE, id}) => {
-    const local = VALUE[id];
 
     let transition = VALUE[id].style.transition;
-    if (transition) transition += "opacity .2s";
-    transition = "opacity .2s";
+    if (transition) transition += "opacity .3s";
+    transition = "opacity .3s";
 
     setStyle({
       VALUE,

@@ -28,8 +28,8 @@ const watch = ({ VALUE, STATE, controls, id }) => {
             
             var value = toValue({ VALUE, STATE, id, params: { value: name } })
             
-            if (value === undefined || isEqual(value, local[`${name}-watch`])) return
-            
+            if ((value === undefined && local[`${name}-watch`] === undefined) || isEqual(value, local[`${name}-watch`])) return
+
             local[`${name}-watch`] = clone(value)
             
             // approval
@@ -45,7 +45,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
                 
             // await params
             if (params.await) toParam({ VALUE, STATE, id, string: params.await.join(';') })
-
+            if (local.once) clearInterval(local[`${name}-timer`])
         }
 
         if (local[`${name}-timer`]) clearInterval(local[`${name}-timer`])

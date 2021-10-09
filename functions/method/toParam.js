@@ -3,36 +3,32 @@ const {reducer} = require("./reducer");
 const { toCode } = require("./toCode");
 
 const toParam = ({VALUE = {}, STATE, string, e, id}) => {
-  const {toApproval} = require("./toApproval");
+  var {toApproval} = require("./toApproval");
 
-  const localId = id;
+  var localId = id
 
   if (typeof string !== "string" || !string) return string || {};
-  const params = {await: []};
+  var params = {await: []};
 
   string.split(";").map((param) => {
     let key;
     let value;
     let id = localId;
-
+    
     if (param.includes("=")) {
       var keys = param.split("=");
       key = keys[0];
       value = param.substring(key.length + 1);
-    } else {
-      key = param;
 
-      // !key;
-      if (key.includes("!")) {
-        if (key.split("!")[0]) key = key.split("!")[0];
-        else key = key.split("!")[1];
-        value = false;
-      }
-    }
+    } else key = param
+    
+    
+    // break
+    if (params.break) return
 
     // await
     if (key.includes("await.")) {
-      const awaiter = param.split("await.")[1];
+      var awaiter = param.split("await.")[1];
       return params.await.push(awaiter);
     }
 
@@ -50,7 +46,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
 
     // id
     if (key && key.includes("::")) {
-      const newId = key.split("::")[1];
+      var newId = key.split("::")[1];
       key = key.split("::")[0];
 
       // id
@@ -59,8 +55,9 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
 
     // conditions
     if (key && key.includes("<<")) {
-      const condition = key.split("<<")[1];
-      const approved = toApproval({STATE, VALUE, id, e, string: condition});
+      
+      var condition = key.split("<<")[1];
+      var approved = toApproval({STATE, VALUE, id, e, string: condition});
       if (!approved) return;
       key = key.split("<<")[0];
     }
@@ -72,7 +69,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
       key = key.split(">>")[0];
     }
 
-    const path = typeof key === "string" ? key.split(".") : [];
+    var path = typeof key === "string" ? key.split(".") : [];
 
     // object structure
     if (path && path.length > 1) {
@@ -85,7 +82,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
         path[0] === "action" ||
         path[0] === "global"
       ) {
-        const myFn = () => {
+        var myFn = () => {
           reducer({VALUE, STATE, id, params: {path, value, key, params}});
         };
         if (timer) setTimeout(myFn, timer);

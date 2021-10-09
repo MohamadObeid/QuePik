@@ -2,7 +2,7 @@
     "file-name": "offer-list",
     "type": "View?Data;state.offer-list-grid-view-display=grid;state.offer-list-table-view-display=none",
     "controls": {
-        "actions": "await.update::offer-list-view;async.search?search.path=data/offer.json;await.state.offer-list-Data=value.search.data;await.state.offer=value.search.data" 
+        "actions": "await.update::offer-list-view;async.search?search.path=offer;await.state.offer-list-Data=value.search.data;await.state.offer=value.search.data" 
     },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
@@ -61,7 +61,7 @@
                     "children": [{
                         "type": "Text?text=value.data.name;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s;style.marginBottom=.7rem"
                     }, {
-                        "type": "Text?text=value.data.discount.lbp.add(). .add().lbp<<value.data.discount.lbp;text=value.data.discount.%.add(). .add().%<<value.data.discount.%;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
+                        "type": "Text?text=value.data.discount.[value.data().discount.key()].add(). .add().[value.data().discount.key()];style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
                     }]
                 }]
             }, {
@@ -100,7 +100,7 @@
                             "children": [{
                                 "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=offer"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=data/offer.json;popup.update=offer-list-view;popup.note=Offer removed successfully!;popup.type=eraser;popup.text=Do you want to delete this offer/?"
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=offer;popup.update=offer-list-view;popup.note=Offer removed successfully!;popup.type=eraser;popup.text=Do you want to delete this offer/?"
                             }]
                         }]
                     }]

@@ -1,4 +1,7 @@
+const { toParam } = require("./toParam");
+
 const getParam = (string, param, defValue) => {
+
   if (!string) return defValue;
   if (!string.includes("?")) return defValue;
 
@@ -10,8 +13,8 @@ const getParam = (string, param, defValue) => {
   string = string.find((el) => el.includes(param));
   if (!string) return defValue;
 
-  let value = string.split(param)[1];
-  if (!value) value = true;
+  let params = toParam({ string });
+  if (params[param]) value = params[param];
 
   return value;
 };

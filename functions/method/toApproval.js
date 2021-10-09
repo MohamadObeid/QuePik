@@ -139,8 +139,8 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
         // operator has !
         if (key.includes("!")) {
           if (key.split("!")[0]) {
-            key = key.split("!")[0];
             if (value) notEqual = true;
+            if (notEqual) key = key.split("!")[0];
           } else {
             // !key => study key without value
             value = undefined;
@@ -183,13 +183,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
           local[keygen] = false;
         } else if (key === "true") local[keygen] = true;
         else if (path[1]) {
-          local[keygen] = reducer({
-            VALUE,
-            STATE,
-            id,
-            params: {path, value},
-            e,
-          });
+          local[keygen] = reducer({ VALUE, STATE, id, params: {path, value}, e, });
         } else if (key === "isArabic") {
           const isInput = local.type === "Input" || local.type === "Textarea";
           const result = isArabic(

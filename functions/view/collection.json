@@ -4,8 +4,8 @@
     "controls": {
         "event": "load",
         "actions": [
-            "async.search?search.path=data/collection.json;await.state.collection=value.search.data?!state.collection",
-            "async.search?search.path=any.data/.add().[value.data.type].json;await.state.[value.data.type]=value.search.data?value.data.type;!state.[value.data.type]"
+            "async.search?search.path=collection;await.state.collection=value.search.data?!state.collection",
+            "async.search?search.path=value.data.type;await.state.[value.data.type]=value.search.data?value.data.type;!state.[value.data.type]"
         ]
     },
     "children": [{
@@ -35,7 +35,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::collection-list-view;await.setStyle::mini-window;await.note;async.save?note=Collection saved successfully!;save.path=data/collection;save.data=value.data();await.state.collection.findById().[value.data().id]=value.data();await.state.collection-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::collection-list-view;await.setStyle::mini-window;await.note;async.save?note=Collection saved successfully!;save.path=collection;save.data=value.data();await.state.collection.findById().[value.data().id]=value.data();await.state.collection-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -62,7 +62,7 @@
                     "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Type List>>readonly,category,image,offer,provider,service,user,booking]",
                     "controls": {
                         "watch": "value.data()",
-                        "actions": "async.search?search.path=data/++[value.data()].json;await.state.[value.data()]=value.search.data?!state.[value.data()]"
+                        "actions": "async.search?search.path=value.data();await.state.[value.data()]=value.search.data?!state.[value.data()]"
                     }
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
@@ -101,7 +101,7 @@
         }, {
             "type": "View?style.display=grid;style.gap=1rem;style.marginBottom=3rem",
             "children": [{
-                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;value.data().images=[]<<!value.data().images",
+                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem",
                 "children": [{
                     "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
                     "children": [{
@@ -110,10 +110,10 @@
                 }, {
                     "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem",
                     "children": [{
-                        "type": "Input?id=img-uploader;featured;path=image;style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
+                        "type": "Input?id=img-uploader;featured;path=image;style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!<<!value.Data().image;msg=Reached maximum limit!<<value.Data().image;disabled<<value.Data().image;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
                         "controls": [{
                             "event": "input>>200",
-                            "actions": "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().prev().1stChild().element.src=value.data();await.value.element.innerHTML::img-uploader-msg=Reached maximum limit!<<value.data()?!value.data()"
+                            "actions": "await.fill::value.parent().parent().id;await.note;async.save?note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.image;await.value.parent().prev().1stChild().element.src=value.data();await.value.element.innerHTML::img-uploader-msg=Reached maximum limit!<<value.data()?!value.data()"
                         }]
                     }]
                 }]

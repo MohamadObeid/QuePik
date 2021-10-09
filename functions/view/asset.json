@@ -3,7 +3,7 @@
     "type": "View?style.padding=2rem;data={}<<!value.data()",
     "controls": {
         "event": "load",
-        "actions": "async.search?search.path=data/asset.json;await.state.asset=value.search.data?!state.asset"
+        "actions": "async.search?search.path=asset;await.state.asset=value.search.data?!state.asset"
     },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=asset-++generate()<<!value.data().id",
@@ -32,7 +32,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::asset-list-view;await.setStyle::mini-window;await.note;async.save?note=Asset saved successfully!;save.path=data/asset;save.data=value.data();await.state.asset.findById().[value.data().id]=value.data();await.state.asset-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::asset-list-view;await.setStyle::mini-window;await.note;async.save?note=Asset saved successfully!;save.path=asset;save.data=value.data();await.state.asset.findById().[value.data().id]=value.data();await.state.asset-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]

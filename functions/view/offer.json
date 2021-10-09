@@ -28,7 +28,7 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::offer-list-view;await.setStyle::mini-window;await.note;async.save?note=Offer saved successfully!;save.path=data/offer;save.data=value.data();await.state.offer.findById().[value.data().id]=value.data();await.state.offer-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::offer-list-view;await.setStyle::mini-window;await.note;async.save?note=Offer saved successfully!;save.path=offer;save.data=value.data();await.state.offer.findById().[value.data().id]=value.data();await.state.offer-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -58,7 +58,7 @@
                     }
                 }]
             }]
-        }, {
+        }, {    
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
                 "type": "Text?class=left;label;text=Code;style.fontSize=1.4rem"
@@ -76,11 +76,17 @@
                 "children": [{
                     "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=code"
                 }, {
-                    "type": "Input?textarea;featured;input.type=number;currency=lbp;style.backgroundColor=#f0f0f0;path=discount"
+                    "type": "Input?textarea;featured;currency=lbp;style.backgroundColor=#f0f0f0;path=discount",
+                    "controls": {
+                        "event": "input?value.data()=value.element.value.toPrice();value.element.value=value.data()"
+                    }
                 }, {
-                    "type": "Input?textarea;featured;input.type=number;style.backgroundColor=#f0f0f0;path=available-amount"
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=available-amount"
                 }, {
-                    "type": "Input?textarea;featured;input.type=number;currency=lbp;style.backgroundColor=#f0f0f0;path=minimum-requirements"
+                    "type": "Input?textarea;featured;currency=lbp;style.backgroundColor=#f0f0f0;path=minimum-requirements",
+                    "controls": {
+                        "event": "input?value.data()=value.element.value.toPrice();value.element.value=value.data()"
+                    }
                 }]
             }]
         }, {
@@ -97,9 +103,15 @@
             "children": [{
                 "type": "View?style.display=grid;style.gridTemplateColumns=2fr 2fr 1fr;style.gap=1rem",
                 "children": [{
-                    "type": "Input?featured;input.type=datetime-local;input.value=any.dateTimeFormater().[value.Data().start-date];style.backgroundColor=#f0f0f0;path=start-date"
+                    "type": "Input?featured;input.type=datetime-local;input.value=value.Data().start-date.!.dateTimeFormater();style.backgroundColor=#f0f0f0",
+                    "controls": {
+                        "watch": "value.data()?value.element.value=value.data().dateTimeFormater();value.Data().start-date=value.element.value"
+                    }
                 }, {
-                    "type": "Input?featured;input.type=datetime-local;style.backgroundColor=#f0f0f0;path=end-date"
+                    "type": "Input?featured;input.type=datetime-local;input.value=value.Data().end-date.!.dateTimeFormater();style.backgroundColor=#f0f0f0",
+                    "controls": {
+                        "watch": "value.data()?value.element.value=value.data().dateTimeFormater();value.Data().end-date=value.element.value"
+                    }
                 }, {
                     "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
                 }]
