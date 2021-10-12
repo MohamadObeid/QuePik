@@ -1,6 +1,6 @@
 {
     "file-name": "admin-user-list",
-    "type": "View?Data;state.user-list-grid-view-display=grid;state.user-list-table-view-display=none",
+    "type": "View?Data;state.user-list-grid-view-display=grid;state.user-list-table-view-display=none;state.user-list-Data=[]",
     "controls": {
         "actions": "await.update::user-list-view;async.search?search.path=user;await.state.user-list-Data=value.search.data;await.state.user=value.search.data" 
     },

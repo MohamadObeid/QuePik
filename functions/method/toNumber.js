@@ -1,5 +1,8 @@
 module.exports = {
   toNumber: (string) => {
+    
+    if (typeof string === 'number')return string
+    
     if (parseFloat(string) && (!isNaN(string.charAt(0)) || string.charAt(0) === '-')) {
       if (!isNaN(string.split(",").join(""))) {
         // is Price

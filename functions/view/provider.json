@@ -3,7 +3,10 @@
     "type": "View?style.padding=2rem;data={}<<!value.data()",
     "controls": {
         "event": "load",
-        "actions": "async.search?search.path=user;await.state.user=value.search.data"
+        "actions": [
+            "async.search?search.path=user;await.state.user=value.search.data",
+            "async.search?search.path=service;await.state.service=value.search.data"
+        ]
     },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=provider-++generate()<<!value.data().id",
@@ -114,9 +117,9 @@
         }, {
             "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
             "children": [{
-                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
             }, {
-                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
             }]
         }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
@@ -124,10 +127,6 @@
                 "type": "Text?class=left;label;text=Owner Name;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Owner Phone#;style.fontSize=1.4rem"
-            }, {
-                "type": "Text?class=left;label;text=Services;style.fontSize=1.4rem"
-            }, {
-                "type": "Text?class=left;label;text=Reviews;style.fontSize=1.4rem"
             }]
         }, {
             "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
@@ -137,18 +136,42 @@
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=owner.name"
                 }, {
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=owner.phone-number"
-                }, {
-                    "type": "View?style.display=grid;style.gap=1rem;value.data().services=[]<<!value.data().services",
-                    "children": {
-                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=services.map().name<<value.data.path.services.length()!=0"
-                    }
-                }, {
-                    "type": "View?style.display=grid;style.gap=1rem",
-                    "children": {
-                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=reviews"
-                    }
                 }]
             }]
+        }, {
+            "type": "Text?class=flex-start;text=Services;style.marginBottom=.7rem;style.fontSize=1.4rem"
+        }, {
+            "type": "View?style.display=grid;style.marginBottom=1rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().services=[{}]<<!value.Data().services",
+            "children": [{
+                "type": "[Input]?textarea;featured;duplicatable;readonly;style.backgroundColor=#f0f0f0;path=services;droplist.items=const.[any.Service List.param().readonly,state.service.map().name].flat()",
+                "controls": [{
+                    "event": "load?value.derivations=value.derivations.push().name;value.element.value=value.data()"
+                }, {
+                    "watch": "value.data()?value.Data().services.[value.derivations.1].id=state.service.clone().findByName().[value.data()].id"
+                }]
+            }]
+        }, {
+            "type": "View?class=flex-box;style.justifyContent=flex-start;style.marginBottom=3rem",
+            "children": [{
+                "type": "Icon?class=pointer;icon.name=bi-patch-plus-fill;style.color=#444;style.after.color=#0d6efd;style.marginRight=.5rem",
+                "controls": {
+                    "event": "click",
+                    "actions": "duplicate::value.parent().prev().1stChild().id?duplicate.path=services"
+                }
+            }, {
+                "type": "Text?text=Add more services;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "Text?class=flex-start;text=Reviews;style.marginBottom=.7rem;style.fontSize=1.4rem"
+        }, {
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().reviews=[]<<!value.Data().reviews",
+            "children": [{
+                "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;flicker"
+            }],
+            "controls": {
+                "watch": "state.provider-reviews?once;value.Data=provider-reviews",
+                "actions": "update"
+            }
         }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gap=1rem;style.width=100%",
             "children": [{

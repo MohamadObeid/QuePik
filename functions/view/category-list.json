@@ -1,6 +1,6 @@
 {
     "file-name": "category-list",
-    "type": "View?Data;state.category-list-grid-view-display=grid;state.category-list-table-view-display=none",
+    "type": "View?Data;state.category-list-grid-view-display=grid;state.category-list-table-view-display=none;state.category-list-Data=[]",
     "controls": {
         "actions": "await.update::category-list-view;async.search?search.path=category;await.state.category-list-Data=value.search.data;await.state.category=value.search.data" 
     },

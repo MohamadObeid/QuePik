@@ -1,6 +1,6 @@
 {
     "file-name": "asset-list",
-    "type": "View?Data;state.asset-list-grid-view-display=grid;state.asset-list-table-view-display=none",
+    "type": "View?Data;state.asset-list-grid-view-display=grid;state.asset-list-table-view-display=none;state.asset-list-Data=[]",
     "controls": {
         "event": "load",
         "actions": [

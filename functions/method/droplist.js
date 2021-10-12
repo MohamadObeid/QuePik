@@ -78,15 +78,10 @@ const droplist = ({VALUE, STATE, id, e}) => {
         type: `Item?text=const.${item};readonly=${readonly}`,
         controls: [
           {
-            event: `click?value.element.${isInput ? "value" : "innerHTML"}::${id}=${item};value.data::${id}=${item};value.data()<<!const.${local.lang}=${item};action.resize::${id}?!readonly;state.droplist=${id}`,
+            event: `click?value.element.${isInput ? "value" : "innerHTML"}::${id}=${item};value.data()<<!const.${local.lang}=${item};action.resize::${id}?!readonly;state.droplist=${id}`,
             actions: [
               // for lang & currency droplists
-              `focus::${input_id}?value.data().${item}=value.data()::${input_id};value.Data().[value.derivations::${input_id}].delete();value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(",")},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id}||value.day::${id};value.path::${input_id}!=${item}`,
-
-              // data = free
-              `setData::${input_id}?data.value=free?${input_id};const.${item}=free`,
-              `setData::${input_id}?data.value=''?${input_id};const.${item}!=free;value.data=free`,
-
+              `?value.data().${item}=value.data()::${input_id};value.Data().[value.derivations::${input_id}].delete();value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(",")},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id}||value.day::${id};value.path::${input_id}!=${item}`,
               `focus::${input_id}`,
             ],
           },

@@ -218,7 +218,7 @@ const Input = (component) => {
                         event: 'click',
                         actions: [
                             // remove element
-                            `remove::${id}??${removable};${clearable ? `value.length::${id}>${minlength};!value.data()::${id}-input` : ''}`,
+                            `remove::${id}??${removable};value.length::${id}>${minlength};${clearable ? `!value.data()::${id}-input` : ''}`,
                             // clear data
                             `removeData;focus>>50;resize??${clearable}?${id}-input`,
                             // for key

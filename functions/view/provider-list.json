@@ -1,6 +1,6 @@
 {
     "file-name": "provider-list",
-    "type": "View?Data;state.provider-list-grid-view-display=grid;state.provider-list-table-view-display=none",
+    "type": "View?Data;state.provider-list-grid-view-display=grid;state.provider-list-table-view-display=none;state.provider-list-Data=[]",
     "controls": {
         "actions": "await.update::provider-list-view;async.search?search.path=provider;await.state.provider-list-Data=value.search.data;await.state.provider=value.search.data" 
     },

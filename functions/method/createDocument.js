@@ -1,65 +1,72 @@
 const {createElement} = require("./createElement");
 const {getJsonFiles} = require("./getJsonFiles");
+//
+require('dotenv').config()
 
-const createDocument = (page) => {
-  let innerHTML = "";
-  let STATE = {};
-  const VALUE = {};
+const createDocument = (req, res) => {
+    
+    var page = req.url.split("/")[1]
+    var innerHTML = "";
+    var STATE = {};
+    var VALUE = {};
+    
+    // get assets & views
+    STATE = {
+        view: getJsonFiles("view"),
+        page: getJsonFiles("page"),
+        codes: {},
+        config: JSON.parse(process.env.FIREBASE_CONFIG)
+    };
 
-  // get assets & views
-  STATE = {
-    view: getJsonFiles("view"),
-    page: getJsonFiles("page"),
-    codes: {},
-  };
+    // body
+    var id = "body";
+    VALUE[id] = {};
+    VALUE[id].id = id;
 
-  // body
-  var id = "body";
-  VALUE[id] = {};
-  VALUE[id].id = id;
+    // root
+    var id = "root";
+    VALUE[id] = {};
+    VALUE[id].id = id;
+    VALUE[id].type = "View";
+    VALUE[id].children = [];
+    VALUE[id].parent = "body";
 
-  // root
-  var id = "root";
-  VALUE[id] = {};
-  VALUE[id].id = id;
-  VALUE[id].type = "View";
-  VALUE[id].children = [];
-  VALUE[id].parent = "body";
+    //
+    if (!STATE.page[page]) return "Hello";
 
-  //
-  if (!STATE.page[page]) return "Hello";
+    // push page views to root
+    STATE.page[page].views.map(
+        (view) => STATE.view[view] && VALUE[id].children.push(STATE.view[view])
+    );
 
-  // push page views to root
-  STATE.page[page].views.map(
-      (view) => STATE.view[view] && VALUE[id].children.push(STATE.view[view])
-  );
+    // push public views to root
+    STATE.page.public.views.map(
+        (view) => STATE.view[view] && VALUE[id].children.push(STATE.view[view])
+    );
 
-  // push public views to root
-  STATE.page.public.views.map(
-      (view) => STATE.view[view] && VALUE[id].children.push(STATE.view[view])
-  );
+    // create html
+    innerHTML = createElement({STATE, VALUE, id});
 
-  // create html
-  innerHTML = createElement({STATE, VALUE, id});
-
-  return `<!DOCTYPE html>
-    <html lang="en" class="html">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>QuePik</title>
-        <link rel="stylesheet" href="index.css" />
-        <link rel="stylesheet" href="rate.css" />
-        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-    </head>
-    <body>
-        ${innerHTML}
-        <script id="VALUE" type="application/json">${JSON.stringify(VALUE)}</script>
-        <script id="STATE" type="application/json">${JSON.stringify(STATE)}</script>
-        <script src="index.js"></script>
-    </body>
-    </html>`;
+    res.send(`<!DOCTYPE html>
+        <html lang="en" class="html">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>QuePik</title>
+            <link rel="stylesheet" href="index.css" />
+            <link rel="stylesheet" href="rate.css" />
+            <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+        </head>
+        <body>
+            ${innerHTML}
+            <script id="VALUE" type="application/json">${JSON.stringify(VALUE)}</script>
+            <script id="STATE" type="application/json">${JSON.stringify(STATE)}</script>
+            <script src="index.js"></script>
+        </body>
+        </html>`)
 };
 
 module.exports = {createDocument};

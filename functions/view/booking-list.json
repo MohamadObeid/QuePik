@@ -1,6 +1,6 @@
 {
     "file-name": "booking-list",
-    "type": "View?Data;state.booking-list-grid-view-display=grid;state.booking-list-table-view-display=none",
+    "type": "View?Data;state.booking-list-grid-view-display=grid;state.booking-list-table-view-display=none;state.booking-list-Data=[]",
     "controls": {
         "actions": "await.update::booking-list-view;async.search?search.path=booking;await.state.booking-list-Data=value.search.data;await.state.booking=value.search.data" 
     },

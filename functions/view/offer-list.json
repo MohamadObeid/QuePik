@@ -1,6 +1,6 @@
 {
     "file-name": "offer-list",
-    "type": "View?Data;state.offer-list-grid-view-display=grid;state.offer-list-table-view-display=none",
+    "type": "View?Data;state.offer-list-grid-view-display=grid;state.offer-list-table-view-display=none;state.offer-list-Data=[]",
     "controls": {
         "actions": "await.update::offer-list-view;async.search?search.path=offer;await.state.offer-list-Data=value.search.data;await.state.offer=value.search.data" 
     },

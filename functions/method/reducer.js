@@ -81,8 +81,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
         } else if (k === 'data()') {
 
-            breakRequest = true
-            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: [...local.derivations, ...path.slice(i + 1)], object: STATE[local.Data], params } })
+            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: local.derivations, object: STATE[local.Data], params } })
             if (i === lastIndex) {
                 local.data = answer
                 delete local['data()']
@@ -445,14 +444,14 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 else answer = 0
             }
             
+        } else if (k === 'action()') {
+            
+            answer = execute({ VALUE, STATE, id, actions: path[i - 1], params, e })
+            
         } else if (k === 'toPrice()') {
             
             answer = o = toPrice(toNumber(o))
             
-        } else if (k === 'toPrice()') {
-            
-            answer = toPrice(o)
-
         } else if (k === 'toNumber()') {
 
             answer = toNumber(o)

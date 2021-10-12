@@ -3,7 +3,6 @@ const { toArray } = require("./toArray");
 const { toParam } = require("./toParam");
 const { getParam } = require("./getParam");
 const { toId } = require("./toId");
-const { generate } = require("./generate");
 const { toValue } = require("./toValue");
 const { toAwait } = require("./toAwait");
 const _method = require("./_method");
@@ -49,7 +48,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
 
       // reset
       var reset = getParam(_action, "reset", false);
-      local.break = getParam(_action, "break", false);
+      if (local) local.break = getParam(_action, "break", false);
       if (reset) clearTimeout(local[`${name}-timer`]);
 
       const myFn = () => {

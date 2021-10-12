@@ -1,6 +1,6 @@
 {
     "file-name": "collection-list",
-    "type": "View?Data;state.collection-list-grid-view-display=grid;state.collection-list-table-view-display=none",
+    "type": "View?Data;state.collection-list-grid-view-display=grid;state.collection-list-table-view-display=none;state.collection-list-Data=[]",
     "controls": {
         "actions": "await.update::collection-list-view;async.search?search.path=collection;await.state.collection-list-Data=value.search.data;await.state.collection=value.search.data" 
     },

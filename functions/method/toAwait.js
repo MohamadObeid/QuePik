@@ -5,7 +5,7 @@ module.exports = {
     if (!params.asyncer) return;
 
     const awaiter = clone(params.awaiter);
-    const await = clone(params.await);
+    const awaits = clone(params.await);
 
     delete params.asyncer;
     delete params.awaiter;
@@ -14,8 +14,8 @@ module.exports = {
     const {execute} = require("./execute");
     const {toParam} = require("./toParam");
     
-    if (await && await.length > 0) {
-      toParam({VALUE, STATE, id, e, string: await.join(";")});
+    if (awaits && awaits.length > 0) {
+      toParam({VALUE, STATE, id, e, string: awaits.join(";")});
     }
 
     if (awaiter) execute({VALUE, STATE, id, e, actions: awaiter, params});

@@ -1,6 +1,6 @@
 {
     "file-name": "image-list",
-    "type": "View?Data;state.image-list-grid-view-display=grid;state.image-list-table-view-display=none",
+    "type": "View?Data;state.image-list-grid-view-display=grid;state.image-list-table-view-display=none;state.image-list-Data=[]",
     "controls": {
         "actions": "await.update::image-list-view;async.search?search.path=image;await.state.image-list-Data=value.search.data;await.state.image=value.search.data" 
     },

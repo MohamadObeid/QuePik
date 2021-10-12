@@ -1,6 +1,6 @@
 {
     "file-name": "service-list",
-    "type": "View?Data;state.service-list-grid-view-display=grid;state.service-list-table-view-display=none",
+    "type": "View?Data;state.service-list-grid-view-display=grid;state.service-list-table-view-display=none;state.service-list-Data=[]",
     "controls": {
         "actions": "await.update::service-list-view;async.search?search.path=service;await.state.service-list-Data=value.search.data;await.state.service=value.search.data" 
     },

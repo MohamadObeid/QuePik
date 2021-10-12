@@ -1,6 +1,6 @@
 {
     "file-name": "review-list",
-    "type": "View?Data;state.review-list-grid-view-display=grid;state.review-list-table-view-display=none",
+    "type": "View?Data;state.review-list-grid-view-display=grid;state.review-list-table-view-display=none;state.review-list-Data=[]",
     "controls": {
         "actions": "await.update::review-list-view;async.search?search.path=review;await.state.review-list-Data=value.search.data;await.state.review=value.search.data" 
     },

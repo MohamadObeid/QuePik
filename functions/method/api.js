@@ -1,21 +1,21 @@
 const { toParam } = require("./toParam")
 const { keys } = require("./keys")
 const { toFirebaseOperator } = require("./toFirebaseOperator")
-const db = require("./firebase")
+//const db = require("./firebase")
 
 // const { getJsonFiles } = require("./getJsonFiles")
 // const fs = require("fs")
 
 var getApi = async (req, res) => {
   // api/collection/params?conditions
-
+  
   var path = req.url.split("/")
-  var _collection = path[2]
+  var collection = path[2]
   var params = path[3]
   if (params) params = toParam({ string: params })
   else params = {}
 
-  var ref = db.collection(_collection)
+  var ref = db.collection(collection)
 
   // search fields
   if (params.fields)
@@ -63,11 +63,11 @@ var postApi = async (req, res) => {
 
   var file = req.body
   var path = req.url.split("/")
-  var _collection = path[2]
+  var collection = path[2]
   var params = path[3]
   if (params) params = toParam({ string: params })
 
-  var ref = db.collection(_collection)
+  var ref = db.collection(collection)
 
   await ref.doc(file.id).set(file)
 
@@ -82,12 +82,12 @@ var deleteApi = async (req, res) => {
   // api/collection/params?conditions
 
   var path = req.url.split("/")
-  var _collection = path[2]
+  var collection = path[2]
   var params = path[3]
   if (params) params = toParam({ string: params })
   else params = {}
 
-  var ref = db.collection(_collection)
+  var ref = db.collection(collection)
   
   ref.doc(params.id).delete()
   .then(() => {
@@ -96,6 +96,7 @@ var deleteApi = async (req, res) => {
       message: `Document removed successfuly!`,
     })
   })
+  
   .catch(error => {
 
     return res.send({
