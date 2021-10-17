@@ -1,5 +1,6 @@
 const {generate} = require("./generate");
 const {starter} = require("./starter");
+const {setElement} = require("./setElement");
 const {toArray} = require("./toArray");
 const {createElement} = require("./createElement");
 const {clone} = require("./clone");
@@ -33,6 +34,7 @@ const update = ({STATE, VALUE, id}) => {
     const children = [...local.element.children];
     children.map((child) => {
       const id = child.id;
+      setElement({VALUE, id});
       starter({STATE, VALUE, id});
     });
 

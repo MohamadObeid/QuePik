@@ -18,6 +18,9 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
   }
 
   // auto space
+  if (value === "") return (value = "");
+
+  // auto space
   if (value === "_dot") return (value = ".");
 
   // =

@@ -1,6 +1,5 @@
 {
-    "file-name": "image-list",
-    "type": "View?Data;state.image-list-grid-view-display=grid;state.image-list-table-view-display=none;state.image-list-Data=[]",
+    "type": "View?class=flex-column;style.flex=1;state.image-list-grid-view-display=grid;state.image-list-table-view-display=none;state.image-list-Data=[]",
     "controls": {
         "actions": "await.update::image-list-view;async.search?search.path=image;await.state.image-list-Data=value.search.data;await.state.image=value.search.data" 
     },
@@ -19,16 +18,18 @@
             }]
         }]
     }, {
-        "type": "View?style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee",
+        "type": "View?style.display=flex;style.flexDirection=column;style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee;style.flex=1",
         "children": [{
             "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
             "children": [{
-                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem",
-                "placeholder": "Search by id, name, description...",
-                "controls": {
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by id, name, description...",
+                "controls": [{
+                    "event": "loaded",
+                    "actions": "async.search?search.path=image;search.limit=10000;await.state.image=value.search.data"
+                }, {
                     "event": "keyup>>200??state.image-list-Data",
-                    "actions": "await.update::global.image-list-view.1stChild().id<<global.image-list-view.1stChild().element.style.display=grid;await.update::global.image-list-view.2ndChild().2ndChild().id<<global.image-list-view.2ndChild().element.style.display=grid;async.filter?filter.backup=state.image.clone();filter.path=[id,name,url];filter.Data=image-list-Data;filter.value=e.target.value"
-                }
+                    "actions": "await.update::image-list-view;async.filter?filter.backup=state.image.clone();filter.path=[id,name,url];filter.Data=image-list-Data;filter.value=e.target.value"
+                }]
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
@@ -49,20 +50,20 @@
                 }]
             }]
         }, {
-            "type": "View?id=image-list-view;style.display=flex;style.flexDirection=column;style.width=100%",
+            "type": "View?id=image-list-view;style.display=flex;style.flexDirection=column;style.width=100%;style.flex=1",
             "children": [{
                 "type": "View?style.display=state.image-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
-                    "type": "[View]?class=flex-box pointer;Data=image-list-Data;touchableOpacity;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.height=15rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.image-list-Data;state.image-list-Data.length()!=0",
+                    "type": "[View]?class=flex-box pointer;Data=image-list-Data;touchableOpacity;style.overflowY=hidden;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.height=17rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.image-list-Data;state.image-list-Data.length()!=0",
                     "controls": {
-                        "event": "load",
+                        "event": "loaded",
                         "actions": "toControls?miniWindow.view=image"
                     },
                     "children": [{
-                        "type": "Image?src=value.data().url;style.borderRadius=.75rem;style.transition=.1s;style.height=100%;style.transition=opacity .2s;style.width=100%;fill;style.opacity=0",
-                        "controls": {
-                            "event": "load?value.element.style.opacity>>200=1"
-                        }
+                        "type": "Image?src=value.data().url;style.borderRadius=.75rem;style.transition=.1s;style.transition=opacity .2s;style.maxWidth=100%;style.opacity=0;style.opacity=1;fill;hoverable;style.after.opacity=.5",
+                        "controls": [{
+                            "event": "loaded?value.element.style.opacity>>200=1"
+                        }]
                     }]
                 }]
             }, {
@@ -73,25 +74,25 @@
                         "type": "Text?text=Active;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=active;sort.Data=image-list-Data?state.image-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=active;sort.Data=image-list-Data?state.image-list-Data"
                         }
                     }, {
                         "type": "Text?text=Name;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=name;sort.Data=image-list-Data?state.image-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=name;sort.Data=image-list-Data?state.image-list-Data"
                         }
                     }, {
                         "type": "Text?text=Url;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click", 
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=url;sort.Data=image-list-Data?state.image-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=url;sort.Data=image-list-Data?state.image-list-Data"
                         }
                     }, {
                         "type": "Text?text=Description;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click", 
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=description;sort.Data=image-list-Data?state.image-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=description;sort.Data=image-list-Data?state.image-list-Data"
                         }
                     }, {
                         "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
@@ -113,10 +114,25 @@
                             "children": [{
                                 "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=image"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=image;popup.update=image-list-view;popup.note=Image removed successfully!;popup.type=eraser;popup.text=Do you want to delete this image/?"
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=image;popup.update=image-list-view;popup.note=Image removed successfully!;popup.type=eraser;popup.text=Do you want to delete this image/?;popup.state=image"
                             }]
                         }]
                     }]
+                }]
+            }, {
+                "type": "View?class=flex-box;style.flex=1;style.alignItems=end;style.justifyContent=flex-end;style.marginTop=2rem",
+                "children": [{
+                    "type": "Button?icon.name=bi-chevron-left",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::image-list-view;async.search?search.path=image;search.limitToLast=25;search.endBefore=state.image-list-Data.0.creation-date;await.state.image-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }, {
+                    "type": "Button?icon.name=bi-chevron-right;style.flexDirection=row-reverse",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::image-list-view;async.search?search.path=image;search.startAfter=state.image-list-Data.[state.image-list-Data.length().subs().1].creation-date;await.state.image-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
                 }]
             }]
         }]

@@ -31,7 +31,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
       var awaiter = param.split("await.")[1];
       return params.await.push(awaiter);
     }
-
+    
     value = toValue({VALUE, STATE, id, e, params: {value, params}});
 
     // condition not approved
@@ -62,7 +62,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
       key = key.split("<<")[0];
     }
 
-    // conditions
+    // timer
     let timer;
     if (key && key.includes(">>")) {
       timer = key.split(">>")[1];
@@ -80,11 +80,12 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
         path[0] === "params" ||
         path[0] === "e" ||
         path[0] === "action" ||
-        path[0] === "global"
+        path[0] === "global" ||
+        path[0] === "document" ||
+        path[0] === "window" ||
+        path[0] === "history"
       ) {
-        var myFn = () => {
-          reducer({VALUE, STATE, id, params: {path, value, key, params}});
-        };
+        var myFn = () => reducer({VALUE, STATE, id, params: {path, value, key, params}})
         if (timer) setTimeout(myFn, timer);
         else myFn();
       } else {

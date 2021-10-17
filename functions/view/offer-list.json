@@ -1,6 +1,5 @@
 {
-    "file-name": "offer-list",
-    "type": "View?Data;state.offer-list-grid-view-display=grid;state.offer-list-table-view-display=none;state.offer-list-Data=[]",
+    "type": "View?class=flex-column;style.flex=1;state.offer-list-grid-view-display=grid;state.offer-list-table-view-display=none;state.offer-list-Data=[]",
     "controls": {
         "actions": "await.update::offer-list-view;async.search?search.path=offer;await.state.offer-list-Data=value.search.data;await.state.offer=value.search.data" 
     },
@@ -19,16 +18,18 @@
             }]
         }]
     }, {
-        "type": "View?style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee",
+        "type": "View?style.display=flex;style.flexDirection=column;style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee;style.flex=1",
         "children": [{
             "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
             "children": [{
-                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem",
-                "placeholder": "Search by id, name, description...",
-                "controls": {
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by id, name, description...",
+                "controls": [{
+                    "event": "loaded",
+                    "actions": "async.search?search.path=offer;search.limit=10000;await.state.offer=value.search.data"
+                }, {
                     "event": "keyup>>200??state.offer-list-Data",
                     "actions": "await.update::offer-list-view;async.filter?filter.backup=state.offer.clone();filter.path=[id,name,description,type];filter.Data=offer-list-Data;filter.value=e.target.value"
-                }
+                }]
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
@@ -49,13 +50,13 @@
                 }]
             }]
         }, {
-            "type": "View?id=offer-list-view;style.display=flex;style.flexDirection=column;style.width=100%",
+            "type": "View?id=offer-list-view;style.display=flex;style.flexDirection=column;style.width=100%;style.flex=1",
             "children": [{
                 "type": "View?style.display=state.offer-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
                     "type": "[View]?class=flex-box pointer;Data=offer-list-Data;touchableOpacity;style.padding=2rem;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.offer-list-Data;state.offer-list-Data.length()!=0",
                     "controls": {
-                        "event": "load",
+                        "event": "loaded",
                         "actions": "toControls?hoverable.id=[value.id,value.children().0.id,value.children().1.id];miniWindow.view=offer"
                     },
                     "children": [{
@@ -100,10 +101,25 @@
                             "children": [{
                                 "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=offer"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=offer;popup.update=offer-list-view;popup.note=Offer removed successfully!;popup.type=eraser;popup.text=Do you want to delete this offer/?"
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=offer;popup.update=offer-list-view;popup.note=Offer removed successfully!;popup.type=eraser;popup.text=Do you want to delete this offer/?;popup.state=offer"
                             }]
                         }]
                     }]
+                }]
+            }, {
+                "type": "View?class=flex-box;style.flex=1;style.alignItems=end;style.justifyContent=flex-end;style.marginTop=2rem",
+                "children": [{
+                    "type": "Button?icon.name=bi-chevron-left",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::offer-list-view;async.search?search.path=offer;search.limitToLast=25;search.endBefore=state.offer-list-Data.0.creation-date;await.state.offer-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }, {
+                    "type": "Button?icon.name=bi-chevron-right;style.flexDirection=row-reverse",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::offer-list-view;async.search?search.path=offer;search.startAfter=state.offer-list-Data.[state.offer-list-Data.length().subs().1].creation-date;await.state.offer-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
                 }]
             }]
         }]

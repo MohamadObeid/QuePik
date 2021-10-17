@@ -1,8 +1,7 @@
 {
-    "file-name": "asset-list",
-    "type": "View?Data;state.asset-list-grid-view-display=grid;state.asset-list-table-view-display=none;state.asset-list-Data=[]",
+    "type": "View?class=flex-column;style.flex=1;state.asset-list-grid-view-display=grid;state.asset-list-table-view-display=none;state.asset-list-Data=[]",
     "controls": {
-        "event": "load",
+        "event": "loaded",
         "actions": [
             "await.update::asset-list-view;async.search?search.path=asset;await.state.asset-list-Data=value.search.data;await.state.asset=value.search.data?!state.asset",
             "update::asset-list-view?state.asset-list-Data=state.asset?state.asset"
@@ -23,16 +22,18 @@
             }]
         }]
     }, {
-        "type": "View?style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee",
+        "type": "View?style.display=flex;style.flexDirection=column;style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee;style.flex=1",
         "children": [{
             "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
             "children": [{
-                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem",
-                "placeholder": "Search by id, name, description...",
-                "controls": {
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by id, name, description...",
+                "controls": [{
+                    "event": "loaded",
+                    "actions": "async.search?search.path=asset;search.limit=10000;await.state.asset=value.search.data"
+                }, {
                     "event": "keyup>>200??state.asset-list-Data",
                     "actions": "await.update::asset-list-view;async.filter?filter.backup=state.asset.clone();filter.path=[id,name,description];filter.Data=asset-list-Data;filter.value=e.target.value"
-                }
+                }]
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
@@ -53,13 +54,13 @@
                 }]
             }]
         }, {
-            "type": "View?id=asset-list-view;style.display=flex;style.flexDirection=column;style.width=100%",
+            "type": "View?id=asset-list-view;style.display=flex;style.flexDirection=column;style.width=100%;style.flex=1",
             "children": [{
                 "type": "View?style.display=state.asset-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
                     "type": "[View]?class=flex-box pointer;Data=asset-list-Data;touchableOpacity;style.padding=2rem;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.asset-list-Data;state.asset-list-Data.length()!=0",
                     "controls": {
-                        "event": "load",
+                        "event": "loaded",
                         "actions": "toControls?hoverable.id=[value.id,value.children().0.id];miniWindow.view=asset"
                     },
                     "children": [{
@@ -74,25 +75,25 @@
                         "type": "Text?text=Active;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=active;sort.Data=asset-list-Data?state.asset-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=active;sort.Data=asset-list-Data?state.asset-list-Data"
                         }
                     }, {
                         "type": "Text?text=Name;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=name;sort.Data=asset-list-Data?state.asset-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=name;sort.Data=asset-list-Data?state.asset-list-Data"
                         }
                     }, {
                         "type": "Text?text=Desctiption;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=description;sort.Data=asset-list-Data?state.asset-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=description;sort.Data=asset-list-Data?state.asset-list-Data"
                         }
                     }, {
                         "type": "Text?text=Options;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=options.length;sort.Data=asset-list-Data?state.asset-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=options.length;sort.Data=asset-list-Data?state.asset-list-Data"
                         }
                     }, {
                         "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
@@ -114,10 +115,25 @@
                             "children": [{
                                 "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=asset"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=asset;popup.update=asset-list-view;popup.note=Asset removed successfully!;popup.type=eraser;popup.text=Do you want to delete this asset/?"
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=asset;popup.update=asset-list-view;popup.note=Asset removed successfully!;popup.type=eraser;popup.text=Do you want to delete this asset/?;popup.state=asset"
                             }]
                         }]
                     }]
+                }]
+            }, {
+                "type": "View?class=flex-box;style.flex=1;style.alignItems=end;style.justifyContent=flex-end;style.marginTop=2rem",
+                "children": [{
+                    "type": "Button?icon.name=bi-chevron-left",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::asset-list-view;async.search?search.path=asset;search.limitToLast=25;search.endBefore=state.asset-list-Data.0.creation-date;await.state.asset-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }, {
+                    "type": "Button?icon.name=bi-chevron-right;style.flexDirection=row-reverse",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::asset-list-view;async.search?search.path=asset;search.startAfter=state.asset-list-Data.[state.asset-list-Data.length().subs().1].creation-date;await.state.asset-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
                 }]
             }]
         }]

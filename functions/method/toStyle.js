@@ -33,12 +33,16 @@ module.exports = {
         else if (k === "textAlign") k = "text-align";
         else if (k === "pointerEvents") k = "pointer-events";
         else if (k === "flexDirection") k = "flex-direction";
+        else if (k === "flexGrow") k = "flex-grow";
+        else if (k === "flexShrink") k = "flex-shrink";
         else if (k === "maxWidth") k = "max-width";
         else if (k === "minWidth") k = "min-width";
         else if (k === "maxHeight") k = "max-height";
         else if (k === "minHeight") k = "min-height";
         else if (k === "gridTemplateColumns") k = "grid-template-columns";
+        else if (k === "gridAutoColumns") k = "grid-auto-columns";
         else if (k === "gridTemplateRows") k = "grid-template-rows";
+        else if (k === "gridAutoRows") k = "grid-auto-columns";
         style += `${k}:${v}; `;
       });
     }

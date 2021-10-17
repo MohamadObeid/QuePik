@@ -2,22 +2,20 @@
     "file-name": "review",
     "type": "View?style.padding=2rem;data={}<<!value.data()",
     "controls": {
-        "event": "load",
-        "actions": "async.search?search.path=review;await.state.review=value.search.data?!state.review"
+        "event": "loaded",
+        "actions": [
+            "async.search?search.path=review;await.state.review=value.search.data?!state.review",
+            "async.search?search.path=provider;await.state.provider=value.search.data?!state.provider",
+            "async.search?search.path=service;await.state.service=value.search.data?!state.service",
+            "async.search?search.path=user;await.state.user=value.search.data?!state.user"
+        ]
     },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=review-++generate()<<!value.data().id",
         "children": [{
-            "type": "View?class=flex-box?value.data().name",
-            "children": [{
-                "type": "Text?text=Edit;style.fontSize=1.8rem;fontWeight=500"
-            }, {
-                "type": "Text?text=value.data().name.capitalize();style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
-            }, {
-                "type": "Text?text=Review;style.fontSize=1.8rem;fontWeight=500"
-            }]
+            "type": "Text?text=any.Edit .add().[value.data().id].add(). Review;style.fontSize=1.8rem;fontWeight=500?value.data().description"
         }, {
-            "type": "Text?text=Create New Review;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
+            "type": "Text?text=Create New Review;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().description"
         }, {
             "type": "View?class=flex-box;style.marginLeft=auto",
             "children": [{
@@ -32,7 +30,10 @@
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::review-list-view;await.setStyle::mini-window;await.note;async.save?note=Review saved successfully!;save.path=review;save.data=value.data();await.state.review.findById().[value.data().id]=value.data();await.state.review-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": [
+                        "await.update::review-list-view;await.setStyle::mini-window;await.note;async.save?note=Review saved successfully!;save.path=review;save.data=value.data();await.state.review.findById().[value.data().id]=value.data();await.state.review-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0",
+                        "async.save?state.service.findById().[value.data().service.id].reviews.push().[value.data().id]<<value.data().service.id;state.provider.findById().[value.data().provider.id].reviews.push().[value.data().id]<<value.data().provider.id;save.path=service<<value.data().service.id;save.path=provider<<value.data().provider.id;save.data=state.service.findById().[value.data().service.id]<<value.data().service.id;save.data=state.provider.findById().[value.data().provider.id]<<value.data().provider.id"
+                    ]
                 }]
             }]
         }]
@@ -41,7 +42,7 @@
         "children": [{
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
-                "type": "Text?class=left;label;text=Head Review;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Head Review ID;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Active;style.fontSize=1.4rem"
             }, {
@@ -54,15 +55,18 @@
             "children": [{
                 "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
                 "children": [{
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=head-review;droplist.items=const.[Review List>>readonly,state.review.map().id].flat()"
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=head-review;droplist.items=const.[Review List>>readonly,state.review.map().id].flat()",
+                    "controls": {
+                        "watch": "value.data()?value.Data().provider.delete();value.Data().service.delete();value.element.value::service-input-input='';value.element.value::provider-input-input='';value.Data().service=state.review.clone().findById().[value.data()].service<<state.review.clone().findById().[value.data()].service;value.Data().provider=state.review.clone().findById().[value.data()].provider<<state.review.clone().findById().[value.data()].provider;value.element.value::provider-input-input=value.Data().provider.name<<value.Data().provider;value.element.value::service-input-input=value.Data().service.name<<value.Data().service"
+                    }
                 }, {
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().toDate()<<!value.data().creation-date;path=creation-date",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
                     "controls": {
-                        "event": "load?value.element.value=value.data().split().T.join(). "
+                        "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }
                 }]
             }]
@@ -82,7 +86,7 @@
             "children": [{
                 "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
                 "children": [{
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=status;droplist.items=const.[Review Status>>readonly,approved,blocked,hidden,removed]"
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=status;data=pending approval;droplist.items=const.[Review Status>>readonly,pending approval,approved,blocked,hidden,removed]"
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=user.name;droplist.items=const.[User List>>readonly,state.user.map().name].flat()",
                     "controls": {
@@ -91,12 +95,12 @@
                 }, {
                     "type": "Input?id=service-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=service.name;droplist.items=const.[Service List>>readonly,state.service.map().name].flat()",
                     "controls": {
-                        "watch": "value.data()?value.Data().provider.delete();value.element.value::provider-input-input='';value.Data().service.id=state.service.clone().findByName().[value.data()].id"
+                        "watch": "value.data()?value.Data().provider.delete();value.element.value::provider-input-input='';value.Data().service.id=state.service.clone().findByName().[value.data()].id?value.data()"
                     }
                 }, {
                     "type": "Input?id=provider-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=provider.name;droplist.items=const.[Provider List>>readonly,state.provider.map().name].flat()",
                     "controls": {
-                        "watch": "value.data()?value.Data().service.delete();value.element.value::service-input-input='';value.Data().provider.id=state.provider.clone().findByName().[value.data()].id"
+                        "watch": "value.data()?value.Data().service.delete();value.element.value::service-input-input='';value.Data().provider.id=state.provider.clone().findByName().[value.data()].id?value.data()"
                     }
                 }]
             }]
@@ -110,9 +114,9 @@
         }, {
             "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=2fr 2fr;style.gap=1rem;style.marginBottom=3rem",
             "children": [{
-                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
             }, {
-                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
             }]
         }]
     }]

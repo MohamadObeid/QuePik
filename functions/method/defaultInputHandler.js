@@ -69,10 +69,11 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         });
       };
 
-      var file = await readFile(value[0]);
-      var fileName = `${Date.now()}-${generate()}`;
+      var file = await readFile(value[0])
+      var fileName = `${local.input.title || Date.now()}-${generate()}`
+      var fileType = file.substring(file.indexOf("/") + 1, file.indexOf(";base64"))
 
-      return (STATE.file = { file, "file-name": fileName });
+      return STATE.file = local.file = { file, fileName, src: value[0], fileType }
     } else local.element.value = value;
 
     // rating input

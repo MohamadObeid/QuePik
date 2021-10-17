@@ -2,6 +2,6 @@
     "type": "View?class=box-shadow;id=droplist;style.height=fit-content;style.overflowY=auto;style.minWidth=15rem;style.maxWidth=40rem;style.transform=scale(0.5);style.opacity=0;style.pointerEvents=none;style.position=fixed;style.padding=.5rem;style.overflowY=auto;style.borderRadius=.5rem;style.backgroundColor=#fff;style.transition=opacity 0.1s, transform 0.1s, max-height 0.2s;style.zIndex=-1;style.after.zIndex=4;style.after.transform=scale(1);style.after.opacity=1;style.after.pointerEvents=auto",
     "controls": [{
         "event": "mouseleave;click::body??state.droplist;!e.target.id.isChildOfId().[state.droplist]",
-        "actions": "resetStyles>>200;blur>>200?state.droplist.delete()?!mouseenter;state.droplist;!e.target.id.isChildOfId().[state.droplist]"
+        "actions": "resetStyles>>200;blur>>200?state.droplist.delete()?!mouseenter;!e.target.id.isChildOfId().[state.droplist]"
     }]
 }

@@ -10,5 +10,6 @@ module.exports = {
         if (string === '!contains' || string === 'doesnotContain' || string === 'doesnotcontain') return 'array-contains-any'
         if (string === 'includes' || string === 'include') return 'in'
         if (string === '!includes' || string === 'doesnotInclude' || string === 'doesnotinclude') return 'not-in'
+        else return string
     }
 }

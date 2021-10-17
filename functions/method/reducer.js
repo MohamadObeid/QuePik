@@ -30,7 +30,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         : path[0] === 'state' ? STATE 
         : path[0] === 'e' ? e
         : path[0] === 'params' ? params
-        : path[0] === 'any' ? path[1]
+        : path[0] === 'any' ? toValue({ VALUE, STATE, id, params: { value: path[1], params }, e })
+        : path[0] === 'document' ? document
+        : path[0] === 'window' ? window
+        : path[0] === 'history' ? history
         : false
         
         if (!object && path[0]) {
@@ -46,7 +49,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             else if (path[0] === '[]') object = []
 
-            else if (path[0] === '{}') object = []
+            else if (path[0] === '{}') object = {}
 
             else if (path[0] === '[{}]') object = [{}]
 
@@ -66,6 +69,17 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                     
         // break method
         if (breakRequest === true || breakRequest >= i) return o
+        
+        // if o is undefined ? ...
+        if (k === 'else()') {
+            
+            breakRequest = i + 1
+            var answer1 = o
+            var answer2 = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            if (!answer1) answer = answer2
+            else answer = answer1
+            return answer
+        }
 
         if (!o) return o
         
@@ -77,7 +91,6 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             var newValue = toValue({ VALUE, STATE, id, e, params: { value: STATE.codes[k], params } })
             newValue = [ ...newValue.toString().split('.'), ...path.slice(i + 1)]
             answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: newValue, object: o, params } })
-            
 
         } else if (k === 'data()') {
 
@@ -91,10 +104,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             answer = STATE[local.Data]
 
-        } else if (k === 'derive()') {
+        } else if (k === "removeAttribute()") {
 
             breakRequest = i + 1
-            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: [...local.derivations, ...[path[i + 1]]], object: o, params } })
+            var removed = toValue({ VALUE, STATE, id, e, params: { value: path[i+1], params } })
+            answer = o.removeAttribute(removed)
 
         } else if (k === 'parent()') {
 
@@ -168,14 +182,64 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === '!') {
 
             opposite = true
-            return answer = o
+            answer = o
+
+        } else if (k === 'child()') {
+
+            breakRequest = i + 1
+            var child = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            answer = o.child(child)
+            
+        } else if (k === 'delete()') {
+            
+            answer = o.delete()
+            
+        } else if (k === 'shift()') {
+
+            answer = o.shift()
+
+        } else if (k === 'slice()') {
+
+            breakRequest = i + 1
+            var sliced = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            answer = o.slice(sliced)
+
+        } else if (k === 'replaceState()') {
+
+            breakRequest = i + 1
+            var replaced = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            answer = o.replaceState(null, STATE.page[STATE.host].title, replaced)
+
+        } else if (k === 'pushState()') {
+
+            breakRequest = i + 1
+            var pushed = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            answer = o.pushState(null, STATE.page[STATE.host].title, pushed)
 
         } else if (k === 'param()') {
             
             breakRequest = i + 1
             var param = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             answer = o + '>>' + param
+
+        } else if (k === 'semi()') {
             
+            answer = o + ";"
+
+        } else if (k === 'space()') {
+            
+            breakRequest = i + 1
+            var spaced = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            if (!path[i + 1]) spaced = ""
+            answer = o + " " + spaced
+            
+        } else if (k === 'equal()') {
+            
+            breakRequest = i + 1
+            var added = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            if (!path[i + 1]) added = ""
+            answer = o + "=" + added
+
         } else if (k === 'isEqual()') {
             
             breakRequest = i + 1
@@ -264,27 +328,19 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             b = toNumber(b)
             o = toNumber(o)
-
+            
             if (!isNaN(o) && !isNaN(b)) answer = o - b
-            else answer = o.split(b)[0] + o.split(b)[1]
+            else answer = o.split(b)[0] - o.split(b)[1]
             if (isPrice) answer = answer.toLocaleString()
 
         } else if (k === 'dateTimeFormater()') {
             
-            answer = dateTimeFormater({ VALUE, STATE, id, e, params: {dateTime: o, opposite} })
+            answer = dateTimeFormater({ VALUE, STATE, id, e, params: { dateTime: o, opposite } })
             opposite = false
 
         } else if (k === 'toArray()') {
             
             answer = toArray(o)
-
-        } else if (k === 'else()') {
-            
-            breakRequest = i + 1
-            var answer1 = o
-            var answer2 = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
-            if (!answer1) answer = answer2
-            else answer = answer1
 
         } else if (k === 'json') {
             
@@ -298,11 +354,35 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = clone(o)
 
+        } else if (k === 'array()' || k === '[]') {
+            
+            answer = []
+
+        } else if (k === 'object()' || k === '{}') {
+            
+            answer = {}
+            if (path[i + 1] === 'field()') {
+                breakRequest = true
+                var fields = path.slice(i + 1).join('.').split('field().').slice(1)
+                fields.map(field => {
+                    var f = toValue({ VALUE, STATE, id, params: { value: field.split('.')[0], params }, e })
+                    var v = toValue({ VALUE, STATE, id, params: { value: field.split('.')[2], params }, e })
+                    answer[f] = v
+                })
+            }
+
         } else if (k === 'push()') {
             
             breakRequest = i + 1
             var pushed = toValue({ VALUE, STATE, id, params: {value: path[i + 1], params}, e })
             o.push(pushed)
+            answer = o
+
+        } else if (k === 'pull()') {
+            
+            breakRequest = i + 1
+            var pulled = toValue({ VALUE, STATE, id, params: {value: path[i + 1], params}, e })
+            o.splice(pulled,1)
             answer = o
 
         } else if (k === 'keys()') {
@@ -336,7 +416,8 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'includes()') {
             
             breakRequest = i + 1
-            answer = o.includes(path[i + 1])
+            var included = toValue({ VALUE, STATE, id, e, params: { value: path[i+1], params } })
+            answer = o.includes(included)
             
         } else if (k === 'capitalize()') {
             
@@ -349,9 +430,23 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'date()') {
             
             answer = new Date()
+
+        } else if (k === 'toUTCString()') {
+            
+            if (!isNaN(o)) o = new Date(parseFloat(o))
+            answer = o.toUTCString()
+            
+        } else if (k === 'setTime()') {
+            
+            answer = new Date().setTime(o)
+            
+        } else if (k === 'getTime()') {
+            
+            answer = o.getTime()
             
         } else if (k === 'toDate()') {
             
+            if (!isNaN(o)) o = new Date(parseFloat(o))
             answer = `${o.getDate()}-${o.getMonth()}-${o.getFullYear()}T${o.getHours()}:${o.getMinutes()}:${o.getSeconds()}`
             
         } else if (k === 'flat()') {
@@ -444,6 +539,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 else answer = 0
             }
             
+        } else if (k === 'getDeepChildrenId()') {
+
+            answer = getDeepChildrenId({ VALUE, id: o.id })
+            
         } else if (k === 'action()') {
             
             answer = execute({ VALUE, STATE, id, actions: path[i - 1], params, e })
@@ -455,6 +554,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'toNumber()') {
 
             answer = toNumber(o)
+            
+        } else if (k === 'toString()') {
+
+            answer = o + ""
             
         } else if (k === '1stIndex()' || k === 'firstIndex()') {
             
@@ -561,7 +664,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             breakRequest = true
             local.controls = toArray(local.controls) || []
             if (value !== undefined) return local.controls.push({
-                event: `load?${key}=${value}`
+                event: `loaded?${key}=${value}`
             })
             
         } else if (k === 'length' && !local.length && i === 0) {
@@ -592,11 +695,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             else answer = o[k] = {}
 
         } else answer = o[k]
-
+        
         return answer
 
     }, object)
-    
+
     return answer
 }
 
@@ -615,4 +718,19 @@ const getDeepChildren = ({ VALUE, id }) => {
     return all
 }
 
-module.exports = { reducer }
+const getDeepChildrenId = ({ VALUE, id }) => {
+    var all = [id]
+    if (!VALUE[id]) return []
+    
+    if ([...VALUE[id].element.children].length > 0) 
+        ([...VALUE[id].element.children]).map(el => {
+
+            if ([...VALUE[el.id].element.children].length > 0) 
+                all.push(...getDeepChildren({ VALUE, id }))
+
+            else all.push(el.id)
+        })
+    return all
+}
+
+module.exports = { reducer, getDeepChildren, getDeepChildrenId }

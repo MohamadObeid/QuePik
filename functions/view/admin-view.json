@@ -1,19 +1,29 @@
 {
-    "file-name": "admin-view",
-    "type": "View?style.display=flex;style.width=100%;style.height=100%;style.overflowY=auto",
+    "type": "View?class=flex-column;style.width=100%;style.height=100vh",
     "controls": {
-        "event": "load",
+        "event": "loaded",
         "actions": "async.search?search.path=asset;await.state.asset=value.search.data?!state.asset"
     },
     "children": [{
-        "type": "View?style.height=calc(100% - 6.5rem)",
+        "type": "View?style.display=flex;style.borderBottom=1px solid #eee;style.alignItems=center;style.zIndex=1;style.backgroundColor=#fff;style.width=100%;style.padding=0 2rem;style.height=6.5rem",
         "children": [{
-            "view": "admin-sidebar"
-        }, {
-            "type": "View?style.width=83%;style.height=calc(100% - 6.5rem);style.overflowY=auto;style.marginLeft=17%;style.padding=2.5rem 3rem;style.flexDirection=column;style.position=fixed",
+            "type": "View?style.flex=1",
             "children": [{
-                "type": "View?id=admin-view"
+                "type": "Text?class=pointer;text=QuePik;style.width=fit-content;style.fontSize=3.3rem;style.transition=color .3s;style.fontWeight=900;style.color=#ee384e;style.after.color=#116dff;hoverable"
             }]
+        }, {
+            "type": "Text?class=pointer;text=usd;hoverable;style.color=#666;style.fontSize=1.4rem;style.marginRight=3rem;style.after.color=#116dff;droplist.items=const.state.asset.findByName().Currency.options.map().name;droplist.style.minWidth=5rem"
+        }, {
+            "type": "Icon?class=pointer;icon.name=bi-translate;hoverable;style.color=#666;style.fontSize=1.8rem;style.marginRight=3rem;style.after.color=#116dff;droplist.items=const.state.asset.findByName().Language.options.map().name;droplist.style.minWidth=5rem;droplist.pause=true"
+        }, {
+            "type": "Button?link=/profile;text=My Profile;icon.name=bi-person;icon.style.fontSize=2.4rem"
+        }]
+    }, {
+        "type": "View?style.display=flex;style.height=calc(100% - 6.5rem)",
+        "children": [{
+            "view": "sidebar"
+        }, {
+            "type": "View?class=flex-column;id=admin-view;style.flex=1;style.overflowY=auto;style.padding=2.5rem 3rem"
         }]
     }]
 }

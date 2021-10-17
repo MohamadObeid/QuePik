@@ -1,6 +1,5 @@
 {
-    "file-name": "category-list",
-    "type": "View?Data;state.category-list-grid-view-display=grid;state.category-list-table-view-display=none;state.category-list-Data=[]",
+    "type": "View?class=flex-column;style.flex=1;state.category-list-grid-view-display=grid;state.category-list-table-view-display=none;state.category-list-Data=[]",
     "controls": {
         "actions": "await.update::category-list-view;async.search?search.path=category;await.state.category-list-Data=value.search.data;await.state.category=value.search.data" 
     },
@@ -19,16 +18,18 @@
             }]
         }]
     }, {
-        "type": "View?style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee",
+        "type": "View?style.display=flex;style.flexDirection=column;style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee;style.flex=1",
         "children": [{
             "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
             "children": [{
-                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem",
-                "placeholder": "Search by name, type, address, phone number...",
-                "controls": {
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by id, name, description...",
+                "controls": [{
+                    "event": "loaded",
+                    "actions": "async.search?search.path=category;search.limit=10000;await.state.category=value.search.data"
+                }, {
                     "event": "keyup>>200??state.category-list-Data",
-                    "actions": "await.update::category-list-view;async.filter?filter.backup=state.category.clone();filter.path=[name];filter.Data=category-list-Data;filter.value=e.target.value"
-                }
+                    "actions": "await.update::category-list-view;async.filter?filter.backup=state.category.clone();filter.path=[id,name,description];filter.Data=category-list-Data;filter.value=e.target.value"
+                }]
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
@@ -49,13 +50,13 @@
                 }]
             }]
         }, {
-            "type": "View?id=category-list-view;style.display=flex;style.flexDirection=column;style.width=100%",
+            "type": "View?id=category-list-view;style.display=flex;style.flexDirection=column;style.width=100%;style.flex=1",
             "children": [{
                 "type": "View?style.display=state.category-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
                     "type": "[View]?class=flex-box pointer;Data=category-list-Data;touchableOpacity;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.category-list-Data;state.category-list-Data.length()!=0",
                     "controls": {
-                        "event": "load",
+                        "event": "loaded",
                         "actions": "toControls?hoverable.id=[value.id,value.1stChild().id];miniWindow.view=category"
                     },
                     "children": [{
@@ -70,25 +71,25 @@
                         "type": "Text?text=Active;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=active;sort.Data=category-list-Data?state.category-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=active;sort.Data=category-list-Data?state.category-list-Data"
                         }
                     }, {
                         "type": "Text?text=Name;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=name;sort.Data=category-list-Data?state.category-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=name;sort.Data=category-list-Data?state.category-list-Data"
                         }
                     }, {
                         "type": "Text?text=Description;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=description;sort.Data=category-list-Data?state.category-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=description;sort.Data=category-list-Data?state.category-list-Data"
                         }
                     }, {
                         "type": "Text?text=Head Category;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=head-category.name;sort.Data=category-list-Data?state.category-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=head-category.name;sort.Data=category-list-Data?state.category-list-Data"
                         }
                     }, {
                         "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
@@ -110,10 +111,25 @@
                             "children": [{
                                 "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=category"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=category;popup.update=category-list-view;popup.note=Category removed successfully!;popup.type=eraser"
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=category;popup.update=category-list-view;popup.note=Category removed successfully!;popup.type=eraser;popup.state=category"
                             }]
                         }]
                     }]
+                }]
+            }, {
+                "type": "View?class=flex-box;style.flex=1;style.alignItems=end;style.justifyContent=flex-end;style.marginTop=2rem",
+                "children": [{
+                    "type": "Button?icon.name=bi-chevron-left",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::category-list-view;async.search?search.path=category;search.limitToLast=25;search.endBefore=state.category-list-Data.0.creation-date;await.state.category-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }, {
+                    "type": "Button?icon.name=bi-chevron-right;style.flexDirection=row-reverse",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::category-list-view;async.search?search.path=category;search.startAfter=state.category-list-Data.[state.category-list-Data.length().subs().1].creation-date;await.state.category-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
                 }]
             }]
         }]

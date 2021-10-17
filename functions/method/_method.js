@@ -22,7 +22,6 @@ const {addEventListener} = require("./event");
 const {execute} = require("./execute");
 const {controls} = require("./controls");
 const {setContent} = require("./setContent");
-const {route} = require("./route");
 const {starter} = require("./starter");
 const {setState} = require("./state");
 const {setPosition} = require("./setPosition");
@@ -60,10 +59,13 @@ const {toCode} = require("./toCode");
 const {isPath} = require("./isPath");
 const {toNumber} = require("./toNumber");
 const {capitalize} = require("./capitalize");
+const {setElement} = require("./setElement");
 const {toFirebaseOperator} = require("./toFirebaseOperator");
 const {popup} = require("./popup");
 const {keys} = require("./keys");
 const {values} = require("./values");
+const {toggleView} = require("./toggleView");
+const {upload} = require("./upload");
 const {dateTimeFormater} = require("./dateTimeFormater");
 const {
   setStyle,
@@ -75,6 +77,7 @@ const {resize, dimensions} = require("./resize");
 const {createData, clearData, removeData} = require("./data");
 
 const _method = {
+  setElement,
   clearValues,
   clone,
   derive,
@@ -102,7 +105,6 @@ const _method = {
   generate,
   createElement,
   controls,
-  route,
   textarea,
   setStyle,
   resetStyles,
@@ -152,7 +154,9 @@ const _method = {
   dateTimeFormater,
   keys,
   values,
-  toFirebaseOperator
+  toFirebaseOperator,
+  upload,
+  toggleView
 };
 
 module.exports = _method;

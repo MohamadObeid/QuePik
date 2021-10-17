@@ -1,0 +1,5 @@
+{
+    "views": ["signin"],
+    "pathname": "/",
+    "title": "QuePik"
+}

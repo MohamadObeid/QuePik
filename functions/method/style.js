@@ -98,7 +98,7 @@ const mountAfterStyles = ({VALUE, params, id}) => {
       else {
         local.controls = toArray(local.controls);
         local.controls.push({
-          event: `load?value.element.style.${key}=${value}`,
+          event: `loaded?value.element.style.${key}=${value}`,
         });
       }
     }

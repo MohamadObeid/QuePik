@@ -1,3 +1,5 @@
 {
-    "views": ["admin-navbar", "admin-view"]
+    "views": ["admin-view"],
+    "pathname": "/admin",
+    "title": "QuePik Admin Panel"
 }

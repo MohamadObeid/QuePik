@@ -45,7 +45,7 @@ module.exports = {
     if (local.type === "View") {
       tag = `<div class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</div>`;
     } else if (local.type === "Image") {
-      tag = `<img class='${local.class}' src='${local.src}' alt='${local.src}' id='${local.id}' style='${style}'>`;
+      tag = `<img class='${local.class}' src='${local.src || '/'}' alt='${local.src}' id='${local.id}' style='${style}'>`;
     } else if (local.type === "Table") {
       tag = `<table class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</table>`;
     } else if (local.type === "Row") {
@@ -55,9 +55,7 @@ module.exports = {
     } else if (local.type === "Cell") {
       tag = `<td class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</td>`;
     } else if (local.type === "Label") {
-      tag = `<label class='${local.class}' id='${local.id}' style='${style}' ${
-        local["aria-label"] ? `aria-label="${local["aria-label"]}"` : ""
-      } ${local.for ? `for="${local.for}"` : ""}>${innerHTML}</label>`;
+      tag = `<label class='${local.class}' id='${local.id}' style='${style}' ${local["aria-label"] ? `aria-label="${local["aria-label"]}"` : ""} ${local.for ? `for="${local.for}"` : ""}>${innerHTML}</label>`;
     } else if (local.type === "Span") {
       tag = `<span class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</span>`;
     } else if (local.type === "Text") {
@@ -97,14 +95,10 @@ module.exports = {
     // linkable
     if (local.link) {
       var id = generate();
-      tag = `<a id=${id} href=${local.link}>${tag}</a>`;
-      toArray(local.controls).push({
-        event: "click",
-        actions: `route?route=${local.link}`,
-      });
-      VALUE[id] = {};
+      tag = `<a id=${id} href=${local.link}>${tag}</a>`
+      VALUE[id] = { id }
     }
 
-    return tag;
+    return tag
   },
 };

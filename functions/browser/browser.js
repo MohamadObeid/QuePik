@@ -1,14 +1,23 @@
 // browserify browser.js > index.js
 const {starter} = require("../method/starter")
+const {setElement} = require("../method/setElement")
 
-const VALUE = JSON.parse(document.getElementById("VALUE").textContent);
-const STATE = JSON.parse(document.getElementById("STATE").textContent);
-const db = firebase.initializeApp(STATE.config).firestore()
+const VALUE = JSON.parse(document.getElementById("VALUE").textContent)
+const STATE = JSON.parse(document.getElementById("STATE").textContent)
+const _firebase = firebase.initializeApp(STATE.config)
 
-VALUE.body.element = document.body;
-VALUE.window = {element: window};
-VALUE.root.element = root;
+VALUE.body.element = document.body
+VALUE.window = {element: window}
+VALUE.root.element = root
 
-STATE.db = db
+STATE.db = _firebase.firestore()
+STATE.storage = _firebase.storage().ref()
 
-starter({VALUE, STATE, id: "root"});
+if (!window.location.href.includes("localhost") && `/app${STATE.pathname}` !== window.location.pathname)
+history.pushState(null, STATE.page[STATE.host].title, `/app${STATE.pathname}`)
+
+setElement({ VALUE, STATE, id: "public" })
+starter({ VALUE, STATE, id: "public" })
+
+setElement({ VALUE, STATE, id: "root" })
+starter({ VALUE, STATE, id: "root" })

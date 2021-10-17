@@ -17,6 +17,7 @@ const save = async ({ VALUE, STATE, params = {}, id, e }) => {
 };
 
 module.exports = { save };*/
+const { capitalize } = require("./capitalize");
 const { toAwait } = require("./toAwait");
 
 module.exports = {
@@ -32,7 +33,7 @@ module.exports = {
       local.save = {
         data: save.data,
         success: true,
-        message: `Data saved successfuly!`,
+        message: `${capitalize(collection)} saved successfuly!`,
       }
             
       console.log(local.save)

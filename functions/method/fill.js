@@ -1,55 +1,46 @@
 module.exports = {
-  fill: ({VALUE, STATE, id}) => {
-    const local = VALUE[id];
-    let ratio;
+  fill: ({ VALUE, STATE, id }) => {
+    const local = VALUE[id]
 
     if (local.element) {
       if (local.type !== "Image") {
-        var imageEls = [...local.element.getElementsByTagName("IMG")];
-        if (imageEls.length === 0) return;
-      } else imageEls = [local.element];
 
-      setTimeout(() => {
-        imageEls.map((el) => {
-          const local = VALUE[el.id];
-          if (!local.element.src.split("/")[4]) return;
+        var imageEls = [...local.element.getElementsByTagName("IMG")]
+        if (imageEls.length === 0) return
 
-          const parentWidth = VALUE[local.parent].element.clientWidth;
-          const parentHeight = VALUE[local.parent].element.clientHeight;
+      } else imageEls = [local.element]
 
-          var width = local.element.offsetWidth;
-          var height = local.element.offsetHeight;
+      const myFn = (el) => {
+        
+        const local = VALUE[el.id]
+        console.log("fill", el);
+        const parentWidth = VALUE[local.parent].element.clientWidth
+        const parentHeight = VALUE[local.parent].element.clientHeight
 
-          if (
-            (width / parentWidth <= 1 &&
-              width / parentWidth > 0.99 &&
-              height > parentHeight) ||
-            (height / parentHeight <= 1 &&
-              height / parentHeight > 0.99 &&
-              width > parentWidth)
-          ) {
-            return;
-          }
+        var width = local.element.offsetWidth
+        var height = local.element.offsetHeight
 
-          local.element.style.maxWidth = "100%";
-          local.element.style.maxHeight = "100%";
+        if (
+          (width / parentWidth <= 1 && width / parentWidth >= 0.99) ||
+          (height / parentHeight <= 1 && height / parentHeight >= 0.99)
+        ) return
 
-          var width = local.element.offsetWidth;
-          var height = local.element.offsetHeight;
+        var ratio = (height / parentHeight) > (width / parentWidth)
+        
+        if (ratio) {
 
-          if (width / parentWidth < 0.99) {
-            local.element.style.width = parentWidth + "px";
-            if (width) ratio = (parentWidth - width) / width;
-            local.element.style.maxHeight = "initial";
-            local.element.style.height = height + ratio * height + "px";
-          } else if (height / parentHeight < 0.99) {
-            local.element.style.height = parentHeight + "px";
-            if (height) ratio = (parentHeight - height) / height;
-            local.element.style.maxWidth = "initial";
-            local.element.style.width = width + ratio * width + "px";
-          }
-        });
-      }, 500);
+          local.element.style.width = parentWidth + 'px'
+          local.element.style.height = (height * parentWidth / width) + 'px'
+        
+        }  else {
+          
+          local.element.style.height = parentHeight + 'px'
+          local.element.style.width = (width * parentHeight / height) + 'px'
+
+        }
+      }
+
+      imageEls.map(el => el.onload = myFn(el))
     }
-  },
-};
+  }
+}

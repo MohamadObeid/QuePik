@@ -10,6 +10,7 @@ const resize = ({VALUE, id}) => {
   const width = local.style.width;
   if (width === "fit-content") {
     if (local.element) {
+
       if (!local.style || (local.style && !local.style.minWidth)) {
         local.element.style.width = results.width + "px";
       } else if (converter(local.style.minWidth) > results.width) {
@@ -32,7 +33,9 @@ const resize = ({VALUE, id}) => {
   // for height
   const height = local.style.height;
   if (height === "fit-content") {
+    
     if (local.element) {
+
       if (!local.style || (local.style && !local.style.minHeight)) {
         local.element.style.height = results.height + "px";
       } else if (converter(local.style.minHeight) > results.height) {
@@ -61,14 +64,9 @@ const dimensions = ({VALUE, id, params = {}}) => {
   document.body.appendChild(lDiv);
 
   const pStyle = local.style;
-  const pText =
-    params.text ||
-    local.data ||
-    (local.input && local.input.value) ||
-    local.text ||
-    "A";
+  const pText = params.text || (local.input && local.element.value) || "A";
   const pFontSize = pStyle.fontSize;
-
+  
   if (pStyle != null) lDiv.style = pStyle;
 
   lDiv.style.fontSize = pFontSize;

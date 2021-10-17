@@ -1,6 +1,5 @@
 {
-    "file-name": "booking-list",
-    "type": "View?Data;state.booking-list-grid-view-display=grid;state.booking-list-table-view-display=none;state.booking-list-Data=[]",
+    "type": "View?class=flex-column;style.flex=1;state.booking-list-grid-view-display=grid;state.booking-list-table-view-display=none;state.booking-list-Data=[]",
     "controls": {
         "actions": "await.update::booking-list-view;async.search?search.path=booking;await.state.booking-list-Data=value.search.data;await.state.booking=value.search.data" 
     },
@@ -19,16 +18,18 @@
             }]
         }]
     }, {
-        "type": "View?style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee",
+        "type": "View?style.display=flex;style.flexDirection=column;style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee;style.flex=1",
         "children": [{
             "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
             "children": [{
-                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem",
-                "placeholder": "Search by id, service, user, provider, status...",
-                "controls": {
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by id, service, user, provider, status...",
+                "controls": [{
+                    "event": "loaded",
+                    "actions": "async.search?search.path=booking;search.limit=10000;await.state.booking=value.search.data"
+                }, {
                     "event": "keyup>>200??state.booking-list-Data",
                     "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=[id,service.name,user.name,time,date,provider.name,status,payment.payable.lbp];filter.Data=booking-list-Data;filter.value=e.target.value"
-                }
+                }]
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
@@ -73,13 +74,13 @@
                 }]
             }]
         }, {
-            "type": "View?id=booking-list-view;style.display=flex;style.flexDirection=column;style.width=100%",
+            "type": "View?id=booking-list-view;style.display=flex;style.flexDirection=column;style.width=100%;style.flex=1",
             "children": [{
                 "type": "View?style.display=state.booking-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
                     "type": "[View]?class=flex-box pointer;Data=booking-list-Data;touchableOpacity;style.padding=2rem;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.booking-list-Data;state.booking-list-Data.length()!=0",
                     "controls": {
-                        "event": "load",
+                        "event": "loaded",
                         "actions": "toControls?hoverable.id=[value.id,value.1stChild().1stChild().children().0.id,value.1stChild().1stChild().children().1.id,value.1stChild().1stChild().children().2.id,value.1stChild().2ndChild().children().0.id,value.1stChild().2ndChild().children().1.id,value.1stChild().2ndChild().children().2.id];miniWindow.view=booking"
                     },
                     "children": [{
@@ -113,55 +114,55 @@
                         "type": "Text?text=Active;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=active;sort.Data=booking-list-Data?state.booking-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=active;sort.Data=booking-list-Data?state.booking-list-Data"
                         }
                     }, {
                         "type": "Text?text=Date;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=date;sort.Data=booking-list-Data?state.booking-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=date;sort.Data=booking-list-Data?state.booking-list-Data"
                         }
                     }, {
                         "type": "Text?text=Time;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=time;sort.Data=booking-list-Data?state.booking-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=time;sort.Data=booking-list-Data?state.booking-list-Data"
                         }
                     }, {
                         "type": "Text?text=User;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click", 
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=user.name;sort.Data=booking-list-Data?state.booking-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=user.name;sort.Data=booking-list-Data?state.booking-list-Data"
                         }
                     }, {
                         "type": "Text?text=Service;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click", 
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=service.name;sort.Data=booking-list-Data?state.booking-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=service.name;sort.Data=booking-list-Data?state.booking-list-Data"
                         }
                     }, {
                         "type": "Text?text=Provider;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click", 
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=provider.name;sort.Data=booking-list-Data?state.booking-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=provider.name;sort.Data=booking-list-Data?state.booking-list-Data"
                         }
                     }, {
                         "type": "Text?text=Booking Status;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click", 
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=status;sort.Data=booking-list-Data?state.booking-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=status;sort.Data=booking-list-Data?state.booking-list-Data"
                         }
                     }, {
                         "type": "Text?text=Payable;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click", 
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=payment.payable.lbp;sort.Data=booking-list-Data?state.booking-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=payment.payable.lbp;sort.Data=booking-list-Data?state.booking-list-Data"
                         }
                     }, {
                         "type": "Text?text=Payment Status;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click", 
-                            "actions": "await.update::value.parent().next().id;sort?sort.path=payment.status;sort.Data=booking-list-Data?state.booking-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=payment.status;sort.Data=booking-list-Data?state.booking-list-Data"
                         }
                     }, {
                         "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
@@ -193,10 +194,25 @@
                             "children": [{
                                 "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=booking"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=booking;popup.update=booking-list-view;popup.note=Booking removed successfully!;popup.type=eraser;popup.text=Do you want to delete this booking/?"
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=booking;popup.update=booking-list-view;popup.note=Booking removed successfully!;popup.type=eraser;popup.text=Do you want to delete this booking/?;popup.state=booking"
                             }]
                         }]
                     }]
+                }]
+            }, {
+                "type": "View?class=flex-box;style.flex=1;style.alignItems=end;style.justifyContent=flex-end;style.marginTop=2rem",
+                "children": [{
+                    "type": "Button?icon.name=bi-chevron-left",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::booking-list-view;async.search?search.path=booking;search.limitToLast=25;search.endBefore=state.booking-list-Data.0.creation-date;await.state.booking-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }, {
+                    "type": "Button?icon.name=bi-chevron-right;style.flexDirection=row-reverse",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::booking-list-view;async.search?search.path=booking;search.startAfter=state.booking-list-Data.[state.booking-list-Data.length().subs().1].creation-date;await.state.booking-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
                 }]
             }]
         }]

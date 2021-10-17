@@ -7,6 +7,6 @@ module.exports = {
   hoverable: require("./hoverable"),
   sorter: require("./sorter"),
   miniWindow: require("./miniWindow"),
-  viewToggler: require("./viewToggler"),
+  toggler: require("./toggler"),
   touchableOpacity: require("./touchableOpacity"),
 };

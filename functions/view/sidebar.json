@@ -1,0 +1,37 @@
+{
+    "type": "View?passToChildren.featured;passToChildren.icon.style.fontSize=2.2rem;passToChildren.icon.google;passToChildren.icon.outlined;passToChildren.toggler.id=admin-view",
+    "style": {
+        "padding": "0.5rem 0.2rem",
+        "borderRight": "1px solid #eee",
+        "clipPath": "inset(0 -5px 0 0)",
+        "width": "23rem",
+        "height": "100%",
+        "flexDirection": "column",
+        "overflowY": "auto"
+    },
+    "children": [{
+        "type": "Item?text=Dashboard;icon.name=space_dashboard;mountonload"
+    }, {
+        "type": "Item?text=Users;icon.name=people_alt;toggler.view=user-list"
+    }, {
+        "type": "Item?text=Providers;icon.name=badge;toggler.view=provider-list"
+    }, {
+        "type": "Item?text=Services;icon.name=spa;toggler.view=service-list"
+    }, {
+        "type": "Item?text=Categories;icon.name=category;toggler.view=category-list"
+    }, {
+        "type": "Item?text=Bookings;icon.name=fact_check;toggler.view=booking-list"
+    }, {
+        "type": "Item?text=Offers;icon.name=local_offer;toggler.view=offer-list"
+    }, {
+        "type": "Item?text=Reviews;icon.name=reviews;toggler.view=review-list"
+    }, {
+        "type": "Item?text=Collections;icon.name=apps;toggler.view=collection-list"
+    }, {
+        "type": "Item?text=Assets;icon.name=web_asset;toggler.view=asset-list"
+    }, {
+        "type": "Item?text=Gallery;icon.name=collections;toggler.view=image-list"
+    }, {
+        "type": "Item?text=Settings;icon.name=settings;toggler.view=settings-list"
+    }]
+}

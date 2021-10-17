@@ -7,6 +7,7 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons+Round");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons+Sharp");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone");
+@import url("./rate.css");
 
 *,
 html,
@@ -446,4 +447,9 @@ textarea {
 
 .gap-2 {
   gap: 2rem;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }

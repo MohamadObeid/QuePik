@@ -13,7 +13,7 @@ const Input = (component) => {
     component.input.style = component.input.style || {}
     
     component = toComponent(component)
-    var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
+    var { id, input, model, droplist, readonly, style, controls, icon, duplicated, touchableOpacity,
         placeholder, textarea, filterable, clearable, removable, msg, day, disabled,
         duplicatable, lang, unit, currency, google, key, note, edit, minlength } = component
 
@@ -40,6 +40,7 @@ const Input = (component) => {
     if (model === 'classic') {
         return {
             ...component,
+            touchableOpacity: true,
             style: {
                 width: '100%',
                 border: '0',
@@ -63,6 +64,7 @@ const Input = (component) => {
             id,
             type: 'View',
             class: 'flex-box',
+            touchableOpacity: true,
             // remove from comp
             controls: {},
             droplist: undefined,
@@ -202,7 +204,7 @@ const Input = (component) => {
                 }, {
                     type: `Checkbox?id=${id}-google;class=align-center;path=google;style.cursor=pointer;style.margin=0 .25rem?const.${google}`,
                     controls: [{
-                        event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
+                        event: `change;loaded?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
                     type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type>>readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[Enter google icon type>>readonly,state.google-items];hoverable?const.${google}`,

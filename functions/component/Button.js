@@ -23,8 +23,8 @@ const Button = (component) => {
     },
     children: [
       {
+        type: `Icon?id=${id}-icon?const.${icon}`,
         icon,
-        type: `Icon?id=${id}-icon`,
         style: {
           color: style.color || "#444",
           fontSize: style.fontSize || "1.4rem",
@@ -40,7 +40,7 @@ const Button = (component) => {
         },
       },
       {
-        type: `Text?id=${id}-text`,
+        type: `Text?id=${id}-text?const.${text}`,
         text,
         style: {
           color: style.color || "#444",
@@ -49,9 +49,9 @@ const Button = (component) => {
           transition: "color 0.1s",
           after: {
             color: style.after.color || "#0d6efd",
-          },
-        },
-      },
+          }
+        }
+      }
     ],
     controls: [
       ...controls,
@@ -62,9 +62,9 @@ const Button = (component) => {
       {
         event: "mouseleave",
         actions: `resetStyles???${id};${id}-text;${id}-icon`,
-      },
-    ],
-  };
-};
+      }
+    ]
+  }
+}
 
 module.exports = { Button };

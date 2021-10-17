@@ -10,6 +10,7 @@ var {focus} = require("./focus");
 var duplicate = ({VALUE, STATE, params = {}, id}) => {
   var {createElement} = require("./createElement");
   var {starter} = require("./starter");
+  var {setElement} = require("./setElement");
 
   let localID = id, path = []
   var local = VALUE[id];
@@ -169,6 +170,7 @@ var duplicate = ({VALUE, STATE, params = {}, id}) => {
     VALUE[local.parent].element.appendChild(newcontent.firstChild);
 
     // starter
+    setElement({STATE, VALUE, id});
     starter({STATE, VALUE, id});
   }
 

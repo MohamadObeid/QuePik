@@ -227,8 +227,8 @@ Query operators:
   4. > greater than
   5. >= greater than or equal to
   6. != not equal to
-  7. array-contains (search an array by multiple choices)
-  8. array-contains-any (search an array by multiple !choices)
+  7. array-contains (search an array by 1 choice)
+  8. array-contains-any (search an array by multiple choices)
   9. in (search a string by multiple choices)
   10. not-in (search a string by multiple !choices)
 

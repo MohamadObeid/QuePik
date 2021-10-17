@@ -1,51 +1,65 @@
-const {createElement} = require("./createElement");
-const {getJsonFiles} = require("./getJsonFiles");
+const {createElement} = require("./createElement")
+const {getJsonFiles} = require("./getJsonFiles")
 //
 require('dotenv').config()
 
 const createDocument = (req, res) => {
     
-    var page = req.url.split("/")[1]
-    var innerHTML = "";
-    var STATE = {};
-    var VALUE = {};
+    var host = req.url.split("/")[1]
+    var config = JSON.parse(process.env.FIREBASE_CONFIG)
+    var root = "", public = ""
+    var STATE = {}
+    var VALUE = {}
     
     // get assets & views
     STATE = {
         view: getJsonFiles("view"),
         page: getJsonFiles("page"),
+        pathname: req.url,
+        host,
         codes: {},
-        config: JSON.parse(process.env.FIREBASE_CONFIG)
-    };
+        config
+    }
 
     // body
-    var id = "body";
-    VALUE[id] = {};
-    VALUE[id].id = id;
+    var id = "body"
+    VALUE[id] = {}
+    VALUE[id].id = id
 
     // root
-    var id = "root";
-    VALUE[id] = {};
-    VALUE[id].id = id;
-    VALUE[id].type = "View";
-    VALUE[id].children = [];
-    VALUE[id].parent = "body";
+    var id = "root"
+    VALUE[id] = {}
+    VALUE[id].id = id
+    VALUE[id].type = "View"
+    VALUE[id].children = []
+    VALUE[id].parent = "body"
+
+    // public
+    var id = "public"
+    VALUE[id] = {}
+    VALUE[id].id = id
+    VALUE[id].type = "View"
+    VALUE[id].children = []
+    VALUE[id].parent = "body"
 
     //
-    if (!STATE.page[page]) return "Hello";
+    if (!STATE.page[host]) return "Hello"
 
-    // push page views to root
-    STATE.page[page].views.map(
-        (view) => STATE.view[view] && VALUE[id].children.push(STATE.view[view])
-    );
+    // get root children
+    STATE.page[host].views.map(
+        (view) => STATE.view[view] && VALUE["root"].children.push(STATE.view[view])
+    )
 
-    // push public views to root
+    // get public children
     STATE.page.public.views.map(
-        (view) => STATE.view[view] && VALUE[id].children.push(STATE.view[view])
-    );
+        (view) => STATE.view[view] && VALUE["public"].children.push(STATE.view[view])
+    )
 
-    // create html
-    innerHTML = createElement({STATE, VALUE, id});
+    // create root html
+    root = createElement({ STATE, VALUE, id: "root" })
+
+    // create public html
+    public = createElement({ STATE, VALUE, id: "public" })
 
     res.send(`<!DOCTYPE html>
         <html lang="en" class="html">
@@ -55,18 +69,18 @@ const createDocument = (req, res) => {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>QuePik</title>
             <link rel="stylesheet" href="index.css" />
-            <link rel="stylesheet" href="rate.css" />
             <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
             <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
             <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
         </head>
         <body>
-            ${innerHTML}
+            ${public}${root}
             <script id="VALUE" type="application/json">${JSON.stringify(VALUE)}</script>
             <script id="STATE" type="application/json">${JSON.stringify(STATE)}</script>
             <script src="index.js"></script>
         </body>
         </html>`)
-};
+}
 
-module.exports = {createDocument};
+module.exports = {createDocument}

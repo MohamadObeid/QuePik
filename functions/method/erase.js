@@ -26,19 +26,21 @@ module.exports = {
     var collection = erase.path
     var ref = STATE.db.collection(collection)
     
-    ref.doc(erase.id).delete().then(() => {
+    ref.doc(erase.id).delete().then(async () => {
 
       local.erase = {
         success: true,
         message: `Data erased successfuly!`,
       }
+      
+      if (erase.type === 'file') await STATE.storage.child(`images/${erase.id}`).delete()
             
       console.log(local.erase)
                   
       // await params
       toAwait({ VALUE, STATE, id, e, params })
-    })
-    .catch(error => {
+
+    }).catch(error => {
 
       local.erase = {
           success: false,

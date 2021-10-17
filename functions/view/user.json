@@ -4,14 +4,7 @@
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=user-++generate()<<!value.data().id",
         "children": [{
-            "type": "View?class=flex-box?value.data().first-name||value.data().last-name",
-            "children": [{
-                "type": "Text?text=Edit;style.fontSize=1.8rem;fontWeight=500"
-            }, {
-                "type": "Text?text=value.data().first-name;style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
-            }, {
-                "type": "Text?text=value.data().last-name;style.fontSize=1.8rem;style.fontWeight=500"
-            }]
+            "type": "Text?text=any.Edit .add().[value.data().name.capitalize()].add(). User;style.fontSize=1.8rem;fontWeight=500?value.data().name"
         }, {
             "type": "Text?text=Create New user;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().first-name"
         }, {
@@ -59,9 +52,9 @@
                 }, {
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().toDate()<<!value.data().creation-date;path=creation-date;input.style.color=#666",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
                     "controls": {
-                        "event": "load?value.element.value=value.data().split().T.join(). "
+                        "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }
                 }]
             }]
@@ -85,7 +78,7 @@
             }, {
                 "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;value.date().password=generate()<<value.data().password;path=password"
             }, {
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active;droplist.items=[Status>>readonly,true,false]"
+                "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active;droplist.items=[Status>>readonly,true,false]"
             }]
         }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",

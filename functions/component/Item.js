@@ -40,7 +40,7 @@ const Item = (component) => {
         marginRight: "1px",
         marginLeft: "1px",
         marginBottom: "1px",
-        borderRadius: "0.5rem",
+        borderRadius: "0.45rem",
         ...style,
         after: {
           border: "1px solid #ee384e",
@@ -97,9 +97,9 @@ const Item = (component) => {
       controls: [
         ...controls,
         {
-          actions: `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountonload?state.${state}`,
-        },
-        {
+          event: `loaded?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountonload`,
+          actions: `mountAfterStyles::state.${state}`,
+        }, {
           event: `click??state.${state}=undefined||state.${state}.0!=${id}`,
           actions: [
             `setData?data.value=value.text`,
@@ -175,7 +175,7 @@ const Item = (component) => {
         },
         {
           event: "mouseleave",
-          actions: `resetStyles??!mountonload?${id};${id}-icon;${id}-text`,
+          actions: `resetStyles??!mountonloaded?${id};${id}-icon;${id}-text`,
         },
       ],
     };

@@ -16,18 +16,20 @@ const remove = ({STATE, VALUE, params, id}) => {
       return k;
     });
   }
-
+  
   if (params.path) keys.push(...path);
-  keys.push("delete()");
-
-  // delete
   if (keys.length > 0) {
-    reducer({
-      VALUE,
-      STATE,
-      id,
-      params: {path: keys, object: STATE[local.Data]},
-    });
+    keys.push("delete()")
+
+    // delete
+    if (keys.length > 0) {
+      reducer({
+        VALUE,
+        STATE,
+        id,
+        params: {path: keys, object: STATE[local.Data]},
+      });
+    }
   }
 
   removeIds({VALUE, id});

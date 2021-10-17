@@ -101,39 +101,24 @@ const createElement = ({STATE, VALUE, id}) => {
       [];
   if (path.length > 0) {
     if (!local.Data) {
-      var state = (local.Data = generate());
-      STATE[state] = local.data || {};
-      STATE[`${state}-options`] = {backup: clone(STATE[state])};
+      var state = (local.Data = generate())
+      STATE[state] = local.data || {}
+      STATE[`${state}-options`] = {}
     }
 
     // convert string numbers to num
     path = path.map((k) => {
-      if (!isNaN(k)) k = parseFloat(k);
-      return k;
-    });
+      if (!isNaN(k)) k = parseFloat(k)
+      return k
+    })
 
-    // push 0 to derivations for array data
-    /* if (isNaN(path[0])) {
-      const data = reducer({
-        VALUE,
-        STATE,
-        id,
-        params: {
-          path: parent.derivations,
-          value: params.data,
-          object: STATE[local.Data],
-        },
-      });
-      if (Array.isArray(data)) local.derivations.push(0);
-    } */
-
-    local.derivations.push(...path);
+    local.derivations.push(...path)
   }
 
   // data
   if (parent.unDeriveData || local.unDeriveData) {
-    local.data = local.data || "";
-    local.unDeriveData = true;
+    local.data = local.data || ""
+    local.unDeriveData = true
   } else {
     local.data = reducer({
       VALUE,
@@ -145,10 +130,10 @@ const createElement = ({STATE, VALUE, id}) => {
         key: true,
         object: STATE[local.Data],
       },
-    });
+    })
   }
 
-  return createTags({VALUE, STATE, id});
-};
+  return createTags({VALUE, STATE, id})
+}
 
-module.exports = {createElement};
+module.exports = {createElement}

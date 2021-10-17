@@ -1,24 +1,18 @@
 {
     "file-name": "provider",
-    "type": "View?style.padding=2rem;data={}<<!value.data()",
+    "type": "View?style.padding=2rem;data={}<<!value.data();state.provider-reviews=[]",
     "controls": {
-        "event": "load",
+        "event": "loaded",
         "actions": [
             "async.search?search.path=user;await.state.user=value.search.data",
-            "async.search?search.path=service;await.state.service=value.search.data"
+            "async.search?search.path=service;await.state.service=value.search.data",
+            "async.search?search.path=review;search.fields.id.equals=value.data().reviews;await.state.provider-reviews=value.search.data.map().description?value.data().reviews.length()!=0"
         ]
     },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=provider-++generate()<<!value.data().id",
         "children": [{
-            "type": "View?class=flex-box?value.data().name",
-            "children": [{
-                "type": "Text?text=Edit;style.fontSize=1.8rem;fontWeight=500"
-            }, {
-                "type": "Text?text=value.data().name.capitalize();style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
-            }, {
-                "type": "Text?text=Provider;style.fontSize=1.8rem;fontWeight=500"
-            }]
+            "type": "Text?text=any.Edit .add().[value.data().name.capitalize()].add(). Provider;style.fontSize=1.8rem;fontWeight=500?value.data().name"
         }, {
             "type": "Text?text=Create New Provider;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
         }, {
@@ -63,9 +57,9 @@
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().toDate()<<!value.data().creation-date;path=creation-date",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
                     "controls": {
-                        "event": "load?value.element.value=value.data().split().T.join(). "
+                        "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }
                 }]
             }]
@@ -92,7 +86,7 @@
                     "watch": "value.data()?value.Data().user.id=state.user.clone().findByName().[value.data()].id"
                 }
             }, {
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=active;data=true<<value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
+                "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=active;data=true<<value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
             }]
         }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
@@ -143,9 +137,9 @@
         }, {
             "type": "View?style.display=grid;style.marginBottom=1rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().services=[{}]<<!value.Data().services",
             "children": [{
-                "type": "[Input]?textarea;featured;duplicatable;readonly;style.backgroundColor=#f0f0f0;path=services;droplist.items=const.[any.Service List.param().readonly,state.service.map().name].flat()",
+                "type": "[Input]?textarea;featured;removable;clearable;readonly;style.backgroundColor=#f0f0f0;path=services;droplist.items=const.[any.Service List.param().readonly,state.service.map().name].flat()",
                 "controls": [{
-                    "event": "load?value.derivations=value.derivations.push().name;value.element.value=value.data()"
+                    "event": "loaded?value.derivations=value.derivations.push().name;value.element.innerHTML=value.data()"
                 }, {
                     "watch": "value.data()?value.Data().services.[value.derivations.1].id=state.service.clone().findByName().[value.data()].id"
                 }]
@@ -166,7 +160,7 @@
         }, {
             "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().reviews=[]<<!value.Data().reviews",
             "children": [{
-                "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;flicker"
+                "type": "[Input]?textarea;featured;removable;minlength=0;readonly;style.backgroundColor=#f0f0f0;flicker"
             }],
             "controls": {
                 "watch": "state.provider-reviews?once;value.Data=provider-reviews",
@@ -207,36 +201,60 @@
         }, {
             "type": "View?class=divider;style.marginTop=1rem;style.width=100%"
         }, {
-            "type": "View?style.display=grid;style.gap=1rem;style.marginBottom=2rem",
+            "type": "View?style.display=grid;style.gap=1rem;style.marginBottom=2rem;style.minHeight=24rem",
             "children": [{
                 "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;value.data().images=[]<<!value.data().images",
                 "children": [{
-                    "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
+                    "type": "View?class=flex-box;style.overflow=hidden;style.position=relative;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem;flicker",
                     "children": [{
-                        "type": "Image?src=value.data().images.0<<value.data().images.0;path=images.0;fill"
+                        "type": "Image?src=value.data().images.0.url.else().;path=images.0;fill"
+                    }, {
+                        "type": "Icon?class=pointer;icon.name=backspace;icon.google;icon.outlined;style.display=none<<!value.data().images.0;style.position=absolute;style.bottom=.5rem;style.right=.85rem;style.color=#fff;style.fontSize=2.5rem;style.after.color=#444;style.transition=color .15s;hoverable",
+                        "controls": [{
+                            "event": "click??value.data().images.0.id",
+                            "actions": "await.note;await.update::value.parent().parent().id;async.erase?erase.path=image;erase.type=file;erase.id=value.data().images.0.id;note=Image removed successfully!;await.state.[value.Data].images.shift()"
+                        }]
                     }]
                 }, {
-                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem",
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;flicker",
                     "children": [{
-                        "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
+                        "type": "View?class=flex-box;style.overflow=hidden;style.position=relative;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
                         "children": [{
-                            "type": "Image?src=value.data().images.1<<value.data().images.1;path=images.1;fill"
+                            "type": "Image?src=value.data().images.1.url.else().;path=images.1;fill"
+                        }, {
+                            "type": "Icon?class=pointer;icon.name=backspace;icon.google;icon.outlined;style.display=none<<!value.data().images.1;style.position=absolute;style.bottom=.5rem;style.right=.85rem;style.color=#fff;style.fontSize=2.5rem;style.after.color=#444;style.transition=color .15s;hoverable",
+                            "controls": [{
+                                "event": "click??value.data().images.1.id",
+                                "actions": "await.note;await.update::value.parent().parent().parent().id;async.erase?erase.path=image;erase.type=file;erase.id=value.data().images.1.id;note=Image removed successfully!;await.value.Data().images.pull().1"
+                            }]
                         }]
                     }, {
-                        "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
+                        "type": "View?class=flex-box;style.overflow=hidden;style.position=relative;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
                         "children": [{
-                            "type": "Image?src=value.data().images.2<<value.data().images.2;path=images.2;fill"
+                            "type": "Image?src=value.data().images.2.url.else().;path=images.2;fill"
+                        }, {
+                            "type": "Icon?class=pointer;icon.name=backspace;icon.google;icon.outlined;style.display=none<<!value.data().images.2;style.position=absolute;style.bottom=.5rem;style.right=.85rem;style.color=#fff;style.fontSize=2.5rem;style.after.color=#444;style.transition=color .15s;hoverable",
+                            "controls": [{
+                                "event": "click??value.data().images.2.id",
+                                "actions": "await.note;await.update::value.parent().parent().parent().id;async.erase?erase.path=image;erase.type=file;erase.id=value.data().images.2.id;note=Image removed successfully!;await.value.Data().images.pull().2"
+                            }]
                         }]
                     }, {
-                        "type": "View?class=flex-box;style.overflow=hidden;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
+                        "type": "View?class=flex-box;style.overflow=hidden;style.position=relative;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
                         "children": [{
-                            "type": "Image?src=value.data().images.3<<value.data().images.3;path=images.3;fill"
+                            "type": "Image?src=value.data().images.3.url.else().;path=images.3;fill"
+                        }, {
+                            "type": "Icon?class=pointer;icon.name=backspace;icon.google;icon.outlined;style.display=none<<!value.data().images.3;style.position=absolute;style.bottom=.5rem;style.right=.85rem;style.color=#fff;style.fontSize=2.5rem;style.after.color=#444;style.transition=color .15s;hoverable",
+                            "controls": [{
+                                "event": "click??value.data().images.3.id",
+                                "actions": "await.note;await.update::value.parent().parent().parent().id;async.erase?erase.path=image;erase.type=file;erase.id=value.data().images.3.id;note=Image removed successfully!;await.value.Data().images.pull().3"
+                            }]
                         }]
                     }, {
-                        "type": "Input?id=img-uploader;featured;path=images.[value.Data().images.length()];style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
+                        "type": "Input?id=img-uploader;featured;path=images.[value.Data().images.length()];input.title=provider;style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!;msg=Reached maximum limit!<<value.Data().images.length()=4;disabled=true<<value.Data().images.length()=4;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem;touchableOpacity",
                         "controls": [{
                             "event": "input>>200",
-                            "actions": "await.fill::value.parent().parent().id;await.note;async.save?value.element.disabled=true<<value.derivations.lastIndex()=3;note=Image uploaded succefully!;save.data=state.file;save.path=image;await.value.data()=value.save.data.file-name;await.value.parent().element.children.[value.derivations.lastIndex()--1].id.().1stChild().element.src=value.data()<<value.derivations.lastIndex()!=0;await.value.parent().prev().1stChild().element.src=value.data()<<value.derivations.lastIndex()=0;await.value.derivations.lastIndex()=value.derivations.lastIndex()++1;await.value.element.innerHTML::img-uploader-msg=Reached maximum limit!<<value.Data().images.length()=4?value.derivations.lastIndex()!=4"
+                            "actions": "await.fill::value.parent().parent().id;await.note;async.upload?value.derivations.lastIndex()=value.Data().images.length();value.element.disabled=true<<value.Data().images.length()=3;note=Image uploaded succefully!;await.value.data()=value.{}.field().url.value().[value.file.url].field().id.value().[value.file.id];await.value.parent().element.children.[value.Data().images.length().subs().2].id.().2ndChild().element.style.display=flex<<value.Data().images.length()!=1;await.value.parent().element.children.[value.Data().images.length().subs().2].id.().1stChild().element.src=value.file.url<<value.Data().images.length()!=1;await.value.parent().prev().2ndChild().element.style.display=flex<<value.Data().images.length()=1;await.value.parent().prev().1stChild().element.src=value.file.url<<value.Data().images.length()=1;await.value.derivations.lastIndex()=value.Data().images.length();await.value.element.innerHTML::img-uploader-msg=Reached maximum limit!<<value.Data().images.length()=4?value.Data().images.length()!=4"
                         }]
                     }]
                 }]

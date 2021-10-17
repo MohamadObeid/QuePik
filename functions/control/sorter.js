@@ -7,7 +7,7 @@ module.exports = ({VALUE, id, params = {}}) => {
   return [
     {
       event: "click",
-      actions: `await.update::${controls.id};sort?sort.path=${controls.path};sort.Data=${controls.Data}?state.${controls.Data}`
+      actions: `await.update::${controls.id};async.sort?sort.path=${controls.path};sort.Data=${controls.Data}?state.${controls.Data}`
     },
   ];
 };

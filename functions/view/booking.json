@@ -1,8 +1,7 @@
 {
-    "file-name": "booking",
     "type": "View?style.padding=2rem;data={}<<!value.data()",
     "controls": {
-        "event": "load",
+        "event": "loaded",
         "actions": [
             "async.search?search.path=user;await.state.user=value.search.data?!state.user",
             "async.search?search.path=provider;await.state.provider=value.search.data?!state.provider",
@@ -12,16 +11,9 @@
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=booking-++generate()<<!value.data().id",
         "children": [{
-            "type": "View?class=flex-box?value.data().name",
-            "children": [{
-                "type": "Text?text=Edit;style.fontSize=1.8rem;fontWeight=500"
-            }, {
-                "type": "Text?text=value.data().name.capitalize();style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
-            }, {
-                "type": "Text?text=Booking;style.fontSize=1.8rem;fontWeight=500"
-            }]
+            "type": "Text?text=any.Edit .add().[value.data().id].add(). Asset;style.fontSize=1.8rem;fontWeight=500?value.data().date"
         }, {
-            "type": "Text?text=Create New Booking;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
+            "type": "Text?text=Create New Booking;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().date"
         }, {
             "type": "View?class=flex-box;style.marginLeft=auto",
             "children": [{
@@ -67,9 +59,9 @@
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().toDate()<<!value.data().creation-date;path=creation-date",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
                     "controls": {
-                        "event": "load?value.element.value=value.data().split().T.join(). "
+                        "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }
                 }]
             }]
@@ -96,11 +88,10 @@
                 }, {
                     "type": "Input?id=provider-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=provider.name;droplist.items=const.[Provider List>>readonly,state.provider.map().name].flat()",
                     "controls": [{
-                        "watch": "value.data()?value.Data().provider.id=state.provider.clone().findByName().[value.data()].id;value.Data().service.delete();value.Data().payment.net.lbp=0;value.Data().payment.payable.lbp=0;value.Data().payment.discount.lbp=0;value.element.value::service-input-input='';value.element.value::net-input-input=0;value.element.value::discount-input-input=0;value.element.value::payable-input-input=0",
-                        "actions": "async.search?search.path=service;search.options.fields.id.equal=state.provider.clone().findById().[value.Data().provider.id].services.map().id;await.state.service-by-provider=value.search.data"
+                        "watch": "value.data()?value.Data().provider.id=state.provider.clone().findByName().[value.data()].id;value.Data().service.delete();value.Data().payment.net.lbp=0;value.Data().payment.payable.lbp=0;value.Data().payment.discount.lbp=0;value.element.value::service-input-input='';value.element.value::net-input-input=0;value.element.value::discount-input-input=0;value.element.value::payable-input-input=0"
                     }]
                 }, {
-                    "type": "Input?id=service-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=service.name;droplist.items=const.[Service List>>readonly,state.service-by-provider.map().name].flat()",
+                    "type": "Input?id=service-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=service.name;droplist.items=const.[Service List>>readonly,state.provider.clone().findById().[value.Data().provider.id].services.map().name].flat()",
                     "controls": {
                         "watch": "value.data()?value.Data().service.id=state.service.clone().findByName().[value.data()].id"
                     }
@@ -142,7 +133,7 @@
                 "type": "Input?id=discount-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;data=0<<!value.Data().payment.discount.lbp;path=payment.discount.lbp",
                 "controls": {
                     "watch": "value.Data().service.id",
-                    "actions": "async.search?search.path=offer;search.options.fields.id.equals=state.service.findById().[value.Data().service.id].offer.id;await.value.data()=value.search.data.0.discount.lbp;await.value.element.value=value.data()?state.service.findById().[value.Data().service.id].offer.id"
+                    "actions": "async.search?search.path=offer;search.fields.id.equals=state.service.findById().[value.Data().service.id].offer.id;await.value.data()=value.search.data.0.discount.lbp;await.value.element.value=value.data()?state.service.findById().[value.Data().service.id].offer.id"
                 }
             }, {
                 "type": "Input?id=payable-input;textarea;featured;readonly;style.backgroundColor=#f0f0f0;data=0<<!value.Data().payment.payable.lbp;path=payment.payable.lbp",

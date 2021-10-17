@@ -773,19 +773,28 @@ process.umask = function() { return 0; };
 },{}],5:[function(require,module,exports){
 // browserify browser.js > index.js
 const {starter} = require("../method/starter")
+const {setElement} = require("../method/setElement")
 
-const VALUE = JSON.parse(document.getElementById("VALUE").textContent);
-const STATE = JSON.parse(document.getElementById("STATE").textContent);
-const db = firebase.initializeApp(STATE.config).firestore()
+const VALUE = JSON.parse(document.getElementById("VALUE").textContent)
+const STATE = JSON.parse(document.getElementById("STATE").textContent)
+const _firebase = firebase.initializeApp(STATE.config)
 
-VALUE.body.element = document.body;
-VALUE.window = {element: window};
-VALUE.root.element = root;
+VALUE.body.element = document.body
+VALUE.window = {element: window}
+VALUE.root.element = root
 
-STATE.db = db
+STATE.db = _firebase.firestore()
+STATE.storage = _firebase.storage().ref()
 
-starter({VALUE, STATE, id: "root"});
-},{"../method/starter":80}],6:[function(require,module,exports){
+if (!window.location.href.includes("localhost") && `/app${STATE.pathname}` !== window.location.pathname)
+history.pushState(null, STATE.page[STATE.host].title, `/app${STATE.pathname}`)
+
+setElement({ VALUE, STATE, id: "public" })
+starter({ VALUE, STATE, id: "public" })
+
+setElement({ VALUE, STATE, id: "root" })
+starter({ VALUE, STATE, id: "root" })
+},{"../method/setElement":77,"../method/starter":80}],6:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const Button = (component) => {
@@ -811,8 +820,8 @@ const Button = (component) => {
     },
     children: [
       {
+        type: `Icon?id=${id}-icon?const.${icon}`,
         icon,
-        type: `Icon?id=${id}-icon`,
         style: {
           color: style.color || "#444",
           fontSize: style.fontSize || "1.4rem",
@@ -828,7 +837,7 @@ const Button = (component) => {
         },
       },
       {
-        type: `Text?id=${id}-text`,
+        type: `Text?id=${id}-text?const.${text}`,
         text,
         style: {
           color: style.color || "#444",
@@ -837,9 +846,9 @@ const Button = (component) => {
           transition: "color 0.1s",
           after: {
             color: style.after.color || "#0d6efd",
-          },
-        },
-      },
+          }
+        }
+      }
     ],
     controls: [
       ...controls,
@@ -850,10 +859,10 @@ const Button = (component) => {
       {
         event: "mouseleave",
         actions: `resetStyles???${id};${id}-text;${id}-icon`,
-      },
-    ],
-  };
-};
+      }
+    ]
+  }
+}
 
 module.exports = { Button };
 
@@ -992,7 +1001,7 @@ const Input = (component) => {
     component.input.style = component.input.style || {}
     
     component = toComponent(component)
-    var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
+    var { id, input, model, droplist, readonly, style, controls, icon, duplicated, touchableOpacity,
         placeholder, textarea, filterable, clearable, removable, msg, day, disabled,
         duplicatable, lang, unit, currency, google, key, note, edit, minlength } = component
 
@@ -1019,6 +1028,7 @@ const Input = (component) => {
     if (model === 'classic') {
         return {
             ...component,
+            touchableOpacity: true,
             style: {
                 width: '100%',
                 border: '0',
@@ -1042,6 +1052,7 @@ const Input = (component) => {
             id,
             type: 'View',
             class: 'flex-box',
+            touchableOpacity: true,
             // remove from comp
             controls: {},
             droplist: undefined,
@@ -1181,7 +1192,7 @@ const Input = (component) => {
                 }, {
                     type: `Checkbox?id=${id}-google;class=align-center;path=google;style.cursor=pointer;style.margin=0 .25rem?const.${google}`,
                     controls: [{
-                        event: `change;load?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
+                        event: `change;loaded?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
                     type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type>>readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[Enter google icon type>>readonly,state.google-items];hoverable?const.${google}`,
@@ -1254,7 +1265,7 @@ const Item = (component) => {
         marginRight: "1px",
         marginLeft: "1px",
         marginBottom: "1px",
-        borderRadius: "0.5rem",
+        borderRadius: "0.45rem",
         ...style,
         after: {
           border: "1px solid #ee384e",
@@ -1311,9 +1322,9 @@ const Item = (component) => {
       controls: [
         ...controls,
         {
-          actions: `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountonload?state.${state}`,
-        },
-        {
+          event: `loaded?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountonload`,
+          actions: `mountAfterStyles::state.${state}`,
+        }, {
           event: `click??state.${state}=undefined||state.${state}.0!=${id}`,
           actions: [
             `setData?data.value=value.text`,
@@ -1389,7 +1400,7 @@ const Item = (component) => {
         },
         {
           event: "mouseleave",
-          actions: `resetStyles??!mountonload?${id};${id}-icon;${id}-text`,
+          actions: `resetStyles??!mountonloaded?${id};${id}-icon;${id}-text`,
         },
       ],
     };
@@ -1644,100 +1655,37 @@ const SearchBox = (component) => {
 
   return {
     ...component,
-    type: "View?style.flex=1;style.margin=0 1rem;style.height=4.5rem",
-    children: [
-      {
-        type: "View?class=overlay;id=search-mini-page-overlay;style.zIndex=-1;style.transition=.2s;style.display=none;style.after.opacity=1>>50;style.after.display=flex;style.after.zIndex=1",
-        controls: [
-          {
-            event: "click",
-            actions: [
-              "resetStyles???search-mini-page;search-mini-page-results",
-              "setStyle?style.opacity=0;style.display=none>>250",
-            ],
-          },
-        ],
-      },
-      {
-        type: "View?id=search-mini-page",
-        style: {
-          display: "flex",
-          flexDirection: "column",
-          backgroundColor: "#f0f0f0",
-          borderRadius: ".75rem",
-          flex: "1",
-          top: "1rem",
-          position: "initial>>210",
-          width: "60rem",
-          after: {
-            backgroundColor: "#fff",
-            boxShadow: "0 0 6px rgba(33, 33, 33, 0.431)",
-            position: "absolute",
-            zIndex: "2",
-          },
-        },
-        children: [
-          {
-            type: "View?class=flex-box",
-            style: {
-              flex: "1",
-              borderRadius: ".75rem",
-              height: "4.5rem",
-              justifyContent: "flex-start",
-            },
-            children: [
-              {
-                type: "Icon?icon.name=bi-search",
-                style: {
-                  margin: "0 1rem",
-                  color: "#888",
-                  fontSize: "1.8rem",
-                },
-              },
-              {
-                type: `Input?placeholder=${placeholder};input.type=text`,
-                style: {
-                  flex: "1",
-                  height: "4.5rem",
-                  backgroundColor: "inherit",
-                  border: "0",
-                  color: "#444",
-                  fontSize: "1.4rem",
-                  outline: "none",
-                },
-                controls: [
-                  {
-                    event: "focusin",
-                    actions:
-                      "mountAfterStyles???search-mini-page-overlay;search-mini-page;search-mini-page-results",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            type: "View?id=search-mini-page-results",
-            style: {
-              width: "100%",
-              padding: "0 1rem",
-              transition: ".2s",
-              height: "0",
-              opacity: "0",
-              after: {
-                opacity: "1",
-                height: "15rem>>25",
-              },
-            },
-            children: [
-              {
-                type: "Text?class=divider;style.margin=0",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  };
+    "type": "View?style.flex=1;style.margin=0 1rem;style.height=4.5rem",
+    "children": [{
+        "type": "View?class=overlay;id=search-mini-page-overlay;style.zIndex=-1;style.transition=.2s;style.display=none;style.after.opacity=1>>50;style.after.display=flex;style.after.zIndex=1",
+        "controls": {
+            "event": "click",
+            "actions": "resetStyles::search-mini-page;resetStyles::search-mini-page-results;setStyle?style.opacity=0;style.display=none>>250"
+        }
+    }, {
+        "type": "View?id=search-mini-page;style.display=flex;style.flexDirection=column;style.backgroundColor=#f0f0f0;style.borderRadius=.75rem;style.flex=1;style.top=1rem;style.position=initial>>200;style.width=60rem;style.after.backgroundColor=#fff;style.after.boxShadow=0 0 6px rgba(33, 33, 33, 0.431);style.after.position=absolute;style.after.zIndex=2",
+        "children": [{
+            "type": "View?class=flex-start;style.flex=1;style.borderRadius=.75rem;style.height=4.5rem",
+            "children": [{
+                "type": "Icon?icon.name=bi-search;style.margin=0 1rem;style.color=#888;style.fontSize=1.8rem"
+            }, {
+                "type": "Input?placeholder=Search for booking, provider, service, category...;style.flex=1;style.height=4.5rem;style.backgroundColor=inherit;style.border=0;style.color=#444;style.fontSize=1.5rem;style.outline=none",
+                "controls": [{
+                    "event": "focusin",
+                    "actions": "mountAfterStyles???search-mini-page-overlay;search-mini-page;search-mini-page-results"
+                }, {
+                    "event": "input",
+                    "actions": "async.search?search.path=path;search."
+                }]
+            }]
+        }, {
+            "type": "View?id=search-mini-page-results;style.width=100%;style.padding=0 1rem;style.transition=.2s;style.height=0;style.opacity=0;style.after.opacity=1;style.after.height=15rem>>25",
+            "children": {
+                "type": "Text?class=divider;style.margin=0"
+            }
+        }]
+    }]
+  }
 };
 
 module.exports = { SearchBox };
@@ -1873,38 +1821,29 @@ module.exports = {
   hoverable: require("./hoverable"),
   sorter: require("./sorter"),
   miniWindow: require("./miniWindow"),
-  viewToggler: require("./viewToggler"),
+  toggler: require("./toggler"),
   touchableOpacity: require("./touchableOpacity"),
 };
 
-},{"./actionlist":17,"./droplist":19,"./hoverable":20,"./item":21,"./list":22,"./miniWindow":23,"./popup":24,"./sorter":25,"./touchableOpacity":26,"./viewToggler":27}],19:[function(require,module,exports){
-const {generate} = require("../method/generate");
+},{"./actionlist":17,"./droplist":19,"./hoverable":20,"./item":21,"./list":22,"./miniWindow":23,"./popup":24,"./sorter":25,"./toggler":26,"./touchableOpacity":27}],19:[function(require,module,exports){
+const {toString} = require("../method/toString")
 
-module.exports = ({STATE, params, id}) => {
-  const controls = params.controls;
-  const state = generate();
-  STATE[state] = controls.style;
+module.exports = ({params, id}) => {
+  var controls = params.controls
+  var styles = toString({ style: { minWidth: '15rem', ...controls.style } })
+  
+  return [{
+    event: `click?state.droplist=${controls.id || id}`,
+    actions: [
+      `resetStyles::droplist?break?value.element.style.opacity::droplist=1;positioner::droplist=${id}`,
+      `resetStyles::droplist;droplist::${controls.id || id}?path=${controls.path || ""}`,
+      `setStyle::droplist?${styles}`,
+      `setPosition::${controls.positioner || id};mountAfterStyles::droplist?position.id=droplist;position.placement=${controls.placement || "bottom"};position.distance=${controls.distance}`
+    ]
+  }]
+}
 
-  return [
-    {
-      event: `click?state.droplist=${controls.id || id}`,
-      actions: [
-        `resetStyles::droplist?break?value.element.style.opacity::droplist=1;positioner::droplist=${id}`,
-        `resetStyles::droplist;droplist::${controls.id || id}?path=${
-          controls.path || ""
-        }`,
-        `setPosition::${
-          controls.positioner || id
-        };mountAfterStyles::droplist?position.id=droplist;position.placement=${
-          controls.placement || "bottom"
-        };position.distance=${controls.distance}`,
-        `setStyle::droplist?style=state.${state}?${controls.style}`,
-      ],
-    },
-  ];
-};
-
-},{"../method/generate":54}],20:[function(require,module,exports){
+},{"../method/toString":96}],20:[function(require,module,exports){
 const {toArray} = require("../method/toArray");
 
 module.exports = ({VALUE, id, params = {}}) => {
@@ -1967,7 +1906,7 @@ module.exports = ({VALUE, STATE, params, id}) => {
 },{}],23:[function(require,module,exports){
 const {generate} = require("../method/generate");
 
-module.exports = ({VALUE, params, id}) => {
+module.exports = ({ VALUE, params, id }) => {
   const controls = params.controls;
   const state = generate();
 
@@ -2019,24 +1958,39 @@ module.exports = ({VALUE, id, params = {}}) => {
   return [
     {
       event: "click",
-      actions: `await.update::${controls.id};sort?sort.path=${controls.path};sort.Data=${controls.Data}?state.${controls.Data}`
+      actions: `await.update::${controls.id};async.sort?sort.path=${controls.path};sort.Data=${controls.Data}?state.${controls.Data}`
     },
   ];
 };
 
 },{"../method/toArray":85}],26:[function(require,module,exports){
+module.exports = ({ VALUE, params = {}, id }) => {
+  const controls = params.controls;
+
+  return [{
+    event: `click??value.view::${controls.id}!=${controls.view}`,
+    actions: [
+      `setStyle::${controls.id}?value.element.style.transition::${controls.id}=transform .2s, opacity .05s;style.transform=translateY(-150%);style.opacity=0`,
+      `setStyle>>400::${controls.id}?style.transform=translateY(0);style.opacity=1`,
+      `createView>>250::${controls.id}?value.element.innerHTML::${controls.id}='';value.Data::${controls.id}=value.data();view=${controls.view}`,
+    ]
+  }]
+}
+
+},{}],27:[function(require,module,exports){
 module.exports = ({VALUE, id, params = {}}) => {
+
   if (VALUE[id].element.style.transition) {
     VALUE[id].element.style.transition += ", opacity .2s";
   } else VALUE[id].element.style.transition = "opacity .2s";
 
   return [
     {
-      event: "mousedown?global.body.element.addClass().unselectable",
+      event: `mousedown?global.body.element.addClass().unselectable`,
       actions: "setStyle?style.opacity=.5",
     },
     {
-      event: "mouseup?global.body.element.removeClass().unselectable",
+      event: `mouseup?global.body.element.removeClass().unselectable`,
       actions: "setStyle?style.opacity=1",
     },
     {
@@ -2046,23 +2000,6 @@ module.exports = ({VALUE, id, params = {}}) => {
     {
       event: "mouseenter",
       actions: "setStyle?style.opacity=1?value.mousedown",
-    },
-  ];
-};
-
-},{}],27:[function(require,module,exports){
-module.exports = ({VALUE, params = {}, id}) => {
-  const controls = params.controls;
-  const parent = VALUE[controls.id].parent;
-
-  return [
-    {
-      event: `click?value.element.style.transition::${parent}=transform .2s, opacity .1s?value.view::${controls.id}!=${controls.view}`,
-      actions: [
-        `setStyle::${parent}?style.transform=translateY(-110%);style.opacity=0`,
-        `setStyle>>400::${parent}?style.transform=translateY(0);style.opacity=1`,
-        `createView>>250::${controls.id}?value.Data::${controls.id}=value.data();view=${controls.view}`,
-      ],
     },
   ];
 };
@@ -2092,7 +2029,6 @@ const {addEventListener} = require("./event");
 const {execute} = require("./execute");
 const {controls} = require("./controls");
 const {setContent} = require("./setContent");
-const {route} = require("./route");
 const {starter} = require("./starter");
 const {setState} = require("./state");
 const {setPosition} = require("./setPosition");
@@ -2130,10 +2066,13 @@ const {toCode} = require("./toCode");
 const {isPath} = require("./isPath");
 const {toNumber} = require("./toNumber");
 const {capitalize} = require("./capitalize");
+const {setElement} = require("./setElement");
 const {toFirebaseOperator} = require("./toFirebaseOperator");
 const {popup} = require("./popup");
 const {keys} = require("./keys");
 const {values} = require("./values");
+const {toggleView} = require("./toggleView");
+const {upload} = require("./upload");
 const {dateTimeFormater} = require("./dateTimeFormater");
 const {
   setStyle,
@@ -2145,6 +2084,7 @@ const {resize, dimensions} = require("./resize");
 const {createData, clearData, removeData} = require("./data");
 
 const _method = {
+  setElement,
   clearValues,
   clone,
   derive,
@@ -2172,7 +2112,6 @@ const _method = {
   generate,
   createElement,
   controls,
-  route,
   textarea,
   setStyle,
   resetStyles,
@@ -2222,12 +2161,14 @@ const _method = {
   dateTimeFormater,
   keys,
   values,
-  toFirebaseOperator
+  toFirebaseOperator,
+  upload,
+  toggleView
 };
 
 module.exports = _method;
 
-},{"./blur":29,"./capitalize":30,"./clearValues":31,"./clone":32,"./close":33,"./controls":34,"./createActions":35,"./createComponent":36,"./createDocument":37,"./createElement":38,"./createView":40,"./data":41,"./dateTimeFormater":42,"./defaultInputHandler":43,"./derive":44,"./droplist":45,"./duplicate":46,"./erase":47,"./event":48,"./execute":49,"./fill":50,"./filter":51,"./flicker":52,"./focus":53,"./generate":54,"./getJsonFiles":55,"./getParam":56,"./isArabic":57,"./isEqual":58,"./isPath":59,"./keys":60,"./log":61,"./merge":62,"./note":63,"./overflow":64,"./pause":65,"./play":66,"./popup":67,"./preventDefault":68,"./reducer":69,"./remove":70,"./resize":72,"./route":73,"./save":74,"./search":75,"./setContent":76,"./setData":77,"./setPosition":78,"./sort":79,"./starter":80,"./state":81,"./style":82,"./textarea":83,"./toApproval":84,"./toArray":85,"./toAwait":86,"./toCode":87,"./toComponent":88,"./toControls":89,"./toFirebaseOperator":90,"./toId":91,"./toNumber":92,"./toParam":93,"./toPath":94,"./toString":96,"./toStyle":97,"./toTag":98,"./toValue":99,"./update":100,"./values":101}],29:[function(require,module,exports){
+},{"./blur":29,"./capitalize":30,"./clearValues":31,"./clone":32,"./close":33,"./controls":34,"./createActions":35,"./createComponent":36,"./createDocument":37,"./createElement":38,"./createView":40,"./data":41,"./dateTimeFormater":42,"./defaultInputHandler":43,"./derive":44,"./droplist":45,"./duplicate":46,"./erase":47,"./event":48,"./execute":49,"./fill":50,"./filter":51,"./flicker":52,"./focus":53,"./generate":54,"./getJsonFiles":55,"./getParam":56,"./isArabic":57,"./isEqual":58,"./isPath":59,"./keys":60,"./log":61,"./merge":62,"./note":63,"./overflow":64,"./pause":65,"./play":66,"./popup":67,"./preventDefault":68,"./reducer":69,"./remove":70,"./resize":72,"./save":73,"./search":74,"./setContent":75,"./setData":76,"./setElement":77,"./setPosition":78,"./sort":79,"./starter":80,"./state":81,"./style":82,"./textarea":83,"./toApproval":84,"./toArray":85,"./toAwait":86,"./toCode":87,"./toComponent":88,"./toControls":89,"./toFirebaseOperator":90,"./toId":91,"./toNumber":92,"./toParam":93,"./toPath":94,"./toString":96,"./toStyle":97,"./toTag":98,"./toValue":99,"./toggleView":100,"./update":101,"./upload":102,"./values":103}],29:[function(require,module,exports){
 const blur = ({VALUE, id}) => {
   const local = VALUE[id];
   if (!local) return;
@@ -2381,7 +2322,7 @@ const setControls = ({VALUE, id, params}) => {
 
 module.exports = {controls, setControls};
 
-},{"./event":48,"./execute":49,"./toArray":85,"./watch":102}],35:[function(require,module,exports){
+},{"./event":48,"./execute":49,"./toArray":85,"./watch":104}],35:[function(require,module,exports){
 const control = require("../control/control");
 
 const createActions = ({VALUE, STATE, params, id}) => {
@@ -2444,54 +2385,68 @@ module.exports = {
 
 },{"../component/_component":16,"./clone":32,"./generate":54,"./toApproval":84,"./toParam":93}],37:[function(require,module,exports){
 (function (process){(function (){
-const {createElement} = require("./createElement");
-const {getJsonFiles} = require("./getJsonFiles");
+const {createElement} = require("./createElement")
+const {getJsonFiles} = require("./getJsonFiles")
 //
 require('dotenv').config()
 
 const createDocument = (req, res) => {
     
-    var page = req.url.split("/")[1]
-    var innerHTML = "";
-    var STATE = {};
-    var VALUE = {};
+    var host = req.url.split("/")[1]
+    var config = JSON.parse(process.env.FIREBASE_CONFIG)
+    var root = "", public = ""
+    var STATE = {}
+    var VALUE = {}
     
     // get assets & views
     STATE = {
         view: getJsonFiles("view"),
         page: getJsonFiles("page"),
+        pathname: req.url,
+        host,
         codes: {},
-        config: JSON.parse(process.env.FIREBASE_CONFIG)
-    };
+        config
+    }
 
     // body
-    var id = "body";
-    VALUE[id] = {};
-    VALUE[id].id = id;
+    var id = "body"
+    VALUE[id] = {}
+    VALUE[id].id = id
 
     // root
-    var id = "root";
-    VALUE[id] = {};
-    VALUE[id].id = id;
-    VALUE[id].type = "View";
-    VALUE[id].children = [];
-    VALUE[id].parent = "body";
+    var id = "root"
+    VALUE[id] = {}
+    VALUE[id].id = id
+    VALUE[id].type = "View"
+    VALUE[id].children = []
+    VALUE[id].parent = "body"
+
+    // public
+    var id = "public"
+    VALUE[id] = {}
+    VALUE[id].id = id
+    VALUE[id].type = "View"
+    VALUE[id].children = []
+    VALUE[id].parent = "body"
 
     //
-    if (!STATE.page[page]) return "Hello";
+    if (!STATE.page[host]) return "Hello"
 
-    // push page views to root
-    STATE.page[page].views.map(
-        (view) => STATE.view[view] && VALUE[id].children.push(STATE.view[view])
-    );
+    // get root children
+    STATE.page[host].views.map(
+        (view) => STATE.view[view] && VALUE["root"].children.push(STATE.view[view])
+    )
 
-    // push public views to root
+    // get public children
     STATE.page.public.views.map(
-        (view) => STATE.view[view] && VALUE[id].children.push(STATE.view[view])
-    );
+        (view) => STATE.view[view] && VALUE["public"].children.push(STATE.view[view])
+    )
 
-    // create html
-    innerHTML = createElement({STATE, VALUE, id});
+    // create root html
+    root = createElement({ STATE, VALUE, id: "root" })
+
+    // create public html
+    public = createElement({ STATE, VALUE, id: "public" })
 
     res.send(`<!DOCTYPE html>
         <html lang="en" class="html">
@@ -2501,24 +2456,24 @@ const createDocument = (req, res) => {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>QuePik</title>
             <link rel="stylesheet" href="index.css" />
-            <link rel="stylesheet" href="rate.css" />
             <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
             <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
             <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
         </head>
         <body>
-            ${innerHTML}
+            ${public}${root}
             <script id="VALUE" type="application/json">${JSON.stringify(VALUE)}</script>
             <script id="STATE" type="application/json">${JSON.stringify(STATE)}</script>
             <script src="index.js"></script>
         </body>
         </html>`)
-};
+}
 
-module.exports = {createDocument};
+module.exports = {createDocument}
 
 }).call(this)}).call(this,require('_process'))
-},{"./createElement":38,"./getJsonFiles":55,"_process":4,"dotenv":103}],38:[function(require,module,exports){
+},{"./createElement":38,"./getJsonFiles":55,"_process":4,"dotenv":105}],38:[function(require,module,exports){
 const {generate} = require("./generate");
 const {toParam} = require("./toParam");
 const {toApproval} = require("./toApproval");
@@ -2622,39 +2577,24 @@ const createElement = ({STATE, VALUE, id}) => {
       [];
   if (path.length > 0) {
     if (!local.Data) {
-      var state = (local.Data = generate());
-      STATE[state] = local.data || {};
-      STATE[`${state}-options`] = {backup: clone(STATE[state])};
+      var state = (local.Data = generate())
+      STATE[state] = local.data || {}
+      STATE[`${state}-options`] = {}
     }
 
     // convert string numbers to num
     path = path.map((k) => {
-      if (!isNaN(k)) k = parseFloat(k);
-      return k;
-    });
+      if (!isNaN(k)) k = parseFloat(k)
+      return k
+    })
 
-    // push 0 to derivations for array data
-    /* if (isNaN(path[0])) {
-      const data = reducer({
-        VALUE,
-        STATE,
-        id,
-        params: {
-          path: parent.derivations,
-          value: params.data,
-          object: STATE[local.Data],
-        },
-      });
-      if (Array.isArray(data)) local.derivations.push(0);
-    } */
-
-    local.derivations.push(...path);
+    local.derivations.push(...path)
   }
 
   // data
   if (parent.unDeriveData || local.unDeriveData) {
-    local.data = local.data || "";
-    local.unDeriveData = true;
+    local.data = local.data || ""
+    local.unDeriveData = true
   } else {
     local.data = reducer({
       VALUE,
@@ -2666,13 +2606,13 @@ const createElement = ({STATE, VALUE, id}) => {
         key: true,
         object: STATE[local.Data],
       },
-    });
+    })
   }
 
-  return createTags({VALUE, STATE, id});
-};
+  return createTags({VALUE, STATE, id})
+}
 
-module.exports = {createElement};
+module.exports = {createElement}
 
 },{"./clone":32,"./createTags":39,"./generate":54,"./merge":62,"./reducer":69,"./toApproval":84,"./toParam":93}],39:[function(require,module,exports){
 const {clone} = require("./clone");
@@ -2932,7 +2872,7 @@ const createView = ({STATE, VALUE, params = {}, id}) => {
 
 module.exports = {createView};
 
-},{"./clone":32,"./generate":54,"./toArray":85,"./update":100}],41:[function(require,module,exports){
+},{"./clone":32,"./generate":54,"./toArray":85,"./update":101}],41:[function(require,module,exports){
 const {setContent} = require("./setContent");
 const {setData} = require("./setData");
 
@@ -2981,7 +2921,7 @@ const removeData = ({STATE, VALUE, id, params = {}}) => {
 
 module.exports = {createData, setData, clearData, removeData};
 
-},{"./setContent":76,"./setData":77}],42:[function(require,module,exports){
+},{"./setContent":75,"./setData":76}],42:[function(require,module,exports){
 module.exports = {
     dateTimeFormater: ({ VALUE, STATE, id, e, params: {dateTime, opposite} }) => {
         
@@ -3074,10 +3014,11 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
         });
       };
 
-      var file = await readFile(value[0]);
-      var fileName = `${Date.now()}-${generate()}`;
+      var file = await readFile(value[0])
+      var fileName = `${local.input.title || Date.now()}-${generate()}`
+      var fileType = file.substring(file.indexOf("/") + 1, file.indexOf(";base64"))
 
-      return (STATE.file = { file, "file-name": fileName });
+      return STATE.file = local.file = { file, fileName, src: value[0], fileType }
     } else local.element.value = value;
 
     // rating input
@@ -3141,105 +3082,85 @@ module.exports = {derive};
 },{}],45:[function(require,module,exports){
 const {update} = require("./update");
 const {clone} = require("./clone");
-const {derive} = require("./derive");
 const {toValue} = require("./toValue");
 
 const droplist = ({VALUE, STATE, id, e}) => {
-  const local = VALUE[id];
-  if (!local) return;
+  const local = VALUE[id]
+  if (!local) return
 
-  const dropList = VALUE["droplist"];
-  const isInput = local.type === "Input" || local.type === "Textarea";
+  const dropList = VALUE["droplist"]
+  const isInput = local.type === "Input" || local.type === "Textarea"
+  const parent = VALUE[local.parent].parent
 
   // items
-  let items = clone(local.droplist.items) || [];
-  dropList.derivations = clone(local.derivations);
-  dropList.Data = local.Data;
+  var items = clone(local.droplist.items) || []
+  dropList.derivations = clone(local.derivations)
+  dropList.Data = local.Data
 
-  // path
-  if (local.droplist.path) {
-    dropList.derivations.push(...local.droplist.path.split("."));
-  }
+  // path & derivations
+  if (local.droplist.path)
+  dropList.derivations.push(...local.droplist.path.split("."))
 
   // input id
-  let input_id;
-  if (local.lang || local.unit || local.currency || local.key || local.day) {
-    input_id = VALUE[local.parent].element.previousSibling.id;
-  }
+  var input_id
+  if (local.lang || local.unit || local.currency || local.key || local.day)
+  input_id = VALUE[local.parent].element.previousSibling.id
   
-  // dynamic items
+  // items
   if (typeof items === "string")
-    items = toValue({VALUE, STATE, id, e, params: {value: items}})
+  items = toValue({ VALUE, STATE, id, e, params: {value: items} })
+  items = items.filter((item) => item !== undefined && item !== '')
   
-  /* items = items.map(item => {
-
-        if (typeof item === 'string' && isPath({ params: { path: item } }))
-            return toValue({ VALUE, STATE, id, params: { value: item }, e })
-
-        return item
-    })*/
-
-  // filter undefinds
-  items = items.filter((item) => item !== undefined)
-
-  // flat
-  // if (local.droplist['flat()']) items = items.flat()
-
-  const parent = VALUE[local.parent].parent;
-
+  // children
   if (items.length > 0) {
-    dropList.children = clone(items).map((item) => {
-      let readonly = false;
-      let input = false;
-      let droplist;
-      let itemList = [];
+    dropList.children = clone(items).map(item => {
+      var readonly = false, input = false, droplist, itemList = []
+
       if (typeof item === "string" || typeof item === "boolean") {
-        item = item.toString();
-        item = item.split(">>");
-        readonly = item[1] === "readonly";
-        input = item[1] === "input";
-        item = item[0];
+        item = item.toString()
+        item = item.split(">>")
+        readonly = item[1] === "readonly"
+        input = item[1] === "input"
+        item = item[0]
       } else if (Array.isArray(item)) {
-        itemList = clone(item);
-        item = itemList.find((item) => !item.includes("readonly"));
-        input = true;
-        droplist = true;
+        itemList = clone(item)
+        item = itemList.find((item) => !item.includes("readonly"))
+        input = true
+        droplist = true
       }
 
       if (input && !readonly) {
         return {
-          type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${local.key ? `input.value=value.path::${input_id};edit=${parent};` : `input.value=${item};`}${droplist ? `readonly;droplist.items=[${itemList}];droplist.positioner=${dropList.positioner};data=value.data()::${id}` : ""}`,
+          type: `Input?featured;clearable;style.backgroundColor=#f0f0f0;${local.key ? `input.value=value.path::${input_id};edit=${parent};` : `input.value=${item || ''};`}${droplist ? `readonly;droplist.items=[${itemList}];droplist.positioner=${dropList.positioner};data=value.data()::${id}` : ""}`,
           controls: {
-            event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};value.Data().[value.derivations.join()._dot::${input_id}].delete();value.derivations::${input_id}=[value.derivations.!lastIndex().join()::${input_id},e.target.value||${local.key}];value.Data().[value.derivations.join()._dot::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`,
+            event: `keyup?value.element.innerHTML::${id}=e.target.value||${local.key};value.Data().[value.derivations.join()._dot::${input_id}].devare();value.derivations::${input_id}=[value.derivations.!lastIndex().join()::${input_id},e.target.value||${local.key}];value.Data().[value.derivations.join()._dot::${input_id}]=value.element.value::${input_id};value.path::${input_id}=e.target.value||${local.key}?!${droplist};value.key::${id};value.path::${input_id}!=e.target.value`,
           },
-        };
+        }
       }
 
       return {
         type: `Item?text=const.${item};readonly=${readonly}`,
-        controls: [
-          {
-            event: `click?value.element.${isInput ? "value" : "innerHTML"}::${id}=${item};value.data()<<!const.${local.lang}=${item};action.resize::${id}?!readonly;state.droplist=${id}`,
-            actions: [
-              // for lang & currency droplists
-              `?value.data().${item}=value.data()::${input_id};value.Data().[value.derivations::${input_id}].delete();value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(",")},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id}||value.day::${id};value.path::${input_id}!=${item}`,
-              `focus::${input_id}`,
-            ],
-          },
-        ],
-      };
-    });
+        controls: [{
+          event: `click?value.element.${isInput ? "value" : "innerHTML"}::${id}=${item}<<!${local.droplist.pause};value.data()<<!const.${local.lang}=${item};action.resize::${id}?!readonly;state.droplist=${id}`,
+          actions: [
+            // for lang & currency droplists
+            `?value.data().${item}=value.data()::${input_id};value.Data().[value.derivations::${input_id}].devare();value.derivations::${input_id}=[${input_id && VALUE[input_id].derivations.slice(0, -1).join(",")},${item}];value.path::${input_id}=${item}?const.${input_id};value.lang::${id}||value.currency::${id}||value.day::${id};value.path::${input_id}!=${item}`,
+            `focus::${input_id}`,
+          ]
+        }]
+      }
+    })
   }
 
-  dropList.positioner = id;
-  dropList.unDeriveData = true;
+  dropList.positioner = id
+  dropList.unDeriveData = true
 
-  update({VALUE, STATE, id: "droplist"});
-};
+  update({ VALUE, STATE, id: "droplist" })
+}
 
-module.exports = {droplist};
+module.exports = {droplist}
 
-},{"./clone":32,"./derive":44,"./toValue":99,"./update":100}],46:[function(require,module,exports){
+},{"./clone":32,"./toValue":99,"./update":101}],46:[function(require,module,exports){
 var {clearValues} = require("./clearValues");
 var {clone} = require("./clone");
 var {toArray} = require("./toArray");
@@ -3252,6 +3173,7 @@ var {focus} = require("./focus");
 var duplicate = ({VALUE, STATE, params = {}, id}) => {
   var {createElement} = require("./createElement");
   var {starter} = require("./starter");
+  var {setElement} = require("./setElement");
 
   let localID = id, path = []
   var local = VALUE[id];
@@ -3411,6 +3333,7 @@ var duplicate = ({VALUE, STATE, params = {}, id}) => {
     VALUE[local.parent].element.appendChild(newcontent.firstChild);
 
     // starter
+    setElement({STATE, VALUE, id});
     starter({STATE, VALUE, id});
   }
 
@@ -3444,7 +3367,7 @@ var duplicates = ({STATE, VALUE, params, id}) => {
 
 module.exports = {duplicate, duplicates};
 
-},{"./clearValues":31,"./clone":32,"./createElement":38,"./derive":44,"./focus":53,"./generate":54,"./isEqual":58,"./removeDuplicates":71,"./starter":80,"./toArray":85}],47:[function(require,module,exports){
+},{"./clearValues":31,"./clone":32,"./createElement":38,"./derive":44,"./focus":53,"./generate":54,"./isEqual":58,"./removeDuplicates":71,"./setElement":77,"./starter":80,"./toArray":85}],47:[function(require,module,exports){
 /*const axios = require("axios");
 
 const erase = async ({ VALUE, STATE, id, e, params = {} }) => {
@@ -3473,19 +3396,21 @@ module.exports = {
     var collection = erase.path
     var ref = STATE.db.collection(collection)
     
-    ref.doc(erase.id).delete().then(() => {
+    ref.doc(erase.id).delete().then(async () => {
 
       local.erase = {
         success: true,
         message: `Data erased successfuly!`,
       }
+      
+      if (erase.type === 'file') await STATE.storage.child(`images/${erase.id}`).delete()
             
       console.log(local.erase)
                   
       // await params
       toAwait({ VALUE, STATE, id, e, params })
-    })
-    .catch(error => {
+
+    }).catch(error => {
 
       local.erase = {
           success: false,
@@ -3498,10 +3423,10 @@ module.exports = {
 }
 
 },{"./toAwait":86}],48:[function(require,module,exports){
-const { toApproval } = require("./toApproval");
-const { toId } = require("./toId");
-const { toParam } = require("./toParam");
-const { clone } = require("./clone");
+const { toApproval } = require("./toApproval")
+const { toId } = require("./toId")
+const { toParam } = require("./toParam")
+const { clone } = require("./clone")
 
 const events = [
   "click",
@@ -3511,94 +3436,94 @@ const events = [
   "mouseup",
   "touchstart",
   "touchend",
-];
+]
 
 const addEventListener = ({ VALUE, STATE, controls, id }) => {
-  const { execute } = require("./execute");
+  const { execute } = require("./execute")
 
-  var local = VALUE[id];
-  var mainID = local.id;
+  var local = VALUE[id]
+  var mainID = local.id
 
-  var events = controls.event.split("/?").join("_question").split("?");
-  var _idList = toId({ VALUE, STATE, id, string: events[3] });
+  var events = controls.event.split("/?").join("_question").split("?")
+  var _idList = toId({ VALUE, STATE, id, string: events[3] })
 
   events[0].split(";").map((event) => {
-    var timer = 0,
-      idList;
+    var timer = 0, idList
 
     // action::id
-    var eventid = event.split("::")[1];
-    if (eventid) idList = toId({ VALUE, STATE, id, string: eventid });
-    else idList = clone(_idList);
+    var eventid = event.split("::")[1]
+    if (eventid) idList = toId({ VALUE, STATE, id, string: eventid })
+    else idList = clone(_idList)
 
     // event
-    event = event.split("::")[0];
+    event = event.split("::")[0]
 
     // action>>timer
-    timer = event.split(">>")[1] || 0;
-    event = event.split(">>")[0];
+    timer = event.split(">>")[1] || 0
+    event = event.split(">>")[0]
 
-    if (!event) return;
+    if (!event) return
 
-    clearTimeout(local[`${event}-timer`]);
+    clearTimeout(local[`${event}-timer`])
 
     // add event listener
-    idList.map((id) => {
+    idList.map(id => {
+
       var myFn = (e) => {
         local[`${event}-timer`] = setTimeout(async () => {
           // VALUE[id] doesnot exist
-          if (!VALUE[id]) return e.target.removeEventListener(event, myFn);
+          if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
 
           // approval
-          var approved = toApproval({ VALUE, STATE, string: events[2], e, id });
-          if (!approved) return;
+          var approved = toApproval({ VALUE, STATE, string: events[2], e, id: mainID })
+          if (!approved) return
 
           // params
-          params = toParam({ VALUE, STATE, string: events[1], e, id });
+          params = toParam({ VALUE, STATE, string: events[1], e, id: mainID })
           
           if (controls.actions)
-            await execute({ VALUE, STATE, controls, e, id: mainID });
+          await execute({ VALUE, STATE, controls, e, id: mainID })
 
           // await params
           if (params.await && params.await.length > 0)
-            toParam({ VALUE, STATE, id, e, string: params.await.join(";") });
-        }, timer);
-      };
+            toParam({ VALUE, STATE, id, e, string: params.await.join(";") })
+        }, timer)
+      }
 
       // onload event
-      if (event === "load") myFn({ target: VALUE[id].element });
+      if (event === "loaded") myFn({ target: VALUE[id].element })
 
       // elements
-      VALUE[id].element.addEventListener(event, myFn);
-    });
-  });
-};
+      VALUE[id].element.addEventListener(event, myFn)
+    })
+  })
+}
 
 const defaultEventHandler = ({ VALUE, id }) => {
-  var local = VALUE[id];
+  var local = VALUE[id]
 
-  local.touchstart = false;
-  local.mouseenter = false;
-  local.mousedown = false;
+  local.touchstart = false
+  local.mouseenter = false
+  local.mousedown = false
 
   events.map((event) => {
     const setEventType = (e) => {
-      var local = VALUE[id];
-      if (!local) return e.target.removeEventListener(event, setEventType);
+      var local = VALUE[id]
+      if (!local) return e.target.removeEventListener(event, setEventType)
 
-      if (event === "mouseenter") local.mouseenter = true;
-      else if (event === "mouseleave") local.mouseenter = false;
-      else if (event === "mousedown") local.mousedown = true;
-      else if (event === "mouseup") local.mousedown = false;
-      else if (event === "touchstart") local.touchstart = true;
-      else if (event === "touchend") local.touchstart = false;
-    };
+      if (event === "mouseenter") local.mouseenter = true
+      else if (event === "mouseleave") local.mouseenter = false
+      else if (event === "mousedown") local.mousedown = true
+      else if (event === "mouseup") local.mousedown = false
+      else if (event === "touchstart") local.touchstart = true
+      else if (event === "touchend") local.touchstart = false
+    }
 
-    local.element.addEventListener(event, setEventType);
-  });
-};
+    local.element.addEventListener(event, setEventType)
+  })
+}
 
-module.exports = { addEventListener, defaultEventHandler };
+module.exports = { addEventListener, defaultEventHandler }
 
 },{"./clone":32,"./execute":49,"./toApproval":84,"./toId":91,"./toParam":93}],49:[function(require,module,exports){
 const { toApproval } = require("./toApproval");
@@ -3613,226 +3538,207 @@ const _method = require("./_method");
 const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
   var local = VALUE[id],
     _params = params,
-    localId = id;
-  // if (!local) return
+    localId = id
 
   if (controls) actions = controls.actions;
   if (local) local.break = false;
 
   // execute actions
   toArray(actions).map((_action) => {
-    var awaiter = [],
-      asyncer;
+    var awaiter = []
 
     // stop after actions
     if (local && local.break) return;
 
     _action = _action.split("/?").join("_question");
 
-    var approved = true;
-    var actions = _action.split("?");
-    var params = _params || actions[1];
-    var conditions = actions[2];
-    var idList = actions[3];
+    var approved = true
+    var actions = _action.split("?")
+    var params = _params || actions[1]
+    var conditions = actions[2]
+    var idList = actions[3]
 
-    actions = actions[0].split(";");
+    actions = actions[0].split(";")
+
+    // approval
+    if (conditions) approved = toApproval({ VALUE, STATE, string: conditions, params, id: localId, e })
+    if (!approved) return
+
+    // params
+    params = toParam({ VALUE, STATE, string: params, e, id: localId })
 
     // action does not exist
-    actions.map((action, index) => {
-      var name = action.split("::")[0];
+    actions.map(action => {
 
-      // action>>timer
-      var timer = parseFloat(name.split(">>")[1] || 0);
-      name = name.split(">>")[0];
+      var name = action.split("::")[0]
 
-      // approval => note: essential for break::do not remove
-      approved = toApproval({ VALUE, STATE, string: conditions, params, id, e });
-      if (!approved) return;
+      // action>>timer<<condition
+      var caseCondition = name.split('<<')[1]
+      name = name.split('<<')[0]
+      var timer = parseFloat(name.split(">>")[1] || 0)
+      name = name.split(">>")[0]
 
       // reset
-      var reset = getParam(_action, "reset", false);
-      if (local) local.break = getParam(_action, "break", false);
-      if (reset) clearTimeout(local[`${name}-timer`]);
-
+      var reset = getParam(_action, "reset", false)
+      if (local) local.break = getParam(_action, "break", false)
+      if (reset) clearTimeout(local[`${name}-timer`])
+      
       const myFn = () => {
-        // approval
-        approved = toApproval({ VALUE, STATE, string: conditions, params, id, e })
-        if (!approved) return;
+        var approved = true
 
-        // params
-        params = toParam({ VALUE, STATE, string: params, e, id })
+        // asyncer & awaiter
+        var keys = name.split("."), isAwaiter, isAsyncer
+        if (keys.length > 1) keys.map(k => {
+  
+          if (k === "async") isAsyncer = true
+          else if (k === "await") {
+            isAwaiter = true
+            awaiter.push(action.split("await.")[1])
+          }
+        })
+        if (isAwaiter || isAsyncer) name = name.split(".")[1]
+        if (isAwaiter) return
 
-        // id's
+        // case condition approval
+        if (caseCondition) approved = toApproval({ VALUE, STATE, string: caseCondition, params, id: localId, e })
+        if (!approved) return
+
+        // id list
         idList = toId({ VALUE, STATE, id, string: idList, e })
 
         // action::id
-        var actionid = action.split("::")[1];
-        if (actionid)
-          actionid = toValue({ VALUE, STATE, params: { value: actionid, params }, id, e });
+        var actionid = action.split("::")[1]
+        if (actionid) actionid = toValue({ VALUE, STATE, params: { value: actionid, params }, id: localId, e })
 
-        // action
-        var keys = name.split(".");
-        if (keys.length > 1)
-          keys.map((k, i) => {
-            if (i === keys.length - 1) return (name = k);
-            if (k === "async") {
-              params.asyncer = true;
-              asyncer = true;
-            } else if (k === "await") {
-              params.awaiter = true;
-              awaiter.push(action.split("await.")[1]);
-            }
-          });
+        if (_method[name]) (actionid ? toArray(actionid) : idList).map(async (id) => {
 
-        if (
-          _method[name] &&
-          (!params.awaiter || params.asyncer || index === actions.length - 1)
-        )
-          (actionid ? toArray(actionid) : idList).map(async (id) => {
-            if (typeof id !== "string") return;
+            if (typeof id !== "string") return
 
             // id = value.path
             if (id.indexOf(".") > -1) 
             id = toValue({ VALUE, STATE, params: { value: id }, e, id: localId })
 
             // component does not exist
-            if (!id || !VALUE[id]) return;
+            if (!id || !VALUE[id]) return
 
-            if (params.asyncer) params.awaiter = awaiter;
-            await _method[name]({ VALUE, STATE, controls, params, e, id });
-
-            // no asyncer
-            if (
-              !asyncer &&
-              awaiter.length > 0 &&
-              index === actions.length - 1
-            ) {
-              params.asyncer = true;
-              params.awaiter = awaiter;
-              toAwait({ VALUE, STATE, id, e, params });
+            if (isAsyncer) {
+              params.awaiter = awaiter
+              params.asyncer = isAsyncer
             }
-          });
-      };
+            await _method[name]({ VALUE, STATE, controls, params, e, id })
+          })
+      }
 
       if (timer) {
-        if (local) local[`${name}-timer`] = setTimeout(myFn, timer);
-        else setTimeout(myFn, timer);
-      } else myFn();
-    });
-  });
-};
+        if (local) local[`${name}-timer`] = setTimeout(myFn, timer)
+        else setTimeout(myFn, timer)
+      } else myFn()
+    })
+  })
+}
 
-module.exports = { execute };
+module.exports = { execute }
 
 },{"./_method":28,"./getParam":56,"./toApproval":84,"./toArray":85,"./toAwait":86,"./toId":91,"./toParam":93,"./toValue":99}],50:[function(require,module,exports){
 module.exports = {
-  fill: ({VALUE, STATE, id}) => {
-    const local = VALUE[id];
-    let ratio;
+  fill: ({ VALUE, STATE, id }) => {
+    const local = VALUE[id]
 
     if (local.element) {
       if (local.type !== "Image") {
-        var imageEls = [...local.element.getElementsByTagName("IMG")];
-        if (imageEls.length === 0) return;
-      } else imageEls = [local.element];
 
-      setTimeout(() => {
-        imageEls.map((el) => {
-          const local = VALUE[el.id];
-          if (!local.element.src.split("/")[4]) return;
+        var imageEls = [...local.element.getElementsByTagName("IMG")]
+        if (imageEls.length === 0) return
 
-          const parentWidth = VALUE[local.parent].element.clientWidth;
-          const parentHeight = VALUE[local.parent].element.clientHeight;
+      } else imageEls = [local.element]
 
-          var width = local.element.offsetWidth;
-          var height = local.element.offsetHeight;
+      const myFn = (el) => {
+        
+        const local = VALUE[el.id]
+        console.log("fill", el);
+        const parentWidth = VALUE[local.parent].element.clientWidth
+        const parentHeight = VALUE[local.parent].element.clientHeight
 
-          if (
-            (width / parentWidth <= 1 &&
-              width / parentWidth > 0.99 &&
-              height > parentHeight) ||
-            (height / parentHeight <= 1 &&
-              height / parentHeight > 0.99 &&
-              width > parentWidth)
-          ) {
-            return;
-          }
+        var width = local.element.offsetWidth
+        var height = local.element.offsetHeight
 
-          local.element.style.maxWidth = "100%";
-          local.element.style.maxHeight = "100%";
+        if (
+          (width / parentWidth <= 1 && width / parentWidth >= 0.99) ||
+          (height / parentHeight <= 1 && height / parentHeight >= 0.99)
+        ) return
 
-          var width = local.element.offsetWidth;
-          var height = local.element.offsetHeight;
+        var ratio = (height / parentHeight) > (width / parentWidth)
+        
+        if (ratio) {
 
-          if (width / parentWidth < 0.99) {
-            local.element.style.width = parentWidth + "px";
-            if (width) ratio = (parentWidth - width) / width;
-            local.element.style.maxHeight = "initial";
-            local.element.style.height = height + ratio * height + "px";
-          } else if (height / parentHeight < 0.99) {
-            local.element.style.height = parentHeight + "px";
-            if (height) ratio = (parentHeight - height) / height;
-            local.element.style.maxWidth = "initial";
-            local.element.style.width = width + ratio * width + "px";
-          }
-        });
-      }, 500);
+          local.element.style.width = parentWidth + 'px'
+          local.element.style.height = (height * parentWidth / width) + 'px'
+        
+        }  else {
+          
+          local.element.style.height = parentHeight + 'px'
+          local.element.style.width = (width * parentHeight / height) + 'px'
+
+        }
+      }
+
+      imageEls.map(el => el.onload = myFn(el))
     }
-  },
-};
+  }
+}
 
 },{}],51:[function(require,module,exports){
-const {toArray} = require("./toArray");
-const {toAwait} = require("./toAwait");
+const {toArray} = require("./toArray")
+const {toAwait} = require("./toAwait")
 
 const filter = ({VALUE, STATE, params = {}, id, e}) => {
-  const local = VALUE[id];
-  if (!local) return;
+  var local = VALUE[id]
+  if (!local) return
 
-  const filter = params.filter || {};
-  const Data = filter.Data || local.Data;
-  const options = STATE[`${Data}-options`];
+  var filter = params.filter || {}
+  var Data = filter.Data || local.Data
+  var options = STATE[`${Data}-options`]
 
-  let path = toArray(filter.path);
-  path = path.map((path) => path.split("."));
+  var path = toArray(filter.path)
+  path = path.map(path => path.split("."))
 
-  const backup = filter.backup;
-  let value = filter.value;
+  var backup = filter.backup
+  var value = filter.value
 
-  if (options.filter === value) return (options.filter = value);
+  if (options.filter === value) return options.filter = value
 
   // reset backup filter options
-  options.filter = value;
-
+  options.filter = value
+  
   // empty value
-  if (value === undefined || value === "") STATE[Data] = backup;
+  if (value === undefined || value === "") STATE[Data] = backup
   else {
     // remove spaces
-    value = value.split(" ").join("").toLowerCase();
+    value = value.split(" ").join("").toLowerCase()
 
-    const data = [];
+    var data = []
     data.push(
-        ...backup.filter((data) => path
-              .map((path) => path
-                .reduce((o, k) => o[k], data)
-                .toString()
-                .toLowerCase()
-                .split(" ")
-                .join("")
-              )
-              .join("")
-              .includes(value)
+      ...backup.filter(data => path
+        .map(path => (path
+        .reduce((o, k) => o[k], data) || '')
+        .toString()
+        .toLowerCase()
+        .split(" ")
+        .join("")
         )
-    );
+        .join("")
+        .includes(value)
+      )
+    )
 
-    STATE[Data] = data;
+    STATE[Data] = data
   }
 
   // await params
-  toAwait({VALUE, STATE, id, e, params});
-};
+  toAwait({VALUE, STATE, id, e, params})
+}
 
-module.exports = {filter};
+module.exports = {filter}
 
 },{"./toArray":85,"./toAwait":86}],52:[function(require,module,exports){
 const {setControls} = require("./controls");
@@ -4279,12 +4185,12 @@ const popup = ({VALUE, STATE, id, params}) => {
   popup.unDeriveData = true;
 
   update({VALUE, STATE, id: "popup"});
-
+  
   // eraser
   if (popUp.type === "eraser") {
     const _controls = {
       event: "click",
-      actions: `resetStyles;await.note;await.setStyle::mini-window;await.remove>>220::global.mini-window-view.element.children.0.id${popUp.update ? `;await.update::${popUp.update}` : ""};async.erase?note=${popUp.note || "Data removed successfully"};style.display=none>>200;style.opacity=0;erase.path=${popUp.path};erase.id=${popUp.id || "value.data().id"};await.state.${popUp.Data || `${popup.Data}`}=state.${popUp.Data || `${popup.Data}`}.filterById().!.[${popUp.id || "value.data().id"}]`,
+      actions: `resetStyles::popup;await.note;await.setStyle::mini-window;await.remove>>220::global.mini-window-view.element.children.0.id${popUp.update ? `;await.update::${popUp.update}` : ""};async.erase?note=${popUp.note || "Data removed successfully"};style.display=none>>200;style.opacity=0;erase.path=${popUp.path};erase.id=${popUp.id || "value.data().id"};await.state.[value.Data]=state.[value.Data].filterById().!.[${popUp.id || "value.data().id"}]`,
     };
     setTimeout(() => {
       if (popUp.text) VALUE["popup-text"].element.innerHTML = popUp.text;
@@ -4295,7 +4201,7 @@ const popup = ({VALUE, STATE, id, params}) => {
 
 module.exports = {popup};
 
-},{"./controls":34,"./update":100}],68:[function(require,module,exports){
+},{"./controls":34,"./update":101}],68:[function(require,module,exports){
 const preventDefault = ({e}) => {
   e.preventDefault();
 };
@@ -4335,7 +4241,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         : path[0] === 'state' ? STATE 
         : path[0] === 'e' ? e
         : path[0] === 'params' ? params
-        : path[0] === 'any' ? path[1]
+        : path[0] === 'any' ? toValue({ VALUE, STATE, id, params: { value: path[1], params }, e })
+        : path[0] === 'document' ? document
+        : path[0] === 'window' ? window
+        : path[0] === 'history' ? history
         : false
         
         if (!object && path[0]) {
@@ -4351,7 +4260,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             else if (path[0] === '[]') object = []
 
-            else if (path[0] === '{}') object = []
+            else if (path[0] === '{}') object = {}
 
             else if (path[0] === '[{}]') object = [{}]
 
@@ -4371,6 +4280,17 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                     
         // break method
         if (breakRequest === true || breakRequest >= i) return o
+        
+        // if o is undefined ? ...
+        if (k === 'else()') {
+            
+            breakRequest = i + 1
+            var answer1 = o
+            var answer2 = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            if (!answer1) answer = answer2
+            else answer = answer1
+            return answer
+        }
 
         if (!o) return o
         
@@ -4382,7 +4302,6 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             var newValue = toValue({ VALUE, STATE, id, e, params: { value: STATE.codes[k], params } })
             newValue = [ ...newValue.toString().split('.'), ...path.slice(i + 1)]
             answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: newValue, object: o, params } })
-            
 
         } else if (k === 'data()') {
 
@@ -4396,10 +4315,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             answer = STATE[local.Data]
 
-        } else if (k === 'derive()') {
+        } else if (k === "removeAttribute()") {
 
             breakRequest = i + 1
-            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: [...local.derivations, ...[path[i + 1]]], object: o, params } })
+            var removed = toValue({ VALUE, STATE, id, e, params: { value: path[i+1], params } })
+            answer = o.removeAttribute(removed)
 
         } else if (k === 'parent()') {
 
@@ -4473,14 +4393,64 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === '!') {
 
             opposite = true
-            return answer = o
+            answer = o
+
+        } else if (k === 'child()') {
+
+            breakRequest = i + 1
+            var child = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            answer = o.child(child)
+            
+        } else if (k === 'delete()') {
+            
+            answer = o.delete()
+            
+        } else if (k === 'shift()') {
+
+            answer = o.shift()
+
+        } else if (k === 'slice()') {
+
+            breakRequest = i + 1
+            var sliced = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            answer = o.slice(sliced)
+
+        } else if (k === 'replaceState()') {
+
+            breakRequest = i + 1
+            var replaced = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            answer = o.replaceState(null, STATE.page[STATE.host].title, replaced)
+
+        } else if (k === 'pushState()') {
+
+            breakRequest = i + 1
+            var pushed = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            answer = o.pushState(null, STATE.page[STATE.host].title, pushed)
 
         } else if (k === 'param()') {
             
             breakRequest = i + 1
             var param = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             answer = o + '>>' + param
+
+        } else if (k === 'semi()') {
             
+            answer = o + ";"
+
+        } else if (k === 'space()') {
+            
+            breakRequest = i + 1
+            var spaced = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            if (!path[i + 1]) spaced = ""
+            answer = o + " " + spaced
+            
+        } else if (k === 'equal()') {
+            
+            breakRequest = i + 1
+            var added = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            if (!path[i + 1]) added = ""
+            answer = o + "=" + added
+
         } else if (k === 'isEqual()') {
             
             breakRequest = i + 1
@@ -4569,27 +4539,19 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             b = toNumber(b)
             o = toNumber(o)
-
+            
             if (!isNaN(o) && !isNaN(b)) answer = o - b
-            else answer = o.split(b)[0] + o.split(b)[1]
+            else answer = o.split(b)[0] - o.split(b)[1]
             if (isPrice) answer = answer.toLocaleString()
 
         } else if (k === 'dateTimeFormater()') {
             
-            answer = dateTimeFormater({ VALUE, STATE, id, e, params: {dateTime: o, opposite} })
+            answer = dateTimeFormater({ VALUE, STATE, id, e, params: { dateTime: o, opposite } })
             opposite = false
 
         } else if (k === 'toArray()') {
             
             answer = toArray(o)
-
-        } else if (k === 'else()') {
-            
-            breakRequest = i + 1
-            var answer1 = o
-            var answer2 = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
-            if (!answer1) answer = answer2
-            else answer = answer1
 
         } else if (k === 'json') {
             
@@ -4603,11 +4565,35 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = clone(o)
 
+        } else if (k === 'array()' || k === '[]') {
+            
+            answer = []
+
+        } else if (k === 'object()' || k === '{}') {
+            
+            answer = {}
+            if (path[i + 1] === 'field()') {
+                breakRequest = true
+                var fields = path.slice(i + 1).join('.').split('field().').slice(1)
+                fields.map(field => {
+                    var f = toValue({ VALUE, STATE, id, params: { value: field.split('.')[0], params }, e })
+                    var v = toValue({ VALUE, STATE, id, params: { value: field.split('.')[2], params }, e })
+                    answer[f] = v
+                })
+            }
+
         } else if (k === 'push()') {
             
             breakRequest = i + 1
             var pushed = toValue({ VALUE, STATE, id, params: {value: path[i + 1], params}, e })
             o.push(pushed)
+            answer = o
+
+        } else if (k === 'pull()') {
+            
+            breakRequest = i + 1
+            var pulled = toValue({ VALUE, STATE, id, params: {value: path[i + 1], params}, e })
+            o.splice(pulled,1)
             answer = o
 
         } else if (k === 'keys()') {
@@ -4641,7 +4627,8 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'includes()') {
             
             breakRequest = i + 1
-            answer = o.includes(path[i + 1])
+            var included = toValue({ VALUE, STATE, id, e, params: { value: path[i+1], params } })
+            answer = o.includes(included)
             
         } else if (k === 'capitalize()') {
             
@@ -4654,9 +4641,23 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'date()') {
             
             answer = new Date()
+
+        } else if (k === 'toUTCString()') {
+            
+            if (!isNaN(o)) o = new Date(parseFloat(o))
+            answer = o.toUTCString()
+            
+        } else if (k === 'setTime()') {
+            
+            answer = new Date().setTime(o)
+            
+        } else if (k === 'getTime()') {
+            
+            answer = o.getTime()
             
         } else if (k === 'toDate()') {
             
+            if (!isNaN(o)) o = new Date(parseFloat(o))
             answer = `${o.getDate()}-${o.getMonth()}-${o.getFullYear()}T${o.getHours()}:${o.getMinutes()}:${o.getSeconds()}`
             
         } else if (k === 'flat()') {
@@ -4749,6 +4750,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 else answer = 0
             }
             
+        } else if (k === 'getDeepChildrenId()') {
+
+            answer = getDeepChildrenId({ VALUE, id: o.id })
+            
         } else if (k === 'action()') {
             
             answer = execute({ VALUE, STATE, id, actions: path[i - 1], params, e })
@@ -4760,6 +4765,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'toNumber()') {
 
             answer = toNumber(o)
+            
+        } else if (k === 'toString()') {
+
+            answer = o + ""
             
         } else if (k === '1stIndex()' || k === 'firstIndex()') {
             
@@ -4866,7 +4875,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             breakRequest = true
             local.controls = toArray(local.controls) || []
             if (value !== undefined) return local.controls.push({
-                event: `load?${key}=${value}`
+                event: `loaded?${key}=${value}`
             })
             
         } else if (k === 'length' && !local.length && i === 0) {
@@ -4897,11 +4906,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             else answer = o[k] = {}
 
         } else answer = o[k]
-
+        
         return answer
 
     }, object)
-    
+
     return answer
 }
 
@@ -4920,7 +4929,22 @@ const getDeepChildren = ({ VALUE, id }) => {
     return all
 }
 
-module.exports = { reducer }
+const getDeepChildrenId = ({ VALUE, id }) => {
+    var all = [id]
+    if (!VALUE[id]) return []
+    
+    if ([...VALUE[id].element.children].length > 0) 
+        ([...VALUE[id].element.children]).map(el => {
+
+            if ([...VALUE[el.id].element.children].length > 0) 
+                all.push(...getDeepChildren({ VALUE, id }))
+
+            else all.push(el.id)
+        })
+    return all
+}
+
+module.exports = { reducer, getDeepChildren, getDeepChildrenId }
 },{"./capitalize":30,"./clone":32,"./dateTimeFormater":42,"./execute":49,"./generate":54,"./isEqual":58,"./toArray":85,"./toCode":87,"./toNumber":92,"./toPrice":95,"./toValue":99}],70:[function(require,module,exports){
 const {removeIds} = require("./update");
 const {clone} = require("./clone");
@@ -4940,18 +4964,20 @@ const remove = ({STATE, VALUE, params, id}) => {
       return k;
     });
   }
-
+  
   if (params.path) keys.push(...path);
-  keys.push("delete()");
-
-  // delete
   if (keys.length > 0) {
-    reducer({
-      VALUE,
-      STATE,
-      id,
-      params: {path: keys, object: STATE[local.Data]},
-    });
+    keys.push("delete()")
+
+    // delete
+    if (keys.length > 0) {
+      reducer({
+        VALUE,
+        STATE,
+        id,
+        params: {path: keys, object: STATE[local.Data]},
+      });
+    }
   }
 
   removeIds({VALUE, id});
@@ -4989,7 +5015,7 @@ const resetDerivations = ({VALUE, id, index}) => {
 
 module.exports = {remove};
 
-},{"./clone":32,"./reducer":69,"./update":100}],71:[function(require,module,exports){
+},{"./clone":32,"./reducer":69,"./update":101}],71:[function(require,module,exports){
 const removeDuplicates = (object) => {
   if (typeof object === "string" || typeof object === "number" || !object) {
     return object;
@@ -5024,6 +5050,7 @@ const resize = ({VALUE, id}) => {
   const width = local.style.width;
   if (width === "fit-content") {
     if (local.element) {
+
       if (!local.style || (local.style && !local.style.minWidth)) {
         local.element.style.width = results.width + "px";
       } else if (converter(local.style.minWidth) > results.width) {
@@ -5046,7 +5073,9 @@ const resize = ({VALUE, id}) => {
   // for height
   const height = local.style.height;
   if (height === "fit-content") {
+    
     if (local.element) {
+
       if (!local.style || (local.style && !local.style.minHeight)) {
         local.element.style.height = results.height + "px";
       } else if (converter(local.style.minHeight) > results.height) {
@@ -5075,14 +5104,9 @@ const dimensions = ({VALUE, id, params = {}}) => {
   document.body.appendChild(lDiv);
 
   const pStyle = local.style;
-  const pText =
-    params.text ||
-    local.data ||
-    (local.input && local.input.value) ||
-    local.text ||
-    "A";
+  const pText = params.text || (local.input && local.element.value) || "A";
   const pFontSize = pStyle.fontSize;
-
+  
   if (pStyle != null) lDiv.style = pStyle;
 
   lDiv.style.fontSize = pFontSize;
@@ -5123,82 +5147,6 @@ const converter = (dimension) => {
 module.exports = {resize, dimensions};
 
 },{}],73:[function(require,module,exports){
-const { starter } = require("./starter");
-//const { search } = require("./search")
-//const { setState } = require("./state")
-
-/*const toRoute = ({ VAR, STATE }) => {
-
-    var pathname = window.location.pathname.split('/')
-    pathname.slice(2)
-    var queries = pathname.filter(path => path.includes('search?') ; path.includes('search?').split('search?')[1])
-    pathname = pathname.filter(path => !path.includes('search?'))
-
-    queries.map(query => {
-        query = toParam({ VAR, STATE, string: query })
-        search({ VAR, STATE, params: query })
-    })
-
-    var stateList = toParam({ VAR, STATE, string: pathname.join(';') || '' })
-    setState({ VAR, STATE, params: stateList })
-
-}*/
-
-const route = async ({ VALUE, STATE, params, id }) => {
-  var { data } = await axios.get(`/route${params.route}`);
-  document.body.innerHTML = data;
-
-  starter();
-
-  window.history.replaceState({}, "", params.route);
-};
-
-/*const replaceRoute = ({ params }) => {
-
-    var route = '/' + window.location.pathname.split('/')[1]
-    var pathname = `/search?state=${params.state};${params.query}`
-
-    window.history.replaceState(null, "New Page Title", route + pathname)
-
-}
-
-
-
-export const pushRoute = ({ params }) => {
-
-    var route = window.location.pathname.split('/')
-
-    // page name
-    var pathname = `/${route[1]}`
-    route = route.slice(2)
-
-    // search queries
-    var queries = route.filter(route => route.includes('search?'))
-    route = route.filter(route => !route.includes('search?'))
-    queries.map(query => {
-        pathname += `/${query}`
-    })
-
-    // states
-    var states = toParam({ string: route.join(';') })
-    states = states.state || {}
-    states = { ...states, ...params.state }
-
-    pathname += '/'
-
-    states = Object.entries(states)
-    states.map(([key, value], index) => {
-        pathname += `state.${key}=${value}`
-        if (index < states.length - 1) pathname += ';'
-    })
-
-    window.history.replaceState(null, "New Page Title", pathname)
-
-}*/
-
-module.exports = { route };
-
-},{"./starter":80}],74:[function(require,module,exports){
 /*const axios = require("axios");
 
 const save = async ({ VALUE, STATE, params = {}, id, e }) => {
@@ -5218,6 +5166,7 @@ const save = async ({ VALUE, STATE, params = {}, id, e }) => {
 };
 
 module.exports = { save };*/
+const { capitalize } = require("./capitalize");
 const { toAwait } = require("./toAwait");
 
 module.exports = {
@@ -5233,7 +5182,7 @@ module.exports = {
       local.save = {
         data: save.data,
         success: true,
-        message: `Data saved successfuly!`,
+        message: `${capitalize(collection)} saved successfuly!`,
       }
             
       console.log(local.save)
@@ -5252,7 +5201,7 @@ module.exports = {
     })
   }
 }
-},{"./toAwait":86}],75:[function(require,module,exports){
+},{"./capitalize":30,"./toAwait":86}],74:[function(require,module,exports){
 /*const axios = require('axios')
 const { toString } = require('./toString')
 
@@ -5274,6 +5223,7 @@ module.exports = {
     }
 }*/
 
+const { capitalize } = require("./capitalize")
 const { keys } = require("./keys")
 const { toAwait } = require('./toAwait')
 const { toFirebaseOperator } = require("./toFirebaseOperator")
@@ -5284,40 +5234,50 @@ module.exports = {
         var local = VALUE[id]
         var search = params.search
         var collection = search.path
-        var options = search.options || {}
         var ref = STATE.db.collection(collection)
 
+        search.limit = !search.limit ? 25 : search.limit
+
+        if (!search.signin) {
+            search.orderBy = !search.orderBy ? "creation-date" : search.orderBy
+            if (search.orderBy === "creation-date") search.startAfter = !search.startAfter ? "0" : search.startAfter
+        }
+        
         // search fields
-        if (options.fields)
-        Object.entries(options.fields).map(([key, value]) => {
+        if (search.fields)
+        Object.entries(search.fields).map(([key, value]) => {
     
             var operator = keys(value)[0]
-            if (Array.isArray(value[operator]))
-            value[operator].map(value => ref = ref.where(key, toFirebaseOperator(operator), value))
-            else ref = ref.where(key, toFirebaseOperator(operator), value[operator])
+            ref = ref.where(key, toFirebaseOperator(operator), value[operator])
         })
+        
+        if (search.orderBy) ref = ref.orderBy(search.orderBy)
+        if (search.limit) ref = ref.limit(search.limit)
+        if (search.offset) ref = ref.endAt(search.offset)
+        if (search.limitToLast) ref = ref.limitToLast(search.limitToLast)
     
+        if (search.startAt) ref = ref.startAt(search.startAt)
+        if (search.startAfter) ref = ref.startAfter(search.startAfter)
     
-        if (options.orderBy) ref = ref.orderBy(options.orderBy)
-        if (options.limit) ref = ref.limit(options.limit)
-    
-        if (options.startAt) ref = ref.startAt(options.startAt)
-        if (options.startAfter) ref = ref.startAfter(options.startAfter)
-    
-        if (options.endAt) ref = ref.endAt(options.endAt)
-        if (options.endBefore) ref = ref.endAt(options.endBefore)
+        if (search.endAt) ref = ref.endAt(search.endAt)
+        if (search.endBefore) ref = ref.endBefore(search.endBefore)
+
+        // push options to STATE
+        STATE[`${local.Data}-options`] = STATE[`${local.Data}-options`] || {}
+        STATE[`${local.Data}-options`].search = search
     
         // retrieve data
         var data = []
-        ref.get()
-        .then(query => {
-    
+        var snapshot = ref.get()
+        
+        snapshot.then(query => {
+            
             query.forEach(doc => data.push(doc.data()))
         
             local.search = {
                 data,
                 success: true,
-                message: `Data mounted successfuly!`
+                message: `${capitalize(search.path)} mounted successfuly!`
             }
             
             console.log(local.search)
@@ -5336,7 +5296,7 @@ module.exports = {
         })
     }
 }
-},{"./keys":60,"./toAwait":86,"./toFirebaseOperator":90}],76:[function(require,module,exports){
+},{"./capitalize":30,"./keys":60,"./toAwait":86,"./toFirebaseOperator":90}],75:[function(require,module,exports){
 const {isArabic} = require("./isArabic");
 
 const setContent = ({VALUE, STATE, params = {}, id}) => {
@@ -5367,7 +5327,7 @@ const setContent = ({VALUE, STATE, params = {}, id}) => {
 
 module.exports = {setContent};
 
-},{"./isArabic":57}],77:[function(require,module,exports){
+},{"./isArabic":57}],76:[function(require,module,exports){
 const {clone} = require("./clone");
 const {reducer} = require("./reducer");
 const {setContent} = require("./setContent");
@@ -5421,7 +5381,30 @@ const setData = ({STATE, VALUE, params = {}, id}) => {
 
 module.exports = {setData};
 
-},{"./clone":32,"./reducer":69,"./setContent":76}],78:[function(require,module,exports){
+},{"./clone":32,"./reducer":69,"./setContent":75}],77:[function(require,module,exports){
+const setElement = ({ VALUE, id }) => {
+
+    var local = VALUE[id]
+    if (!local) return delete VALUE[id]
+
+    // status
+    local.status = "Mounting Element"
+    
+    local.element = document.getElementById(id)
+    if (!local.element) return delete VALUE[id]
+
+    // run starter for children
+    var children = [...local.element.children]
+    
+    children.map(el => {
+        const id = el.id
+        if (!id) return
+        setElement({ VALUE, id })
+    })
+}
+    
+module.exports = {setElement}
+},{}],78:[function(require,module,exports){
 const setPosition = ({VALUE, params, id}) => {
   const position = params.position;
   const element = VALUE[id].element;
@@ -5650,80 +5633,69 @@ const sort = ({VALUE, STATE, params = {}, id, e}) => {
 module.exports = {sort};
 
 },{"./reducer":69,"./toAwait":86,"./toNumber":92}],80:[function(require,module,exports){
-const autoActions = ["fill"];
-const control = require("../control/control");
-const {toArray} = require("./toArray");
+const autoActions = ["fill"]
+const control = require("../control/control")
+const {toArray} = require("./toArray")
 
-const starter = ({STATE, VALUE, id}) => {
+const starter = ({ STATE, VALUE, id }) => {
   
-  const {defaultEventHandler} = require("./event");
-  const {setStyle} = require("./style");
-  const {controls} = require("./controls");
-  const {defaultInputHandler} = require("./defaultInputHandler");
-  const {isArabic} = require("./isArabic");
+  const {defaultEventHandler} = require("./event")
+  const {setStyle} = require("./style")
+  const {controls} = require("./controls")
+  const {defaultInputHandler} = require("./defaultInputHandler")
+  const {isArabic} = require("./isArabic")
 
-  const local = VALUE[id];
-  if (!local) return delete VALUE[id];
-
-  local.element = document.getElementById(id);
-  if (!local.element) return delete VALUE[id];
+  var local = VALUE[id]
+  if (!local) return
 
   // status
-  local.status = "mounting";
+  local.status = "mounting"
 
   /* Defaults must start before controls */
 
   // arabic text
-  isArabic({VALUE, id});
+  isArabic({VALUE, id})
 
   // input handlers
-  defaultInputHandler({VALUE, STATE, id});
+  defaultInputHandler({VALUE, STATE, id})
 
   // mouseenter, click, mouseover...
-  defaultEventHandler({VALUE, id});
+  defaultEventHandler({VALUE, id})
 
   // prevent a tag from refreshing browser
-  if (local.link) {
-    local.element.addEventListener("click", (e) => e.preventDefault());
-  }
+  if (local.link)
+  local.element.addEventListener("click", (e) => e.preventDefault())
 
   /* End of default handlers */
 
   // setStyles
-  if (local.style) {
-    setStyle({VALUE, STATE, id, params: {style: local.style}});
-  }
+  if (local.style) setStyle({VALUE, STATE, id, params: { style: local.style }})
 
   // auto actions
-  autoActions.map(
-      (action) =>
-        local[action] && require("./_method")[action]({VALUE, STATE, id})
-  );
+  autoActions.map(action => local[action] && require("./_method")[action]({ VALUE, STATE, id }))
 
   // lunch auto controls
   Object.entries(control).map(([type, control]) => {
     if (local[type]) {
-      local.controls = toArray(local.controls);
-      local.controls.push(
-          ...control({VALUE, STATE, id, params: {controls: local[type]}})
-      );
+      local.controls = toArray(local.controls)
+      local.controls.push(...control({ VALUE, STATE, id, params: {controls: local[type]} }))
     }
-  });
+  })
 
   // execute controls
-  if (local.controls) controls({VALUE, STATE, id});
+  if (local.controls) controls({VALUE, STATE, id})
 
   // run starter for children
-  const children = [...local.element.children];
+  const children = [...local.element.children]
 
   children.map((child) => {
-    const id = child.id;
-    if (!id) return;
-    starter({STATE, VALUE, id});
-  });
-};
+    const id = child.id
+    if (!id) return
+    starter({ STATE, VALUE, id })
+  })
+}
 
-module.exports = {starter};
+module.exports = {starter}
 
 },{"../control/control":18,"./_method":28,"./controls":34,"./defaultInputHandler":43,"./event":48,"./isArabic":57,"./style":82,"./toArray":85}],81:[function(require,module,exports){
 const setState = ({STATE, params}) => {
@@ -5840,7 +5812,7 @@ const mountAfterStyles = ({VALUE, params, id}) => {
       else {
         local.controls = toArray(local.controls);
         local.controls.push({
-          event: `load?value.element.style.${key}=${value}`,
+          event: `loaded?value.element.style.${key}=${value}`,
         });
       }
     }
@@ -6305,6 +6277,7 @@ module.exports = {
         if (string === '!contains' || string === 'doesnotContain' || string === 'doesnotcontain') return 'array-contains-any'
         if (string === 'includes' || string === 'include') return 'in'
         if (string === '!includes' || string === 'doesnotInclude' || string === 'doesnotinclude') return 'not-in'
+        else return string
     }
 }
 },{}],91:[function(require,module,exports){
@@ -6381,7 +6354,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
       var awaiter = param.split("await.")[1];
       return params.await.push(awaiter);
     }
-
+    
     value = toValue({VALUE, STATE, id, e, params: {value, params}});
 
     // condition not approved
@@ -6412,7 +6385,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
       key = key.split("<<")[0];
     }
 
-    // conditions
+    // timer
     let timer;
     if (key && key.includes(">>")) {
       timer = key.split(">>")[1];
@@ -6430,11 +6403,12 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
         path[0] === "params" ||
         path[0] === "e" ||
         path[0] === "action" ||
-        path[0] === "global"
+        path[0] === "global" ||
+        path[0] === "document" ||
+        path[0] === "window" ||
+        path[0] === "history"
       ) {
-        var myFn = () => {
-          reducer({VALUE, STATE, id, params: {path, value, key, params}});
-        };
+        var myFn = () => reducer({VALUE, STATE, id, params: {path, value, key, params}})
         if (timer) setTimeout(myFn, timer);
         else myFn();
       } else {
@@ -6589,12 +6563,16 @@ module.exports = {
         else if (k === "textAlign") k = "text-align";
         else if (k === "pointerEvents") k = "pointer-events";
         else if (k === "flexDirection") k = "flex-direction";
+        else if (k === "flexGrow") k = "flex-grow";
+        else if (k === "flexShrink") k = "flex-shrink";
         else if (k === "maxWidth") k = "max-width";
         else if (k === "minWidth") k = "min-width";
         else if (k === "maxHeight") k = "max-height";
         else if (k === "minHeight") k = "min-height";
         else if (k === "gridTemplateColumns") k = "grid-template-columns";
+        else if (k === "gridAutoColumns") k = "grid-auto-columns";
         else if (k === "gridTemplateRows") k = "grid-template-rows";
+        else if (k === "gridAutoRows") k = "grid-auto-columns";
         style += `${k}:${v}; `;
       });
     }
@@ -6651,7 +6629,7 @@ module.exports = {
     if (local.type === "View") {
       tag = `<div class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</div>`;
     } else if (local.type === "Image") {
-      tag = `<img class='${local.class}' src='${local.src}' alt='${local.src}' id='${local.id}' style='${style}'>`;
+      tag = `<img class='${local.class}' src='${local.src || '/'}' alt='${local.src}' id='${local.id}' style='${style}'>`;
     } else if (local.type === "Table") {
       tag = `<table class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</table>`;
     } else if (local.type === "Row") {
@@ -6661,9 +6639,7 @@ module.exports = {
     } else if (local.type === "Cell") {
       tag = `<td class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</td>`;
     } else if (local.type === "Label") {
-      tag = `<label class='${local.class}' id='${local.id}' style='${style}' ${
-        local["aria-label"] ? `aria-label="${local["aria-label"]}"` : ""
-      } ${local.for ? `for="${local.for}"` : ""}>${innerHTML}</label>`;
+      tag = `<label class='${local.class}' id='${local.id}' style='${style}' ${local["aria-label"] ? `aria-label="${local["aria-label"]}"` : ""} ${local.for ? `for="${local.for}"` : ""}>${innerHTML}</label>`;
     } else if (local.type === "Span") {
       tag = `<span class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</span>`;
     } else if (local.type === "Text") {
@@ -6703,15 +6679,11 @@ module.exports = {
     // linkable
     if (local.link) {
       var id = generate();
-      tag = `<a id=${id} href=${local.link}>${tag}</a>`;
-      toArray(local.controls).push({
-        event: "click",
-        actions: `route?route=${local.link}`,
-      });
-      VALUE[id] = {};
+      tag = `<a id=${id} href=${local.link}>${tag}</a>`
+      VALUE[id] = { id }
     }
 
-    return tag;
+    return tag
   },
 };
 
@@ -6734,6 +6706,9 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
   if (value && value.split("const.")[1] && !value.split("const.")[0]) {
     return value.split("const.")[1];
   }
+
+  // auto space
+  if (value === "") return (value = "");
 
   // auto space
   if (value === "_dot") return (value = ".");
@@ -6890,8 +6865,24 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
 module.exports = {toValue};
 
 },{"./generate":54,"./reducer":69,"./toApproval":84}],100:[function(require,module,exports){
+module.exports = {
+    toggleView: ({ VALUE, STATE, id, e, params }) => {
+        const { execute } = require("./execute")
+        var toggle = params.toggle
+        
+        var actions = [
+            `setStyle::${toggle.id}?value.element.style.transition::${toggle.id}=transform .2s, opacity .05s;style.transform=translateY(-150%);style.opacity=0`,
+            `setStyle>>400::${toggle.id}?style.transform=translateY(0);style.opacity=1`,
+            `createView>>250::${toggle.id}?value.element.innerHTML::${toggle.id}='';value.Data::${toggle.id}=value.data();view=${toggle.view}`,
+        ]
+
+        execute({ VALUE, STATE, e, id, actions })
+    }
+}
+},{"./execute":49}],101:[function(require,module,exports){
 const {generate} = require("./generate");
 const {starter} = require("./starter");
+const {setElement} = require("./setElement");
 const {toArray} = require("./toArray");
 const {createElement} = require("./createElement");
 const {clone} = require("./clone");
@@ -6925,6 +6916,7 @@ const update = ({STATE, VALUE, id}) => {
     const children = [...local.element.children];
     children.map((child) => {
       const id = child.id;
+      setElement({VALUE, id});
       starter({STATE, VALUE, id});
     });
 
@@ -6954,13 +6946,38 @@ const removeIds = ({VALUE, id}) => {
 
 module.exports = {update, removeIds};
 
-},{"./clone":32,"./createElement":38,"./generate":54,"./starter":80,"./toArray":85}],101:[function(require,module,exports){
+},{"./clone":32,"./createElement":38,"./generate":54,"./setElement":77,"./starter":80,"./toArray":85}],102:[function(require,module,exports){
+const { capitalize } = require("./capitalize")
+const { save } = require("./save")
+const { toAwait } = require("./toAwait")
+
+module.exports = {
+    upload: async ({ VALUE, STATE, id, e, params = {} }) => {
+
+        var local = VALUE[id]
+        var storage = STATE.storage
+        var upload = params.upload || {}
+        upload.save = upload.save !== undefined ? upload.save : true
+        
+        await storage.child(`images/${local.file.fileName}.${local.file.fileType}`).put(local.file.src)
+        await storage.child(`images/${local.file.fileName}.${local.file.fileType}`).getDownloadURL().then(url => local.file.url = url)
+        
+        local.file.id = `${local.file.fileName}.${local.file.fileType}`
+
+        upload.save && await save({ VALUE, STATE, params: {...params, save: { path: "image", data: {
+            "creation-date": new Date().getTime() + 10800000 + "", name: `${local.file.fileName}.${local.file.fileType}`, id: `${local.file.fileName}.${local.file.fileType}`, url: local.file.url, description: `${capitalize(local.file.fileName.split('-')[0])} Image`, active: true
+        }}}, id, e })
+
+        !upload.save && toAwait({ VALUE, STATE, id, params, e })
+    }
+}
+},{"./capitalize":30,"./save":73,"./toAwait":86}],103:[function(require,module,exports){
 module.exports = {
     values: (object) => {
         return Object.values(object)
     }
 }
-},{}],102:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 const { toApproval } = require("./toApproval")
 const { clone } = require("./clone")
 const { toParam } = require("./toParam")
@@ -7018,7 +7035,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {watch}
-},{"./clone":32,"./execute":49,"./isEqual":58,"./toApproval":84,"./toParam":93,"./toValue":99}],103:[function(require,module,exports){
+},{"./clone":32,"./execute":49,"./isEqual":58,"./toApproval":84,"./toParam":93,"./toValue":99}],105:[function(require,module,exports){
 (function (process){(function (){
 /* @flow */
 /*::

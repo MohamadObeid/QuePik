@@ -2,20 +2,13 @@
     "file-name": "asset",
     "type": "View?style.padding=2rem;data={}<<!value.data()",
     "controls": {
-        "event": "load",
+        "event": "loaded",
         "actions": "async.search?search.path=asset;await.state.asset=value.search.data?!state.asset"
     },
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=asset-++generate()<<!value.data().id",
         "children": [{
-            "type": "View?class=flex-box?value.data().name",
-            "children": [{
-                "type": "Text?text=Edit;style.fontSize=1.8rem;fontWeight=500"
-            }, {
-                "type": "Text?text=value.data().name.capitalize();style.fontSize=1.8rem;style.fontWeight=500;style.margin=0 .5rem"
-            }, {
-                "type": "Text?text=Asset;style.fontSize=1.8rem;fontWeight=500"
-            }]
+            "type": "Text?text=any.Edit .add().[value.data().name.capitalize()].add(). Asset;style.fontSize=1.8rem;fontWeight=500?value.data().name"
         }, {
             "type": "Text?text=Create New Asset;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
         }, {
@@ -56,13 +49,13 @@
                 "children": [{
                     "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=name"
                 }, {
-                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().toDate()<<!value.data().creation-date;path=creation-date",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
                     "controls": {
-                        "event": "load?value.element.value=value.data().split().T.join(). "
+                        "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }
                 }]
             }]
@@ -83,7 +76,7 @@
             "children": [{
                 "type": "[Input]?textarea;featured;removable;clearable;style.backgroundColor=#f0f0f0;path=options;flicker",
                 "controls": [{
-                    "event": "load?value.derivations=value.derivations.push().name;value.element.value=value.data()"
+                    "event": "loaded?value.derivations=value.derivations.push().name;value.element.value=value.data()"
                 }]
             }]
         }, {
