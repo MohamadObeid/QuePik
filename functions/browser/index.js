@@ -785,6 +785,8 @@ VALUE.root.element = root
 
 STATE.db = _firebase.firestore()
 STATE.storage = _firebase.storage().ref()
+var cookies = document.cookie.split("authentication=")
+if (cookies[1]) STATE.admin = JSON.parse(cookies[1].split(";")[0])
 
 if (!window.location.href.includes("localhost") && `/app${STATE.pathname}` !== window.location.pathname)
 history.pushState(null, STATE.page[STATE.host].title, `/app${STATE.pathname}`)
@@ -1134,7 +1136,7 @@ const Input = (component) => {
                 }, {
                     type: `Text?text=${note};style.color=#666;style.fontSize=1.3rem;style.padding=.5rem?const.${note}`
                 }, {
-                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items<<!${readonly}=const.[Enter a special key:>>readonly,${key}>>input];hoverable;duplicated=${duplicated}?const.${key}`,
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items<<!${readonly}=const.[Enter a special key:._param.readonly,${key}._param.input];hoverable;duplicated=${duplicated}?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1145,7 +1147,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items<<!${readonly}=const.[Currencies>>readonly,state.asset.findByName().Currency.options.map().name].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items<<!${readonly}=const.[Currencies._param.readonly,state.asset.findByName().Currency.options.map().name].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1156,7 +1158,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items<<!${readonly}=const.[Units>>readonly,state.asset.findByName().Unit.options.map().name].flat();hoverable?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items<<!${readonly}=const.[Units._param.readonly,state.asset.findByName().Unit.options.map().name].flat();hoverable?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1168,7 +1170,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data()`
                 }, {
-                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items<<!${readonly}=const.[Days of Week>>readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
+                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items<<!${readonly}=const.[Days of Week._param.readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1179,7 +1181,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     }
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items<<!${readonly}=const.[Languages>>readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items<<!${readonly}=const.[Languages._param.readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1195,7 +1197,7 @@ const Input = (component) => {
                         event: `change;loaded?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
-                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type>>readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[Enter google icon type>>readonly,state.google-items];hoverable?const.${google}`,
+                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type._param.readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[Enter google icon type._param.readonly,state.google-items];hoverable?const.${google}`,
                 }, {
                     type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;hoverable?${clearable}||${removable}`,
                     style: {
@@ -1906,7 +1908,7 @@ module.exports = ({VALUE, STATE, params, id}) => {
 },{}],23:[function(require,module,exports){
 const {generate} = require("../method/generate");
 
-module.exports = ({ VALUE, params, id }) => {
+module.exports = ({ VALUE, STATE, params, id }) => {
   const controls = params.controls;
   const state = generate();
 
@@ -1914,7 +1916,7 @@ module.exports = ({ VALUE, params, id }) => {
     {
       event: "click",
       actions: [
-        `createView::mini-window-view?state.${state}=value.data();value.Data.delete()::mini-window-view;value.Data::mini-window-view=${state}<<value.data();view=${controls.view}`,
+        `createView::mini-window-view?state.${state}=${controls.Data ? STATE[controls.Data] : 'value.data()'};value.Data.delete()::mini-window-view;value.Data::mini-window-view=${state}<<value.data();view=${controls.view}`,
         "setStyle::mini-window?style.display=flex;style.opacity=1>>25",
       ],
     },
@@ -3641,49 +3643,8 @@ module.exports = { execute }
 
 },{"./_method":28,"./getParam":56,"./toApproval":84,"./toArray":85,"./toAwait":86,"./toId":91,"./toParam":93,"./toValue":99}],50:[function(require,module,exports){
 module.exports = {
-  fill: ({ VALUE, STATE, id }) => {
-    const local = VALUE[id]
-
-    if (local.element) {
-      if (local.type !== "Image") {
-
-        var imageEls = [...local.element.getElementsByTagName("IMG")]
-        if (imageEls.length === 0) return
-
-      } else imageEls = [local.element]
-
-      const myFn = (el) => {
-        
-        const local = VALUE[el.id]
-        console.log("fill", el);
-        const parentWidth = VALUE[local.parent].element.clientWidth
-        const parentHeight = VALUE[local.parent].element.clientHeight
-
-        var width = local.element.offsetWidth
-        var height = local.element.offsetHeight
-
-        if (
-          (width / parentWidth <= 1 && width / parentWidth >= 0.99) ||
-          (height / parentHeight <= 1 && height / parentHeight >= 0.99)
-        ) return
-
-        var ratio = (height / parentHeight) > (width / parentWidth)
-        
-        if (ratio) {
-
-          local.element.style.width = parentWidth + 'px'
-          local.element.style.height = (height * parentWidth / width) + 'px'
-        
-        }  else {
-          
-          local.element.style.height = parentHeight + 'px'
-          local.element.style.width = (width * parentHeight / height) + 'px'
-
-        }
-      }
-
-      imageEls.map(el => el.onload = myFn(el))
-    }
+  fill: ({ VALUE, id }) => {
+    
   }
 }
 
@@ -4067,30 +4028,28 @@ module.exports = {merge, override};
 
 },{"./clone":32,"./toArray":85}],63:[function(require,module,exports){
 const note = ({VALUE, params}) => {
-  const note = VALUE["action-note"];
-  const noteText = VALUE["action-note-text"];
+  const note = VALUE["action-note"]
+  const noteText = VALUE["action-note-text"]
 
-  if (!params.note) return;
+  if (!params.note) return
 
-  clearTimeout(note["note-timer"]);
+  clearTimeout(note["note-timer"])
 
-  note.element.style.transition = "initial";
-  note.element.style.transform = "translateY(-200%)";
+  note.element.style.transition = "initial"
+  note.element.style.transform = "translateY(-200%)"
 
-  noteText.element.innerHTML = params.note;
+  noteText.element.innerHTML = params.note
 
-  note.element.style.left = "center";
-  note.element.style.transition = "transform .2s";
-  note.element.style.transform = "translateY(0)";
+  note.element.style.left = "center"
+  note.element.style.transition = "transform .2s"
+  note.element.style.transform = "translateY(0)"
 
-  const myFn = () => {
-    note.element.style.transform = "translateY(-200%)";
-  };
+  const myFn = () => note.element.style.transform = "translateY(-200%)"
 
-  note["note-timer"] = setTimeout(myFn, 5000);
-};
+  note["note-timer"] = setTimeout(myFn, 5000)
+}
 
-module.exports = {note};
+module.exports = {note}
 
 },{}],64:[function(require,module,exports){
 const overflow = ({VALUE, params, id}) => {
@@ -4280,6 +4239,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                     
         // break method
         if (breakRequest === true || breakRequest >= i) return o
+
+        // equal()
+        if (path[i + 1] === 'equal()') {
+            
+            breakRequest = true
+            return answer = o[k] = toValue({ VALUE, STATE, id, params: { value: path.slice(i + 2).join("."), params }, e })
+        }
         
         // if o is undefined ? ...
         if (k === 'else()') {
@@ -4401,6 +4367,19 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             var child = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
             answer = o.child(child)
             
+        } else if (k === 'clearTimeout()') {
+            
+            breakRequest = i + 1
+            var clear = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = clearTimeout(clear)
+            
+        } else if (k === 'setTimeout()') {
+            
+            breakRequest = i + 2
+            var timer = parseInt(path[i + 2])
+            var myFn = () => toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = setTimeout(myFn, timer)
+
         } else if (k === 'delete()') {
             
             answer = o.delete()
@@ -4427,24 +4406,24 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             var pushed = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
             answer = o.pushState(null, STATE.page[STATE.host].title, pushed)
 
-        } else if (k === 'param()') {
+        } else if (k === '_param') {
             
             breakRequest = i + 1
             var param = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             answer = o + '>>' + param
 
-        } else if (k === 'semi()') {
+        } else if (k === '_semi') {
             
             answer = o + ";"
 
-        } else if (k === 'space()') {
+        } else if (k === '_space') {
             
             breakRequest = i + 1
             var spaced = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             if (!path[i + 1]) spaced = ""
             answer = o + " " + spaced
             
-        } else if (k === 'equal()') {
+        } else if (k === '_equal') {
             
             breakRequest = i + 1
             var added = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
@@ -5236,11 +5215,11 @@ module.exports = {
         var collection = search.path
         var ref = STATE.db.collection(collection)
 
-        search.limit = !search.limit ? 25 : search.limit
-
-        if (!search.signin) {
+        if (collection !== 'admin') {
+            search.limit = !search.limit ? 25 : search.limit
             search.orderBy = !search.orderBy ? "creation-date" : search.orderBy
-            if (search.orderBy === "creation-date") search.startAfter = !search.startAfter ? "0" : search.startAfter
+            if (search.orderBy === "creation-date") 
+            search.startAfter = !search.startAfter ? "0" : search.startAfter
         }
         
         // search fields
@@ -5633,7 +5612,6 @@ const sort = ({VALUE, STATE, params = {}, id, e}) => {
 module.exports = {sort};
 
 },{"./reducer":69,"./toAwait":86,"./toNumber":92}],80:[function(require,module,exports){
-const autoActions = ["fill"]
 const control = require("../control/control")
 const {toArray} = require("./toArray")
 
@@ -5661,18 +5639,17 @@ const starter = ({ STATE, VALUE, id }) => {
 
   // mouseenter, click, mouseover...
   defaultEventHandler({VALUE, id})
+  
+  // on loaded image
+  if (local.type === 'Image') local.element.src = local.src
 
   // prevent a tag from refreshing browser
-  if (local.link)
-  local.element.addEventListener("click", (e) => e.preventDefault())
+  if (local.link) local.element.addEventListener("click", (e) => e.preventDefault())
 
   /* End of default handlers */
 
   // setStyles
   if (local.style) setStyle({VALUE, STATE, id, params: { style: local.style }})
-
-  // auto actions
-  autoActions.map(action => local[action] && require("./_method")[action]({ VALUE, STATE, id }))
 
   // lunch auto controls
   Object.entries(control).map(([type, control]) => {
@@ -5697,7 +5674,7 @@ const starter = ({ STATE, VALUE, id }) => {
 
 module.exports = {starter}
 
-},{"../control/control":18,"./_method":28,"./controls":34,"./defaultInputHandler":43,"./event":48,"./isArabic":57,"./style":82,"./toArray":85}],81:[function(require,module,exports){
+},{"../control/control":18,"./controls":34,"./defaultInputHandler":43,"./event":48,"./isArabic":57,"./style":82,"./toArray":85}],81:[function(require,module,exports){
 const setState = ({STATE, params}) => {
   // push states to route
   /* if (params.route) pushRoute({ params })
@@ -6409,7 +6386,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
         path[0] === "history"
       ) {
         var myFn = () => reducer({VALUE, STATE, id, params: {path, value, key, params}})
-        if (timer) setTimeout(myFn, timer);
+        if (timer) VALUE[localId][keys.join(".").split(">>")[0]] = setTimeout(myFn, timer);
         else myFn();
       } else {
         path.reduce((obj, key, index) => {
@@ -6629,7 +6606,7 @@ module.exports = {
     if (local.type === "View") {
       tag = `<div class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</div>`;
     } else if (local.type === "Image") {
-      tag = `<img class='${local.class}' src='${local.src || '/'}' alt='${local.src}' id='${local.id}' style='${style}'>`;
+      tag = `<img class='${local.class}' alt='${local.src}' id='${local.id}' style='${style}'>`;
     } else if (local.type === "Table") {
       tag = `<table class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</table>`;
     } else if (local.type === "Row") {
@@ -6771,8 +6748,8 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
 
     // conditions
     if (value && value.includes("<<")) {
-      const condition = value.split("<<")[1];
-      const approved = toApproval({STATE, VALUE, id, e, string: condition});
+      var condition = value.split("<<")[1];
+      var approved = toApproval({STATE, VALUE, id, e, string: condition});
       if (!approved) return "*return*";
       value = value.split("<<")[0];
     }

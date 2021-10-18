@@ -69,6 +69,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                     
         // break method
         if (breakRequest === true || breakRequest >= i) return o
+
+        // equal()
+        if (path[i + 1] === 'equal()') {
+            
+            breakRequest = true
+            return answer = o[k] = toValue({ VALUE, STATE, id, params: { value: path.slice(i + 2).join("."), params }, e })
+        }
         
         // if o is undefined ? ...
         if (k === 'else()') {
@@ -190,6 +197,19 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             var child = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
             answer = o.child(child)
             
+        } else if (k === 'clearTimeout()') {
+            
+            breakRequest = i + 1
+            var clear = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = clearTimeout(clear)
+            
+        } else if (k === 'setTimeout()') {
+            
+            breakRequest = i + 2
+            var timer = parseInt(path[i + 2])
+            var myFn = () => toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = setTimeout(myFn, timer)
+
         } else if (k === 'delete()') {
             
             answer = o.delete()
@@ -216,24 +236,24 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             var pushed = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
             answer = o.pushState(null, STATE.page[STATE.host].title, pushed)
 
-        } else if (k === 'param()') {
+        } else if (k === '_param') {
             
             breakRequest = i + 1
             var param = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             answer = o + '>>' + param
 
-        } else if (k === 'semi()') {
+        } else if (k === '_semi') {
             
             answer = o + ";"
 
-        } else if (k === 'space()') {
+        } else if (k === '_space') {
             
             breakRequest = i + 1
             var spaced = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             if (!path[i + 1]) spaced = ""
             answer = o + " " + spaced
             
-        } else if (k === 'equal()') {
+        } else if (k === '_equal') {
             
             breakRequest = i + 1
             var added = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })

@@ -86,7 +86,7 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
         path[0] === "history"
       ) {
         var myFn = () => reducer({VALUE, STATE, id, params: {path, value, key, params}})
-        if (timer) setTimeout(myFn, timer);
+        if (timer) VALUE[localId][keys.join(".").split(">>")[0]] = setTimeout(myFn, timer);
         else myFn();
       } else {
         path.reduce((obj, key, index) => {

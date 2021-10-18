@@ -12,6 +12,8 @@ VALUE.root.element = root
 
 STATE.db = _firebase.firestore()
 STATE.storage = _firebase.storage().ref()
+var cookies = document.cookie.split("authentication=")
+if (cookies[1]) STATE.admin = JSON.parse(cookies[1].split(";")[0])
 
 if (!window.location.href.includes("localhost") && `/app${STATE.pathname}` !== window.location.pathname)
 history.pushState(null, STATE.page[STATE.host].title, `/app${STATE.pathname}`)

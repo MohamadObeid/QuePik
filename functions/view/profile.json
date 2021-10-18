@@ -1,0 +1,57 @@
+{
+    "type": "View?style.padding=2rem;Data=admin",
+    "children": [{
+        "type": "View?style.display=flex;style.width=100%;style.marginBottom=2.5rem",
+        "children": [{
+            "type": "Text?text=Edit Admin Profile;style.fontSize=1.8rem;fontWeight=500"
+        }, {
+            "type": "View?class=flex-box;style.marginLeft=auto",
+            "children": [{
+                "type": "Icon?class=flex-box;icon.name=bi-three-dots;style.color=#116dff;style.fontSize=2.5rem;style.height=4rem;style.width=4rem;style.borderRadius=4rem;style.transition=all .2s;style.marginRight=1rem;style.after.backgroundColor=#eee;hoverable;actionlist"
+            }, {
+                "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
+                "controls": [{
+                    "event": "click",
+                    "actions": "setStyle::mini-window?style.display=none>>200;style.opacity=0"
+                }]
+            }, {
+                "type": "Button?icon.name=bi-check2-square;text=Save",
+                "controls": [{
+                    "event": "click",
+                    "actions": "await.setStyle::mini-window;await.note;async.save?note=Admin saved successfully!;save.path=admin;save.data=value.data();await.state.admin=value.data();style.display=none>>200;style.opacity=0"
+                }]
+            }]
+        }]
+    }, {
+        "type": "View?style.border=1px solid #eee;style.borderRadius=.5rem;style.padding=2rem;style.display=flex;style.flexDirection=column",
+        "children": [{
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=User Name;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Password;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=User ID;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Creation Date;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
+            "children": [{
+                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
+                "children": [{
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=name"
+                }, {
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=password"
+                }, {
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=id"
+                }, {
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
+                    "controls": {
+                        "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
+                    }
+                }]
+            }]
+        }]
+    }]
+}

@@ -81,8 +81,8 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
 
     // conditions
     if (value && value.includes("<<")) {
-      const condition = value.split("<<")[1];
-      const approved = toApproval({STATE, VALUE, id, e, string: condition});
+      var condition = value.split("<<")[1];
+      var approved = toApproval({STATE, VALUE, id, e, string: condition});
       if (!approved) return "*return*";
       value = value.split("<<")[0];
     }

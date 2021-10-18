@@ -45,7 +45,7 @@ module.exports = {
     if (local.type === "View") {
       tag = `<div class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</div>`;
     } else if (local.type === "Image") {
-      tag = `<img class='${local.class}' src='${local.src || '/'}' alt='${local.src}' id='${local.id}' style='${style}'>`;
+      tag = `<img class='${local.class}' alt='${local.src}' id='${local.id}' style='${style}'>`;
     } else if (local.type === "Table") {
       tag = `<table class='${local.class}' id='${local.id}' style='${style}'>${innerHTML}</table>`;
     } else if (local.type === "Row") {

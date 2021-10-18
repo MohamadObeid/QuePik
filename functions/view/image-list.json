@@ -60,7 +60,7 @@
                         "actions": "toControls?miniWindow.view=image"
                     },
                     "children": [{
-                        "type": "Image?src=value.data().url;style.borderRadius=.75rem;style.transition=.1s;style.transition=opacity .2s;style.maxWidth=100%;style.opacity=0;style.opacity=1;fill;hoverable;style.after.opacity=.5",
+                        "type": "Image?style.width=100%;src=value.data().url;style.borderRadius=.75rem;style.transition=.1s, opacity .2s;style.maxWidth=100%;style.opacity=1;hoverable;style.after.opacity=.5",
                         "controls": [{
                             "event": "loaded?value.element.style.opacity>>200=1"
                         }]

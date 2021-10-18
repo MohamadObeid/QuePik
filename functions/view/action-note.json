@@ -7,16 +7,13 @@
         }, {
             "type": "Icon?icon.name=bi-x;style.color=#fff;style.position=absolute;style.fontSize=1.8rem;style.right=.4rem;style.cursor=pointer",
             "controls": {
-                "event": "click",
-                "actions": "close::action-note"
+                "event": "click?value.element.style.transform.equal().translateY(-200%)::action-note"
             }
         }]
     }],
     "controls" : [{
-        "event": "mouseenter",
-        "actions": "pause"
+        "event": "mouseenter?value.clearTimeout().[value.note-timer]"
     }, {
-        "event": "mouseleave",
-        "actions": "play"
+        "event": "mouseleave?value.note-timer=value.setTimeout().[value.element.style.transform.equal().translateY(-200%)].5000"
     }]
 }

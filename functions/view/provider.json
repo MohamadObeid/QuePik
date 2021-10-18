@@ -137,7 +137,7 @@
         }, {
             "type": "View?style.display=grid;style.marginBottom=1rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().services=[{}]<<!value.Data().services",
             "children": [{
-                "type": "[Input]?textarea;featured;removable;clearable;readonly;style.backgroundColor=#f0f0f0;path=services;droplist.items=const.[any.Service List.param().readonly,state.service.map().name].flat()",
+                "type": "[Input]?textarea;featured;removable;clearable;readonly;style.backgroundColor=#f0f0f0;path=services;droplist.items=const.[any.Service List._param.readonly,state.service.map().name].flat()",
                 "controls": [{
                     "event": "loaded?value.derivations=value.derivations.push().name;value.element.innerHTML=value.data()"
                 }, {
@@ -207,7 +207,7 @@
                 "children": [{
                     "type": "View?class=flex-box;style.overflow=hidden;style.position=relative;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem;flicker",
                     "children": [{
-                        "type": "Image?src=value.data().images.0.url.else().;path=images.0;fill"
+                        "type": "Image?style.width=100%;src=value.data().images.0.url.else().;path=images.0"
                     }, {
                         "type": "Icon?class=pointer;icon.name=backspace;icon.google;icon.outlined;style.display=none<<!value.data().images.0;style.position=absolute;style.bottom=.5rem;style.right=.85rem;style.color=#fff;style.fontSize=2.5rem;style.after.color=#444;style.transition=color .15s;hoverable",
                         "controls": [{
@@ -220,7 +220,7 @@
                     "children": [{
                         "type": "View?class=flex-box;style.overflow=hidden;style.position=relative;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
                         "children": [{
-                            "type": "Image?src=value.data().images.1.url.else().;path=images.1;fill"
+                            "type": "Image?style.width=100%;src=value.data().images.1.url.else().;path=images.1"
                         }, {
                             "type": "Icon?class=pointer;icon.name=backspace;icon.google;icon.outlined;style.display=none<<!value.data().images.1;style.position=absolute;style.bottom=.5rem;style.right=.85rem;style.color=#fff;style.fontSize=2.5rem;style.after.color=#444;style.transition=color .15s;hoverable",
                             "controls": [{
@@ -231,7 +231,7 @@
                     }, {
                         "type": "View?class=flex-box;style.overflow=hidden;style.position=relative;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
                         "children": [{
-                            "type": "Image?src=value.data().images.2.url.else().;path=images.2;fill"
+                            "type": "Image?style.width=100%;src=value.data().images.2.url.else().;path=images.2"
                         }, {
                             "type": "Icon?class=pointer;icon.name=backspace;icon.google;icon.outlined;style.display=none<<!value.data().images.2;style.position=absolute;style.bottom=.5rem;style.right=.85rem;style.color=#fff;style.fontSize=2.5rem;style.after.color=#444;style.transition=color .15s;hoverable",
                             "controls": [{
@@ -242,7 +242,7 @@
                     }, {
                         "type": "View?class=flex-box;style.overflow=hidden;style.position=relative;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem",
                         "children": [{
-                            "type": "Image?src=value.data().images.3.url.else().;path=images.3;fill"
+                            "type": "Image?style.width=100%;src=value.data().images.3.url.else().;path=images.3"
                         }, {
                             "type": "Icon?class=pointer;icon.name=backspace;icon.google;icon.outlined;style.display=none<<!value.data().images.3;style.position=absolute;style.bottom=.5rem;style.right=.85rem;style.color=#fff;style.fontSize=2.5rem;style.after.color=#444;style.transition=color .15s;hoverable",
                             "controls": [{
@@ -254,7 +254,7 @@
                         "type": "Input?id=img-uploader;featured;path=images.[value.Data().images.length()];input.title=provider;style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop images here!;msg=Reached maximum limit!<<value.Data().images.length()=4;disabled=true<<value.Data().images.length()=4;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem;touchableOpacity",
                         "controls": [{
                             "event": "input>>200",
-                            "actions": "await.fill::value.parent().parent().id;await.note;async.upload?value.derivations.lastIndex()=value.Data().images.length();value.element.disabled=true<<value.Data().images.length()=3;note=Image uploaded succefully!;await.value.data()=value.{}.field().url.value().[value.file.url].field().id.value().[value.file.id];await.value.parent().element.children.[value.Data().images.length().subs().2].id.().2ndChild().element.style.display=flex<<value.Data().images.length()!=1;await.value.parent().element.children.[value.Data().images.length().subs().2].id.().1stChild().element.src=value.file.url<<value.Data().images.length()!=1;await.value.parent().prev().2ndChild().element.style.display=flex<<value.Data().images.length()=1;await.value.parent().prev().1stChild().element.src=value.file.url<<value.Data().images.length()=1;await.value.derivations.lastIndex()=value.Data().images.length();await.value.element.innerHTML::img-uploader-msg=Reached maximum limit!<<value.Data().images.length()=4?value.Data().images.length()!=4"
+                            "actions": "await.note;async.upload?value.derivations.lastIndex()=value.Data().images.length();value.element.disabled=true<<value.Data().images.length()=3;note=Image uploaded succefully!;await.value.data()=value.{}.field().url.value().[value.file.url].field().id.value().[value.file.id];await.value.parent().element.children.[value.Data().images.length().subs().2].id.().2ndChild().element.style.display=flex<<value.Data().images.length()!=1;await.value.parent().element.children.[value.Data().images.length().subs().2].id.().1stChild().element.src=value.file.url<<value.Data().images.length()!=1;await.value.parent().prev().2ndChild().element.style.display=flex<<value.Data().images.length()=1;await.value.parent().prev().1stChild().element.src=value.file.url<<value.Data().images.length()=1;await.value.derivations.lastIndex()=value.Data().images.length();await.value.element.innerHTML::img-uploader-msg=Reached maximum limit!<<value.Data().images.length()=4?value.Data().images.length()!=4"
                         }]
                     }]
                 }]

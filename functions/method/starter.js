@@ -1,4 +1,3 @@
-const autoActions = ["fill"]
 const control = require("../control/control")
 const {toArray} = require("./toArray")
 
@@ -26,18 +25,17 @@ const starter = ({ STATE, VALUE, id }) => {
 
   // mouseenter, click, mouseover...
   defaultEventHandler({VALUE, id})
+  
+  // on loaded image
+  if (local.type === 'Image') local.element.src = local.src
 
   // prevent a tag from refreshing browser
-  if (local.link)
-  local.element.addEventListener("click", (e) => e.preventDefault())
+  if (local.link) local.element.addEventListener("click", (e) => e.preventDefault())
 
   /* End of default handlers */
 
   // setStyles
   if (local.style) setStyle({VALUE, STATE, id, params: { style: local.style }})
-
-  // auto actions
-  autoActions.map(action => local[action] && require("./_method")[action]({ VALUE, STATE, id }))
 
   // lunch auto controls
   Object.entries(control).map(([type, control]) => {

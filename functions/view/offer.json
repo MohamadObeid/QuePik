@@ -118,7 +118,7 @@
                 "children": [{
                     "type": "View?class=flex-box;style.overflow=hidden;style.position=relative;style.height=width/1.5;style.border=1px dashed #ccc;style.backgroundColor=#f0f0f0;style.borderRadius=1rem;flicker",
                     "children": [{
-                        "type": "Image?src=value.data.image.url;fill"
+                        "type": "Image?style.width=100%;src=value.data.image.url"
                     }, {
                         "type": "Icon?class=pointer;icon.name=backspace;icon.google;icon.outlined;style.display=none<<!value.data().image.id;style.position=absolute;style.bottom=.5rem;style.right=.85rem;style.color=#fff;style.fontSize=2.5rem;style.after.color=#444;style.transition=color .15s;hoverable",
                         "controls": [{
@@ -134,7 +134,7 @@
                         "type": "Input?id=img-uploader;featured;input.title=offer;path=image.url;style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop image here!<<!value.Data().image.id;msg=Reached maximum limit!<<value.Data().image.id;disabled<<value.Data().image.id;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
                         "controls": [{
                             "event": "input>>200",
-                            "actions": "await.fill::value.parent().parent().id;await.note;async.upload?note=Image uploaded succefully!;await.value.data()=value.file.url;await.value.Data().image.id=value.file.id;await.value.element.disabled=true<<value.data();await.value.element.disabled=true<<value.data();await.value.parent().prev().2ndChild().element.style.display=flex;await.value.parent().prev().1stChild().element.src=value.data();await.value.element.innerHTML::img-uploader-msg=Reached maximum limit!<<value.data()?!value.data()"
+                            "actions": "await.note;async.upload?note=Image uploaded succefully!;await.value.data()=value.file.url;await.value.Data().image.id=value.file.id;await.value.element.disabled=true<<value.data();await.value.element.disabled=true<<value.data();await.value.parent().prev().2ndChild().element.style.display=flex;await.value.parent().prev().1stChild().element.src=value.data();await.value.element.innerHTML::img-uploader-msg=Reached maximum limit!<<value.data()?!value.data()"
                         }]
                     }]
                 }]

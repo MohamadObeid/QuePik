@@ -32,11 +32,11 @@ module.exports = {
         var collection = search.path
         var ref = STATE.db.collection(collection)
 
-        search.limit = !search.limit ? 25 : search.limit
-
-        if (!search.signin) {
+        if (collection !== 'admin') {
+            search.limit = !search.limit ? 25 : search.limit
             search.orderBy = !search.orderBy ? "creation-date" : search.orderBy
-            if (search.orderBy === "creation-date") search.startAfter = !search.startAfter ? "0" : search.startAfter
+            if (search.orderBy === "creation-date") 
+            search.startAfter = !search.startAfter ? "0" : search.startAfter
         }
         
         // search fields

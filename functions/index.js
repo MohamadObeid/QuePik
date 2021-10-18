@@ -1,6 +1,6 @@
 const functions = require("firebase-functions")
 const express = require("express")
-const url = require('url')
+
 // const {getApi, postApi, deleteApi} = require("./method/api")
 const {createDocument} = require("./method/createDocument")
 
@@ -36,7 +36,7 @@ app.get("*", (req, res) => {
 
   var cookies = req.headers.cookie || ""
   if (cookies) {
-    cookies = cookies.split("auth-cms=")
+    cookies = cookies.split("authentication=")
     if (cookies[1]) cookies = cookies[1].split(";")[0]
     else cookies = ""
   }
