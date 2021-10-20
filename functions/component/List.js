@@ -33,8 +33,7 @@ const List = (component) => {
           zIndex: "999",
         },
       },
-      children: [
-        {
+      children: [{
           type: "View",
           class: "list-wrap",
           style: {
@@ -47,9 +46,8 @@ const List = (component) => {
           },
           passToChildren,
           children,
-        },
-        {
-          class: "box-shadow list-fin",
+        }, {
+          class: "box-shadow fin",
           type: "Text",
           style: {
             position: "absolute",

@@ -22,7 +22,7 @@
             }, {
                 "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
                 "controls": [{
-                    "event": "click",
+                    "event": "click?state.provider-list-Data.findById().[value.Data().id]=state.provider.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window;remove>>220::global.mini-window-view.element.children.0.id?style.display=none>>200;style.opacity=0"
                 }]
             }, {
@@ -77,7 +77,10 @@
         }, {
             "type": "View?style.display=grid;style.gridTemplateColumns=1fr 2fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
             "children": [{
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=phone-number"
+                "type": "View?style.display=grid;style.gap=.5rem",
+                "children": [{
+                    "type": "[Input]?textarea;featured;clearable;duplicatable;style.backgroundColor=#f0f0f0;value.Data().phone-number<<!value.Data().phone-number=[];path=phone-number"
+                }]
             }, {
                 "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=email"
             }, {
@@ -89,31 +92,22 @@
                 "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=active;data=true<<value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
             }]
         }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=2fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
                 "type": "Text?class=left;label;text=Address;style.fontSize=1.4rem"
-            }]
-        }, {
-            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
-            "children": [{
-                "type": "View?style.display=grid;style.gap=1rem",
-                "children": {
-                    "type": "[Input]?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=address"
-                }
-            }]
-        }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
-            "children": [{
-                "type": "Text?class=left;label;text=Description;style.fontSize=1.4rem"
             }, {
-                "type": "Text?class=left;label;text=Notes;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Longitude;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=latitude;style.fontSize=1.4rem"
             }]
         }, {
-            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=2fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
             "children": [{
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=address"
             }, {
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=location.longitude"
+            }, {
+                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=location.latitude"
             }]
         }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
@@ -121,6 +115,8 @@
                 "type": "Text?class=left;label;text=Owner Name;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Owner Phone#;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Head Provider;style.fontSize=1.4rem"
             }]
         }, {
             "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
@@ -130,30 +126,24 @@
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=owner.name"
                 }, {
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=owner.phone-number"
+                }, {
+                    "type": "Input?textarea;featured;clearable.path=head-provider;style.backgroundColor=#f0f0f0;path=head-provider.name;droplist.items=const.[any.Provider List._param.readonly,state.provider.map().name].flat()",
+                    "controls": {
+                        "watch": "value.data()?value.Data().head-provider.id=state.provider.clone().findByName().[value.data()].id?value.data()"
+                    }
                 }]
             }]
         }, {
             "type": "Text?class=flex-start;text=Services;style.marginBottom=.7rem;style.fontSize=1.4rem"
         }, {
-            "type": "View?style.display=grid;style.marginBottom=1rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().services=[{}]<<!value.Data().services",
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().services=[{}]<<!value.Data().services",
             "children": [{
-                "type": "[Input]?textarea;featured;removable;clearable;readonly;style.backgroundColor=#f0f0f0;path=services;droplist.items=const.[any.Service List._param.readonly,state.service.map().name].flat()",
+                "type": "[Input]?textarea;featured;duplicatable;removable;clearable;readonly;style.backgroundColor=#f0f0f0;path=services;droplist.items=const.[any.Service List._param.readonly,state.service.map().name].flat()",
                 "controls": [{
-                    "event": "loaded?value.derivations=value.derivations.push().name;value.element.innerHTML=value.data()"
+                    "event": "loaded?value.derivations=value.derivations.push().name;value.element.innerHTML=value.data()||''"
                 }, {
                     "watch": "value.data()?value.Data().services.[value.derivations.1].id=state.service.clone().findByName().[value.data()].id"
                 }]
-            }]
-        }, {
-            "type": "View?class=flex-box;style.justifyContent=flex-start;style.marginBottom=3rem",
-            "children": [{
-                "type": "Icon?class=pointer;icon.name=bi-patch-plus-fill;style.color=#444;style.after.color=#0d6efd;style.marginRight=.5rem",
-                "controls": {
-                    "event": "click",
-                    "actions": "duplicate::value.parent().prev().1stChild().id?duplicate.path=services"
-                }
-            }, {
-                "type": "Text?text=Add more services;style.fontSize=1.4rem"
             }]
         }, {
             "type": "Text?class=flex-start;text=Reviews;style.marginBottom=.7rem;style.fontSize=1.4rem"
@@ -195,6 +185,20 @@
                 }, {
                     "type": "Input?textarea;featured;clearable;day=Sunday;style.backgroundColor=#f0f0f0"
                 }]
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Description;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Notes;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+            "children": [{
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+            }, {
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
             }]
         }, {
             "type": "Text?class=flex-start;text=Images;style.marginTop=1rem;style.fontSize=1.4rem"

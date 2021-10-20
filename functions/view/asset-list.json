@@ -16,7 +16,11 @@
             "children": [{
                 "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem"
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "controls": {
+                    "event": "click??state.asset;state.asset.length().isgreaterthan().0",
+                    "actions": "toCSV?file.data=state.asset.clone();file.name=Asset List"
+                }
             }, {
                 "type": "Button?text=Add New Asset;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=asset"
             }]
@@ -32,7 +36,7 @@
                     "actions": "async.search?search.path=asset;search.limit=10000;await.state.asset=value.search.data"
                 }, {
                     "event": "keyup>>200??state.asset-list-Data",
-                    "actions": "await.update::asset-list-view;async.filter?filter.backup=state.asset.clone();filter.path=[id,name,description];filter.Data=asset-list-Data;filter.value=e.target.value"
+                    "actions": "await.update::asset-list-view;async.filter?filter.backup=state.asset.clone();filter.path=[id,name,description];filter.Data=asset-list-Data;filter.value.include=e.target.value"
                 }]
             }, {
                 "type": "View?class=flex-box",

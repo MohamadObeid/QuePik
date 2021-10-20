@@ -12,7 +12,11 @@
             "children": [{
                 "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem"
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "controls": {
+                    "event": "click??state.collection;state.collection.length().isgreaterthan().0",
+                    "actions": "toCSV?file.data=state.collection.clone();file.name=Collection List"
+                }
             }, {
                 "type": "Button?text=Add New Collection;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=collection"
             }]
@@ -28,7 +32,7 @@
                     "actions": "async.search?search.path=collection;search.limit=10000;await.state.collection=value.search.data"
                 }, {
                     "event": "keyup>>200??state.collection-list-Data",
-                    "actions": "await.update::collection-list-view;async.filter?filter.backup=state.collection.clone();filter.path=[id,name,description,type];filter.Data=collection-list-Data;filter.value=e.target.value"
+                    "actions": "await.update::collection-list-view;async.filter?filter.backup=state.collection.clone();filter.path=[id,name,description,type];filter.Data=collection-list-Data;filter.value.include=e.target.value"
                 }]
             }, {
                 "type": "View?class=flex-box",

@@ -10,7 +10,7 @@ module.exports = ({params, id}) => {
       `resetStyles::droplist?break?value.element.style.opacity::droplist=1;positioner::droplist=${id}`,
       `resetStyles::droplist;droplist::${controls.id || id}?path=${controls.path || ""}`,
       `setStyle::droplist?${styles}`,
-      `setPosition::${controls.positioner || id};mountAfterStyles::droplist?position.id=droplist;position.placement=${controls.placement || "bottom"};position.distance=${controls.distance}`
+      `setPosition::droplist;mountAfterStyles::droplist?position.positioner=${controls.positioner || id};position.placement=${controls.placement || "bottom"};position.distance=${controls.distance}`
     ]
   }]
 }

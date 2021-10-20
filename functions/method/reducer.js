@@ -93,7 +93,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         // set Value
 
         if (k.includes('coded()')) {
-
+            
             breakRequest = true
             var newValue = toValue({ VALUE, STATE, id, e, params: { value: STATE.codes[k], params } })
             newValue = [ ...newValue.toString().split('.'), ...path.slice(i + 1)]
@@ -266,6 +266,18 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             answer = isEqual(o, b)
             
+        } else if (k === 'greater()' || k === 'isgreater()' || k === 'isgreaterthan()' || k === 'isGreaterThan()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = parseFloat(o) > parseFloat(b)
+            
+        } else if (k === 'less()' || k === 'isless()' || k === 'islessthan()' || k === 'isLessThan()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = parseFloat(o) < parseFloat(b)
+            
         } else if (k === 'isNot()') {
             
             breakRequest = i + 1
@@ -283,7 +295,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             answer = Math.abs(o)
             if (isPrice) answer = answer.toLocaleString()
             
-        } else if (k === 'divide()') {
+        } else if (k === 'dividedBy()' || k === 'divide()' || k === 'divided()' || k === 'divideBy()') {
             
             breakRequest = i + 1
             var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
@@ -300,7 +312,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             answer = o / b
             if (isPrice) answer = answer.toLocaleString()
             
-        } else if (k === 'times()') {
+        } else if (k === 'times()' || k === 'multiplyBy()' || k === 'multiply()' || k === 'mult()') {
             
             breakRequest = i + 1
             var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
@@ -420,7 +432,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'value()') {
             
             answer = Object.values(o)[0]
-
+            
         } else if (k === 'entries()') {
             
             answer = Object.entries(o).map(([k, v]) => ({ [k]: v }))
@@ -455,6 +467,14 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             if (!isNaN(o)) o = new Date(parseFloat(o))
             answer = o.toUTCString()
+            
+        } else if (k === 'setBeginning()') {
+            
+            answer = o.setHours(0,0,0,0)
+            
+        } else if (k === 'setEnding()') {
+            
+            answer = o.setHours(23,59,59,999)
             
         } else if (k === 'setTime()') {
             
@@ -492,11 +512,22 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             if (notEqual) answer = o.filter(data => _id.find(id => data.id === id) ? false : true )
             else answer = o.filter(data => _id.find(id => data.id === id))
 
+        } else if (k === 'find()') {
+
+            breakRequest = i + 1
+            var found = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} })
+            answer = o.find(data => isEqual(found, data))
+
+            // last index & value
+            var index = o.findIndex(data => isEqual(found, data))
+            if (index === -1) index = o.length
+            if (key && value && (i + 1 === lastIndex)) answer = o[index] = value
+            
         } else if (k === 'findById()') {
 
             breakRequest = i + 1
             // get id
-            var _id = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
+            var _id = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} })
             
             answer = o.find(data => data.id === _id)
 
@@ -505,8 +536,8 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 answer = o[o.length - 1]
             }
 
-            var index = o.findIndex(data => data.id === _id)
             // last index & value
+            var index = o.findIndex(data => data.id === _id)
             if (key && value && (i + 1 === lastIndex)) answer = o[index] = value
             
         } else if (k === 'findByName()') {
@@ -594,6 +625,16 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             if (value !== undefined && key) answer = o[2] = value
             answer = o[2]
 
+        } else if (k === '3rdLastIndex()' || k === '3rdlastIndex()') {
+
+            if (value !== undefined && key) answer = o[o.length - 3] = value
+            answer = o[o.length - 3]
+            
+        } else if (k === '2ndLastIndex()' || k === '2ndlastIndex()') {
+
+            if (value !== undefined && key) answer = o[o.length - 2] = value
+            answer = o[o.length - 2]
+            
         } else if (k === 'lastIndex()') {
 
             if (value !== undefined && key) answer = o[o.length - 1] = value
@@ -693,20 +734,16 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
         } else if (i === lastIndex - 1 && path[lastIndex] === 'delete()') {
             
-            breakRequest = true
+            breakRequest = i + 1
             if (Array.isArray(o)) {
 
                 o.splice(k, 1)
 
-            // name: { en: val1, ar: val2, ... }
-            } else if (local.component === 'Input') {
-
-                return delete o[k][VALUE[`${id}-input`].path]
-
-            } else return delete o[k]
+            } else delete o[k]
+            answer = o
 
         } else if (key && value !== undefined && i === lastIndex) {
-
+            
             answer = o[k] = value
 
         } else if (key && o[k] === undefined && i !== lastIndex) {

@@ -12,7 +12,11 @@
             "children": [{
                 "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem"
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "controls": {
+                    "event": "click??state.booking;state.booking.length().isgreaterthan().0",
+                    "actions": "toCSV?file.data=state.booking.clone();file.name=Booking List"
+                }
             }, {
                 "type": "Button?text=Add New Booking;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=booking"
             }]
@@ -22,40 +26,112 @@
         "children": [{
             "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
             "children": [{
-                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by id, service, user, provider, status...",
+                "type": "Input?featured;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.flex=1;placeholder=Search by id, service, user, provider, status...",
                 "controls": [{
                     "event": "loaded",
                     "actions": "async.search?search.path=booking;search.limit=10000;await.state.booking=value.search.data"
                 }, {
                     "event": "keyup>>200??state.booking-list-Data",
-                    "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=[id,service.name,user.name,time,date,provider.name,status,payment.payable.lbp];filter.Data=booking-list-Data;filter.value=e.target.value"
+                    "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=[id,service.name,user.name,time,date,provider.name,status,payment.payable.lbp];filter.Data=booking-list-Data;filter.value.include=e.target.value"
                 }]
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
-                    "type": "Button?text=Pending;icon.name=markunread_mailbox;icon.google;icon.outlined",
+                    "type": "Button?text=Show All;icon.name=all_inclusive;icon.google;icon.outlined",
                     "controls": {
                         "event": "click??state.booking-list-Data", 
-                        "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value=pending confirmation<<state.booking-list-Data-options.filter!=pending confirmation;filter.value=''<<state.booking-list-Data-options.filter=pending confirmation"
+                        "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.Data=booking-list-Data"
                     }
                 }, {
-                    "type": "Button?text=Open;icon.name=hourglass_empty;icon.google;icon.outlined",
+                    "type": "Button?text=By Status;icon.name=filter_list;icon.google;icon.outlined",
                     "controls": {
-                        "event": "click??state.booking-list-Data", 
-                        "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value=confirmed<<state.booking-list-Data-options.filter!=confirmed;filter.value=''<<state.booking-list-Data-options.filter=confirmed"
+                        "event": "click",
+                        "actions": "toggleStyles::value.next().id"
                     }
                 }, {
-                    "type": "Button?text=Closed;icon.name=check;icon.google;icon.outlined",
+                    "type": "View?class=box-shadow;style.position=absolute;style.height=fit-content;style.minWidth=fit-content;style.flexDirection=column;style.borderRadius=.5rem;style.padding=.5rem;style.backgroundColor=#fff;style.display=flex;style.transition=.1s;style.opacity=0;style.transform=scale(0.5);style.pointerEvents=none;style.zIndex=-1;style.after.zIndex=1;style.after.pointerEvents=auto;style.after.opacity=1;style.after.transform=scale(1)",
+                    "children": [{
+                        "type": "Item?text.text=Status List;readonly"
+                    }, {
+                        "type": "Item?text.text=Pending confirmation",
+                        "controls": {
+                            "event": "click??state.booking-list-Data", 
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=pending confirmation<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                        }
+                    }, {
+                        "type": "Item?text.text=Confirmed",
+                        "controls": {
+                            "event": "click??state.booking-list-Data", 
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=confirmed<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                        }
+                    }, {
+                        "type": "Item?text.text=Closed",
+                        "controls": {
+                            "event": "click??state.booking-list-Data",
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=closed<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                        }
+                    }, {
+                        "type": "Item?text.text=Canceled",
+                        "controls": {
+                            "event": "click??state.booking-list-Data", 
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=canceled<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                        }
+                    }, {
+                        "type": "Item?text.text=Rejected",
+                        "controls": {
+                            "event": "click??state.booking-list-Data", 
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=rejected<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                        }
+                    }],
+                    "controls": [{
+                        "event": "loaded",
+                        "actions": "setPosition?position.positioner=value.prev().id;position.placement=left;position.distance=240"
+                    }, {
+                        "event": "mouseleave;click::body??!e.target.id.isChildOfId().[value.prev().id]",
+                        "actions": "resetStyles>>200??!mouseenter;!e.target.id.isChildOfId().[value.prev().id]"
+                    }]
+                }, {
+                    "type": "Button?text=By Date;icon.name=calendar_today;icon.google;icon.outlined",
                     "controls": {
-                        "event": "click??state.booking-list-Data",
-                        "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value=closed<<state.booking-list-Data-options.filter!=closed;filter.value=''<<state.booking-list-Data-options.filter=closed"
+                        "event": "click",
+                        "actions": "toggleStyles::value.next().id"
                     }
                 }, {
-                    "type": "Button?text=Canceled;icon.name=close;icon.google;icon.outlined",
-                    "controls": {
-                        "event": "click??state.booking-list-Data", 
-                        "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value=canceled<<state.booking-list-Data-options.filter!=canceled;filter.value=''<<state.booking-list-Data-options.filter=canceled"
-                    }
+                    "type": "View?class=box-shadow;style.position=absolute;style.height=fit-content;style.minWidth=fit-content;style.flexDirection=column;style.borderRadius=.5rem;style.padding=.5rem;style.backgroundColor=#fff;style.display=flex;style.transition=.1s;style.opacity=0;style.transform=scale(0.5);style.pointerEvents=none;style.zIndex=-1;style.after.zIndex=1;style.after.pointerEvents=auto;style.after.opacity=1;style.after.transform=scale(1)",
+                    "children": [{
+                        "type": "Item?text.text=Date List;readonly"
+                    }, {
+                        "type": "Item?text.text=Today",
+                        "controls": {
+                            "event": "click??state.booking-list-Data", 
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                        }
+                    }, {
+                        "type": "Item?text.text=Yesterday",
+                        "controls": {
+                            "event": "click??state.booking-list-Data", 
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().86400000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                        }
+                    }, {
+                        "type": "Item?text.text=Last Week",
+                        "controls": {
+                            "event": "click??state.booking-list-Data", 
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().604800000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                        }
+                    }, {
+                        "type": "Item?text.text=Last Month",
+                        "controls": {
+                            "event": "click??state.booking-list-Data", 
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().2592000000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                        }
+                    }],
+                    "controls": [{
+                        "event": "loaded",
+                        "actions": "setPosition?position.positioner=value.prev().id;position.placement=left;position.distance=240"
+                    }, {
+                        "event": "mouseleave;click::body??!e.target.id.isChildOfId().[value.prev().id]",
+                        "actions": "resetStyles>>200??!mouseenter;!e.target.id.isChildOfId().[value.prev().id]"
+                    }]
                 }, {
                     "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
                     "controls": {

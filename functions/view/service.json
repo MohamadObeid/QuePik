@@ -6,7 +6,7 @@
         "actions": [
             "async.search?search.path=category;await.state.category=value.search.data",
             "async.search?search.path=provider;await.state.provider=value.search.data",
-            "async.search?search.path=offer;await.state.offer=value.search.data",
+            "async.search?search.path=promotion;await.state.promotion=value.search.data",
             "async.search?search.path=review;search.fields.id.in=value.Data().reviews;await.state.service-reviews=value.search.data.map().description?value.data().reviews.length()!=0"
         ]
     },
@@ -23,7 +23,7 @@
             }, {
                 "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
                 "controls": [{
-                    "event": "click",
+                    "event": "click?state.service-list-Data.findById().[value.Data().id]=state.service.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window;remove>>220::global.mini-window-view.element.children.0.id?style.display=none>>200;style.opacity=0"
                 }]
             }, {
@@ -32,7 +32,7 @@
                     "event": "click",
                     "actions": [
                         "await.update::service-list-view;await.setStyle::mini-window;await.note;async.save?note=Service saved successfully!;save.path=service;save.data=value.data();await.state.service.findById().[value.data().id]=value.data();await.state.service-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0",
-                        "async.save?value.provider.id=value.data().id;value.provider.name=value.data().name;state.provider.findById().[value.data().provider.id].services.push().[value.provider];save.path=provider;save.data=state.provider.findById().[value.data().provider.id]?value.data().provider.id;!value.provider.findById().[value.data().provider.id].services.map().id.includes().[value.data().id]"
+                        "save?value.provider.id=value.data().id;value.provider.name=value.data().name;save.path=provider;state.provider.findById().[value.data().provider.id].services.push().[value.provider];save.data=state.provider.findById().[value.data().provider.id]?value.data().provider.id;!state.provider.clone().findById().[value.data().provider.id].services.map().id.includes().[value.data().id]"
                     ]
                 }]
             }]
@@ -96,25 +96,11 @@
                 "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=active;data=true<<value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
             }]
         }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
-            "children": [{
-                "type": "Text?class=left;label;text=Description;style.fontSize=1.4rem"
-            }, {
-                "type": "Text?class=left;label;text=Notes;style.fontSize=1.4rem"
-            }]
-        }, {
-            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
-            "children": [{
-                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
-            }, {
-                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
-            }]
-        }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
                 "type": "Text?class=left;label;text=Price;style.fontSize=1.4rem"
             }, {
-                "type": "Text?class=left;label;text=Offer;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Promotion;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Discount;style.fontSize=1.4rem"
             }, {
@@ -130,9 +116,9 @@
                         "event": "input?value.data()=value.element.value.toPrice();value.element.value=value.data()"
                     }
                 }, {
-                    "type": "Input?textarea;featured;clearable;readonly;style.backgroundColor=#f0f0f0;path=offer.name;droplist.items=const.[Offers>>readonly,state.offer.map().name].flat()",
+                    "type": "Input?textarea;featured;clearable;readonly;style.backgroundColor=#f0f0f0;path=promotion.name;droplist.items=const.[Promotions>>readonly,state.promotion.map().name].flat()",
                     "controls": {
-                        "watch": "value.data()?value.Data().offer.delete()<<!value.data();value.Data().discount.delete()<<!value.data();break<<!value.data();value.Data().offer.id=state.offer.clone().findByName().[value.data()].id;value.Data().discount=state.offer.clone().findByName().[value.data()].discount",
+                        "watch": "value.data()?value.Data().promotion.delete()<<!value.data();value.Data().discount.delete()<<!value.data();break<<!value.data();value.Data().promotion.id=state.promotion.clone().findByName().[value.data()].id;value.Data().discount=state.promotion.clone().findByName().[value.data()].discount",
                         "actions": "update::value.next().id;update::value.next().next().id"
                     }
                 }, {
@@ -154,11 +140,18 @@
                 }]
             }]
         }, {
+            "type": "Text?class=flex-start;text=Bookings;style.marginBottom=.7rem;style.fontSize=1.4rem"
+        }, {
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().bookings=[]<<!value.Data().bookings",
+            "children": [{
+                "type": "[Input]?textarea;featured;path=bookings;minlength=0;readonly;style.backgroundColor=#f0f0f0;flicker"
+            }]
+        }, {
             "type": "Text?class=flex-start;text=Reviews;style.marginBottom=.7rem;style.fontSize=1.4rem"
         }, {
             "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().reviews=[]<<!value.Data().reviews",
             "children": [{
-                "type": "[Input]?textarea;featured;removable;minlength=0;readonly;style.backgroundColor=#f0f0f0;flicker"
+                "type": "[Input]?Data=service-reviews;textarea;featured;minlength=0;readonly;style.backgroundColor=#f0f0f0;flicker"
             }],
             "controls": {
                 "watch": "state.service-reviews?once;value.Data=service-reviews",
@@ -184,6 +177,20 @@
                 "controls": {
                     "event": "input?value.data()=value.element.value.toPrice();value.element.value=value.data()"
                 }
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Description;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Notes;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+            "children": [{
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+            }, {
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
             }]
         }, {
             "type": "Text?class=flex-start;text=Images;style.marginTop=1rem;style.fontSize=1.4rem"

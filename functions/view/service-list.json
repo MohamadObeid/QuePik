@@ -12,7 +12,11 @@
             "children": [{
                 "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem"
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "controls": {
+                    "event": "click??state.service;state.service.length().isgreaterthan().0",
+                    "actions": "toCSV?file.data=state.service.clone();file.name=Service List"
+                }
             }, {
                 "type": "Button?text=Add New Service;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=service"
             }]
@@ -22,13 +26,13 @@
         "children": [{
             "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
             "children": [{
-                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by name, category, provider, offer...",
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by name, category, provider, promotion...",
                 "controls": [{
                     "event": "loaded",
                     "actions": "async.search?search.path=service;search.limit=10000;await.state.service=value.search.data"
                 }, {
                     "event": "keyup>>200??state.service-list-Data",
-                    "actions": "await.update::service-list-view;async.filter?filter.backup=state.service.clone();filter.path=[id,name,category.name,description,provider.name,offer.name,price.lbp];filter.Data=service-list-Data;filter.value=e.target.value"
+                    "actions": "await.update::service-list-view;async.filter?filter.backup=state.service.clone();filter.path=[id,name,category.name,description,provider.name,promotion.name,price.lbp];filter.Data=service-list-Data;filter.value.include=e.target.value"
                 }]
             }, {
                 "type": "View?class=flex-box",

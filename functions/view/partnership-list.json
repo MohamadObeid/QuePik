@@ -1,0 +1,156 @@
+{
+    "type": "View?class=flex-column;style.flex=1;state.partnership-list-grid-view-display=grid;state.partnership-list-table-view-display=none;state.partnership-list-Data=[]",
+    "controls": {
+        "actions": "await.update::partnership-list-view;async.search?search.path=partnership;await.state.partnership-list-Data=value.search.data;await.state.partnership=value.search.data" 
+    },
+    "children": [{
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
+        "children": [{
+            "type": "Text?text=partnership List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
+        }, {
+            "type": "View?class=flex-box",
+            "children": [{
+                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
+            }, {
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "controls": {
+                    "event": "click??state.partnership;state.partnership.length().isgreaterthan().0",
+                    "actions": "toCSV?file.data=state.partnership.clone();file.name=Partnership List"
+                }
+            }, {
+                "type": "Button?text=Add New Partnership;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=partnership"
+            }]
+        }]
+    }, {
+        "type": "View?style.display=flex;style.flexDirection=column;style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee;style.flex=1",
+        "children": [{
+            "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
+            "children": [{
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by name, address, phone number...",
+                "controls": [{
+                    "event": "loaded",
+                    "actions": "async.search?search.path=partnership;search.limit=10000;await.state.partnership=value.search.data"
+                }, {
+                    "event": "keyup>>200??state.partnership-list-Data",
+                    "actions": "await.update::partnership-list-view;async.filter?filter.backup=state.partnership.clone();filter.path=[owner.name,owner.phone-number,provider.name,provider.description,provider.address];filter.Data=partnership-list-Data;filter.value.include=e.target.value"
+                }]
+            }, {
+                "type": "View?class=flex-box",
+                "children": [{
+                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
+                    "controls": {
+                        "event": "click??state.partnership-list-Data", 
+                        "actions": "await.update::partnership-list-view;async.sort?sort.path=creation-date;sort.Data=partnership-list-Data"
+                    }
+                }, {
+                    "type": "Button?text=View;icon.name=bi-list-ul",
+                    "controls": {
+                        "event": "click?await.state.partnership-list-grid-view-display=global.partnership-list-view.1stChild().element.style.display;await.state.partnership-list-table-view-display=global.partnership-list-view.2ndChild().element.style.display", 
+                        "actions": [
+                            "setStyle::global.partnership-list-view.1stChild().id?style.display=none<<global.partnership-list-view.1stChild().element.style.display=grid;style.display=grid<<global.partnership-list-view.1stChild().element.style.display=none",
+                            "setStyle::global.partnership-list-view.2ndChild().id?style.display=none<<global.partnership-list-view.2ndChild().element.style.display=grid;style.display=grid<<global.partnership-list-view.2ndChild().element.style.display=none"
+                        ]
+                    }
+                }]
+            }]
+        }, {
+            "type": "View?id=partnership-list-view;style.display=flex;style.flexDirection=column;style.width=100%;style.flex=1",
+            "children": [{
+                "type": "View?style.display=state.partnership-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
+                "children": [{
+                    "type": "[View]?class=flex-box pointer;Data=partnership-list-Data;touchableOpacity;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.partnership-list-Data;state.partnership-list-Data.length()!=0",
+                    "controls": {
+                        "event": "loaded",
+                        "actions": "toControls?hoverable.id=[value.id,value.children().0.id,value.children().1.id,value.children().2.id];miniWindow.view=partnership"
+                    },
+                    "children": [{
+                        "type": "Text?text=value.data.owner.name;style.marginBottom=.4rem;style.fontSize=1.3rem;style.after.color=#ee384e;style.color=#666;style.transition=color .1s"
+                    }, {
+                        "type": "Text?text=value.data.phone.number;style.marginBottom=.4rem;style.fontSize=1.3rem;style.after.color=#ee384e;style.color=#666;style.transition=color .1s"
+                    }, {
+                        "type": "Text?text=value.data.provider.name;style.marginBottom=.4rem;style.fontSize=1.3rem;style.after.color=#ee384e;style.color=#666;style.transition=color .1s"
+                    }]
+                }]
+            }, {
+                "type": "View?style.display=state.partnership-list-table-view-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
+                "children": [{
+                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 2fr 1fr 1fr;style.minHeight=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem",
+                    "children": [{
+                        "type": "Text?text=Active;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=active;sort.Data=partnership-list-Data?state.partnership-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Owner Name;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=owner.name;sort.Data=partnership-list-Data?state.partnership-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Provider Name;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=provider.name;sort.Data=partnership-list-Data?state.partnership-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Address;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click", 
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=provider.address;sort.Data=partnership-list-Data?state.partnership-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Phone#;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click", 
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=owner.phone-number;sort.Data=partnership-list-Data?state.partnership-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
+                    }]
+                }, {
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr;flicker",
+                    "children": [{
+                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 2fr 1fr 1fr;style.minHeight=5.5rem;Data=partnership-list-Data;data=state.partnership-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.partnership-list-Data;state.partnership-list-Data.length()!=0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-circle<<!value.data.active;icon.name=bi-circle-fill<<value.data().active;style.fontSize=1.4rem;style.color=lime<<value.data().active;style.color=#ddd<<!value.data().active;style.textAlign=center"
+                        }, {
+                            "type": "Text?class=dots;path=owner.name;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;path=provider.name;style.fontSize=1.4rem"
+                        }, {
+                            "type": "View?class=grid;style.gap=.5rem;style.gridTemplateColumns=1fr",
+                            "children": {
+                                "type": "[Text]?class=dots;path=provider.address;style.fontSize=1.4rem"
+                            }
+                        }, {
+                            "type": "Text?class=dots;path=owner.phone-number;style.fontSize=1.4rem"
+                        }, {
+                            "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%;style.marginRight=1rem",
+                            "children": [{
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=partnership"
+                            }, {
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=partnership;popup.update=partnership-list-view;popup.note=Partnership removed successfully!;popup.type=eraser;popup.state=partnership"
+                            }]
+                        }]
+                    }]
+                }]
+            }, {
+                "type": "View?class=flex-box;style.flex=1;style.alignItems=end;style.justifyContent=flex-end;style.marginTop=2rem",
+                "children": [{
+                    "type": "Button?icon.name=bi-chevron-left",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::partnership-list-view;async.search?search.path=partnership;search.limitToLast=25;search.endBefore=state.partnership-list-Data.0.creation-date;await.state.partnership-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }, {
+                    "type": "Button?icon.name=bi-chevron-right;style.flexDirection=row-reverse",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::partnership-list-view;async.search?search.path=partnership;search.startAfter=state.partnership-list-Data.[state.partnership-list-Data.length().subs().1].creation-date;await.state.partnership-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }]
+            }]
+        }]
+    }]
+}

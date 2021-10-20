@@ -12,7 +12,11 @@
             "children": [{
                 "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem"
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "controls": {
+                    "event": "click??state.user;state.user.length().isgreaterthan().0",
+                    "actions": "toCSV?file.data=state.user.clone();file.name=User List"
+                }
             }, {
                 "type": "Button?text=Add New User;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=user"
             }]
@@ -28,11 +32,17 @@
                     "actions": "async.search?search.path=user;search.limit=10000;await.state.user=value.search.data"
                 }, {
                     "event": "keyup>>200??state.user-list-Data",
-                    "actions": "await.update::user-list-view;async.filter?filter.backup=state.user.clone();filter.path=[first-name,last-name,name,address,phone-number,email];filter.Data=user-list-Data;filter.value=e.target.value"
+                    "actions": "await.update::user-list-view;async.filter?filter.backup=state.user.clone();filter.path=[first-name,last-name,name,address,phone-number,email];filter.Data=user-list-Data;filter.value.include=e.target.value"
                 }]
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
+                    "type": "Button?text=Top Bookers;icon.name=navigation;icon.google;icon.outlined",
+                    "controls": {
+                        "event": "click??state.user-list-Data", 
+                        "actions": "await.update::user-list-view;async.sort?sort.path=creation-date;sort.Data=user-list-Data;sort.data=state.user.clone()"
+                    }
+                }, {
                     "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
                     "controls": {
                         "event": "click??state.user-list-Data", 

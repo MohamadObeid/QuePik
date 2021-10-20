@@ -1,12 +1,17 @@
 {
-    "file-name": "offer",
     "type": "View?style.padding=2rem;data={}<<!value.data()",
+    "controls": {
+        "event": "loaded",
+        "actions": [
+            "async.search?search.path=provider;await.state.provider=value.search.data?!state.provider"
+        ]
+    },
     "children": [{
-        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=any.offer-.add().generate()<<!value.data().id",
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=any.promotion-.add().generate()<<!value.data().id",
         "children": [{
-            "type": "Text?text=any.Edit .add().[value.data().name.capitalize()].add(). Offer;style.fontSize=1.8rem;fontWeight=500?value.data().name"
+            "type": "Text?text=any.Edit .add().[value.data().name.capitalize()].add(). Promotion;style.fontSize=1.8rem;fontWeight=500?value.data().name"
         }, {
-            "type": "Text?text=Create New offer;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
+            "type": "Text?text=Create New promotion;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500?!value.data().name"
         }, {
             "type": "View?class=flex-box;style.marginLeft=auto",
             "children": [{
@@ -14,14 +19,14 @@
             }, {
                 "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
                 "controls": [{
-                    "event": "click",
+                    "event": "click?state.promotion-list-Data.findById().[value.Data().id]=state.promotion.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window;remove>>220::global.mini-window-view.element.children.0.id?style.display=none>>200;style.opacity=0"
                 }]
             }, {
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::offer-list-view;await.setStyle::mini-window;await.note;async.save?note=Offer saved successfully!;save.path=offer;save.data=value.data();await.state.offer.findById().[value.data().id]=value.data();await.state.offer-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::promotion-list-view;await.setStyle::mini-window;await.note;async.save?note=Promotion saved successfully!;save.path=promotion;save.data=value.data();await.state.promotion.findById().[value.data().id]=value.data();await.state.promotion-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -32,7 +37,9 @@
             "children": [{
                 "type": "Text?class=left;label;text=Name;style.fontSize=1.4rem"
             }, {
-                "type": "Text?class=left;label;text=offer ID;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Badge;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Promotion ID;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Creation Date;style.fontSize=1.4rem"
             }]
@@ -42,6 +49,8 @@
                 "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
                 "children": [{
                     "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=name"
+                }, {
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=badge;droplist.items=const.[any.Badge List._param.readonly,state.asset.findByName().Promotion Badge.options.map().name].flat()"
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
                 }, {
@@ -109,6 +118,40 @@
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
                 }]
             }]
+        }, {    
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Provider;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
+            "children": [{
+                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
+                "children": [{
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=provider.name;droplist.items=const.[any.Provider List._param.readonly,state.provider.clone().map().name].flat()",
+                    "controls": {
+                        "watch": "value.data()?value.provider=state.provider.clone().findByName().[value.data()];value.Data().provider.id=value.provider.id;state.service-list-at-promotions=value.provider.services;value.Data().provider.delete()"
+                    }
+                }]
+            }]
+        }, {    
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Services;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
+            "children": [{
+                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
+                "children": [{
+                    "type": "[Input]?textarea;featured;duplicatable;clearable;flicker;style.backgroundColor=#f0f0f0;path=services;value.Data().services=[{}]<<!value.Data().services;droplist.items=const.[any.Service List._param.readonly,state.service-list-at-promotions.map().name].flat()",
+                    "controls": [{
+                        "event": "loaded?value.derivations.push().name;value.element.value=value.data()||''"
+                    }, {
+                        "watch": "value.data()?value.Data().services.[value.derivations.2ndlastIndex()].id=state.service-list-at-promotions.findByName().[value.data()].id"
+                    }]
+                }]
+            }]
         }, {
             "type": "Text?class=flex-start;text=Image;style.marginBottom=.7rem;style.fontSize=1.4rem"
         }, {
@@ -131,7 +174,7 @@
                 }, {
                     "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;flicker",
                     "children": [{
-                        "type": "Input?id=img-uploader;featured;input.title=offer;path=image.url;style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop image here!<<!value.Data().image.id;msg=Reached maximum limit!<<value.Data().image.id;disabled<<value.Data().image.id;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
+                        "type": "Input?id=img-uploader;featured;input.title=promotion;path=image.url;style.backgroundColor=#f0f0f0;style.height=width/1.5;style.justifyContent=center;input.type=file;input.accept=image;msg=Drop image here!<<!value.Data().image.id;msg=Reached maximum limit!<<value.Data().image.id;disabled<<value.Data().image.id;icon.name=bi-upload;style.flexDirection=column;icon.style.fontSize=2rem;icon.style.margin=0 0 .8rem 0;style.borderRadius=1rem",
                         "controls": [{
                             "event": "input>>200",
                             "actions": "await.note;async.upload?note=Image uploaded succefully!;await.value.data()=value.file.url;await.value.Data().image.id=value.file.id;await.value.element.disabled=true<<value.data();await.value.element.disabled=true<<value.data();await.value.parent().prev().2ndChild().element.style.display=flex;await.value.parent().prev().1stChild().element.src=value.data();await.value.element.innerHTML::img-uploader-msg=Reached maximum limit!<<value.data()?!value.data()"
@@ -149,9 +192,9 @@
         }, {
             "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
             "children": [{
-                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
             }, {
-                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
             }]
         }]
     }]

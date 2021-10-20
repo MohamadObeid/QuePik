@@ -1,5 +1,5 @@
 const log = ({params}) => {
-  console.log(params.log);
+  console.log(params.log || 'here');
 };
 
 module.exports = {log};

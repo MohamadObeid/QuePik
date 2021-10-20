@@ -7,7 +7,8 @@ var {removeDuplicates} = require("./removeDuplicates");
 var {generate} = require("./generate");
 var {focus} = require("./focus");
 
-var duplicate = ({VALUE, STATE, params = {}, id}) => {
+var duplicate = ({ VALUE, STATE, params = {}, id }) => {
+  
   var {createElement} = require("./createElement");
   var {starter} = require("./starter");
   var {setElement} = require("./setElement");
@@ -16,20 +17,13 @@ var duplicate = ({VALUE, STATE, params = {}, id}) => {
   var local = VALUE[id];
 
   if (STATE[local.Data]) {
+    
     var keys = clone(local.derivations);
-    var duplicate = params.duplicate
+    var duplicate = params.duplicate || {}
     var index = duplicate.index || 0;
-    path = duplicate.path ? duplicate.path.split(".") : [];
 
-    // convert string numbers paths to num
-    if (path.length > 0) {
-      path = path.map((k) => {
-        if (!isNaN(k)) k = parseFloat(k);
-        return k;
-      });
-    }
-
-    if (duplicate.path) keys = clone(path)
+    if (!Array.isArray(path))
+    keys = duplicate.path ? duplicate.path.split(".") : keys
 
     // last index refers to data index => must be poped
     if (!isNaN(keys[keys.length - 1])) {
@@ -158,12 +152,12 @@ var duplicate = ({VALUE, STATE, params = {}, id}) => {
     var type = local.type.split("path=");
     local.type = type[0];
     type = type[1].split(";").slice(1);
-    local.type += type;
+    local.type += type.join(";");
   }
   
   // create element => append child
   var newcontent = document.createElement("div");
-  newcontent.innerHTML = createElement({STATE, VALUE, id});
+  newcontent.innerHTML = createElement({ STATE, VALUE, id });
 
   while (newcontent.firstChild) {
     id = newcontent.firstChild.id;

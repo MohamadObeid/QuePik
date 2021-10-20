@@ -13,16 +13,16 @@ const Input = (component) => {
     component.input.style = component.input.style || {}
     
     component = toComponent(component)
-    var { id, input, model, droplist, readonly, style, controls, icon, duplicated, touchableOpacity,
+    var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
         placeholder, textarea, filterable, clearable, removable, msg, day, disabled,
         duplicatable, lang, unit, currency, google, key, note, edit, minlength } = component
 
+    if (duplicatable && typeof duplicatable !== "object") duplicatable = {}
+    if (clearable && typeof clearable !== "object") clearable = {}
     readonly = readonly ? true : false
-    duplicatable = duplicatable !== undefined ? (duplicatable === false ? false : true) : false
-    clearable = clearable !== undefined ? (clearable === false ? false : true) : false
     removable = removable !== undefined ? (removable === false ? false : true) : false
     if (duplicatable) removable = true
-
+    
     if (minlength === undefined) minlength = 1
     
     // upload input styles
@@ -134,8 +134,8 @@ const Input = (component) => {
                 controls: [...controls, {
                     actions: 'resize'
                 }, {
-                    event: `keyup??value.data();e.key=Enter;${duplicatable}`,
-                    actions: `duplicate::${id}`
+                    event: `keyup??value.data();e.key=Enter;const.${duplicatable}`,
+                    actions: `duplicate::${id}?${duplicatable && duplicatable.path ? `duplicate.path=${duplicatable.path}` : ''}`
                 }, {
                     event: `input?value.element.value=''?value.data()=free`,
                 }]
@@ -144,9 +144,15 @@ const Input = (component) => {
                 children: [{
                     type: `Icon?icon.name=bi-caret-down-fill;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem?droplist::${id}-input`
                 }, {
+                    type: `Icon?class=pointer;icon.name=filter_none;icon.google;icon.outlined;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem;hoverable;style.after.color=#116dff?const.${duplicatable}`,
+                    controls: {
+                        event: `click??value.data()::${id}-input;const.${duplicatable}`,
+                        actions: `duplicate::${id}?${duplicatable && duplicatable.path ? `duplicate.path=${duplicatable.path}` : "" }`
+                    }
+                }, {
                     type: `Text?text=${note};style.color=#666;style.fontSize=1.3rem;style.padding=.5rem?const.${note}`
                 }, {
-                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items<<!${readonly}=const.[Enter a special key:._param.readonly,${key}._param.input];hoverable;duplicated=${duplicated}?const.${key}`,
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items<<!${readonly}=const.[any.Enter a special key:._param.readonly,any.${key}._param.input];hoverable;duplicated=${duplicated}?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -157,7 +163,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items<<!${readonly}=const.[Currencies._param.readonly,state.asset.findByName().Currency.options.map().name].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items<<!${readonly}=const.[any.Currencies._param.readonly,state.asset.findByName().Currency.options.map().name].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -168,7 +174,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items<<!${readonly}=const.[Units._param.readonly,state.asset.findByName().Unit.options.map().name].flat();hoverable?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items<<!${readonly}=const.[any.Units._param.readonly,state.asset.findByName().Unit.options.map().name].flat();hoverable?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -180,7 +186,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data()`
                 }, {
-                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items<<!${readonly}=const.[Days of Week._param.readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
+                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items<<!${readonly}=const.[any.Days of Week._param.readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -191,7 +197,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     }
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items<<!${readonly}=const.[Languages._param.readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items<<!${readonly}=const.[any.Languages._param.readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -207,9 +213,9 @@ const Input = (component) => {
                         event: `change;loaded?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
-                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type._param.readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[Enter google icon type._param.readonly,state.google-items];hoverable?const.${google}`,
+                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[any.Icon type._param.readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[any.Enter google icon type._param.readonly,state.google-items];hoverable?const.${google}`,
                 }, {
-                    type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;hoverable?${clearable}||${removable}`,
+                    type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;hoverable?const.${clearable}||${removable}`,
                     style: {
                         fontSize: '2rem',
                         color: '#444',
@@ -222,7 +228,7 @@ const Input = (component) => {
                             // remove element
                             `remove::${id}??${removable};value.length::${id}>${minlength};${clearable ? `!value.data()::${id}-input` : ''}`,
                             // clear data
-                            `removeData;focus>>50;resize??${clearable}?${id}-input`,
+                            `clearData;focus;resize?${clearable && clearable.path ? `clear.path=${clearable.path}` : ''}?const.${clearable}?${id}-input`,
                             // for key
                             `focus::${id}-input?value.element.value::${id}-input='';value.element.innerHTML::${edit}-key=value.key::${edit}-key;value.path::${edit}-input=value.key::${edit}-key;value.derivations::${edit}-input=[value.derivations::${edit},value.key::${edit}-key];value.Data().[value.derivations::${edit}-input]=value.element.value::${edit}-input?const.${edit}`
                         ]

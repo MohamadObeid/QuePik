@@ -1,5 +1,4 @@
 {
-    "file-name": "user",
     "type": "View?style.padding=2rem;data={}<<!value.data()",
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=user-++generate()<<!value.data().id",
@@ -14,7 +13,7 @@
             }, {
                 "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
                 "controls": [{
-                    "event": "click",
+                    "event": "click?state.user-list-Data.findById().[value.Data().id]=state.user.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window?style.display=none>>200;style.opacity=0"
                 }]
             }, {
@@ -101,8 +100,6 @@
                 "type": "Text?class=left;label;text=Favorite Services;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Bookings;style.fontSize=1.4rem"
-            }, {
-                "type": "Text?class=left;label;text=Total Bookings;style.fontSize=1.4rem"
             }]
         }, {
             "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
@@ -121,10 +118,8 @@
                 }, {
                     "type": "View?style.display=grid;style.gap=.5rem",
                     "children": {
-                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=bookings"
+                        "type": "[Input]?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=bookings;value.Data().bookings=[]<<!value.Data().bookings"
                     }
-                }, {
-                    "type": "Input?textarea;featured;readonly;path=bookings.length()<<value.data().bookings;input.value=0<<!value.data().bookings;style.backgroundColor=#f0f0f0"
                 }]
             }]
         }]

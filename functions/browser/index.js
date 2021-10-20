@@ -796,7 +796,7 @@ starter({ VALUE, STATE, id: "public" })
 
 setElement({ VALUE, STATE, id: "root" })
 starter({ VALUE, STATE, id: "root" })
-},{"../method/setElement":77,"../method/starter":80}],6:[function(require,module,exports){
+},{"../method/setElement":78,"../method/starter":81}],6:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const Button = (component) => {
@@ -868,7 +868,7 @@ const Button = (component) => {
 
 module.exports = { Button };
 
-},{"../method/toComponent":88}],7:[function(require,module,exports){
+},{"../method/toComponent":90}],7:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 const { generate } = require("../method/generate");
 
@@ -916,7 +916,7 @@ const Checkbox = (component) => {
 
 module.exports = { Checkbox };
 
-},{"../method/generate":54,"../method/toComponent":88}],8:[function(require,module,exports){
+},{"../method/generate":55,"../method/toComponent":90}],8:[function(require,module,exports){
 const { generate } = require("../method/generate");
 const { toComponent } = require("../method/toComponent");
 
@@ -987,7 +987,7 @@ const Header = (component) => {
 
 module.exports = { Header };
 
-},{"../method/generate":54,"../method/toComponent":88}],9:[function(require,module,exports){
+},{"../method/generate":55,"../method/toComponent":90}],9:[function(require,module,exports){
 const { toComponent } = require('../method/toComponent')
 
 const Input = (component) => {
@@ -1003,16 +1003,16 @@ const Input = (component) => {
     component.input.style = component.input.style || {}
     
     component = toComponent(component)
-    var { id, input, model, droplist, readonly, style, controls, icon, duplicated, touchableOpacity,
+    var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
         placeholder, textarea, filterable, clearable, removable, msg, day, disabled,
         duplicatable, lang, unit, currency, google, key, note, edit, minlength } = component
 
+    if (duplicatable && typeof duplicatable !== "object") duplicatable = {}
+    if (clearable && typeof clearable !== "object") clearable = {}
     readonly = readonly ? true : false
-    duplicatable = duplicatable !== undefined ? (duplicatable === false ? false : true) : false
-    clearable = clearable !== undefined ? (clearable === false ? false : true) : false
     removable = removable !== undefined ? (removable === false ? false : true) : false
     if (duplicatable) removable = true
-
+    
     if (minlength === undefined) minlength = 1
     
     // upload input styles
@@ -1124,8 +1124,8 @@ const Input = (component) => {
                 controls: [...controls, {
                     actions: 'resize'
                 }, {
-                    event: `keyup??value.data();e.key=Enter;${duplicatable}`,
-                    actions: `duplicate::${id}`
+                    event: `keyup??value.data();e.key=Enter;const.${duplicatable}`,
+                    actions: `duplicate::${id}?${duplicatable && duplicatable.path ? `duplicate.path=${duplicatable.path}` : ''}`
                 }, {
                     event: `input?value.element.value=''?value.data()=free`,
                 }]
@@ -1134,9 +1134,15 @@ const Input = (component) => {
                 children: [{
                     type: `Icon?icon.name=bi-caret-down-fill;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem?droplist::${id}-input`
                 }, {
+                    type: `Icon?class=pointer;icon.name=filter_none;icon.google;icon.outlined;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem;hoverable;style.after.color=#116dff?const.${duplicatable}`,
+                    controls: {
+                        event: `click??value.data()::${id}-input;const.${duplicatable}`,
+                        actions: `duplicate::${id}?${duplicatable && duplicatable.path ? `duplicate.path=${duplicatable.path}` : "" }`
+                    }
+                }, {
                     type: `Text?text=${note};style.color=#666;style.fontSize=1.3rem;style.padding=.5rem?const.${note}`
                 }, {
-                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items<<!${readonly}=const.[Enter a special key:._param.readonly,${key}._param.input];hoverable;duplicated=${duplicated}?const.${key}`,
+                    type: `Text?id=${id}-key;key=${key};text=${key};droplist.items<<!${readonly}=const.[any.Enter a special key:._param.readonly,any.${key}._param.input];hoverable;duplicated=${duplicated}?const.${key}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1147,7 +1153,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items<<!${readonly}=const.[Currencies._param.readonly,state.asset.findByName().Currency.options.map().name].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
+                    type: `Text?id=${id}-currency;currency=${currency};text=${currency};droplist.items<<!${readonly}=const.[any.Currencies._param.readonly,state.asset.findByName().Currency.options.map().name].flat();hoverable;duplicated=${duplicated}?const.${currency}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1158,7 +1164,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     },
                 }, {
-                    type: `Text?path=unit;id=${id}-unit;droplist.items<<!${readonly}=const.[Units._param.readonly,state.asset.findByName().Unit.options.map().name].flat();hoverable?const.${unit}`,
+                    type: `Text?path=unit;id=${id}-unit;droplist.items<<!${readonly}=const.[any.Units._param.readonly,state.asset.findByName().Unit.options.map().name].flat();hoverable?const.${unit}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1170,7 +1176,7 @@ const Input = (component) => {
                     },
                     actions: `setData?data.value=${unit}?!value.data()`
                 }, {
-                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items<<!${readonly}=const.[Days of Week._param.readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
+                    type: `Text?id=${id}-day;day=${day || 'day'};text=${day};droplist.items<<!${readonly}=const.[any.Days of Week._param.readonly,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday];droplist.day;hoverable;duplicated=${duplicated}?const.${day}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1181,7 +1187,7 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     }
                 }, {
-                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items<<!${readonly}=const.[Languages._param.readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
+                    type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items<<!${readonly}=const.[any.Languages._param.readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
                         color: '#666',
@@ -1197,9 +1203,9 @@ const Input = (component) => {
                         event: `change;loaded?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
-                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[Icon type._param.readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[Enter google icon type._param.readonly,state.google-items];hoverable?const.${google}`,
+                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[any.Icon type._param.readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[any.Enter google icon type._param.readonly,state.google-items];hoverable?const.${google}`,
                 }, {
-                    type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;hoverable?${clearable}||${removable}`,
+                    type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;hoverable?const.${clearable}||${removable}`,
                     style: {
                         fontSize: '2rem',
                         color: '#444',
@@ -1212,7 +1218,7 @@ const Input = (component) => {
                             // remove element
                             `remove::${id}??${removable};value.length::${id}>${minlength};${clearable ? `!value.data()::${id}-input` : ''}`,
                             // clear data
-                            `removeData;focus>>50;resize??${clearable}?${id}-input`,
+                            `clearData;focus;resize?${clearable && clearable.path ? `clear.path=${clearable.path}` : ''}?const.${clearable}?${id}-input`,
                             // for key
                             `focus::${id}-input?value.element.value::${id}-input='';value.element.innerHTML::${edit}-key=value.key::${edit}-key;value.path::${edit}-input=value.key::${edit}-key;value.derivations::${edit}-input=[value.derivations::${edit},value.key::${edit}-key];value.Data().[value.derivations::${edit}-input]=value.element.value::${edit}-input?const.${edit}`
                         ]
@@ -1224,14 +1230,23 @@ const Input = (component) => {
 }
 
 module.exports = {Input}
-},{"../method/toComponent":88}],10:[function(require,module,exports){
-const { toComponent } = require("../method/toComponent");
-const { generate } = require("../method/generate");
+},{"../method/toComponent":90}],10:[function(require,module,exports){
+const { toComponent } = require("../method/toComponent")
 
 const Item = (component) => {
-  component.icon = component.icon || {};
-  component.chevron = component.chevron || {};
-  component = toComponent(component);
+
+  component.icon = component.icon || {}
+  component.icon.style = component.icon.style || {}
+  component.icon.style.after = component.icon.style.after || {}
+
+  component.title = component.title || {}
+  component.text.style = component.text.style || {}
+  component.text.style.after = component.text.style.after || {}
+
+  component.chevron = component.chevron || {}
+  component.chevron.style = component.chevron.style || {}
+  component.chevron.style.after = component.chevron.style.after || {}
+  component = toComponent(component)
 
   var {
     id,
@@ -1245,10 +1260,10 @@ const Item = (component) => {
     controls,
     readonly,
     borderMarker,
-  } = component;
+  } = component
 
-  borderMarker = borderMarker !== undefined ? borderMarker : true;
-  readonly = readonly !== undefined ? readonly : false;
+  borderMarker = borderMarker !== undefined ? borderMarker : true
+  readonly = readonly !== undefined ? readonly : false
 
   if (model === "featured")
     return {
@@ -1275,74 +1290,71 @@ const Item = (component) => {
           marginLeft: "0",
           marginBottom: "1px",
           ...style.after,
-        },
+        }
       },
-      children: [
-        {
-          type: `Icon?id=${id}-icon?const.${icon.name}`,
-          icon,
-          style: {
-            width: "4rem",
-            color: style.color || "#444",
-            fontSize: "1.8rem",
-            ...(icon.style || {}),
-            after: {
-              color: style.after.color || "#ee384e",
-              ...((icon.style && icon.style.after) || {}),
-            },
-          },
-        },
-        {
-          type: `Text?text=const.${text};id=${id}-text`,
-          style: {
-            fontSize: style.fontSize || "1.4rem",
-            color: style.color || "#444",
-            userSelect: "none",
-            after: {
-              color: style.after.color || "#ee384e",
-            },
-          },
-        },
-        {
-          type: `Icon?icon.name=chevron-right;icon.code=fas;id=${id}-chevron`,
-          style: {
-            display: "flex",
-            position: "absolute",
-            right: "1.2rem",
-            fontSize: style.fontSize || "1.3rem",
-            color: style.color || "#666",
-            transition: "0.2s",
-            ...(chevron.style || {}),
-            after: {
-              right: "0.8rem",
-              color: "#ee384e",
-              ...((chevron.style && chevron.style.after) || {}),
-            },
-          },
-        },
-      ],
+      children: [{
+        type: `Icon?id=${id}-icon?const.${icon.name}`,
+        icon,
+        style: {
+          width: "4rem",
+          color: style.color || "#444",
+          fontSize: "1.8rem",
+          ...icon.style,
+          after: {
+            color: style.after.color || "#ee384e",
+            ...icon.style.after,
+          }
+        }
+      }, {
+        type: `Text?text=const.${text.text};id=${id}-text`,
+        text,
+        style: {
+          fontSize: style.fontSize || "1.4rem",
+          color: style.color || "#444",
+          userSelect: "none",
+          ...text.style,
+          after: {
+            color: style.after.color || "#ee384e",
+            ...text.style.after,
+          }
+        }
+      }, {
+        type: `Icon?icon.name=chevron-right;icon.code=fas;id=${id}-chevron`,
+        style: {
+          display: "flex",
+          position: "absolute",
+          right: "1.2rem",
+          fontSize: style.fontSize || "1.3rem",
+          color: style.color || "#666",
+          transition: "0.2s",
+          ...chevron.style,
+          after: {
+            right: "0.8rem",
+            color: "#ee384e",
+            ...chevron.style.after,
+          }
+        }
+      }],
       controls: [
-        ...controls,
-        {
-          event: `loaded?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountonload`,
-          actions: `mountAfterStyles::state.${state}`,
-        }, {
-          event: `click??state.${state}=undefined||state.${state}.0!=${id}`,
-          actions: [
-            `setData?data.value=value.text`,
-            `resetStyles?value.mountonload::state.${state}.0=false??state.${state}`,
-            `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron];value.mountonload::state.${state}.0??state.${state}`,
-          ],
-        },
-      ],
-    };
+      ...controls,
+      {
+        event: `loaded?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountonload`,
+        actions: `mountAfterStyles::state.${state}`,
+      }, {
+        event: `click??state.${state}=undefined||state.${state}.0!=${id}`,
+        actions: [
+          `resetStyles?value.mountonload::state.${state}.0=false??state.${state}`,
+          `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron];value.mountonload::state.${state}.0??state.${state}`,
+        ]
+      }]
+    }
 
   if (model === "classic")
     return {
       ...component,
       class: "flex-box item",
       component: "Item",
-      type: "View?touchableOpacity",
+      type: `View?touchableOpacity;hoverable.id=[${id},${id}-icon,${id}-text];hoverable.mountonload`,
       tooltip,
       style: {
         position: "relative",
@@ -1361,56 +1373,56 @@ const Item = (component) => {
           : {
               backgroundColor: "#eee",
               ...style.after,
-            },
+            }
       },
-      children: [
-        {
-          icon,
-          type: `Icon?id=${id}-icon?const.${icon.name}`,
-          style: {
-            display: icon ? "flex" : "none",
-            color: !readonly ? style.color || "#444" : "#333",
-            fontSize: !readonly ? style.fontSize || "1.4rem" : "1.6rem",
-            fontWeight: !readonly ? "initial" : "bolder",
-            marginRight: "1rem",
-            ...(icon.style || {}),
-            after: {
-              color: "#444",
-              ...((icon.style && icon.style.after) || {}),
-            },
-          },
-        },
-        {
-          type: `Text?text=const.${text};id=${id}-text;`,
-          style: {
-            fontSize: style.fontSize || "1.4rem",
-            color: !readonly ? style.color || "#444" : "#333",
-            fontWeight: !readonly ? "initial" : "bolder",
-            userSelect: "none",
-            textAlign: "left",
-            after: {
-              color: style.after.color || style.color || "#444",
-            },
-          },
-        },
-      ],
+      children: [{
+        icon,
+        type: `Icon?id=${id}-icon?const.${icon.name}`,
+        style: {
+          display: icon ? "flex" : "none",
+          color: !readonly ? style.color || "#444" : "#333",
+          fontSize: !readonly ? style.fontSize || "1.4rem" : "1.6rem",
+          fontWeight: !readonly ? "initial" : "bolder",
+          marginRight: "1rem",
+          ...icon.style,
+          after: {
+            color: "#444",
+            ...icon.style.after,
+          }
+        }
+      }, {
+        type: `Text?text=const.${text.text};id=${id}-text;`,
+        style: {
+          fontSize: style.fontSize || "1.4rem",
+          color: !readonly ? style.color || "#444" : "#333",
+          fontWeight: !readonly ? "initial" : "bolder",
+          userSelect: "none",
+          textAlign: "left",
+          ...text.style,
+          after: {
+            color: style.after.color || style.color || "#444",
+            ...text.style.after
+          }
+        }
+      }],
       controls: [
-        ...controls,
-        {
-          event: "mouseenter",
-          actions: `mountAfterStyles???${id};${id}-icon;${id}-text`,
-        },
-        {
-          event: "mouseleave",
-          actions: `resetStyles??!mountonloaded?${id};${id}-icon;${id}-text`,
-        },
-      ],
-    };
-};
+      ...controls,
+      {
+        event: `loaded?state.${state}=[${id},${id}-icon,${id}-text]?mountonload`,
+        actions: `mountAfterStyles::state.${state}`,
+      }, {
+        event: `click??state.${state}=undefined||state.${state}.0!=${id}`,
+        actions: [
+          `resetStyles?value.mountonload::state.${state}.0=false??state.${state}`,
+          `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text];value.mountonload::state.${state}.0??state.${state}`,
+        ]
+      }]
+    }
+}
 
-module.exports = { Item };
+module.exports = { Item }
 
-},{"../method/generate":54,"../method/toComponent":88}],11:[function(require,module,exports){
+},{"../method/toComponent":90}],11:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const List = (component) => {
@@ -1446,8 +1458,7 @@ const List = (component) => {
           zIndex: "999",
         },
       },
-      children: [
-        {
+      children: [{
           type: "View",
           class: "list-wrap",
           style: {
@@ -1460,9 +1471,8 @@ const List = (component) => {
           },
           passToChildren,
           children,
-        },
-        {
-          class: "box-shadow list-fin",
+        }, {
+          class: "box-shadow fin",
           type: "Text",
           style: {
             position: "absolute",
@@ -1488,7 +1498,7 @@ const List = (component) => {
 
 module.exports = { List };
 
-},{"../method/toComponent":88}],12:[function(require,module,exports){
+},{"../method/toComponent":90}],12:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 const { generate } = require("../method/generate");
 
@@ -1648,7 +1658,7 @@ const Rate = (component) => {
 
 module.exports = { Rate };
 
-},{"../method/generate":54,"../method/toComponent":88}],13:[function(require,module,exports){
+},{"../method/generate":55,"../method/toComponent":90}],13:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const SearchBox = (component) => {
@@ -1692,7 +1702,7 @@ const SearchBox = (component) => {
 
 module.exports = { SearchBox };
 
-},{"../method/toComponent":88}],14:[function(require,module,exports){
+},{"../method/toComponent":90}],14:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const Switch = (component) => {
@@ -1720,7 +1730,7 @@ const Switch = (component) => {
 
 module.exports = { Switch };
 
-},{"../method/toComponent":88}],15:[function(require,module,exports){
+},{"../method/toComponent":90}],15:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const Upload = (component) => {
@@ -1760,7 +1770,7 @@ const Upload = (component) => {
 
 module.exports = { Upload };
 
-},{"../method/toComponent":88}],16:[function(require,module,exports){
+},{"../method/toComponent":90}],16:[function(require,module,exports){
 const {Button} = require("./Button");
 const {Input} = require("./Input");
 const {Item} = require("./Item");
@@ -1788,32 +1798,27 @@ module.exports = {
 },{"./Button":6,"./Checkbox":7,"./Header":8,"./Input":9,"./Item":10,"./List":11,"./Rate":12,"./SearchBox":13,"./Switch":14,"./Upload":15}],17:[function(require,module,exports){
 const {generate} = require("../method/generate");
 
-module.exports = ({params = {}, id}) => {
-  const controls = params.controls;
-  const state = generate();
+module.exports = ({ params = {}, id }) => {
+  const controls = params.controls
+  const state = generate()
 
-  return [
-    {
-      event: "click",
-      actions: [
-        `setState?state.actionlist-mouseenter;state.${state}=value.data();value.Data::actionlist=${state};value.data::actionlist=value.data()`,
-        `setPosition?position.id=actionlist;position.placement=${
-          controls.placement || "bottom"
-        };position.distance=${controls.distance}`,
-        "mountAfterStyles;update???actionlist",
-      ],
-    },
-    {
-      event: "mouseleave",
-      actions: [
-        "setState?state.actionlist-mouseenter=false",
-        "resetStyles>>200::actionlist??!mouseenter;!mouseenter::actionlist;!state.actionlist-mouseenter",
-      ],
-    },
-  ];
-};
+  return [{
+    event: "click",
+    actions: [
+      `setState?state.actionlist-mouseenter;state.${state}=value.data();value.Data::actionlist=${state};value.data::actionlist=value.data()`,
+      `setPosition::actionlist?position.positioner=${id};position.placement=${controls.placement || "bottom"};position.distance=${controls.distance}`,
+      "mountAfterStyles;update???actionlist",
+    ]
+  }, {
+    event: "mouseleave",
+    actions: [
+      "setState?state.actionlist-mouseenter=false",
+      "resetStyles>>200::actionlist??!mouseenter;!mouseenter::actionlist;!state.actionlist-mouseenter",
+    ]
+  }]
+}
 
-},{"../method/generate":54}],18:[function(require,module,exports){
+},{"../method/generate":55}],18:[function(require,module,exports){
 module.exports = {
   item: require("./item"),
   list: require("./list"),
@@ -1840,12 +1845,12 @@ module.exports = ({params, id}) => {
       `resetStyles::droplist?break?value.element.style.opacity::droplist=1;positioner::droplist=${id}`,
       `resetStyles::droplist;droplist::${controls.id || id}?path=${controls.path || ""}`,
       `setStyle::droplist?${styles}`,
-      `setPosition::${controls.positioner || id};mountAfterStyles::droplist?position.id=droplist;position.placement=${controls.placement || "bottom"};position.distance=${controls.distance}`
+      `setPosition::droplist;mountAfterStyles::droplist?position.positioner=${controls.positioner || id};position.placement=${controls.placement || "bottom"};position.distance=${controls.distance}`
     ]
   }]
 }
 
-},{"../method/toString":96}],20:[function(require,module,exports){
+},{"../method/toString":98}],20:[function(require,module,exports){
 const {toArray} = require("../method/toArray");
 
 module.exports = ({VALUE, id, params = {}}) => {
@@ -1866,7 +1871,7 @@ module.exports = ({VALUE, id, params = {}}) => {
   ];
 };
 
-},{"../method/toArray":85}],21:[function(require,module,exports){
+},{"../method/toArray":86}],21:[function(require,module,exports){
 module.exports = ({params}) => [
   "setData?data.value=value.text",
   `resetStyles?value.mountonload::state.${params.state}.0=false??state.${params.state}`,
@@ -1879,31 +1884,24 @@ module.exports = ({params}) => [
 ];
 
 },{}],22:[function(require,module,exports){
-module.exports = ({VALUE, STATE, params, id}) => {
+module.exports = ({ VALUE, STATE, params, id }) => {
   const controls = params.controls;
 
-  return [
-    {
-      event: "click",
-      actions: [
-        `setState?state.${controls.id}-mouseenter`,
-        `mountAfterStyles::${controls.id}`,
-        `setPosition?position.placement=${
-          controls.placement || "right"
-        };position.distance=${controls.distance || "15"};position.id=${
-          controls.id
-        }`,
-      ],
-    },
-    {
-      event: "mouseleave",
-      actions: [
-        `resetStyles>>200::${controls.id}??!mouseenter;!mouseenter::${controls.id};!state.${controls.id}-mouseenter`,
-        `setState?state.${controls.id}-mouseenter=false`,
-      ],
-    },
-  ];
-};
+  return [{
+    event: "click",
+    actions: [
+      `setState?state.${controls.id}-mouseenter`,
+      `mountAfterStyles::${controls.id}`,
+      `setPosition?position.positioner=${controls.id};position.placement=${controls.placement || "right"};position.distance=${controls.distance || "15"}`,
+    ],
+  }, {
+    event: "mouseleave",
+    actions: [
+      `resetStyles>>200::${controls.id}??!mouseenter;!mouseenter::${controls.id};!state.${controls.id}-mouseenter`,
+      `setState?state.${controls.id}-mouseenter=false`,
+    ]
+  }]
+}
 
 },{}],23:[function(require,module,exports){
 const {generate} = require("../method/generate");
@@ -1923,7 +1921,7 @@ module.exports = ({ VALUE, STATE, params, id }) => {
   ];
 };
 
-},{"../method/generate":54}],24:[function(require,module,exports){
+},{"../method/generate":55}],24:[function(require,module,exports){
 const {generate} = require("../method/generate");
 
 module.exports = ({STATE, params, id}) => {
@@ -1936,21 +1934,15 @@ module.exports = ({STATE, params, id}) => {
       event: `click?state.popup=${controls.id || id}`,
       actions: [
         `resetStyles::popup?break?value.element.style.opacity::popup=1;positioner::popup=${id}`,
-        `resetStyles::popup;popup::${controls.id || id}?path=${
-          controls.path || ""
-        }`,
-        `setPosition::${
-          controls.positioner || id
-        };mountAfterStyles::popup?position.id=popup;position.placement=${
-          controls.placement || "left"
-        };position.distance=${controls.distance}`,
+        `resetStyles::popup;popup::${controls.id || id}?path=${controls.path || ""}`,
+        `setPosition::popup;mountAfterStyles::popup?position.positioner=${controls.positioner || id};position.placement=${controls.placement || "left"};position.distance=${controls.distance}`,
         `setStyle::popup?style=state.${state}?${controls.style}`,
       ],
     },
   ];
 };
 
-},{"../method/generate":54}],25:[function(require,module,exports){
+},{"../method/generate":55}],25:[function(require,module,exports){
 const {toArray} = require("../method/toArray");
 
 module.exports = ({VALUE, id, params = {}}) => {
@@ -1965,7 +1957,7 @@ module.exports = ({VALUE, id, params = {}}) => {
   ];
 };
 
-},{"../method/toArray":85}],26:[function(require,module,exports){
+},{"../method/toArray":86}],26:[function(require,module,exports){
 module.exports = ({ VALUE, params = {}, id }) => {
   const controls = params.controls;
 
@@ -2007,85 +1999,89 @@ module.exports = ({VALUE, id, params = {}}) => {
 };
 
 },{}],28:[function(require,module,exports){
-const {clearValues} = require("./clearValues");
-const {clone} = require("./clone");
-const {derive} = require("./derive");
-const {duplicate, duplicates} = require("./duplicate");
-const {getParam} = require("./getParam");
-const {isArabic} = require("./isArabic");
-const {isEqual} = require("./isEqual");
-const {merge} = require("./merge");
-const {overflow} = require("./overflow");
-const {toApproval} = require("./toApproval");
-const {toComponent} = require("./toComponent");
-const {toId} = require("./toId");
-const {toParam} = require("./toParam");
-const {toString} = require("./toString");
-const {update, removeIds} = require("./update");
-const {createDocument} = require("./createDocument");
-const {toControls} = require("./toControls");
-const {toArray} = require("./toArray");
-const {generate} = require("./generate");
-const {createElement} = require("./createElement");
-const {addEventListener} = require("./event");
-const {execute} = require("./execute");
-const {controls} = require("./controls");
-const {setContent} = require("./setContent");
-const {starter} = require("./starter");
-const {setState} = require("./state");
-const {setPosition} = require("./setPosition");
-const {droplist} = require("./droplist");
-const {createView} = require("./createView");
-const {filter} = require("./filter");
-const {remove} = require("./remove");
-const {focus} = require("./focus");
-const {sort} = require("./sort");
-const {log} = require("./log");
-const {search} = require("./search");
-const {flicker} = require("./flicker");
-const {textarea} = require("./textarea");
-const {save} = require("./save");
-const {erase} = require("./erase");
-const {toValue} = require("./toValue");
-const {toPath} = require("./toPath");
-const {reducer} = require("./reducer");
-const {toStyle} = require("./toStyle");
-const {preventDefault} = require("./preventDefault");
-const {createComponent} = require("./createComponent");
-const {getJsonFiles} = require("./getJsonFiles");
-const {toTag} = require("./toTag");
-const {setData} = require("./setData");
-const {defaultInputHandler} = require("./defaultInputHandler");
-const {createActions} = require("./createActions");
-const {blur} = require("./blur");
-const {fill} = require("./fill");
-const {toAwait} = require("./toAwait");
-const {close} = require("./close");
-const {pause} = require("./pause");
-const {play} = require("./play");
-const {note} = require("./note");
-const {toCode} = require("./toCode");
-const {isPath} = require("./isPath");
-const {toNumber} = require("./toNumber");
-const {capitalize} = require("./capitalize");
-const {setElement} = require("./setElement");
-const {toFirebaseOperator} = require("./toFirebaseOperator");
-const {popup} = require("./popup");
-const {keys} = require("./keys");
-const {values} = require("./values");
-const {toggleView} = require("./toggleView");
-const {upload} = require("./upload");
-const {dateTimeFormater} = require("./dateTimeFormater");
+const {clearValues} = require("./clearValues")
+const {clone} = require("./clone")
+const {derive} = require("./derive")
+const {duplicate, duplicates} = require("./duplicate")
+const {getParam} = require("./getParam")
+const {isArabic} = require("./isArabic")
+const {isEqual} = require("./isEqual")
+const {merge} = require("./merge")
+const {overflow} = require("./overflow")
+const {toApproval} = require("./toApproval")
+const {toComponent} = require("./toComponent")
+const {toId} = require("./toId")
+const {toParam} = require("./toParam")
+const {toString} = require("./toString")
+const {update, removeIds} = require("./update")
+const {createDocument} = require("./createDocument")
+const {toControls} = require("./toControls")
+const {toArray} = require("./toArray")
+const {generate} = require("./generate")
+const {createElement} = require("./createElement")
+const {addEventListener} = require("./event")
+const {execute} = require("./execute")
+const {controls} = require("./controls")
+const {setContent} = require("./setContent")
+const {starter} = require("./starter")
+const {setState} = require("./state")
+const {setPosition} = require("./setPosition")
+const {droplist} = require("./droplist")
+const {createView} = require("./createView")
+const {filter} = require("./filter")
+const {remove} = require("./remove")
+const {focus} = require("./focus")
+const {sort} = require("./sort")
+const {log} = require("./log")
+const {search} = require("./search")
+const {flicker} = require("./flicker")
+const {textarea} = require("./textarea")
+const {save} = require("./save")
+const {erase} = require("./erase")
+const {toValue} = require("./toValue")
+const {toPath} = require("./toPath")
+const {reducer} = require("./reducer")
+const {toStyle} = require("./toStyle")
+const {preventDefault} = require("./preventDefault")
+const {createComponent} = require("./createComponent")
+const {getJsonFiles} = require("./getJsonFiles")
+const {toTag} = require("./toTag")
+const {setData} = require("./setData")
+const {defaultInputHandler} = require("./defaultInputHandler")
+const {createActions} = require("./createActions")
+const {blur} = require("./blur")
+const {fill} = require("./fill")
+const {toAwait} = require("./toAwait")
+const {close} = require("./close")
+const {pause} = require("./pause")
+const {play} = require("./play")
+const {note} = require("./note")
+const {toCode} = require("./toCode")
+const {isPath} = require("./isPath")
+const {toNumber} = require("./toNumber")
+const {capitalize} = require("./capitalize")
+const {setElement} = require("./setElement")
+const {toFirebaseOperator} = require("./toFirebaseOperator")
+const {popup} = require("./popup")
+const {keys} = require("./keys")
+const {values} = require("./values")
+const {toggleView} = require("./toggleView")
+const {upload} = require("./upload")
+const {compare} = require("./compare")
+const {toCSV} = require("./toCSV")
+const {dateTimeFormater} = require("./dateTimeFormater")
 const {
   setStyle,
   resetStyles,
   toggleStyles,
   mountAfterStyles,
-} = require("./style");
-const {resize, dimensions} = require("./resize");
-const {createData, clearData, removeData} = require("./data");
+} = require("./style")
+const {resize, dimensions} = require("./resize")
+const {createData, clearData} = require("./data")
 
 const _method = {
+  toCSV,
+  compare,
   setElement,
   clearValues,
   clone,
@@ -2124,7 +2120,6 @@ const _method = {
   createData,
   setData,
   clearData,
-  removeData,
   setContent,
   starter,
   createComponent,
@@ -2166,11 +2161,11 @@ const _method = {
   toFirebaseOperator,
   upload,
   toggleView
-};
+}
 
-module.exports = _method;
+module.exports = _method
 
-},{"./blur":29,"./capitalize":30,"./clearValues":31,"./clone":32,"./close":33,"./controls":34,"./createActions":35,"./createComponent":36,"./createDocument":37,"./createElement":38,"./createView":40,"./data":41,"./dateTimeFormater":42,"./defaultInputHandler":43,"./derive":44,"./droplist":45,"./duplicate":46,"./erase":47,"./event":48,"./execute":49,"./fill":50,"./filter":51,"./flicker":52,"./focus":53,"./generate":54,"./getJsonFiles":55,"./getParam":56,"./isArabic":57,"./isEqual":58,"./isPath":59,"./keys":60,"./log":61,"./merge":62,"./note":63,"./overflow":64,"./pause":65,"./play":66,"./popup":67,"./preventDefault":68,"./reducer":69,"./remove":70,"./resize":72,"./save":73,"./search":74,"./setContent":75,"./setData":76,"./setElement":77,"./setPosition":78,"./sort":79,"./starter":80,"./state":81,"./style":82,"./textarea":83,"./toApproval":84,"./toArray":85,"./toAwait":86,"./toCode":87,"./toComponent":88,"./toControls":89,"./toFirebaseOperator":90,"./toId":91,"./toNumber":92,"./toParam":93,"./toPath":94,"./toString":96,"./toStyle":97,"./toTag":98,"./toValue":99,"./toggleView":100,"./update":101,"./upload":102,"./values":103}],29:[function(require,module,exports){
+},{"./blur":29,"./capitalize":30,"./clearValues":31,"./clone":32,"./close":33,"./compare":34,"./controls":35,"./createActions":36,"./createComponent":37,"./createDocument":38,"./createElement":39,"./createView":41,"./data":42,"./dateTimeFormater":43,"./defaultInputHandler":44,"./derive":45,"./droplist":46,"./duplicate":47,"./erase":48,"./event":49,"./execute":50,"./fill":51,"./filter":52,"./flicker":53,"./focus":54,"./generate":55,"./getJsonFiles":56,"./getParam":57,"./isArabic":58,"./isEqual":59,"./isPath":60,"./keys":61,"./log":62,"./merge":63,"./note":64,"./overflow":65,"./pause":66,"./play":67,"./popup":68,"./preventDefault":69,"./reducer":70,"./remove":71,"./resize":73,"./save":74,"./search":75,"./setContent":76,"./setData":77,"./setElement":78,"./setPosition":79,"./sort":80,"./starter":81,"./state":82,"./style":83,"./textarea":84,"./toApproval":85,"./toArray":86,"./toAwait":87,"./toCSV":88,"./toCode":89,"./toComponent":90,"./toControls":91,"./toFirebaseOperator":92,"./toId":93,"./toNumber":94,"./toParam":95,"./toPath":96,"./toString":98,"./toStyle":99,"./toTag":100,"./toValue":101,"./toggleView":102,"./update":103,"./upload":104,"./values":105}],29:[function(require,module,exports){
 const blur = ({VALUE, id}) => {
   const local = VALUE[id];
   if (!local) return;
@@ -2291,6 +2286,17 @@ const close = ({VALUE, id}) => {
 module.exports = {close};
 
 },{}],34:[function(require,module,exports){
+module.exports = {
+    compare: (value1, operator, value2) => {
+        if (operator === "==") return value1 === value2
+        else if (operator === ">") return parseFloat(value1) > parseFloat(value2)
+        else if (operator === "<") return parseFloat(value1) < parseFloat(value2)
+        else if (operator === ">=") return parseFloat(value1) >= parseFloat(value2)
+        else if (operator === "<=") return parseFloat(value1) <= parseFloat(value2)
+        else if (operator === "in") return value1.includes(value2)
+    }
+}
+},{}],35:[function(require,module,exports){
 const {toArray} = require("./toArray");
 
 const controls = ({VALUE, STATE, controls, id}) => {
@@ -2324,7 +2330,7 @@ const setControls = ({VALUE, id, params}) => {
 
 module.exports = {controls, setControls};
 
-},{"./event":48,"./execute":49,"./toArray":85,"./watch":104}],35:[function(require,module,exports){
+},{"./event":49,"./execute":50,"./toArray":86,"./watch":106}],36:[function(require,module,exports){
 const control = require("../control/control");
 
 const createActions = ({VALUE, STATE, params, id}) => {
@@ -2338,7 +2344,7 @@ const createActions = ({VALUE, STATE, params, id}) => {
 
 module.exports = {createActions};
 
-},{"../control/control":18,"./execute":49}],36:[function(require,module,exports){
+},{"../control/control":18,"./execute":50}],37:[function(require,module,exports){
 const {clone} = require("./clone");
 const {generate} = require("./generate");
 const {toApproval} = require("./toApproval");
@@ -2385,7 +2391,7 @@ module.exports = {
   },
 };
 
-},{"../component/_component":16,"./clone":32,"./generate":54,"./toApproval":84,"./toParam":93}],37:[function(require,module,exports){
+},{"../component/_component":16,"./clone":32,"./generate":55,"./toApproval":85,"./toParam":95}],38:[function(require,module,exports){
 (function (process){(function (){
 const {createElement} = require("./createElement")
 const {getJsonFiles} = require("./getJsonFiles")
@@ -2475,7 +2481,7 @@ const createDocument = (req, res) => {
 module.exports = {createDocument}
 
 }).call(this)}).call(this,require('_process'))
-},{"./createElement":38,"./getJsonFiles":55,"_process":4,"dotenv":105}],38:[function(require,module,exports){
+},{"./createElement":39,"./getJsonFiles":56,"_process":4,"dotenv":107}],39:[function(require,module,exports){
 const {generate} = require("./generate");
 const {toParam} = require("./toParam");
 const {toApproval} = require("./toApproval");
@@ -2616,7 +2622,7 @@ const createElement = ({STATE, VALUE, id}) => {
 
 module.exports = {createElement}
 
-},{"./clone":32,"./createTags":39,"./generate":54,"./merge":62,"./reducer":69,"./toApproval":84,"./toParam":93}],39:[function(require,module,exports){
+},{"./clone":32,"./createTags":40,"./generate":55,"./merge":63,"./reducer":70,"./toApproval":85,"./toParam":95}],40:[function(require,module,exports){
 const {clone} = require("./clone");
 const {generate} = require("./generate");
 const {toArray} = require("./toArray");
@@ -2820,7 +2826,7 @@ const componentModifier = ({VALUE, id}) => {
 
 module.exports = {createTags};
 
-},{"./clone":32,"./createComponent":36,"./execute":49,"./generate":54,"./isEqual":58,"./toArray":85,"./toTag":98}],40:[function(require,module,exports){
+},{"./clone":32,"./createComponent":37,"./execute":50,"./generate":55,"./isEqual":59,"./toArray":86,"./toTag":100}],41:[function(require,module,exports){
 const {update} = require("./update");
 const {generate} = require("./generate");
 const {toArray} = require("./toArray");
@@ -2874,56 +2880,41 @@ const createView = ({STATE, VALUE, params = {}, id}) => {
 
 module.exports = {createView};
 
-},{"./clone":32,"./generate":54,"./toArray":85,"./update":101}],41:[function(require,module,exports){
-const {setContent} = require("./setContent");
-const {setData} = require("./setData");
+},{"./clone":32,"./generate":55,"./toArray":86,"./update":103}],42:[function(require,module,exports){
+const { clone } = require("./clone")
+const { reducer } = require("./reducer")
+const {setContent} = require("./setContent")
+const {setData} = require("./setData")
 
 const createData = ({STATE, VALUE, params, id}) => {
-  const local = VALUE[id];
-  const data = params.data;
+  const local = VALUE[id]
+  const data = params.data
 
   local.derivations.reduce((o, k, i) => {
-    if (i === local.derivations.length - 1) return (o[k] = data);
-    return o[k];
-  }, STATE[local.Data]);
-};
+    if (i === local.derivations.length - 1) return o[k] = data
+    return o[k]
+  }, STATE[local.Data])
+}
 
-const clearData = ({VALUE, STATE, id}) => {
-  setData({VALUE, STATE, id});
-};
+const clearData = ({ STATE, VALUE, id, e, params = {} }) => {
 
-const removeData = ({STATE, VALUE, id, params = {}}) => {
-  const local = VALUE[id];
-  if (!STATE[local.Data]) return;
+  var local = VALUE[id]
+  if (!STATE[local.Data]) return
+  
+  var clear = params.clear || {}
+  var path = clear.path
+  path = path ? path.split(".") : clone(local.derivations)
+  path.push('delete()')
+  
+  reducer({ VALUE, STATE, id, e, params: {path, object: STATE[local.Data]} })
 
-  let path = params.path;
-  path = path ? path.split(".") : [];
+  setContent({ VALUE, id })
+  console.log("data removed", STATE[local.Data])
+}
 
-  // convert string numbers paths to num
-  path = path.map((k) => {
-    if (!isNaN(k)) k = parseFloat(k);
-    return k;
-  });
+module.exports = {createData, setData, clearData}
 
-  path = [...local.derivations, ...path];
-
-  path.reduce((o, k, i) => {
-    if (i === path.length - 1) {
-      if (Array.isArray(o)) return o.splice(k, 1);
-      else return delete o[k];
-    }
-    return o[k];
-  }, STATE[local.Data]);
-
-  local.data = "";
-
-  setContent({VALUE, id});
-  console.log("data removed", STATE[local.Data]);
-};
-
-module.exports = {createData, setData, clearData, removeData};
-
-},{"./setContent":75,"./setData":76}],42:[function(require,module,exports){
+},{"./clone":32,"./reducer":70,"./setContent":76,"./setData":77}],43:[function(require,module,exports){
 module.exports = {
     dateTimeFormater: ({ VALUE, STATE, id, e, params: {dateTime, opposite} }) => {
         
@@ -2944,7 +2935,7 @@ module.exports = {
         : `${day}-${month}-${year}T${time}`
     }
 }
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 const { setData } = require("./data");
 const { resize } = require("./resize");
 const { isArabic } = require("./isArabic");
@@ -3050,7 +3041,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
 module.exports = { defaultInputHandler };
 
-},{"./data":41,"./generate":54,"./isArabic":57,"./resize":72}],44:[function(require,module,exports){
+},{"./data":42,"./generate":55,"./isArabic":58,"./resize":73}],45:[function(require,module,exports){
 const derive = (data, keys, defaultData, editable) => {
   if (!Array.isArray(keys)) keys = keys.split(".");
 
@@ -3081,7 +3072,7 @@ const derive = (data, keys, defaultData, editable) => {
 
 module.exports = {derive};
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 const {update} = require("./update");
 const {clone} = require("./clone");
 const {toValue} = require("./toValue");
@@ -3141,7 +3132,7 @@ const droplist = ({VALUE, STATE, id, e}) => {
       }
 
       return {
-        type: `Item?text=const.${item};readonly=${readonly}`,
+        type: `Item?text.text=const.${item};readonly=${readonly}`,
         controls: [{
           event: `click?value.element.${isInput ? "value" : "innerHTML"}::${id}=${item}<<!${local.droplist.pause};value.data()<<!const.${local.lang}=${item};action.resize::${id}?!readonly;state.droplist=${id}`,
           actions: [
@@ -3162,7 +3153,7 @@ const droplist = ({VALUE, STATE, id, e}) => {
 
 module.exports = {droplist}
 
-},{"./clone":32,"./toValue":99,"./update":101}],46:[function(require,module,exports){
+},{"./clone":32,"./toValue":101,"./update":103}],47:[function(require,module,exports){
 var {clearValues} = require("./clearValues");
 var {clone} = require("./clone");
 var {toArray} = require("./toArray");
@@ -3172,7 +3163,8 @@ var {removeDuplicates} = require("./removeDuplicates");
 var {generate} = require("./generate");
 var {focus} = require("./focus");
 
-var duplicate = ({VALUE, STATE, params = {}, id}) => {
+var duplicate = ({ VALUE, STATE, params = {}, id }) => {
+  
   var {createElement} = require("./createElement");
   var {starter} = require("./starter");
   var {setElement} = require("./setElement");
@@ -3181,20 +3173,13 @@ var duplicate = ({VALUE, STATE, params = {}, id}) => {
   var local = VALUE[id];
 
   if (STATE[local.Data]) {
+    
     var keys = clone(local.derivations);
-    var duplicate = params.duplicate
+    var duplicate = params.duplicate || {}
     var index = duplicate.index || 0;
-    path = duplicate.path ? duplicate.path.split(".") : [];
 
-    // convert string numbers paths to num
-    if (path.length > 0) {
-      path = path.map((k) => {
-        if (!isNaN(k)) k = parseFloat(k);
-        return k;
-      });
-    }
-
-    if (duplicate.path) keys = clone(path)
+    if (!Array.isArray(path))
+    keys = duplicate.path ? duplicate.path.split(".") : keys
 
     // last index refers to data index => must be poped
     if (!isNaN(keys[keys.length - 1])) {
@@ -3323,12 +3308,12 @@ var duplicate = ({VALUE, STATE, params = {}, id}) => {
     var type = local.type.split("path=");
     local.type = type[0];
     type = type[1].split(";").slice(1);
-    local.type += type;
+    local.type += type.join(";");
   }
   
   // create element => append child
   var newcontent = document.createElement("div");
-  newcontent.innerHTML = createElement({STATE, VALUE, id});
+  newcontent.innerHTML = createElement({ STATE, VALUE, id });
 
   while (newcontent.firstChild) {
     id = newcontent.firstChild.id;
@@ -3369,7 +3354,7 @@ var duplicates = ({STATE, VALUE, params, id}) => {
 
 module.exports = {duplicate, duplicates};
 
-},{"./clearValues":31,"./clone":32,"./createElement":38,"./derive":44,"./focus":53,"./generate":54,"./isEqual":58,"./removeDuplicates":71,"./setElement":77,"./starter":80,"./toArray":85}],47:[function(require,module,exports){
+},{"./clearValues":31,"./clone":32,"./createElement":39,"./derive":45,"./focus":54,"./generate":55,"./isEqual":59,"./removeDuplicates":72,"./setElement":78,"./starter":81,"./toArray":86}],48:[function(require,module,exports){
 /*const axios = require("axios");
 
 const erase = async ({ VALUE, STATE, id, e, params = {} }) => {
@@ -3424,7 +3409,7 @@ module.exports = {
   }
 }
 
-},{"./toAwait":86}],48:[function(require,module,exports){
+},{"./toAwait":87}],49:[function(require,module,exports){
 const { toApproval } = require("./toApproval")
 const { toId } = require("./toId")
 const { toParam } = require("./toParam")
@@ -3527,7 +3512,7 @@ const defaultEventHandler = ({ VALUE, id }) => {
 
 module.exports = { addEventListener, defaultEventHandler }
 
-},{"./clone":32,"./execute":49,"./toApproval":84,"./toId":91,"./toParam":93}],49:[function(require,module,exports){
+},{"./clone":32,"./execute":50,"./toApproval":85,"./toId":93,"./toParam":95}],50:[function(require,module,exports){
 const { toApproval } = require("./toApproval");
 const { toArray } = require("./toArray");
 const { toParam } = require("./toParam");
@@ -3641,18 +3626,23 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
 
 module.exports = { execute }
 
-},{"./_method":28,"./getParam":56,"./toApproval":84,"./toArray":85,"./toAwait":86,"./toId":91,"./toParam":93,"./toValue":99}],50:[function(require,module,exports){
+},{"./_method":28,"./getParam":57,"./toApproval":85,"./toArray":86,"./toAwait":87,"./toId":93,"./toParam":95,"./toValue":101}],51:[function(require,module,exports){
 module.exports = {
   fill: ({ VALUE, id }) => {
     
   }
 }
 
-},{}],51:[function(require,module,exports){
-const {toArray} = require("./toArray")
-const {toAwait} = require("./toAwait")
+},{}],52:[function(require,module,exports){
+const { isEqual } = require("./isEqual")
+const { toArray } = require("./toArray")
+const { toAwait } = require("./toAwait")
+const { compare } = require("./compare")
+const { toFirebaseOperator } = require("./toFirebaseOperator")
+const { clone } = require("./clone")
 
 const filter = ({VALUE, STATE, params = {}, id, e}) => {
+
   var local = VALUE[id]
   if (!local) return
 
@@ -3666,20 +3656,24 @@ const filter = ({VALUE, STATE, params = {}, id, e}) => {
   var backup = filter.backup
   var value = filter.value
 
-  if (options.filter === value) return options.filter = value
+  if (!value || isEqual(options.filter, value)) {
 
-  // reset backup filter options
-  options.filter = value
-  
-  // empty value
-  if (value === undefined || value === "") STATE[Data] = backup
-  else {
-    // remove spaces
-    value = value.split(" ").join("").toLowerCase()
+    options.filter = clone(value)
+    data = backup
 
+  } else {
+
+    // reset backup filter options
+    options.filter = clone(value)
+    
+      // remove spaces
+    Object.entries(value).map(([k, v]) => value[k] = v.toString().split(" ").join("").toLowerCase())
+    
     var data = []
     data.push(
-      ...backup.filter(data => path
+      ...backup.filter(data => {
+        return !Object.entries(value).map(([o, v]) => 
+        compare(path
         .map(path => (path
         .reduce((o, k) => o[k], data) || '')
         .toString()
@@ -3687,13 +3681,15 @@ const filter = ({VALUE, STATE, params = {}, id, e}) => {
         .split(" ")
         .join("")
         )
+        .join(""),
+        toFirebaseOperator(o), v))
         .join("")
-        .includes(value)
-      )
+        .includes("false")
+      })
     )
-
-    STATE[Data] = data
   }
+  
+  STATE[Data] = data
 
   // await params
   toAwait({VALUE, STATE, id, e, params})
@@ -3701,7 +3697,7 @@ const filter = ({VALUE, STATE, params = {}, id, e}) => {
 
 module.exports = {filter}
 
-},{"./toArray":85,"./toAwait":86}],52:[function(require,module,exports){
+},{"./clone":32,"./compare":34,"./isEqual":59,"./toArray":86,"./toAwait":87,"./toFirebaseOperator":92}],53:[function(require,module,exports){
 const {setControls} = require("./controls");
 const {setStyle} = require("./style");
 
@@ -3725,7 +3721,7 @@ module.exports = {
   },
 };
 
-},{"./controls":34,"./style":82}],53:[function(require,module,exports){
+},{"./controls":35,"./style":83}],54:[function(require,module,exports){
 const focus = ({VALUE, id}) => {
   const local = VALUE[id];
   if (!local) return;
@@ -3752,7 +3748,7 @@ const focus = ({VALUE, id}) => {
 
 module.exports = {focus};
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 const characters =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -3768,7 +3764,7 @@ const generate = (length) => {
 
 module.exports = {generate};
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 (function (process){(function (){
 const path = require("path");
 const fs = require("fs");
@@ -3797,7 +3793,7 @@ const getJsonFiles = (folder, fileName, params = {}) => {
 module.exports = {getJsonFiles};
 
 }).call(this)}).call(this,require('_process'))
-},{"_process":4,"fs":1,"path":3}],56:[function(require,module,exports){
+},{"_process":4,"fs":1,"path":3}],57:[function(require,module,exports){
 const { toParam } = require("./toParam");
 
 const getParam = (string, param, defValue) => {
@@ -3821,7 +3817,7 @@ const getParam = (string, param, defValue) => {
 
 module.exports = {getParam};
 
-},{"./toParam":93}],57:[function(require,module,exports){
+},{"./toParam":95}],58:[function(require,module,exports){
 const arabic = /[\u0600-\u06FF\u0750-\u077F]/;
 
 const isArabic = (value) => {
@@ -3856,7 +3852,7 @@ const isArabic = (value) => {
 
 module.exports = {isArabic};
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 const isEqual = function(value, other) {
   // if (value === undefined || other === undefined) return false
 
@@ -3946,7 +3942,7 @@ const isEqual = function(value, other) {
 
 module.exports = {isEqual};
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 module.exports = {
   isPath: ({VALUE, STATE, id, e, params: {path}}) => {
     path = path.split(".");
@@ -3963,20 +3959,20 @@ module.exports = {
   },
 };
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 module.exports = {
     keys: (object) => {
         return Object.keys(object)
     }
 }
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 const log = ({params}) => {
-  console.log(params.log);
+  console.log(params.log || 'here');
 };
 
 module.exports = {log};
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 const {toArray} = require("./toArray");
 const {clone} = require("./clone");
 
@@ -4026,7 +4022,7 @@ const override = (obj1, obj2) => {
 
 module.exports = {merge, override};
 
-},{"./clone":32,"./toArray":85}],63:[function(require,module,exports){
+},{"./clone":32,"./toArray":86}],64:[function(require,module,exports){
 const note = ({VALUE, params}) => {
   const note = VALUE["action-note"]
   const noteText = VALUE["action-note-text"]
@@ -4051,7 +4047,7 @@ const note = ({VALUE, params}) => {
 
 module.exports = {note}
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 const overflow = ({VALUE, params, id}) => {
   const local = VALUE[id];
 
@@ -4107,7 +4103,7 @@ const overflow = ({VALUE, params, id}) => {
 
 module.exports = {overflow};
 
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 const pause = ({VALUE, id}) => {
   const local = VALUE[id];
   clearTimeout(local["note-timer"]);
@@ -4115,7 +4111,7 @@ const pause = ({VALUE, id}) => {
 
 module.exports = {pause};
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 const play = ({VALUE, id}) => {
   const local = VALUE[id];
   const myFn = () => {
@@ -4127,7 +4123,7 @@ const play = ({VALUE, id}) => {
 
 module.exports = {play};
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 const {controls} = require("./controls");
 const {update} = require("./update");
 
@@ -4160,14 +4156,14 @@ const popup = ({VALUE, STATE, id, params}) => {
 
 module.exports = {popup};
 
-},{"./controls":34,"./update":101}],68:[function(require,module,exports){
+},{"./controls":35,"./update":103}],69:[function(require,module,exports){
 const preventDefault = ({e}) => {
   e.preventDefault();
 };
 
 module.exports = {preventDefault};
 
-},{}],69:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { toCode } = require("./toCode")
@@ -4263,7 +4259,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         // set Value
 
         if (k.includes('coded()')) {
-
+            
             breakRequest = true
             var newValue = toValue({ VALUE, STATE, id, e, params: { value: STATE.codes[k], params } })
             newValue = [ ...newValue.toString().split('.'), ...path.slice(i + 1)]
@@ -4436,6 +4432,18 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
             answer = isEqual(o, b)
             
+        } else if (k === 'greater()' || k === 'isgreater()' || k === 'isgreaterthan()' || k === 'isGreaterThan()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = parseFloat(o) > parseFloat(b)
+            
+        } else if (k === 'less()' || k === 'isless()' || k === 'islessthan()' || k === 'isLessThan()') {
+            
+            breakRequest = i + 1
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            answer = parseFloat(o) < parseFloat(b)
+            
         } else if (k === 'isNot()') {
             
             breakRequest = i + 1
@@ -4453,7 +4461,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             answer = Math.abs(o)
             if (isPrice) answer = answer.toLocaleString()
             
-        } else if (k === 'divide()') {
+        } else if (k === 'dividedBy()' || k === 'divide()' || k === 'divided()' || k === 'divideBy()') {
             
             breakRequest = i + 1
             var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
@@ -4470,7 +4478,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             answer = o / b
             if (isPrice) answer = answer.toLocaleString()
             
-        } else if (k === 'times()') {
+        } else if (k === 'times()' || k === 'multiplyBy()' || k === 'multiply()' || k === 'mult()') {
             
             breakRequest = i + 1
             var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
@@ -4590,7 +4598,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'value()') {
             
             answer = Object.values(o)[0]
-
+            
         } else if (k === 'entries()') {
             
             answer = Object.entries(o).map(([k, v]) => ({ [k]: v }))
@@ -4625,6 +4633,14 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             if (!isNaN(o)) o = new Date(parseFloat(o))
             answer = o.toUTCString()
+            
+        } else if (k === 'setBeginning()') {
+            
+            answer = o.setHours(0,0,0,0)
+            
+        } else if (k === 'setEnding()') {
+            
+            answer = o.setHours(23,59,59,999)
             
         } else if (k === 'setTime()') {
             
@@ -4662,11 +4678,22 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             if (notEqual) answer = o.filter(data => _id.find(id => data.id === id) ? false : true )
             else answer = o.filter(data => _id.find(id => data.id === id))
 
+        } else if (k === 'find()') {
+
+            breakRequest = i + 1
+            var found = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} })
+            answer = o.find(data => isEqual(found, data))
+
+            // last index & value
+            var index = o.findIndex(data => isEqual(found, data))
+            if (index === -1) index = o.length
+            if (key && value && (i + 1 === lastIndex)) answer = o[index] = value
+            
         } else if (k === 'findById()') {
 
             breakRequest = i + 1
             // get id
-            var _id = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
+            var _id = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} })
             
             answer = o.find(data => data.id === _id)
 
@@ -4675,8 +4702,8 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 answer = o[o.length - 1]
             }
 
-            var index = o.findIndex(data => data.id === _id)
             // last index & value
+            var index = o.findIndex(data => data.id === _id)
             if (key && value && (i + 1 === lastIndex)) answer = o[index] = value
             
         } else if (k === 'findByName()') {
@@ -4764,6 +4791,16 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             if (value !== undefined && key) answer = o[2] = value
             answer = o[2]
 
+        } else if (k === '3rdLastIndex()' || k === '3rdlastIndex()') {
+
+            if (value !== undefined && key) answer = o[o.length - 3] = value
+            answer = o[o.length - 3]
+            
+        } else if (k === '2ndLastIndex()' || k === '2ndlastIndex()') {
+
+            if (value !== undefined && key) answer = o[o.length - 2] = value
+            answer = o[o.length - 2]
+            
         } else if (k === 'lastIndex()') {
 
             if (value !== undefined && key) answer = o[o.length - 1] = value
@@ -4863,20 +4900,16 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
         } else if (i === lastIndex - 1 && path[lastIndex] === 'delete()') {
             
-            breakRequest = true
+            breakRequest = i + 1
             if (Array.isArray(o)) {
 
                 o.splice(k, 1)
 
-            // name: { en: val1, ar: val2, ... }
-            } else if (local.component === 'Input') {
-
-                return delete o[k][VALUE[`${id}-input`].path]
-
-            } else return delete o[k]
+            } else delete o[k]
+            answer = o
 
         } else if (key && value !== undefined && i === lastIndex) {
-
+            
             answer = o[k] = value
 
         } else if (key && o[k] === undefined && i !== lastIndex) {
@@ -4924,7 +4957,7 @@ const getDeepChildrenId = ({ VALUE, id }) => {
 }
 
 module.exports = { reducer, getDeepChildren, getDeepChildrenId }
-},{"./capitalize":30,"./clone":32,"./dateTimeFormater":42,"./execute":49,"./generate":54,"./isEqual":58,"./toArray":85,"./toCode":87,"./toNumber":92,"./toPrice":95,"./toValue":99}],70:[function(require,module,exports){
+},{"./capitalize":30,"./clone":32,"./dateTimeFormater":43,"./execute":50,"./generate":55,"./isEqual":59,"./toArray":86,"./toCode":89,"./toNumber":94,"./toPrice":97,"./toValue":101}],71:[function(require,module,exports){
 const {removeIds} = require("./update");
 const {clone} = require("./clone");
 const {reducer} = require("./reducer");
@@ -4994,7 +5027,7 @@ const resetDerivations = ({VALUE, id, index}) => {
 
 module.exports = {remove};
 
-},{"./clone":32,"./reducer":69,"./update":101}],71:[function(require,module,exports){
+},{"./clone":32,"./reducer":70,"./update":103}],72:[function(require,module,exports){
 const removeDuplicates = (object) => {
   if (typeof object === "string" || typeof object === "number" || !object) {
     return object;
@@ -5016,7 +5049,7 @@ const removeDuplicates = (object) => {
 
 module.exports = {removeDuplicates};
 
-},{}],72:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 const resize = ({VALUE, id}) => {
   var local = VALUE[id];
   if (!local) return;
@@ -5125,7 +5158,7 @@ const converter = (dimension) => {
 
 module.exports = {resize, dimensions};
 
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 /*const axios = require("axios");
 
 const save = async ({ VALUE, STATE, params = {}, id, e }) => {
@@ -5180,7 +5213,7 @@ module.exports = {
     })
   }
 }
-},{"./capitalize":30,"./toAwait":86}],74:[function(require,module,exports){
+},{"./capitalize":30,"./toAwait":87}],75:[function(require,module,exports){
 /*const axios = require('axios')
 const { toString } = require('./toString')
 
@@ -5275,7 +5308,7 @@ module.exports = {
         })
     }
 }
-},{"./capitalize":30,"./keys":60,"./toAwait":86,"./toFirebaseOperator":90}],75:[function(require,module,exports){
+},{"./capitalize":30,"./keys":61,"./toAwait":87,"./toFirebaseOperator":92}],76:[function(require,module,exports){
 const {isArabic} = require("./isArabic");
 
 const setContent = ({VALUE, STATE, params = {}, id}) => {
@@ -5306,7 +5339,7 @@ const setContent = ({VALUE, STATE, params = {}, id}) => {
 
 module.exports = {setContent};
 
-},{"./isArabic":57}],76:[function(require,module,exports){
+},{"./isArabic":58}],77:[function(require,module,exports){
 const {clone} = require("./clone");
 const {reducer} = require("./reducer");
 const {setContent} = require("./setContent");
@@ -5360,7 +5393,7 @@ const setData = ({STATE, VALUE, params = {}, id}) => {
 
 module.exports = {setData};
 
-},{"./clone":32,"./reducer":69,"./setContent":75}],77:[function(require,module,exports){
+},{"./clone":32,"./reducer":70,"./setContent":76}],78:[function(require,module,exports){
 const setElement = ({ VALUE, id }) => {
 
     var local = VALUE[id]
@@ -5383,176 +5416,183 @@ const setElement = ({ VALUE, id }) => {
 }
     
 module.exports = {setElement}
-},{}],78:[function(require,module,exports){
-const setPosition = ({VALUE, params, id}) => {
-  const position = params.position;
-  const element = VALUE[id].element;
+},{}],79:[function(require,module,exports){
+const setPosition = ({ VALUE, params, id }) => {
 
-  if (!VALUE[position.id]) return;
-  const list = VALUE[position.id].element;
-  const fin = list.getElementsByClassName("list-fin")[0];
+  var position = params.position
+  var element = VALUE[id].element
+  var fin = element.getElementsByClassName("fin")[0]
 
+  if (!VALUE[position.positioner]) return
+  var positioner = VALUE[position.positioner].element
+  
   // set height to fit content
-  list.style.height = VALUE[list.id].style.height
+  element.style.height = VALUE[element.id].style.height
 
-  let top; let left; let bottom; let distance; let placement;
-  const height = list.offsetHeight;
-  const width = list.offsetWidth;
+  var top 
+  var left 
+  var bottom 
+  var distance 
+  var placement
+  var height = element.offsetHeight
+  var width = element.offsetWidth
 
-  placement = list.placement || position.placement || "right";
-  distance = parseFloat(list.distance || position.distance || 10);
+  placement = element.placement || position.placement || "right"
+  distance = parseFloat(element.distance || position.distance || 10)
 
   if (placement === "right") {
-    left = element.getBoundingClientRect().right + distance;
+    left = positioner.getBoundingClientRect().right + distance
     top =
-      element.getBoundingClientRect().top +
-      element.clientHeight / 2 -
-      height / 2;
-
+      positioner.getBoundingClientRect().top +
+      positioner.clientHeight / 2 -
+      height / 2
+      
     if (fin) {
-      fin.style.right = "unset";
-      fin.style.left = "-0.5rem";
-      fin.style.top = "unset";
-      fin.style.bottom = "unset";
-      fin.style.borderRadius = "0 0 0 0.4rem";
+      fin.style.right = "unset"
+      fin.style.left = "-0.5rem"
+      fin.style.top = "unset"
+      fin.style.bottom = "unset"
+      fin.style.borderRadius = "0 0 0 0.4rem"
     }
-  } else if (placement === "left") {
-    left = element.getBoundingClientRect().left - distance - width;
-    top =
-      element.getBoundingClientRect().top +
-      element.clientHeight / 2 -
-      height / 2;
 
+  } else if (placement === "left") {
+    
+    left = positioner.getBoundingClientRect().left - distance - width
+    top =
+      positioner.getBoundingClientRect().top +
+      positioner.clientHeight / 2 -
+      height / 2
+      
     if (fin) {
-      fin.style.right = "-0.5rem";
-      fin.style.left = "unset";
-      fin.style.top = "unset";
-      fin.style.bottom = "unset";
-      fin.style.borderRadius = "0 0.4rem 0 0";
+      fin.style.right = "-0.5rem"
+      fin.style.left = "unset"
+      fin.style.top = "unset"
+      fin.style.bottom = "unset"
+      fin.style.borderRadius = "0 0.4rem 0 0"
     }
   } else if (placement === "top") {
-    top = element.getBoundingClientRect().top - height - distance;
+    top = positioner.getBoundingClientRect().top - height - distance
     left =
-      element.getBoundingClientRect().left +
-      element.clientWidth / 2 -
-      width / 2;
+      positioner.getBoundingClientRect().left +
+      positioner.clientWidth / 2 -
+      width / 2
 
     if (fin) {
-      fin.style.right = "unset";
-      fin.style.left = "unset";
-      fin.style.top = "unset";
-      fin.style.bottom = "-0.5rem";
-      fin.style.borderRadius = "0 0 0.4rem 0";
+      fin.style.right = "unset"
+      fin.style.left = "unset"
+      fin.style.top = "unset"
+      fin.style.bottom = "-0.5rem"
+      fin.style.borderRadius = "0 0 0.4rem 0"
     }
   } else if (placement === "bottom") {
-    top = element.getBoundingClientRect().top + element.clientHeight + 10;
+    top = positioner.getBoundingClientRect().top + positioner.clientHeight + 10
     left =
-      element.getBoundingClientRect().left +
-      element.clientWidth / 2 -
-      width / 2;
+      positioner.getBoundingClientRect().left +
+      positioner.clientWidth / 2 -
+      width / 2
 
     if (fin) {
-      fin.style.right = "unset";
-      fin.style.left = "unset";
-      fin.style.top = "-0.5rem";
-      fin.style.bottom = "unset";
-      fin.style.borderRadius = "0 0.4rem 0 0";
+      fin.style.right = "unset"
+      fin.style.left = "unset"
+      fin.style.top = "-0.5rem"
+      fin.style.bottom = "unset"
+      fin.style.borderRadius = "0 0.4rem 0 0"
     }
   }
 
-  bottom = top + height;
+  bottom = top + height
 
   if (top - 10 < 0) {
 
-    if (fin) fin.style.top = height / 2 - 5 - 10 + top + "px";
+    if (fin) fin.style.top = height / 2 - 5 - 10 + top + "px"
 
-    list.style.top = 10 + 'px'
-    list.style.bottom = (10 + height) + 'px'
+    element.style.top = 10 + 'px'
+    element.style.bottom = (10 + height) + 'px'
     
     if (20 + height >= window.innerHeight) {
-      list.style.height = 'initial'
-      list.style.bottom = 10 + "px";
+      element.style.height = 'initial'
+      element.style.bottom = 10 + "px"
     }
 
   } else if (bottom + 10 > window.innerHeight) {
 
-    if (fin) fin.style.top = height / 2 - (fin ? 5 : 0) + 10 + bottom - window.innerHeight + "px";
+    if (fin) fin.style.top = height / 2 - (fin ? 5 : 0) + 10 + bottom - window.innerHeight + "px"
     
-    list.style.bottom = 10 + 'px'
-    list.style.top = (window.innerHeight - 10 - height) + 'px'
+    element.style.bottom = 10 + 'px'
+    element.style.top = (window.innerHeight - 10 - height) + 'px'
     
     if (window.innerHeight - 20 - height <= 0) {
-      list.style.height = 'initial'
-      list.style.top = 10 + "px";
+      element.style.height = 'initial'
+      element.style.top = 10 + "px"
     }
 
   } else {
-    list.style.top = top + 'px'
-    list.style.bottom = bottom
+    element.style.top = top + 'px'
+    element.style.bottom = bottom
   }
 
-  list.style.left = left + "px";
-  if (fin) fin.style.top = "unset";
-};
+  element.style.left = left + "px"
+  if (fin) fin.style.top = "unset"
+}
 
-module.exports = {setPosition};
+module.exports = {setPosition}
 
-},{}],79:[function(require,module,exports){
-const {reducer} = require("./reducer");
-const {toAwait} = require("./toAwait");
-const {toNumber} = require("./toNumber");
+},{}],80:[function(require,module,exports){
+const {reducer} = require("./reducer")
+const {toAwait} = require("./toAwait")
+const {toNumber} = require("./toNumber")
 
 const sort = ({VALUE, STATE, params = {}, id, e}) => {
-  var local = VALUE[id];
-  if (!local) return;
+  var local = VALUE[id]
+  if (!local) return
 
-  var sort = params.sort || {};
-  var Data = sort.Data || local.Data;
-  var options = STATE[`${Data}-options`];
-  var data = STATE[Data];
+  var sort = params.sort || {}
+  var Data = sort.Data || local.Data
+  var options = STATE[`${Data}-options`]
+  var data = sort.data || STATE[Data]
 
-  options.sort = options.sort === "ascending" ? "descending" : "ascending";
-  var path = (sort.path || "").split(".");
-  let isDate = false;
+  options.sort = options.sort === "ascending" ? "descending" : "ascending"
+  var path = (sort.path || "").split(".")
+  let isDate = false
 
   data.sort((a, b) => {
-    a = reducer({VALUE, STATE, id, params: {path, object: a}}) || "!";
+    a = reducer({VALUE, STATE, id, params: {path, object: a}}) || "!"
     if (a !== undefined) {
-      a = a.toString();
+      a = a.toString()
 
       // date
       if (a.split("-")[2] && !isNaN(a.split("-")[2].split("T")[0])) {
-        var year = parseInt(a.split("-")[2].split("T")[0]);
-        var month = parseInt(a.split("-")[1]);
-        var day = parseInt(a.split("-")[0]);
-        a = {year, month, day};
-        isDate = true;
+        var year = parseInt(a.split("-")[2].split("T")[0])
+        var month = parseInt(a.split("-")[1])
+        var day = parseInt(a.split("-")[0])
+        a = {year, month, day}
+        isDate = true
       }
 
       // number
-      else a = toNumber(a);
+      else a = toNumber(a)
     }
 
-    b = reducer({VALUE, STATE, id, params: {path, object: b}}) || "!";
+    b = reducer({VALUE, STATE, id, params: {path, object: b}}) || "!"
     if (b !== undefined) {
-      b = b.toString();
+      b = b.toString()
 
       // date
       if (b.split("-")[2] && !isNaN(b.split("-")[2].split("T")[0])) {
-        var year = parseInt(b.split("-")[2].split("T")[0]);
-        var month = parseInt(b.split("-")[1]);
-        var day = parseInt(b.split("-")[0]);
-        b = {year, month, day};
-        isDate = true;
+        var year = parseInt(b.split("-")[2].split("T")[0])
+        var month = parseInt(b.split("-")[1])
+        var day = parseInt(b.split("-")[0])
+        b = {year, month, day}
+        isDate = true
       }
 
       // number
-      else b = toNumber(b);
+      else b = toNumber(b)
     }
 
     if ((!isNaN(a) && b === "!") || (!isNaN(b) && a === "!")) {
-      if (a === "!") a = 0;
-      else if (b === "!") b = 0;
+      if (a === "!") a = 0
+      else if (b === "!") b = 0
     }
 
     if ((!isNaN(a) && isNaN(b)) || (!isNaN(b) && isNaN(a))) {
@@ -5564,54 +5604,56 @@ const sort = ({VALUE, STATE, params = {}, id, e}) => {
       if (isDate) {
         if (b.year === a.year) {
           if (b.month === a.month) {
-            if (a.day === b.day) return 0;
-            else if (a.day > b.day) return 1;
-            else return -1;
+            if (a.day === b.day) return 0
+            else if (a.day > b.day) return 1
+            else return -1
           } else {
-            if (a.month > b.month) return 1;
-            else return -1;
+            if (a.month > b.month) return 1
+            else return -1
           }
         } else {
-          if (a.year > b.year) return 1;
-          else return -1;
+          if (a.year > b.year) return 1
+          else return -1
         }
       }
 
-      if (!isNaN(a) && !isNaN(b)) return b - a;
+      if (!isNaN(a) && !isNaN(b)) return b - a
 
-      if (a < b) return -1;
-      return a > b ? 1 : 0;
+      if (a < b) return -1
+      return a > b ? 1 : 0
     } else {
       if (isDate) {
         if (b.year === a.year) {
           if (b.month === a.month) {
-            if (a.day === b.day) return 0;
-            else if (a.day < b.day) return 1;
-            else return -1;
+            if (a.day === b.day) return 0
+            else if (a.day < b.day) return 1
+            else return -1
           } else {
-            if (a.month < b.month) return 1;
-            else return -1;
+            if (a.month < b.month) return 1
+            else return -1
           }
         } else {
-          if (a.year < b.year) return 1;
-          else return -1;
+          if (a.year < b.year) return 1
+          else return -1
         }
       }
 
-      if (!isNaN(a) && !isNaN(b)) return a - b;
+      if (!isNaN(a) && !isNaN(b)) return a - b
 
-      if (b < a) return -1;
-      return b > a ? 1 : 0;
+      if (b < a) return -1
+      return b > a ? 1 : 0
     }
-  });
+  })
+
+  STATE[Data] = data
 
   // await params
-  toAwait({VALUE, STATE, id, e, params});
-};
+  toAwait({VALUE, STATE, id, e, params})
+}
 
-module.exports = {sort};
+module.exports = {sort}
 
-},{"./reducer":69,"./toAwait":86,"./toNumber":92}],80:[function(require,module,exports){
+},{"./reducer":70,"./toAwait":87,"./toNumber":94}],81:[function(require,module,exports){
 const control = require("../control/control")
 const {toArray} = require("./toArray")
 
@@ -5674,7 +5716,7 @@ const starter = ({ STATE, VALUE, id }) => {
 
 module.exports = {starter}
 
-},{"../control/control":18,"./controls":34,"./defaultInputHandler":43,"./event":48,"./isArabic":57,"./style":82,"./toArray":85}],81:[function(require,module,exports){
+},{"../control/control":18,"./controls":35,"./defaultInputHandler":44,"./event":49,"./isArabic":58,"./style":83,"./toArray":86}],82:[function(require,module,exports){
 const setState = ({STATE, params}) => {
   // push states to route
   /* if (params.route) pushRoute({ params })
@@ -5688,7 +5730,7 @@ const setState = ({STATE, params}) => {
 
 module.exports = {setState};
 
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 const {resize} = require("./resize");
 const {toArray} = require("./toArray");
 
@@ -5798,7 +5840,7 @@ const mountAfterStyles = ({VALUE, params, id}) => {
 
 module.exports = {setStyle, resetStyles, toggleStyles, mountAfterStyles};
 
-},{"./resize":72,"./toArray":85}],83:[function(require,module,exports){
+},{"./resize":73,"./toArray":86}],84:[function(require,module,exports){
 const textarea = ({VALUE, id}) => {
   const local = VALUE[id];
   if (!local) return;
@@ -5826,7 +5868,7 @@ const textarea = ({VALUE, id}) => {
 
 module.exports = {textarea};
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 const {isArabic} = require("./isArabic");
 const {isEqual} = require("./isEqual");
 const {generate} = require("./generate");
@@ -6108,14 +6150,14 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
 
 module.exports = {toApproval};
 
-},{"./duplicate":46,"./generate":54,"./getParam":56,"./isArabic":57,"./isEqual":58,"./overflow":64,"./reducer":69,"./toCode":87,"./toValue":99}],85:[function(require,module,exports){
+},{"./duplicate":47,"./generate":55,"./getParam":57,"./isArabic":58,"./isEqual":59,"./overflow":65,"./reducer":70,"./toCode":89,"./toValue":101}],86:[function(require,module,exports){
 const toArray = (data) => {
   return data !== undefined ? (Array.isArray(data) ? data : [data]) : [];
 };
 
 module.exports = {toArray};
 
-},{}],86:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 const {clone} = require("./clone");
 
 module.exports = {
@@ -6140,7 +6182,82 @@ module.exports = {
   },
 };
 
-},{"./clone":32,"./execute":49,"./toParam":93}],87:[function(require,module,exports){
+},{"./clone":32,"./execute":50,"./toParam":95}],88:[function(require,module,exports){
+module.exports = {
+    toCSV: ({ VALUE, STATE, id, e, params = {} }) => {
+
+        var file = params.file
+        var data = file.data
+        var fileName = file.name
+
+        var CSV = ''
+        //Set Report title in first row or line
+
+        CSV += fileName + '\r\n\n'
+
+        //This condition will generate the Label/Header
+        var row = ""
+        var keys = []
+
+        // get all keys
+        data.slice(0, 5).map(data => {
+            Object.keys(data).map(key => {
+                if (!keys.includes(key)) keys.push(key)
+            })
+        })
+
+        //This loop will extract the label from 1st index of on array
+        keys.map(key => row += key + ',')
+
+        row = row.slice(0, -1)
+
+        //append Label row with line break
+        CSV += row + '\r\n'
+
+        //1st loop is to extract each row
+        data.map((d, i) => {
+            var row = ""
+
+            //2nd loop will extract each column and convert it in string comma-seprated
+            keys.map(k => row += '"' + d[k] + '",')
+
+            row = row.slice(0, -1)
+
+            //add a line break after each row
+            CSV += row + '\r\n'
+        })
+
+        if (CSV == '') {
+            alert("Invalid data")
+            return
+        }
+
+        //this will remove the blank-spaces from the title and replace it with an underscore
+        var blob = new Blob([CSV], { type: 'text/csv;charset=utf-8;' })
+
+        if (navigator.msSaveBlob) { // IE 10+
+
+            navigator.msSaveBlob(blob, fileName)
+
+        } else {
+
+            var link = document.createElement("a")
+            if (link.download !== undefined) { // feature detection
+
+                // Browsers that support HTML5 download attribute
+                var url = URL.createObjectURL(blob)
+                link.setAttribute("href", url)
+                link.style = "visibility:hidden"
+                link.download = fileName + ".csv"
+                document.body.appendChild(link)
+                link.click()
+                document.body.removeChild(link)
+
+            }
+        }
+    }
+}
+},{}],89:[function(require,module,exports){
 const {generate} = require("./generate");
 
 const toCode = ({VALUE, STATE, string, e, id}) => {
@@ -6182,7 +6299,7 @@ const toCode = ({VALUE, STATE, string, e, id}) => {
 
 module.exports = {toCode};
 
-},{"./generate":54}],88:[function(require,module,exports){
+},{"./generate":55}],90:[function(require,module,exports){
 const {generate} = require("./generate");
 const {toArray} = require("./toArray");
 
@@ -6215,7 +6332,7 @@ const toComponent = (obj) => {
 
 module.exports = {toComponent};
 
-},{"./generate":54,"./toArray":85}],89:[function(require,module,exports){
+},{"./generate":55,"./toArray":86}],91:[function(require,module,exports){
 const {controls} = require("./controls");
 const control = require("../control/control");
 
@@ -6241,15 +6358,15 @@ const toControls = ({VALUE, STATE, params, id}) => {
 
 module.exports = {toControls};
 
-},{"../control/control":18,"./controls":34}],90:[function(require,module,exports){
+},{"../control/control":18,"./controls":35}],92:[function(require,module,exports){
 module.exports = {
     toFirebaseOperator: (string) => {
         if (!string || string === 'equal' || string === 'equals' || string === 'equalsTo' || string === 'equalTo') return '=='
         if (string === 'notEqual' || string === 'different') return '!='
         if (string === 'greaterOrEqual' || string === 'greaterorequal') return '>='
         if (string === 'lessOrEqual' || string === 'lessorequal') return '<='
-        if (string === 'lessthan' || string === 'lessThan') return '<'
-        if (string === 'greaterthan' || string === 'greaterThan') return '>'
+        if (string === 'less' || string === 'lessthan' || string === 'lessThan') return '<'
+        if (string === 'greater' || string === 'greaterthan' || string === 'greaterThan') return '>'
         if (string === 'contains' || string === 'contain') return 'array-contains'
         if (string === '!contains' || string === 'doesnotContain' || string === 'doesnotcontain') return 'array-contains-any'
         if (string === 'includes' || string === 'include') return 'in'
@@ -6257,7 +6374,7 @@ module.exports = {
         else return string
     }
 }
-},{}],91:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 const {clone} = require("./clone");
 const {toValue} = require("./toValue");
 
@@ -6279,7 +6396,7 @@ const toId = ({VALUE, STATE, id, string, e}) => {
 
 module.exports = {toId};
 
-},{"./clone":32,"./toValue":99}],92:[function(require,module,exports){
+},{"./clone":32,"./toValue":101}],94:[function(require,module,exports){
 module.exports = {
   toNumber: (string) => {
     
@@ -6297,7 +6414,7 @@ module.exports = {
   },
 };
 
-},{}],93:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 const {toValue} = require("./toValue");
 const {reducer} = require("./reducer");
 const { toCode } = require("./toCode");
@@ -6422,7 +6539,7 @@ function addDays(theDate, days) {
 
 module.exports = {toParam};
 
-},{"./reducer":69,"./toApproval":84,"./toCode":87,"./toValue":99}],94:[function(require,module,exports){
+},{"./reducer":70,"./toApproval":85,"./toCode":89,"./toValue":101}],96:[function(require,module,exports){
 const toPath = ({VALUE, STATE, string, e, id}) => {
   /* const {toValue} = require("./toValue");
   let keys = [];
@@ -6474,14 +6591,14 @@ const toPath = ({VALUE, STATE, string, e, id}) => {
 
 module.exports = {toPath};
 
-},{}],95:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 module.exports = {
   toPrice: (string) => {
     return string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   },
 };
 
-},{}],96:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 const toString = (object) => {
   if (!object) return "";
 
@@ -6504,7 +6621,7 @@ const toString = (object) => {
 
 module.exports = {toString};
 
-},{}],97:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 module.exports = {
   toStyle: ({VALUE, STATE, id}) => {
     const local = VALUE[id];
@@ -6558,7 +6675,7 @@ module.exports = {
   },
 };
 
-},{}],98:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 const {toStyle} = require("./toStyle");
 const {toArray} = require("./toArray");
 const {generate} = require("./generate");
@@ -6664,7 +6781,7 @@ module.exports = {
   },
 };
 
-},{"./clone":32,"./createElement":38,"./generate":54,"./toArray":85,"./toStyle":97,"path":3}],99:[function(require,module,exports){
+},{"./clone":32,"./createElement":39,"./generate":55,"./toArray":86,"./toStyle":99,"path":3}],101:[function(require,module,exports){
 const {generate} = require("./generate");
 const {reducer} = require("./reducer");
 
@@ -6841,7 +6958,7 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, id, e}) => {
 
 module.exports = {toValue};
 
-},{"./generate":54,"./reducer":69,"./toApproval":84}],100:[function(require,module,exports){
+},{"./generate":55,"./reducer":70,"./toApproval":85}],102:[function(require,module,exports){
 module.exports = {
     toggleView: ({ VALUE, STATE, id, e, params }) => {
         const { execute } = require("./execute")
@@ -6856,7 +6973,7 @@ module.exports = {
         execute({ VALUE, STATE, e, id, actions })
     }
 }
-},{"./execute":49}],101:[function(require,module,exports){
+},{"./execute":50}],103:[function(require,module,exports){
 const {generate} = require("./generate");
 const {starter} = require("./starter");
 const {setElement} = require("./setElement");
@@ -6923,7 +7040,7 @@ const removeIds = ({VALUE, id}) => {
 
 module.exports = {update, removeIds};
 
-},{"./clone":32,"./createElement":38,"./generate":54,"./setElement":77,"./starter":80,"./toArray":85}],102:[function(require,module,exports){
+},{"./clone":32,"./createElement":39,"./generate":55,"./setElement":78,"./starter":81,"./toArray":86}],104:[function(require,module,exports){
 const { capitalize } = require("./capitalize")
 const { save } = require("./save")
 const { toAwait } = require("./toAwait")
@@ -6948,13 +7065,13 @@ module.exports = {
         !upload.save && toAwait({ VALUE, STATE, id, params, e })
     }
 }
-},{"./capitalize":30,"./save":73,"./toAwait":86}],103:[function(require,module,exports){
+},{"./capitalize":30,"./save":74,"./toAwait":87}],105:[function(require,module,exports){
 module.exports = {
     values: (object) => {
         return Object.values(object)
     }
 }
-},{}],104:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 const { toApproval } = require("./toApproval")
 const { clone } = require("./clone")
 const { toParam } = require("./toParam")
@@ -7012,7 +7129,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {watch}
-},{"./clone":32,"./execute":49,"./isEqual":58,"./toApproval":84,"./toParam":93,"./toValue":99}],105:[function(require,module,exports){
+},{"./clone":32,"./execute":50,"./isEqual":59,"./toApproval":85,"./toParam":95,"./toValue":101}],107:[function(require,module,exports){
 (function (process){(function (){
 /* @flow */
 /*::

@@ -12,7 +12,11 @@
             "children": [{
                 "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem"
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "controls": {
+                    "event": "click??state.provider;state.provider.length().isgreaterthan().0",
+                    "actions": "toCSV?file.data=state.provider.clone();file.name=Provider List"
+                }
             }, {
                 "type": "Button?text=Add New Provider;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=provider"
             }]
@@ -28,7 +32,7 @@
                     "actions": "async.search?search.path=provider;search.limit=10000;await.state.provider=value.search.data"
                 }, {
                     "event": "keyup>>200??state.provider-list-Data",
-                    "actions": "await.update::provider-list-view;async.filter?filter.backup=state.provider.clone();filter.path=[id,name,phone-number,type,address,owner.name];filter.Data=provider-list-Data;filter.value=e.target.value"
+                    "actions": "await.update::provider-list-view;async.filter?filter.backup=state.provider.clone();filter.path=[id,name,phone-number,type,address,owner.name];filter.Data=provider-list-Data;filter.value.include=e.target.value"
                 }]
             }, {
                 "type": "View?class=flex-box",

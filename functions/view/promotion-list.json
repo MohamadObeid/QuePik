@@ -1,0 +1,131 @@
+{
+    "type": "View?class=flex-column;style.flex=1;state.promotion-list-grid-view-display=grid;state.promotion-list-table-view-display=none;state.promotion-list-Data=[]",
+    "controls": {
+        "actions": "await.update::promotion-list-view;async.search?search.path=promotion;await.state.promotion-list-Data=value.search.data;await.state.promotion=value.search.data" 
+    },
+    "children": [{
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
+        "children": [{
+            "type": "Text?text=Promotion List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
+        }, {
+            "type": "View?class=flex-box",
+            "children": [{
+                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
+            }, {
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "controls": {
+                    "event": "click??state.promotion;state.promotion.length().isgreaterthan().0",
+                    "actions": "toCSV?file.data=state.promotion.clone();file.name=Promotion List"
+                }
+            }, {
+                "type": "Button?text=Add New Promotion;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=promotion"
+            }]
+        }]
+    }, {
+        "type": "View?style.display=flex;style.flexDirection=column;style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee;style.flex=1",
+        "children": [{
+            "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
+            "children": [{
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by id, name, description...",
+                "controls": [{
+                    "event": "loaded",
+                    "actions": "async.search?search.path=promotion;search.limit=10000;await.state.promotion=value.search.data"
+                }, {
+                    "event": "keyup>>200??state.promotion-list-Data",
+                    "actions": "await.update::promotion-list-view;async.filter?filter.backup=state.promotion.clone();filter.path=[id,name,description,type];filter.Data=promotion-list-Data;filter.value.include=e.target.value"
+                }]
+            }, {
+                "type": "View?class=flex-box",
+                "children": [{
+                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
+                    "controls": {
+                        "event": "click??state.promotion-list-Data", 
+                        "actions": "await.update::promotion-list-view;async.sort?sort.path=creation-date;sort.Data=promotion-list-Data"
+                    }
+                }, {
+                    "type": "Button?text=View;icon.name=bi-list-ul",
+                    "controls": {
+                        "event": "click?await.state.promotion-list-grid-view-display=global.promotion-list-view.1stChild().element.style.display;await.state.promotion-list-table-view-display=global.promotion-list-view.2ndChild().element.style.display", 
+                        "actions": [
+                            "setStyle::global.promotion-list-view.1stChild().id?style.display=none<<global.promotion-list-view.1stChild().element.style.display=grid;style.display=grid<<global.promotion-list-view.1stChild().element.style.display=none",
+                            "setStyle::global.promotion-list-view.2ndChild().id?style.display=none<<global.promotion-list-view.2ndChild().element.style.display=grid;style.display=grid<<global.promotion-list-view.2ndChild().element.style.display=none"
+                        ]
+                    }
+                }]
+            }]
+        }, {
+            "type": "View?id=promotion-list-view;style.display=flex;style.flexDirection=column;style.width=100%;style.flex=1",
+            "children": [{
+                "type": "View?style.display=state.promotion-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
+                "children": [{
+                    "type": "[View]?class=flex-box pointer;Data=promotion-list-Data;touchableOpacity;style.padding=2rem;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.promotion-list-Data;state.promotion-list-Data.length()!=0",
+                    "controls": {
+                        "event": "loaded",
+                        "actions": "toControls?hoverable.id=[value.id,value.children().0.id,value.children().1.id];miniWindow.view=promotion"
+                    },
+                    "children": [{
+                        "type": "Text?text=value.data.name;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s;style.marginBottom=.7rem"
+                    }, {
+                        "type": "Text?text=value.data.discount.[value.data().discount.key()].add(). .add().[value.data().discount.key()];style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
+                    }]
+                }]
+            }, {
+                "type": "View?style.display=state.promotion-list-table-view-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
+                "children": [{
+                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 1fr 3fr 1fr;style.minHeight=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem",
+                    "children": [{
+                        "type": "Text?text=Active;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content;sorter.id=const.value.parent().next().id;sorter.path=active;sorter.Data=promotion-list-Data"
+                    }, {
+                        "type": "Text?text=Name;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content;sorter.id=const.value.parent().next().id;sorter.path=name;sorter.Data=promotion-list-Data"
+                    }, {
+                        "type": "Text?text=Code;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content;sorter.id=const.value.parent().next().id;sorter.path=code;sorter.Data=promotion-list-Data"
+                    }, {
+                        "type": "Text?text=Discount;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content;sorter.id=const.value.parent().next().id;sorter.path=discount.lbp;sorter.Data=promotion-list-Data"
+                    }, {
+                        "type": "Text?text=Description;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content;sorter.id=const.value.parent().next().id;sorter.path=description;sorter.Data=promotion-list-Data"
+                    }, {
+                        "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
+                    }]
+                }, {
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr;flicker",
+                    "children": [{
+                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 1fr 3fr 1fr;style.minHeight=5.5rem;Data=promotion-list-Data;data=state.promotion-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.promotion-list-Data;state.promotion-list-Data.length()!=0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-circle<<!value.data.active;icon.name=bi-circle-fill<<value.data.active;style.fontSize=1.4rem;style.color=lime<<value.data.active;style.color=#ddd<<!value.data.active;style.textAlign=center"
+                        }, {
+                            "type": "Text?class=dots;text=value.data.name;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;text=value.data.code;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;text=value.data.discount.lbp.add(). .add().lbp<<value.data.discount.lbp;text=value.data.discount.%.add(). .add().%<<value.data.discount.%;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;text=value.data.description;style.fontSize=1.4rem"
+                        }, {
+                            "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%;style.marginRight=1rem",
+                            "children": [{
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=promotion"
+                            }, {
+                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=promotion;popup.update=promotion-list-view;popup.note=Promotion removed successfully!;popup.type=eraser;popup.text=Do you want to delete this promotion/?;popup.state=promotion"
+                            }]
+                        }]
+                    }]
+                }]
+            }, {
+                "type": "View?class=flex-box;style.flex=1;style.alignItems=end;style.justifyContent=flex-end;style.marginTop=2rem",
+                "children": [{
+                    "type": "Button?icon.name=bi-chevron-left",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::promotion-list-view;async.search?search.path=promotion;search.limitToLast=25;search.endBefore=state.promotion-list-Data.0.creation-date;await.state.promotion-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }, {
+                    "type": "Button?icon.name=bi-chevron-right;style.flexDirection=row-reverse",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::promotion-list-view;async.search?search.path=promotion;search.startAfter=state.promotion-list-Data.[state.promotion-list-Data.length().subs().1].creation-date;await.state.promotion-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }]
+            }]
+        }]
+    }]
+}

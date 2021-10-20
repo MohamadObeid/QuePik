@@ -1,7 +1,12 @@
-const {toArray} = require("./toArray")
-const {toAwait} = require("./toAwait")
+const { isEqual } = require("./isEqual")
+const { toArray } = require("./toArray")
+const { toAwait } = require("./toAwait")
+const { compare } = require("./compare")
+const { toFirebaseOperator } = require("./toFirebaseOperator")
+const { clone } = require("./clone")
 
 const filter = ({VALUE, STATE, params = {}, id, e}) => {
+
   var local = VALUE[id]
   if (!local) return
 
@@ -15,20 +20,24 @@ const filter = ({VALUE, STATE, params = {}, id, e}) => {
   var backup = filter.backup
   var value = filter.value
 
-  if (options.filter === value) return options.filter = value
+  if (!value || isEqual(options.filter, value)) {
 
-  // reset backup filter options
-  options.filter = value
-  
-  // empty value
-  if (value === undefined || value === "") STATE[Data] = backup
-  else {
-    // remove spaces
-    value = value.split(" ").join("").toLowerCase()
+    options.filter = clone(value)
+    data = backup
 
+  } else {
+
+    // reset backup filter options
+    options.filter = clone(value)
+    
+      // remove spaces
+    Object.entries(value).map(([k, v]) => value[k] = v.toString().split(" ").join("").toLowerCase())
+    
     var data = []
     data.push(
-      ...backup.filter(data => path
+      ...backup.filter(data => {
+        return !Object.entries(value).map(([o, v]) => 
+        compare(path
         .map(path => (path
         .reduce((o, k) => o[k], data) || '')
         .toString()
@@ -36,13 +45,15 @@ const filter = ({VALUE, STATE, params = {}, id, e}) => {
         .split(" ")
         .join("")
         )
+        .join(""),
+        toFirebaseOperator(o), v))
         .join("")
-        .includes(value)
-      )
+        .includes("false")
+      })
     )
-
-    STATE[Data] = data
   }
+  
+  STATE[Data] = data
 
   // await params
   toAwait({VALUE, STATE, id, e, params})

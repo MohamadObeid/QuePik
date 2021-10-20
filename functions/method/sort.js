@@ -1,58 +1,58 @@
-const {reducer} = require("./reducer");
-const {toAwait} = require("./toAwait");
-const {toNumber} = require("./toNumber");
+const {reducer} = require("./reducer")
+const {toAwait} = require("./toAwait")
+const {toNumber} = require("./toNumber")
 
 const sort = ({VALUE, STATE, params = {}, id, e}) => {
-  var local = VALUE[id];
-  if (!local) return;
+  var local = VALUE[id]
+  if (!local) return
 
-  var sort = params.sort || {};
-  var Data = sort.Data || local.Data;
-  var options = STATE[`${Data}-options`];
-  var data = STATE[Data];
+  var sort = params.sort || {}
+  var Data = sort.Data || local.Data
+  var options = STATE[`${Data}-options`]
+  var data = sort.data || STATE[Data]
 
-  options.sort = options.sort === "ascending" ? "descending" : "ascending";
-  var path = (sort.path || "").split(".");
-  let isDate = false;
+  options.sort = options.sort === "ascending" ? "descending" : "ascending"
+  var path = (sort.path || "").split(".")
+  let isDate = false
 
   data.sort((a, b) => {
-    a = reducer({VALUE, STATE, id, params: {path, object: a}}) || "!";
+    a = reducer({VALUE, STATE, id, params: {path, object: a}}) || "!"
     if (a !== undefined) {
-      a = a.toString();
+      a = a.toString()
 
       // date
       if (a.split("-")[2] && !isNaN(a.split("-")[2].split("T")[0])) {
-        var year = parseInt(a.split("-")[2].split("T")[0]);
-        var month = parseInt(a.split("-")[1]);
-        var day = parseInt(a.split("-")[0]);
-        a = {year, month, day};
-        isDate = true;
+        var year = parseInt(a.split("-")[2].split("T")[0])
+        var month = parseInt(a.split("-")[1])
+        var day = parseInt(a.split("-")[0])
+        a = {year, month, day}
+        isDate = true
       }
 
       // number
-      else a = toNumber(a);
+      else a = toNumber(a)
     }
 
-    b = reducer({VALUE, STATE, id, params: {path, object: b}}) || "!";
+    b = reducer({VALUE, STATE, id, params: {path, object: b}}) || "!"
     if (b !== undefined) {
-      b = b.toString();
+      b = b.toString()
 
       // date
       if (b.split("-")[2] && !isNaN(b.split("-")[2].split("T")[0])) {
-        var year = parseInt(b.split("-")[2].split("T")[0]);
-        var month = parseInt(b.split("-")[1]);
-        var day = parseInt(b.split("-")[0]);
-        b = {year, month, day};
-        isDate = true;
+        var year = parseInt(b.split("-")[2].split("T")[0])
+        var month = parseInt(b.split("-")[1])
+        var day = parseInt(b.split("-")[0])
+        b = {year, month, day}
+        isDate = true
       }
 
       // number
-      else b = toNumber(b);
+      else b = toNumber(b)
     }
 
     if ((!isNaN(a) && b === "!") || (!isNaN(b) && a === "!")) {
-      if (a === "!") a = 0;
-      else if (b === "!") b = 0;
+      if (a === "!") a = 0
+      else if (b === "!") b = 0
     }
 
     if ((!isNaN(a) && isNaN(b)) || (!isNaN(b) && isNaN(a))) {
@@ -64,49 +64,51 @@ const sort = ({VALUE, STATE, params = {}, id, e}) => {
       if (isDate) {
         if (b.year === a.year) {
           if (b.month === a.month) {
-            if (a.day === b.day) return 0;
-            else if (a.day > b.day) return 1;
-            else return -1;
+            if (a.day === b.day) return 0
+            else if (a.day > b.day) return 1
+            else return -1
           } else {
-            if (a.month > b.month) return 1;
-            else return -1;
+            if (a.month > b.month) return 1
+            else return -1
           }
         } else {
-          if (a.year > b.year) return 1;
-          else return -1;
+          if (a.year > b.year) return 1
+          else return -1
         }
       }
 
-      if (!isNaN(a) && !isNaN(b)) return b - a;
+      if (!isNaN(a) && !isNaN(b)) return b - a
 
-      if (a < b) return -1;
-      return a > b ? 1 : 0;
+      if (a < b) return -1
+      return a > b ? 1 : 0
     } else {
       if (isDate) {
         if (b.year === a.year) {
           if (b.month === a.month) {
-            if (a.day === b.day) return 0;
-            else if (a.day < b.day) return 1;
-            else return -1;
+            if (a.day === b.day) return 0
+            else if (a.day < b.day) return 1
+            else return -1
           } else {
-            if (a.month < b.month) return 1;
-            else return -1;
+            if (a.month < b.month) return 1
+            else return -1
           }
         } else {
-          if (a.year < b.year) return 1;
-          else return -1;
+          if (a.year < b.year) return 1
+          else return -1
         }
       }
 
-      if (!isNaN(a) && !isNaN(b)) return a - b;
+      if (!isNaN(a) && !isNaN(b)) return a - b
 
-      if (b < a) return -1;
-      return b > a ? 1 : 0;
+      if (b < a) return -1
+      return b > a ? 1 : 0
     }
-  });
+  })
+
+  STATE[Data] = data
 
   // await params
-  toAwait({VALUE, STATE, id, e, params});
-};
+  toAwait({VALUE, STATE, id, e, params})
+}
 
-module.exports = {sort};
+module.exports = {sort}

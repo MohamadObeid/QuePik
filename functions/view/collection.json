@@ -21,7 +21,7 @@
             }, {
                 "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
                 "controls": [{
-                    "event": "click",
+                    "event": "click?state.collection-list-Data.findById().[value.Data().id]=state.collection.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window;remove>>220::global.mini-window-view.element.children.0.id?style.display=none>>200;style.opacity=0"
                 }]
             }, {
@@ -52,7 +52,7 @@
                 "children": [{
                     "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=name"
                 }, {
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Type List>>readonly,category,image,offer,provider,service,user,booking]",
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=type;droplist.items=[Type List>>readonly,category,image,promotion,provider,service,user,booking]",
                     "controls": {
                         "watch": "value.data()",
                         "actions": "async.search?search.path=value.data();await.state.[value.data()]=value.search.data?!state.[value.data()]"

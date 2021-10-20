@@ -12,7 +12,11 @@
             "children": [{
                 "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem"
+                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "controls": {
+                    "event": "click??state.review;state.review.length().isgreaterthan().0",
+                    "actions": "toCSV?file.data=state.review.clone();file.name=Review List"
+                }
             }, {
                 "type": "Button?text=Add New Review;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=review"
             }]
@@ -28,7 +32,7 @@
                     "actions": "async.search?search.path=review;search.limit=10000;await.state.review=value.search.data"
                 }, {
                     "event": "keyup>>200??state.review-list-Data",
-                    "actions": "await.update::review-list-view;async.filter?filter.backup=state.review.clone();filter.path=[id,service.name,user.name,time,description,provider.name];filter.Data=review-list-Data;filter.value=e.target.value"
+                    "actions": "await.update::review-list-view;async.filter?filter.backup=state.review.clone();filter.path=[id,service.name,user.name,time,description,provider.name];filter.Data=review-list-Data;filter.value.include=e.target.value"
                 }]
             }, {
                 "type": "View?class=flex-box",

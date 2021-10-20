@@ -1,5 +1,4 @@
 {
-    "file-name": "asset",
     "type": "View?style.padding=2rem;data={}<<!value.data()",
     "controls": {
         "event": "loaded",
@@ -18,7 +17,7 @@
             }, {
                 "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
                 "controls": [{
-                    "event": "click",
+                    "event": "click?state.asset-list-Data.findById().[value.Data().id]=state.asset.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window;remove>>220::global.mini-window-view.element.children.0.id?style.display=none>>200;style.opacity=0"
                 }]
             }, {
@@ -72,23 +71,12 @@
         }, {
             "type": "Text?class=flex-start;text=Options;style.marginBottom=.7rem;style.fontSize=1.4rem"
         }, {
-            "type": "View?style.display=grid;style.marginBottom=1rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().options=[]<<!value.Data().options",
+            "type": "View?style.display=grid;style.marginBottom=1rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;value.Data().options=[{}]<<!value.Data().options",
             "children": [{
-                "type": "[Input]?textarea;featured;removable;clearable;style.backgroundColor=#f0f0f0;path=options;flicker",
+                "type": "[Input]?textarea;featured;duplicatable;clearable;style.backgroundColor=#f0f0f0;path=options;flicker",
                 "controls": [{
-                    "event": "loaded?value.derivations=value.derivations.push().name;value.element.value=value.data()"
+                    "event": "loaded?value.derivations=value.derivations.push().name;value.element.value=value.data()||''"
                 }]
-            }]
-        }, {
-            "type": "View?class=flex-box;style.justifyContent=flex-start;style.marginBottom=2rem",
-            "children": [{
-                "type": "Icon?class=pointer;icon.name=bi-patch-plus-fill;style.color=#444;style.after.color=#0d6efd;style.marginRight=.5rem",
-                "controls": {
-                    "event": "click",
-                    "actions": "duplicate::value.parent().prev().1stChild().id?duplicate.path=options?value.Data().options.0.name"
-                }
-            }, {
-                "type": "Text?text=Add more;style.fontSize=1.4rem"
             }]
         }]
     }]

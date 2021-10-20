@@ -57,7 +57,7 @@ const droplist = ({VALUE, STATE, id, e}) => {
       }
 
       return {
-        type: `Item?text=const.${item};readonly=${readonly}`,
+        type: `Item?text.text=const.${item};readonly=${readonly}`,
         controls: [{
           event: `click?value.element.${isInput ? "value" : "innerHTML"}::${id}=${item}<<!${local.droplist.pause};value.data()<<!const.${local.lang}=${item};action.resize::${id}?!readonly;state.droplist=${id}`,
           actions: [

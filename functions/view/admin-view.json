@@ -1,5 +1,5 @@
 {
-    "type": "View?class=flex-column;style.width=100%;style.height=100vh",
+    "type": "View?class=flex-column;style.width=100%;style.height=100vh;style.position=relative",
     "controls": {
         "event": "loaded",
         "actions": "async.search?search.path=asset;await.state.asset=value.search.data?!state.asset"
