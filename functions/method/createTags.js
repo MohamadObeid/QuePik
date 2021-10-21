@@ -190,12 +190,14 @@ const componentModifier = ({VALUE, id}) => {
       local.input.defaultValue = local.defaultValue;
     }
   } else if (local.type === "Item") {
-    const parent = VALUE[local.parent];
+    const parent = VALUE[local.parent]
 
     if (local.index === 0) {
-      local.state = generate();
-      parent.state = local.state;
-    } else local.state = parent.state;
+
+      local.state = generate()
+      parent.state = local.state
+      
+    } else local.state = parent.state
   }
 };
 

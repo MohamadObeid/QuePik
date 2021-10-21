@@ -1005,7 +1005,8 @@ const Input = (component) => {
     component = toComponent(component)
     var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
         placeholder, textarea, filterable, clearable, removable, msg, day, disabled,
-        duplicatable, lang, unit, currency, google, key, note, edit, minlength } = component
+        duplicatable, lang, unit, currency, google, key, note, edit, minlength 
+    } = component
 
     if (duplicatable && typeof duplicatable !== "object") duplicatable = {}
     if (clearable && typeof clearable !== "object") clearable = {}
@@ -1231,6 +1232,7 @@ const Input = (component) => {
 
 module.exports = {Input}
 },{"../method/toComponent":90}],10:[function(require,module,exports){
+const { generate } = require("../method/generate")
 const { toComponent } = require("../method/toComponent")
 
 const Item = (component) => {
@@ -1422,7 +1424,7 @@ const Item = (component) => {
 
 module.exports = { Item }
 
-},{"../method/toComponent":90}],11:[function(require,module,exports){
+},{"../method/generate":55,"../method/toComponent":90}],11:[function(require,module,exports){
 const { toComponent } = require("../method/toComponent");
 
 const List = (component) => {
@@ -2581,8 +2583,8 @@ const createElement = ({STATE, VALUE, id}) => {
   // path
   let path =
     typeof local.path === "string" && local.path !== "" ?
-      local.path.split(".") :
-      [];
+      local.path.split(".") : []
+      
   if (path.length > 0) {
     if (!local.Data) {
       var state = (local.Data = generate())
@@ -2815,12 +2817,14 @@ const componentModifier = ({VALUE, id}) => {
       local.input.defaultValue = local.defaultValue;
     }
   } else if (local.type === "Item") {
-    const parent = VALUE[local.parent];
+    const parent = VALUE[local.parent]
 
     if (local.index === 0) {
-      local.state = generate();
-      parent.state = local.state;
-    } else local.state = parent.state;
+
+      local.state = generate()
+      parent.state = local.state
+      
+    } else local.state = parent.state
   }
 };
 
@@ -4185,7 +4189,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
     
     if (path[0] === 'global') {
         local = VALUE[path[1]]
-        id = path[1]
+        id = toValue({ VALUE, STATE, id, e, params: {value: path[1], params} })
         path = path.slice(1)
         path[0] = 'value'
     }
@@ -6215,7 +6219,7 @@ module.exports = {
         CSV += row + '\r\n'
 
         //1st loop is to extract each row
-        data.map((d, i) => {
+        data.map(d => {
             var row = ""
 
             //2nd loop will extract each column and convert it in string comma-seprated

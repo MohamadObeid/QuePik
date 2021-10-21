@@ -19,7 +19,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
     
     if (path[0] === 'global') {
         local = VALUE[path[1]]
-        id = path[1]
+        id = toValue({ VALUE, STATE, id, e, params: {value: path[1], params} })
         path = path.slice(1)
         path[0] = 'value'
     }

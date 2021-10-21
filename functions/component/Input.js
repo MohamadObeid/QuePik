@@ -15,7 +15,8 @@ const Input = (component) => {
     component = toComponent(component)
     var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
         placeholder, textarea, filterable, clearable, removable, msg, day, disabled,
-        duplicatable, lang, unit, currency, google, key, note, edit, minlength } = component
+        duplicatable, lang, unit, currency, google, key, note, edit, minlength 
+    } = component
 
     if (duplicatable && typeof duplicatable !== "object") duplicatable = {}
     if (clearable && typeof clearable !== "object") clearable = {}

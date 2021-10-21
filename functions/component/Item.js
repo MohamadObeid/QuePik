@@ -1,3 +1,4 @@
+const { generate } = require("../method/generate")
 const { toComponent } = require("../method/toComponent")
 
 const Item = (component) => {

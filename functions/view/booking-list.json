@@ -1,5 +1,5 @@
 {
-    "type": "View?class=flex-column;style.flex=1;state.booking-list-grid-view-display=grid;state.booking-list-table-view-display=none;state.booking-list-Data=[]",
+    "type": "View?class=flex-column;style.flex=1;state.booking-list-grid-view-display=grid;state.booking-list-table-view-display=none;state.booking=[];state.booking-list-Data=[]",
     "controls": {
         "actions": "await.update::booking-list-view;async.search?search.path=booking;await.state.booking-list-Data=value.search.data;await.state.booking=value.search.data" 
     },
@@ -32,7 +32,7 @@
                     "actions": "async.search?search.path=booking;search.limit=10000;await.state.booking=value.search.data"
                 }, {
                     "event": "keyup>>200??state.booking-list-Data",
-                    "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=[id,service.name,user.name,time,date,provider.name,status,payment.payable.lbp];filter.Data=booking-list-Data;filter.value.include=e.target.value"
+                    "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=[id,service.name,user.name,time,date,provider.name,status,payment.payable.lbp];filter.Data=booking-list-Data;filter.value.include=e.target.value?state.booking.length()!=0"
                 }]
             }, {
                 "type": "View?class=flex-box",
@@ -40,7 +40,7 @@
                     "type": "Button?text=Show All;icon.name=all_inclusive;icon.google;icon.outlined",
                     "controls": {
                         "event": "click??state.booking-list-Data", 
-                        "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.Data=booking-list-Data"
+                        "actions": "await.update::booking-list-view;await.resetStyles::state.[value.next().next().next().next().state];await.resetStyles::state.[value.next().next().state];async.filter?filter.backup=state.booking.clone();filter.Data=booking-list-Data?state.booking.length()!=0"
                     }
                 }, {
                     "type": "Button?text=By Status;icon.name=filter_list;icon.google;icon.outlined",
@@ -56,31 +56,31 @@
                         "type": "Item?text.text=Pending confirmation",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=pending confirmation<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=pending confirmation<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }, {
                         "type": "Item?text.text=Confirmed",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=confirmed<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=confirmed<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }, {
                         "type": "Item?text.text=Closed",
                         "controls": {
                             "event": "click??state.booking-list-Data",
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=closed<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=closed<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }, {
                         "type": "Item?text.text=Canceled",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=canceled<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=canceled<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }, {
                         "type": "Item?text.text=Rejected",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=rejected<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=status;filter.Data=booking-list-Data;filter.value.include=rejected<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }],
                     "controls": [{
@@ -104,25 +104,25 @@
                         "type": "Item?text.text=Today",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }, {
                         "type": "Item?text.text=Yesterday",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().86400000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().86400000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }, {
                         "type": "Item?text.text=Last Week",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().604800000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().604800000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }, {
                         "type": "Item?text.text=Last Month",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().2592000000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().2592000000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }],
                     "controls": [{

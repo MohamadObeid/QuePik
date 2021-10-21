@@ -97,8 +97,8 @@ const createElement = ({STATE, VALUE, id}) => {
   // path
   let path =
     typeof local.path === "string" && local.path !== "" ?
-      local.path.split(".") :
-      [];
+      local.path.split(".") : []
+      
   if (path.length > 0) {
     if (!local.Data) {
       var state = (local.Data = generate())

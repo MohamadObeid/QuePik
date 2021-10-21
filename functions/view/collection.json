@@ -129,7 +129,7 @@
         }, {
             "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=2fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
             "children": [{
-                "type": "Input?textarea;featured;duplicatable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
             }, {
                 "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
             }]
