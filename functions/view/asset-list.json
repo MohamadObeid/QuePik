@@ -62,7 +62,7 @@
             "children": [{
                 "type": "View?style.display=state.asset-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
-                    "type": "[View]?class=flex-box pointer;Data=asset-list-Data;touchableOpacity;style.padding=2rem;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.asset-list-Data;state.asset-list-Data.length()!=0",
+                    "type": "[View]?class=flex-box pointer;Data=asset-list-Data;touchableOpacity;style.padding=1.5rem;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.asset-list-Data;state.asset-list-Data.length()!=0",
                     "controls": {
                         "event": "loaded",
                         "actions": "toControls?hoverable.id=[value.id,value.children().0.id];miniWindow.view=asset"

@@ -8,7 +8,7 @@ const {toValue} = require("./toValue");
 const {reducer} = require("./reducer");
 const {toCode} = require("./toCode");
 
-const toApproval = ({STATE, VALUE, e, string, params, id}) => {
+const toApproval = ({STATE, VALUE, e, string, params, id, _}) => {
   const mainId = id;
 
   if (!string || typeof string !== "string") return true;
@@ -46,6 +46,8 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
         var key = condition[0];
         var value = condition[1];
 
+        if (key && key.includes('coded()') && key.length === 12) key = STATE.codes[key]
+
         // ex: key1=string1=string2=string3
         if (condition[2]) {
           condition[1] = condition[1].split("||");
@@ -53,20 +55,14 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
           // ex: key1=value1||key2=value2||key3=value3
           if (condition[1].length > 1) {
             condition[2] = condition.slice(2, condition.length).join("=");
-            approval = toApproval({
-              VALUE,
-              STATE,
-              e,
-              string: `${condition[0]}=${condition[1][0]}`,
-              id,
-            });
+            approval = toApproval({ VALUE, STATE, e, string: `${condition[0]}=${condition[1][0]}`, id, _ });
             if (approval) return;
 
             // approval isn't true yet => keep trying
             key = condition[1][1];
             value = condition.slice(2).join("=");
             string = `${key}=${value}`;
-            return (approval = toApproval({VALUE, STATE, e, string, id}));
+            return (approval = toApproval({VALUE, STATE, e, string, id, _}));
           }
 
           // ex: key=value1=value2=value3
@@ -80,13 +76,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
               }
             }
 
-            approval = toApproval({
-              VALUE,
-              STATE,
-              e,
-              string: `${key}=${condition[2]}`,
-              id,
-            });
+            approval = toApproval({ VALUE, STATE, e, string: `${key}=${condition[2]}`, id, _});
             if (!approval) return;
 
             // approval is true till now => keep going
@@ -102,17 +92,17 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
             // ex: key1=value1||key2=value2...
             if (value[1].includes("=")) {
               var string = `${key}=${value[0]}`;
-              approval = toApproval({VALUE, STATE, e, string, id});
+              approval = toApproval({VALUE, STATE, e, string, id, _});
               if (approval) return;
 
               string = value.slice(1).join("||");
-              return (approval = toApproval({VALUE, STATE, e, string, id}));
+              return (approval = toApproval({VALUE, STATE, e, string, id, _}));
             }
 
             // ex: key=value1||value2||value3
             value[1] = value.slice(1, value.length).join("||");
             var string = `${key}=${value[1]}`;
-            approval = toApproval({VALUE, STATE, e, string, id});
+            approval = toApproval({VALUE, STATE, e, string, id, _});
             if (approval) return;
 
             // approval isn't true yet => keep trying
@@ -152,7 +142,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
         // /////////////////// value /////////////////////
 
         if (value && value !== "undefined" && value !== "false") {
-          value = toValue({VALUE, STATE, id: mainId, params: {value}, e});
+          value = toValue({VALUE, STATE, id: mainId, params: {value}, e, _});
         }
 
         // /////////////////// key /////////////////////
@@ -163,7 +153,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
           key = key.split("::")[0];
 
           // id
-          id = toValue({VALUE, STATE, id, params: {value: newId}, e});
+          id = toValue({VALUE, STATE, id, params: {value: newId}, e, _});
         }
 
         var keygen = generate();
@@ -183,7 +173,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
           local[keygen] = false;
         } else if (key === "true") local[keygen] = true;
         else if (path[1]) {
-          local[keygen] = reducer({ VALUE, STATE, id, params: {path, value}, e, });
+          local[keygen] = reducer({ VALUE, STATE, id, params: {path, value}, e, _});
         } else if (key === "isArabic") {
           const isInput = local.type === "Input" || local.type === "Textarea";
           const result = isArabic(
@@ -238,7 +228,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
 
         // /////////////////// value /////////////////////
 
-        value = toValue({VALUE, STATE, id: mainId, params: {value}, e});
+        value = toValue({VALUE, STATE, id: mainId, params: {value}, e, _});
 
         // /////////////////// key /////////////////////
 
@@ -248,7 +238,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
           key = key.split("::")[0];
 
           // id
-          id = toValue({VALUE, STATE, id, params: {value: newId}, e});
+          id = toValue({VALUE, STATE, id, params: {value: newId}, e, _});
         }
 
         var local = VALUE[id];
@@ -265,6 +255,7 @@ const toApproval = ({STATE, VALUE, e, string, params, id}) => {
             id,
             params: {path, value},
             e,
+            _
           });
         }
 

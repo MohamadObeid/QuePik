@@ -46,7 +46,7 @@
                 }, {
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=today().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
                     "controls": {
                         "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }

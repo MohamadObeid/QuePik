@@ -1,11 +1,11 @@
 {
     "type": "View?style.padding=2rem;data={}<<!value.data()",
-    "controls": {
+    "controls": [{
         "event": "loaded",
         "actions": [
             "async.search?search.path=provider;await.state.provider=value.search.data?!state.provider"
         ]
-    },
+    }],
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;value.data().id=any.promotion-.add().generate()<<!value.data().id",
         "children": [{
@@ -21,12 +21,14 @@
                 "controls": [{
                     "event": "click?state.promotion-list-Data.findById().[value.Data().id]=state.promotion.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window;remove>>220::global.mini-window-view.element.children.0.id?style.display=none>>200;style.opacity=0"
+                }, {
+                    "event": "mousedown::mini-window?once;state.promotion-list-Data.findById().[value.Data().id]=state.promotion.clone().findById().[value.Data().id]"
                 }]
             }, {
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::promotion-list-view;await.setStyle::mini-window;await.note;async.save?note=Promotion saved successfully!;save.path=promotion;save.data=value.data();await.state.promotion.findById().[value.data().id]=value.data();await.state.promotion-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::promotion-list-view;await.setStyle::mini-window;await.note;async.save?note=Promotion saved successfully!;save.path=promotion;save.data=value.data();await.state.promotion.findById().[value.data().id]<<state.promotion.clone().findById().[value.data().id]=value.data();await.state.promotion.push().[value.data()]<<!state.promotion.clone().findById().[value.data().id];await.state.promotion-list-Data.findById().[value.data().id]<<state.promotion-list-Data.findById().[value.data().id]=value.data();await.state.promotion-list-Data.push().[value.data()]<<!state.promotion-list-Data.clone().findById().[value.data().id];state.promotion.push().[value.data()]<<!state.promotion.findById().[value.data().id];style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -36,8 +38,6 @@
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
                 "type": "Text?class=left;label;text=Name;style.fontSize=1.4rem"
-            }, {
-                "type": "Text?class=left;label;text=Badge;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Promotion ID;style.fontSize=1.4rem"
             }, {
@@ -50,46 +50,58 @@
                 "children": [{
                     "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=name"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=badge;droplist.items=const.[any.Badge List._param.readonly,state.asset.findByName().Promotion Badge.options.map().name].flat()"
-                }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=today().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
                     "controls": {
                         "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }
                 }]
             }]
-        }, {    
+        }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
-                "type": "Text?class=left;label;text=Code;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Promo Code;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Discount;style.fontSize=1.4rem"
             }, {
-                "type": "Text?class=left;label;text=Available Amount;style.fontSize=1.4rem"
-            }, {
-                "type": "Text?class=left;label;text=Minimum Requirements;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Minimal Requirements;style.fontSize=1.4rem"
             }]
         }, {
             "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
             "children": [{
                 "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
                 "children": [{
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=code"
+                    "type": "Input?textarea;clearable;featured;style.backgroundColor=#f0f0f0;path=code"
                 }, {
                     "type": "Input?textarea;featured;currency=lbp;style.backgroundColor=#f0f0f0;path=discount",
                     "controls": {
-                        "event": "input?value.data()=value.element.value.toPrice();value.element.value=value.data()"
+                        "event": "input?value.data()=value.element.value.toPrice();value.element.value=value.data()?value.currency=lbp"
                     }
                 }, {
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=available-amount"
-                }, {
-                    "type": "Input?textarea;featured;currency=lbp;style.backgroundColor=#f0f0f0;path=minimum-requirements",
-                    "controls": {
-                        "event": "input?value.data()=value.element.value.toPrice();value.element.value=value.data()"
-                    }
+                    "type": "Input?textarea;featured;currency=lbp;clearable;style.backgroundColor=#f0f0f0;path=minimum-requirements;value.Data().minimal-requirements.lbp=0<<!value.Data().minimal-requirements;pricable"
                 }]
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Available Amount;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Used Amount;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Remaining Amount;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;",
+            "children": [{
+                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=amount.available;data=1<<!value.Data().amount.available"
+            }, {
+                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=amount.used;value.Data().amount.used=any.0.toString()<<!value.Data().amount.used"
+            }, {
+                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;input.value=value.Data().amount.available.toNumber().subs().[value.Data().amount.used.toNumber().else().0]<<value.Data().amount.available",
+                "controls": {
+                    "watch": "value.Data().amount.available?value.element.value::value.prev().id.add().-input=0<<!value.Data().amount.used;value.element.value=value.Data().amount.available.toNumber().subs().[value.Data().amount.used.toNumber().else().0]"
+                }
             }]
         }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=2fr 2fr 1fr;style.gap=1rem;style.width=100%",
@@ -105,51 +117,21 @@
             "children": [{
                 "type": "View?style.display=grid;style.gridTemplateColumns=2fr 2fr 1fr;style.gap=1rem",
                 "children": [{
-                    "type": "Input?featured;input.type=datetime-local;path=start-date;input.value=value.Data().start-date.!.dateTimeFormater()<<value.Data().start-date;style.backgroundColor=#f0f0f0",
-                    "controls": {
-                        "watch": "value.data()?value.data()=value.element.value.dateTimeFormater()"
-                    }
+                    "type": "Input?featured;input.type=datetime-local;path=start-date;style.backgroundColor=#f0f0f0",
+                    "controls": [{
+                        "watch": "value.data()?value.element.min::value.next().id.add().-input=value.element.value;value.data()=value.element.value.date().getTime().toString()"
+                    }, {
+                        "event": "loaded?value.element.value=value.Data().start-date.date().getDateTime();value.element.min::value.next().id.add().-input=value.element.value"
+                    }]
                 }, {
-                    "type": "Input?featured;input.type=datetime-local;path=end-date;input.value=value.Data().end-date.!.dateTimeFormater()<<value.Data().end-date;style.backgroundColor=#f0f0f0",
-                    "controls": {
-                        "watch": "value.data()?value.data()=value.element.value.dateTimeFormater()"
-                    }
+                    "type": "Input?featured;input.type=datetime-local;path=end-date;style.backgroundColor=#f0f0f0",
+                    "controls": [{
+                        "watch": "value.data()?value.data()=value.element.value.date().getTime().toString()"
+                    }, {
+                        "event": "loaded?value.element.value=value.Data().end-date.date().getDateTime()<<value.Data().end-date"
+                    }]
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active=undefined;droplist.items=[Status>>readonly,true,false]"
-                }]
-            }]
-        }, {    
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
-            "children": [{
-                "type": "Text?class=left;label;text=Provider;style.fontSize=1.4rem"
-            }]
-        }, {
-            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
-            "children": [{
-                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
-                "children": [{
-                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=provider.name;droplist.items=const.[any.Provider List._param.readonly,state.provider.clone().map().name].flat()",
-                    "controls": {
-                        "watch": "value.data()?value.provider=state.provider.clone().findByName().[value.data()];value.Data().provider.id=value.provider.id;state.service-list-at-promotions=value.provider.services;value.Data().provider.delete()"
-                    }
-                }]
-            }]
-        }, {    
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
-            "children": [{
-                "type": "Text?class=left;label;text=Services;style.fontSize=1.4rem"
-            }]
-        }, {
-            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
-            "children": [{
-                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem",
-                "children": [{
-                    "type": "[Input]?textarea;featured;duplicatable;clearable;flicker;style.backgroundColor=#f0f0f0;path=services;value.Data().services=[{}]<<!value.Data().services;droplist.items=const.[any.Service List._param.readonly,state.service-list-at-promotions.map().name].flat()",
-                    "controls": [{
-                        "event": "loaded?value.derivations.push().name;value.element.value=value.data()||''"
-                    }, {
-                        "watch": "value.data()?value.Data().services.[value.derivations.2ndlastIndex()].id=state.service-list-at-promotions.findByName().[value.data()].id"
-                    }]
                 }]
             }]
         }, {

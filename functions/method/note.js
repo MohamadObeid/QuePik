@@ -1,7 +1,7 @@
 const note = ({VALUE, params}) => {
   const note = VALUE["action-note"]
   const noteText = VALUE["action-note-text"]
-
+  
   if (!params.note) return
 
   clearTimeout(note["note-timer"])

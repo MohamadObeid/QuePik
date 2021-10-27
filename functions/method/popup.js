@@ -2,10 +2,10 @@ const {controls} = require("./controls");
 const {update} = require("./update");
 
 const popup = ({VALUE, STATE, id, params}) => {
-  const local = VALUE[id];
+  var local = VALUE[id];
 
-  const popup = VALUE["popup"];
-  const popUp = local.popup;
+  var popup = VALUE["popup"];
+  var popUp = local.popup;
 
   popup.Data = local.Data;
   popup.derivations = local.derivations;
@@ -17,9 +17,9 @@ const popup = ({VALUE, STATE, id, params}) => {
   
   // eraser
   if (popUp.type === "eraser") {
-    const _controls = {
+    var _controls = {
       event: "click",
-      actions: `resetStyles::popup;await.note;await.setStyle::mini-window;await.remove>>220::global.mini-window-view.element.children.0.id${popUp.update ? `;await.update::${popUp.update}` : ""};async.erase?note=${popUp.note || "Data removed successfully"};style.display=none>>200;style.opacity=0;erase.path=${popUp.path};erase.id=${popUp.id || "value.data().id"};await.state.[value.Data]=state.[value.Data].filterById().!.[${popUp.id || "value.data().id"}]`,
+      actions: `resetStyles::popup;await.note;await.setStyle::mini-window;await.remove>>220::global.mini-window-view.element.children.0.id${popUp.update ? `;await.update::${popUp.update}` : ""};async.erase?note=${popUp.note || "Data removed successfully"};style.display=none>>200;style.opacity=0;erase.path=${popUp.path};erase.id=${popUp.id || "value.data().id"};await.state.[value.Data]=value.Data()._filterById().[${popUp.id ? `any.${popUp.id}` : "value.data().id"}.isNot().[_.id]]`,
     };
     setTimeout(() => {
       if (popUp.text) VALUE["popup-text"].element.innerHTML = popUp.text;

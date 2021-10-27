@@ -68,7 +68,7 @@ const {toggleView} = require("./toggleView")
 const {upload} = require("./upload")
 const {compare} = require("./compare")
 const {toCSV} = require("./toCSV")
-const {dateTimeFormater} = require("./dateTimeFormater")
+const {getDateTime} = require("./getDateTime")
 const {
   setStyle,
   resetStyles,
@@ -154,7 +154,7 @@ const _method = {
   isPath,
   toNumber,
   popup,
-  dateTimeFormater,
+  getDateTime,
   keys,
   values,
   toFirebaseOperator,

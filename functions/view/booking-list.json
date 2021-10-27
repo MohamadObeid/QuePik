@@ -104,25 +104,25 @@
                         "type": "Item?text.text=Today",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.today().setBeginning().add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }, {
                         "type": "Item?text.text=Yesterday",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().86400000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.today().setBeginning().subs().86400000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }, {
                         "type": "Item?text.text=Last Week",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().604800000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.today().setBeginning().subs().604800000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }, {
                         "type": "Item?text.text=Last Month",
                         "controls": {
                             "event": "click??state.booking-list-Data", 
-                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.date().setBeginning().subs().2592000000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
+                            "actions": "await.update::booking-list-view;async.filter?filter.backup=state.booking.clone();filter.path=creation-date;filter.Data=booking-list-Data;filter.value.greaterthan=value.today().setBeginning().subs().2592000000.add().7200000<<state.booking-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.booking-list-Data-options.filter=params.filter.value?state.booking.length()!=0"
                         }
                     }],
                     "controls": [{
@@ -175,9 +175,9 @@
                             "children": [{
                                 "type": "Text?class=right;text=value.data.status;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
                             }, {
-                                "type": "Text?class=right;text=value.data.date;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
+                                "type": "Text?class=right;text=value.data.date.toNumber().date().getDateTime().split().T.0;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
                             }, {
-                                "type": "Text?class=right;text=value.data.time;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
+                                "type": "Text?class=right;text=value.data.date.toNumber().date().getDateTime().split().T.1;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
                             }]
                         }]
                     }]
@@ -185,7 +185,7 @@
             }, {
                 "type": "View?style.display=state.booking-list-table-view-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
                 "children": [{
-                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.minHeight=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem",
+                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr;style.minHeight=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem",
                     "children": [{
                         "type": "Text?text=Active;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
@@ -196,13 +196,13 @@
                         "type": "Text?text=Date;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=date;sort.Data=booking-list-Data?state.booking-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=date.toNumber();sort.Data=booking-list-Data?state.booking-list-Data"
                         }
                     }, {
                         "type": "Text?text=Time;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
-                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=time;sort.Data=booking-list-Data?state.booking-list-Data"
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=date.toNumber();sort.Data=booking-list-Data?state.booking-list-Data"
                         }
                     }, {
                         "type": "Text?text=User;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
@@ -246,13 +246,13 @@
                 }, {
                     "type": "View?style.display=grid;style.gridTemplateColumns=1fr;flicker",
                     "children": [{
-                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.minHeight=5.5rem;Data=booking-list-Data;data=state.booking-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.booking-list-Data;state.booking-list-Data.length()!=0",
+                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr;style.minHeight=5.5rem;Data=booking-list-Data;data=state.booking-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.booking-list-Data;state.booking-list-Data.length()!=0",
                         "children": [{
                             "type": "Icon?icon.name=bi-circle<<!value.data.active;icon.name=bi-circle-fill<<value.data.active;style.fontSize=1.4rem;style.color=lime<<value.data.active;style.color=#ddd<<!value.data.active;style.textAlign=center"
                         }, {
-                            "type": "Text?class=dots;text=value.data.date;style.fontSize=1.4rem"
+                            "type": "Text?class=dots;text=value.data.date.toNumber().date().getDateTime().split().T.0;style.fontSize=1.4rem"
                         }, {
-                            "type": "Text?class=dots;text=value.data.time;style.fontSize=1.4rem"
+                            "type": "Text?class=dots;text=value.data.date.toNumber().date().getDateTime().split().T.1;style.fontSize=1.4rem"
                         }, {
                             "type": "Text?class=dots;text=value.data.user.name;style.fontSize=1.4rem"
                         }, {

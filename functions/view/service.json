@@ -25,13 +25,15 @@
                 "controls": [{
                     "event": "click?state.service-list-Data.findById().[value.Data().id]=state.service.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window;remove>>220::global.mini-window-view.element.children.0.id?style.display=none>>200;style.opacity=0"
+                }, {
+                    "event": "mousedown::mini-window?once;state.service-list-Data.findById().[value.Data().id]=state.service.clone().findById().[value.Data().id]"
                 }]
             }, {
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
                     "actions": [
-                        "await.update::service-list-view;await.setStyle::mini-window;await.note;async.save?note=Service saved successfully!;save.path=service;save.data=value.data();await.state.service.findById().[value.data().id]=value.data();await.state.service-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0",
+                        "await.update::service-list-view;await.setStyle::mini-window;await.note;async.save?note=Service saved successfully!;save.path=service;save.data=value.data();await.state.service.findById().[value.data().id]<<state.service.findById().[value.data().id]=value.data();await.state.service-list-Data.findById().[value.data().id]=value.data();state.service-list-Data.push().[value.data()]<<!state.service-list-Data.findById().[value.data().id];state.service.push().[value.data()]<<!state.service.findById().[value.data().id];style.display=none>>200;style.opacity=0",
                         "save?value.provider.id=value.data().id;value.provider.name=value.data().name;save.path=provider;state.provider.findById().[value.data().provider.id].services.push().[value.provider];save.data=state.provider.findById().[value.data().provider.id]?value.data().provider.id;!state.provider.clone().findById().[value.data().provider.id].services.map().id.includes().[value.data().id]"
                     ]
                 }]
@@ -64,7 +66,7 @@
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=today().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
                     "controls": {
                         "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }
@@ -98,8 +100,23 @@
         }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
-                "type": "Text?class=left;label;text=Price;style.fontSize=1.4rem"
+                "type": "Text?class=left;label;text=Net Price;style.fontSize=1.4rem"
             }, {
+                "type": "Text?class=left;label;text=Badge;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+            "children": [{
+                "type": "Input?textarea;featured;clearable;currency=lbp;style.backgroundColor=#f0f0f0;path=price.net",
+                "controls": {
+                    "event": "input?value.data()=value.element.value.toPrice();value.element.value=value.data();action.update::value.parent().next().next().1stChild().3rdChild().id"
+                }
+            }, {
+                "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=badge;droplist.items=const.[any.Badge List._param.readonly,state.asset.findByName().Badges.options.map().name].flat()"
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
                 "type": "Text?class=left;label;text=Promotion;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Discount;style.fontSize=1.4rem"
@@ -107,24 +124,24 @@
                 "type": "Text?class=left;label;text=Price After Discount;style.fontSize=1.4rem"
             }]
         }, {
-            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem;flicker",
             "children": [{
                 "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.alignItems=start",
                 "children": [{
-                    "type": "Input?textarea;featured;clearable;currency=lbp;style.backgroundColor=#f0f0f0;path=price",
+                    "type": "Input?textarea;featured;clearable;readonly;style.backgroundColor=#f0f0f0;path=promotion.name;droplist.items=const.[Promotions>>readonly,state.promotion.clone()._map().[_.name.if().[_.start-date.toNumber().isless().[today().getTime()].and().[_.end-date.toNumber().isgreater().[today().getTime()]].and().[_.code.else().false.notexist()]]]].flat()",
                     "controls": {
-                        "event": "input?value.data()=value.element.value.toPrice();value.element.value=value.data()"
-                    }
-                }, {
-                    "type": "Input?textarea;featured;clearable;readonly;style.backgroundColor=#f0f0f0;path=promotion.name;droplist.items=const.[Promotions>>readonly,state.promotion.map().name].flat()",
-                    "controls": {
-                        "watch": "value.data()?value.Data().promotion.delete()<<!value.data();value.Data().discount.delete()<<!value.data();break<<!value.data();value.Data().promotion.id=state.promotion.clone().findByName().[value.data()].id;value.Data().discount=state.promotion.clone().findByName().[value.data()].discount",
+                        "watch": "value.data()?value.Data().promotion.delete()<<!value.data();value.Data().price.discount.delete()<<!value.data();break<<!value.data();value.Data().promotion.id=state.promotion.clone().findByName().[value.data()].id;value.Data().price.discount=state.promotion.clone().findByName().[value.data()].discount?value.data()",
                         "actions": "update::value.next().id;update::value.next().next().id"
                     }
                 }, {
                     "type": "View?style.transition=opacity .2s;style.opacity=0",
                     "children": {
-                        "type": "Input?featured;readonly;currency=value.Data().discount.key()<<value.Data().discount;style.backgroundColor=#f0f0f0;path=discount"
+                        "type": "Input?featured;currency=value.Data().price.discount.key()<<value.Data().price.discount;style.backgroundColor=#f0f0f0;path=price.discount",
+                        "controls": [{
+                            "event": "input?value.Data().promotion.delete();value.element.value::value.parent().prev().id.add().-input=;action.resize::value.parent().prev().id.add().-input;action.update::value.parent().next().id;value.data()=value.element.value.toPrice();value.element.value=value.data()"
+                        }, {
+                            "watch": "value.Data().price.discount.key()?value.Data().promotion.delete();value.element.value::value.parent().prev().id.add().-input=;action.resize::value.parent().prev().id.add().-input;action.update::value.parent().next().id;value.data()=value.element.value.toPrice();value.element.value=value.data()"
+                        }]
                     },
                     "controls": {
                         "event": "loaded?value.element.style.opacity>>200=1"
@@ -132,12 +149,90 @@
                 }, {
                     "type": "View?style.transition=opacity .2s;style.opacity=0",
                     "children": {
-                        "type": "Input?featured;readonly;style.backgroundColor=#f0f0f0;input.value=value.Data().price.lbp.times().[value.Data().discount.[value.Data().discount.key()].subs().100.abs().divide().100]<<value.Data().discount.key().isEqual().%;input.value=value.Data().price.lbp.subs().[value.Data().discount.[value.Data().discount.key()]]<<value.Data().discount.key().isNot().%;input.value=''<<!value.Data().discount"
+                        "type": "Input?featured;currency=value.Data().price.net.key().else().lbp;path=price.payable;style.backgroundColor=#f0f0f0;input.value=value.Data().price.net.lbp.toNumber().times().[value.Data().price.discount.[value.Data().price.discount.key()].subs().100.abs().divide().100].toInteger().toPrice()<<value.Data().price.discount.key().isEqual().%;input.value=value.Data().price.net.lbp.toNumber().subs().[value.Data().price.discount.[value.Data().price.discount.key()]].toPrice()<<value.Data().price.discount.key().isNot().%;input.value=''<<!value.Data().price.discount"
                     },
                     "controls": {
                         "event": "loaded?value.element.style.opacity>>200=1"
                     }
                 }]
+            }]
+        }, {
+            "type": "Text?class=flex-start;text=Home Service;style.marginBottom=.7rem;style.fontSize=1.4rem"
+        }, {
+            "type": "View?style.borderRadius=.5rem;style.marginBottom=3rem;style.border=1px solid #f0f0f0;style.padding=1rem;style.width=100%",
+            "children": [{
+                "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+                "children": [{
+                    "type": "Text?class=left;text=Availability;style.fontSize=1.4rem"
+                }, {
+                    "type": "Text?class=left;text=Price;style.fontSize=1.4rem"
+                }]
+            }, {
+                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+                "children": [{
+                    "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=home-service.available;data=false<<!value.Data().home-service.available;droplist.items=[Status>>readonly,true,false]"
+                }, {
+                    "type": "Input?textarea;featured;clearable;currency=lbp;style.backgroundColor=#f0f0f0;path=home-service.price.net;pricable",
+                    "controls": {
+                        "event": "input?value.data()=value.element.value.toPrice();value.element.value=value.data();action.update::value.parent().next().next().1stChild().3rdChild().id"
+                    }
+                }]
+            }, {
+                "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+                "children": [{
+                    "type": "Text?class=left;text=Promotion;style.fontSize=1.4rem"
+                }, {
+                    "type": "Text?class=left;text=Discount;style.fontSize=1.4rem"
+                }, {
+                    "type": "Text?class=left;text=Price After Discount;style.fontSize=1.4rem"
+                }]
+            }, {
+                "type": "View?style.display=grid;style.gap=1rem;flicker",
+                "children": [{
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.alignItems=start",
+                    "children": [{
+                        "type": "Input?textarea;featured;clearable;readonly;style.backgroundColor=#f0f0f0;path=home-service.promotion.name;droplist.items=const.[Promotions>>readonly,state.promotion.clone()._map().[_.name.if().[_.start-date.toNumber().isless().[today().getTime()].and().[_.end-date.toNumber().isgreater().[today().getTime()]]]]].flat()",
+                        "controls": {
+                            "watch": "value.data()?value.Data().home-service.promotion.delete()<<!value.data();value.Data().home-service.price.discount.delete()<<!value.data();break<<!value.data();value.Data().home-service.promotion.id=state.promotion.clone().findByName().[value.data()].id;value.Data().home-service.price.discount=state.promotion.clone().findByName().[value.data()].discount?value.data()",
+                            "actions": "update::value.next().id;update::value.next().next().id"
+                        }
+                    }, {
+                        "type": "View?style.transition=opacity .2s;style.opacity=0",
+                        "children": {
+                            "type": "Input?featured;currency=value.Data().home-service.price.discount.key().else().lbp;style.backgroundColor=#f0f0f0;path=home-service.price.discount",
+                            "controls": [{
+                                "event": "input?value.Data().home-service.promotion.delete();value.element.value::value.parent().prev().id.add().-input=;action.resize::value.parent().prev().id.add().-input;action.update::value.parent().next().id;value.data()=value.element.value.toPrice();value.element.value=value.data()"
+                            }, {
+                                "watch": "value.Data().home-service.price.discount.key()?value.Data().home-service.promotion.delete();value.element.value::value.parent().prev().id.add().-input=;action.resize::value.parent().prev().id.add().-input;action.update::value.parent().next().id;value.data()=value.element.value.toPrice();value.element.value=value.data()"
+                            }]
+                        },
+                        "controls": {
+                            "event": "loaded?value.element.style.opacity>>200=1"
+                        }
+                    }, {
+                        "type": "View?style.transition=opacity .2s;style.opacity=0",
+                        "children": {
+                            "type": "Input?featured;currency=value.Data().home-service.price.net.key().else().lbp;path=home-service.price.payable;style.backgroundColor=#f0f0f0;input.value=value.Data().home-service.price.net.value().toNumber().times().[value.Data().home-service.price.discount.value().subs().100.abs().divide().100].toInteger().toPrice()<<value.Data().home-service.price.discount.key().is().%;input.value=value.Data().home-service.price.net.value().toNumber().subs().[value.Data().home-service.price.discount.value()].toPrice()<<value.Data().home-service.price.discount.key().isNot().%;input.value=value.Data().home-service.price.net.value()<<!value.Data().home-service.price.discount.key()"
+                        },
+                        "controls": {
+                            "event": "loaded?value.element.style.opacity>>200=1"
+                        }
+                    }]
+                }]
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
+                "type": "Text?class=left;label;text=Description;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Notes;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
+            "children": [{
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
+            }, {
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
             }]
         }, {
             "type": "Text?class=flex-start;text=Bookings;style.marginBottom=.7rem;style.fontSize=1.4rem"
@@ -154,44 +249,8 @@
                 "type": "[Input]?Data=service-reviews;textarea;featured;minlength=0;readonly;style.backgroundColor=#f0f0f0;flicker"
             }],
             "controls": {
-                "watch": "state.service-reviews?once;value.Data=service-reviews",
-                "actions": "update"
+                "watch": "state.service-reviews?once;value.Data=service-reviews;action.update"
             }
-        }, {
-            "type": "Text?class=flex-start;text=Home Service;style.marginTop=1rem;style.fontSize=1.4rem"
-        }, {
-            "type": "View?class=divider;style.marginTop=1rem;style.width=100%"
-        }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
-            "children": [{
-                "type": "Text?class=left;label;text=Availability;style.fontSize=1.4rem"
-            }, {
-                "type": "Text?class=left;label;text=Price;style.fontSize=1.4rem"
-            }]
-        }, {
-            "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
-            "children": [{
-                "type": "Input?textarea;featured;style.backgroundColor=#f0f0f0;path=home-service.available;data=false<<value.data().home-service.available=undefined;droplist.items=[Status>>readonly,true,false]"
-            }, {
-                "type": "Input?textarea;featured;clearable;currency=lbp;style.backgroundColor=#f0f0f0;path=home-service.price",
-                "controls": {
-                    "event": "input?value.data()=value.element.value.toPrice();value.element.value=value.data()"
-                }
-            }]
-        }, {
-            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.width=100%",
-            "children": [{
-                "type": "Text?class=left;label;text=Description;style.fontSize=1.4rem"
-            }, {
-                "type": "Text?class=left;label;text=Notes;style.fontSize=1.4rem"
-            }]
-        }, {
-            "type": "View?style.display=grid;style.gap=1rem;style.gridTemplateColumns=1fr 1fr;style.gap=1rem;style.marginBottom=3rem",
-            "children": [{
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=description;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
-            }, {
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=note;style.minHeight=10rem;input.style.alignSelf=flex-start;input.style.minHeight=100%"
-            }]
         }, {
             "type": "Text?class=flex-start;text=Images;style.marginTop=1rem;style.fontSize=1.4rem"
         }, {

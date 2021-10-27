@@ -12,9 +12,9 @@
                 "type": "Text?class=pointer;text=QuePik;style.width=fit-content;style.fontSize=3.3rem;style.transition=color .3s;style.fontWeight=900;style.color=#ee384e;style.after.color=#116dff;hoverable"
             }]
         }, {
-            "type": "Text?class=pointer;text=usd;hoverable;style.color=#666;style.fontSize=1.4rem;style.marginRight=3rem;style.after.color=#116dff;droplist.items=const.state.asset.findByName().Currency.options.map().name;droplist.style.minWidth=5rem"
+            "type": "Text?class=pointer;text=usd;hoverable;style.color=#666;style.fontSize=1.4rem;style.marginRight=3rem;style.after.color=#116dff;droplist.items=const.state.asset.findByName().Currency.options.map().name;droplist.style.minWidth=5rem;droplist.disabled=true"
         }, {
-            "type": "Icon?class=pointer;icon.name=bi-translate;hoverable;style.color=#666;style.fontSize=1.8rem;style.marginRight=3rem;style.after.color=#116dff;droplist.items=const.state.asset.findByName().Language.options.map().name;droplist.style.minWidth=5rem;droplist.pause=true"
+            "type": "Icon?class=pointer;icon.name=bi-translate;hoverable;style.color=#666;style.fontSize=1.8rem;style.marginRight=3rem;style.after.color=#116dff;droplist.items=const.state.asset.findByName().Language.options.map().name;droplist.style.minWidth=5rem;droplist.disabled=true"
         }, {
             "type": "Button?link=/profile;text=My Profile;icon.name=bi-person;icon.style.fontSize=2.4rem;miniWindow.view=profile"
         }]

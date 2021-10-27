@@ -1,6 +1,7 @@
 const {toValue} = require("./toValue");
 const {reducer} = require("./reducer");
 const { toCode } = require("./toCode");
+const { generate } = require("./generate");
 
 const toParam = ({VALUE = {}, STATE, string, e, id}) => {
   var {toApproval} = require("./toApproval");
@@ -41,9 +42,6 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
 
     var keys = typeof key === "string" ? key.split(".") : [];
 
-    // keys from brackets to dots
-    key = toCode({VALUE, STATE, string: key, e, id});
-
     // id
     if (key && key.includes("::")) {
       var newId = key.split("::")[1];
@@ -51,6 +49,19 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
 
       // id
       id = toValue({VALUE, STATE, id, params: {value: newId, params}, e});
+    }
+
+    // keys from brackets to dots
+    key = toCode({ VALUE, STATE, string: key, e, id });
+
+    // array id
+    if (Array.isArray(id)) {
+      id.slice(1).map(id => {
+        var state = generate()
+        STATE[state] = value
+        toParam({ STATE, VALUE, id, e, string: `${key}=state.${state}` })
+      })
+      id = id[0]
     }
 
     // conditions

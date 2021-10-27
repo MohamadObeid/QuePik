@@ -14,6 +14,8 @@
     }, {
         "type": "Item?text.text=Users;icon.name=people_alt;toggler.view=user-list"
     }, {
+        "type": "Item?text.text=Sales;icon.name=storefront;toggler.view=sales-list"
+    }, {
         "type": "Item?text.text=Providers;icon.name=badge;toggler.view=provider-list"
     }, {
         "type": "Item?text.text=Services;icon.name=spa;toggler.view=service-list"

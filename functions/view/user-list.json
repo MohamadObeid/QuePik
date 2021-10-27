@@ -40,7 +40,7 @@
                     "type": "Button?text=Top Bookers;icon.name=navigation;icon.google;icon.outlined",
                     "controls": {
                         "event": "click??state.user-list-Data", 
-                        "actions": "await.update::user-list-view;async.sort?sort.path=creation-date;sort.Data=user-list-Data;sort.data=state.user.clone()"
+                        "actions": "await.update::user-list-view;async.sort?sort.path=bookings.length();sort.Data=user-list-Data;sort.data=state.user.clone()"
                     }
                 }, {
                     "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",

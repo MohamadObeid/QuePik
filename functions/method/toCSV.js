@@ -12,9 +12,10 @@ module.exports = {
 
         //This condition will generate the Label/Header
         var row = ""
-        var keys = []
+        var keys = file.fields || []
 
         // get all keys
+        if (keys.length === 0)
         data.slice(0, 5).map(data => {
             Object.keys(data).map(key => {
                 if (!keys.includes(key)) keys.push(key)
@@ -26,7 +27,7 @@ module.exports = {
 
         row = row.slice(0, -1)
 
-        //append Label row with line break
+        // line break
         CSV += row + '\r\n'
 
         //1st loop is to extract each row
@@ -47,7 +48,6 @@ module.exports = {
             return
         }
 
-        //this will remove the blank-spaces from the title and replace it with an underscore
         var blob = new Blob([CSV], { type: 'text/csv;charset=utf-8;' })
 
         if (navigator.msSaveBlob) { // IE 10+

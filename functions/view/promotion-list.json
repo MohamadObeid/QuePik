@@ -66,7 +66,7 @@
                     "children": [{
                         "type": "Text?text=value.data.name;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s;style.marginBottom=.7rem"
                     }, {
-                        "type": "Text?text=value.data.discount.[value.data().discount.key()].add(). .add().[value.data().discount.key()];style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
+                        "type": "Text?text=value.data.discount.[value.data().discount.key()]._space.[value.data().discount.key()];style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
                     }]
                 }]
             }, {

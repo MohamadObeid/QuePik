@@ -25,6 +25,9 @@ const toComponent = (obj) => {
   obj.featured = obj.featured && "featured";
   obj.model = obj.model || obj.featured || "classic";
 
+  // component
+  obj.component = true
+
   return obj;
 };
 

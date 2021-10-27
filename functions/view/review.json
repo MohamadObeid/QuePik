@@ -25,13 +25,15 @@
                 "controls": [{
                     "event": "click?state.review-list-Data.findById().[value.Data().id]=state.review.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window;remove>>220::global.mini-window-view.element.children.0.id?style.display=none>>200;style.opacity=0"
+                }, {
+                    "event": "mousedown::mini-window?once;state.review-list-Data.findById().[value.Data().id]=state.review.clone().findById().[value.Data().id]"
                 }]
             }, {
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
                     "actions": [
-                        "await.update::review-list-view;await.setStyle::mini-window;await.note;async.save?note=Review saved successfully!;save.path=review;save.data=value.data();await.state.review.findById().[value.data().id]=value.data();await.state.review-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0",
+                        "await.update::review-list-view;await.setStyle::mini-window;await.note;async.save?note=Review saved successfully!;save.path=review;save.data=value.data();await.state.review.findById().[value.data().id]<<state.review.findById().[value.data().id]=value.data();await.state.review-list-Data.findById().[value.data().id]=value.data();state.review-list-Data.push().[value.data()]<<!state.review-list-Data.findById().[value.data().id];state.review.push().[value.data()]<<!state.review.findById().[value.data().id];style.display=none>>200;style.opacity=0",
                         "async.save?state.service.findById().[value.data().service.id].reviews.push().[value.data().id]<<value.data().service.id;state.provider.findById().[value.data().provider.id].reviews.push().[value.data().id]<<value.data().provider.id;save.path=service<<value.data().service.id;save.path=provider<<value.data().provider.id;save.data=state.service.findById().[value.data().service.id]<<value.data().service.id;save.data=state.provider.findById().[value.data().provider.id]<<value.data().provider.id"
                     ]
                 }]
@@ -64,7 +66,7 @@
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=today().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
                     "controls": {
                         "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }

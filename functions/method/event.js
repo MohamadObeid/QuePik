@@ -46,6 +46,9 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
 
       var myFn = (e) => {
         local[`${event}-timer`] = setTimeout(async () => {
+
+          if (local.once) return e.target.removeEventListener(event, myFn)
+          
           // VALUE[id] doesnot exist
           if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
 

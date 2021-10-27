@@ -15,12 +15,14 @@
                 "controls": [{
                     "event": "click?state.user-list-Data.findById().[value.Data().id]=state.user.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window?style.display=none>>200;style.opacity=0"
+                }, {
+                    "event": "mousedown::mini-window?once;state.user-list-Data.findById().[value.Data().id]=state.user.clone().findById().[value.Data().id]"
                 }]
             }, {
                 "type": "Button?icon.name=bi-check2-square;text=Save",
                 "controls": [{
                     "event": "click",
-                    "actions": "await.update::user-list-view;await.setStyle::mini-window;await.note;async.save?note=User saved successfully!;save.path=user;save.data=value.data();await.state.user.findById().[value.data().id]=value.data();await.state.user-list-Data.findById().[value.data().id]=value.data();style.display=none>>200;style.opacity=0"
+                    "actions": "await.update::user-list-view;await.setStyle::mini-window;await.note;async.save?note=User saved successfully!;save.path=user;save.data=value.data();await.state.user.findById().[value.data().id]<<state.user.findById().[value.data().id]=value.data();await.state.user-list-Data.findById().[value.data().id]=value.data();state.user-list-Data.push().[value.data()]<<!state.user-list-Data.findById().[value.data().id];state.user.push().[value.data()]<<!state.user.findById().[value.data().id];style.display=none>>200;style.opacity=0"
                 }]
             }]
         }]
@@ -51,7 +53,7 @@
                 }, {
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=date().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=value.today().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
                     "controls": {
                         "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }
@@ -75,7 +77,7 @@
             }, {
                 "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=email"
             }, {
-                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;value.date().password=generate()<<value.data().password;path=password"
+                "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;value.today().password=generate()<<value.data().password;path=password"
             }, {
                 "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=active;data=true<<!value.data().active;droplist.items=[Status>>readonly,true,false]"
             }]

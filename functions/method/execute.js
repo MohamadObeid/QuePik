@@ -4,13 +4,10 @@ const { toParam } = require("./toParam");
 const { getParam } = require("./getParam");
 const { toId } = require("./toId");
 const { toValue } = require("./toValue");
-const { toAwait } = require("./toAwait");
 const _method = require("./_method");
 
 const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
-  var local = VALUE[id],
-    _params = params,
-    localId = id
+  var local = VALUE[id], _params = params, localId = id
 
   if (controls) actions = controls.actions;
   if (local) local.break = false;
@@ -26,7 +23,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
 
     var approved = true
     var actions = _action.split("?")
-    var params = _params || actions[1]
+    var params = actions[1]
     var conditions = actions[2]
     var idList = actions[3]
 
@@ -38,6 +35,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
 
     // params
     params = toParam({ VALUE, STATE, string: params, e, id: localId })
+    if (_params) params = {..._params, ...params}
 
     // action does not exist
     actions.map(action => {
@@ -50,10 +48,8 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
       var timer = parseFloat(name.split(">>")[1] || 0)
       name = name.split(">>")[0]
 
-      // reset
-      var reset = getParam(_action, "reset", false)
+      // break
       if (local) local.break = getParam(_action, "break", false)
-      if (reset) clearTimeout(local[`${name}-timer`])
       
       const myFn = () => {
         var approved = true
@@ -68,6 +64,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
             awaiter.push(action.split("await.")[1])
           }
         })
+
         if (isAwaiter || isAsyncer) name = name.split(".")[1]
         if (isAwaiter) return
 
@@ -82,27 +79,27 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
         var actionid = action.split("::")[1]
         if (actionid) actionid = toValue({ VALUE, STATE, params: { value: actionid, params }, id: localId, e })
 
-        if (_method[name]) (actionid ? toArray(actionid) : idList).map(async (id) => {
+        if (_method[name]) (actionid ? toArray(actionid) : idList).map(async id => {
 
-            if (typeof id !== "string") return
+          if (typeof id !== "string") return
 
-            // id = value.path
-            if (id.indexOf(".") > -1) 
-            id = toValue({ VALUE, STATE, params: { value: id }, e, id: localId })
+          // id = value.path
+          if (id.indexOf(".") > -1) 
+          id = toValue({ VALUE, STATE, params: { value: id }, e, id: localId })
 
-            // component does not exist
-            if (!id || !VALUE[id]) return
+          // component does not exist
+          if (!id || !VALUE[id]) return
 
-            if (isAsyncer) {
-              params.awaiter = awaiter
-              params.asyncer = isAsyncer
-            }
-            await _method[name]({ VALUE, STATE, controls, params, e, id })
-          })
+          if (isAsyncer) {
+            params.awaiter = awaiter
+            params.asyncer = isAsyncer
+          }
+          await _method[name]({ VALUE, STATE, controls, params, e, id })
+        })
       }
 
       if (timer) {
-        if (local) local[`${name}-timer`] = setTimeout(myFn, timer)
+        if (local) local[`${name.split('.')[1] || name.split('.')[0]}-timer`] = setTimeout(myFn, timer)
         else setTimeout(myFn, timer)
       } else myFn()
     })

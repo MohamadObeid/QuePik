@@ -12,7 +12,7 @@
         }]
     }],
     "controls" : [{
-        "event": "mouseenter?value.clearTimeout().[value.note-timer]"
+        "event": "mouseenter?value.note-timer.clearTimeout()"
     }, {
         "event": "mouseleave?value.note-timer=value.setTimeout().[value.element.style.transform.equal().translateY(-200%)].5000"
     }]

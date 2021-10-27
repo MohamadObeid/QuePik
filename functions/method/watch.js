@@ -28,7 +28,8 @@ const watch = ({ VALUE, STATE, controls, id }) => {
             
             var value = toValue({ VALUE, STATE, id, params: { value: name } })
             
-            if ((value === undefined && local[`${name}-watch`] === undefined) || isEqual(value, local[`${name}-watch`])) return
+            if ((value === undefined && local[`${name}-watch`] === undefined) 
+            || isEqual(value, local[`${name}-watch`])) return
 
             local[`${name}-watch`] = clone(value)
             

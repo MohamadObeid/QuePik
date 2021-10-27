@@ -5,25 +5,23 @@ const {clone} = require("./clone");
 
 module.exports = {
   toTag: ({STATE, VALUE, id}) => {
-    const {createElement} = require("./createElement");
-    const path = require("path");
+
+    var {createElement} = require("./createElement");
+    var path = require("path");
 
     let tag;
-    const local = VALUE[id];
-    const style = toStyle({STATE, VALUE, id});
+    var local = VALUE[id];
+    var style = toStyle({STATE, VALUE, id});
 
     // innerHTML
-    const text = (local.text !== undefined && local.text.toString()) || (typeof local.data !== "object" && local.data) || ''
-    let innerHTML = text
-    const checked =
-      local.input &&
-      local.input.type === "radio" &&
-      parseFloat(local.data) === parseFloat(local.input.defaultValue);
+    var text = (local.text !== undefined && local.text.toString()) || (typeof local.data !== "object" && local.data) || ''
+    var innerHTML = text
+    var checked = local.input && local.input.type === "radio" && parseFloat(local.data) === parseFloat(local.input.defaultValue);
 
     if (local.children) {
       innerHTML = toArray(clone(local.children))
           .map((child, index) => {
-            const id = child.id || generate();
+            var id = child.id || generate();
             VALUE[id] = clone(child);
             VALUE[id].id = id;
             VALUE[id].index = index;
@@ -34,12 +32,13 @@ module.exports = {
           .join("");
     }
     
-    const value =
-      (local.input && local.input.value) !== undefined ?
+    var value = (local.input && local.input.value) !== undefined ?
         local.input.value :
         local.data !== undefined ?
-        local.data :
-        "";
+        local.data : ""
+
+    if (typeof value === 'object') value = ''
+
     if (local.type === "Image") local.src = local.src || local.data || "";
 
     if (local.type === "View") {

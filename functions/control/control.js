@@ -9,4 +9,5 @@ module.exports = {
   miniWindow: require("./miniWindow"),
   toggler: require("./toggler"),
   touchableOpacity: require("./touchableOpacity"),
+  pricable: require("./pricable"),
 };

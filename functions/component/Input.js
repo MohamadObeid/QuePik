@@ -6,7 +6,7 @@ const Input = (component) => {
 
     // icon
     component.icon = component.icon || {}
-
+    
     // input
     component.input = component.input || { type: 'text'}
     component.input.type = component.input.type || 'text'
@@ -37,7 +37,7 @@ const Input = (component) => {
     } : {}
     
     var path = `${unit ? `path=amount` :  currency ? `path=${currency}` : day ? `path=${day}` : lang ? `path=${lang}` : google ? `path=name` : key ? `path=${key}` : ''}`
-
+    
     if (model === 'classic') {
         return {
             ...component,
@@ -108,6 +108,12 @@ const Input = (component) => {
             }, {
                 type: `Input?id=${id}-input;${path}`,
                 input,
+                currency, 
+                day,
+                unit,
+                key,
+                lang,
+                google,
                 textarea,
                 readonly,
                 droplist,

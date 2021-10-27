@@ -6,20 +6,27 @@ const { capitalize } = require("./capitalize")
 const { clone } = require("./clone")
 const { toNumber } = require("./toNumber")
 const { toPrice } = require("./toPrice")
-const { dateTimeFormater } = require('./dateTimeFormater')
+const { getDateTime } = require('./getDateTime')
 
-const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, e }) => {
+const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, _, e }) => {
 
     const { toValue } = require("./toValue")
     const { execute } = require("./execute")
 
     var local = VALUE[id], breakRequest
 
+    // []
+    if (path[0] === '[]') {
+        object = []
+        path = path.slice(1)
+    }
+
     if (path[1]) path = toCode({ VALUE, STATE, id, string: path.join('.'), e }).split('.')
     
     if (path[0] === 'global') {
+
         local = VALUE[path[1]]
-        id = toValue({ VALUE, STATE, id, e, params: {value: path[1], params} })
+        id = toValue({ VALUE, STATE, id, e, params: {value: path[1], params}, _ })
         path = path.slice(1)
         path[0] = 'value'
     }
@@ -29,23 +36,26 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         object = path[0] === 'value' ? VALUE[id]
         : path[0] === 'state' ? STATE 
         : path[0] === 'e' ? e
+        : path[0] === '_' ? _
         : path[0] === 'params' ? params
-        : path[0] === 'any' ? toValue({ VALUE, STATE, id, params: { value: path[1], params }, e })
+        : path[0] === 'any' ? toValue({ VALUE, STATE, id, params: { value: path[1], params }, _, e })
         : path[0] === 'document' ? document
         : path[0] === 'window' ? window
         : path[0] === 'history' ? history
         : false
         
         if (!object && path[0]) {
-
-            if (path[0].includes('coded'))
-            object = toValue({ VALUE, STATE, id, params: { value: STATE.codes[path[0]], params }, e })
+            
+            if (path[0].includes('coded()'))
+            object = toValue({ VALUE, STATE, id, params: { value: STATE.codes[path[0]], params }, _, e })
 
             else if (path.join('.').includes(','))
-            return object = toValue({ VALUE, STATE, id, params: { value: `[${path.join('.')}]`, params }, e })
+            return object = toValue({ VALUE, STATE, id, params: { value: `[${path.join('.')}]`, params }, _, e })
 
-            else if (path[0] === 'action')
-            return execute({ VALUE, STATE, id, actions: path[1], params, e })
+            else if (path[0] === 'action') {
+                var actions = toValue({ VALUE, STATE, id, params: { value: path[1], params }, _, e })
+                return execute({ VALUE, STATE, id, actions, params, e })
+            }
 
             else if (path[0] === '[]') object = []
 
@@ -58,54 +68,64 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
         if (path[0] === 'any') path = path.slice(1)
         if (object) path = path.slice(1)
+        else if (path[0] && path[0].includes('coded()')) return
         else return path.join('.')
     }
     
-    var lastIndex = path.length - 1, opposite = false
+    var lastIndex = path.length - 1
     
     var answer = path.reduce((o, k, i) => {
         
         if (!isNaN(k)) k = k + ''
                     
-        // break method
+        // break
         if (breakRequest === true || breakRequest >= i) return o
-
-        // equal()
-        if (path[i + 1] === 'equal()') {
-            
-            breakRequest = true
-            return answer = o[k] = toValue({ VALUE, STATE, id, params: { value: path.slice(i + 2).join("."), params }, e })
-        }
         
-        // if o is undefined ? ...
         if (k === 'else()') {
             
             breakRequest = i + 1
             var answer1 = o
-            var answer2 = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var answer2 = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             if (!answer1) answer = answer2
             else answer = answer1
+            console.log(answer, local);
             return answer
         }
 
-        if (!o) return o
-        
-        // set Value
+        // equals
+        if (path[i + 1] && (path[i + 1].includes('equal()') || path[i + 1].includes('equals()'))) {
 
-        if (k.includes('coded()')) {
+            key = breakRequest = true
+            value = toValue({ VALUE, STATE, id, e, _, params: { value: path.slice(i + 2).join('.'), params } })
+            path = path.slice(0, i)
+            i = lastIndex
+        }
+
+        if (o === undefined) return o
+
+        if (k === "if()") {
+            
+            breakRequest = i + 1
+            var approved = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
+            if (!approved) answer = false
+            else answer = o
+            
+        } else if (k === "_") {
+
+            answer = _
+
+        } else if (k.includes('coded()')) {
             
             breakRequest = true
-            var newValue = toValue({ VALUE, STATE, id, e, params: { value: STATE.codes[k], params } })
+            var newValue = toValue({ VALUE, STATE, id, e, params: { value: STATE.codes[k], params }, _ })
             newValue = [ ...newValue.toString().split('.'), ...path.slice(i + 1)]
-            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: newValue, object: o, params } })
+            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: newValue, object: o, params }, _ })
 
         } else if (k === 'data()') {
 
-            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: local.derivations, object: STATE[local.Data], params } })
-            if (i === lastIndex) {
-                local.data = answer
-                delete local['data()']
-            }
+            breakRequest = true
+            answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: [...local.derivations, ...path.slice(i+1)], object: STATE[local.Data], params }, _ })
+            delete local['data()']
 
         } else if (k === 'Data()') {
 
@@ -114,7 +134,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === "removeAttribute()") {
 
             breakRequest = i + 1
-            var removed = toValue({ VALUE, STATE, id, e, params: { value: path[i+1], params } })
+            var removed = toValue({ VALUE, STATE, id, e, params: { value: path[i+1], params }, _ })
             answer = o.removeAttribute(removed)
 
         } else if (k === 'parent()') {
@@ -164,6 +184,24 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = VALUE[_id]
 
+        } else if (k === '3rdlastChild()') {
+
+            var _id = o.element.children[o.element.children.length - 3].id
+            if (VALUE[_id].component === 'Input') {
+                _id = VALUE[_id].element.getElementsByTagName('INPUT')[0].id
+            }
+            
+            answer = VALUE[_id]
+
+        } else if (k === '2ndlastChild()') {
+
+            var _id = o.element.children[o.element.children.length - 2].id
+            if (VALUE[_id].component === 'Input') {
+                _id = VALUE[_id].element.getElementsByTagName('INPUT')[0].id
+            }
+            
+            answer = VALUE[_id]
+
         } else if (k === 'lastChild()') {
 
             var _id = o.element.children[o.element.children.length - 1].id
@@ -191,23 +229,25 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             opposite = true
             answer = o
 
+        } else if (k === 'toInteger()') {
+
+            answer = Math.round(toNumber(o))
+
         } else if (k === 'child()') {
 
             breakRequest = i + 1
-            var child = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            var child = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params }, _ })
             answer = o.child(child)
             
         } else if (k === 'clearTimeout()') {
             
-            breakRequest = i + 1
-            var clear = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
-            answer = clearTimeout(clear)
+            answer = clearTimeout(o)
             
         } else if (k === 'setTimeout()') {
             
             breakRequest = i + 2
             var timer = parseInt(path[i + 2])
-            var myFn = () => toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var myFn = () => toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             answer = setTimeout(myFn, timer)
 
         } else if (k === 'delete()') {
@@ -221,67 +261,118 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'slice()') {
 
             breakRequest = i + 1
-            var sliced = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            var sliced = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params }, _ })
             answer = o.slice(sliced)
 
         } else if (k === 'replaceState()') {
 
             breakRequest = i + 1
-            var replaced = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            var replaced = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params }, _ })
             answer = o.replaceState(null, STATE.page[STATE.host].title, replaced)
 
         } else if (k === 'pushState()') {
 
             breakRequest = i + 1
-            var pushed = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } })
+            var pushed = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params }, _ })
             answer = o.pushState(null, STATE.page[STATE.host].title, pushed)
 
         } else if (k === '_param') {
             
             breakRequest = i + 1
-            var param = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var param = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             answer = o + '>>' + param
+
+        } else if (k === '_array' || k === '[]') {
+            
+            answer = []
+
+        } else if (k === '_string' || k === "''") {
+            
+            answer = ''
+
+        } else if (k === '_object' || k === '{}') {
+            
+            answer = {}
 
         } else if (k === '_semi') {
             
-            answer = o + ";"
+            if (path[i + 1] === 'add()') answer = o + ";"
+            else {
+            breakRequest = i + 1
+            answer = o + ";" + toValue({ VALUE, STATE, id, e, _, params: { value: path[i + 1], params } })
+            if (!path[i + 1]) answer = o + ";"
+            }
+
+        } else if (k === '_quest') {
+            
+            if (path[i + 1] === 'add()') answer = o + "?"
+            else {
+            breakRequest = i + 1
+            answer = o + "?" + toValue({ VALUE, STATE, id, e, _, params: { value: path[i + 1], params } })
+            if (!path[i + 1]) answer = o + "?"
+            }
+
+        } else if (k === '_dot') {
+
+            if (path[i + 1] === 'add()') answer = o + "."
+            else {
+            breakRequest = i + 1
+            answer = o + "." + toValue({ VALUE, STATE, id, e, _, params: { value: path[i + 1], params } })
+            if (!path[i + 1]) answer = o + "."
+            }
 
         } else if (k === '_space') {
-            
+
+            if (path[i + 1] === 'add()') answer = o + " "
+            else {
             breakRequest = i + 1
-            var spaced = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var spaced = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             if (!path[i + 1]) spaced = ""
             answer = o + " " + spaced
+            }
             
         } else if (k === '_equal') {
-            
-            breakRequest = i + 1
-            var added = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
-            if (!path[i + 1]) added = ""
-            answer = o + "=" + added
 
-        } else if (k === 'isEqual()') {
+            if (path[i + 1] === 'add()') answer = o + "="
+            else {
+                breakRequest = i + 1
+                var _equal = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
+                if (!path[i + 1]) _equal = ""
+                answer = o + "=" + _equal
+            }
+
+        } else if (k === 'and()' || k === '&&') {
+            
+            if (!o) {
+                breakRequest = true
+                answer = o
+            } else {
+                breakRequest = i + 1
+                answer = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
+            }
+            
+        } else if (k === 'isEqual()' || k === 'is()') {
             
             breakRequest = i + 1
-            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             answer = isEqual(o, b)
             
         } else if (k === 'greater()' || k === 'isgreater()' || k === 'isgreaterthan()' || k === 'isGreaterThan()') {
             
             breakRequest = i + 1
-            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             answer = parseFloat(o) > parseFloat(b)
-            
+
         } else if (k === 'less()' || k === 'isless()' || k === 'islessthan()' || k === 'isLessThan()') {
             
             breakRequest = i + 1
-            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             answer = parseFloat(o) < parseFloat(b)
-            
-        } else if (k === 'isNot()') {
+
+        } else if (k === 'isNot()' || k === 'isNotEqual()' || k === 'not()') {
             
             breakRequest = i + 1
-            var isNot = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var isNot = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             answer = !isEqual(o, isNot)
             
         } else if (k === 'abs()') {
@@ -298,7 +389,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'dividedBy()' || k === 'divide()' || k === 'divided()' || k === 'divideBy()') {
             
             breakRequest = i + 1
-            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             
             o = o.toString()
             b = b.toString()
@@ -315,7 +406,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'times()' || k === 'multiplyBy()' || k === 'multiply()' || k === 'mult()') {
             
             breakRequest = i + 1
-            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             
             o = o.toString()
             b = b.toString()
@@ -332,7 +423,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'add()') {
             
             breakRequest = i + 1
-            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             
             o = o.toString()
             b = b.toString()
@@ -350,7 +441,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'subs()') {
             
             breakRequest = i + 1
-            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e })
+            var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, e, _ })
             
             o = o.toString()
             b = b.toString()
@@ -364,11 +455,6 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             if (!isNaN(o) && !isNaN(b)) answer = o - b
             else answer = o.split(b)[0] - o.split(b)[1]
             if (isPrice) answer = answer.toLocaleString()
-
-        } else if (k === 'dateTimeFormater()') {
-            
-            answer = dateTimeFormater({ VALUE, STATE, id, e, params: { dateTime: o, opposite } })
-            opposite = false
 
         } else if (k === 'toArray()') {
             
@@ -397,23 +483,23 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 breakRequest = true
                 var fields = path.slice(i + 1).join('.').split('field().').slice(1)
                 fields.map(field => {
-                    var f = toValue({ VALUE, STATE, id, params: { value: field.split('.')[0], params }, e })
-                    var v = toValue({ VALUE, STATE, id, params: { value: field.split('.')[2], params }, e })
+                    var f = toValue({ VALUE, STATE, id, params: { value: field.split('.')[0], params }, _, e })
+                    var v = toValue({ VALUE, STATE, id, params: { value: field.split('.')[2], params }, _, e })
                     answer[f] = v
                 })
             }
-
+            
         } else if (k === 'push()') {
             
             breakRequest = i + 1
-            var pushed = toValue({ VALUE, STATE, id, params: {value: path[i + 1], params}, e })
+            var pushed = toValue({ VALUE, STATE, id, params: {value: path[i + 1], params},_ ,e })
             o.push(pushed)
             answer = o
 
         } else if (k === 'pull()') {
             
             breakRequest = i + 1
-            var pulled = toValue({ VALUE, STATE, id, params: {value: path[i + 1], params}, e })
+            var pulled = toValue({ VALUE, STATE, id, params: {value: path[i + 1], params},_ ,e }) || o.length - 1
             o.splice(pulled,1)
             answer = o
 
@@ -448,7 +534,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'includes()') {
             
             breakRequest = i + 1
-            var included = toValue({ VALUE, STATE, id, e, params: { value: path[i+1], params } })
+            var included = toValue({ VALUE, STATE, id, e, params: { value: path[i+1], params }, _ })
             answer = o.includes(included)
             
         } else if (k === 'capitalize()') {
@@ -459,10 +545,15 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = o.length
             
-        } else if (k === 'date()') {
+        } else if (k === 'today()') {
             
             answer = new Date()
 
+        } else if (k === 'date()' || k === 'toDate()') {
+
+            if (!isNaN(o)) o = parseInt(o)
+            answer = new Date(o)
+            
         } else if (k === 'toUTCString()') {
             
             if (!isNaN(o)) o = new Date(parseFloat(o))
@@ -484,38 +575,42 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = o.getTime()
             
-        } else if (k === 'toDate()') {
+        } else if (k === 'getDateTime()') {
             
-            if (!isNaN(o)) o = new Date(parseFloat(o))
-            answer = `${o.getDate()}-${o.getMonth()}-${o.getFullYear()}T${o.getHours()}:${o.getMinutes()}:${o.getSeconds()}`
+            answer = getDateTime({ VALUE, STATE, id, e, params: { time: o } })
+
+        } else if (k === 'exist()' || k === 'exists()') {
+            
+            answer = o !== undefined ? true : false
+            
+        } else if (k === 'notexist()' || k === 'notExist()') {
+            
+            answer = !o ? true : false
             
         } else if (k === 'flat()') {
             
             answer = Array.isArray(o) ? o.flat() : o
             
-        } else if (k === 'filterById()') {
-
-            var notEqual = false
+        } else if (k === 'filter()') {
+            
             breakRequest = i + 1
+            var cond = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params}, _ })
+            if (!cond) answer = o.filter(o => o !== undefined)
+            else answer = o.filter(o => o === cond)
+            
+        } else if (k.includes('filterById()')) {
 
-            if (path[i + 1] === '!') {
-                breakRequest = i + 2
-                notEqual = true
+            breakRequest = i + 1
+            if (k[0] === "_") answer = o.filter(_ => toValue({ VALUE, STATE, id, e, _, params: { value: path[i + 1], params } }))
+            else {
+                var _id = toArray(toValue({ VALUE, STATE, id, e, _, params: {value: path[i + 1], params} }))
+                answer = o.filter(_ => _id.includes(_.id))
             }
-            
-            var newPath = notEqual ? path[i + 2] : path[i + 1]
-
-            // get id
-            var _id = reducer({ VALUE, STATE, id, params: { path: [newPath], value, key, params }, e })
-            _id = toArray(_id)
-            
-            if (notEqual) answer = o.filter(data => _id.find(id => data.id === id) ? false : true )
-            else answer = o.filter(data => _id.find(id => data.id === id))
 
         } else if (k === 'find()') {
 
             breakRequest = i + 1
-            var found = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} })
+            var found = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} , _})
             answer = o.find(data => isEqual(found, data))
 
             // last index & value
@@ -527,14 +622,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             breakRequest = i + 1
             // get id
-            var _id = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} })
-            
+            var _id = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} , _})
             answer = o.find(data => data.id === _id)
 
-            if (!answer) {
+            /*if (!answer) {
                 o.push({ id : _id })
                 answer = o[o.length - 1]
-            }
+            }*/
 
             // last index & value
             var index = o.findIndex(data => data.id === _id)
@@ -544,7 +638,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             breakRequest = i + 1
             // get id
-            var name = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
+            var name = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, _, e })
             
             answer = o.find(data => data.name === name)
             
@@ -561,7 +655,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             breakRequest = i + 1
             // get id
-            var name = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
+            var name = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, _, e })
             
             answer = o.find(data => data.name.en === name)
             
@@ -574,10 +668,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             // last index & value
             if (key && value && (i + 1 === lastIndex)) answer = o[index] = value
             
-        } else if (k === 'map()') {
+        } else if (k.includes('map()')) {
             
             breakRequest = i + 1
-            answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], object: o, value, key, params }, e }) )
+            if (k[0] === "_") answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, _: o, e }) )
+            else answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], object: o, value, key, params }, _, e }) )
 
         } else if (k === 'index()') {
             
@@ -607,7 +702,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             answer = toNumber(o)
             
         } else if (k === 'toString()') {
-
+            
             answer = o + ""
             
         } else if (k === '1stIndex()' || k === 'firstIndex()') {
@@ -665,7 +760,8 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'split()') {
             
             breakRequest = i + 1
-            answer = o.split(path[i + 1])
+            var splited = toValue({ VALUE, STATE, id, e, _, params: { value: path[i + 1], params } })
+            answer = o.split(splited)
 
         } else if (k === 'type()') {
             
@@ -678,7 +774,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'join()') {
             
             breakRequest = i + 1
-            var joiner = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1] || '', params} })
+            var joiner = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1] || '', params} , _})
             answer = o.join(joiner)
             
         } else if (k === 'clean()') {
@@ -696,13 +792,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'isChildOf()') {
             
             breakRequest = i + 1
-            var el = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
+            var el = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, _, e })
             answer = isEqual(el, o)
 
         } else if (k === 'isChildOfId()') {
             
             breakRequest = i + 1
-            var _id = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, e })
+            var _id = reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, _, e })
             var _ids = Object.keys(getDeepChildren({ VALUE, id: _id }))
             answer = _ids.find(_id => _id === o)
 
@@ -756,7 +852,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         return answer
 
     }, object)
-
+    
     return answer
 }
 
