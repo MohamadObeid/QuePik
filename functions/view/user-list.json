@@ -10,15 +10,15 @@
         }, {
             "type": "View?class=flex-box",
             "children": [{
-                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
+                "type": "Button?text.text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "type": "Button?text.text=Export;icon.name=bi-upload;style.marginRight=1rem",
                 "controls": {
                     "event": "click??state.user;state.user.length().isgreaterthan().0",
                     "actions": "toCSV?file.data=state.user.clone();file.name=User List"
                 }
             }, {
-                "type": "Button?text=Add New User;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=user"
+                "type": "Button?text.text=Add New User;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=user"
             }]
         }]
     }, {
@@ -37,19 +37,19 @@
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
-                    "type": "Button?text=Top Bookers;icon.name=navigation;icon.google;icon.outlined",
+                    "type": "Button?text.text=Top Bookers;icon.name=bi-arrow-up",
                     "controls": {
                         "event": "click??state.user-list-Data", 
                         "actions": "await.update::user-list-view;async.sort?sort.path=bookings.length();sort.Data=user-list-Data;sort.data=state.user.clone()"
                     }
                 }, {
-                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
+                    "type": "Button?text.text=Sort;icon.name=bi-sort-alpha-down",
                     "controls": {
                         "event": "click??state.user-list-Data", 
                         "actions": "await.update::user-list-view;async.sort?sort.path=creation-date;sort.Data=user-list-Data"
                     }
                 }, {
-                    "type": "Button?text=View;icon.name=bi-list-ul",
+                    "type": "Button?text.text=View;icon.name=bi-list-ul",
                     "controls": {
                         "event": "click?await.state.user-list-grid-view-display=global.user-list-view.1stChild().element.style.display;await.state.user-list-table-view-display=global.user-list-view.2ndChild().element.style.display", 
                         "actions": [
@@ -145,9 +145,9 @@
                         }, {
                             "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%;style.marginRight=1rem",
                             "children": [{
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=user"
+                                "type": "Icon?class=flex-box pointer;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.height=4rem;style.fontSize=2rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-gear;hoverable;miniWindow.view=user"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=user;popup.update=user-list-view;popup.note=User removed successfully!;popup.type=eraser;popup.state=user"
+                                "type": "Icon?class=flex-box pointer;style.after.color=red;style.borderRadius=3rem;style.fontSize=2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-trash;hoverable;popup.path=user;popup.update=user-list-view;popup.note=User removed successfully!;popup.type=eraser;popup.state=user"
                             }]
                         }]
                     }]

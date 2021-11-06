@@ -1,4 +1,4 @@
-const {toArray} = require("../method/toArray")
+const {toArray} = require("../function/toArray")
 
 module.exports = ({VALUE, id, params = {}}) => {
   const controls = typeof params.controls === "object" ? params.controls : {}

@@ -1,4 +1,4 @@
-const {generate} = require("../method/generate");
+const {generate} = require("../function/generate");
 
 module.exports = ({STATE, params, id}) => {
   const controls = params.controls;

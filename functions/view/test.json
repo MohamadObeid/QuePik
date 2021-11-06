@@ -1,0 +1,9 @@
+{
+    "type": "View",
+    "children": [{
+        "type": "View?id=navbar;style.padding=1rem 2rem 1rem 3rem;style.display=flex;style.alignItems=center;style.borderBottom=1px solid #eee;style.height=6rem;style.width=100%",
+        "children": [{
+            "type": ""
+        }]
+    }]
+}

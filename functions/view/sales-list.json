@@ -1,24 +1,26 @@
 {
-    "type": "View?class=flex-column;style.flex=1;state.sales-list-grid-view-display=grid;state.sales-list-table-view-display=none;state.sales-list-Data=[]",
-    "controls": {
-        "actions": "await.update::sales-list-view;async.search?search.path=sales;await.state.sales-list-Data=value.search.data;await.state.sales=value.search.data" 
-    },
+    "type": "View?class=flex-column;style.flex=1;state.sales-list-grid-view-display=none;state.sales-list-table-view-display=grid;state.sales-list-Data=[]<<!state.sales-list-Data",
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
         "children": [{
-            "type": "Text?text=Sales List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
+            "type": "View?class=flex-box",
+            "children": [{
+                "type": "Icon?class=pointer;icon.name=bi-chevron-left;style.marginRight=2rem;style.fontSize=1.6rem;style.padding=.5rem 0;style.after.color=#116dff;await.hoverable.id=[value.id,value.next().id];toggler.id=admin-view;toggler.view=sales-by-provider"
+            }, {
+                "type": "Text?text=state.provider-chosen._space.Sales;style.fontSize=1.8rem;style.fontWeight=500"
+            }]
         }, {
             "type": "View?class=flex-box",
             "children": [{
-                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
+                "type": "Button?text.text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "type": "Button?text.text=Export;icon.name=bi-upload;style.marginRight=1rem",
                 "controls": {
                     "event": "click??state.sales;state.sales.length().isgreaterthan().0",
                     "actions": "toCSV?file.data=state.sales.clone();file.name=Sales List"
                 }
             }, {
-                "type": "Button?text=Add New Sales;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=sales"
+                "type": "Button?text.text=Add New Sales;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=sales"
             }]
         }]
     }, {
@@ -26,24 +28,101 @@
         "children": [{
             "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
             "children": [{
-                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by provider name, status, item...",
+                "type": "Input?featured;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=45rem;placeholder=Search by provider name, status, item...",
                 "controls": [{
-                    "event": "loaded",
-                    "actions": "async.search?search.path=sales;search.limit=10000;await.state.sales=value.search.data"
-                }, {
                     "event": "keyup>>200??state.sales-list-Data",
                     "actions": "await.update::sales-list-view;async.filter?filter.backup=state.sales.clone();filter.path=[provider.name,status,item,description];filter.Data=sales-list-Data;filter.value.include=e.target.value"
                 }]
             }, {
-                "type": "View?class=flex-box",
+                "type": "View?class=flex-box;id=sort-list;flicker",
                 "children": [{
-                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
+                    "type": "Button?text.text=By Status;icon.name=bi-filter",
+                    "controls": {
+                        "event": "click",
+                        "actions": [
+                            "setPosition::value.next().id?position.positioner=value.id;position.placement=bottom;position.left=-230;position.top=-65",
+                            "toggleStyles::value.next().id"
+                        ]
+                    }
+                }, {
+                    "type": "View?class=box-shadow;style.position=absolute;style.height=fit-content;style.minWidth=fit-content;style.flexDirection=column;style.borderRadius=.5rem;style.padding=.5rem;style.backgroundColor=#fff;style.display=flex;style.transition=.1s;style.opacity=0;style.transform=scale(0.5);style.pointerEvents=none;style.zIndex=-1;style.after.zIndex=1;style.after.pointerEvents=auto;style.after.opacity=1;style.after.transform=scale(1)",
+                    "children": [{
+                        "type": "Item?text.text=Draft",
+                        "controls": {
+                            "event": "click??state.sales-list-Data", 
+                            "actions": "await.update::sales-list-view;async.filter?filter.backup=state.sales.clone();filter.path=status;filter.Data=sales-list-Data;filter.value.include=Draft<<state.sales-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.sales-list-Data-options.filter=params.filter.value?state.sales.length()!=0"
+                        }
+                    }, {
+                        "type": "Item?text.text=Open",
+                        "controls": {
+                            "event": "click??state.sales-list-Data", 
+                            "actions": "await.update::sales-list-view;async.filter?filter.backup=state.sales.clone();filter.path=status;filter.Data=sales-list-Data;filter.value.include=Open<<state.sales-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.sales-list-Data-options.filter=params.filter.value?state.sales.length()!=0"
+                        }
+                    }, {
+                        "type": "Item?text.text=Closed",
+                        "controls": {
+                            "event": "click??state.sales-list-Data",
+                            "actions": "await.update::sales-list-view;async.filter?filter.backup=state.sales.clone();filter.path=status;filter.Data=sales-list-Data;filter.value.include=Closed<<state.sales-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.sales-list-Data-options.filter=params.filter.value.else().Draft?state.sales.length()!=0"
+                        }
+                    }, {
+                        "type": "Item?text.text=Canceled",
+                        "controls": {
+                            "event": "click??state.sales-list-Data", 
+                            "actions": "await.update::sales-list-view;async.filter?filter.backup=state.sales.clone();filter.path=status;filter.Data=sales-list-Data;filter.value.include=Canceled<<state.sales-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.sales-list-Data-options.filter=params.filter.value?state.sales.length()!=0"
+                        }
+                    }],
+                    "controls": [{
+                        "event": "mouseleave;click::body??!e.target.id.isChildOfId().[value.prev().id]",
+                        "actions": "resetStyles>>200??!mouseenter;!e.target.id.isChildOfId().[value.prev().id]"
+                    }]
+                }, {
+                    "type": "Button?text.text=By Date;icon.name=bi-calendar-event",
+                    "controls": {
+                        "event": "click",
+                        "actions": [
+                            "setPosition::value.next().id?position.positioner=value.id;position.placement=bottom;position.left=-230;position.top=-65",
+                            "toggleStyles::value.next().id"
+                        ]
+                    }
+                }, {
+                    "type": "View?class=box-shadow;style.position=absolute;style.height=fit-content;style.minWidth=fit-content;style.flexDirection=column;style.borderRadius=.5rem;style.padding=.5rem;style.backgroundColor=#fff;style.display=flex;style.transition=.1s;style.opacity=0;style.transform=scale(0.5);style.pointerEvents=none;style.zIndex=-1;style.after.zIndex=1;style.after.pointerEvents=auto;style.after.opacity=1;style.after.transform=scale(1)",
+                    "children": [{
+                        "type": "Item?text.text=Today",
+                        "controls": {
+                            "event": "click??state.sales-list-Data",
+                            "actions": "await.update::sales-list-view;async.filter?filter.backup=state.sales.clone();filter.path=creation-date;filter.Data=sales-list-Data;filter.value.greaterthan=value.today().getDayBeginning()<<state.sales-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.sales-list-Data-options.filter=params.filter.value?state.sales.length()!=0"
+                        }
+                    }, {
+                        "type": "Item?text.text=Yesterday",
+                        "controls": {
+                            "event": "click??state.sales-list-Data", 
+                            "actions": "await.update::sales-list-view;async.filter?filter.backup=state.sales.clone();filter.path=creation-date;filter.Data=sales-list-Data;filter.value.greaterthan=value.today().getDayBeginning().subs().86400000<<state.sales-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.sales-list-Data-options.filter=params.filter.value?state.sales.length()!=0"
+                        }
+                    }, {
+                        "type": "Item?text.text=Last Week",
+                        "controls": {
+                            "event": "click??state.sales-list-Data", 
+                            "actions": "await.update::sales-list-view;async.filter?filter.backup=state.sales.clone();filter.path=creation-date;filter.Data=sales-list-Data;filter.value.greaterthan=value.today().getDayBeginning().subs().604800000<<state.sales-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.sales-list-Data-options.filter=params.filter.value?state.sales.length()!=0"
+                        }
+                    }, {
+                        "type": "Item?text.text=Last Month",
+                        "controls": {
+                            "event": "click??state.sales-list-Data", 
+                            "actions": "await.update::sales-list-view;async.filter?filter.backup=state.sales.clone();filter.path=creation-date;filter.Data=sales-list-Data;filter.value.greaterthan=value.today().getDayBeginning().subs().2592000000<<state.sales-list-Data-options.filter!=params.filter.value;filter.value.include=''<<state.sales-list-Data-options.filter=params.filter.value?state.sales.length()!=0"
+                        }
+                    }],
+                    "controls": [{
+                        "event": "mouseleave;click::body??!e.target.id.isChildOfId().[value.prev().id]",
+                        "actions": "resetStyles>>200??!mouseenter;!e.target.id.isChildOfId().[value.prev().id]"
+                    }]
+                }, {
+                    "type": "Button?text.text=Sort;icon.name=bi-sort-alpha-down",
                     "controls": {
                         "event": "click??state.sales-list-Data", 
                         "actions": "await.update::sales-list-view;async.sort?sort.path=creation-date;sort.Data=sales-list-Data"
                     }
                 }, {
-                    "type": "Button?text=View;icon.name=bi-list-ul",
+                    "type": "Button?text.text=View;icon.name=bi-list-ul",
                     "controls": {
                         "event": "click?await.state.sales-list-grid-view-display=global.sales-list-view.1stChild().element.style.display;await.state.sales-list-table-view-display=global.sales-list-view.2ndChild().element.style.display", 
                         "actions": [
@@ -56,25 +135,32 @@
         }, {
             "type": "View?id=sales-list-view;style.display=flex;style.flexDirection=column;style.width=100%;style.flex=1",
             "children": [{
-                "type": "View?style.display=state.sales-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
+                "type": "View?style.display=state.sales-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
                 "children": [{
-                    "type": "[View]?class=flex-box pointer;Data=sales-list-Data;touchableOpacity;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.sales-list-Data;state.sales-list-Data.length()!=0",
-                    "controls": {
-                        "event": "loaded",
-                        "actions": "toControls?hoverable.id=[value.id,value.children().0.id,value.children().1.id,value.children().2.id];miniWindow.view=sales"
-                    },
+                    "type": "[View]?class=flex-box pointer;Data=sales-list-Data;touchableOpacity;style.padding=2rem;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e;await.hoverable.id=[value.id,value.1stChild().1stChild().1stChild().id,value.1stChild().1stChild().2ndChild().id,value.1stChild().2ndChild().1stChild().id,value.1stChild().2ndChild().2ndChild().id];await.miniWindow.view=sales?state.sales-list-Data;state.sales-list-Data.length()!=0",
                     "children": [{
-                        "type": "Text?text=value.data.provider.name;style.fontSize=1.3rem;style.after.color=#ee384e;style.color=#666;style.transition=color .1s"
-                    }, {
-                        "type": "Text?text=value.data.status;style.fontSize=1.3rem;style.after.color=#ee384e;style.color=#666;style.transition=color .1s"
-                    }, {
-                        "type": "Text?text=value.data.payment.payable;style.fontSize=1.3rem;style.after.color=#ee384e;style.color=#666;style.transition=color .1s"
+                        "type": "View?class=flex-box;style.justifyContent=space-between;style.width=100%",
+                        "children": [{
+                            "type": "View?style.display=grid;style.gap=.7rem",
+                            "children": [{
+                                "type": "Text?class=left;text=value.data.provider.name;style.fontSize=1.3rem;style.after.color=#ee384e;style.color=#666;style.transition=color .1s"
+                            }, {
+                                "type": "Text?class=left;text=value.data.payment.payable.value()._space.[value.data.payment.payable.key()];style.fontSize=1.3rem;style.after.color=#ee384e;style.color=#666;style.transition=color .1s"
+                            }]
+                        }, {
+                            "type": "View?style.display=grid;style.gap=.7rem",
+                            "children": [{
+                                "type": "Text?class=right;text=value.data.status;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.borderRadius=.5rem;style.after.color=#ee384e;style.transition=color .1s"
+                            }, {
+                                "type": "Text?class=right;text=value.data.payment.status;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.borderRadius=.5rem;style.after.color=#ee384e;style.transition=color .1s"
+                            }]
+                        }]
                     }]
                 }]
             }, {
                 "type": "View?style.display=state.sales-list-table-view-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
                 "children": [{
-                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 1fr 1fr 1fr 1fr;style.minHeight=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem",
+                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=4rem 0.9fr 1fr 1fr 1.4fr 1.3fr 1.8fr 0.9fr 1.9fr;style.minHeight=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem",
                     "children": [{
                         "type": "Text?text=Active;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
@@ -88,7 +174,7 @@
                             "actions": "await.update::value.parent().next().id;async.sort?sort.path=creation-date;sort.Data=sales-list-Data?state.sales-list-Data"
                         }
                     }, {
-                        "type": "Text?text=Provider Name;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "type": "Text?text=Provider;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click",
                             "actions": "await.update::value.parent().next().id;async.sort?sort.path=provider.name;sort.Data=sales-list-Data?state.sales-list-Data"
@@ -100,10 +186,22 @@
                             "actions": "await.update::value.parent().next().id;async.sort?sort.path=payment.payable.value();sort.Data=sales-list-Data?state.sales-list-Data"
                         }
                     }, {
+                        "type": "Text?text=Collected;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click", 
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=payment.collected.value();sort.Data=sales-list-Data?state.sales-list-Data"
+                        }
+                    }, {
                         "type": "Text?text=Status;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
                         "controls": {
                             "event": "click", 
                             "actions": "await.update::value.parent().next().id;async.sort?sort.path=status;sort.Data=sales-list-Data?state.sales-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Payment Status;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click", 
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=payment.status;sort.Data=sales-list-Data?state.sales-list-Data"
                         }
                     }, {
                         "type": "Text?text=Due Date;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
@@ -115,28 +213,112 @@
                         "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
                     }]
                 }, {
-                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr;flicker",
+                    "type": "View?id=sales-list;style.display=grid;style.gridTemplateColumns=1fr;flicker",
+                    "controls": [{
+                        "event": "loaded?value.element.style.display::state.sales-list-Data._find().[state.sales.findById().[_.id].isNot()._]._map().[_.id.add().-save]=flex;value.element.style.display::save-all=flex?state.sales-list-Data._find().[state.sales.findById().[_.id].not()._]"
+                    }, {
+                        "watch": "state.sales-list-Data?state.sales-list-Data._map().[global.[_.id.add().-save].element.style.display.equal().[any.none.if().[state.sales.findById().[_.id].is()._].else().flex]];value.element.style.display::save-all=any.flex.if().[state.sales-list-Data._find().[state.sales.findById().[_.id].not()._]].else().none"
+                    }],
                     "children": [{
-                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 1fr 1fr 1fr 1fr;style.minHeight=5.5rem;Data=sales-list-Data;data=state.sales-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.sales-list-Data;state.sales-list-Data.length()!=0",
+                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=4rem 0.9fr 1fr 1fr 1.4fr 1.3fr 1.8fr 0.9fr 1.9fr;style.minHeight=5.5rem;Data=sales-list-Data;data=state.sales-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.sales-list-Data;state.sales-list-Data.length()!=0",
                         "children": [{
                             "type": "Icon?icon.name=bi-circle<<!value.data.active;icon.name=bi-circle-fill<<value.data().active;style.fontSize=1.4rem;style.color=lime<<value.data().active;style.color=#ddd<<!value.data().active;style.textAlign=center"
                         }, {
-                            "type": "Text?class=dots;text=value.data.creation-date.toNumber().date().getDateTime();style.fontSize=1.4rem"
+                            "type": "Text?text=value.data.creation-date.toNumber().date().getDateTime().split().T.join(). ;style.fontSize=1.4rem"
                         }, {
                             "type": "Text?class=dots;text=value.data.provider.name;style.fontSize=1.4rem"
                         }, {
-                            "type": "Text?class=dots;text=value.data.payment.payable.value();style.fontSize=1.4rem"
+                            "type": "Text?class=dots;text=value.data.payment.payable.value()._space.[value.data.payment.payable.key()];style.fontSize=1.4rem"
                         }, {
-                            "type": "Text?class=dots;text=value.data.status;style.fontSize=1.4rem"
+                            "type": "View?class=flex-box;style.gap=.25rem",
+                            "children": [{
+                                "type": "Input?id=value.data.id.add().-collected;featured;path=payment.collected;value.data().payment.collected.[value.data().payment.collected.key().else().lbp]=value.data().payment.collected.value().else().0;currency=value.data.payment.collected.key().else().lbp;pricable;style.border=1px solid #e0e0e0;hoverable;style.borderRadius=.5rem;style.height=3.8rem",
+                                "controls": {
+                                    "event": "input?value.data()=value.Data().[value.derivations.1stElement()].payment.payable.value()<<value.element.value.toNumber().greater().[value.Data().[value.derivations.1stElement()].payment.payable.value().toNumber()];value.element.value=value.data()"
+                                }
+                            }, {
+                                "type": "Icon?class=pointer;icon.name=bi-check;style.after.color=#0d6efd;style.fontSize=1.9rem;hoverable",
+                                "controls": {
+                                    "event": "click?value.Data().[value.derivations.1stElement()].payment.collected=value.data.payment.payable;value.element.value::value.data.id.add().-collected.add().-input=value.data.payment.payable.value();value.element.innerHTML::value.data.id.add().-collected.add().-currency=value.data.payment.payable.key();value.Data().[value.derivations.1stElement()].payment.status=Collected;value.element.innerHTML::value.data.id.add().-payment-status.add().-text=Collected;value.Data().[value.derivations.1stElement()].status=Closed;value.element.innerHTML::value.data.id.add().-status.add().-text=Closed"
+                                }
+                            }, {
+                                "type": "Icon?class=pointer;icon.name=bi-x;style.after.color=red;style.fontSize=1.9rem;hoverable",
+                                "controls": {
+                                    "event": "click?value.Data().[value.derivations.1stElement()].payment.collected={}.field().lbp.value().0;value.element.value::value.data.id.add().-collected.add().-input=0;value.element.innerHTML::value.data.id.add().-collected.add().-currency=lbp;value.Data().[value.derivations.1stElement()].payment.status=Pending Payment;value.element.innerHTML::value.data.id.add().-payment-status.add().-text=Pending Payment;value.Data().[value.derivations.1stElement()].status=Open;value.element.innerHTML::value.data.id.add().-status.add().-text=Open"
+                                }
+                            }]
                         }, {
-                            "type": "Text?text=value.data.due-date.toNumber().date().getDateTime();style.fontSize=1.4rem"
+                            "type": "View",
+                            "children": [{
+                                "type": "Button?id=value.data.id.add().-status;class=pointer;path=status;text.text=value.data.status;style.margin=0;icon.name=bi-caret-down;icon.style.margin=0 .2rem;style.width=fit-content;style.fontSize=1.4rem;style.padding=1rem .5rem;style.after.backgroundColor=#fff;style.flexDirection=row-reverse;style.borderRadius=.5rem;hoverable;droplist.items=state.asset.findByName().Sales Status List.options.map().name"
+                            }]
+                        }, {
+                            "type": "View",
+                            "children": [{
+                                "type": "Button?id=value.data.id.add().-payment-status;class=pointer;path=payment.status;text.text=value.data.payment.status;style.margin=0;icon.style.margin=0 .2rem;icon.name=bi-caret-down;style.width=fit-content;style.fontSize=1.4rem;style.padding=1rem .5rem;style.after.backgroundColor=#fff;style.flexDirection=row-reverse;style.borderRadius=.5rem;hoverable;droplist.items=state.asset.findByName().Payment Status List.options.map().name",
+                                "controls": {
+                                    "watch": "value.data()?value.this-data=value.Data().[value.derivations.1stElement()];value.this-id=value.this-data.id;value.this-data.payment.collected=value.this-data.payment.payable<<value.data()=Collected;value.element.value::value.this-id.add().-collected.add().-input=value.this-data.payment.collected.value()<<value.data()=Collected;value.element.innerHTML::value.this-id.add().-collected.add().-currency=value.this-data.payment.collected.key()<<value.data()=Collected;value.this-data.status=Closed<<value.data()=Collected;value.element.innerHTML::value.this-id.add().-status.add().-text=Closed<<value.data()=Collected;value.this-data.payment.collected={}.field().lbp.value().0<<value.data().isNot().Collected;value.element.value::value.this-id.add().-collected.add().-input=value.this-data.payment.collected.value()<<value.data().isNot().Collected;value.element.innerHTML::value.this-id.add().-collected.add().-currency=value.this-data.payment.collected.key()<<value.data().isNot().Collected"
+                                }
+                            }]
+                        }, {
+                            "type": "Text?text=value.data.due-date.toNumber().date().getDateTime().split().T.join(). ;style.fontSize=1.4rem"
                         }, {
                             "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%;style.marginRight=1rem",
                             "children": [{
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=sales"
+                                "type": "Button?id=value.data.id.add().-save;text.text=Save;style.display=none",
+                                "controls": {
+                                    "event": "click",
+                                    "actions": [
+                                        "await.note;async.save?save.path=sales;save.data=value.data();note=Sales saved successfully!;await.value.element.style.display=none<<value.save.success;await.state.sales.findById().[value.data().id]=value.data().clone();await.state.sales-list-Data.pull().[state.sales-list-Data.findIndex().[value.save.data]];await.action.update::sales-list?value.data().status.is().Closed.and().[value.data().payment.status.isNot().Pending Payment].else().value.data().status.isNot().Closed",
+                                        "note?note=Payment must be closed First! Otherwise change Sales status to Open?value.data().status.is().Closed.and().[value.data().payment.status.is().Pending Payment]"
+                                    ]
+                                }
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=sales;popup.update=sales-list-view;popup.note=Sales removed successfully!;popup.type=eraser;popup.state=sales"
+                                "type": "Icon?class=flex-box pointer;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.height=4rem;style.fontSize=2rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-gear;hoverable;miniWindow.view=sales"
+                            }, {
+                                "type": "Icon?class=flex-box pointer;style.after.color=red;style.borderRadius=3rem;style.fontSize=2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-trash;hoverable;popup.path=sales;popup.update=sales-list-view;popup.note=Sales removed successfully!;popup.type=eraser;popup.state=sales"
                             }]
+                        }]
+                    }, {
+                        "type": "View?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=4rem 0.9fr 1fr 1fr 1.4fr 1.3fr 1.8fr 0.9fr 1.9fr;style.minHeight=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem?state.sales-list-Data;state.sales-list-Data.length()!=0",
+                        "children": [{
+                            "type": "View"
+                        }, {
+                            "type": "View"
+                        }, {
+                            "type": "Text?text=Total;style.fontWeight=bolder;style.fontSize=1.5rem"
+                        }, {
+                            "type": "Text?style.fontWeight=bolder;text=state.sales-list-Data.map().[payment.payable.value().toNumber()].sum().toPrice()._space.[state.sales-list-Data.0.payment.payable.key()];style.fontSize=1.4rem"
+                        }, {
+                            "type": "View?class=flex-box;style.gap=.25rem",
+                            "children": [{
+                                "type": "Text?class=left;style.fontWeight=bolder;style.flex=1;text=state.sales-list-Data.map().[payment.collected.value().toNumber()].sum().toPrice()._space.[state.sales-list-Data.0.payment.collected.key()];style.fontSize=1.4rem",
+                                "controls": {
+                                    "watch": "state.sales-list-Data.map().[payment.collected]?value.element.innerHTML=state.sales-list-Data.map().[payment.collected.value().toNumber()].sum().toPrice()._space.[state.sales-list-Data.0.payment.collected.key()]"
+                                }
+                            }, {
+                                "type": "Icon?class=pointer;icon.name=bi-check;style.after.color=#0d6efd;style.fontSize=1.9rem;hoverable",
+                                "controls": {
+                                    "event": "click?value.element.innerHTML::value.prev().id=state.sales-list-Data.map().[payment.payable.value().toNumber()].sum().toPrice()._space.[state.sales-list-Data.0.payment.payable.key()];state.sales-list-Data._map().[_.payment.collected.equal().[_.payment.payable].then().[global.[_.id.add().-save].element.style.display.equal().[none.if().[state.sales.findById().[_.id].is()._].else().flex]].then().[global.[_.id.add().-collected.add().-input].element.value.equal().[_.payment.payable.value()]].then().[global.[_.id.add().-collected.add().-currency].element.innerHTML.equal().[_.payment.payable.key()]].then().[_.payment.status.equal().Collected].then().[global.[_.id.add().-payment-status.add().-text].element.innerHTML.equal().Collected].then().[_.status.equal().Closed].then().[global.[_.id.add().-status.add().-text].element.innerHTML.equal().Closed]];value.element.style.display::save-all=any.flex.if().[state.sales-list-Data._find().[state.sales.findById().[_.id].isNot()._]].else().none"
+                                }
+                            }, {
+                                "type": "Icon?class=pointer;icon.name=bi-x;style.after.color=red;style.fontSize=1.9rem;hoverable",
+                                "controls": {
+                                    "event": "click?value.element.innerHTML::value.prev().prev().id=0 lbp;state.sales-list-Data._map().[_.payment.collected.equal().[{}.field().lbp.value().0].then().[global.[_.id.add().-save].element.style.display.equal().[none.if().[state.sales.findById().[_.id].is()._].else().flex]].then().[global.[_.id.add().-collected.add().-input].element.value.equal().0].then().[global.[_.id.add().-collected.add().-currency].element.innerHTML.equal().lbp].then().[_.payment.status.equal().Pending Payment].then().[global.[_.id.add().-payment-status.add().-text].element.innerHTML.equal().Pending Payment].then().[_.status.equal().Open].then().[global.[_.id.add().-status.add().-text].element.innerHTML.equal().Open]];value.element.style.display::save-all=any.flex.if().[state.sales-list-Data._find().[state.sales.findById().[_.id].isNot()._]].else().none"
+                                }
+                            }]
+                        }, {
+                            "type": "View"
+                        }, {
+                            "type": "View"
+                        }, {
+                            "type": "View"
+                        }, {
+                            "type": "Button?id=save-all;text.text=Save all;style.display=none",
+                            "controls": {
+                                "event": "click",
+                                "actions": "await.note;async.save?note=Sales saved successfully;save.path=sales;save.data=state.sales-list-Data._filter().[_.payment.status.isNot().[state.sales.clone().findById().[_.id].payment.status].or().[_.status.isNot().[state.sales.clone().findById().[_.id].status]].or().[_.payment.collected.isNot().[state.sales.clone().findById().[_.id].payment.collected]]];await.value.element.style.display::value.save.data.id.add().-save=none;await.state.sales.findById().[value.save.data.id]=value.save.data;await.state.sales-list-Data.pull().[state.sales-list-Data.findIndex().[value.save.data]];await.action.update::sales-list"
+                            }
                         }]
                     }]
                 }]

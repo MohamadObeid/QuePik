@@ -1,6 +1,6 @@
 // browserify browser.js > index.js
-const {starter} = require("../method/starter")
-const {setElement} = require("../method/setElement")
+const {starter} = require("../function/starter")
+const {setElement} = require("../function/setElement")
 
 const VALUE = JSON.parse(document.getElementById("VALUE").textContent)
 const STATE = JSON.parse(document.getElementById("STATE").textContent)

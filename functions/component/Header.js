@@ -1,7 +1,8 @@
-const { generate } = require("../method/generate");
-const { toComponent } = require("../method/toComponent");
+const { generate } = require("../function/generate");
+const { toComponent } = require("../function/toComponent");
 
-const Header = (component) => {
+module.exports = (component) => {
+
   if (component.templated) return component;
 
   component = toComponent(component);
@@ -57,13 +58,11 @@ const Header = (component) => {
                 },
                 {
                   type: `Icon?id=${id}-caret-down;style.position=absolute;style.bottom=-1.1rem;style.left=calc(50% - 1rem);style.width=2rem;icon.name=bi-caret-down-fill`,
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                }
+              ]
+            }
+          ]
+        }
+      ]
     };
-};
-
-module.exports = { Header };
+}

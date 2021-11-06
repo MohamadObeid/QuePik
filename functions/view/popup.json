@@ -5,13 +5,13 @@
     }, {
         "type": "View?class=flex-box;style.justifyContent=flex-end",
         "children": [{
-            "type": "Button?id=popup-cancel;text=Cancel;style.after.border=1px solid red;icon.style.after.color=red;style.after.color=red;style.marginRight=.5rem;icon.style.margin=0;style.padding=.5rem;icon.name=bi-x;icon.style.fontSize=2rem",
+            "type": "Button?id=popup-cancel;text.text=Cancel;style.after.border=1px solid red;icon.style.after.color=red;style.after.color=red;style.marginRight=.5rem;icon.style.margin=0;style.padding=.5rem;icon.name=bi-x;icon.style.fontSize=2rem",
             "controls": {
                 "event": "click",
                 "actions": "resetStyles::popup"
             }
         }, {
-            "type": "Button?id=popup-confirm;text=Confirm;style.padding=.5rem;icon.style.margin=0;icon.name=bi-check;icon.style.fontSize=2rem"
+            "type": "Button?id=popup-confirm;text.text=Confirm;style.padding=.5rem;icon.style.margin=0;icon.name=bi-check;icon.style.fontSize=2rem"
         }]
     }],
     "controls": [{

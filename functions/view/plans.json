@@ -1,0 +1,136 @@
+{
+    "type": "View",
+    "children": [{
+        "type": "View?style.overflow=hidden;style.position=relative",
+        "children" :[{
+            "type": "View?id=background-blue-color;style.zIndex=-1;style.backgroundColor=#257CFF;style.height=100%;style.width=100%;style.position=absolute;style.top=0;style.left=-37rem;style.bottom=0;style.transform=skew(-30deg)"
+        }, {
+            "type": "View?id=background-red-color;style.zIndex=-2;style.backgroundColor=#F45A2A;style.height=100%;style.width=100%;style.position=absolute;style.top=0;style.bottom=0"
+        }, {
+            "type": "View?style.zIndex=1",
+            "children": [{
+                "type": "View?id=navbar;style.display=flex;style.alignItems=center;style.height=6.5rem",
+                "children": [{
+                    "type": "View?style.flex=1;style.padding=8rem", 
+                    "children":[{
+                        "type": "Text?class=pointer;link=/home;text=Quepik;style.width=fit-content;style.fontSize=2.2rem;style.color=#fff"
+                    }]
+                }, {
+                    "type": "View?class=flex-box;style.padding=8rem;style.gap=4rem",
+                    "children": [{
+                        "type": "Text?class=pointer;link=/home;text=Home;style.fontSize=1.7rem;style.color=#CFD1FF;hover.style.color=#fff;style.transition=.2s"
+                    }, {
+                        "type": "Text?class=pointer;link=/plans;text=Partner Plans;style.fontSize=1.7rem;style.color=#CFD1FF;hover.style.color=#fff;style.transition=.2s"
+                    }, {
+                        "type": "Button?text.text=Download App;style.padding=1.2rem 2.5rem;style.backgroundColor=#F45A2A;text.style.fontSize=1.6rem;style.transition=.3s;style.border=none;text.hover.style.color=#fff;text.style.color=#fff;hover.style.backgroundColor=#257CFF;hover.style.border=none"
+                    }]
+                }]
+            }, {
+                "type": "View?style.display=grid;style.padding=8rem;style.gridTemplateColumns=4fr 1fr;style.gap=12rem;style.minHeight=70rem",
+                "children": [{
+                    "type": "View?class=flex-column;style.padding=5rem 0;style.justifyContent=space-between;style.paddingRight=10rem",
+                    "children": [{
+                        "type": "View?class=flex-column;style.gap=4rem",
+                        "children": [{
+                            "type": "Text?text=Simple. Affordable plan for everyone.;style.color=#fff;style.fontSize=8rem;style.fontWeight=bolder"
+                        }, {
+                            "type": "Text?text=At faucibus laoreet purus aliquet cras volutpat in id nulla aliquam risus dapibus bibendum in arcu morbi tempus sem platea porta elementum diam platea.;style.lineHeight=3rem;style.paddingRight=10rem;style.color=#fff;style.fontSize=1.8rem"
+                        }]
+                    }]
+                }]
+            }]
+        }]
+    }, {
+        "type": "View?style.position=relative;style.height=90rem",
+        "children": [{
+            "type": "View?style.marginTop=-5rem;style.wdith=100%;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr;style.gap=2.5rem;style.padding=0 8rem",
+            "children": [{
+                "type": "View?class=flex-column;style.justifyContent=space-between;style.boxShadow=-10px 10px 30px -10px rgba(0,0,0,0.4);style.padding=5rem;style.height=80rem;style.width=100%;style.borderRadius=2rem;style.backgroundColor=#fff",
+                "children": [{
+                    "type": "View",
+                    "children": [{
+                        "type": "Text?text=FREE;style.color=#F45A2A;style.fontSize=1.5rem;style.marginBottom=2rem"
+                    }, {
+                        "type": "View?class=flex-start;style.gap=1.5rem;style.marginBottom=2rem",
+                        "children": [{
+                            "type": "Text?text=$0;style.fontWeight=bolder;style.color=#000;style.fontSize=5rem"
+                        }, {
+                            "type": "Text?text=/ Month;style.color=#666;style.fontSize=1.8rem"
+                        }]
+                    }, {
+                        "type": "Text?text=Viverra nulla adipiscing sit integer diam nulla aliquam nunc enim arcu eget.;style.fontSize=1.45rem;style.color=#777;style.marginBottom=2rem"
+                    }, {
+                        "type": "View?style.display=flex;style.alignItems=center;style.borderBottom=1px solid #eee;style.padding=1.5rem 0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-check-circle-fill;style.fontSize=2rem;style.color=#257CFF;style.marginRight=1rem"
+                        }, {
+                            "type": "Text?text=Progress tracking;style.fontSize=1.7rem"
+                        }]
+                    }, {
+                        "type": "View?style.display=flex;style.alignItems=center;style.borderBottom=1px solid #eee;style.padding=1.5rem 0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-check-circle-fill;style.fontSize=2rem;style.color=#257CFF;style.marginRight=1rem"
+                        }, {
+                            "type": "Text?text=Smart notification;style.fontSize=1.7rem"
+                        }]
+                    }, {
+                        "type": "View?style.display=flex;style.alignItems=center;style.borderBottom=1px solid #eee;style.padding=1.5rem 0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-check-circle-fill;style.fontSize=2rem;style.color=#257CFF;style.marginRight=1rem"
+                        }, {
+                            "type": "Text?text=Workout challenge;style.fontSize=1.7rem"
+                        }]
+                    }, {
+                        "type": "View?style.display=flex;style.alignItems=center;style.borderBottom=1px solid #eee;style.padding=1.5rem 0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-check-circle-fill;style.fontSize=2rem;style.color=#257CFF;style.marginRight=1rem"
+                        }, {
+                            "type": "Text?text=Share with friends;style.fontSize=1.7rem"
+                        }]
+                    }, {
+                        "type": "View?style.display=flex;style.alignItems=center;style.borderBottom=1px solid #eee;style.padding=1.5rem 0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-check-circle-fill;style.fontSize=2rem;style.color=#888;style.marginRight=1rem"
+                        }, {
+                            "type": "Text?text=Ads-free;style.textDecoration=line-through;style.fontSize=1.7rem;style.color=#888"
+                        }]
+                    }, {
+                        "type": "View?style.display=flex;style.alignItems=center;style.borderBottom=1px solid #eee;style.padding=1.5rem 0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-check-circle-fill;style.fontSize=2rem;style.color=#888;style.marginRight=1rem"
+                        }, {
+                            "type": "Text?text=Workout with friends;style.textDecoration=line-through;style.fontSize=1.7rem;style.color=#888"
+                        }]
+                    }, {
+                        "type": "View?style.display=flex;style.alignItems=center;style.borderBottom=1px solid #eee;style.padding=1.5rem 0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-check-circle-fill;style.fontSize=2rem;style.color=#888;style.marginRight=1rem"
+                        }, {
+                            "type": "Text?text=Personalize diet menu;style.textDecoration=line-through;style.fontSize=1.7rem;style.color=#888"
+                        }]
+                    }, {
+                        "type": "View?style.display=flex;style.alignItems=center;style.padding=1.5rem 0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-check-circle-fill;style.fontSize=2rem;style.color=#888;style.marginRight=1rem"
+                        }, {
+                            "type": "Text?text=Fitness community;style.textDecoration=line-through;style.fontSize=1.7rem;style.color=#888"
+                        }]
+                    }]
+                }, {
+                    "type": "Text?class=flex-box pointer;text=Get Started;style.borderRadius=.75rem;style.fontSize=1.5rem;style.fontWeight=bolder;style.width=100%;style.padding=1.5rem;style.backgroundColor=#EFF6FF;style.color=#257CFF;hover.style.color=#fff;hover.style.backgroundColor=#257CFF;style.transition=.3s"
+                }]
+            }, {
+                "type": "View?style.boxShadow=-10px 10px 30px -10px rgba(0,0,0,0.4);style.padding=5rem;style.height=80rem;style.width=100%;style.borderRadius=2rem;style.backgroundColor=#fff"
+            }, {
+                "type": "View?style.boxShadow=-10px 10px 30px -10px rgba(0,0,0,0.4);style.padding=5rem;style.height=80rem;style.width=100%;style.borderRadius=2rem;style.backgroundColor=#fff"
+            }]
+        }]
+    }, {
+        "type": "View?style.display=flex;style.flexDirection=column;style.marginBottom=auto;style.backgroundColor=#F6FCFF;style.height=10rem;style.padding=8rem",
+        "children": [{
+            "type": "Text?text=Copyright © 2021 Quepik;style.fontSize=1.6rem;style.marginBottom=.5rem"
+        }, {
+            "type": "Text?text=Powered by Quepik;style.fontSize=1.6rem"
+        }]
+    }]
+}

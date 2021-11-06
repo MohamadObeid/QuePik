@@ -1,8 +1,8 @@
-const {toString} = require("../method/toString")
+const {toString} = require("../function/toString")
 
 module.exports = ({params, id}) => {
   var controls = params.controls
-  var styles = toString({ style: { minWidth: '15rem', ...controls.style } })
+  var styles = toString({ style: controls.style })
   
   return [{
     event: `click?state.droplist=${controls.id || id}`,

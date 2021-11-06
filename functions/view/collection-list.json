@@ -10,15 +10,15 @@
         }, {
             "type": "View?class=flex-box",
             "children": [{
-                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
+                "type": "Button?text.text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "type": "Button?text.text=Export;icon.name=bi-upload;style.marginRight=1rem",
                 "controls": {
                     "event": "click??state.collection;state.collection.length().isgreaterthan().0",
                     "actions": "toCSV?file.data=state.collection.clone();file.name=Collection List"
                 }
             }, {
-                "type": "Button?text=Add New Collection;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=collection"
+                "type": "Button?text.text=Add New Collection;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=collection"
             }]
         }]
     }, {
@@ -37,13 +37,13 @@
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
-                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
+                    "type": "Button?text.text=Sort;icon.name=bi-sort-alpha-down",
                     "controls": {
                         "event": "click??state.collection-list-Data", 
                         "actions": "await.update::collection-list-view;async.sort?sort.path=creation-date;sort.Data=collection-list-Data"
                     }
                 }, {
-                    "type": "Button?text=View;icon.name=bi-list-ul",
+                    "type": "Button?text.text=View;icon.name=bi-list-ul",
                     "controls": {
                         "event": "click?await.state.collection-list-grid-view-display=global.collection-list-view.1stChild().element.style.display;await.state.collection-list-table-view-display=global.collection-list-view.2ndChild().element.style.display", 
                         "actions": [
@@ -113,9 +113,9 @@
                         }, {
                             "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%;style.marginRight=1rem",
                             "children": [{
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=collection"
+                                "type": "Icon?class=flex-box pointer;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.height=4rem;style.fontSize=2rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-gear;hoverable;miniWindow.view=collection"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=collection;popup.update=collection-list-view;popup.note=Collection removed successfully!;popup.type=eraser;popup.text=Do you want to delete this collection/?;popup.state=collection"
+                                "type": "Icon?class=flex-box pointer;style.after.color=red;style.borderRadius=3rem;style.fontSize=2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-trash;hoverable;popup.path=collection;popup.update=collection-list-view;popup.note=Collection removed successfully!;popup.type=eraser;popup.text=Do you want to delete this collection/?;popup.state=collection"
                             }]
                         }]
                     }]

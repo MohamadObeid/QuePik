@@ -772,8 +772,8 @@ process.umask = function() { return 0; };
 
 },{}],5:[function(require,module,exports){
 // browserify browser.js > index.js
-const {starter} = require("../method/starter")
-const {setElement} = require("../method/setElement")
+const {starter} = require("../function/starter")
+const {setElement} = require("../function/setElement")
 
 const VALUE = JSON.parse(document.getElementById("VALUE").textContent)
 const STATE = JSON.parse(document.getElementById("STATE").textContent)
@@ -796,17 +796,41 @@ starter({ VALUE, STATE, id: "public" })
 
 setElement({ VALUE, STATE, id: "root" })
 starter({ VALUE, STATE, id: "root" })
-},{"../method/setElement":79,"../method/starter":82}],6:[function(require,module,exports){
-const { toComponent } = require("../method/toComponent");
+},{"../function/setElement":83,"../function/starter":86}],6:[function(require,module,exports){
+const { toComponent } = require("../function/toComponent")
 
-const Button = (component) => {
-  component.icon = component.icon || {};
-  component = toComponent(component);
-  var { style, icon, controls, text, id } = component;
+module.exports = (component) => {
 
+  component.hover = component.hover || {}
+  component.style = component.style || {}
+  component.hover.style = component.hover.style || {}
+  component.style.after = component.style.after || {}
+  
+  component.icon = component.icon || {}
+  component.icon.style = component.icon.style || {}
+  component.icon.hover = component.icon.hover || {}
+  component.icon.hover.style = component.icon.hover.style || {}
+  component.icon.style.after = component.icon.style.after || {}
+  
+  component.text = component.text || {}
+  component.text.style = component.text.style || {}
+  component.text.hover = component.text.hover || {}
+  component.text.hover.style = component.text.hover.style || {}
+  component.text.style.after = component.text.style.after || {}
+
+  component = toComponent(component)
+  
+  var { style, hover, icon, text, id } = component
+  var idlist = [id, text.text && `${id}-text`, icon.name && `${id}-icon`].filter(id => id)
+  
   return {
     ...component,
     type: "View?class=flex-box;touchableOpacity",
+    isButton: true,
+    hover: {
+      style: { border: "1px solid #0d6efd", ...style.after, ...hover.style },
+      id: idlist
+    },
     style: {
       border: "1px solid #e0e0e0",
       borderRadius: ".75rem",
@@ -814,65 +838,47 @@ const Button = (component) => {
       margin: "0 0.4rem",
       cursor: "pointer",
       transition: "border 0.1s",
-      ...style,
-      after: {
-        border: "1px solid #0d6efd",
-        ...style.after,
-      },
+      ...style
     },
-    children: [
-      {
-        type: `Icon?id=${id}-icon?const.${icon}`,
-        icon,
-        style: {
-          color: style.color || "#444",
-          fontSize: style.fontSize || "1.4rem",
-          margin: "0 0.4rem",
-          transition: "color 0.1s",
-          display: "flex",
-          alignItems: "center",
-          ...(icon.style || {}),
-          after: {
-            color: "#0d6efd",
-            ...((icon.style && icon.style.after) || {}),
-          },
-        },
+    children: [{
+      type: `Icon?id=${id}-icon?const.${icon.name}`,
+      ...icon,
+      hover: {
+        disable: true,
+        style: { color: "#0d6efd", ...icon.style.after, ...icon.hover.style },
       },
-      {
-        type: `Text?id=${id}-text?const.${text}`,
-        text,
-        style: {
-          color: style.color || "#444",
-          fontSize: style.fontSize || "1.4rem",
-          margin: "0 0.4rem",
-          transition: "color 0.1s",
-          after: {
-            color: style.after.color || "#0d6efd",
-          }
-        }
+      style: {
+        color: style.color || "#444",
+        fontSize: style.fontSize || "1.4rem",
+        margin: "0 0.4rem",
+        transition: "color 0.1s",
+        display: "flex",
+        alignItems: "center",
+        ...icon.style
       }
-    ],
-    controls: [
-      ...controls,
-      {
-        event: "mouseenter",
-        actions: `mountAfterStyles???${id};${id}-text;${id}-icon`,
+    }, {
+      type: `Text?id=${id}-text;text=${text.text}?const.${text.text}`,
+      ...text,
+      hover: {
+        disable: true,
+        style: { color: "#0d6efd", ...text.style.after, ...text.hover.style },
       },
-      {
-        event: "mouseleave",
-        actions: `resetStyles???${id};${id}-text;${id}-icon`,
+      style: {
+        color: style.color || "#444",
+        fontSize: style.fontSize || "1.4rem",
+        margin: "0 0.4rem",
+        transition: "color 0.1s",
+        ...text.style
       }
-    ]
+    }]
   }
 }
 
-module.exports = { Button };
+},{"../function/toComponent":95}],7:[function(require,module,exports){
+const { toComponent } = require("../function/toComponent");
+const { generate } = require("../function/generate");
 
-},{"../method/toComponent":91}],7:[function(require,module,exports){
-const { toComponent } = require("../method/toComponent");
-const { generate } = require("../method/generate");
-
-const Checkbox = (component) => {
+module.exports = (component) => {
   component = toComponent(component);
   var { model, controls } = component;
 
@@ -893,34 +899,33 @@ const Checkbox = (component) => {
         },
         {
           html: `<svg viewBox="0 0 21 18">
-                            <symbol id="tick-path" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69" fill="none" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
-                            </symbol>
-                            <defs>
-                                <mask id="tick">
-                                    <use class="tick mask" href="#tick-path" />
-                                </mask>
-                            </defs>
-                            <use class="tick" href="#tick-path" stroke="currentColor" />
-                            <path fill="white" mask="url(#tick)" d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" />
-                        </svg>
-                        <svg class="lines" viewBox="0 0 11 11">
-                            <path d="M5.88086 5.89441L9.53504 4.26746" />
-                            <path d="M5.5274 8.78838L9.45391 9.55161" />
-                            <path d="M3.49371 4.22065L5.55387 0.79198" />
-                        </svg>`,
+                    <symbol id="tick-path" viewBox="0 0 21 18" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69" fill="none" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+                    </symbol>
+                    <defs>
+                        <mask id="tick">
+                            <use class="tick mask" href="#tick-path" />
+                        </mask>
+                    </defs>
+                    <use class="tick" href="#tick-path" stroke="currentColor" />
+                    <path fill="white" mask="url(#tick)" d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" />
+                </svg>
+                <svg class="lines" viewBox="0 0 11 11">
+                    <path d="M5.88086 5.89441L9.53504 4.26746" />
+                    <path d="M5.5274 8.78838L9.45391 9.55161" />
+                    <path d="M3.49371 4.22065L5.55387 0.79198" />
+                </svg>`,
         },
       ],
     };
-};
+}
 
-module.exports = { Checkbox };
+},{"../function/generate":58,"../function/toComponent":95}],8:[function(require,module,exports){
+const { generate } = require("../function/generate");
+const { toComponent } = require("../function/toComponent");
 
-},{"../method/generate":55,"../method/toComponent":91}],8:[function(require,module,exports){
-const { generate } = require("../method/generate");
-const { toComponent } = require("../method/toComponent");
+module.exports = (component) => {
 
-const Header = (component) => {
   if (component.templated) return component;
 
   component = toComponent(component);
@@ -976,44 +981,56 @@ const Header = (component) => {
                 },
                 {
                   type: `Icon?id=${id}-caret-down;style.position=absolute;style.bottom=-1.1rem;style.left=calc(50% - 1rem);style.width=2rem;icon.name=bi-caret-down-fill`,
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                }
+              ]
+            }
+          ]
+        }
+      ]
     };
-};
+}
 
-module.exports = { Header };
+},{"../function/generate":58,"../function/toComponent":95}],9:[function(require,module,exports){
+const { toComponent } = require('../function/toComponent')
 
-},{"../method/generate":55,"../method/toComponent":91}],9:[function(require,module,exports){
-const { toComponent } = require('../method/toComponent')
-
-const Input = (component) => {
+module.exports = (component) => {
 
     if (component.templated) return component
 
+    component.hover = component.hover || {}
+    component.style = component.style || {}
+    component.hover.style = component.hover.style || {}
+    component.style.after = component.style.after || {}
+
     // icon
     component.icon = component.icon || {}
+    component.icon.style = component.icon.style || {}
+    component.icon.hover = component.icon.hover || {}
+    component.icon.hover.style = component.icon.hover.style || {}
+    component.icon.style.after = component.icon.style.after || {}
     
     // input
-    component.input = component.input || { type: 'text'}
+    component.input = component.input || {}
+    component.input.hover = component.input.hover || {}
     component.input.type = component.input.type || 'text'
     component.input.style = component.input.style || {}
+    component.input.hover.style = component.input.hover.style || {}
+    component.input.style.after = component.input.style.after || {}
     
     component = toComponent(component)
-    var { id, input, model, droplist, readonly, style, controls, icon, duplicated,
+
+    var { id, input, model, droplist, readonly, style, controls, icon, duplicated, duration,
         placeholder, textarea, filterable, clearable, removable, msg, day, disabled,
-        duplicatable, lang, unit, currency, google, key, note, edit, minlength 
+        duplicatable, lang, unit, currency, google, key, note, edit, minlength , children
     } = component
 
     if (duplicatable && typeof duplicatable !== "object") duplicatable = {}
     if (clearable && typeof clearable !== "object") clearable = {}
+
     readonly = readonly ? true : false
     removable = removable !== undefined ? (removable === false ? false : true) : false
+
     if (duplicatable) removable = true
-    
     if (minlength === undefined) minlength = 1
     
     // upload input styles
@@ -1026,7 +1043,7 @@ const Input = (component) => {
         cursor: 'pointer',
     } : {}
     
-    var path = `${unit ? `path=amount` :  currency ? `path=${currency}` : day ? `path=${day}` : lang ? `path=${lang}` : google ? `path=name` : key ? `path=${key}` : ''}`
+    var path = `${unit ? `path=amount` :  currency ? `path=${currency}` : duration ? `path=${duration}` : day ? `path=${day}` : lang ? `path=${lang}` : google ? `path=name` : key ? `path=${key}` : ''}`
     
     if (model === 'classic') {
         return {
@@ -1043,8 +1060,7 @@ const Input = (component) => {
                 fontSize: '1.4rem',
                 ...input.style,
                 ...style,
-            },
-            controls,
+            }
         }
     }
     
@@ -1052,7 +1068,6 @@ const Input = (component) => {
 
         return {
             ...component,
-            id,
             type: 'View',
             class: 'flex-box',
             touchableOpacity: true,
@@ -1064,27 +1079,33 @@ const Input = (component) => {
                 alignItems: 'center',
                 width: '100%',
                 maxWidth: '100%',
-                minHeight: style.minHeight || '4rem',
+                minHeight: '4rem',
                 position: 'relative',
                 backgroundColor: '#fff',
                 height: 'fit-content',
-                minHeight: '4rem',
                 borderRadius: '0.25rem',
                 transition: '0.2s',
                 overflow: 'hidden',
                 border: input.type === 'file' ? '1px dashed #ccc' : '0',
                 ...style,
             },
-            children: [{
-                icon,
+            children: [...children, {
                 type: `Icon?id=${id}-icon?const.${icon.name}`,
+                ...icon,
+                hover: {
+                    ...icon.hover,
+                    style: {
+                        ...icon.style.after,
+                        ...icon.hover.style
+                    }
+                },
                 style: {
                     fontSize: '1.6rem',
                     marginLeft: '1rem',
                     marginRight: '.5rem',
                     display: 'flex',
                     alignItems: 'center',
-                    ...(icon.style || {})
+                    ...icon.style
                 }
             }, {
                 type: `Text?id=${id}-msg;msg=${msg};text=${msg}?const.${msg}`,
@@ -1104,6 +1125,7 @@ const Input = (component) => {
                 key,
                 lang,
                 google,
+                duration,
                 textarea,
                 readonly,
                 droplist,
@@ -1113,6 +1135,15 @@ const Input = (component) => {
                 disabled,
                 templated: true,
                 'placeholder-ar': component['placeholer-ar'],
+                hover: {
+                    ...input.hover,
+                    style: {
+                        backgroundColor: style.after.backgroundColor,
+                        color: style.after.color || '#444',
+                        ...input.style.after,
+                        ...input.hover.style
+                    }
+                },
                 style: {
                     width: '100%',
                     height: '100%',
@@ -1141,7 +1172,7 @@ const Input = (component) => {
                 children: [{
                     type: `Icon?icon.name=bi-caret-down-fill;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem?droplist::${id}-input`
                 }, {
-                    type: `Icon?class=pointer;icon.name=filter_none;icon.google;icon.outlined;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem;hoverable;style.after.color=#116dff?const.${duplicatable}`,
+                    type: `Icon?class=pointer;icon.name=bi-files;style.color=#444;style.fontSize=1.2rem;style.width=1rem;style.marginRight=.5rem;hoverable;style.after.color=#116dff?const.${duplicatable}`,
                     controls: {
                         event: `click??value.data()::${id}-input;const.${duplicatable}`,
                         actions: `duplicate::${id}?${duplicatable && duplicatable.path ? `duplicate.path=${duplicatable.path}` : "" }`
@@ -1194,6 +1225,17 @@ const Input = (component) => {
                         after: { color: '#0d6efd' }
                     }
                 }, {
+                    type: `Text?id=${id}-duration;duration=${duration || 'hr'};text=${duration};droplist.items<<!${readonly}=[sec,min,hr,day,week,month,3month,year];droplist.duration;hoverable;duplicated=${duplicated}?const.${duration}`,
+                    style: {
+                        fontSize: '1.3rem',
+                        color: '#666',
+                        cursor: 'pointer',
+                        padding: '.25rem',
+                        borderRadius: '.25rem',
+                        transition: 'color .2s',
+                        after: { color: '#0d6efd' }
+                    }
+                }, {
                     type: `Text?id=${id}-language;lang=${lang};text=${lang};droplist.items<<!${readonly}=const.[any.Languages._param.readonly,state.asset.findByName().Language.options.map().name].flat();droplist.lang;hoverable;duplicated=${duplicated}?const.${lang}`,
                     style: {
                         fontSize: '1.3rem',
@@ -1210,7 +1252,7 @@ const Input = (component) => {
                         event: `change;loaded?value.element.style.display::${id}-more=none<<!e.target.checked;value.element.style.display::${id}-more=flex<<e.target.checked`
                     }]
                 }, {
-                    type: `Icon?id=${id}-more;icon.name=more_vert;google;outlined;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[any.Icon type._param.readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[any.Enter google icon type._param.readonly,state.google-items];hoverable?const.${google}`,
+                    type: `Icon?id=${id}-more;icon.name=bi-three-dots-vertical;path=type;style.width=1.5rem;style.display=none;style.color=#666;style.cursor=pointer;style.fontSize=2rem;state.google-items=[any.Icon type._param.readonly,outlined,rounded,sharp,twoTone];droplist.items=const.[any.Enter google icon type._param.readonly,state.google-items];hoverable?const.${google}`,
                 }, {
                     type: `Icon?class=align-center;icon.name=bi-x;id=${id}-x;hoverable?const.${clearable}||${removable}`,
                     style: {
@@ -1235,25 +1277,39 @@ const Input = (component) => {
         }
     }
 }
+},{"../function/toComponent":95}],10:[function(require,module,exports){
+const { toComponent } = require("../function/toComponent")
 
-module.exports = {Input}
-},{"../method/toComponent":91}],10:[function(require,module,exports){
-const { generate } = require("../method/generate")
-const { toComponent } = require("../method/toComponent")
+module.exports = (component) => {
 
-const Item = (component) => {
+  component.hover = component.hover || {}
+  component.style = component.style || {}
+  component.hover.style = component.hover.style || {}
+  component.style.after = component.style.after || {}
 
   component.icon = component.icon || {}
   component.icon.style = component.icon.style || {}
+  component.icon.hover = component.icon.hover || {}
+  component.icon.hover.style = component.icon.hover.style || {}
   component.icon.style.after = component.icon.style.after || {}
 
-  component.title = component.title || {}
+  component.text = component.text || {}
+  component.text.text = (component.text.text !== undefined && component.text.text) || (typeof component.data === 'string' && component.data) || ''
   component.text.style = component.text.style || {}
+  component.text.hover = component.text.hover || {}
+  component.text.hover.style = component.text.hover.style || {}
   component.text.style.after = component.text.style.after || {}
 
-  component.chevron = component.chevron || {}
-  component.chevron.style = component.chevron.style || {}
-  component.chevron.style.after = component.chevron.style.after || {}
+  if (component.hover.freeze) {
+    component.icon.hover.freeze = true
+    component.text.hover.freeze = true
+  }
+
+  if (component.hover.mount) {
+    component.icon.hover.mount = true
+    component.text.hover.mount = true
+  }
+
   component = toComponent(component)
 
   var {
@@ -1263,8 +1319,8 @@ const Item = (component) => {
     style,
     icon,
     text,
+    hover,
     tooltip,
-    chevron,
     controls,
     readonly,
     borderMarker,
@@ -1273,13 +1329,28 @@ const Item = (component) => {
   borderMarker = borderMarker !== undefined ? borderMarker : true
   readonly = readonly !== undefined ? readonly : false
 
+  var idlist = [id, text.text && `${id}-text`, icon.name && `${id}-icon`].filter(id => id)
+  var mount = hover.mount ? true : false
+
   if (model === "featured")
     return {
       ...component,
       class: "flex-box item",
       component: "Item",
-      type: `View?touchableOpacity;hoverable.id=[${id},${id}-icon,${id}-text,${id}-chevron];hoverable.mountonload`,
+      type: `View?touchableOpacity`,
       tooltip,
+      hover: {
+        ...hover,
+        style: {
+          border: "1px solid #ee384e",
+          marginRight: "0",
+          marginLeft: "0",
+          marginBottom: "1px",
+          ...style.after, 
+          ...hover.style 
+        },
+        id: idlist
+      },
       style: {
         position: "relative",
         justifyContent: "flex-start",
@@ -1291,68 +1362,54 @@ const Item = (component) => {
         marginLeft: "1px",
         marginBottom: "1px",
         borderRadius: "0.45rem",
-        ...style,
-        after: {
-          border: "1px solid #ee384e",
-          marginRight: "0",
-          marginLeft: "0",
-          marginBottom: "1px",
-          ...style.after,
-        }
+        ...style
       },
       children: [{
         type: `Icon?id=${id}-icon?const.${icon.name}`,
-        icon,
+        ...icon,
+        hover: {
+          mount,
+          disable: true,
+          ...icon.hover,
+          style: {
+            color: style.after.color || "#ee384e",
+            ...icon.style.after,
+            ...icon.hover.style
+          }
+        },
         style: {
           width: "4rem",
           color: style.color || "#444",
           fontSize: "1.8rem",
-          ...icon.style,
-          after: {
-            color: style.after.color || "#ee384e",
-            ...icon.style.after,
-          }
+          ...icon.style
         }
       }, {
         type: `Text?text=const.${text.text};id=${id}-text`,
         text,
+        hover: {
+          mount,
+          disable: true,
+          ...text.hover,
+          style: {
+            color: style.after.color || "#ee384e",
+            ...text.style.after,
+            ...text.hover.style
+          }
+        },
         style: {
           fontSize: style.fontSize || "1.4rem",
           color: style.color || "#444",
           userSelect: "none",
-          ...text.style,
-          after: {
-            color: style.after.color || "#ee384e",
-            ...text.style.after,
-          }
-        }
-      }, {
-        type: `Icon?icon.name=chevron-right;icon.code=fas;id=${id}-chevron`,
-        style: {
-          display: "flex",
-          position: "absolute",
-          right: "1.2rem",
-          fontSize: style.fontSize || "1.3rem",
-          color: style.color || "#666",
-          transition: "0.2s",
-          ...chevron.style,
-          after: {
-            right: "0.8rem",
-            color: "#ee384e",
-            ...chevron.style.after,
-          }
+          ...text.style
         }
       }],
       controls: [
       ...controls,
       {
-        event: `loaded?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron]?mountonload`,
-        actions: `mountAfterStyles::state.${state}`,
-      }, {
-        event: `click??state.${state}=undefined||state.${state}.0!=${id}`,
+        event: `click?value.hover.freeze::state.${state}=false?state.${state}.undefined().or().[state.${state}.0.not().${id}]`,
         actions: [
-          `resetStyles?value.mountonload::state.${state}.0=false??state.${state}`,
-          `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text,${id}-chevron];value.mountonload::state.${state}.0??state.${state}`,
+          `resetStyles::state.${state}`,
+          `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text];value.hover.freeze::state.${state}??state.${state}`,
         ]
       }]
     }
@@ -1362,30 +1419,43 @@ const Item = (component) => {
       ...component,
       class: "flex-box item",
       component: "Item",
-      type: `View?touchableOpacity;hoverable.id=[${id},${id}-icon,${id}-text];hoverable.mountonload`,
+      type: `View?touchableOpacity`,
       tooltip,
+      hover: {
+        ...hover,
+        style: {
+          backgroundColor: readonly ? "initial" : "#eee",
+          ...style.after,
+          ...hover.style 
+        },
+        id: idlist
+      },
       style: {
         position: "relative",
         justifyContent: "flex-start",
         width: "100%",
         minHeight: "3.3rem",
-        cursor: !readonly ? "pointer" : "initial",
+        cursor: readonly ? "initial" : "pointer",
         marginBottom: "1px",
         borderRadius: "0.5rem",
         padding: "0.9rem",
-        borderBottom: !readonly ? "initial" : "1px solid #eee",
+        borderBottom: readonly ? "1px solid #eee" : "initial",
         pointerEvents: "fill",
-        ...style,
-        after: readonly
-          ? {}
-          : {
-              backgroundColor: "#eee",
-              ...style.after,
-            }
+        ...style
       },
       children: [{
-        icon,
         type: `Icon?id=${id}-icon?const.${icon.name}`,
+        ...icon,
+        hover: {
+          mount,
+          disable: true,
+          ...icon.hover,
+          style: {
+            color: style.after.color || "#444",
+            ...icon.style.after,
+            ...icon.hover.style
+          }
+        },
         style: {
           display: icon ? "flex" : "none",
           color: !readonly ? style.color || "#444" : "#333",
@@ -1393,13 +1463,20 @@ const Item = (component) => {
           fontWeight: !readonly ? "initial" : "bolder",
           marginRight: "1rem",
           ...icon.style,
-          after: {
-            color: "#444",
-            ...icon.style.after,
-          }
         }
       }, {
-        type: `Text?text=const.${text.text};id=${id}-text;`,
+        type: `Text?id=${id}-text`,
+        ...text,
+        hover: {
+          mount,
+          disable: true,
+          ...text.hover,
+          style: {
+            color: style.after.color || "#444",
+            ...text.style.after,
+            ...text.hover.style
+          }
+        },
         style: {
           fontSize: style.fontSize || "1.4rem",
           color: !readonly ? style.color || "#444" : "#333",
@@ -1407,110 +1484,25 @@ const Item = (component) => {
           userSelect: "none",
           textAlign: "left",
           ...text.style,
-          after: {
-            color: style.after.color || style.color || "#444",
-            ...text.style.after
-          }
         }
       }],
-      controls: [
-      ...controls,
+      controls: [...controls,
       {
-        event: `loaded?state.${state}=[${id},${id}-icon,${id}-text]?mountonload`,
-        actions: `mountAfterStyles::state.${state}`,
-      }, {
-        event: `click??state.${state}=undefined||state.${state}.0!=${id}`,
+        event: `click?value.hover.freeze::state.${state}=false?state.${state}.undefined().or().[state.${state}.0.not().${id}]`,
         actions: [
-          `resetStyles?value.mountonload::state.${state}.0=false??state.${state}`,
-          `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text];value.mountonload::state.${state}.0??state.${state}`,
+          `resetStyles::state.${state}`,
+          `mountAfterStyles?state.${state}=[${id},${id}-icon,${id}-text];value.hover.freeze::state.${state}??state.${state}`,
         ]
       }]
     }
 }
 
-module.exports = { Item }
+},{"../function/toComponent":95}],11:[function(require,module,exports){
+const { toComponent } = require("../function/toComponent");
+const { generate } = require("../function/generate");
 
-},{"../method/generate":55,"../method/toComponent":91}],11:[function(require,module,exports){
-const { toComponent } = require("../method/toComponent");
+module.exports = (component) => {
 
-const List = (component) => {
-  component = toComponent(component);
-  var { id, model, style, children, controls, passToChildren } = component;
-
-  component.placement = component.placement || "";
-  component.distance = component.distance || "15";
-
-  if (model === "classic")
-    return {
-      ...component,
-      passToChildren: "",
-      class: `box-shadow list flex-box`,
-      type: "View",
-      style: {
-        flexDirection: "column",
-        alignItems: "flex-start",
-        backgroundColor: "#fff",
-        borderRadius: "0.5rem",
-        position: "fixed",
-        opacity: "0",
-        transform: "translateY(-100%)",
-        transition: "transform 0.2s, opacity 0.1s, top 0.1s",
-        minWidth: "18rem",
-        pointerEvents: "none",
-        zIndex: "-1",
-        ...style,
-        after: {
-          opacity: "1",
-          pointerEvents: "auto",
-          transform: "translateY(0)",
-          zIndex: "999",
-        },
-      },
-      children: [{
-          type: "View",
-          class: "list-wrap",
-          style: {
-            height: "100%",
-            width: "100%",
-            padding: "0.5rem",
-            backgroundColor: "#fff",
-            borderRadius: "0.5rem",
-            zIndex: "1",
-          },
-          passToChildren,
-          children,
-        }, {
-          class: "box-shadow fin",
-          type: "Text",
-          style: {
-            position: "absolute",
-            backgroundColor: "#fff",
-            width: "1rem",
-            height: "1rem",
-            transform: "rotate(45deg)",
-            borderRadius: "0 0 0 0.4rem",
-            transition: "top 0.1s",
-            zIndex: "0",
-          },
-        },
-      ],
-      controls: [
-        ...controls,
-        {
-          event: "mouseleave",
-          actions: `resetStyles>>200??!mouseenter;!state.${id}-mouseenter`,
-        },
-      ],
-    };
-};
-
-module.exports = { List };
-
-},{"../method/toComponent":91}],12:[function(require,module,exports){
-const { toComponent } = require("../method/toComponent");
-const { generate } = require("../method/generate");
-
-const Rate = (component) => {
   component = toComponent(component);
   var { model, controls } = component;
 
@@ -1662,16 +1654,14 @@ const Rate = (component) => {
         },
       ],
     };
-};
+}
 
-module.exports = { Rate };
+},{"../function/generate":58,"../function/toComponent":95}],12:[function(require,module,exports){
+const { toComponent } = require("../function/toComponent");
 
-},{"../method/generate":55,"../method/toComponent":91}],13:[function(require,module,exports){
-const { toComponent } = require("../method/toComponent");
+module.exports = (component) => {
 
-const SearchBox = (component) => {
-  component = toComponent(component);
-  var { placeholder } = component;
+  component = toComponent(component)
 
   return {
     ...component,
@@ -1706,15 +1696,14 @@ const SearchBox = (component) => {
         }]
     }]
   }
-};
+}
 
-module.exports = { SearchBox };
+},{"../function/toComponent":95}],13:[function(require,module,exports){
+const { toComponent } = require("../function/toComponent");
 
-},{"../method/toComponent":91}],14:[function(require,module,exports){
-const { toComponent } = require("../method/toComponent");
+module.exports = (component) => {
 
-const Switch = (component) => {
-  component = toComponent(component);
+  component = toComponent(component)
 
   return {
     ...component,
@@ -1730,81 +1719,26 @@ const Switch = (component) => {
         type: "View?class=knobs",
         children: {
           type: "Text?span",
-        },
-      },
-    ],
-  };
-};
+        }
+      }
+    ]
+  }
+}
 
-module.exports = { Switch };
-
-},{"../method/toComponent":91}],15:[function(require,module,exports){
-const { toComponent } = require("../method/toComponent");
-
-const Upload = (component) => {
-  component = toComponent(component);
-  var { upload } = component;
-
-  upload.multiple = upload.multiple !== undefined ? upload.multiple : true;
-
-  return {
-    ...component,
-    type: "View",
-    class: `file-drop-area ${component.class || ""}`,
-    children: [
-      {
-        type: `Icon?icon.name=${
-          upload.type === "image"
-            ? "bi-images"
-            : upload.type === "video"
-            ? "bi-camera-video"
-            : ""
-        }`,
-        style: {
-          fontSize: "2.5rem",
-          color: "#444",
-          marginRight: "1rem",
-        },
-      },
-      {
-        type: `Text?class=file-msg;text=or drag and drop ${upload.type}s here`,
-      },
-      {
-        type: `Input?class=file-input;upload.type=${upload.type};upload.multiple=${upload.multiple};upload.accept=${upload.accept};style.height=100%`,
-      },
-    ],
-  };
-};
-
-module.exports = { Upload };
-
-},{"../method/toComponent":91}],16:[function(require,module,exports){
-const {Button} = require("./Button");
-const {Input} = require("./Input");
-const {Item} = require("./Item");
-const {List} = require("./List");
-const {Upload} = require("./Upload");
-const {Header} = require("./Header");
-const {Switch} = require("./Switch");
-const {SearchBox} = require("./SearchBox");
-const {Checkbox} = require("./Checkbox");
-const {Rate} = require("./Rate");
-
+},{"../function/toComponent":95}],14:[function(require,module,exports){
 module.exports = {
-  Input,
-  Button,
-  Item,
-  List,
-  Upload,
-  Header,
-  Switch,
-  SearchBox,
-  Checkbox,
-  Rate,
-};
+  Button : require("./Button"),
+  Input : require("./Input"),
+  Item : require("./Item"),
+  Header : require("./Header"),
+  Switch : require("./Switch"),
+  SearchBox : require("./SearchBox"),
+  Checkbox : require("./Checkbox"),
+  Rate : require("./Rate")
+}
 
-},{"./Button":6,"./Checkbox":7,"./Header":8,"./Input":9,"./Item":10,"./List":11,"./Rate":12,"./SearchBox":13,"./Switch":14,"./Upload":15}],17:[function(require,module,exports){
-const {generate} = require("../method/generate");
+},{"./Button":6,"./Checkbox":7,"./Header":8,"./Input":9,"./Item":10,"./Rate":11,"./SearchBox":12,"./Switch":13}],15:[function(require,module,exports){
+const {generate} = require("../function/generate");
 
 module.exports = ({ params = {}, id }) => {
   const controls = params.controls
@@ -1826,7 +1760,33 @@ module.exports = ({ params = {}, id }) => {
   }]
 }
 
-},{"../method/generate":55}],18:[function(require,module,exports){
+},{"../function/generate":58}],16:[function(require,module,exports){
+const { toArray } = require("../function/toArray")
+
+module.exports = ({ VALUE, params, id }) => {
+
+    var controls = params.controls
+    id = toArray(controls.id || id)
+
+    id.map(id => { 
+        var local = VALUE[id]
+        local.click = local.click || {}
+        local.click.before = local.click.before || {}
+        local.click.style &&
+        Object.keys(local.click.style).map(key => 
+            local.click.before[key] = local.style[key] !== undefined ? local.style[key] : null 
+        )
+    })
+
+    return [{
+        "event": `loaded??value.click.mount`,
+        "actions": id.map(id => `setStyle::${id}?style=value.click.style::${id};value.click.mount::${id}=true`)
+    }, {
+        "event": `click??!value.click.disable`,
+        "actions": id.map(id => `setStyle::${id}?style=value.click.before.if().[value.click.mount.and().[value.click.freeze.not()]].else().[value.click.style]::${id};value.click.mount::${id}=false.if().[value.click.mount].else().true::${id}`)
+    }]
+}
+},{"../function/toArray":91}],17:[function(require,module,exports){
 module.exports = {
   item: require("./item"),
   list: require("./list"),
@@ -1839,14 +1799,17 @@ module.exports = {
   toggler: require("./toggler"),
   touchableOpacity: require("./touchableOpacity"),
   pricable: require("./pricable"),
-};
+  hover: require("./hover"),
+  click: require("./click"),
+  touch: require("./touch")
+}
 
-},{"./actionlist":17,"./droplist":19,"./hoverable":20,"./item":21,"./list":22,"./miniWindow":23,"./popup":24,"./pricable":25,"./sorter":26,"./toggler":27,"./touchableOpacity":28}],19:[function(require,module,exports){
-const {toString} = require("../method/toString")
+},{"./actionlist":15,"./click":16,"./droplist":18,"./hover":19,"./hoverable":20,"./item":21,"./list":22,"./miniWindow":23,"./popup":24,"./pricable":25,"./sorter":26,"./toggler":27,"./touch":28,"./touchableOpacity":29}],18:[function(require,module,exports){
+const {toString} = require("../function/toString")
 
 module.exports = ({params, id}) => {
   var controls = params.controls
-  var styles = toString({ style: { minWidth: '15rem', ...controls.style } })
+  var styles = toString({ style: controls.style })
   
   return [{
     event: `click?state.droplist=${controls.id || id}`,
@@ -1859,8 +1822,37 @@ module.exports = ({params, id}) => {
   }]
 }
 
-},{"../method/toString":99}],20:[function(require,module,exports){
-const {toArray} = require("../method/toArray")
+},{"../function/toString":103}],19:[function(require,module,exports){
+const { toArray } = require("../function/toArray")
+
+module.exports = ({ VALUE, params, id }) => {
+
+    var controls = params.controls
+    id = toArray(controls.id || id)
+    
+    id.map(id => { 
+        var local = VALUE[id]
+        local.hover = local.hover || {}
+        local.hover.before = local.hover.before || {}
+        local.hover.style &&
+        Object.keys(local.hover.style).map(key => 
+            local.hover.before[key] = local.style[key] !== undefined ? local.style[key] : null 
+        )
+    })
+
+    return [{
+        "event": `loaded?state.[value.state]<<value.state=value.hover.id?value.hover.mount`,
+        "actions": id.map(id => `setStyle::${id}?style=value.hover.style::${id}`)
+    }, {
+        "event": `mouseenter??!value.click.freeze;!value.hover.disable`,
+        "actions": id.map(id => `setStyle::${id}?style=value.hover.style::${id}`)
+    }, {
+        "event": `mouseleave??!value.click.freeze;!value.hover.disable`,
+        "actions": id.map(id => `setStyle::${id}?style=value.hover.before::${id}?value.hover.freeze.not()`)
+    }]
+}
+},{"../function/toArray":91}],20:[function(require,module,exports){
+const {toArray} = require("../function/toArray")
 
 module.exports = ({VALUE, id, params = {}}) => {
   const controls = typeof params.controls === "object" ? params.controls : {}
@@ -1877,7 +1869,7 @@ module.exports = ({VALUE, id, params = {}}) => {
     }]
 }
 
-},{"../method/toArray":87}],21:[function(require,module,exports){
+},{"../function/toArray":91}],21:[function(require,module,exports){
 module.exports = ({params}) => [
   "setData?data.value=value.text",
   `resetStyles?value.mountonload::state.${params.state}.0=false??state.${params.state}`,
@@ -1910,25 +1902,24 @@ module.exports = ({ VALUE, STATE, params, id }) => {
 }
 
 },{}],23:[function(require,module,exports){
-const {generate} = require("../method/generate");
+const {generate} = require("../function/generate");
 
-module.exports = ({ VALUE, STATE, params, id }) => {
-  const controls = params.controls;
-  const state = generate();
+module.exports = ({ STATE, params }) => {
 
-  return [
-    {
-      event: "click",
-      actions: [
-        `createView::mini-window-view?state.${state}=${controls.Data ? STATE[controls.Data] : 'value.data()'};value.Data.delete()::mini-window-view;value.Data::mini-window-view=${state}<<value.data();view=${controls.view}`,
-        "setStyle::mini-window?style.display=flex;style.opacity=1>>25",
-      ],
-    },
-  ];
-};
+  var controls = params.controls
+  var state = generate()
 
-},{"../method/generate":55}],24:[function(require,module,exports){
-const {generate} = require("../method/generate");
+  return [{
+    event: "click??!state.mini-window-close",
+    actions: [
+      `createView::mini-window-view?state.${state}=${controls.Data ? STATE[controls.Data] : 'value.data()'};value.Data.delete()::mini-window-view;value.Data::mini-window-view=${state}<<value.data();view=${controls.view}`,
+      "setStyle::mini-window?style.display=flex;style.opacity=1>>25",
+    ]
+  }]
+}
+
+},{"../function/generate":58}],24:[function(require,module,exports){
+const {generate} = require("../function/generate");
 
 module.exports = ({STATE, params, id}) => {
   const controls = params.controls;
@@ -1948,15 +1939,15 @@ module.exports = ({STATE, params, id}) => {
   ];
 };
 
-},{"../method/generate":55}],25:[function(require,module,exports){
+},{"../function/generate":58}],25:[function(require,module,exports){
 module.exports = ({ VALUE, id }) => {
     var input_id = VALUE[id].type === 'Input' ? id : `${id}-input`
     return [{
-        "event": `input::${input_id}?value.data()::${input_id}=value.element.value.toPrice()::${input_id};value.element.value::${input_id}=value.data()::${input_id}`
+        "event": `input::${input_id}?value.data()::${input_id}=value.element.value.toPrice().else().0::${input_id};value.element.value::${input_id}=value.data().else().0::${input_id}`
     }]
 }
 },{}],26:[function(require,module,exports){
-const {toArray} = require("../method/toArray");
+const {toArray} = require("../function/toArray");
 
 module.exports = ({VALUE, id, params = {}}) => {
   var controls = typeof params.controls === "object" ? params.controls : {};
@@ -1970,14 +1961,14 @@ module.exports = ({VALUE, id, params = {}}) => {
   ];
 };
 
-},{"../method/toArray":87}],27:[function(require,module,exports){
+},{"../function/toArray":91}],27:[function(require,module,exports){
 module.exports = ({ VALUE, params = {}, id }) => {
   const controls = params.controls;
 
   return [{
     event: `click??value.view::${controls.id}!=${controls.view}`,
     actions: [
-      `setStyle::${controls.id}?value.element.style.transition::${controls.id}=transform .2s, opacity .05s;style.transform=translateY(-150%);style.opacity=0`,
+      `setStyle::${controls.id}?value.element.style.transition::${controls.id}=transform .2s, opacity .2s;style.transform=translateY(-150%);style.opacity=0`,
       `setStyle>>400::${controls.id}?style.transform=translateY(0);style.opacity=1`,
       `createView>>250::${controls.id}?value.element.innerHTML::${controls.id}='';value.Data::${controls.id}=value.data();view=${controls.view}`,
     ]
@@ -1985,6 +1976,35 @@ module.exports = ({ VALUE, params = {}, id }) => {
 }
 
 },{}],28:[function(require,module,exports){
+const { toArray } = require("../function/toArray")
+
+module.exports = ({ VALUE, params, id }) => {
+
+    var controls = params.controls
+    id = toArray(controls.id || id)
+    
+    id.map(id => { 
+        var local = VALUE[id]
+        local.touch = local.touch || {}
+        local.touch.before = local.touch.before || {}
+        local.touch.style &&
+        Object.keys(local.touch.style).map(key => 
+            local.touch.before[key] = local.style[key] !== undefined ? local.style[key] : null 
+        )
+    })
+
+    return [{
+        "event": `loaded?state.[value.state]<<value.state=value.touch.id?value.touch.mount`,
+        "actions": id.map(id => `setStyle::${id}?style=value.touch.style::${id}`)
+    }, {
+        "event": `touchstart??!value.click.freeze;!value.touch.disable`,
+        "actions": id.map(id => `setStyle::${id}?style=value.touch.style::${id}`)
+    }, {
+        "event": `touchend??!value.click.freeze;!value.touch.disable`,
+        "actions": id.map(id => `setStyle::${id}?style=value.touch.before::${id}?value.touch.freeze.not()`)
+    }]
+}
+},{"../function/toArray":91}],29:[function(require,module,exports){
 module.exports = ({VALUE, id, params = {}}) => {
 
   if (VALUE[id].element.style.transition) {
@@ -2011,174 +2031,7 @@ module.exports = ({VALUE, id, params = {}}) => {
   ];
 };
 
-},{}],29:[function(require,module,exports){
-const {clearValues} = require("./clearValues")
-const {clone} = require("./clone")
-const {derive} = require("./derive")
-const {duplicate, duplicates} = require("./duplicate")
-const {getParam} = require("./getParam")
-const {isArabic} = require("./isArabic")
-const {isEqual} = require("./isEqual")
-const {merge} = require("./merge")
-const {overflow} = require("./overflow")
-const {toApproval} = require("./toApproval")
-const {toComponent} = require("./toComponent")
-const {toId} = require("./toId")
-const {toParam} = require("./toParam")
-const {toString} = require("./toString")
-const {update, removeIds} = require("./update")
-const {createDocument} = require("./createDocument")
-const {toControls} = require("./toControls")
-const {toArray} = require("./toArray")
-const {generate} = require("./generate")
-const {createElement} = require("./createElement")
-const {addEventListener} = require("./event")
-const {execute} = require("./execute")
-const {controls} = require("./controls")
-const {setContent} = require("./setContent")
-const {starter} = require("./starter")
-const {setState} = require("./state")
-const {setPosition} = require("./setPosition")
-const {droplist} = require("./droplist")
-const {createView} = require("./createView")
-const {filter} = require("./filter")
-const {remove} = require("./remove")
-const {focus} = require("./focus")
-const {sort} = require("./sort")
-const {log} = require("./log")
-const {search} = require("./search")
-const {flicker} = require("./flicker")
-const {textarea} = require("./textarea")
-const {save} = require("./save")
-const {erase} = require("./erase")
-const {toValue} = require("./toValue")
-const {toPath} = require("./toPath")
-const {reducer} = require("./reducer")
-const {toStyle} = require("./toStyle")
-const {preventDefault} = require("./preventDefault")
-const {createComponent} = require("./createComponent")
-const {getJsonFiles} = require("./getJsonFiles")
-const {toTag} = require("./toTag")
-const {setData} = require("./setData")
-const {defaultInputHandler} = require("./defaultInputHandler")
-const {createActions} = require("./createActions")
-const {blur} = require("./blur")
-const {fill} = require("./fill")
-const {toAwait} = require("./toAwait")
-const {close} = require("./close")
-const {pause} = require("./pause")
-const {play} = require("./play")
-const {note} = require("./note")
-const {toCode} = require("./toCode")
-const {isPath} = require("./isPath")
-const {toNumber} = require("./toNumber")
-const {capitalize} = require("./capitalize")
-const {setElement} = require("./setElement")
-const {toFirebaseOperator} = require("./toFirebaseOperator")
-const {popup} = require("./popup")
-const {keys} = require("./keys")
-const {values} = require("./values")
-const {toggleView} = require("./toggleView")
-const {upload} = require("./upload")
-const {compare} = require("./compare")
-const {toCSV} = require("./toCSV")
-const {getDateTime} = require("./getDateTime")
-const {
-  setStyle,
-  resetStyles,
-  toggleStyles,
-  mountAfterStyles,
-} = require("./style")
-const {resize, dimensions} = require("./resize")
-const {createData, clearData} = require("./data")
-
-const _method = {
-  toCSV,
-  compare,
-  setElement,
-  clearValues,
-  clone,
-  derive,
-  duplicate,
-  duplicates,
-  getJsonFiles,
-  search,
-  getParam,
-  isArabic,
-  isEqual,
-  merge,
-  overflow,
-  addEventListener,
-  setState,
-  toApproval,
-  toComponent,
-  toId,
-  toParam,
-  toString,
-  update,
-  execute,
-  removeIds,
-  createDocument,
-  toArray,
-  generate,
-  createElement,
-  controls,
-  textarea,
-  setStyle,
-  resetStyles,
-  toggleStyles,
-  mountAfterStyles,
-  resize,
-  dimensions,
-  createData,
-  setData,
-  clearData,
-  setContent,
-  starter,
-  createComponent,
-  setPosition,
-  droplist,
-  filter,
-  createView,
-  createActions,
-  flicker,
-  blur,
-  toAwait,
-  toControls,
-  remove,
-  defaultInputHandler,
-  focus,
-  sort,
-  log,
-  save,
-  erase,
-  toCode,
-  toPath,
-  toValue,
-  reducer,
-  preventDefault,
-  toStyle,
-  toTag,
-  capitalize,
-  fill,
-  note,
-  pause,
-  play,
-  close,
-  isPath,
-  toNumber,
-  popup,
-  getDateTime,
-  keys,
-  values,
-  toFirebaseOperator,
-  upload,
-  toggleView
-}
-
-module.exports = _method
-
-},{"./blur":30,"./capitalize":31,"./clearValues":32,"./clone":33,"./close":34,"./compare":35,"./controls":36,"./createActions":37,"./createComponent":38,"./createDocument":39,"./createElement":40,"./createView":42,"./data":43,"./defaultInputHandler":44,"./derive":45,"./droplist":46,"./duplicate":47,"./erase":48,"./event":49,"./execute":50,"./fill":51,"./filter":52,"./flicker":53,"./focus":54,"./generate":55,"./getDateTime":56,"./getJsonFiles":57,"./getParam":58,"./isArabic":59,"./isEqual":60,"./isPath":61,"./keys":62,"./log":63,"./merge":64,"./note":65,"./overflow":66,"./pause":67,"./play":68,"./popup":69,"./preventDefault":70,"./reducer":71,"./remove":72,"./resize":74,"./save":75,"./search":76,"./setContent":77,"./setData":78,"./setElement":79,"./setPosition":80,"./sort":81,"./starter":82,"./state":83,"./style":84,"./textarea":85,"./toApproval":86,"./toArray":87,"./toAwait":88,"./toCSV":89,"./toCode":90,"./toComponent":91,"./toControls":92,"./toFirebaseOperator":93,"./toId":94,"./toNumber":95,"./toParam":96,"./toPath":97,"./toString":99,"./toStyle":100,"./toTag":101,"./toValue":102,"./toggleView":103,"./update":104,"./upload":105,"./values":106}],30:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 const blur = ({VALUE, id}) => {
   const local = VALUE[id];
   if (!local) return;
@@ -2343,7 +2196,7 @@ const setControls = ({VALUE, id, params}) => {
 
 module.exports = {controls, setControls};
 
-},{"./event":49,"./execute":50,"./toArray":87,"./watch":107}],37:[function(require,module,exports){
+},{"./event":50,"./execute":51,"./toArray":91,"./watch":111}],37:[function(require,module,exports){
 const control = require("../control/control");
 
 const createActions = ({VALUE, STATE, params, id}) => {
@@ -2357,20 +2210,20 @@ const createActions = ({VALUE, STATE, params, id}) => {
 
 module.exports = {createActions};
 
-},{"../control/control":18,"./execute":50}],38:[function(require,module,exports){
+},{"../control/control":17,"./execute":51}],38:[function(require,module,exports){
 const {clone} = require("./clone");
 const {generate} = require("./generate");
 const {toApproval} = require("./toApproval");
 const {toParam} = require("./toParam");
 
-const _component = require("../component/_component");
+const component = require("../component/component");
 
 module.exports = {
   createComponent: ({VALUE, STATE, id}) => {
     let local = VALUE[id];
 
-    if (!_component[local.type]) return [local, id];
-    local = _component[local.type](local);
+    if (!component[local.type]) return [local, id];
+    local = component[local.type](local);
 
     // destructure type, params, & conditions from type
     local.type = local.type.split("/?").join("_question");
@@ -2404,7 +2257,7 @@ module.exports = {
   },
 };
 
-},{"../component/_component":16,"./clone":33,"./generate":55,"./toApproval":86,"./toParam":96}],39:[function(require,module,exports){
+},{"../component/component":14,"./clone":33,"./generate":58,"./toApproval":90,"./toParam":100}],39:[function(require,module,exports){
 (function (process){(function (){
 const {createElement} = require("./createElement")
 const {getJsonFiles} = require("./getJsonFiles")
@@ -2424,6 +2277,7 @@ const createDocument = (req, res) => {
         view: getJsonFiles("view"),
         page: getJsonFiles("page"),
         pathname: req.url,
+        device: req.device,
         host,
         codes: {},
         config
@@ -2451,23 +2305,21 @@ const createDocument = (req, res) => {
     VALUE[id].parent = "body"
 
     //
-    if (!STATE.page[host]) return "Hello"
+    if (!STATE.page[host]) return res.send("Hello")
 
     // get root children
-    STATE.page[host].views.map(
-        (view) => STATE.view[view] && VALUE["root"].children.push(STATE.view[view])
-    )
+    STATE.page[host].views.map(view => STATE.view[view] && VALUE["root"].children.push(STATE.view[view]))
 
     // get public children
-    STATE.page.public.views.map(
-        (view) => STATE.view[view] && VALUE["public"].children.push(STATE.view[view])
-    )
+    STATE.page.public.views.map(view => STATE.view[view] && VALUE["public"].children.push(STATE.view[view]))
 
     // create root html
     root = createElement({ STATE, VALUE, id: "root" })
+    delete VALUE["root"].children
 
     // create public html
     public = createElement({ STATE, VALUE, id: "public" })
+    delete VALUE["public"].children
 
     res.send(`<!DOCTYPE html>
         <html lang="en" class="html">
@@ -2475,12 +2327,11 @@ const createDocument = (req, res) => {
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>QuePik</title>
-            <link rel="stylesheet" href="index.css" />
-            <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+            <title>${STATE.page[host].title}</title>
+            <link rel="stylesheet" href="index.css"/>
+            <script src="firebase/firebase-app.js"></script>
+            <script src="firebase/firebase-firestore.js"></script>
+            <script src="firebase/firebase-storage.js"></script>
         </head>
         <body>
             ${public}${root}
@@ -2494,18 +2345,19 @@ const createDocument = (req, res) => {
 module.exports = {createDocument}
 
 }).call(this)}).call(this,require('_process'))
-},{"./createElement":40,"./getJsonFiles":57,"_process":4,"dotenv":108}],40:[function(require,module,exports){
-const {generate} = require("./generate");
-const {toParam} = require("./toParam");
-const {toApproval} = require("./toApproval");
-const {override} = require("./merge");
-const {clone} = require("./clone");
-const {createTags} = require("./createTags");
-const {reducer} = require("./reducer");
+},{"./createElement":40,"./getJsonFiles":61,"_process":4,"dotenv":112}],40:[function(require,module,exports){
+var {generate} = require("./generate");
+var {toParam} = require("./toParam");
+var {toApproval} = require("./toApproval");
+var {override} = require("./merge");
+var {clone} = require("./clone");
+var {createTags} = require("./createTags");
+var {reducer} = require("./reducer");
 
-const createElement = ({STATE, VALUE, id}) => {
+var createElement = ({ STATE, VALUE, id }) => {
+
   let local = VALUE[id];
-  const parent = VALUE[local.parent];
+  var parent = VALUE[local.parent];
 
   // html
   if (local.html) return local.html;
@@ -2522,7 +2374,7 @@ const createElement = ({STATE, VALUE, id}) => {
   local.type = local.type.split("/?").join("_question");
   let type = local.type.split("?")[0];
   let params = local.type.split("?")[1];
-  const conditions = local.type.split("?")[2];
+  var conditions = local.type.split("?")[2];
 
   // [type]
   if (type.slice(0, 1) === "[" && type.slice(-1) === "]") {
@@ -2533,6 +2385,9 @@ const createElement = ({STATE, VALUE, id}) => {
 
   // parent
   local.parent = parent.id;
+
+  // style
+  local.style = local.style || {}
 
   // id
   local.id = local.id || generate();
@@ -2557,20 +2412,23 @@ const createElement = ({STATE, VALUE, id}) => {
   // ///////////////// approval & params /////////////////////
 
   // approval
-  const approved = toApproval({VALUE, STATE, string: conditions, id});
+  var approved = toApproval({VALUE, STATE, string: conditions, id});
   if (!approved) return;
 
   // push destructured params from type to local
   if (params) {
-    params = toParam({VALUE, STATE, string: params, id});
-    Object.entries(params).map(([k, v]) => (local[k] = v));
+
+    params = toParam({ VALUE, STATE, string: params, id })
+    VALUE[id] = local = override(local, params)
 
     if (params.id) {
+
       delete Object.assign(VALUE, {[params.id]: VALUE[id]})[id];
       id = params.id;
     }
 
     if (params.data && (!local.Data || params.Data)) {
+
       local.Data = local.Data || generate();
       var state = local.Data;
       STATE[state] = clone(local.data || STATE[state]);
@@ -2598,6 +2456,7 @@ const createElement = ({STATE, VALUE, id}) => {
       
   if (path.length > 0) {
     if (!local.Data) {
+
       var state = (local.Data = generate())
       STATE[state] = local.data || {}
       STATE[`${state}-options`] = {}
@@ -2614,19 +2473,19 @@ const createElement = ({STATE, VALUE, id}) => {
 
   // data
   if (parent.unDeriveData || local.unDeriveData) {
+
     local.data = local.data || ""
     local.unDeriveData = true
+
   } else {
-    local.data = reducer({
-      VALUE,
-      STATE,
-      id,
+
+    local.data = reducer({ VALUE, STATE, id,
       params: {
         path: local.derivations,
         value: params.data,
         key: true,
         object: STATE[local.Data],
-      },
+      }
     })
   }
 
@@ -2635,7 +2494,7 @@ const createElement = ({STATE, VALUE, id}) => {
 
 module.exports = {createElement}
 
-},{"./clone":33,"./createTags":41,"./generate":55,"./merge":64,"./reducer":71,"./toApproval":86,"./toParam":96}],41:[function(require,module,exports){
+},{"./clone":33,"./createTags":41,"./generate":58,"./merge":68,"./reducer":75,"./toApproval":90,"./toParam":100}],41:[function(require,module,exports){
 const {clone} = require("./clone")
 const {generate} = require("./generate")
 const {toArray} = require("./toArray")
@@ -2677,7 +2536,6 @@ const createTags = ({VALUE, STATE, id}) => {
       local.mapIndex = index
       local.data = data
       local.id = id
-
       VALUE[id] = local
       return createTag({VALUE, STATE, id})
     })
@@ -2802,7 +2660,7 @@ const componentModifier = ({ VALUE, STATE, id }) => {
   if (local.type === "Icon") {
 
     local.icon = local.icon || {}
-    local.icon.name = local.icon.name || ""
+    local.icon.name = local.name || local.icon.name || ""
     if (local.icon.google) local.google = true
 
     if (local.icon.outlined || local.icon.type === "outlined") {
@@ -2857,20 +2715,20 @@ const componentModifier = ({ VALUE, STATE, id }) => {
 
 module.exports = {createTags}
 
-},{"./clone":33,"./createComponent":38,"./execute":50,"./generate":55,"./isEqual":60,"./toArray":87,"./toTag":101}],42:[function(require,module,exports){
+},{"./clone":33,"./createComponent":38,"./execute":51,"./generate":58,"./isEqual":64,"./toArray":91,"./toTag":105}],42:[function(require,module,exports){
 const {update} = require("./update");
 const {generate} = require("./generate");
 const {toArray} = require("./toArray");
 const {removeIds} = require("./update");
 const {clone} = require("./clone");
 
-const createView = ({STATE, VALUE, params = {}, id}) => {
+const createView = ({ STATE, VALUE, params = {}, id }) => {
   let local;
 
   // append view to root
   if (id === "root") {
     id = generate();
-    const element = document.createElement("div");
+    var element = document.createElement("div");
     element.id = id;
 
     element.style.height = "100%";
@@ -2885,18 +2743,18 @@ const createView = ({STATE, VALUE, params = {}, id}) => {
   if (!local) return;
 
   // delete prev elements and ids
-  const children = [...local.element.children];
+  var children = [...local.element.children];
 
   children.map((child) => {
-    const id = child.id;
+    var id = child.id
 
-    removeIds({VALUE, id});
+    removeIds({ VALUE, id })
 
-    VALUE[id].element.remove();
-    delete VALUE[id];
+    VALUE[id].element && VALUE[id].element.remove()
+    delete VALUE[id]
   });
 
-  const view = params.view;
+  var view = params.view;
 
   if (!view) return;
 
@@ -2911,7 +2769,7 @@ const createView = ({STATE, VALUE, params = {}, id}) => {
 
 module.exports = {createView};
 
-},{"./clone":33,"./generate":55,"./toArray":87,"./update":104}],43:[function(require,module,exports){
+},{"./clone":33,"./generate":58,"./toArray":91,"./update":108}],43:[function(require,module,exports){
 const { clone } = require("./clone")
 const { reducer } = require("./reducer")
 const {setContent} = require("./setContent")
@@ -2945,7 +2803,47 @@ const clearData = ({ STATE, VALUE, id, e, params = {} }) => {
 
 module.exports = {createData, setData, clearData}
 
-},{"./clone":33,"./reducer":71,"./setContent":77,"./setData":78}],44:[function(require,module,exports){
+},{"./clone":33,"./reducer":75,"./setContent":81,"./setData":82}],44:[function(require,module,exports){
+const { toValue } = require("./toValue")
+
+const decode = ({ VALUE, STATE, string, e, id }) => {
+  var keys = string.split('<')
+
+  if (keys.length === 1) return string
+
+  if (keys[1]) {
+    var subKey = keys[1].split('>')
+
+    // ex. < < <> <> > >
+    while (subKey[0] === keys[1] && keys[2] !== undefined) {
+      keys[1] += `${'<'}${keys[2]}`
+      if (keys[1].includes('>') && keys[2]) keys[1] = decode({VALUE, STATE, string: keys[1], e, id})
+      keys.splice(2, 1)
+      subKey = keys[1].split(']')
+    }
+
+    // ex. 1.2.3.<4.5.6
+    if (subKey[0] === keys[1] && keys.length === 2) 
+    return keys.join('<')
+
+    var value = toValue({ VALUE, STATE, id, e, params: { value: subKey[0] } })
+
+    var before = keys[0]
+    subKey = subKey.slice(1)
+    keys = keys.slice(2)
+    var after = keys.join('<') ? `${'<'}${keys.join('<')}` : ""
+
+    string = `${before}${value}${subKey.join('>')}${after}`
+  }
+
+  if (string.split('<')[1]) string = decode({VALUE, STATE, string, e, id})
+
+  return string
+}
+
+module.exports = {decode}
+
+},{"./toValue":106}],45:[function(require,module,exports){
 const { setData } = require("./data");
 const { resize } = require("./resize");
 const { isArabic } = require("./isArabic");
@@ -3051,7 +2949,7 @@ const defaultInputHandler = ({ STATE, VALUE, id }) => {
 
 module.exports = { defaultInputHandler };
 
-},{"./data":43,"./generate":55,"./isArabic":59,"./resize":74}],45:[function(require,module,exports){
+},{"./data":43,"./generate":58,"./isArabic":63,"./resize":78}],46:[function(require,module,exports){
 const derive = (data, keys, defaultData, editable) => {
   if (!Array.isArray(keys)) keys = keys.split(".");
 
@@ -3082,31 +2980,31 @@ const derive = (data, keys, defaultData, editable) => {
 
 module.exports = {derive};
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 const {update} = require("./update");
 const {clone} = require("./clone");
 const {toValue} = require("./toValue");
 
 const droplist = ({VALUE, STATE, id, e}) => {
-  const local = VALUE[id]
-  if (!local) return
 
-  const dropList = VALUE["droplist"]
-  const isInput = local.type === "Input" || local.type === "Textarea"
-  const parent = VALUE[local.parent].parent
+  var local = VALUE[id]
+  var dropList = VALUE["droplist"]
+  var isInput = local.type === "Input" || local.type === "Textarea"
+  var isButton = local.isButton
+  var parent = VALUE[local.parent].parent
 
   // items
   var items = clone(local.droplist.items) || []
   dropList.derivations = clone(local.derivations)
   dropList.Data = local.Data
-
+  
   // path & derivations
   if (local.droplist.path)
   dropList.derivations.push(...local.droplist.path.split("."))
 
   // input id
   var input_id
-  if (local.lang || local.unit || local.currency || local.key || local.day)
+  if (local.lang || local.unit || local.currency || local.key || local.day || local.duration)
   input_id = VALUE[local.parent].element.previousSibling.id
   
   // items
@@ -3147,12 +3045,12 @@ const droplist = ({VALUE, STATE, id, e}) => {
       return {
         type: `Item?text.text=const.${item};readonly=${readonly}`,
         controls: [{
-          event: `click?value.element.${isInput ? "value" : "innerHTML"}::${id}=${item}<<!${local.droplist.disabled};action.resize::${id}?!readonly;state.droplist=${id}`,
+          event: `click?value.element.${isInput ? "value" : "innerHTML"}::${isButton ? `${id}-text` : id}=${item}<<!${local.droplist.disabled};action.resize::${id};value.data()=${item}<<${isButton}?!readonly;state.droplist=${id}`,
           actions: [
-            `?value.data()=${item}?!value.lang::${id};!value.currency::${id};!value.day::${id}`,
+            `?value.data()=${item}?!value.lang::${id};!value.currency::${id};!value.day::${id};!value.duration::${id}`,
             // for lang & currency droplists
-            `?value.data().${item}=value.data()::${input_id};value.data().delete()::${input_id};value.derivations::${input_id}=value.derivations.pull().[value.derivations.length().subs().1].push().${item}::${input_id}?const.${input_id};value.lang::${id}||value.currency::${id}||value.day::${id};value.derivations.lastIndex()::${input_id}!=${item}`,
-            `focus::${input_id}`,
+            `?value.data().${item}=value.data()::${input_id};value.data().delete()::${input_id};value.derivations::${input_id}=value.derivations.pull().[value.derivations.length().subs().1].push().${item}::${input_id}?const.${input_id};value.lang::${id}||value.currency::${id}||value.duration::${id}||value.day::${id};value.derivations.lastIndex()::${input_id}!=${item}`,
+            `focus::${input_id}??const.${input_id}`,
           ]
         }]
       }
@@ -3167,7 +3065,7 @@ const droplist = ({VALUE, STATE, id, e}) => {
 
 module.exports = {droplist}
 
-},{"./clone":33,"./toValue":102,"./update":104}],47:[function(require,module,exports){
+},{"./clone":33,"./toValue":106,"./update":108}],48:[function(require,module,exports){
 var {clearValues} = require("./clearValues");
 var {clone} = require("./clone");
 var {toArray} = require("./toArray");
@@ -3259,9 +3157,6 @@ var duplicate = ({ VALUE, STATE, params = {}, id }) => {
 
       return o[k];
     }, STATE[local.Data]);
-  } else {
-    var index = duplicate.index || local.children.length - 1;
-    local.children.push(local.children[index]);
   }
 
   var length = local.length !== undefined ? local.length : 1;
@@ -3368,7 +3263,7 @@ var duplicates = ({STATE, VALUE, params, id}) => {
 
 module.exports = {duplicate, duplicates};
 
-},{"./clearValues":32,"./clone":33,"./createElement":40,"./derive":45,"./focus":54,"./generate":55,"./isEqual":60,"./removeDuplicates":73,"./setElement":79,"./starter":82,"./toArray":87}],48:[function(require,module,exports){
+},{"./clearValues":32,"./clone":33,"./createElement":40,"./derive":46,"./focus":56,"./generate":58,"./isEqual":64,"./removeDuplicates":77,"./setElement":83,"./starter":86,"./toArray":91}],49:[function(require,module,exports){
 /*const axios = require("axios");
 
 const erase = async ({ VALUE, STATE, id, e, params = {} }) => {
@@ -3423,7 +3318,7 @@ module.exports = {
   }
 }
 
-},{"./toAwait":88}],49:[function(require,module,exports){
+},{"./toAwait":92}],50:[function(require,module,exports){
 const { toApproval } = require("./toApproval")
 const { toId } = require("./toId")
 const { toParam } = require("./toParam")
@@ -3449,7 +3344,9 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
   var _idList = toId({ VALUE, STATE, id, string: events[3] })
 
   events[0].split(";").map((event) => {
+
     var timer = 0, idList
+    var once = events[1] && events[1].includes('once')
 
     // action::id
     var eventid = event.split("::")[1]
@@ -3470,14 +3367,36 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
     // add event listener
     idList.map(id => {
 
-      var myFn = (e) => {
+      var myFn = async (e) => {
+
+        if (once) e.target.removeEventListener(event, myFn)
+        
+        // VALUE[id] doesnot exist
+        if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
+        
+        // approval
+        var approved = toApproval({ VALUE, STATE, string: events[2], e, id: mainID })
+        if (!approved) return
+
+        // params
+        params = toParam({ VALUE, STATE, string: events[1], e, id: mainID })
+        
+        if (controls.actions)
+        await execute({ VALUE, STATE, controls, e, id: mainID })
+
+        // await params
+        if (params.await && params.await.length > 0)
+          toParam({ VALUE, STATE, id, e, string: params.await.join(";") })
+      }
+
+      var myFn1 = (e) => {
         local[`${event}-timer`] = setTimeout(async () => {
 
-          if (local.once) return e.target.removeEventListener(event, myFn)
+          if (once) e.target.removeEventListener(event, myFn)
           
           // VALUE[id] doesnot exist
           if (!VALUE[id]) return e.target.removeEventListener(event, myFn)
-
+          
           // approval
           var approved = toApproval({ VALUE, STATE, string: events[2], e, id: mainID })
           if (!approved) return
@@ -3491,6 +3410,7 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
           // await params
           if (params.await && params.await.length > 0)
             toParam({ VALUE, STATE, id, e, string: params.await.join(";") })
+
         }, timer)
       }
 
@@ -3498,12 +3418,13 @@ const addEventListener = ({ VALUE, STATE, controls, id }) => {
       if (event === "loaded") myFn({ target: VALUE[id].element })
 
       // elements
-      VALUE[id].element.addEventListener(event, myFn)
+      VALUE[id].element.addEventListener(event, myFn1)
     })
   })
 }
 
 const defaultEventHandler = ({ VALUE, id }) => {
+
   var local = VALUE[id]
 
   local.touchstart = false
@@ -3511,8 +3432,9 @@ const defaultEventHandler = ({ VALUE, id }) => {
   local.mousedown = false
 
   events.map((event) => {
-    const setEventType = (e) => {
-      var local = VALUE[id]
+
+    var setEventType = (e) => {
+
       if (!local) return e.target.removeEventListener(event, setEventType)
 
       if (event === "mouseenter") local.mouseenter = true
@@ -3529,14 +3451,14 @@ const defaultEventHandler = ({ VALUE, id }) => {
 
 module.exports = { addEventListener, defaultEventHandler }
 
-},{"./clone":33,"./execute":50,"./toApproval":86,"./toId":94,"./toParam":96}],50:[function(require,module,exports){
+},{"./clone":33,"./execute":51,"./toApproval":90,"./toId":98,"./toParam":100}],51:[function(require,module,exports){
 const { toApproval } = require("./toApproval");
 const { toArray } = require("./toArray");
 const { toParam } = require("./toParam");
 const { getParam } = require("./getParam");
 const { toId } = require("./toId");
 const { toValue } = require("./toValue");
-const _method = require("./_method");
+const _method = require("./function");
 
 const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
   var local = VALUE[id], _params = params, localId = id
@@ -3610,7 +3532,7 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
         // action::id
         var actionid = action.split("::")[1]
         if (actionid) actionid = toValue({ VALUE, STATE, params: { value: actionid, params }, id: localId, e })
-
+        
         if (_method[name]) (actionid ? toArray(actionid) : idList).map(async id => {
 
           if (typeof id !== "string") return
@@ -3640,14 +3562,14 @@ const execute = ({ VALUE, STATE, controls, actions, e, id, params }) => {
 
 module.exports = { execute }
 
-},{"./_method":29,"./getParam":58,"./toApproval":86,"./toArray":87,"./toId":94,"./toParam":96,"./toValue":102}],51:[function(require,module,exports){
+},{"./function":57,"./getParam":62,"./toApproval":90,"./toArray":91,"./toId":98,"./toParam":100,"./toValue":106}],52:[function(require,module,exports){
 module.exports = {
   fill: ({ VALUE, id }) => {
     
   }
 }
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 const { isEqual } = require("./isEqual")
 const { toArray } = require("./toArray")
 const { toAwait } = require("./toAwait")
@@ -3663,6 +3585,7 @@ const filter = ({VALUE, STATE, params = {}, id, e}) => {
   var filter = params.filter || {}
   var Data = filter.Data || local.Data
   var options = STATE[`${Data}-options`]
+  if (!options) options = STATE[`${Data}-options`] = {}
 
   var path = toArray(filter.path)
   path = path.map(path => path.split("."))
@@ -3704,6 +3627,10 @@ const filter = ({VALUE, STATE, params = {}, id, e}) => {
   }
   
   STATE[Data] = data
+  local.filter = {
+    success: true,
+    data
+  }
 
   // await params
   toAwait({VALUE, STATE, id, e, params})
@@ -3711,31 +3638,33 @@ const filter = ({VALUE, STATE, params = {}, id, e}) => {
 
 module.exports = {filter}
 
-},{"./clone":33,"./compare":35,"./isEqual":60,"./toArray":87,"./toAwait":88,"./toFirebaseOperator":93}],53:[function(require,module,exports){
-const {setControls} = require("./controls");
-const {setStyle} = require("./style");
+},{"./clone":33,"./compare":35,"./isEqual":64,"./toArray":91,"./toAwait":92,"./toFirebaseOperator":97}],54:[function(require,module,exports){
+require('dotenv').config()
+//var config = JSON.parse(process.env.FIREBASE_CONFIG)
+//var firebase = require("firebase-admin").initializeApp(config)
+
+module.exports = {}//firebase
+},{"dotenv":112}],55:[function(require,module,exports){
+const {setControls} = require("./controls")
+const {setStyle} = require("./style")
 
 module.exports = {
   flicker: ({VALUE, id}) => {
 
-    let transition = VALUE[id].style.transition;
-    if (transition) transition += "opacity .3s";
-    transition = "opacity .3s";
+    VALUE[id].style = VALUE[id].style || {}
+    var transition = VALUE[id].style.transition
+    if (transition) transition += "opacity .3s"
+    transition = "opacity .3s"
 
-    setStyle({
-      VALUE,
-      STATE,
-      id,
-      params: {style: {transition, opacity: "0"}},
-    });
+    setStyle({ VALUE, STATE, id, params: {style: {transition, opacity: "0"}} })
 
-    const controls = {actions: "setStyle?style.opacity=1"};
+    var controls = {actions: "setStyle?style.opacity=1"}
 
-    setControls({VALUE, STATE, id, params: {controls}});
+    setControls({VALUE, STATE, id, params: {controls}})
   },
-};
+}
 
-},{"./controls":36,"./style":84}],54:[function(require,module,exports){
+},{"./controls":36,"./style":88}],56:[function(require,module,exports){
 const focus = ({VALUE, id}) => {
   const local = VALUE[id];
   if (!local) return;
@@ -3762,7 +3691,178 @@ const focus = ({VALUE, id}) => {
 
 module.exports = {focus};
 
-},{}],55:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
+const {clearValues} = require("./clearValues")
+const {clone} = require("./clone")
+const {derive} = require("./derive")
+const {duplicate, duplicates} = require("./duplicate")
+const {getParam} = require("./getParam")
+const {isArabic} = require("./isArabic")
+const {isEqual} = require("./isEqual")
+const {merge} = require("./merge")
+const {overflow} = require("./overflow")
+const {toApproval} = require("./toApproval")
+const {toComponent} = require("./toComponent")
+const {toId} = require("./toId")
+const {toParam} = require("./toParam")
+const {toString} = require("./toString")
+const {update, removeIds} = require("./update")
+const {createDocument} = require("./createDocument")
+const {toControls} = require("./toControls")
+const {toArray} = require("./toArray")
+const {generate} = require("./generate")
+const {createElement} = require("./createElement")
+const {addEventListener} = require("./event")
+const {execute} = require("./execute")
+const {controls} = require("./controls")
+const {setContent} = require("./setContent")
+const {starter} = require("./starter")
+const {setState} = require("./state")
+const {setPosition} = require("./setPosition")
+const {droplist} = require("./droplist")
+const {createView} = require("./createView")
+const {filter} = require("./filter")
+const {remove} = require("./remove")
+const {focus} = require("./focus")
+const {sort} = require("./sort")
+const {log} = require("./log")
+const {search} = require("./search")
+const {flicker} = require("./flicker")
+const {textarea} = require("./textarea")
+const {save} = require("./save")
+const {erase} = require("./erase")
+const {toValue} = require("./toValue")
+const {toPath} = require("./toPath")
+const {reducer} = require("./reducer")
+const {toStyle} = require("./toStyle")
+const {preventDefault} = require("./preventDefault")
+const {createComponent} = require("./createComponent")
+const {getJsonFiles} = require("./getJsonFiles")
+const {toTag} = require("./toTag")
+const {setData} = require("./setData")
+const {defaultInputHandler} = require("./defaultInputHandler")
+const {createActions} = require("./createActions")
+const {blur} = require("./blur")
+const {fill} = require("./fill")
+const {toAwait} = require("./toAwait")
+const {close} = require("./close")
+const {pause} = require("./pause")
+const {play} = require("./play")
+const {note} = require("./note")
+const {toCode} = require("./toCode")
+const {isPath} = require("./isPath")
+const {toNumber} = require("./toNumber")
+const {capitalize} = require("./capitalize")
+const {setElement} = require("./setElement")
+const {toFirebaseOperator} = require("./toFirebaseOperator")
+const {popup} = require("./popup")
+const {keys} = require("./keys")
+const {values} = require("./values")
+const {toggleView} = require("./toggleView")
+const {upload} = require("./upload")
+const {compare} = require("./compare")
+const {toCSV} = require("./toCSV")
+const {decode} = require("./decode")
+const firebase = require("./firebase")
+const {getDateTime} = require("./getDateTime")
+const {getDaysInMonth} = require("./getDaysInMonth")
+const {
+  setStyle,
+  resetStyles,
+  toggleStyles,
+  mountAfterStyles,
+} = require("./style")
+const {resize, dimensions} = require("./resize")
+const {createData, clearData} = require("./data")
+
+module.exports = {
+  getDaysInMonth,
+  decode,
+  firebase,
+  toCSV,
+  compare,
+  setElement,
+  clearValues,
+  clone,
+  derive,
+  duplicate,
+  duplicates,
+  getJsonFiles,
+  search,
+  getParam,
+  isArabic,
+  isEqual,
+  merge,
+  overflow,
+  addEventListener,
+  setState,
+  toApproval,
+  toComponent,
+  toId,
+  toParam,
+  toString,
+  update,
+  execute,
+  removeIds,
+  createDocument,
+  toArray,
+  generate,
+  createElement,
+  controls,
+  textarea,
+  setStyle,
+  resetStyles,
+  toggleStyles,
+  mountAfterStyles,
+  resize,
+  dimensions,
+  createData,
+  setData,
+  clearData,
+  setContent,
+  starter,
+  createComponent,
+  setPosition,
+  droplist,
+  filter,
+  createView,
+  createActions,
+  flicker,
+  blur,
+  toAwait,
+  toControls,
+  remove,
+  defaultInputHandler,
+  focus,
+  sort,
+  log,
+  save,
+  erase,
+  toCode,
+  toPath,
+  toValue,
+  reducer,
+  preventDefault,
+  toStyle,
+  toTag,
+  capitalize,
+  fill,
+  note,
+  pause,
+  play,
+  close,
+  isPath,
+  toNumber,
+  popup,
+  getDateTime,
+  keys,
+  values,
+  toFirebaseOperator,
+  upload,
+  toggleView
+}
+
+},{"./blur":30,"./capitalize":31,"./clearValues":32,"./clone":33,"./close":34,"./compare":35,"./controls":36,"./createActions":37,"./createComponent":38,"./createDocument":39,"./createElement":40,"./createView":42,"./data":43,"./decode":44,"./defaultInputHandler":45,"./derive":46,"./droplist":47,"./duplicate":48,"./erase":49,"./event":50,"./execute":51,"./fill":52,"./filter":53,"./firebase":54,"./flicker":55,"./focus":56,"./generate":58,"./getDateTime":59,"./getDaysInMonth":60,"./getJsonFiles":61,"./getParam":62,"./isArabic":63,"./isEqual":64,"./isPath":65,"./keys":66,"./log":67,"./merge":68,"./note":69,"./overflow":70,"./pause":71,"./play":72,"./popup":73,"./preventDefault":74,"./reducer":75,"./remove":76,"./resize":78,"./save":79,"./search":80,"./setContent":81,"./setData":82,"./setElement":83,"./setPosition":84,"./sort":85,"./starter":86,"./state":87,"./style":88,"./textarea":89,"./toApproval":90,"./toArray":91,"./toAwait":92,"./toCSV":93,"./toCode":94,"./toComponent":95,"./toControls":96,"./toFirebaseOperator":97,"./toId":98,"./toNumber":99,"./toParam":100,"./toPath":101,"./toString":103,"./toStyle":104,"./toTag":105,"./toValue":106,"./toggleView":107,"./update":108,"./upload":109,"./values":110}],58:[function(require,module,exports){
 const characters =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -3778,9 +3878,9 @@ const generate = (length) => {
 
 module.exports = {generate};
 
-},{}],56:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 module.exports = {
-    getDateTime: ({ params: {time} }) => {
+    getDateTime: (time) => {
         
         var sec = parseInt(time.getSeconds())
         var min = parseInt(time.getMinutes())
@@ -3799,7 +3899,13 @@ module.exports = {
         return `${year}-${month}-${day}T${hrs}:${min}:${sec}`
     }
 }
-},{}],57:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
+module.exports = {
+    getDaysInMonth: (stampTime) => {
+        return new Date(stampTime.getFullYear(), stampTime.getMonth() + 1, 0).getDate()
+    }
+}
+},{}],61:[function(require,module,exports){
 (function (process){(function (){
 const path = require("path");
 const fs = require("fs");
@@ -3828,7 +3934,7 @@ const getJsonFiles = (folder, fileName, params = {}) => {
 module.exports = {getJsonFiles};
 
 }).call(this)}).call(this,require('_process'))
-},{"_process":4,"fs":1,"path":3}],58:[function(require,module,exports){
+},{"_process":4,"fs":1,"path":3}],62:[function(require,module,exports){
 const { toParam } = require("./toParam");
 
 const getParam = (string, param, defValue) => {
@@ -3852,7 +3958,7 @@ const getParam = (string, param, defValue) => {
 
 module.exports = {getParam};
 
-},{"./toParam":96}],59:[function(require,module,exports){
+},{"./toParam":100}],63:[function(require,module,exports){
 const arabic = /[\u0600-\u06FF\u0750-\u077F]/;
 
 const isArabic = (value) => {
@@ -3887,7 +3993,7 @@ const isArabic = (value) => {
 
 module.exports = {isArabic};
 
-},{}],60:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 const isEqual = function(value, other) {
   // if (value === undefined || other === undefined) return false
 
@@ -3977,7 +4083,7 @@ const isEqual = function(value, other) {
 
 module.exports = {isEqual};
 
-},{}],61:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 module.exports = {
   isPath: ({VALUE, STATE, id, e, params: {path}}) => {
     path = path.split(".");
@@ -3994,20 +4100,20 @@ module.exports = {
   },
 };
 
-},{}],62:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 module.exports = {
     keys: (object) => {
         return Object.keys(object)
     }
 }
-},{}],63:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 const log = ({params}) => {
   console.log(params.log || 'here');
 };
 
 module.exports = {log};
 
-},{}],64:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 const {toArray} = require("./toArray");
 const {clone} = require("./clone");
 
@@ -4057,7 +4163,7 @@ const override = (obj1, obj2) => {
 
 module.exports = {merge, override};
 
-},{"./clone":33,"./toArray":87}],65:[function(require,module,exports){
+},{"./clone":33,"./toArray":91}],69:[function(require,module,exports){
 const note = ({VALUE, params}) => {
   const note = VALUE["action-note"]
   const noteText = VALUE["action-note-text"]
@@ -4066,12 +4172,13 @@ const note = ({VALUE, params}) => {
 
   clearTimeout(note["note-timer"])
 
-  note.element.style.transition = "initial"
-  note.element.style.transform = "translateY(-200%)"
+  // note.element.style.transition = "initial"
+  // note.element.style.transform = "translateY(-200%)"
 
   noteText.element.innerHTML = params.note
 
-  note.element.style.left = "center"
+  var width = note.element.offsetWidth
+  note.element.style.left = `calc(50% - ${width/2}px)`
   note.element.style.transition = "transform .2s"
   note.element.style.transform = "translateY(0)"
 
@@ -4082,7 +4189,7 @@ const note = ({VALUE, params}) => {
 
 module.exports = {note}
 
-},{}],66:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 const overflow = ({VALUE, params, id}) => {
   const local = VALUE[id];
 
@@ -4138,7 +4245,7 @@ const overflow = ({VALUE, params, id}) => {
 
 module.exports = {overflow};
 
-},{}],67:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 const pause = ({VALUE, id}) => {
   const local = VALUE[id];
   clearTimeout(local["note-timer"]);
@@ -4146,7 +4253,7 @@ const pause = ({VALUE, id}) => {
 
 module.exports = {pause};
 
-},{}],68:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 const play = ({VALUE, id}) => {
   const local = VALUE[id];
   const myFn = () => {
@@ -4158,7 +4265,7 @@ const play = ({VALUE, id}) => {
 
 module.exports = {play};
 
-},{}],69:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 const {controls} = require("./controls");
 const {update} = require("./update");
 
@@ -4191,23 +4298,25 @@ const popup = ({VALUE, STATE, id, params}) => {
 
 module.exports = {popup};
 
-},{"./controls":36,"./update":104}],70:[function(require,module,exports){
+},{"./controls":36,"./update":108}],74:[function(require,module,exports){
 const preventDefault = ({e}) => {
   e.preventDefault();
 };
 
 module.exports = {preventDefault};
 
-},{}],71:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 const { generate } = require("./generate")
 const { toArray } = require("./toArray")
 const { toCode } = require("./toCode")
+const { decode } = require("./decode")
 const { isEqual } = require("./isEqual")
 const { capitalize } = require("./capitalize")
 const { clone } = require("./clone")
 const { toNumber } = require("./toNumber")
 const { toPrice } = require("./toPrice")
 const { getDateTime } = require('./getDateTime')
+const { getDaysInMonth } = require("./getDaysInMonth")
 
 const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object }, _, e }) => {
 
@@ -4223,6 +4332,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
     }
 
     if (path[1]) path = toCode({ VALUE, STATE, id, string: path.join('.'), e }).split('.')
+    if (path[1]) path = decode({ VALUE, STATE, id, string: path.join('.'), e }).split('.')
     
     if (path[0] === 'global') {
 
@@ -4231,12 +4341,29 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         path = path.slice(1)
         path[0] = 'value'
     }
+
+    if (path && (path.includes("equal()") || path.includes("equals()"))) {
+        
+        var index = path.findIndex(k => k && (k.includes("equal()") || k.includes("equals()")))
+        if (index !== -1 && index === path.length - 2) {
+            
+            key = true
+            if (path[index][0] === "_")
+            _ = reducer({ VALUE, STATE, id, params: { path: path.slice(0, index).join("."), params, object }, _, e })
+
+            value = toValue({ VALUE, STATE, id, _, e, params: { value: path[index + 1], params } })
+            path = path.slice(0, index)
+        }
+    }
     
     if (!object) {
         
         object = path[0] === 'value' ? VALUE[id]
         : path[0] === 'state' ? STATE 
         : path[0] === 'e' ? e
+        : path[0] === 'undefined' ? undefined
+        : path[0] === 'false' ? false
+        : path[0] === 'true' ? true
         : path[0] === '_' ? _
         : path[0] === 'params' ? params
         : path[0] === 'any' ? toValue({ VALUE, STATE, id, params: { value: path[1], params }, _, e })
@@ -4247,6 +4374,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         
         if (!object && path[0]) {
             
+            if (path[0] === 'desktop()') return STATE.device.type === 'desktop'
+            if (path[0] === 'tablet()') return STATE.device.type === 'tablet'
+            if (path[0] === 'mobile()' || path[0] === 'phone()') return STATE.device.type === 'phone'
+
             if (path[0].includes('coded()'))
             object = toValue({ VALUE, STATE, id, params: { value: STATE.codes[path[0]], params }, _, e })
 
@@ -4254,16 +4385,13 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             return object = toValue({ VALUE, STATE, id, params: { value: `[${path.join('.')}]`, params }, _, e })
 
             else if (path[0] === 'action') {
-                var actions = toValue({ VALUE, STATE, id, params: { value: path[1], params }, _, e })
+                var actions = toValue({ VALUE, STATE, id, params: { value: `any.${path.slice(1).join('.')}`, params }, _, e })
                 return execute({ VALUE, STATE, id, actions, params, e })
             }
-
+            
             else if (path[0] === '[]') object = []
-
             else if (path[0] === '{}') object = {}
-
             else if (path[0] === '[{}]') object = [{}]
-
             else if (path[0].includes('()')) object = VALUE
         }
 
@@ -4277,10 +4405,27 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
     
     var answer = path.reduce((o, k, i) => {
         
+        // fake lastIndex
+        if (lastIndex !== path.length - 1) {
+            if (key === true) key = false
+            lastIndex = path.length - 1
+        }
+
         if (!isNaN(k)) k = k + ''
                     
         // break
         if (breakRequest === true || breakRequest >= i) return o
+
+        // equal
+        if (path[i + 1] && (path[i + 1].includes("equal()") || path[i + 1].includes("equals()"))) {
+        
+            key = true
+            lastIndex = i
+            breakRequest = i + 2
+            if (path[i + 1][0] === "_")
+            _ = reducer({ VALUE, STATE, id, params: { path: [k], params, object: o }, _, e })
+            value = toValue({ VALUE, STATE, id, _, e, params: { value: path[i + 2], params } })
+        }
         
         if (k === 'else()') {
             
@@ -4289,28 +4434,29 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             var answer2 = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             if (!answer1) answer = answer2
             else answer = answer1
-            console.log(answer, local);
             return answer
         }
-
-        // equals
-        if (path[i + 1] && (path[i + 1].includes('equal()') || path[i + 1].includes('equals()'))) {
-
-            key = breakRequest = true
-            value = toValue({ VALUE, STATE, id, e, _, params: { value: path.slice(i + 2).join('.'), params } })
-            path = path.slice(0, i)
-            i = lastIndex
-        }
+        
+        // notExist
+        if (k === 'notexist()' || k === 'notExist()' || k === 'not()' && (!path[i + 1] || (path[i + 1].includes("()") && !path[i + 1].includes("coded()")))) 
+        return answer = !o ? true : false
 
         if (o === undefined) return o
 
-        if (k === "if()") {
+        if (path[i + 1] === 'delete()' || path[i + 1] === 'del()') {
+            
+            breakRequest = i + 1
+            var el = toValue({ VALUE, STATE, id, e, _, params: { value: k, params } })
+            if (Array.isArray(o)) o.splice(k, 1)
+            else delete o[el]
+            
+        } else if (k === "if()") {
             
             breakRequest = i + 1
             var approved = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             if (!approved) answer = false
             else answer = o
-            
+
         } else if (k === "_") {
 
             answer = _
@@ -4319,7 +4465,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             breakRequest = true
             var newValue = toValue({ VALUE, STATE, id, e, params: { value: STATE.codes[k], params }, _ })
-            newValue = [ ...newValue.toString().split('.'), ...path.slice(i + 1)]
+            newValue = [ ...(newValue.toString().split('.')), ...path.slice(i + 1)]
             answer = reducer({ VALUE, STATE, id, e, params: { value, key, path: newValue, object: o, params }, _ })
 
         } else if (k === 'data()') {
@@ -4364,7 +4510,6 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             if (VALUE[_id].component === 'Input') {
                 _id = VALUE[_id].element.getElementsByTagName('INPUT')[0].id
             }
-            
             answer = VALUE[_id]
             
         } else if (k === '2ndChild()') {
@@ -4434,6 +4579,22 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             answer = Math.round(toNumber(o))
 
+        } else if (k === 'device()') {
+
+            answer = State.device.type
+
+        } else if (k === 'mobile()' || k === 'phone()') {
+
+            answer = State.device.type === 'phone'
+
+        } else if (k === 'desktop()') {
+
+            answer = State.device.type === 'desktop'
+
+        } else if (k === 'tablet()') {
+
+            answer = State.device.type === 'tablet'
+
         } else if (k === 'child()') {
 
             breakRequest = i + 1
@@ -4451,10 +4612,6 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             var myFn = () => toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             answer = setTimeout(myFn, timer)
 
-        } else if (k === 'delete()') {
-            
-            answer = o.delete()
-            
         } else if (k === 'shift()') {
 
             answer = o.shift()
@@ -4499,41 +4656,44 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             if (path[i + 1] === 'add()') answer = o + ";"
             else {
-            breakRequest = i + 1
-            answer = o + ";" + toValue({ VALUE, STATE, id, e, _, params: { value: path[i + 1], params } })
-            if (!path[i + 1]) answer = o + ";"
+                breakRequest = i + 1
+                var _semi = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
+                if (!path[i + 1]) _semi = ""
+                answer = o + ";" + _semi
             }
 
         } else if (k === '_quest') {
             
             if (path[i + 1] === 'add()') answer = o + "?"
             else {
-            breakRequest = i + 1
-            answer = o + "?" + toValue({ VALUE, STATE, id, e, _, params: { value: path[i + 1], params } })
-            if (!path[i + 1]) answer = o + "?"
+                breakRequest = i + 1
+                var _quest = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
+                if (!path[i + 1]) _quest = ""
+                answer = o + "?" + _quest
             }
 
         } else if (k === '_dot') {
 
             if (path[i + 1] === 'add()') answer = o + "."
             else {
-            breakRequest = i + 1
-            answer = o + "." + toValue({ VALUE, STATE, id, e, _, params: { value: path[i + 1], params } })
-            if (!path[i + 1]) answer = o + "."
+                breakRequest = i + 1
+                var _dot = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
+                if (!path[i + 1]) _dot = ""
+                answer = o + "." + _dot
             }
 
         } else if (k === '_space') {
 
             if (path[i + 1] === 'add()') answer = o + " "
             else {
-            breakRequest = i + 1
-            var spaced = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
-            if (!path[i + 1]) spaced = ""
-            answer = o + " " + spaced
+                breakRequest = i + 1
+                var _space = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
+                if (!path[i + 1]) _space = ""
+                answer = o + " " + _space
             }
             
         } else if (k === '_equal') {
-
+            
             if (path[i + 1] === 'add()') answer = o + "="
             else {
                 breakRequest = i + 1
@@ -4541,10 +4701,25 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
                 if (!path[i + 1]) _equal = ""
                 answer = o + "=" + _equal
             }
+            
+        } else if (k === 'then()') {
 
+            breakRequest = i + 1
+            answer = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
+            
         } else if (k === 'and()' || k === '&&') {
             
             if (!o) {
+                breakRequest = true
+                answer = o
+            } else {
+                breakRequest = i + 1
+                answer = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
+            }
+            
+        } else if (k === 'or()' || k === '||') {
+            
+            if (o) {
                 breakRequest = true
                 answer = o
             } else {
@@ -4569,13 +4744,25 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             breakRequest = i + 1
             var b = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             answer = parseFloat(o) < parseFloat(b)
-
-        } else if (k === 'isNot()' || k === 'isNotEqual()' || k === 'not()') {
+            
+        } else if (k === 'isNot()' || k === 'isNotEqual()' || k === 'not()' || k === 'isnt()') {
             
             breakRequest = i + 1
             var isNot = toValue({ VALUE, STATE, id, params: { value: path[i + 1], params }, _, e })
             answer = !isEqual(o, isNot)
             
+        } else if (k === 'true()' || k === "istrue()" || k === "isTrue()") {
+
+            answer = o === true
+
+        } else if (k === 'false()' || k === "isfalse()" || k === "isFalse()") {
+
+            answer = o === false
+
+        } else if (k === 'undefined()' || k === "isundefined()" || k === "isUndefined()") {
+
+            answer = o === undefined
+
         } else if (k === 'abs()') {
             
             o = o.toString()
@@ -4657,6 +4844,10 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             else answer = o.split(b)[0] - o.split(b)[1]
             if (isPrice) answer = answer.toLocaleString()
 
+        } else if (k === 'sum()') {
+            
+            answer = o.reduce((o, k) => o + k, 0)
+
         } else if (k === 'toArray()') {
             
             answer = toArray(o)
@@ -4677,6 +4868,17 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = []
 
+        } else if (k === 'field()') {
+            
+            breakRequest = true
+            var fields = path.slice(i).join('.').split('field().').slice(1)
+            fields.map(field => {
+                var f = toValue({ VALUE, STATE, id, params: { value: field.split('.')[0], params }, _, e })
+                var v = toValue({ VALUE, STATE, id, params: { value: field.split('.')[2], params }, _, e })
+                o[f] = v
+            })
+            answer = o
+            
         } else if (k === 'object()' || k === '{}') {
             
             answer = {}
@@ -4710,7 +4912,8 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
         } else if (k === 'key()') {
             
-            answer = Object.keys(o)[0]
+            if (i === lastIndex && value !== undefined && key) answer = Object.keys(o)[0] = value
+            else answer = Object.keys(o)[0]
             
         } else if (k === 'values()') {
             
@@ -4718,7 +4921,8 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
         } else if (k === 'value()') {
             
-            answer = Object.values(o)[0]
+            if (i === lastIndex && value !== undefined && key) answer = o[Object.keys(o)[0]] = value
+            else answer = Object.values(o)[0]
             
         } else if (k === 'entries()') {
             
@@ -4754,19 +4958,11 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
 
             if (!isNaN(o)) o = parseInt(o)
             answer = new Date(o)
-            
+
         } else if (k === 'toUTCString()') {
             
-            if (!isNaN(o)) o = new Date(parseFloat(o))
+            if (!isNaN(o) && (parseFloat(o) + '').length === 13) o = new Date(parseFloat(o))
             answer = o.toUTCString()
-            
-        } else if (k === 'setBeginning()') {
-            
-            answer = o.setHours(0,0,0,0)
-            
-        } else if (k === 'setEnding()') {
-            
-            answer = o.setHours(23,59,59,999)
             
         } else if (k === 'setTime()') {
             
@@ -4778,62 +4974,206 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
         } else if (k === 'getDateTime()') {
             
-            answer = getDateTime({ VALUE, STATE, id, e, params: { time: o } })
+            answer = getDateTime(o)
+
+        } else if (k === 'getDaysInMonth()') {
+            
+            answer = getDaysInMonth(o)
+
+        } else if (k === 'getDayBeginning()' || k === 'getDayStart()') {
+            
+            answer = o.setHours(0,0,0,0)
+            
+        } else if (k === 'getDayEnd()' || k === 'getDayEnding()') {
+            
+            answer = o.setHours(23,59,59,999)
+            
+        } else if (k === 'getNextMonth()' || k === 'get1MonthLater()') {
+            
+            var month = o.getMonth() + 1 > 11 ? 1 : o.getMonth() + 1
+            var year = (month === 1 ? o.getYear() + 1 : o.getYear()) + 1900
+            answer = new Date(o.setYear(year)).setMonth(month, o.getDays())
+
+        } else if (k === 'get2ndNextMonth()' || k === 'get2MonthLater()') {
+            
+            var month = o.getMonth() + 1 > 11 ? 1 : o.getMonth() + 1
+            var year = (month === 1 ? o.getYear() + 1 : o.getYear()) + 1900
+            month = month + 1 > 11 ? 1 : month + 1
+            year = month === 1 ? year + 1 : year
+            answer = new Date(o.setYear(year)).setMonth(month, o.getDays())
+
+        } else if (k === 'get3rdNextMonth()' || k === 'get3MonthLater()') {
+            
+            var month = o.getMonth() + 1 > 11 ? 1 : o.getMonth() + 1
+            var year = (month === 1 ? o.getYear() + 1 : o.getYear()) + 1900
+            month = month + 1 > 11 ? 1 : month + 1
+            year = month === 1 ? year + 1 : year
+            month = month + 1 > 11 ? 1 : month + 1
+            year = month === 1 ? year + 1 : year
+            answer = new Date(o.setYear(year)).setMonth(month, o.getDays())
+
+        } else if (k === 'getPrevMonth()' || k === 'get1MonthEarlier') {
+            
+            var month = o.getMonth() - 1 < 0 ? 11 : o.getMonth() - 1
+            var year = (month === 11 ? o.getYear() - 1 : o.getYear()) + 1900
+            answer = new Date(o.setYear(year)).setMonth(month, o.getDays())
+
+        } else if (k === 'get2ndPrevMonth()' || k === 'get2MonthEarlier') {
+            
+            var month = o.getMonth() - 1 < 0 ? 11 : o.getMonth() - 1
+            var year = (month === 11 ? o.getYear() - 1 : o.getYear()) + 1900
+            month = month - 1 < 0 ? 11 : month - 1
+            year = month === 11 ? year - 1 : year
+            answer = new Date(o.setYear(year)).setMonth(month, o.getDays())
+
+        } else if (k === 'get3rdPrevMonth()' || k === 'get3MonthEarlier') {
+            
+            var month = o.getMonth() - 1 < 0 ? 11 : o.getMonth() - 1
+            var year = (month === 11 ? o.getYear() - 1 : o.getYear()) + 1900
+            month = month - 1 < 0 ? 11 : month - 1
+            year = month === 11 ? year - 1 : year
+            month = month - 1 < 0 ? 11 : month - 1
+            year = month === 11 ? year - 1 : year
+            answer = new Date(o.setYear(year)).setMonth(month, o.getDays())
+
+        } else if (k === 'getMonthBeginning()' || k === 'getMonthStart()') {
+            
+            answer = new Date(o.setMonth(o.getMonth(), 1)).setHours(0,0,0,0)
+
+        } else if (k === 'getMonthEnding()' || k === 'getMonthEnd()') {
+            
+            answer = new Date(o.setMonth(o.getMonth(), getDaysInMonth(o))).setHours(23,59,59,999)
+
+        } else if (k === 'getNextMonthBeginning()' || k === 'getNextMonthStart()') {
+            
+            var month = o.getMonth() + 1 > 11 ? 1 : o.getMonth() + 1
+            var year = (month === 1 ? o.getYear() + 1 : o.getYear()) + 1900
+            answer = new Date(new Date(o.setYear(year)).setMonth(month, 1)).setHours(0,0,0,0)
+            
+        } else if (k === 'getNextMonthEnding()' || k === 'getNextMonthEnd()') {
+            
+            var month = o.getMonth() + 1 > 11 ? 1 : o.getMonth() + 1
+            var year = (month === 1 ? o.getYear() + 1 : o.getYear()) + 1900
+            answer = new Date(new Date(o.setYear(year)).setMonth(month, getDaysInMonth(o))).setHours(23,59,59,999)
+
+        } else if (k === 'get2ndNextMonthBeginning()' || k === 'get2ndNextMonthStart()') {
+            
+            var month = o.getMonth() + 1 > 11 ? 1 : o.getMonth() + 1
+            var year = (month === 1 ? o.getYear() + 1 : o.getYear()) + 1900
+            month = month + 1 > 11 ? 1 : month + 1
+            year = month === 1 ? year + 1 : year
+            answer = new Date(new Date(o.setYear(year)).setMonth(month, 1)).setHours(0,0,0,0)
+
+        } else if (k === 'get2ndNextMonthEnding()' || k === 'get2ndNextMonthEnd()') {
+            
+            var month = o.getMonth() + 1 > 11 ? 1 : o.getMonth() + 1
+            var year = (month === 1 ? o.getYear() + 1 : o.getYear()) + 1900
+            month = month + 1 > 11 ? 1 : month + 1
+            year = month === 1 ? year + 1 : year
+            answer = new Date(new Date(o.setYear(year)).setMonth(month, getDaysInMonth(o))).setHours(23,59,59,999)
+
+        } else if (k === 'getPrevMonthBeginning()' || k === 'getPrevMonthStart()') {
+            
+            var month = o.getMonth() - 1 < 0 ? 11 : o.getMonth() - 1
+            var year = (month === 11 ? o.getYear() - 1 : o.getYear()) + 1900
+            answer = new Date(new Date(o.setYear(year)).setMonth(month, 1)).setHours(0,0,0,0)
+
+        } else if (k === 'getPrevMonthEnding()' || k === 'getPrevMonthEnd()') {
+            
+            var month = o.getMonth() - 1 < 0 ? 11 : o.getMonth() - 1
+            var year = (month === 11 ? o.getYear() - 1 : o.getYear()) + 1900
+            answer = new Date(new Date(o.setYear(year)).setMonth(month, getDaysInMonth(o))).setHours(23,59,59,999)
+
+        } else if (k === 'get2ndPrevMonthBeginning()' || k === 'get2ndPrevMonthStart()') {
+            
+            var month = o.getMonth() - 1 < 0 ? 11 : o.getMonth() - 1
+            var year = (month === 11 ? o.getYear() - 1 : o.getYear()) + 1900
+            month = month - 1 < 0 ? 11 : month - 1
+            year = month === 11 ? year - 1 : year
+            answer = new Date(new Date(o.setYear(year)).setMonth(month, 1)).setHours(0,0,0,0)
+
+        } else if (k === 'get2ndPrevMonthEnding()' || k === 'get2ndPrevMonthEnd()') {
+            
+            var month = o.getMonth() - 1 < 0 ? 11 : o.getMonth() - 1
+            var year = (month === 11 ? o.getYear() - 1 : o.getYear()) + 1900
+            month = month - 1 < 0 ? 11 : month - 1
+            year = month === 11 ? year - 1 : year
+            answer = new Date(new Date(o.setYear(year)).setMonth(month, getDaysInMonth(o))).setHours(23,59,59,999)
+
+        } else if (k === 'getYearBeginning()' || k === 'getYearStart()') {
+            
+            answer = new Date(o.setMonth(0, 1)).setHours(0,0,0,0)
+
+        } else if (k === 'getYearEnding()' || k === 'getYearEnd()') {
+            
+            answer = new Date(o.setMonth(0, getDaysInMonth(o))).setHours(23,59,59,999)
 
         } else if (k === 'exist()' || k === 'exists()') {
             
             answer = o !== undefined ? true : false
             
-        } else if (k === 'notexist()' || k === 'notExist()') {
-            
-            answer = !o ? true : false
-            
         } else if (k === 'flat()') {
             
             answer = Array.isArray(o) ? o.flat() : o
             
-        } else if (k === 'filter()') {
+        } else if (k.includes('filter()')) {
             
             breakRequest = i + 1
-            var cond = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params}, _ })
-            if (!cond) answer = o.filter(o => o !== undefined)
-            else answer = o.filter(o => o === cond)
+            if (k[0] === "_") {
+                answer = o.filter(o => toValue({ VALUE, STATE, id, e,  _: _ ? [_, o] : o, params: { value: path[i + 1], params } }))
+            } else {
+                var cond = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params}, _ })
+                if (!cond) answer = o.filter(o => o !== undefined)
+                else answer = o.filter(o => o === cond)
+            }
             
         } else if (k.includes('filterById()')) {
 
             breakRequest = i + 1
-            if (k[0] === "_") answer = o.filter(_ => toValue({ VALUE, STATE, id, e, _, params: { value: path[i + 1], params } }))
-            else {
+            if (k[0] === "_") {
+                answer = o.filter(o => toValue({ VALUE, STATE, id, e, _: _ ? [_, o] : o, params: { value: path[i + 1], params } }))
+            } else {
                 var _id = toArray(toValue({ VALUE, STATE, id, e, _, params: {value: path[i + 1], params} }))
-                answer = o.filter(_ => _id.includes(_.id))
+                answer = o.filter(o => _id.includes(o.id))
             }
 
-        } else if (k === 'find()') {
+        } else if (k.includes('find()')) {
 
             breakRequest = i + 1
-            var found = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} , _})
-            answer = o.find(data => isEqual(found, data))
+            if (k[0] === "_") {
+                answer = o.find(o => toValue({ VALUE, STATE, id, e,  _: _ ? [_, o] : o, params: { value: path[i + 1], params } }))
+            } else {
+                var found = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} , _})
+                answer = o.find(data => isEqual(found, data))
+            }
 
             // last index & value
             var index = o.findIndex(data => isEqual(found, data))
             if (index === -1) index = o.length
             if (key && value && (i + 1 === lastIndex)) answer = o[index] = value
             
+        } else if (k.includes('findIndex()')) {
+
+            breakRequest = i + 1
+            if (k[0] === "_") {
+                answer = o.findIndex(o => toValue({ VALUE, STATE, id, e,  _: _ ? [_, o] : o, params: { value: path[i + 1], params } }))
+            } else {
+                var found = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} , _})
+                answer = o.findIndex(data => isEqual(found, data))
+            }
+            
         } else if (k === 'findById()') {
 
             breakRequest = i + 1
             // get id
-            var _id = toValue({ VALUE, STATE, id, e, params: {value: path[i + 1], params} , _})
+            var _id = toValue({ VALUE, STATE, id, e, params: { value: path[i + 1], params } , _})
             answer = o.find(data => data.id === _id)
 
-            /*if (!answer) {
-                o.push({ id : _id })
-                answer = o[o.length - 1]
-            }*/
-
             // last index & value
-            var index = o.findIndex(data => data.id === _id)
-            if (key && value && (i + 1 === lastIndex)) answer = o[index] = value
+            if (answer) {
+                var index = o.findIndex(data => data.id === _id)
+                if (key && value && (i + 1 === lastIndex)) answer = o[index] = value
+            }
             
         } else if (k === 'findByName()') {
 
@@ -4872,8 +5212,9 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k.includes('map()')) {
             
             breakRequest = i + 1
-            if (k[0] === "_") answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, _: o, e }) )
-            else answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], object: o, value, key, params }, _, e }) )
+            if (k[0] === "_") {
+                answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], value, key, params }, _: _ ? [_, o] : o, e }) )
+            } else answer = o.map(o => reducer({ VALUE, STATE, id, params: { path: [path[i + 1]], object: o, value, key, params }, _, e }) )
 
         } else if (k === 'index()') {
             
@@ -4894,53 +5235,47 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
             answer = execute({ VALUE, STATE, id, actions: path[i - 1], params, e })
             
-        } else if (k === 'toPrice()') {
+        } else if (k === 'toPrice()' || k === 'price()') {
             
             answer = o = toPrice(toNumber(o))
             
-        } else if (k === 'toNumber()') {
+        } else if (k === 'toNumber()' || k === 'number()' || k === 'num()') {
 
             answer = toNumber(o)
             
-        } else if (k === 'toString()') {
+        } else if (k === 'toString()' || k === 'string()' || k === 'str()') {
             
             answer = o + ""
             
-        } else if (k === '1stIndex()' || k === 'firstIndex()') {
+        } else if (k === '1stIndex()' || k === 'firstIndex()' || k === "1stElement()" || k === "1stEl()") {
             
             if (value !== undefined && key) answer = o[0] = value
             answer = o[0]
-
-        } else if (k === '2ndIndex()' || k === 'secondIndex()') {
+            
+        } else if (k === '2ndIndex()' || k === 'secondIndex()' || k === "2ndElement()" || k === "2ndEl()") {
             
             if (value !== undefined && key) answer = o[1] = value
             answer = o[1]
 
-        } else if (k === '3rdIndex()' || k === 'thirdIndex()') {
+        } else if (k === '3rdIndex()' || k === 'thirdIndex()' || k === "3rdElement()" || k === "3rdEl()") {
             
             if (value !== undefined && key) answer = o[2] = value
             answer = o[2]
 
-        } else if (k === '3rdLastIndex()' || k === '3rdlastIndex()') {
+        } else if (k === '3rdLastIndex()' || k === '3rdlastIndex()' || k === "3rdLastElement()" || k === "3rdLastEl()") {
 
             if (value !== undefined && key) answer = o[o.length - 3] = value
             answer = o[o.length - 3]
             
-        } else if (k === '2ndLastIndex()' || k === '2ndlastIndex()') {
+        } else if (k === '2ndLastIndex()' || k === '2ndlastIndex()' || k === "2ndLastElement()" || k === "2ndLastEl()") {
 
             if (value !== undefined && key) answer = o[o.length - 2] = value
             answer = o[o.length - 2]
             
-        } else if (k === 'lastIndex()') {
+        } else if (k === 'lastIndex()' || k === "lastElement()" || k === "lastEl()") {
 
             if (value !== undefined && key) answer = o[o.length - 1] = value
             answer = o[o.length - 1]
-            
-        } else if (k === '!lastIndex()') {
-
-            o = o.slice(0, -1)
-            if (value !== undefined && key) o = value
-            answer = o
             
         } else if (k === 'parseFloat()') {
             
@@ -4984,7 +5319,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             
         } else if (k === 'preventDefault()') {
             
-            answer = e.preventDefault()
+            answer = o.preventDefault()
 
         } else if (k === '()') {
 
@@ -5017,7 +5352,7 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
             breakRequest = true
             answer = o.classList.remove(path.slice(i + 1).join('.'))
 
-        } else if (k === 'element' && local.status === 'loading') {
+        } else if (k === 'element' && local && local.status === 'loading') {
 
             breakRequest = true
             local.controls = toArray(local.controls) || []
@@ -5028,16 +5363,6 @@ const reducer = ({ VALUE, STATE, id, params: { path, value, key, params, object 
         } else if (k === 'length' && !local.length && i === 0) {
             
             answer = VALUE[local.parent].element.children.length
-
-        } else if (i === lastIndex - 1 && path[lastIndex] === 'delete()') {
-            
-            breakRequest = i + 1
-            if (Array.isArray(o)) {
-
-                o.splice(k, 1)
-
-            } else delete o[k]
-            answer = o
 
         } else if (key && value !== undefined && i === lastIndex) {
             
@@ -5088,7 +5413,7 @@ const getDeepChildrenId = ({ VALUE, id }) => {
 }
 
 module.exports = { reducer, getDeepChildren, getDeepChildrenId }
-},{"./capitalize":31,"./clone":33,"./execute":50,"./generate":55,"./getDateTime":56,"./isEqual":60,"./toArray":87,"./toCode":90,"./toNumber":95,"./toPrice":98,"./toValue":102}],72:[function(require,module,exports){
+},{"./capitalize":31,"./clone":33,"./decode":44,"./execute":51,"./generate":58,"./getDateTime":59,"./getDaysInMonth":60,"./isEqual":64,"./toArray":91,"./toCode":94,"./toNumber":99,"./toPrice":102,"./toValue":106}],76:[function(require,module,exports){
 const {removeIds} = require("./update");
 const {clone} = require("./clone");
 const {reducer} = require("./reducer");
@@ -5158,7 +5483,7 @@ const resetDerivations = ({VALUE, id, index}) => {
 
 module.exports = {remove};
 
-},{"./clone":33,"./reducer":71,"./update":104}],73:[function(require,module,exports){
+},{"./clone":33,"./reducer":75,"./update":108}],77:[function(require,module,exports){
 const removeDuplicates = (object) => {
   if (typeof object === "string" || typeof object === "number" || !object) {
     return object;
@@ -5180,7 +5505,7 @@ const removeDuplicates = (object) => {
 
 module.exports = {removeDuplicates};
 
-},{}],74:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 const resize = ({VALUE, id}) => {
   var local = VALUE[id];
   if (!local) return;
@@ -5289,28 +5614,30 @@ const converter = (dimension) => {
 
 module.exports = {resize, dimensions}
 
-},{}],75:[function(require,module,exports){
-/*const axios = require("axios");
+},{}],79:[function(require,module,exports){
+/*const axios = require("axios")
 
 const save = async ({ VALUE, STATE, params = {}, id, e }) => {
-  var local = VALUE[id];
-  if (!local) return;
+  var local = VALUE[id]
+  if (!local) return
 
-  var save = params.save;
+  var save = params.save
 
   var { data: { data, message, success } } = await axios.post(`/api/${save.path}`, save.data)
 
-  local.save = { data, message, success };
+  local.save = { data, message, success }
 
-  console.log(data, message, success);
+  console.log(data, message, success)
 
   // await params
-  toAwait({ VALUE, STATE, id, e, params });
-};
+  toAwait({ VALUE, STATE, id, e, params })
+}
 
-module.exports = { save };*/
-const { capitalize } = require("./capitalize");
-const { toAwait } = require("./toAwait");
+module.exports = { save }*/
+const { capitalize } = require("./capitalize")
+const { toAwait } = require("./toAwait")
+const { toArray } = require("./toArray")
+const { clone } = require("./clone")
 
 module.exports = {
   save: async ({ VALUE, STATE, params = {}, id, e }) => {
@@ -5320,31 +5647,34 @@ module.exports = {
     var collection = save.path
     var ref = STATE.db.collection(collection)
     
-    ref.doc(save.data.id).set(save.data).then(() => {
+    toArray(save.data).map(data => {
+      ref.doc(data.id).set(data).then(() => {
+        var _params = clone(params)
 
-      local.save = {
-        data: save.data,
-        success: true,
-        message: `${capitalize(collection)} saved successfuly!`,
-      }
-            
-      console.log(local.save)
-                  
-      // await params
-      toAwait({ VALUE, STATE, id, e, params })
-    })
-    .catch(error => {
+        local.save = {
+          data,
+          success: true,
+          message: `${capitalize(collection)} saved successfuly!`,
+        }
+              
+        console.log(local.save)
+                    
+        // await params
+        toAwait({ VALUE, STATE, id, e, params:_params })
+      })
+      .catch(error => {
 
-      local.save = {
-          success: false,
-          message: error,
-      }
-      
-      console.log(local.save)
+        local.save = {
+            success: false,
+            message: error,
+        }
+        
+        console.log(local.save)
+      })
     })
   }
 }
-},{"./capitalize":31,"./toAwait":88}],76:[function(require,module,exports){
+},{"./capitalize":31,"./clone":33,"./toArray":91,"./toAwait":92}],80:[function(require,module,exports){
 /*const axios = require('axios')
 const { toString } = require('./toString')
 
@@ -5439,7 +5769,7 @@ module.exports = {
         })
     }
 }
-},{"./capitalize":31,"./keys":62,"./toAwait":88,"./toFirebaseOperator":93}],77:[function(require,module,exports){
+},{"./capitalize":31,"./keys":66,"./toAwait":92,"./toFirebaseOperator":97}],81:[function(require,module,exports){
 const {isArabic} = require("./isArabic");
 
 const setContent = ({VALUE, STATE, params = {}, id}) => {
@@ -5470,7 +5800,7 @@ const setContent = ({VALUE, STATE, params = {}, id}) => {
 
 module.exports = {setContent};
 
-},{"./isArabic":59}],78:[function(require,module,exports){
+},{"./isArabic":63}],82:[function(require,module,exports){
 const {clone} = require("./clone");
 const {reducer} = require("./reducer");
 const {setContent} = require("./setContent");
@@ -5524,7 +5854,7 @@ const setData = ({STATE, VALUE, params = {}, id}) => {
 
 module.exports = {setData};
 
-},{"./clone":33,"./reducer":71,"./setContent":77}],79:[function(require,module,exports){
+},{"./clone":33,"./reducer":75,"./setContent":81}],83:[function(require,module,exports){
 const setElement = ({ VALUE, id }) => {
 
     var local = VALUE[id]
@@ -5547,10 +5877,12 @@ const setElement = ({ VALUE, id }) => {
 }
     
 module.exports = {setElement}
-},{}],80:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 const setPosition = ({ VALUE, params, id }) => {
 
   var position = params.position
+  var leftDeviation = position.left
+  var topDeviation = position.top
   var element = VALUE[id].element
   var fin = element.getElementsByClassName("fin")[0]
 
@@ -5572,6 +5904,7 @@ const setPosition = ({ VALUE, params, id }) => {
   distance = parseFloat(element.distance || position.distance || 10)
 
   if (placement === "right") {
+
     left = positioner.getBoundingClientRect().right + distance
     top =
       positioner.getBoundingClientRect().top +
@@ -5601,7 +5934,9 @@ const setPosition = ({ VALUE, params, id }) => {
       fin.style.bottom = "unset"
       fin.style.borderRadius = "0 0.4rem 0 0"
     }
+
   } else if (placement === "top") {
+
     top = positioner.getBoundingClientRect().top - height - distance
     left =
       positioner.getBoundingClientRect().left +
@@ -5615,7 +5950,9 @@ const setPosition = ({ VALUE, params, id }) => {
       fin.style.bottom = "-0.5rem"
       fin.style.borderRadius = "0 0 0.4rem 0"
     }
+
   } else if (placement === "bottom") {
+
     top = positioner.getBoundingClientRect().top + positioner.clientHeight + 10
     left =
       positioner.getBoundingClientRect().left +
@@ -5630,6 +5967,10 @@ const setPosition = ({ VALUE, params, id }) => {
       fin.style.borderRadius = "0 0.4rem 0 0"
     }
   }
+  
+  // deviation
+  if (topDeviation) top = top + topDeviation
+  if (leftDeviation) left = left + leftDeviation
 
   bottom = top + height
 
@@ -5658,6 +5999,7 @@ const setPosition = ({ VALUE, params, id }) => {
     }
 
   } else {
+
     element.style.top = top + 'px'
     element.style.bottom = bottom
   }
@@ -5668,7 +6010,7 @@ const setPosition = ({ VALUE, params, id }) => {
 
 module.exports = {setPosition}
 
-},{}],81:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 const {reducer} = require("./reducer")
 const {toAwait} = require("./toAwait")
 const {toNumber} = require("./toNumber")
@@ -5784,9 +6126,11 @@ const sort = ({VALUE, STATE, params = {}, id, e}) => {
 
 module.exports = {sort}
 
-},{"./reducer":71,"./toAwait":88,"./toNumber":95}],82:[function(require,module,exports){
+},{"./reducer":75,"./toAwait":92,"./toNumber":99}],86:[function(require,module,exports){
 const control = require("../control/control")
-const {toArray} = require("./toArray")
+const { clone } = require("./clone")
+const { toArray } = require("./toArray")
+const { toParam } = require("./toParam")
 
 const starter = ({ STATE, VALUE, id }) => {
   
@@ -5797,7 +6141,7 @@ const starter = ({ STATE, VALUE, id }) => {
   const {isArabic} = require("./isArabic")
 
   var local = VALUE[id]
-  if (!local) return
+  if (!local || !local.element) return delete VALUE[id]
 
   // status
   local.status = "mounting"
@@ -5816,10 +6160,20 @@ const starter = ({ STATE, VALUE, id }) => {
   // on loaded image
   if (local.type === 'Image') local.element.src = local.src
 
-  // prevent a tag from refreshing browser
-  if (local.link) local.element.addEventListener("click", (e) => e.preventDefault())
-
   /* End of default handlers */
+
+  // element awaiters
+  if (local.await) {
+
+    var params = toParam({ VALUE, STATE, id, string: local.await.join(';') })
+    VALUE[id] = { ...local, ...params }
+    local = VALUE[id]
+    if (params.id) {
+      VALUE[params.id] = { ...local, ...params }
+      delete VALUE[id]
+    }
+    delete local.await
+  }
 
   // setStyles
   if (local.style) setStyle({VALUE, STATE, id, params: { style: local.style }})
@@ -5828,12 +6182,13 @@ const starter = ({ STATE, VALUE, id }) => {
   Object.entries(control).map(([type, control]) => {
     if (local[type]) {
       local.controls = toArray(local.controls)
-      local.controls.push(...control({ VALUE, STATE, id, params: {controls: local[type]} }))
+      var _controls = control({ VALUE, STATE, id, params: { controls: local[type] } })
+      _controls && local.controls.push(..._controls)
     }
   })
 
   // execute controls
-  if (local.controls) controls({VALUE, STATE, id})
+  if (local.controls) controls({ VALUE, STATE, id })
 
   // run starter for children
   const children = [...local.element.children]
@@ -5847,7 +6202,7 @@ const starter = ({ STATE, VALUE, id }) => {
 
 module.exports = {starter}
 
-},{"../control/control":18,"./controls":36,"./defaultInputHandler":44,"./event":49,"./isArabic":59,"./style":84,"./toArray":87}],83:[function(require,module,exports){
+},{"../control/control":17,"./clone":33,"./controls":36,"./defaultInputHandler":45,"./event":50,"./isArabic":63,"./style":88,"./toArray":91,"./toParam":100}],87:[function(require,module,exports){
 const setState = ({STATE, params}) => {
   // push states to route
   /* if (params.route) pushRoute({ params })
@@ -5861,7 +6216,7 @@ const setState = ({STATE, params}) => {
 
 module.exports = {setState};
 
-},{}],84:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 const {resize} = require("./resize");
 const {toArray} = require("./toArray");
 
@@ -5918,18 +6273,17 @@ const setStyle = ({VALUE, params = {}, id}) => {
 };
 
 const resetStyles = ({VALUE, params, id}) => {
-  const local = VALUE[id];
-  if (!local.style || !local.style.after) return;
+  var local = VALUE[id];
 
   local.afterStylesMounted = false;
 
   params = {style: {}};
 
-  Object.entries(local.style.after).map(([key]) => {
+  Object.entries({...local.style.after, ...(local.hover && local.hover.style || {})}).map(([key]) => {
     if (local.style[key] !== undefined) params.style[key] = local.style[key];
     else params.style[key] = null;
   });
-
+  
   setStyle({VALUE, params, id});
 };
 
@@ -5971,7 +6325,7 @@ const mountAfterStyles = ({VALUE, params, id}) => {
 
 module.exports = {setStyle, resetStyles, toggleStyles, mountAfterStyles};
 
-},{"./resize":74,"./toArray":87}],85:[function(require,module,exports){
+},{"./resize":78,"./toArray":91}],89:[function(require,module,exports){
 const textarea = ({VALUE, id}) => {
   const local = VALUE[id];
   if (!local) return;
@@ -5999,287 +6353,280 @@ const textarea = ({VALUE, id}) => {
 
 module.exports = {textarea};
 
-},{}],86:[function(require,module,exports){
-const {isArabic} = require("./isArabic");
-const {isEqual} = require("./isEqual");
-const {generate} = require("./generate");
-const {duplicates} = require("./duplicate");
-const {overflow} = require("./overflow");
-const {getParam} = require("./getParam");
-const {toValue} = require("./toValue");
-const {reducer} = require("./reducer");
-const {toCode} = require("./toCode");
+},{}],90:[function(require,module,exports){
+const {isArabic} = require("./isArabic")
+const {isEqual} = require("./isEqual")
+const {generate} = require("./generate")
+const {toValue} = require("./toValue")
+const {reducer} = require("./reducer")
+const {toCode} = require("./toCode")
 
-const toApproval = ({STATE, VALUE, e, string, params, id, _}) => {
-  const mainId = id;
+const toApproval = ({ STATE, VALUE, e, string, id, _ }) => {
+  var mainId = id, approval = true
 
-  if (!string || typeof string !== "string") return true;
-  let approval = true;
+  if (!string || typeof string !== "string") return true
 
-  string.split(";").map((condition) => {
+  string.split(";").map(condition => {
+
     if (approval) {
-      var local = VALUE[mainId];
-      id = mainId;
+
+      var local = VALUE[mainId]
+      id = mainId
 
       // no condition
-      if (condition === "") return;
+      if (condition === "") return
 
-      const eq = condition.includes("=");
-      let gt = condition.includes(">");
+      var eq = condition.includes("=")
+      var gt = condition.includes(">")
       if (gt) {
-        var test = condition.split("::");
-        gt = test.find((exp) => exp.includes(">"));
+        var test = condition.split("::")
+        gt = test.find((exp) => exp.includes(">"))
       }
-      const gte = condition.includes(">=");
-      const lt = condition.includes("<");
-      const lte = condition.includes("<=");
-      let noOperator = false;
+      var gte = condition.includes(">=")
+      var lt = condition.includes("<")
+      var lte = condition.includes("<=")
+      var noOperator = false
 
-      if (!eq && !gt && !gte && !lt && !lte) noOperator = true;
+      if (!eq && !gt && !gte && !lt && !lte) noOperator = true
 
       if (
         (eq && !gte && !lte) ||
         (!eq && !gt && !gte && !lt && !lte) ||
         noOperator
       ) {
-        let minus; let plus; let times; let division; let notEqual;
+        var minus, plus, times, division, notEqual
 
-        condition = condition.split("=");
-        var key = condition[0];
-        var value = condition[1];
+        condition = condition.split("=")
+        var key = condition[0]
+        var value = condition[1]
 
         if (key && key.includes('coded()') && key.length === 12) key = STATE.codes[key]
 
         // ex: key1=string1=string2=string3
         if (condition[2]) {
-          condition[1] = condition[1].split("||");
+
+          condition[1] = condition[1].split("||")
 
           // ex: key1=value1||key2=value2||key3=value3
           if (condition[1].length > 1) {
-            condition[2] = condition.slice(2, condition.length).join("=");
-            approval = toApproval({ VALUE, STATE, e, string: `${condition[0]}=${condition[1][0]}`, id, _ });
-            if (approval) return;
+
+            condition[2] = condition.slice(2, condition.length).join("=")
+            approval = toApproval({ VALUE, STATE, e, string: `${condition[0]}=${condition[1][0]}`, id, _ })
+            if (approval) return
 
             // approval isn't true yet => keep trying
-            key = condition[1][1];
-            value = condition.slice(2).join("=");
-            string = `${key}=${value}`;
-            return (approval = toApproval({VALUE, STATE, e, string, id, _}));
+            key = condition[1][1]
+            value = condition.slice(2).join("=")
+            string = `${key}=${value}`
+            return (approval = toApproval({VALUE, STATE, e, string, id, _}))
           }
 
           // ex: key=value1=value2=value3
           else {
-            condition[2] = condition.slice(2, condition.length).join("=");
+            condition[2] = condition.slice(2, condition.length).join("=")
 
             // key!=value1!=value2!=value3
             if (key.slice(-1) === "!") {
               if (condition[2].slice(-1) === "!") {
-                condition[2] = condition[2].slice(0, -1);
+                condition[2] = condition[2].slice(0, -1)
               }
             }
 
-            approval = toApproval({ VALUE, STATE, e, string: `${key}=${condition[2]}`, id, _});
-            if (!approval) return;
+            approval = toApproval({ VALUE, STATE, e, string: `${key}=${condition[2]}`, id, _ })
+            if (!approval) return
 
             // approval is true till now => keep going
-            if (key.slice(-1) === "!") {
-              if (value.slice(-1) === "!") value = value.slice(0, -1);
-            }
+            if (key.slice(-1) === "!" && value.slice(-1) === "!") value = value.slice(0, -1)
+
           }
         } else if (value) {
-          value = value.split("||");
 
-          if (value.length === 1) value = value[0];
+          value = value.split("||")
+
+          if (value.length === 1) value = value[0]
           else if (value[1]) {
+
             // ex: key1=value1||key2=value2...
             if (value[1].includes("=")) {
-              var string = `${key}=${value[0]}`;
-              approval = toApproval({VALUE, STATE, e, string, id, _});
-              if (approval) return;
+              var string = `${key}=${value[0]}`
+              approval = toApproval({VALUE, STATE, e, string, id, _})
+              if (approval) return
 
-              string = value.slice(1).join("||");
-              return (approval = toApproval({VALUE, STATE, e, string, id, _}));
+              string = value.slice(1).join("||")
+              return (approval = toApproval({VALUE, STATE, e, string, id, _}))
             }
 
             // ex: key=value1||value2||value3
-            value[1] = value.slice(1, value.length).join("||");
-            var string = `${key}=${value[1]}`;
-            approval = toApproval({VALUE, STATE, e, string, id, _});
-            if (approval) return;
+            value[1] = value.slice(1, value.length).join("||")
+            var string = `${key}=${value[1]}`
+            approval = toApproval({VALUE, STATE, e, string, id, _})
+            if (approval) return
 
             // approval isn't true yet => keep trying
-            value = value[0];
+            value = value[0]
           }
         }
 
         if (key) {
-          key = key.split("||");
+          key = key.split("||")
 
-          if (key.length === 1) key = key[0];
+          if (key.length === 1) key = key[0]
           // ex. key1||key2||key3=value
           else if (key[1]) {
-            key[1] = key.slice(1, key.length).join("||");
-            var string = `${key[1]}${value ? `=${value}` : ""}`;
-            approval = toApproval({VALUE, STATE, e, string, id});
-            if (approval) return;
+
+            key[1] = key.slice(1, key.length).join("||")
+            var string = `${key[1]}${value ? `=${value}` : ""}`
+            approval = toApproval({VALUE, STATE, e, string, id})
+            if (approval) return
 
             // approval isn't true yet => keep trying
-            key = key[0];
+            key = key[0]
           }
         }
 
         // operator has !
         if (key.includes("!")) {
           if (key.split("!")[0]) {
-            if (value) notEqual = true;
-            if (notEqual) key = key.split("!")[0];
+
+            if (value) notEqual = true
+            if (notEqual) key = key.split("!")[0]
+
           } else {
+
             // !key => study key without value
-            value = undefined;
-            key = key.split("!")[1];
-            notEqual = true;
+            value = undefined
+            key = key.split("!")[1]
+            notEqual = true
           }
         }
 
         // /////////////////// value /////////////////////
 
-        if (value && value !== "undefined" && value !== "false") {
-          value = toValue({VALUE, STATE, id: mainId, params: {value}, e, _});
-        }
+        if (value && value !== "undefined" && value !== "false")
+        value = toValue({VALUE, STATE, id: mainId, params: {value}, e, _})
 
         // /////////////////// key /////////////////////
 
         // id
         if (key.includes("::")) {
-          var newId = key.split("::")[1];
-          key = key.split("::")[0];
+          var newId = key.split("::")[1]
+          key = key.split("::")[0]
 
           // id
-          id = toValue({VALUE, STATE, id, params: {value: newId}, e, _});
+          id = toValue({ VALUE, STATE, id, params: {value: newId}, e, _ })
         }
 
-        var keygen = generate();
-        var local = VALUE[id];
-        if (!local) return (approval = false);
+        var keygen = generate()
+        var local = VALUE[id]
+        if (!local) return approval = false
 
         // to path
-        key = toCode({VALUE, STATE, id, string: key, e});
-        var path = typeof key === "string" ? key.split(".") : [];
+        key = toCode({ VALUE, STATE, id, string: key, e })
+        var path = typeof key === "string" ? key.split(".") : []
 
         // const
         if (path[0] === "const") {
           if (path[1] === "false" || path[1] === "undefined" || path[1] === "") {
-            local[keygen] = false;
-          } else local[keygen] = path.slice(1).join(".");
-        } else if (key === "false" || key === "undefined") {
-          local[keygen] = false;
-        } else if (key === "true") local[keygen] = true;
-        else if (path[1]) {
-          local[keygen] = reducer({ VALUE, STATE, id, params: {path, value}, e, _});
-        } else if (key === "isArabic") {
-          const isInput = local.type === "Input" || local.type === "Textarea";
-          const result = isArabic(
-            isInput ? local.value : local.type === "Text" && local.text
-          );
-          local[keygen] = result;
-        } else if (key === "duplicates") {
-          const data = getParam(`?${params}`, "data=", false);
-          local[keygen] = duplicates({STATE, VALUE, params: {data}, id});
-        } else if (key === "overflow") {
-          local[keygen] = overflow({VALUE, id})[0];
-        } else local[keygen] = local[key];
+            local[keygen] = false
+          } else local[keygen] = path.slice(1).join(".")
+        } 
+        else if (key === "false" || key === "undefined") local[keygen] = false
+        else if (key === "true") local[keygen] = true
+        else if (key === "mobile()" || key === "phone()") local[keygen] = STATE.device.type === "phone"
+        else if (key === "desktop()") local[keygen] = STATE.device.type === "desktop"
+        else if (key === "tablet()") local[keygen] = STATE.device.type === "tablet"
+        else if (path[1]) local[keygen] = reducer({ VALUE, STATE, id, params: {path, value}, e, _ })
+        else if (key === "isArabic") {
 
-        if (plus) value = value + plus;
-        if (minus) value = value - minus;
-        if (times) value = value * times;
-        if (division) value = value / division;
+          var isInput = local.type === "Input" || local.type === "Textarea"
+          var result = isArabic(isInput ? local.value : local.type === "Text" && local.text)
+          local[keygen] = result
 
-        if (!local) return (approval = false);
+        } else local[keygen] = local[key]
+
+        if (plus) value = value + plus
+        if (minus) value = value - minus
+        if (times) value = value * times
+        if (division) value = value / division
+
+        if (!local) return approval = false
 
         if (value === undefined) {
-          approval = notEqual ? !local[keygen] : local[keygen];
+          approval = notEqual ? !local[keygen] : local[keygen]
+
         } else {
-          if (value === "undefined") value = undefined;
-          if (value === "false") value = false;
-          if (value === "true") value = true;
-          approval = notEqual ?
-            !isEqual(local[keygen], value) :
-            isEqual(local[keygen], value);
+
+          if (value === "undefined") value = undefined
+          if (value === "false") value = false
+          if (value === "true") value = true
+          approval = notEqual ? !isEqual(local[keygen], value) : isEqual(local[keygen], value)
         }
 
-        delete local[keygen];
+        delete local[keygen]
+
       } else if (gt && !gte) {
-        var local = VALUE[id];
-        var key = "";
-        var value = "";
-        var test = condition.split("::");
+
+        var local = VALUE[id]
+        var key = ""
+        var value = ""
+        var test = condition.split("::")
 
         if (test[1]) {
           test.map((exp) => {
             if (exp.includes(">")) {
-              exp = exp.split(">");
-              key += exp[0];
-              value += exp[1];
-            } else if (!value) key += exp + "::";
-            else value += "::" + exp;
-          });
+              exp = exp.split(">")
+              key += exp[0]
+              value += exp[1]
+            } else if (!value) key += exp + "::"
+            else value += "::" + exp
+          })
         } else {
-          key = condition.split(">")[0];
-          value = condition.split(">")[1];
+          key = condition.split(">")[0]
+          value = condition.split(">")[1]
         }
 
-        // /////////////////// value /////////////////////
+        ///////////////////// value /////////////////////
+        value = toValue({ VALUE, STATE, id: mainId, params: {value}, e, _ })
 
-        value = toValue({VALUE, STATE, id: mainId, params: {value}, e, _});
-
-        // /////////////////// key /////////////////////
+        ///////////////////// key /////////////////////
 
         // id
         if (key.includes("::")) {
-          var newId = key.split("::")[1];
-          key = key.split("::")[0];
+          var newId = key.split("::")[1]
+          key = key.split("::")[0]
 
           // id
-          id = toValue({VALUE, STATE, id, params: {value: newId}, e, _});
+          id = toValue({VALUE, STATE, id, params: { value: newId }, e, _})
         }
 
-        var local = VALUE[id];
-        if (!local) return (approval = false);
+        var local = VALUE[id]
+        if (!local) return (approval = false)
 
         // to path
-        key = toCode({VALUE, STATE, id, string: key, e});
-        var path = typeof key === "string" ? key.split(".") : [];
+        key = toCode({ VALUE, STATE, id, string: key, e })
+        var path = typeof key === "string" ? key.split(".") : []
 
-        if (path[1]) {
-          local[keygen] = reducer({
-            VALUE,
-            STATE,
-            id,
-            params: {path, value},
-            e,
-            _
-          });
-        }
+        if (path[1]) local[keygen] = reducer({ VALUE, STATE, id, params: {path, value}, e, _ })
 
-        approval = local[keygen] > value;
-        delete local[keygen];
+        approval = local[keygen] > value
+        delete local[keygen]
       }
-    } else return approval;
-  });
+    } else return approval
+  })
 
-  return approval;
-};
+  return approval
+}
 
-module.exports = {toApproval};
+module.exports = {toApproval}
 
-},{"./duplicate":47,"./generate":55,"./getParam":58,"./isArabic":59,"./isEqual":60,"./overflow":66,"./reducer":71,"./toCode":90,"./toValue":102}],87:[function(require,module,exports){
+},{"./generate":58,"./isArabic":63,"./isEqual":64,"./reducer":75,"./toCode":94,"./toValue":106}],91:[function(require,module,exports){
 const toArray = (data) => {
   return data !== undefined ? (Array.isArray(data) ? data : [data]) : [];
 };
 
 module.exports = {toArray};
 
-},{}],88:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 const {clone} = require("./clone");
 
 module.exports = {
@@ -6304,7 +6651,7 @@ module.exports = {
   },
 };
 
-},{"./clone":33,"./execute":50,"./toParam":96}],89:[function(require,module,exports){
+},{"./clone":33,"./execute":51,"./toParam":100}],93:[function(require,module,exports){
 module.exports = {
     toCSV: ({ VALUE, STATE, id, e, params = {} }) => {
 
@@ -6379,7 +6726,7 @@ module.exports = {
         }
     }
 }
-},{}],90:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 const {generate} = require("./generate");
 
 const toCode = ({VALUE, STATE, string, e, id}) => {
@@ -6425,43 +6772,43 @@ const toCode = ({VALUE, STATE, string, e, id}) => {
 
 module.exports = {toCode};
 
-},{"./generate":55}],91:[function(require,module,exports){
-const {generate} = require("./generate");
-const {toArray} = require("./toArray");
+},{"./generate":58}],95:[function(require,module,exports){
+const {generate} = require("./generate")
+const {toArray} = require("./toArray")
 
 const toComponent = (obj) => {
   // class
-  obj.class = obj.class || "";
+  obj.class = obj.class || ""
 
   // id
-  obj.id = obj.id || generate();
+  obj.id = obj.id || generate()
 
   // style
-  obj.style = obj.style || {};
-  obj.style.after = obj.style.after || {};
+  obj.style = obj.style || {}
+  obj.style.after = obj.style.after || {}
 
   // text
-  obj.text = obj.text || "";
+  obj.text = obj.text || ""
 
   // controls
-  obj.controls = toArray(obj.controls);
+  obj.controls = toArray(obj.controls)
 
   // children
-  obj.children = obj.children || [];
+  obj.children = toArray(obj.children)
 
   // model
-  obj.featured = obj.featured && "featured";
-  obj.model = obj.model || obj.featured || "classic";
+  obj.featured = obj.featured && "featured"
+  obj.model = obj.model || obj.featured || "classic"
 
   // component
   obj.component = true
 
-  return obj;
-};
+  return obj
+}
 
-module.exports = {toComponent};
+module.exports = {toComponent}
 
-},{"./generate":55,"./toArray":87}],92:[function(require,module,exports){
+},{"./generate":58,"./toArray":91}],96:[function(require,module,exports){
 const {controls} = require("./controls");
 const control = require("../control/control");
 
@@ -6487,7 +6834,7 @@ const toControls = ({VALUE, STATE, params, id}) => {
 
 module.exports = {toControls};
 
-},{"../control/control":18,"./controls":36}],93:[function(require,module,exports){
+},{"../control/control":17,"./controls":36}],97:[function(require,module,exports){
 module.exports = {
     toFirebaseOperator: (string) => {
         if (!string || string === 'equal' || string === 'equals' || string === 'equalsTo' || string === 'equalTo') return '=='
@@ -6503,7 +6850,7 @@ module.exports = {
         else return string
     }
 }
-},{}],94:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 const {clone} = require("./clone");
 const {toValue} = require("./toValue");
 
@@ -6525,13 +6872,13 @@ const toId = ({VALUE, STATE, id, string, e}) => {
 
 module.exports = {toId};
 
-},{"./clone":33,"./toValue":102}],95:[function(require,module,exports){
+},{"./clone":33,"./toValue":106}],99:[function(require,module,exports){
 module.exports = {
   toNumber: (string) => {
     
-    if (typeof string === 'number')return string
+    if (typeof string === 'number') return string
     
-    if (parseFloat(string) && (!isNaN(string.charAt(0)) || string.charAt(0) === '-')) {
+    if ((parseFloat(string) || parseFloat(string) === 0)  && (!isNaN(string.charAt(0)) || string.charAt(0) === '-')) {
       if (!isNaN(string.split(",").join(""))) {
         // is Price
         string = parseFloat(string.split(",").join(""));
@@ -6543,29 +6890,28 @@ module.exports = {
   },
 };
 
-},{}],96:[function(require,module,exports){
-const {toValue} = require("./toValue");
-const {reducer} = require("./reducer");
-const { toCode } = require("./toCode");
-const { generate } = require("./generate");
+},{}],100:[function(require,module,exports){
+const {toValue} = require("./toValue")
+const {reducer} = require("./reducer")
+const { toCode } = require("./toCode")
+const { generate } = require("./generate")
+const { toArray } = require("./toArray")
 
 const toParam = ({VALUE = {}, STATE, string, e, id}) => {
-  var {toApproval} = require("./toApproval");
+  var {toApproval} = require("./toApproval")
 
   var localId = id
 
-  if (typeof string !== "string" || !string) return string || {};
-  var params = {await: []};
+  if (typeof string !== "string" || !string) return string || {}
+  var params = {}
 
   string.split(";").map((param) => {
-    let key;
-    let value;
-    let id = localId;
+    var key, value, id = localId
     
     if (param.includes("=")) {
-      var keys = param.split("=");
-      key = keys[0];
-      value = param.substring(key.length + 1);
+      var keys = param.split("=")
+      key = keys[0]
+      value = param.substring(key.length + 1)
 
     } else key = param
     
@@ -6575,30 +6921,31 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
 
     // await
     if (key.includes("await.")) {
-      var awaiter = param.split("await.")[1];
-      return params.await.push(awaiter);
+      var awaiter = param.split("await.")[1]
+      params.await = toArray(params.await) || []
+      return params.await.push(awaiter)
     }
     
-    value = toValue({VALUE, STATE, id, e, params: {value, params}});
+    value = toValue({VALUE, STATE, id, e, params: {value, params}})
 
     // condition not approved
-    if (value === "*return*") return;
+    if (value === "*return*") return
 
-    id = localId;
+    id = localId
 
-    var keys = typeof key === "string" ? key.split(".") : [];
+    var keys = typeof key === "string" ? key.split(".") : []
 
     // id
     if (key && key.includes("::")) {
-      var newId = key.split("::")[1];
-      key = key.split("::")[0];
+      var newId = key.split("::")[1]
+      key = key.split("::")[0]
 
       // id
-      id = toValue({VALUE, STATE, id, params: {value: newId, params}, e});
+      id = toValue({VALUE, STATE, id, params: {value: newId, params}, e})
     }
 
     // keys from brackets to dots
-    key = toCode({ VALUE, STATE, string: key, e, id });
+    key = toCode({ VALUE, STATE, string: key, e, id })
 
     // array id
     if (Array.isArray(id)) {
@@ -6613,20 +6960,20 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
     // conditions
     if (key && key.includes("<<")) {
       
-      var condition = key.split("<<")[1];
-      var approved = toApproval({STATE, VALUE, id, e, string: condition});
-      if (!approved) return;
-      key = key.split("<<")[0];
+      var condition = key.split("<<")[1]
+      var approved = toApproval({STATE, VALUE, id, e, string: condition})
+      if (!approved) return
+      key = key.split("<<")[0]
     }
 
     // timer
-    let timer;
+    var timer
     if (key && key.includes(">>")) {
-      timer = key.split(">>")[1];
-      key = key.split(">>")[0];
+      timer = key.split(">>")[1]
+      key = key.split(">>")[0]
     }
 
-    var path = typeof key === "string" ? key.split(".") : [];
+    var path = typeof key === "string" ? key.split(".") : []
 
     // object structure
     if (path && path.length > 1) {
@@ -6643,43 +6990,39 @@ const toParam = ({VALUE = {}, STATE, string, e, id}) => {
         path[0] === "history"
       ) {
         var myFn = () => reducer({VALUE, STATE, id, params: {path, value, key, params}})
-        if (timer) VALUE[localId][keys.join(".").split(">>")[0]] = setTimeout(myFn, timer);
-        else myFn();
+        if (timer) VALUE[localId][keys.join(".").split(">>")[0]] = setTimeout(myFn, timer)
+        else myFn()
       } else {
         path.reduce((obj, key, index) => {
           if (obj[key] !== undefined) {
             if (index === path.length - 1) {
               // if key=value exists => mount the existing to local, then mount the new value to params
               path.reduce((o, k, i) => {
-                if (i === path.length - 1) return (o[k] = value);
-                return o[k] || {};
-              }, VALUE[id]);
+                if (i === path.length - 1) return (o[k] = value)
+                return o[k] || {}
+              }, VALUE[id])
 
-              return (obj[key] = value);
+              return (obj[key] = value)
             }
           } else {
-            if (index === path.length - 1) return (obj[key] = value);
-            else obj[key] = {};
+            if (index === path.length - 1) return (obj[key] = value)
+            else obj[key] = {}
           }
 
-          return obj[key];
-        }, params);
+          return obj[key]
+        }, params)
       }
 
-      key = path[0];
-    } else params[key] = value;
-  });
+      key = path[0]
+    } else params[key] = value
+  })
 
-  return params;
-};
-
-function addDays(theDate, days) {
-  return new Date(theDate.getTime() + days * 24 * 60 * 60 * 1000);
+  return params
 }
 
-module.exports = {toParam};
+module.exports = {toParam}
 
-},{"./generate":55,"./reducer":71,"./toApproval":86,"./toCode":90,"./toValue":102}],97:[function(require,module,exports){
+},{"./generate":58,"./reducer":75,"./toApproval":90,"./toArray":91,"./toCode":94,"./toValue":106}],101:[function(require,module,exports){
 const toPath = ({VALUE, STATE, string, e, id}) => {
   /* const {toValue} = require("./toValue");
   let keys = [];
@@ -6731,14 +7074,14 @@ const toPath = ({VALUE, STATE, string, e, id}) => {
 
 module.exports = {toPath};
 
-},{}],98:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 module.exports = {
   toPrice: (string) => {
     return string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   },
 };
 
-},{}],99:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 const toString = (object) => {
   if (!object) return "";
 
@@ -6761,7 +7104,7 @@ const toString = (object) => {
 
 module.exports = {toString};
 
-},{}],100:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 module.exports = {
   toStyle: ({VALUE, STATE, id}) => {
     const local = VALUE[id];
@@ -6775,6 +7118,10 @@ module.exports = {
         else if (k === "borderLeft") k = "border-left";
         else if (k === "borderRight") k = "border-right";
         else if (k === "borderTop") k = "border-top";
+        else if (k === "paddingBottom") k = "padding-bottom";
+        else if (k === "paddingLeft") k = "padding-left";
+        else if (k === "paddingRight") k = "padding-right";
+        else if (k === "paddingTop") k = "padding-top";
         else if (k === "marginBottom") k = "margin-bottom";
         else if (k === "marginLeft") k = "margin-left";
         else if (k === "marginRight") k = "margin-right";
@@ -6815,7 +7162,7 @@ module.exports = {
   },
 };
 
-},{}],101:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 const {toStyle} = require("./toStyle");
 const {toArray} = require("./toArray");
 const {generate} = require("./generate");
@@ -6854,7 +7201,7 @@ module.exports = {
         local.input.value :
         local.data !== undefined ?
         local.data : ""
-
+        
     if (typeof value === 'object') value = ''
 
     if (local.type === "Image") local.src = local.src || local.data || "";
@@ -6920,7 +7267,7 @@ module.exports = {
   },
 };
 
-},{"./clone":33,"./createElement":40,"./generate":55,"./toArray":87,"./toStyle":100,"path":3}],102:[function(require,module,exports){
+},{"./clone":33,"./createElement":40,"./generate":58,"./toArray":91,"./toStyle":104,"path":3}],106:[function(require,module,exports){
 const {generate} = require("./generate");
 const {reducer} = require("./reducer");
 
@@ -6936,23 +7283,37 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, _, id, e}) => {
     return value.split("const.")[1];
   }
 
+  // return await value
+  if (value && value.split("await.")[1] && !value.split("await.")[0]) {
+    return value.split("await.")[1];
+  }
+
   // _
-  if (value === "_") return (value = _);
+  if (value === "_") return (value = _)
 
   // auto space
-  if (value === "") return (value = "");
+  if (value === "") return (value = "")
+
+  // _quest
+  if (value === "_quest") return (value = "?")
+
+  // _space
+  if (value === "_space") return (value = " ")
+
+  // _semi
+  if (value === "_space") return (value = ";")
+
+  // _dot
+  if (value === "_dot") return (value = ".")
+
+  // _equal
+  if (value === "_equal") return (value = "=")
+
+  // _equal_equal
+  if (value === "_equal_equal") return (value = "==")
 
   // auto space
-  if (value === "_dot") return (value = ".");
-
-  // =
-  if (value === "_equal") return (value = "=");
-
-  // =
-  if (value === "_equal_equal") return (value = "==");
-
-  // auto space
-  if (value === "&nbsp") return (value = "&nbsp;");
+  if (value === "&nbsp") return (value = "&nbsp;")
 
   // auto space
   if (value && value.includes("_question")) value = value.split("_question").join("?");
@@ -7092,7 +7453,7 @@ const toValue = ({VALUE = {}, STATE, params: {value, params}, _, id, e}) => {
 
 module.exports = {toValue};
 
-},{"./generate":55,"./reducer":71,"./toApproval":86}],103:[function(require,module,exports){
+},{"./generate":58,"./reducer":75,"./toApproval":90}],107:[function(require,module,exports){
 module.exports = {
     toggleView: ({ VALUE, STATE, id, e, params }) => {
         const { execute } = require("./execute")
@@ -7107,74 +7468,72 @@ module.exports = {
         execute({ VALUE, STATE, e, id, actions })
     }
 }
-},{"./execute":50}],104:[function(require,module,exports){
-const {generate} = require("./generate");
-const {starter} = require("./starter");
-const {setElement} = require("./setElement");
-const {toArray} = require("./toArray");
-const {createElement} = require("./createElement");
-const {clone} = require("./clone");
+},{"./execute":51}],108:[function(require,module,exports){
+const {generate} = require("./generate")
+const {starter} = require("./starter")
+const {setElement} = require("./setElement")
+const {toArray} = require("./toArray")
+const {createElement} = require("./createElement")
+const {clone} = require("./clone")
 
-const update = ({STATE, VALUE, id}) => {
-  const local = VALUE[id];
-  if (!local) return;
-  if (!local.element) return;
+const update = ({ STATE, VALUE, id }) => {
 
-  // VALUE.body.element.style.pointerEvents = 'none'
+  var local = VALUE[id]
+  if (!local || !local.element) return
 
   // remove id from VALUE
-  removeIds({VALUE, id});
-  local.element.style.opacity = "0";
-
+  removeIds({ VALUE, id })
+  local.element.style.opacity = "0"
+  
   local.element.innerHTML = toArray(local.children)
-      .map((child, index) => {
-        const id = child.id || generate();
-        VALUE[id] = clone(child);
-        VALUE[id].id = id;
-        VALUE[id].index = index;
-        VALUE[id].parent = local.id;
+    .map((child, index) => {
+      var id = child.id || generate()
+      VALUE[id] = clone(child)
+      VALUE[id].id = id
+      VALUE[id].index = index
+      VALUE[id].parent = local.id
 
-        return createElement({STATE, VALUE, id});
-      })
-      .join("");
+      return createElement({ STATE, VALUE, id })
+    })
+    .join("")
 
   setTimeout(() => {
-    local.element.style.opacity = "1";
+    local.element.style.opacity = "1"
 
-    const children = [...local.element.children];
+    const children = [...local.element.children]
     children.map((child) => {
-      const id = child.id;
-      setElement({VALUE, id});
-      starter({STATE, VALUE, id});
-    });
-
-    // VALUE.body.element.style.pointerEvents = 'auto'
-  }, 25);
-};
+      const id = child.id
+      setElement({VALUE, id})
+      starter({STATE, VALUE, id})
+    })
+    
+  }, 25)
+}
 
 const removeIds = ({VALUE, id}) => {
-  const local = VALUE[id];
-  if (!local.element) return;
-  const children = [...local.element.children];
+
+  var local = VALUE[id]
+  if (!local.element) return delete VALUE[id]
+  var children = [...local.element.children]
 
   children.map((child) => {
-    const id = child.id;
-    if (!VALUE[id]) return;
+    var id = child.id
+    if (!VALUE[id]) return
 
     // clear time out
     Object.entries(VALUE[id]).map(([key, value]) => {
-      if (key.includes("-timer")) setTimeout(() => clearTimeout(value), 1000);
-      if (key.includes("-watch")) clearTimeout(value);
-    });
+      if (key.includes("-timer")) setTimeout(() => clearTimeout(value), 1000)
+      if (key.includes("-watch")) clearTimeout(value)
+    })
 
-    removeIds({VALUE, id});
-    delete VALUE[id];
-  });
-};
+    removeIds({VALUE, id})
+    delete VALUE[id]
+  })
+}
 
-module.exports = {update, removeIds};
+module.exports = {update, removeIds}
 
-},{"./clone":33,"./createElement":40,"./generate":55,"./setElement":79,"./starter":82,"./toArray":87}],105:[function(require,module,exports){
+},{"./clone":33,"./createElement":40,"./generate":58,"./setElement":83,"./starter":86,"./toArray":91}],109:[function(require,module,exports){
 const { capitalize } = require("./capitalize")
 const { save } = require("./save")
 const { toAwait } = require("./toAwait")
@@ -7199,13 +7558,13 @@ module.exports = {
         !upload.save && toAwait({ VALUE, STATE, id, params, e })
     }
 }
-},{"./capitalize":31,"./save":75,"./toAwait":88}],106:[function(require,module,exports){
+},{"./capitalize":31,"./save":79,"./toAwait":92}],110:[function(require,module,exports){
 module.exports = {
     values: (object) => {
         return Object.values(object)
     }
 }
-},{}],107:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 const { toApproval } = require("./toApproval")
 const { clone } = require("./clone")
 const { toParam } = require("./toParam")
@@ -7229,7 +7588,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
             name = name.split('>>')[0]
         }
 
-        local[`${name}-watch`] = toValue({ VALUE, STATE, id, params: { value: name } })
+        local[`${name}-watch`] = clone(toValue({ VALUE, STATE, id, params: { value: name } }))
 
         const myFn = async () => {
             if (!VALUE[id]) return clearInterval(local[`${name}-timer`])
@@ -7264,7 +7623,7 @@ const watch = ({ VALUE, STATE, controls, id }) => {
 }
 
 module.exports = {watch}
-},{"./clone":33,"./execute":50,"./isEqual":60,"./toApproval":86,"./toParam":96,"./toValue":102}],108:[function(require,module,exports){
+},{"./clone":33,"./execute":51,"./isEqual":64,"./toApproval":90,"./toParam":100,"./toValue":106}],112:[function(require,module,exports){
 (function (process){(function (){
 /* @flow */
 /*::

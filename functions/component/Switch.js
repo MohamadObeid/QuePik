@@ -1,7 +1,8 @@
-const { toComponent } = require("../method/toComponent");
+const { toComponent } = require("../function/toComponent");
 
-const Switch = (component) => {
-  component = toComponent(component);
+module.exports = (component) => {
+
+  component = toComponent(component)
 
   return {
     ...component,
@@ -17,10 +18,8 @@ const Switch = (component) => {
         type: "View?class=knobs",
         children: {
           type: "Text?span",
-        },
-      },
-    ],
-  };
-};
-
-module.exports = { Switch };
+        }
+      }
+    ]
+  }
+}

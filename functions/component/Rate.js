@@ -1,7 +1,8 @@
-const { toComponent } = require("../method/toComponent");
-const { generate } = require("../method/generate");
+const { toComponent } = require("../function/toComponent");
+const { generate } = require("../function/generate");
 
-const Rate = (component) => {
+module.exports = (component) => {
+
   component = toComponent(component);
   var { model, controls } = component;
 
@@ -153,6 +154,4 @@ const Rate = (component) => {
         },
       ],
     };
-};
-
-module.exports = { Rate };
+}

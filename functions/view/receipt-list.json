@@ -1,0 +1,151 @@
+{
+    "type": "View?class=flex-column;style.flex=1;state.receipt-list-grid-view-display=grid;state.receipt-list-table-view-display=none;state.receipt-list-Data=[]",
+    "controls": {
+        "actions": "await.update::receipt-list-view;async.search?search.path=receipt;await.state.receipt-list-Data=value.search.data;await.state.receipt=value.search.data" 
+    },
+    "children": [{
+        "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
+        "children": [{
+            "type": "Text?text=Receipt List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
+        }, {
+            "type": "View?class=flex-box",
+            "children": [{
+                "type": "Button?text.text=Import;icon.name=bi-download;style.marginRight=1rem"
+            }, {
+                "type": "Button?text.text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "controls": {
+                    "event": "click??state.receipt;state.receipt.length().isgreaterthan().0",
+                    "actions": "toCSV?file.data=state.receipt.clone();file.name=Receipt List"
+                }
+            }, {
+                "type": "Button?text.text=Add New receipt;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=receipt"
+            }]
+        }]
+    }, {
+        "type": "View?style.display=flex;style.flexDirection=column;style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee;style.flex=1",
+        "children": [{
+            "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
+            "children": [{
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search by provider name, method, amount...",
+                "controls": [{
+                    "event": "loaded",
+                    "actions": "async.search?search.path=receipt;search.limit=10000;await.state.receipt=value.search.data"
+                }, {
+                    "event": "keyup>>200??state.receipt-list-Data",
+                    "actions": "await.update::receipt-list-view;async.filter?filter.backup=state.receipt.clone();filter.path=[provider.name,payment-method,received.key()];filter.Data=receipt-list-Data;filter.value.include=e.target.value"
+                }]
+            }, {
+                "type": "View?class=flex-box",
+                "children": [{
+                    "type": "Button?text.text=Sort;icon.name=bi-sort-alpha-down",
+                    "controls": {
+                        "event": "click??state.receipt-list-Data", 
+                        "actions": "await.update::receipt-list-view;async.sort?sort.path=creation-date;sort.Data=receipt-list-Data"
+                    }
+                }, {
+                    "type": "Button?text.text=View;icon.name=bi-list-ul",
+                    "controls": {
+                        "event": "click?await.state.receipt-list-grid-view-display=global.receipt-list-view.1stChild().element.style.display;await.state.receipt-list-table-view-display=global.receipt-list-view.2ndChild().element.style.display", 
+                        "actions": [
+                            "setStyle::global.receipt-list-view.1stChild().id?style.display=none<<global.receipt-list-view.1stChild().element.style.display=grid;style.display=grid<<global.receipt-list-view.1stChild().element.style.display=none",
+                            "setStyle::global.receipt-list-view.2ndChild().id?style.display=none<<global.receipt-list-view.2ndChild().element.style.display=grid;style.display=grid<<global.receipt-list-view.2ndChild().element.style.display=none"
+                        ]
+                    }
+                }]
+            }]
+        }, {
+            "type": "View?id=receipt-list-view;style.display=flex;style.flexDirection=column;style.width=100%;style.flex=1",
+            "children": [{
+                "type": "View?style.display=state.receipt-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
+                "children": [{
+                    "type": "[View]?class=flex-box pointer;Data=receipt-list-Data;touchableOpacity;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=8rem;style.transition=border .1s;style.after.border=1px solid #ee384e?state.receipt-list-Data;state.receipt-list-Data.length()!=0",
+                    "controls": {
+                        "event": "loaded",
+                        "actions": "toControls?hoverable.id=[value.id,value.children().0.id,value.children().1.id];miniWindow.view=receipt"
+                    },
+                    "children": [{
+                        "type": "Text?text=value.data.provider.name;style.fontSize=1.3rem;style.after.color=#ee384e;style.color=#666;style.transition=color .1s;style.marginBottom=.7rem"
+                    }, {
+                        "type": "Text?text=value.data.received.value()._space.[value.data.received.key()];style.fontSize=1.3rem;style.after.color=#ee384e;style.color=#666;style.transition=color .1s"
+                    }]
+                }]
+            }, {
+                "type": "View?style.display=state.receipt-list-table-view-display;style.gridTemplateColumns=1fr;style.gap=1px;flicker",
+                "children": [{
+                    "type": "View?style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 1fr 1fr 1fr;style.minHeight=5.5rem;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem",
+                    "children": [{
+                        "type": "Text?text=Active;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=active;sort.Data=receipt-list-Data?state.receipt-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Creation Date;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=creation-date;sort.Data=receipt-list-Data?state.receipt-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Provider;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click",
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=provider.name;sort.Data=receipt-list-Data?state.receipt-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Payment;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click", 
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=received.value();sort.Data=receipt-list-Data?state.receipt-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Method;touchableOpacity;style.fontSize=1.4rem;style.fontWeight=bolder;style.cursor=pointer;style.width=fit-content",
+                        "controls": {
+                            "event": "click", 
+                            "actions": "await.update::value.parent().next().id;async.sort?sort.path=payment-method;sort.Data=receipt-list-Data?state.receipt-list-Data"
+                        }
+                    }, {
+                        "type": "Text?text=Actions;style.fontSize=1.4rem;style.fontWeight=bolder;style.width=100%;style.textAlign=right;style.paddingRight=2rem"
+                    }]
+                }, {
+                    "type": "View?style.display=grid;style.gridTemplateColumns=1fr;flicker",
+                    "children": [{
+                        "type": "[View]?style.after.backgroundColor=#f0f0f0;style.display=grid;style.alignItems=center;style.gridTemplateColumns=5rem 1fr 1fr 1fr 1fr 1fr;style.minHeight=5.5rem;Data=receipt-list-Data;data=state.receipt-list-data;style.borderBottom=1px solid #eee;style.padding=0 1rem;style.gap=1rem;hoverable?state.receipt-list-Data;state.receipt-list-Data.length()!=0",
+                        "children": [{
+                            "type": "Icon?icon.name=bi-circle<<!value.data.active;icon.name=bi-circle-fill<<value.data().active;style.fontSize=1.4rem;style.color=lime<<value.data().active;style.color=#ddd<<!value.data().active;style.textAlign=center"
+                        }, {
+                            "type": "Text?class=dots;text=value.data.creation-date.toNumber().date().getDateTime().split().T.join(). ;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;text=value.data.provider.name;style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;text=value.data.received.value()._space.[value.data.received.key()];style.fontSize=1.4rem"
+                        }, {
+                            "type": "Text?class=dots;text=value.data.payment-method;style.fontSize=1.4rem"
+                        }, {
+                            "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%;style.marginRight=1rem",
+                            "children": [{
+                                "type": "Icon?class=flex-box pointer;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.height=4rem;style.fontSize=2rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-gear;hoverable;miniWindow.view=receipt"
+                            }, {
+                                "type": "Icon?class=flex-box pointer;style.after.color=red;style.borderRadius=3rem;style.fontSize=2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-trash;hoverable;popup.path=receipt;popup.update=receipt-list-view;popup.note=Receipt removed successfully!;popup.type=eraser;popup.state=receipt"
+                            }]
+                        }]
+                    }]
+                }]
+            }, {
+                "type": "View?class=flex-box;style.flex=1;style.alignItems=end;style.justifyContent=flex-end;style.marginTop=2rem",
+                "children": [{
+                    "type": "Button?icon.name=bi-chevron-left",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::receipt-list-view;async.search?search.path=receipt;search.limitToLast=25;search.endBefore=state.receipt-list-Data.0.creation-date;await.state.receipt-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }, {
+                    "type": "Button?icon.name=bi-chevron-right;style.flexDirection=row-reverse",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::receipt-list-view;async.search?search.path=receipt;search.startAfter=state.receipt-list-Data.[state.receipt-list-Data.length().subs().1].creation-date;await.state.receipt-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }]
+            }]
+        }]
+    }]
+}

@@ -1,41 +1,34 @@
 {
-    "type": "View?passToChildren.featured;passToChildren.icon.style.fontSize=2.2rem;passToChildren.icon.google;passToChildren.icon.outlined;passToChildren.toggler.id=admin-view",
-    "style": {
-        "padding": "0.5rem 0.2rem",
-        "borderRight": "1px solid #eee",
-        "clipPath": "inset(0 -5px 0 0)",
-        "width": "23rem",
-        "height": "100%",
-        "flexDirection": "column",
-        "overflowY": "auto"
-    },
+    "type": "View?style.padding=.5rem .2rem;style.borderRight=1px solid #eee;style.width=23rem;style.height=100%;style.flexDirection=column;style.overflowY=auto",
     "children": [{
-        "type": "Item?text.text=Dashboard;icon.name=space_dashboard;mountonload"
+        "type": "Item?featured;text.text=Dashboard;icon.name=bi-speedometer2;hover.freeze;hover.mount"
     }, {
-        "type": "Item?text.text=Users;icon.name=people_alt;toggler.view=user-list"
+        "type": "Item?featured;text.text=Users;icon.name=bi-people;toggler.view=user-list;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Sales;icon.name=storefront;toggler.view=sales-list"
+        "type": "Item?featured;text.text=Sales;icon.name=bi-bag;toggler.view=sales-by-provider;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Providers;icon.name=badge;toggler.view=provider-list"
+        "type": "Item?featured;text.text=Receipts;icon.name=bi-receipt;toggler.view=receipt-list;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Services;icon.name=spa;toggler.view=service-list"
+        "type": "Item?featured;text.text=Providers;icon.name=bi-shop;toggler.view=provider-list;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Categories;icon.name=category;toggler.view=category-list"
+        "type": "Item?featured;text.text=Services;icon.name=bi-flower1;toggler.view=service-list;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Bookings;icon.name=fact_check;toggler.view=booking-list"
+        "type": "Item?featured;text.text=Categories;icon.name=bi-grid;toggler.view=category-list;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Promotions;icon.name=local_offer;toggler.view=promotion-list"
+        "type": "Item?featured;text.text=Bookings;icon.name=bi-calendar3;toggler.view=booking-list;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Partnerships;icon.name=person_add;toggler.view=partnership-list"
+        "type": "Item?featured;text.text=Promo Codes;icon.name=bi-tags;toggler.view=promotion-list;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Reviews;icon.name=reviews;toggler.view=review-list"
+        "type": "Item?featured;text.text=Partnerships;icon.name=bi-person-badge;toggler.view=partnership-list;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Collections;icon.name=apps;toggler.view=collection-list"
+        "type": "Item?featured;text.text=Reviews;icon.name=bi-chat-quote;toggler.view=review-list;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Assets;icon.name=web_asset;toggler.view=asset-list"
+        "type": "Item?featured;text.text=Collections;icon.name=bi-columns-gap;toggler.view=collection-list;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Gallery;icon.name=collections;toggler.view=image-list"
+        "type": "Item?featured;text.text=Notifications;icon.name=bi-app-indicator;toggler.view=notification-list;toggler.id=admin-view"
     }, {
-        "type": "Item?text.text=Settings;icon.name=settings;toggler.view=settings-list"
+        "type": "Item?featured;text.text=Assets;icon.name=bi-book;toggler.view=asset-list;toggler.id=admin-view"
+    }, {
+        "type": "Item?featured;text.text=Gallery;icon.name=bi-images;toggler.view=image-list;toggler.id=admin-view"
     }]
 }

@@ -1,13 +1,37 @@
-const { toComponent } = require("../method/toComponent");
+const { toComponent } = require("../function/toComponent")
 
-const Button = (component) => {
-  component.icon = component.icon || {};
-  component = toComponent(component);
-  var { style, icon, controls, text, id } = component;
+module.exports = (component) => {
 
+  component.hover = component.hover || {}
+  component.style = component.style || {}
+  component.hover.style = component.hover.style || {}
+  component.style.after = component.style.after || {}
+  
+  component.icon = component.icon || {}
+  component.icon.style = component.icon.style || {}
+  component.icon.hover = component.icon.hover || {}
+  component.icon.hover.style = component.icon.hover.style || {}
+  component.icon.style.after = component.icon.style.after || {}
+  
+  component.text = component.text || {}
+  component.text.style = component.text.style || {}
+  component.text.hover = component.text.hover || {}
+  component.text.hover.style = component.text.hover.style || {}
+  component.text.style.after = component.text.style.after || {}
+
+  component = toComponent(component)
+  
+  var { style, hover, icon, text, id } = component
+  var idlist = [id, text.text && `${id}-text`, icon.name && `${id}-icon`].filter(id => id)
+  
   return {
     ...component,
     type: "View?class=flex-box;touchableOpacity",
+    isButton: true,
+    hover: {
+      style: { border: "1px solid #0d6efd", ...style.after, ...hover.style },
+      id: idlist
+    },
     style: {
       border: "1px solid #e0e0e0",
       borderRadius: ".75rem",
@@ -15,56 +39,38 @@ const Button = (component) => {
       margin: "0 0.4rem",
       cursor: "pointer",
       transition: "border 0.1s",
-      ...style,
-      after: {
-        border: "1px solid #0d6efd",
-        ...style.after,
-      },
+      ...style
     },
-    children: [
-      {
-        type: `Icon?id=${id}-icon?const.${icon}`,
-        icon,
-        style: {
-          color: style.color || "#444",
-          fontSize: style.fontSize || "1.4rem",
-          margin: "0 0.4rem",
-          transition: "color 0.1s",
-          display: "flex",
-          alignItems: "center",
-          ...(icon.style || {}),
-          after: {
-            color: "#0d6efd",
-            ...((icon.style && icon.style.after) || {}),
-          },
-        },
+    children: [{
+      type: `Icon?id=${id}-icon?const.${icon.name}`,
+      ...icon,
+      hover: {
+        disable: true,
+        style: { color: "#0d6efd", ...icon.style.after, ...icon.hover.style },
       },
-      {
-        type: `Text?id=${id}-text?const.${text}`,
-        text,
-        style: {
-          color: style.color || "#444",
-          fontSize: style.fontSize || "1.4rem",
-          margin: "0 0.4rem",
-          transition: "color 0.1s",
-          after: {
-            color: style.after.color || "#0d6efd",
-          }
-        }
+      style: {
+        color: style.color || "#444",
+        fontSize: style.fontSize || "1.4rem",
+        margin: "0 0.4rem",
+        transition: "color 0.1s",
+        display: "flex",
+        alignItems: "center",
+        ...icon.style
       }
-    ],
-    controls: [
-      ...controls,
-      {
-        event: "mouseenter",
-        actions: `mountAfterStyles???${id};${id}-text;${id}-icon`,
+    }, {
+      type: `Text?id=${id}-text;text=${text.text}?const.${text.text}`,
+      ...text,
+      hover: {
+        disable: true,
+        style: { color: "#0d6efd", ...text.style.after, ...text.hover.style },
       },
-      {
-        event: "mouseleave",
-        actions: `resetStyles???${id};${id}-text;${id}-icon`,
+      style: {
+        color: style.color || "#444",
+        fontSize: style.fontSize || "1.4rem",
+        margin: "0 0.4rem",
+        transition: "color 0.1s",
+        ...text.style
       }
-    ]
+    }]
   }
 }
-
-module.exports = { Button };

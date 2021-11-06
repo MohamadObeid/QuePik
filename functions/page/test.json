@@ -1,0 +1,5 @@
+{
+    "views": ["test"],
+    "pathname": "/test",
+    "title": "helloworld"
+}

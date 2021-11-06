@@ -1,0 +1,5 @@
+{
+    "views": ["plans"],
+    "pathname": "/plans",
+    "title": "QuePik Plans"
+}

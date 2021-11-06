@@ -1,8 +1,8 @@
-const { toComponent } = require("../method/toComponent");
+const { toComponent } = require("../function/toComponent");
 
-const SearchBox = (component) => {
-  component = toComponent(component);
-  var { placeholder } = component;
+module.exports = (component) => {
+
+  component = toComponent(component)
 
   return {
     ...component,
@@ -37,6 +37,4 @@ const SearchBox = (component) => {
         }]
     }]
   }
-};
-
-module.exports = { SearchBox };
+}

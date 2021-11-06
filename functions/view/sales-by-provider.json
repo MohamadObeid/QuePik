@@ -1,0 +1,67 @@
+{
+    "type": "View?class=flex-column;style.flex=1;state.provider-list-grid-view-display=grid;state.provider-list-table-view-display=none;state.provider-list-Data=[]",
+    "controls": {
+        "actions": [
+            "await.update::provider-list-view;async.search?search.path=provider;search.limit=100;await.state.provider-list-Data=value.search.data;await.state.provider-name-list=value.search.data.map().name",
+            "async.search?search.path=provider;search.limit=10000;await.state.provider=value.search.data"
+        ]
+    },
+    "children": [{
+        "type": "View?style.display=flex;style.flexDirection=column;style.padding=1rem;style.borderRadius=.5rem;style.border=1px solid #eee;style.flex=1",
+        "children": [{
+            "type": "View?class=flex-box;style.paddingBottom=1rem;style.borderBottom=1px solid #eee;style.justifyContent=space-between",
+            "children": [{
+                "type": "Input?featured;!removable;!clearable;icon.name=bi-search;icon.style.fontSize=1.8rem;style.height=4rem;style.backgroundColor=#fff;style.border=1px solid #ddd;style.color=#666;style.borderRadius=.75rem;style.marginRight=1rem;style.maxWidth=50rem;placeholder=Search Providers by name, type, address, phone number...",
+                "controls": [{
+                    "event": "keyup>>200??state.provider-list-Data",
+                    "actions": "await.update::provider-list-view;async.filter?filter.backup=state.provider.clone();filter.path=[id,name,phone-number,type,address,owner.name];filter.Data=provider-list-Data;filter.value.include=e.target.value"
+                }]
+            }]
+        }, {
+            "type": "View?id=provider-list-view;style.display=flex;style.flexDirection=column;style.width=100%;style.flex=1",
+            "children": [{
+                "type": "View?style.display=state.provider-list-grid-view-display;style.gap=1rem;style.gridTemplateColumns=1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;style.marginTop=1rem;flicker",
+                "children": [{
+                    "type": "View?class=flex-box pointer;Data=provider-list-Data;touchableOpacity;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=6rem;style.transition=border .1s;style.after.border=1px solid #ee384e;await.hoverable.id=[value.id,value.children().0.id];toggler.view=sales-list;toggler.id=admin-view?state.provider-list-Data.length().greater().0",
+                    "children": [{
+                        "type": "Text?text=All Sales;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
+                    }],
+                    "controls": [{
+                        "event": "click",
+                        "actions": [
+                            "await.update::sales-list-view;async.search?state.provider-chosen=All;search.path=sales;search.fields.status.equal=Open;await.state.sales-list-Data=value.search.data",
+                            "async.search?search.path=sales;await.state.sales=value.search.data"
+                        ]
+                    }]
+                }, {
+                    "type": "[View]?class=flex-box pointer;Data=provider-list-Data;touchableOpacity;style.flexDirection=column;style.borderRadius=.75rem;style.border=1px solid #ddd;style.minHeight=6rem;style.transition=border .1s;style.after.border=1px solid #ee384e;await.hoverable.id=[value.id,value.children().0.id];toggler.view=sales-list;toggler.id=admin-view?state.provider-list-Data;state.provider-list-Data.length()!=0",
+                    "children": [{
+                        "type": "Text?text=value.data.name;style.flexWrap=wrap;style.fontSize=1.3rem;style.color=#666;style.after.color=#ee384e;style.transition=color .1s"
+                    }],
+                    "controls": [{
+                        "event": "click",
+                        "actions": [
+                            "await.update::sales-list-view<<state.sales-list-Data.length().greater().0;async.search?state.provider-chosen=value.data.name;search.path=sales;search.fields.status.equal=Open;search.fields.provider-id.equal=value.data.id;await.state.sales-list-Data=value.search.data",
+                            "async.search?search.path=sales;search.fields.provider-id.equal=value.data.id;await.state.sales=value.search.data"
+                        ]
+                    }]
+                }]
+            }, {
+                "type": "View?class=flex-box;style.flex=1;style.alignItems=end;style.justifyContent=flex-end;style.marginTop=2rem",
+                "children": [{
+                    "type": "Button?icon.name=bi-chevron-left",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::provider-list-view;async.search?search.path=provider;search.limitToLast=25;search.endBefore=state.provider-list-Data.0.creation-date;await.state.provider-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }, {
+                    "type": "Button?icon.name=bi-chevron-right;style.flexDirection=row-reverse",
+                    "controls": {
+                        "event": "click",
+                        "actions": "await.update::provider-list-view;async.search?search.path=provider;search.startAfter=state.provider-list-Data.[state.provider-list-Data.length().subs().1].creation-date;await.state.provider-list-Data=value.search.data<<value.search.data.length()!=0"
+                    }
+                }]
+            }]
+        }]
+    }]
+}

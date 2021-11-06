@@ -20,7 +20,7 @@
             "children": [{
                 "type": "Icon?class=flex-box;icon.name=bi-three-dots;style.color=#116dff;style.fontSize=2.5rem;style.height=4rem;style.width=4rem;style.borderRadius=4rem;style.transition=all .2s;style.marginRight=1rem;style.after.backgroundColor=#eee;hoverable;actionlist"
             }, {
-                "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
+                "type": "Button?icon.name=bi-x-square;text.text=Cancel;style.marginRight=1rem",
                 "controls": [{
                     "event": "click?state.provider-list-Data.findById().[value.Data().id]=state.provider.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window;remove>>220::global.mini-window-view.element.children.0.id?style.display=none>>200;style.opacity=0"
@@ -28,7 +28,7 @@
                     "event": "mousedown::mini-window?once;state.provider-list-Data.findById().[value.Data().id]=state.provider.clone().findById().[value.Data().id]"
                 }]
             }, {
-                "type": "Button?icon.name=bi-check2-square;text=Save",
+                "type": "Button?icon.name=bi-check2-square;text.text=Save",
                 "controls": [{
                     "event": "click",
                     "actions": "await.update::provider-list-view;await.setStyle::mini-window;await.note;async.save?note=Provider saved successfully!;save.path=provider;save.data=value.data();await.state.provider.findById().[value.data().id]<<state.provider.findById().[value.data().id]=value.data();await.state.provider-list-Data.findById().[value.data().id]=value.data();state.provider-list-Data.push().[value.data()]<<!state.provider-list-Data.findById().[value.data().id];state.provider.push().[value.data()]<<!state.provider.findById().[value.data().id];style.display=none>>200;style.opacity=0"
@@ -59,7 +59,7 @@
                 }, {
                     "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=today().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=today().getTime().string()<<!value.data().creation-date;path=creation-date",
                     "controls": {
                         "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }
@@ -114,13 +114,33 @@
         }, {
             "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
             "children": [{
+                "type": "Text?class=left;label;text=Head Provider;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Badge;style.fontSize=1.4rem"
+            }, {
+                "type": "Text?class=left;label;text=Commission;style.fontSize=1.4rem"
+            }]
+        }, {
+            "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
+            "children": [{
+                "type": "View?style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.alignItems=start",
+                "children": [{
+                    "type": "Input?textarea;featured;clearable.path=head-provider;style.backgroundColor=#f0f0f0;path=head-provider.name;droplist.items=const.[any.Provider List._param.readonly,state.provider.map().name].flat()",
+                    "controls": {
+                        "watch": "value.data()?value.Data().head-provider.id=state.provider.clone().findByName().[value.data()].id?value.data()"
+                    }
+                }, {
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=badge;droplist.items=await.state.asset.findByName().Badges.options.map().name"
+                }, {
+                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=commission;currency=%;value.Data().commission.%=8<<!value.Data().commission;pricable"
+                }]
+            }]
+        }, {
+            "type": "View?style.marginBottom=.75rem;style.display=grid;style.gridTemplateColumns=1fr 1fr 1fr 1fr;style.gap=1rem;style.width=100%",
+            "children": [{
                 "type": "Text?class=left;label;text=Owner Name;style.fontSize=1.4rem"
             }, {
                 "type": "Text?class=left;label;text=Owner Phone#;style.fontSize=1.4rem"
-            }, {
-                "type": "Text?class=left;label;text=Head Provider;style.fontSize=1.4rem"
-            }, {
-                "type": "Text?class=left;label;text=Commission;style.fontSize=1.4rem"
             }]
         }, {
             "type": "View?style.display=grid;style.marginBottom=3rem;style.gap=1rem",
@@ -130,13 +150,6 @@
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=owner.name"
                 }, {
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=owner.phone-number"
-                }, {
-                    "type": "Input?textarea;featured;clearable.path=head-provider;style.backgroundColor=#f0f0f0;path=head-provider.name;droplist.items=const.[any.Provider List._param.readonly,state.provider.map().name].flat()",
-                    "controls": {
-                        "watch": "value.data()?value.Data().head-provider.id=state.provider.clone().findByName().[value.data()].id?value.data()"
-                    }
-                }, {
-                    "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=commission;currency=%;value.Data().commission.%=8<<!value.Data().commission;pricable"
                 }]
             }]
         }, {

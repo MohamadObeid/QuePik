@@ -10,15 +10,15 @@
         }, {
             "type": "View?class=flex-box",
             "children": [{
-                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
+                "type": "Button?text.text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "type": "Button?text.text=Export;icon.name=bi-upload;style.marginRight=1rem",
                 "controls": {
                     "event": "click??state.provider;state.provider.length().isgreaterthan().0",
                     "actions": "toCSV?file.data=state.provider.clone();file.name=Provider List"
                 }
             }, {
-                "type": "Button?text=Add New Provider;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=provider"
+                "type": "Button?text.text=Add New Provider;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=provider"
             }]
         }]
     }, {
@@ -37,13 +37,13 @@
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
-                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
+                    "type": "Button?text.text=Sort;icon.name=bi-sort-alpha-down",
                     "controls": {
                         "event": "click??state.provider-list-Data", 
                         "actions": "await.update::provider-list-view;async.sort?sort.path=creation-date;sort.Data=provider-list-Data"
                     }
                 }, {
-                    "type": "Button?text=View;icon.name=bi-list-ul",
+                    "type": "Button?text.text=View;icon.name=bi-list-ul",
                     "controls": {
                         "event": "click?await.state.provider-list-grid-view-display=global.provider-list-view.1stChild().element.style.display;await.state.provider-list-table-view-display=global.provider-list-view.2ndChild().element.style.display", 
                         "actions": [
@@ -133,9 +133,9 @@
                         }, {
                             "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%;style.marginRight=1rem",
                             "children": [{
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=provider"
+                                "type": "Icon?class=flex-box pointer;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.height=4rem;style.fontSize=2rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-gear;hoverable;miniWindow.view=provider"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=provider;popup.update=provider-list-view;popup.note=Provider removed successfully!;popup.type=eraser;popup.state=provider"
+                                "type": "Icon?class=flex-box pointer;style.after.color=red;style.borderRadius=3rem;style.fontSize=2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-trash;hoverable;popup.path=provider;popup.update=provider-list-view;popup.note=Provider removed successfully!;popup.type=eraser;popup.state=provider"
                             }]
                         }]
                     }]

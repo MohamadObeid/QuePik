@@ -11,7 +11,7 @@
             "children": [{
                 "type": "Icon?class=flex-box;icon.name=bi-three-dots;style.color=#116dff;style.fontSize=2.5rem;style.height=4rem;style.width=4rem;style.borderRadius=4rem;style.transition=all .2s;style.marginRight=1rem;style.after.backgroundColor=#eee;hoverable"
             }, {
-                "type": "Button?icon.name=bi-x-square;text=Cancel;style.marginRight=1rem",
+                "type": "Button?icon.name=bi-x-square;text.text=Cancel;style.marginRight=1rem",
                 "controls": [{
                     "event": "click?state.partnership-list-Data.findById().[value.Data().id]=state.partnership.clone().findById().[value.Data().id]",
                     "actions": "setStyle::mini-window?style.display=none>>200;style.opacity=0"
@@ -19,7 +19,7 @@
                     "event": "mousedown::mini-window?once;state.partnership-list-Data.findById().[value.Data().id]=state.partnership.clone().findById().[value.Data().id]"
                 }]
             }, {
-                "type": "Button?icon.name=bi-check2-square;text=Save",
+                "type": "Button?icon.name=bi-check2-square;text.text=Save",
                 "controls": [{
                     "event": "click",
                     "actions": "await.update::partnership-list-view;await.setStyle::mini-window;await.note;async.save?note=Partnership saved successfully!;save.path=partnership;save.data=value.data();await.state.partnership.findById().[value.data().id]<<state.partnership.findById().[value.data().id]=value.data();await.state.partnership-list-Data.findById().[value.data().id]=value.data();state.partnership-list-Data.push().[value.data()]<<!state.partnership-list-Data.findById().[value.data().id];state.partnership.push().[value.data()]<<!state.partnership.findById().[value.data().id];style.display=none>>200;style.opacity=0"
@@ -50,7 +50,7 @@
                 }, {
                     "type": "Input?textarea;featured;clearable;style.backgroundColor=#f0f0f0;path=id"
                 }, {
-                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=today().getTime().add().10800000.toString()<<!value.data().creation-date;path=creation-date",
+                    "type": "Input?textarea;featured;readonly;style.backgroundColor=#f0f0f0;value.data().creation-date=today().getTime().string()<<!value.data().creation-date;path=creation-date",
                     "controls": {
                         "event": "loaded?value.element.value=value.data().toUTCString();action.resize"
                     }

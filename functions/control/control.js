@@ -10,4 +10,7 @@ module.exports = {
   toggler: require("./toggler"),
   touchableOpacity: require("./touchableOpacity"),
   pricable: require("./pricable"),
-};
+  hover: require("./hover"),
+  click: require("./click"),
+  touch: require("./touch")
+}

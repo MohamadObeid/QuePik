@@ -6,19 +6,19 @@
     "children": [{
         "type": "View?class=flex-box;style.width=100%;style.marginBottom=2.5rem;style.justifyContent=space-between",
         "children": [{
-            "type": "Text?text=partnership List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
+            "type": "Text?text=Partnership List;style.fontSize=1.8rem;style.color=#444;style.fontWeight=500"
         }, {
             "type": "View?class=flex-box",
             "children": [{
-                "type": "Button?text=Import;icon.name=bi-download;style.marginRight=1rem"
+                "type": "Button?text.text=Import;icon.name=bi-download;style.marginRight=1rem"
             }, {
-                "type": "Button?text=Export;icon.name=bi-upload;style.marginRight=1rem",
+                "type": "Button?text.text=Export;icon.name=bi-upload;style.marginRight=1rem",
                 "controls": {
                     "event": "click??state.partnership;state.partnership.length().isgreaterthan().0",
                     "actions": "toCSV?file.data=state.partnership.clone();file.name=Partnership List"
                 }
             }, {
-                "type": "Button?text=Add New Partnership;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=partnership"
+                "type": "Button?text.text=Add New Partnership;icon.name=bi-plus;style.marginRight=1rem;miniWindow.view=partnership"
             }]
         }]
     }, {
@@ -37,13 +37,13 @@
             }, {
                 "type": "View?class=flex-box",
                 "children": [{
-                    "type": "Button?text=Sort;icon.name=bi-sort-alpha-down",
+                    "type": "Button?text.text=Sort;icon.name=bi-sort-alpha-down",
                     "controls": {
                         "event": "click??state.partnership-list-Data", 
                         "actions": "await.update::partnership-list-view;async.sort?sort.path=creation-date;sort.Data=partnership-list-Data"
                     }
                 }, {
-                    "type": "Button?text=View;icon.name=bi-list-ul",
+                    "type": "Button?text.text=View;icon.name=bi-list-ul",
                     "controls": {
                         "event": "click?await.state.partnership-list-grid-view-display=global.partnership-list-view.1stChild().element.style.display;await.state.partnership-list-table-view-display=global.partnership-list-view.2ndChild().element.style.display", 
                         "actions": [
@@ -128,9 +128,9 @@
                         }, {
                             "type": "View?class=flex-box;style.justifyContent=flex-end;style.width=100%;style.marginRight=1rem",
                             "children": [{
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=edit;icon.google;icon.outlined;hoverable;miniWindow.view=partnership"
+                                "type": "Icon?class=flex-box pointer;style.after.color=#116dff;style.borderRadius=3rem;style.marginRight=.5rem;style.height=4rem;style.fontSize=2rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-gear;hoverable;miniWindow.view=partnership"
                             }, {
-                                "type": "Icon?class=flex-box pointer;style.color=#666;style.after.color=red;style.borderRadius=3rem;style.fontSize=2.2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=delete;icon.google;icon.outlined;hoverable;popup.path=partnership;popup.update=partnership-list-view;popup.note=Partnership removed successfully!;popup.type=eraser;popup.state=partnership"
+                                "type": "Icon?class=flex-box pointer;style.after.color=red;style.borderRadius=3rem;style.fontSize=2rem;style.height=4rem;style.width=4rem;style.transition=all .2s;style.after.backgroundColor=#fff;icon.name=bi-trash;hoverable;popup.path=partnership;popup.update=partnership-list-view;popup.note=Partnership removed successfully!;popup.type=eraser;popup.state=partnership"
                             }]
                         }]
                     }]
