@@ -3431,6 +3431,16 @@ const defaultEventHandler = ({ VALUE, id }) => {
   local.mouseenter = false
   local.mousedown = false
 
+  if (local.link) local.element.addEventListener("click", (e) => e.preventDefault())
+
+  // local.element.addEventListener("mousedown", (e) => e.preventDefault())
+
+  // local.element.addEventListener("mouseup", (e) => e.preventDefault())
+
+  //local.element.addEventListener("touchstart", (e) => e.preventDefault())
+
+  //local.element.addEventListener("touchend", (e) => e.preventDefault())
+
   events.map((event) => {
 
     var setEventType = (e) => {
@@ -7106,7 +7116,7 @@ module.exports = {toString};
 
 },{}],104:[function(require,module,exports){
 module.exports = {
-  toStyle: ({VALUE, STATE, id}) => {
+  toStyle: ({ VALUE, STATE, id }) => {
     const local = VALUE[id];
     let style = "";
 
@@ -7258,9 +7268,11 @@ module.exports = {
 
     // linkable
     if (local.link) {
-      var id = generate();
-      tag = `<a id=${id} href=${local.link}>${tag}</a>`
+      var id = generate(), style = ''
       VALUE[id] = { id }
+      VALUE[id].style = local.link.style
+      if (VALUE[id].style) style = toStyle({ STATE, VALUE, id })
+      tag = `<a id=${id} href=${local.link.path} style='${style}'>${tag}</a>`
     }
 
     return tag

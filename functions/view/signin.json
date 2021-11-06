@@ -23,7 +23,7 @@
         }, {
             "type": "View?style.flex=1;style.display=flex;style.flexDirection=column;style.justifyContent=flex-end;style.marginBottom=2rem",
             "children": [{
-                "type": "Button?link=admin;style.width=100%;text.text=Submit;style.height=4.5rem",
+                "type": "Button?link.path=admin;style.width=100%;text.text=Submit;style.height=4.5rem",
                 "controls": {
                     "event": "click??value.data().password;value.data().name",
                     "actions": "await.toggleView<<value.search.data.0;async.search?await.state.admin=value.search.data.0<<value.search.data.0;await.history.pushState()./app/admin<<value.search.data.0;await.document.cookie<<value.search.data.0=any.authentication._equal.[value.search.data.0.stringify()]._semi.add()._space.add().expires._equal.[value.today().getTime().add().180000000.setTime().toUTCString()];toggle.id=root;toggle.view=admin-view;search.path=admin;search.data=value.Data();search.fields.name.equal=value.data().name;search.fields.password.equal=value.data().password"

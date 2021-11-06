@@ -16,7 +16,7 @@
         }, {
             "type": "Icon?class=pointer;icon.name=bi-translate;hoverable;style.color=#666;style.fontSize=1.8rem;style.marginRight=3rem;style.after.color=#116dff;droplist.items=const.state.asset.findByName().Language.options.map().name;droplist.style.minWidth=5rem;droplist.disabled=true"
         }, {
-            "type": "Button?link=/profile;text.text=My Profile;icon.name=bi-person;icon.style.fontSize=2.4rem;miniWindow.view=profile"
+            "type": "Button?link.path=/profile;text.text=My Profile;icon.name=bi-person;icon.style.fontSize=2.4rem;miniWindow.view=profile"
         }]
     }, {
         "type": "View?style.display=flex;style.height=calc(100% - 6.5rem)",

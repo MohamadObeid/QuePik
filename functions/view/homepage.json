@@ -3,7 +3,7 @@
     "children": [{
         "type": "View?style.overflow=hidden;style.position=relative",
         "children" :[{
-            "type": "View?id=background-blue-color;style.zIndex=-1;style.backgroundColor=#257CFF;style.height=100%;style.width=100%;style.position=absolute;style.top=0;style.left=-45rem<<desktop();style.left=0<<mobile();style.bottom=0;style.transform=skew(-30deg)<<desktop()"
+            "type": "View?id=background-blue-color;style.zIndex=-1;style.backgroundColor=#257CFF;style.height=100%;style.width=100%;style.position=absolute;style.top=0;style.left=-41rem<<desktop();style.left=0<<mobile();style.bottom=0;style.transform=skew(-30deg)<<desktop()"
         }, {
             "type": "View?style.zIndex=1;style.position=relative",
             "children": [{
@@ -20,18 +20,15 @@
                     }
                 }]
             }, {
-                "type": "View?id=navbar;style.display=flex;style.alignItems=center;style.height=7rem;style.backgroundColor=#257CFF<<mobile()",
+                "type": "View?id=navbar;style.display=flex;style.justifyContent=space-between;style.padding=0 3rem 0 8rem<<desktop();style.alignItems=center;style.height=7rem;style.backgroundColor=#257CFF<<mobile()",
                 "children": [{
-                    "type": "View?style.flex=1;style.padding=8rem;style.padding=2rem<<mobile();style.zIndex=1<<mobile()", 
-                    "children":[{
-                        "type": "Text?class=pointer;link=/home;text=Quepik;style.width=fit-content;style.fontSize=2.2rem;style.color=#fff;touch.style.color=#444;style.transition=1s"
-                    }]
+                    "type": "Text?class=pointer;link.path=/home<<state.host.isnot()./home;link.style.height=fit-content;text=Quepik;link.style.margin=0 2rem<<mobile();style.width=fit-content;style.fontSize=2.2rem;style.color=#fff;touch.style.color=#444<<mobile();style.transition=1s"
                 }, {
-                    "type": "View?id=menu;class=flex-box<<desktop();style.padding=8rem<<desktop();style.zIndex=-1<<mobile();style.transform=translateY(-100%)<<mobile();style.transition=transform .2s;style.gap=4rem;style.position=absolute<<mobile();style.top=7rem;style.backgroundColor=#fff<<mobile();style.width=100%<<mobile();style.padding=0 2rem<<mobile()",
+                    "type": "View?id=menu;class=flex-box<<desktop();style.padding=0 5rem<<desktop();style.zIndex=-1<<mobile();style.transform=translateY(-100%)<<mobile();style.transition=transform .2s;style.gap=4rem;style.position=absolute<<mobile();style.top=7rem;style.backgroundColor=#fff<<mobile();style.width=100%<<mobile();style.padding=0 2rem<<mobile()",
                     "children": [{
-                        "type": "Text?class=pointer;link=/home;text=Home;style.fontSize=1.7rem;style.color=#CFD1FF<<desktop();hover.style.color=#fff<<desktop();style.transition=.2s;class=flex-box<<mobile();style.justifyContent=flex-start<<mobile();touch.mount;touch.freeze;touch.style.color=#257CFF<<mobile();style.height=5rem<<mobile();style.borderBottom=1px solid #eee<<mobile()"
+                        "type": "Text?class=pointer;link.path=/home<<state.host.isnot()./home;text=Home;style.fontSize=1.7rem;style.color=#CFD1FF<<desktop();hover.style.color=#fff<<desktop();style.transition=.2s;class=flex-box<<mobile();style.justifyContent=flex-start<<mobile();hover.mount;hover.freeze;touch.mount;touch.freeze;hover.style.color=#fff<<desktop();touch.style.color=#257CFF<<mobile();style.height=5rem<<mobile();style.borderBottom=1px solid #eee<<mobile()"
                     }, {
-                        "type": "Text?class=pointer;link=/plans;text=Partner Plans;style.fontSize=1.7rem;style.color=#CFD1FF<<desktop();hover.style.color=#fff<<desktop();style.transition=.2s;class=flex-box<<mobile();style.justifyContent=flex-start<<mobile();touch.style.color=#257CFF<<mobile();style.height=5rem<<mobile()"
+                        "type": "Text?class=pointer;link.path=/plans;text=Partner Plans;style.fontSize=1.7rem;style.color=#CFD1FF<<desktop();hover.style.color=#fff<<desktop();style.transition=.2s;class=flex-box<<mobile();style.justifyContent=flex-start<<mobile();touch.style.color=#257CFF<<mobile();style.height=5rem<<mobile()"
                     }, {
                         "type": "Button?text.text=Download App;style.padding=1.2rem 2.5rem;style.backgroundColor=#F45A2A;text.style.fontSize=1.6rem;style.transition=.3s;style.border=none;text.hover.style.color=#fff;text.style.color=#fff;hover.style.backgroundColor=#257CFF;hover.style.border=none?desktop()"
                     }]
@@ -43,7 +40,7 @@
                     "children": [{
                         "type": "View?class=flex-column;style.gap=4rem",
                         "children": [{
-                            "type": "Text?text=Your Lifestyle Appoint ments Made Easy.;style.color=#fff;style.fontSize=6rem;style.fontWeight=bolder;style.lineHeight=6rem<<mobile();style.maxWidth=100vw<<mobile()"
+                            "type": "Text?text=Your Lifestyle Appoint ments Made Easy.;style.zIndex=-2<<mobile();style.color=#fff;style.fontSize=6rem;style.fontWeight=bolder;style.lineHeight=6rem<<mobile();style.maxWidth=100vw<<mobile()"
                         }, {
                             "type": "Text?text=Cursus amet, mattis placerat convallis libero faucibus quis est porta vivamus erat tristique sed.;style.color=#fff;style.fontSize=1.8rem;style.lineHeight=3rem<<mobile();style.fontSize=1.6rem<<mobile();"
                         }, {

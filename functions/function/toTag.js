@@ -93,9 +93,11 @@ module.exports = {
 
     // linkable
     if (local.link) {
-      var id = generate();
-      tag = `<a id=${id} href=${local.link}>${tag}</a>`
+      var id = generate(), style = ''
       VALUE[id] = { id }
+      VALUE[id].style = local.link.style
+      if (VALUE[id].style) style = toStyle({ STATE, VALUE, id })
+      tag = `<a id=${id} href=${local.link.path || STATE.host} style='${style}'>${tag}</a>`
     }
 
     return tag

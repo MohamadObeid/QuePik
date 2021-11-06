@@ -13,14 +13,14 @@
                 "children": [{
                     "type": "View?style.flex=1;style.padding=8rem", 
                     "children":[{
-                        "type": "Text?class=pointer;link=/home;text=Quepik;style.width=fit-content;style.fontSize=2.2rem;style.color=#fff"
+                        "type": "Text?class=pointer;link.path=/home;text=Quepik;style.width=fit-content;style.fontSize=2.2rem;style.color=#fff"
                     }]
                 }, {
                     "type": "View?class=flex-box;style.padding=8rem;style.gap=4rem",
                     "children": [{
-                        "type": "Text?class=pointer;link=/home;text=Home;style.fontSize=1.7rem;style.color=#CFD1FF;hover.style.color=#fff;style.transition=.2s"
+                        "type": "Text?class=pointer;link.path=/home;text=Home;style.fontSize=1.7rem;style.color=#CFD1FF;hover.style.color=#fff;style.transition=.2s"
                     }, {
-                        "type": "Text?class=pointer;link=/plans;text=Partner Plans;style.fontSize=1.7rem;style.color=#CFD1FF;hover.style.color=#fff;style.transition=.2s"
+                        "type": "Text?class=pointer;link.path=/plans;text=Partner Plans;style.fontSize=1.7rem;style.color=#CFD1FF;hover.style.color=#fff;style.transition=.2s"
                     }, {
                         "type": "Button?text.text=Download App;style.padding=1.2rem 2.5rem;style.backgroundColor=#F45A2A;text.style.fontSize=1.6rem;style.transition=.3s;style.border=none;text.hover.style.color=#fff;text.style.color=#fff;hover.style.backgroundColor=#257CFF;hover.style.border=none"
                     }]

@@ -1,5 +1,5 @@
 module.exports = {
-  toStyle: ({VALUE, STATE, id}) => {
+  toStyle: ({ VALUE, STATE, id }) => {
     const local = VALUE[id];
     let style = "";
 

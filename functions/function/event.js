@@ -110,6 +110,16 @@ const defaultEventHandler = ({ VALUE, id }) => {
   local.mouseenter = false
   local.mousedown = false
 
+  if (local.link) local.element.addEventListener("click", (e) => e.preventDefault())
+
+  // local.element.addEventListener("mousedown", (e) => e.preventDefault())
+
+  // local.element.addEventListener("mouseup", (e) => e.preventDefault())
+
+  //local.element.addEventListener("touchstart", (e) => e.preventDefault())
+
+  //local.element.addEventListener("touchend", (e) => e.preventDefault())
+
   events.map((event) => {
 
     var setEventType = (e) => {
